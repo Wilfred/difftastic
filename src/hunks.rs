@@ -595,9 +595,7 @@ pub fn compact_gaps(
                         unpaired_lines.remove(0);
                     }
                     _ => {
-                        // We can't compact this item, so start new chunk.
-                        res.extend(unpaired_lines);
-                        unpaired_lines = vec![(Some(*lhs_line), None)];
+                        unpaired_lines.push((Some(*lhs_line), None));
                     }
                 }
             }
@@ -609,9 +607,7 @@ pub fn compact_gaps(
                         unpaired_lines.remove(0);
                     }
                     _ => {
-                        // We can't compact this item, so start new chunk of one-side lines.
-                        res.extend(unpaired_lines);
-                        unpaired_lines = vec![(None, Some(*rhs_line))];
+                        unpaired_lines.push((None, Some(*rhs_line)));
                     }
                 }
             }
@@ -796,6 +792,23 @@ mod tests {
             (Some(0.into()), None),
             (None, Some(0.into())),
             (Some(1.into()), Some(1.into())),
+        ]);
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+            ]
+        )
+    }
+
+    #[test]
+    fn test_compact_gaps_with_larger_gap() {
+        let res = compact_gaps(&[
+            (Some(0.into()), None),
+            (Some(1.into()), None),
+            (None, Some(0.into())),
+            (None, Some(1.into())),
         ]);
         assert_eq!(
             res,
