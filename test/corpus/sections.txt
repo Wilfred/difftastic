@@ -22,8 +22,8 @@ Top level sections
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (text
       (word))
@@ -43,8 +43,8 @@ Top level sections
         (word)))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================

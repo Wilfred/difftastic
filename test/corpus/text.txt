@@ -68,9 +68,8 @@ Macro #1 parameter
 
 (source_file
   (text
-    (word))
-  (macro_parameter)
-  (text
+    (word)
+    (placeholder)
     (word)))
 
 ================================================================================

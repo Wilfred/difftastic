@@ -14,16 +14,16 @@ Hello World!
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (text
       (word)
       (word))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -42,8 +42,8 @@ Hello World!
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word)))
       (brack_group
         (text
@@ -54,8 +54,8 @@ Hello World!
       (word))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -74,8 +74,8 @@ Hello World!
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word)))
       (brack_group
         (text
@@ -90,8 +90,8 @@ Hello World!
       (word))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -110,8 +110,8 @@ Hello World!
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word)))
       (brack_group
         (curly_group)
@@ -121,8 +121,8 @@ Hello World!
       (word))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -151,14 +151,14 @@ Bar
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (comment)
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word)))))
   (text
     (word)))
@@ -189,14 +189,14 @@ Bar
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (comment)
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word)))))
   (text
     (word)))

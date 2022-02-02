@@ -70,19 +70,18 @@ Command with incomplete argument
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
-    (command_name))
   (ERROR
+    (command_name)
     (environment
       (begin
         (command_name)
-        (curly_group_key
-          (key
+        (curly_group_text
+          (text
             (word))))
       (end
         (command_name)
-        (curly_group_key
-          (key
+        (curly_group_text
+          (text
             (word)))))))
 
 ================================================================================
@@ -104,8 +103,8 @@ Acroynm definition
           (curly_group
             (text
               (word))))))
-    (curly_group_key
-      (key
+    (curly_group_text
+      (text
         (word)))
     (curly_group
       (text

@@ -24,8 +24,8 @@ foo foo foo foo foo foo
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (command
       (command_name)
@@ -99,8 +99,8 @@ foo foo foo foo foo foo
       (word))
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -131,14 +131,14 @@ something here
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
     (comment)
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -220,14 +220,14 @@ rm -rf "$(biber --cache)"
   (environment
     (begin
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))
-    (comment)
+    (source_code)
     (end
       (command_name)
-      (curly_group_key
-        (key
+      (curly_group_text
+        (text
           (word))))))
 
 ================================================================================
@@ -243,8 +243,8 @@ tree-sitter-latex (Issue #11)
 (source_file
   (environment_definition
     (command_name)
-    (curly_group_key
-      (key
+    (curly_group_text
+      (text
         (word)))
     (curly_group_impl
       (command
