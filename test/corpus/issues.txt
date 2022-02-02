@@ -258,3 +258,72 @@ tree-sitter-latex (Issue #11)
         (curly_group
           (text
             (word)))))))
+
+================================================================================
+tree-sitter-latex (Issue #10)
+================================================================================
+
+\titleformat{\section}{\relax}{\thesection}{1em}{\spacedsmallcaps}
+\titlespacing*{\paragraph}{0pt}{1\baselineskip}{0.5\baselineskip}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (command
+    (command_name)
+    (curly_group
+      (section
+        (command_name)))
+    (curly_group
+      (command
+        (command_name)))
+    (curly_group
+      (command
+        (command_name)))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (command
+        (command_name))))
+  (command
+    (command_name)
+    (curly_group
+      (paragraph
+        (command_name)))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word))
+      (command
+        (command_name)))
+    (curly_group
+      (text
+        (word))
+      (command
+        (command_name)))))
+
+================================================================================
+tree-sitter-latex (Issue #13)
+================================================================================
+
+\includegraphics[width=0.5\textwidth]{some.jpg}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (graphics_include
+    (command_name)
+    (brack_group_key_value
+      (key_value_pair
+        (key
+          (word))
+        (value
+          (text
+            (word))
+          (command
+            (command_name)))))
+    (curly_group_path
+      (path))))
