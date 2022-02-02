@@ -34,7 +34,10 @@
     {
       "scope": "source.tex",
       "file-types": [
-        "tex"
+        "tex",
+        "sty",
+        "cls",
+        "aux"
       ]
     }
   ]
