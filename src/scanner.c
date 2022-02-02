@@ -57,7 +57,7 @@ static bool find_verbatim(TSLexer *lexer, const char *keyword,
           failed = true;
           break;
         default:
-          failed = c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+          failed = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
           break;
         }
 
