@@ -243,7 +243,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Hack => {
             // TODO: upstream
             // TODO: upstream doesn't support the `readonly` keyword yet.
-            let query = "(comment) @comment\n(string) @string\n(heredoc) @string\n\n[\n  \"class\"\n  \"public\"\n  \"protected\"\n  \"private\"\n  \"static\"\n  \"async\"\n  \"function\"\n  \"return\"\n  \"if\"\n  \"else\"\n  \"elseif\"\n  \"while\"\n  \"for\"\n  \"foreach\"\n  \"break\"\n  \"continue\"\n  \"type\"\n  \"new\"\n] @keyword\n\n(type_specifier) @type";
+            let query = "(comment) @comment\n\n(string) @string\n(heredoc) @string\n(prefixed_string) @string\n\n[\n  \"class\"\n  \"interface\"\n  \"trait\"\n  \"public\"\n  \"protected\"\n  \"private\"\n  \"static\"\n  \"async\"\n  \"function\"\n  \"return\"\n  \"if\"\n  \"else\"\n  \"elseif\"\n  \"while\"\n  \"for\"\n  \"foreach\"\n  \"break\"\n  \"continue\"\n  \"type\"\n  \"new\"\n  \"throw\"\n] @keyword\n\n(type_specifier) @type\n";
 
             let language = unsafe { tree_sitter_hack() };
             TreeSitterConfig {
