@@ -9,6 +9,8 @@ literals.
 
 Fixed an issue where larger additions were not lined up with removals.
 
+Improved syntax highlighting for Clojure and Common Lisp.
+
 ## 0.18.1 (released 30 January 2022)
 
 Fixed a compilation issue on Rust 1.54 (0.18 only built on newer
