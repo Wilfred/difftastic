@@ -1,10 +1,12 @@
 package foo
 
+// A Scala program.
 import foo.Baz
 
 class Foo {
 
   private def blah(): Other {
+    /* foo */
     throw new Exception("after");
   }
 
