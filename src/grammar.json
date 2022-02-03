@@ -53,6 +53,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "apply_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "mixin_statement"
         },
         {
@@ -438,6 +442,26 @@
         {
           "type": "SYMBOL",
           "name": "_value"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "apply_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@apply"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_value"
+          }
         },
         {
           "type": "STRING",

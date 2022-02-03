@@ -63,6 +63,53 @@
     }
   },
   {
+    "type": "apply_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "color_value",
+          "named": true
+        },
+        {
+          "type": "float_value",
+          "named": true
+        },
+        {
+          "type": "integer_value",
+          "named": true
+        },
+        {
+          "type": "parenthesized_value",
+          "named": true
+        },
+        {
+          "type": "plain_value",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        },
+        {
+          "type": "variable_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument",
     "named": true,
     "fields": {},
@@ -2367,6 +2414,10 @@
       "required": false,
       "types": [
         {
+          "type": "apply_statement",
+          "named": true
+        },
+        {
           "type": "at_rule",
           "named": true
         },
@@ -2814,6 +2865,10 @@
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": "@apply",
     "named": false
   },
   {

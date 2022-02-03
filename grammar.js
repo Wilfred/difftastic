@@ -24,6 +24,7 @@ module.exports = grammar({
         $.supports_statement,
         $.use_statement,
         $.forward_statement,
+        $.apply_statement,
         $.mixin_statement,
         $.include_statement,
         $.if_statement,
@@ -75,6 +76,8 @@ module.exports = grammar({
     use_statement: ($) => seq("@use", $._value, ";"),
 
     forward_statement: ($) => seq("@forward", $._value, ";"),
+
+    apply_statement: ($) => seq("@apply", repeat($._value), ";"),
 
     parameters: ($) => seq("(", sep1(",", $.parameter), ")"),
 

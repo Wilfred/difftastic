@@ -254,6 +254,17 @@ Extend statements
         (block (extend_statement (plain_value)) 
           (extend_statement (class_selector (class_name)))))))) 
 
+==============================
+Apply statements
+==============================
+
+@apply fill-red-50 border-black col-span-1;
+
+---
+
+(stylesheet
+  (apply_statement (plain_value) (plain_value) (plain_value)))
+
 =================================
 Operators
 =================================
