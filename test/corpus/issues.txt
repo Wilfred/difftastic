@@ -30,7 +30,7 @@ foo foo foo foo foo foo
       (curly_group
         (text
           (word)
-          (word))
+          (operator))
         (text
           (word))))
     (text

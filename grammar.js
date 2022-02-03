@@ -307,7 +307,9 @@ module.exports = grammar({
     //--- Text
 
     text: $ =>
-      prec.right(repeat1(field('word', choice($.word, $.placeholder)))),
+      prec.right(
+        repeat1(field('word', choice($.operator, $.word, $.placeholder)))
+      ),
 
     word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#]+/,
 
@@ -324,6 +326,9 @@ module.exports = grammar({
         seq('{', repeat($._glob_pattern_fragment), '}'),
         /[^\"\[\]:;\|\{\}<>]+/
       ),
+
+    operator: $ =>
+      choice('+', '-', '*', '/', '^', '_', '<', '>', '!', '|', ':', "'"),
 
     //--- Key / Value
 

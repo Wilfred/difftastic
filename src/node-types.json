@@ -4118,6 +4118,11 @@
     }
   },
   {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "package_include",
     "named": true,
     "fields": {
@@ -5777,6 +5782,10 @@
         "required": false,
         "types": [
           {
+            "type": "operator",
+            "named": true
+          },
+          {
             "type": "placeholder",
             "named": true
           },
@@ -6114,11 +6123,19 @@
     }
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
   {
     "type": "$$",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -6130,11 +6147,39 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
   {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
     "named": false
   },
   {
@@ -7126,6 +7171,14 @@
     "named": false
   },
   {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "_",
+    "named": false
+  },
+  {
     "type": "argc",
     "named": true
   },
@@ -7159,6 +7212,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {

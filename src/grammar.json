@@ -1590,6 +1590,10 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "operator"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "word"
               },
               {
@@ -1650,6 +1654,59 @@
         {
           "type": "PATTERN",
           "value": "[^\\\"\\[\\]:;\\|\\{\\}<>]+"
+        }
+      ]
+    },
+    "operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "STRING",
+          "value": "^"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        },
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "STRING",
+          "value": "'"
         }
       ]
     },
