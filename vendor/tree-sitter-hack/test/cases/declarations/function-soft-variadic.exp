@@ -1,0 +1,12 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        type: (type_specifier)
+        (variadic_modifier)
+        name: (variable)))
+    body: (compound_statement)))

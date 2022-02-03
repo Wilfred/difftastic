@@ -1,0 +1,25 @@
+(script
+  (function_declaration
+    (async_modifier)
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    (async_modifier)
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier)))
+    (parameters)
+    body: (compound_statement))
+  (expression_statement
+    (lambda_expression
+      (async_modifier)
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer)))))

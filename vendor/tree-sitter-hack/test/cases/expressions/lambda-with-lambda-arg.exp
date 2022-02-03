@@ -1,0 +1,34 @@
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (comment)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (comment)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (comment)
+  (comment)
+  (comment)
+  (comment))

@@ -1,0 +1,2 @@
+namespace Name\Space {
+}

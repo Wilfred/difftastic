@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if ! ruby --version | grep -qE "^ruby (2\.[7-]|[3-]\.)"; then
+  echo "Ruby 2.7 or later is required for this script to work."
+  exit 1
+fi

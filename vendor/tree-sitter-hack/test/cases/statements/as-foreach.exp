@@ -1,0 +1,18 @@
+(script
+  (comment)
+  (foreach_statement
+    collection: (parenthesized_expression
+      (subscript_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier))))
+    value: (variable)
+    body: (compound_statement))
+  (comment)
+  (foreach_statement
+    collection: (variable)
+    (ERROR
+      (array
+        (array_type)))
+    value: (variable)
+    body: (compound_statement)))

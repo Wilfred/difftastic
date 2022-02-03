@@ -1,0 +1,30 @@
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (inout_modifier)
+          (variable))
+        (argument
+          (variadic_modifier)
+          (null)))))
+  (expression_statement
+    (call_expression
+      function: (subscript_expression
+        (variable)
+        (call_expression
+          function: (qualified_identifier
+            (identifier))
+          (arguments)))
+      (arguments))))

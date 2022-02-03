@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_sed
+
+# Make Tree-sitter output look like a query.
+#
+#     $ npx tree-sitter parse $@
+#     (script [0, 0] - [1, 0]
+#       (while_statement [0, 0] - [0, 12]
+#         condition: (parenthesized_expression [0, 6] - [0, 9]
+#           (integer [0, 7] - [0, 8]))
+#         body: (expression_statement [0, 10] - [0, 12]
+#           (integer [0, 10] - [0, 11]))))
+#
+#     $ bin/ts-query $@
+#     (script
+#       (while_statement
+#         condition: (parenthesized_expression
+#           (integer))
+#         body: (expression_statement
+#           (integer))))
+
+bin/generate-parser 1>/dev/null
+
+npx tree-sitter parse $@ | $sed -e 's/ \[.*\]//'

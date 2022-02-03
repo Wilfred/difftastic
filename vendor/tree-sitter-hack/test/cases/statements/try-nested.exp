@@ -1,0 +1,45 @@
+(script
+  (try_statement
+    body: (compound_statement
+      (try_statement
+        body: (compound_statement)
+        (catch_clause
+          type: (type_specifier
+            (qualified_identifier
+              (identifier)
+              (identifier)))
+          name: (variable)
+          body: (compound_statement))
+        (finally_clause
+          body: (compound_statement))))
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier)))
+      name: (variable)
+      body: (compound_statement
+        (try_statement
+          body: (compound_statement)
+          (catch_clause
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)
+                (identifier)))
+            name: (variable)
+            body: (compound_statement))
+          (finally_clause
+            body: (compound_statement)))))
+    (finally_clause
+      body: (compound_statement
+        (try_statement
+          body: (compound_statement)
+          (catch_clause
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)
+                (identifier)))
+            name: (variable)
+            body: (compound_statement))
+          (finally_clause
+            body: (compound_statement)))))))

@@ -1,0 +1,15 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))

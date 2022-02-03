@@ -1,0 +1,13 @@
+(script
+  (expression_statement
+    (array
+      (array_type)))
+  (expression_statement
+    (array
+      (array_type)
+      (element_initializer
+        (false)
+        (null))
+      (element_initializer
+        (float)
+        (integer)))))

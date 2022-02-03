@@ -1,0 +1,37 @@
+(script
+  (for_statement
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    (binary_expression
+      left: (variable)
+      right: (call_expression
+        function: (qualified_identifier
+          (identifier))
+        (arguments)))
+    body: (expression_statement
+      (integer))))

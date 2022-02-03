@@ -1,0 +1,21 @@
+(script
+  (expression_statement
+    (awaitable_expression
+      (compound_statement)))
+  (expression_statement
+    (awaitable_expression
+      (compound_statement
+        (concurrent_statement
+          (compound_statement
+            (expression_statement
+              (prefix_unary_expression
+                operand: (call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))
+            (expression_statement
+              (prefix_unary_expression
+                operand: (call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))))))))

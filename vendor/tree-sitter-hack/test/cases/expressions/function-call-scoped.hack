@@ -1,0 +1,3 @@
+arg::$arg();
+
+arg::arg();

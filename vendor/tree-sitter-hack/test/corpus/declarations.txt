@@ -1,0 +1,2123 @@
+==========================
+Async functions
+==========================
+
+async function func0(): void {}
+
+async function func1<T1 as int>() {}
+
+async ($x) ==> $x + 1;
+
+---
+
+(script
+  (function_declaration
+    (async_modifier)
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    (async_modifier)
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier)))
+    (parameters)
+    body: (compound_statement))
+  (expression_statement
+    (lambda_expression
+      (async_modifier)
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer)))))
+
+==========================
+Attribute
+==========================
+
+<<Attribute, Attribute(1, 2),>>
+class C {
+  <<Attribute, Attribute(1, 2,)>>
+  function method() {}
+}
+
+<<Attribute(C,), Attribute>>
+function func() {
+}
+
+---
+
+(script
+  (class_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (integer))))
+    name: (identifier)
+    body: (member_declarations
+      (method_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        name: (identifier)
+        (parameters)
+        body: (compound_statement))))
+  (function_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (qualified_identifier
+            (identifier))))
+      (qualified_identifier
+        (identifier)))
+    name: (identifier)
+    (parameters)
+    body: (compound_statement)))
+
+==========================
+Attribute function
+==========================
+
+function func(<<__Soft>> int $int): <<__Soft>> int {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        type: (type_specifier)
+        name: (variable)))
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Attribute type
+==========================
+
+<<A1>>
+newtype T1 = ?shape(
+  ?'int' => int
+);
+
+<<A3(1), A2(2,3,)>>
+type T2 = (function(T1): string);
+
+<<A4(1), A5, A6(1,3,4)>>
+newtype T3 as int = int;
+
+---
+
+(script
+  (alias_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
+    (identifier)
+    (shape_type_specifier
+      (nullable_modifier)
+      (field_specifier
+        (optional_modifier)
+        (string)
+        (type_specifier))))
+  (alias_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer)))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (integer))))
+    (identifier)
+    (function_type_specifier
+      (type_specifier
+        (qualified_identifier
+          (identifier)))
+      return_type: (type_specifier)))
+  (alias_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer)))
+      (qualified_identifier
+        (identifier))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (integer))
+        (argument
+          (integer))))
+    (identifier)
+    as: (type_specifier)
+    (type_specifier)))
+
+==========================
+Attribute type parameter
+==========================
+
+class C<<<Reify>> reify T> {}
+
+function func<<<Reify>> T>(): void {}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        (reify_modifier)
+        name: (identifier)))
+    body: (member_declarations))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Class
+==========================
+
+<<Attribute(R::class), Attribute(1,),>>
+class F<Ta as A, Tb super B<A, C>> extends B implements A\B<A, C>, C\D {
+  function method<Ta as A, Tb super B>(): Tc {}
+}
+
+---
+
+(script
+  (class_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (qualified_identifier
+              (identifier))
+            (identifier))))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))))
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (member_declarations
+      (method_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier))))
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        (parameters)
+        return_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        body: (compound_statement)))))
+
+==========================
+Class const
+==========================
+
+abstract class C {
+  abstract const A\B C01;
+  const A\B C02 = A\B::C0;
+  const C03 = A\B::C0;
+
+  const int C1 = 1;
+  const int C2 = 1, C3 = 1;
+  const C4 = 1;
+  const C5 = 1, C6 = 1;
+
+  abstract const int C7;
+  abstract const int C8, C9;
+  abstract const CA;
+  abstract const CB, CC;
+}
+
+---
+
+(script
+  (class_declaration
+    (abstract_modifier)
+    name: (identifier)
+    body: (member_declarations
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        (const_declarator
+          name: (identifier)
+          value: (scoped_identifier
+            (qualified_identifier
+              (identifier)
+              (identifier))
+            (identifier))))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (scoped_identifier
+            (qualified_identifier
+              (identifier)
+              (identifier))
+            (identifier))))
+      (const_declaration
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)
+          value: (integer))
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (integer))
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier))
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declarator
+          name: (identifier))
+        (const_declarator
+          name: (identifier))))))
+
+==========================
+Class parameter visibility
+==========================
+
+class C {
+  public function __construct(<<__Soft>> private int $prop = 1, string ...$name) {}
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters
+          (parameter
+            (attribute_modifier
+              (qualified_identifier
+                (identifier)))
+            (visibility_modifier)
+            type: (type_specifier)
+            name: (variable)
+            default_value: (integer))
+          (parameter
+            type: (type_specifier)
+            (variadic_modifier)
+            name: (variable)))
+        body: (compound_statement)))))
+
+==========================
+Class type parameters
+==========================
+
+abstract final class F<Ta as A, Tb super B<A, C>> extends B implements A\B<A, C>, C\D {
+  function method<Ta as A, Tb super B>(): Tc {}
+}
+
+---
+
+(script
+  (class_declaration
+    (abstract_modifier)
+    (final_modifier)
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (member_declarations
+      (method_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier))))
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        (parameters)
+        return_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        body: (compound_statement)))))
+
+==========================
+Class where
+==========================
+
+class C <T1> extends B<T2> implements A<T3> where T2 = T3 {
+  private function __construct(T1 $param) where ?T1 super vec<int>, {}
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    body: (member_declarations
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters
+          (parameter
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)))
+            name: (variable)))
+        (where_clause
+          (where_constraint
+            constraint_left_type: (type_specifier
+              (nullable_modifier)
+              (qualified_identifier
+                (identifier)))
+            constraint_right_type: (type_specifier
+              (type_arguments
+                (type_specifier)))))
+        body: (compound_statement)))))
+
+==========================
+Const
+==========================
+
+const int C1 = 1;
+const int C2 = 1, C3 = 1;
+const C4 = 1;
+const C5 = 1, C6 = 1;
+
+---
+
+(script
+  (const_declaration
+    type: (type_specifier)
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    type: (type_specifier)
+    (const_declarator
+      name: (identifier)
+      value: (integer))
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer))
+    (const_declarator
+      name: (identifier)
+      value: (integer))))
+
+==========================
+Const keyword
+==========================
+
+// Kinda wish this wasn't allowed. Seems like asking for trouble.
+
+const type = 1;
+const newtype = 1;
+
+// 🤦
+const int int = 1;
+
+const bool = 1;
+const float = 1;
+const int = 1;
+const string = 1;
+const arraykey = 1;
+const void = 1;
+const nonnull = 1;
+const null = 1;
+const mixed = 1;
+const dynamic = 1;
+const noreturn = 1;
+
+const array = 1;
+const varray = 1;
+const darray = 1;
+const vec = 1;
+const dict = 1;
+const keyset = 1;
+
+const tuple = 1;
+const shape = 1;
+
+---
+
+(script
+  (comment)
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (comment)
+  (const_declaration
+    type: (type_specifier)
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer))))
+
+==========================
+Empty function
+==========================
+
+namespace {
+  <<__PHPStdLib, __Pure>>
+  function is_bool($var): bool;
+  <<__PHPStdLib, __Pure>>
+  function is_int($var): bool;
+}
+
+---
+
+(script
+  (namespace_declaration
+    body: (compound_statement
+      (function_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)
+        (parameters
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier))
+      (function_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)
+        (parameters
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier)))))
+
+==========================
+Enum
+==========================
+
+enum Enum: int {}
+
+<<Beenum>>
+enum Enum : int {
+  F1 = 1;
+  F2 = 8;
+  F3 = C::CONST;
+  F4 = 'a'.'b';
+}
+
+---
+
+(script
+  (enum_declaration
+    name: (identifier)
+    type: (type_specifier))
+  (enum_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
+    name: (identifier)
+    type: (type_specifier)
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier)))
+    (enumerator
+      (identifier)
+      (binary_expression
+        left: (string)
+        right: (string)))))
+
+==========================
+Enum type constraint
+==========================
+
+enum Enum: int as int {
+  F1 = 1;
+  F2 = 8;
+}
+
+---
+
+(script
+  (enum_declaration
+    name: (identifier)
+    type: (type_specifier)
+    as: (type_specifier)
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (integer))))
+
+==========================
+Function
+==========================
+
+function func0(): void {}
+
+function func1(...) {}
+
+function func2($arg) {}
+
+function func3(int $arg) {}
+
+function func4(int $arg): void {}
+
+function func5(int $arg1, bool $arg2): void {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (variadic_modifier))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        name: (variable)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable))
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Function inout
+==========================
+
+function func(<<__Soft>> inout int $arg1, inout int $arg2) {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        (inout_modifier)
+        type: (type_specifier)
+        name: (variable))
+      (parameter
+        (inout_modifier)
+        type: (type_specifier)
+        name: (variable)))
+    body: (compound_statement)))
+
+==========================
+Function soft variadic
+==========================
+
+function func(<<__Soft>> int ...$arg1) {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        type: (type_specifier)
+        (variadic_modifier)
+        name: (variable)))
+    body: (compound_statement)))
+
+==========================
+Function type parameters
+==========================
+
+function func<Ta, Tb as int, Td super int>(): void {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Function type specifier
+==========================
+
+type func = (function(int, ?string,): string);
+
+function func((function(inout int): string) $func): (function(int): string) {}
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (function_type_specifier
+      (type_specifier)
+      (type_specifier
+        (nullable_modifier))
+      return_type: (type_specifier)))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (function_type_specifier
+          (inout_modifier)
+          (type_specifier)
+          return_type: (type_specifier))
+        name: (variable)))
+    return_type: (function_type_specifier
+      (type_specifier)
+      return_type: (type_specifier))
+    body: (compound_statement)))
+
+==========================
+Function where
+==========================
+
+function func1<T>(): T where T as int {}
+
+function func2<T>(): T where vec<T> = int {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement)))
+
+==========================
+Function where tricky
+==========================
+
+function func1<T>() where T = int, {}
+
+function func2<T>() where ?vec<T> = int, T super int {}
+
+# Optional comma. Why tho?
+function func3<T>() where ?vec<T> = int T super int {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (nullable_modifier)
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        constraint_right_type: (type_specifier))
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement))
+  (comment)
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (parameters)
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (nullable_modifier)
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        constraint_right_type: (type_specifier))
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier)))
+    body: (compound_statement)))
+
+==========================
+Interface
+==========================
+
+<<Attribute(R::class), Attribute(1,),>>
+interface F<Ta as A, Tb super B<A, C>> extends B, A\B<A, C>, C\D {
+  function method<Ta as A, Tb super B>(): Tc {}
+}
+
+---
+
+(script
+  (interface_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (qualified_identifier
+              (identifier))
+            (identifier))))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))))
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier)))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (member_declarations
+      (method_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier))))
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        (parameters)
+        return_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        body: (compound_statement)))))
+
+==========================
+Interface where
+==========================
+
+interface C <T1> extends B<T2> where T1 as T2 {}
+
+---
+
+(script
+  (interface_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    body: (member_declarations)))
+
+==========================
+Like type modifier
+==========================
+
+function func<Ta as ~int>(~?(function(int): bool) $func): ~int {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (like_modifier))))
+    (parameters
+      (parameter
+        type: (function_type_specifier
+          (like_modifier)
+          (nullable_modifier)
+          (type_specifier)
+          return_type: (type_specifier))
+        name: (variable)))
+    return_type: (type_specifier
+      (like_modifier))
+    body: (compound_statement)))
+
+==========================
+Method
+==========================
+
+abstract class C {
+  static function method1(): void {}
+  public function method2(): void {}
+  function method3(): void {}
+  abstract public static function method4();
+  final public static function method5(): void {}
+}
+
+---
+
+(script
+  (class_declaration
+    (abstract_modifier)
+    name: (identifier)
+    body: (member_declarations
+      (method_declaration
+        (static_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        (abstract_modifier)
+        (visibility_modifier)
+        (static_modifier)
+        name: (identifier)
+        (parameters))
+      (method_declaration
+        (final_modifier)
+        (visibility_modifier)
+        (static_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement)))))
+
+==========================
+Namespace brace
+==========================
+
+namespace Space {
+}
+
+---
+
+(script
+  (namespace_declaration
+    name: (qualified_identifier
+      (identifier))
+    body: (compound_statement)))
+
+==========================
+Namespace semicolon
+==========================
+
+namespace Space;
+
+---
+
+(script
+  (namespace_declaration
+    name: (qualified_identifier
+      (identifier))))
+
+==========================
+Namespace without name
+==========================
+
+namespace {
+}
+
+---
+
+(script
+  (namespace_declaration
+    body: (compound_statement)))
+
+==========================
+Newtype alias
+==========================
+
+newtype I = int;
+
+newtype I as int = arrakey;
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (type_specifier))
+  (alias_declaration
+    (identifier)
+    as: (type_specifier)
+    (type_specifier
+      (qualified_identifier
+        (identifier)))))
+
+==========================
+Property
+==========================
+
+<<__ConsistentConstruct>>
+class C {
+  static $var1 = 1;
+  public $var2 = 1;
+  static public $var3 = 1;
+  public static $var4 = 1;
+
+  public $var5;
+  public static $var6;
+
+  public int $var7;
+  <<__LateInit>>
+  public static int $var8;
+}
+
+---
+
+(script
+  (class_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
+    name: (identifier)
+    body: (member_declarations
+      (property_declaration
+        (static_modifier)
+        (property_declarator
+          name: (variable)
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (property_declarator
+          name: (variable)
+          value: (integer)))
+      (property_declaration
+        (static_modifier)
+        (visibility_modifier)
+        (property_declarator
+          name: (variable)
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        (property_declarator
+          name: (variable)
+          value: (integer)))
+      (property_declaration
+        (visibility_modifier)
+        (property_declarator
+          name: (variable)))
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        (property_declarator
+          name: (variable)))
+      (property_declaration
+        (visibility_modifier)
+        type: (type_specifier)
+        (property_declarator
+          name: (variable)))
+      (property_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        (visibility_modifier)
+        (static_modifier)
+        type: (type_specifier)
+        (property_declarator
+          name: (variable))))))
+
+==========================
+Qualified namespace brace
+==========================
+
+namespace Name\Space {
+}
+
+---
+
+(script
+  (namespace_declaration
+    name: (qualified_identifier
+      (identifier)
+      (identifier))
+    body: (compound_statement)))
+
+==========================
+Qualified namespace semicolon
+==========================
+
+namespace Name\Space;
+
+---
+
+(script
+  (namespace_declaration
+    name: (qualified_identifier
+      (identifier)
+      (identifier))))
+
+==========================
+Reify
+==========================
+
+class C<reify T> {}
+
+function func<reify T>(): void {}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (reify_modifier)
+        name: (identifier)))
+    body: (member_declarations))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (reify_modifier)
+        name: (identifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Repeating type parameter constraint
+==========================
+
+function func<Ta as Tb as int>(): void {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_type: (type_specifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))
+
+==========================
+Require implements and extends
+==========================
+
+trait T<T> {
+  require implements I<T>;
+  require extends C<T>;
+}
+
+---
+
+(script
+  (trait_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    body: (member_declarations
+      (require_implements_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier))))))
+      (require_extends_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))))
+
+==========================
+Shape type specifier
+==========================
+
+type circle = shape(
+  ?'int' => int,
+  'shape' => shape(
+    'int' => ?int,
+    ...
+  ),
+  ...
+);
+
+type nothing = shape();
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (shape_type_specifier
+      (field_specifier
+        (optional_modifier)
+        (string)
+        (type_specifier))
+      (field_specifier
+        (string)
+        (shape_type_specifier
+          (field_specifier
+            (string)
+            (type_specifier
+              (nullable_modifier)))
+          (open_modifier)))
+      (open_modifier)))
+  (alias_declaration
+    (identifier)
+    (shape_type_specifier)))
+
+==========================
+Trait
+==========================
+
+<<Attribute(R::class), Attribute(1,),>>
+trait F<Ta as A, Tb super B<A, C>> implements A\B<A, C>, C\D {
+  function method<Ta as A, Tb super B>(): Tc {}
+}
+
+
+---
+
+(script
+  (trait_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (qualified_identifier
+              (identifier))
+            (identifier))))
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (integer))))
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier)))
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (member_declarations
+      (method_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier))))
+          (type_parameter
+            name: (identifier)
+            constraint_type: (type_specifier
+              (qualified_identifier
+                (identifier)))))
+        (parameters)
+        return_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        body: (compound_statement)))))
+
+==========================
+Trait where
+==========================
+
+trait C <T1> implements A<T3> where T1 super T3 {}
+
+---
+
+(script
+  (trait_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    body: (member_declarations)))
+
+==========================
+Tuple type
+==========================
+
+function func((dict<int, mixed>, int) $arg): ?(int, C, B\A) {}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (tuple_type_specifier
+          (type_specifier
+            (type_arguments
+              (type_specifier)
+              (type_specifier)))
+          (type_specifier))
+        name: (variable)))
+    return_type: (tuple_type_specifier
+      (nullable_modifier)
+      (type_specifier)
+      (type_specifier
+        (qualified_identifier
+          (identifier)))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (compound_statement)))
+
+==========================
+Type alias
+==========================
+
+type I = int;
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (type_specifier)))
+
+==========================
+Type alias type parameters
+==========================
+
+type I1<T as R super H> = I2<T>;
+
+# Only newtype can have a type constraint.
+newtype I2<T as R super H> as N<B> = I1<T>;
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier))))))
+  (comment)
+  (alias_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    as: (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier)))))))
+
+==========================
+Type const
+==========================
+
+class C {
+  const type T1;
+  const type T2 = int;
+  <<A3(1), A2(2,3,)>>
+  const type T3 as int;
+  const type T4<<<Attr>> T3> as int = arraykey;
+  abstract const type T5 as ?int = ?arraykey;
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (type_const_declaration
+        name: (identifier))
+      (type_const_declaration
+        name: (identifier)
+        type: (type_specifier))
+      (type_const_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer)))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        name: (identifier)
+        as: (type_specifier))
+      (type_const_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            (attribute_modifier
+              (qualified_identifier
+                (identifier)))
+            name: (identifier)))
+        as: (type_specifier)
+        type: (type_specifier))
+      (type_const_declaration
+        (abstract_modifier)
+        name: (identifier)
+        as: (type_specifier
+          (nullable_modifier))
+        type: (type_specifier
+          (nullable_modifier))))))
+
+==========================
+Use trait
+==========================
+
+class C {
+  use A;
+
+  use B<int>;
+
+  use C, D { D as E; }
+
+  use F, G<vec<int>>, H {
+    H::methodG insteadof G;
+    G::methodH insteadof H;
+  }
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier))))
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (trait_alias_clause
+          (identifier)
+          (identifier)))
+      (trait_use_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (type_arguments
+                (type_specifier)))))
+        (type_specifier
+          (qualified_identifier
+            (identifier)))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier)))
+        (trait_select_clause
+          (qualified_identifier
+            (identifier))
+          (identifier)
+          (qualified_identifier
+            (identifier)))))))
+
+==========================
+Xhp class attribute
+==========================
+
+class :a {
+    attribute int extra_attr;
+    // XHP identifiers are optional for this case of attribute transfer.
+    attribute :XHP:HTML:div;
+}
+
+// DEPRECATED:
+// Before XHP namespace support (in XHP-Lib v3),
+// a special category keyword could be used instead of an interface.
+// Note: An XHP class cannot have multiple category or children declarations.
+class :a {
+    category %foo:bar;
+}
+class :a {
+    category %name1, %name2;
+}
+
+// Also, a special children keyword with a regex-like syntax could be used.
+// See https://github.com/hhvm/xhp-lib/blob/v3.x/tests/ChildRuleTest.php
+class :a {
+    children (:div);
+}
+class :a {
+    children any;
+}
+class :a {
+    children (:bar*, :baz?, pcdata);
+}
+class :a {
+    children (:div*);
+}
+class :a {
+    children (:div+);
+}
+class :a {
+    children (:div, :div);
+}
+class :a {
+    children (:div | :code);
+}
+class :a {
+    children (:div | (:code+));
+}
+class :a {
+    children (:div | :code | :p);
+}
+class :a {
+    children (%flow);
+}
+
+---
+
+(script
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (type_specifier)
+          name: (xhp_identifier)))
+      (comment)
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (type_specifier
+            (xhp_class_identifier))))))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_category_declaration
+        (xhp_category_identifier))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_category_declaration
+        (xhp_category_identifier)
+        (xhp_category_identifier))))
+  (comment)
+  (comment)
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_class_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (xhp_identifier))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))
+          (postfix_unary_expression
+            (xhp_class_identifier))
+          (xhp_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_class_identifier)
+          (xhp_class_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (xhp_class_identifier)
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (xhp_class_identifier)
+            (parenthesized_expression
+              (postfix_unary_expression
+                (xhp_class_identifier))))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (binary_expression
+              (xhp_class_identifier)
+              (xhp_class_identifier))
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_category_identifier))))))

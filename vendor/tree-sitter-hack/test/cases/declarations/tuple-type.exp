@@ -1,0 +1,23 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (tuple_type_specifier
+          (type_specifier
+            (type_arguments
+              (type_specifier)
+              (type_specifier)))
+          (type_specifier))
+        name: (variable)))
+    return_type: (tuple_type_specifier
+      (nullable_modifier)
+      (type_specifier)
+      (type_specifier
+        (qualified_identifier
+          (identifier)))
+      (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier))))
+    body: (compound_statement)))

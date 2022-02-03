@@ -1,0 +1,102 @@
+#!/bin/bash
+
+set -e
+
+# Parse Hack source and filter noisy node objects.
+
+hh_parse --full-fidelity-text-json $@ |
+  jq '.parse_tree' |
+
+  # Remove low-value elements and simplify name tokens.
+  jq "$(
+    cat <<-JQ
+    # Return true if an element is low value.
+    def trivia:
+      (. == [] or . == {}) or
+      type == "object" and
+      (
+        .kind == "markup_section" or
+        .kind == "whitespace" or
+        .kind == "end_of_file" or
+        .kind == "end_of_line" or
+        .kind == "missing" or
+        (
+          .kind == "token" and
+
+          # Note: parenthesis matter here.
+          (.token.kind | IN(";", ":", ",", "[", "]", "{", "}", "(", ")", "<<", ">>"))
+        )
+      );
+
+    # Transform/replace some objects with a simplified version.
+    def transform:
+
+      # {
+      #   "kind": "token",
+      #   "token": {
+      #     "kind": "final",
+      #     "text": "final"
+      #   }
+      # }
+
+      if type == "object" and
+        .kind == "token" and
+        .token.kind == .token.text
+
+      then .token.text
+
+      # {
+      #   "kind": "token",
+      #   "token": {
+      #     "kind": "XHP_class_name",
+      #     "text": ":head"
+      #   }
+      # }
+
+      elif type == "object" and
+        .kind == "token" and
+        has("token") and
+        (.token | keys) == ["kind", "text"]
+
+      then {(.token.kind): .token.text}
+
+      # {
+      #   "kind": "list_item",
+      #   "list_item": {
+      #      "kind": "...",
+      #   }
+      # }
+
+      elif type == "object" and .kind == "list_item" and has("list_item")
+      then .list_item
+
+
+      # "...": {
+      #   "kind": "list",
+      #   "elements": [
+      #     {}
+      #   ]
+      # }
+
+      elif type == "object" and .kind == "list" and has("elements")
+      then .elements
+
+      else .
+      end;
+
+    walk(
+      if type == "object" then
+
+        # Remove keys with low-value values.
+        with_entries(select(.value | trivia | not)) | map_values(transform)
+
+      elif type == "array" then
+
+        # Remove low-value array elements.
+        map(select(trivia | not)) | map(transform)
+
+      else .
+      end
+    )
+JQ
+  )"

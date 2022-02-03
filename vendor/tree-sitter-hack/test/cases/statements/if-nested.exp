@@ -1,0 +1,27 @@
+(script
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (if_statement
+      condition: (parenthesized_expression
+        (integer))
+      body: (expression_statement
+        (integer))
+      else: (expression_statement
+        (integer))))
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (expression_statement
+          (integer))))
+    else: (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (compound_statement
+          (expression_statement
+            (integer)))))))

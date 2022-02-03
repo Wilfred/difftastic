@@ -1,0 +1,20 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (compound_statement))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable))
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier)
+        body: (compound_statement)))))

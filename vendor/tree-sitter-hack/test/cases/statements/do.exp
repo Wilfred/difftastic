@@ -1,0 +1,12 @@
+(script
+  (do_statement
+    body: (expression_statement
+      (integer))
+    condition: (parenthesized_expression
+      (integer)))
+  (do_statement
+    body: (compound_statement
+      (expression_statement
+        (integer)))
+    condition: (parenthesized_expression
+      (integer))))

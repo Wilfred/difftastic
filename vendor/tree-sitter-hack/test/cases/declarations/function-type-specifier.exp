@@ -1,0 +1,21 @@
+(script
+  (alias_declaration
+    (identifier)
+    (function_type_specifier
+      (type_specifier)
+      (type_specifier
+        (nullable_modifier))
+      return_type: (type_specifier)))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (function_type_specifier
+          (inout_modifier)
+          (type_specifier)
+          return_type: (type_specifier))
+        name: (variable)))
+    return_type: (function_type_specifier
+      (type_specifier)
+      return_type: (type_specifier))
+    body: (compound_statement)))

@@ -1,0 +1,41 @@
+(script
+  (comment)
+  (expression_statement
+    (parenthesized_expression
+      (lambda_expression
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer)))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        (parameters
+          (parameter
+            type: (type_specifier)
+            name: (variable)))
+        return_type: (type_specifier)
+        body: (binary_expression
+          left: (variable)
+          right: (integer)))))
+  (expression_statement
+    (parenthesized_expression
+      (lambda_expression
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))))
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (compound_statement)))))
