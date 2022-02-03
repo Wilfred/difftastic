@@ -28,9 +28,9 @@ module.exports = grammar({
 
     block_comment: $ =>
       seq(
-        '\\iffalse',
-        optional(alias($._trivia_raw_fi, $.comment)),
-        optional('\\fi')
+        field('begin', '\\iffalse'),
+        field('comment', optional(alias($._trivia_raw_fi, $.comment))),
+        field('end', optional('\\fi'))
       ),
 
     //--- Content
@@ -113,8 +113,11 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\part', '\\part*', '\\addpart', '\\addpart*'),
-          optional($.curly_group),
+          field(
+            'command',
+            choice('\\part', '\\part*', '\\addpart', '\\addpart*')
+          ),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(
@@ -136,8 +139,11 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*'),
-          optional($.curly_group),
+          field(
+            'command',
+            choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*')
+          ),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(
@@ -158,8 +164,11 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\section', '\\section*', '\\addsec', '\\addsec*'),
-          optional($.curly_group),
+          field(
+            'command',
+            choice('\\section', '\\section*', '\\addsec', '\\addsec*')
+          ),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(
@@ -179,8 +188,8 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\subsection', '\\subsection*'),
-          optional($.curly_group),
+          field('command', choice('\\subsection', '\\subsection*')),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(
@@ -199,8 +208,8 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\subsubsection', '\\subsubsection*'),
-          optional($.curly_group),
+          field('command', choice('\\subsubsection', '\\subsubsection*')),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(
@@ -218,8 +227,8 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\paragraph', '\\paragraph*'),
-          optional($.curly_group),
+          field('command', choice('\\paragraph', '\\paragraph*')),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(
             prec.right(choice(repeat1($.subparagraph), repeat1($.enum_item)))
@@ -231,8 +240,8 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\subparagraph', '\\subparagraph*'),
-          optional($.curly_group),
+          field('command', choice('\\subparagraph', '\\subparagraph*')),
+          field('text', optional($.curly_group)),
           repeat($._flat_content),
           optional(prec.right(choice(repeat1($.enum_item))))
         )
@@ -242,8 +251,8 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          choice('\\item', '\\item*'),
-          optional($.brack_group_text),
+          field('command', choice('\\item', '\\item*')),
+          field('label', optional($.brack_group_text)),
           repeat($._flat_content),
           optional(prec.right(choice()))
         )
@@ -253,19 +262,24 @@ module.exports = grammar({
 
     curly_group: $ => seq('{', repeat($._root_content), '}'),
 
-    curly_group_text: $ => seq('{', $.text, '}'),
+    curly_group_text: $ => seq('{', field('text', $.text), '}'),
 
-    curly_group_text_list: $ => seq('{', sepBy($.text, ','), '}'),
+    curly_group_text_list: $ =>
+      seq('{', sepBy(field('text', $.text), ','), '}'),
 
-    curly_group_path: $ => seq('{', $.path, '}'),
+    curly_group_path: $ => seq('{', field('path', $.path), '}'),
 
-    curly_group_path_list: $ => seq('{', sepBy($.path, ','), '}'),
+    curly_group_path_list: $ =>
+      seq('{', sepBy(field('path', $.path), ','), '}'),
 
-    curly_group_command_name: $ => seq('{', $.command_name, '}'),
+    curly_group_command_name: $ =>
+      seq('{', field('command', $.command_name), '}'),
 
-    curly_group_key_value: $ => seq('{', sepBy($.key_value_pair, ','), '}'),
+    curly_group_key_value: $ =>
+      seq('{', sepBy(field('pair', $.key_value_pair), ','), '}'),
 
-    curly_group_glob_pattern: $ => seq('{', $.glob_pattern, '}'),
+    curly_group_glob_pattern: $ =>
+      seq('{', field('pattern', $.glob_pattern), '}'),
 
     curly_group_impl: $ => seq('{', repeat($._text_content), '}'),
 
@@ -276,11 +290,12 @@ module.exports = grammar({
         ']'
       ),
 
-    brack_group_text: $ => seq('[', $.text, ']'),
+    brack_group_text: $ => seq('[', field('text', $.text), ']'),
 
-    brack_group_argc: $ => seq('[', $.argc, ']'),
+    brack_group_argc: $ => seq('[', field('value', $.argc), ']'),
 
-    brack_group_key_value: $ => seq('[', sepBy($.key_value_pair, ','), ']'),
+    brack_group_key_value: $ =>
+      seq('[', sepBy(field('pair', $.key_value_pair), ','), ']'),
 
     mixed_group: $ =>
       seq(
@@ -291,7 +306,8 @@ module.exports = grammar({
 
     //--- Text
 
-    text: $ => prec.right(repeat1(choice($.word, $.placeholder))),
+    text: $ =>
+      prec.right(repeat1(field('word', choice($.word, $.placeholder)))),
 
     word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#]+/,
 
@@ -311,7 +327,8 @@ module.exports = grammar({
 
     //--- Key / Value
 
-    key_value_pair: $ => seq(alias($.text, $.key), optional(seq('=', $.value))),
+    key_value_pair: $ =>
+      seq(field('key', $.text), optional(seq('=', field('value', $.value)))),
 
     value: $ => repeat1(choice($._text_content, $.brack_group, '(', ')')),
 
@@ -332,99 +349,137 @@ module.exports = grammar({
     //--- Environments
 
     begin: $ =>
-      prec.right(seq('\\begin', $.curly_group_text, optional($.brack_group))),
+      prec.right(
+        seq(
+          field('command', '\\begin'),
+          field('name', $.curly_group_text),
+          field('options', optional($.brack_group))
+        )
+      ),
 
-    end: $ => prec.right(seq('\\end', $.curly_group_text)),
+    end: $ =>
+      prec.right(
+        seq(field('command', '\\end'), field('name', $.curly_group_text))
+      ),
 
-    environment: $ => seq($.begin, repeat($._root_content), $.end),
+    environment: $ =>
+      seq(
+        field('begin', $.begin),
+        repeat($._root_content),
+        field('end', $.end)
+      ),
 
     //--- Comment environment
 
     _trivia_environment_comment: $ =>
       seq(
-        alias($._trivia_begin_comment, $.begin),
-        alias($._trivia_raw_env_comment, $.comment),
-        alias($._trivia_end_comment, $.end)
+        field('begin', alias($._trivia_begin_comment, $.begin)),
+        field('comment', alias($._trivia_raw_env_comment, $.comment)),
+        field('end', alias($._trivia_end_comment, $.end))
       ),
 
     _trivia_begin_comment: $ =>
-      seq('\\begin', alias($._trivia_curly_group_comment, $.curly_group_text)),
+      seq(
+        field('command', '\\begin'),
+        field('name', alias($._trivia_curly_group_comment, $.curly_group_text))
+      ),
 
     _trivia_end_comment: $ =>
-      seq('\\end', alias($._trivia_curly_group_comment, $.curly_group_text)),
+      seq(
+        field('command', '\\end'),
+        field('name', alias($._trivia_curly_group_comment, $.curly_group_text))
+      ),
 
     _trivia_curly_group_comment: $ =>
-      seq('{', alias($._trivia_text_comment, $.text), '}'),
+      seq('{', field('text', alias($._trivia_text_comment, $.text)), '}'),
 
-    _trivia_text_comment: $ => seq(alias('comment', $.word)),
+    _trivia_text_comment: $ => seq(field('word', alias('comment', $.word))),
 
     //--- Verbatim environment
 
     _trivia_environment_verbatim: $ =>
       seq(
-        alias($._trivia_begin_verbatim, $.begin),
-        alias($._trivia_raw_env_verbatim, $.comment),
-        alias($._trivia_end_verbatim, $.end)
+        field('begin', alias($._trivia_begin_verbatim, $.begin)),
+        field('verbatim', alias($._trivia_raw_env_verbatim, $.comment)),
+        field('end', alias($._trivia_end_verbatim, $.end))
       ),
 
     _trivia_begin_verbatim: $ =>
-      seq('\\begin', alias($._trivia_curly_group_verbatim, $.curly_group_text)),
+      seq(
+        field('command', '\\begin'),
+        field('name', alias($._trivia_curly_group_verbatim, $.curly_group_text))
+      ),
 
     _trivia_end_verbatim: $ =>
-      seq('\\end', alias($._trivia_curly_group_verbatim, $.curly_group_text)),
+      seq(
+        field('command', '\\end'),
+        field('name', alias($._trivia_curly_group_verbatim, $.curly_group_text))
+      ),
 
     _trivia_curly_group_verbatim: $ =>
-      seq('{', alias($._trivia_text_verbatim, $.text), '}'),
+      seq('{', field('text', alias($._trivia_text_verbatim, $.text)), '}'),
 
-    _trivia_text_verbatim: $ => seq(alias('verbatim', $.word)),
+    _trivia_text_verbatim: $ => seq(field('word', alias('verbatim', $.word))),
 
     //--- Listing environment
 
     _trivia_environment_listing: $ =>
       seq(
-        alias($._trivia_begin_listing, $.begin),
-        alias($._trivia_raw_env_listing, $.source_code),
-        alias($._trivia_end_listing, $.end)
+        field('begin', alias($._trivia_begin_listing, $.begin)),
+        field('code', alias($._trivia_raw_env_listing, $.source_code)),
+        field('end', alias($._trivia_end_listing, $.end))
       ),
 
     _trivia_begin_listing: $ =>
-      seq('\\begin', alias($._trivia_curly_group_listing, $.curly_group_text)),
+      seq(
+        field('command', '\\begin'),
+        field('name', alias($._trivia_curly_group_listing, $.curly_group_text))
+      ),
 
     _trivia_end_listing: $ =>
-      seq('\\end', alias($._trivia_curly_group_listing, $.curly_group_text)),
+      seq(
+        field('command', '\\end'),
+        field('name', alias($._trivia_curly_group_listing, $.curly_group_text))
+      ),
 
     _trivia_curly_group_listing: $ =>
-      seq('{', alias($._trivia_text_listing, $.text), '}'),
+      seq('{', field('text', alias($._trivia_text_listing, $.text)), '}'),
 
-    _trivia_text_listing: $ => seq(alias('lstlisting', $.word)),
+    _trivia_text_listing: $ => seq(field('word', alias('lstlisting', $.word))),
 
     //--- Minted environment
 
     _trivia_environment_minted: $ =>
       seq(
-        alias($._trivia_begin_minted, $.begin),
-        alias($._trivia_raw_env_minted, $.source_code),
-        alias($._trivia_end_minted, $.end)
+        field('begin', alias($._trivia_begin_minted, $.begin)),
+        field('code', alias($._trivia_raw_env_minted, $.source_code)),
+        field('end', alias($._trivia_end_minted, $.end))
       ),
 
     _trivia_begin_minted: $ =>
-      seq('\\begin', alias($._trivia_curly_group_minted, $.curly_group_text)),
+      seq(
+        field('command', '\\begin'),
+        field('name', alias($._trivia_curly_group_minted, $.curly_group_text))
+      ),
 
     _trivia_end_minted: $ =>
-      seq('\\end', alias($._trivia_curly_group_minted, $.curly_group_text)),
+      seq(
+        field('command', '\\end'),
+        field('name', alias($._trivia_curly_group_minted, $.curly_group_text))
+      ),
 
     _trivia_curly_group_minted: $ =>
-      seq('{', alias($._trivia_text_minted, $.text), '}'),
+      seq('{', field('text', alias($._trivia_text_minted, $.text)), '}'),
 
-    _trivia_text_minted: $ => seq(alias('minted', $.word)),
+    _trivia_text_minted: $ => seq(field('word', alias('minted', $.word))),
 
     //--- Pycode environment
 
     _trivia_environment_pycode: $ =>
       seq(
-        alias($._trivia_begin_pycode, $.begin),
-        alias($._trivia_raw_env_pycode, $.source_code),
-        alias($._trivia_end_pycode, $.end)
+        field('begin', alias($._trivia_begin_pycode, $.begin)),
+        field('code', alias($._trivia_raw_env_pycode, $.source_code)),
+        field('end', alias($._trivia_end_pycode, $.end))
       ),
 
     _trivia_begin_pycode: $ =>
@@ -442,338 +497,404 @@ module.exports = grammar({
 
     command: $ =>
       prec.right(
-        seq($.command_name, repeat(choice($.curly_group, $.mixed_group)))
+        seq(
+          field('command', $.command_name),
+          repeat(field('arg', choice($.curly_group, $.mixed_group)))
+        )
       ),
 
     command_name: $ => /\\([^\r\n]|[@a-zA-Z:_]+\*?)?/,
 
     package_include: $ =>
       seq(
-        choice('\\usepackage', '\\RequirePackage'),
-        optional($.brack_group_key_value),
-        $.curly_group_path_list
+        field('command', choice('\\usepackage', '\\RequirePackage')),
+        field('options', optional($.brack_group_key_value)),
+        field('paths', $.curly_group_path_list)
       ),
 
     class_include: $ =>
       seq(
-        '\\documentclass',
-        optional($.brack_group_key_value),
-        $.curly_group_path
+        field('command', '\\documentclass'),
+        field('options', optional($.brack_group_key_value)),
+        field('path', $.curly_group_path)
       ),
 
     latex_include: $ =>
       seq(
-        choice('\\include', '\\subfileinclude', '\\input', '\\subfile'),
-        $.curly_group_path
+        field(
+          'command',
+          choice('\\include', '\\subfileinclude', '\\input', '\\subfile')
+        ),
+        field('path', $.curly_group_path)
       ),
 
     biblatex_include: $ =>
       seq(
         '\\addbibresource',
-        optional($.brack_group_key_value),
-        $.curly_group_glob_pattern
+        field('options', optional($.brack_group_key_value)),
+        field('glob', $.curly_group_glob_pattern)
       ),
 
-    bibtex_include: $ => seq('\\bibliography', $.curly_group_path),
+    bibtex_include: $ =>
+      seq(
+        field('command', '\\bibliography'),
+        field('path', $.curly_group_path)
+      ),
 
     graphics_include: $ =>
       seq(
-        '\\includegraphics',
-        optional($.brack_group_key_value),
-        $.curly_group_path
+        field('command', '\\includegraphics'),
+        field('options', optional($.brack_group_key_value)),
+        field('path', $.curly_group_path)
       ),
 
     svg_include: $ =>
       seq(
-        '\\includesvg',
-        optional($.brack_group_key_value),
-        $.curly_group_path
+        field('command', '\\includesvg'),
+        field('options', optional($.brack_group_key_value)),
+        field('path', $.curly_group_path)
       ),
 
     inkscape_include: $ =>
       seq(
-        '\\includeinkscape',
-        optional($.brack_group_key_value),
-        $.curly_group_path
+        field('command', '\\includeinkscape'),
+        field('options', optional($.brack_group_key_value)),
+        field('path', $.curly_group_path)
       ),
 
     verbatim_include: $ =>
-      seq(choice('\\verbatiminput', '\\VerbatimInput'), $.curly_group_path),
+      seq(
+        field('command', choice('\\verbatiminput', '\\VerbatimInput')),
+        field('path', $.curly_group_path)
+      ),
 
     import_include: $ =>
       seq(
-        choice(
-          '\\import',
-          '\\subimport',
-          '\\inputfrom',
-          '\\subimportfrom',
-          '\\includefrom',
-          '\\subincludefrom'
+        field(
+          'command',
+          choice(
+            '\\import',
+            '\\subimport',
+            '\\inputfrom',
+            '\\subimportfrom',
+            '\\includefrom',
+            '\\subincludefrom'
+          )
         ),
-        $.curly_group_path,
-        $.curly_group_path
+        field('directory', $.curly_group_path),
+        field('file', $.curly_group_path)
       ),
 
-    caption: $ => seq('\\caption', optional($.brack_group), $.curly_group),
+    caption: $ =>
+      seq(
+        field('command', '\\caption'),
+        field('short', optional($.brack_group)),
+        field('long', $.curly_group)
+      ),
 
     citation: $ =>
       seq(
-        choice(
-          '\\cite',
-          '\\cite*',
-          '\\Cite',
-          '\\nocite',
-          '\\citet',
-          '\\citep',
-          '\\citet*',
-          '\\citep*',
-          '\\citeauthor',
-          '\\citeauthor*',
-          '\\Citeauthor',
-          '\\Citeauthor*',
-          '\\citetitle',
-          '\\citetitle*',
-          '\\citeyear',
-          '\\citeyear*',
-          '\\citedate',
-          '\\citedate*',
-          '\\citeurl',
-          '\\fullcite',
-          '\\citeyearpar',
-          '\\citealt',
-          '\\citealp',
-          '\\citetext',
-          '\\parencite',
-          '\\parencite*',
-          '\\Parencite',
-          '\\footcite',
-          '\\footfullcite',
-          '\\footcitetext',
-          '\\textcite',
-          '\\Textcite',
-          '\\smartcite',
-          '\\Smartcite',
-          '\\supercite',
-          '\\autocite',
-          '\\Autocite',
-          '\\autocite*',
-          '\\Autocite*',
-          '\\volcite',
-          '\\Volcite',
-          '\\pvolcite',
-          '\\Pvolcite',
-          '\\fvolcite',
-          '\\ftvolcite',
-          '\\svolcite',
-          '\\Svolcite',
-          '\\tvolcite',
-          '\\Tvolcite',
-          '\\avolcite',
-          '\\Avolcite',
-          '\\notecite',
-          '\\Notecite',
-          '\\pnotecite',
-          '\\Pnotecite',
-          '\\fnotecite'
+        field(
+          'command',
+          choice(
+            '\\cite',
+            '\\cite*',
+            '\\Cite',
+            '\\nocite',
+            '\\citet',
+            '\\citep',
+            '\\citet*',
+            '\\citep*',
+            '\\citeauthor',
+            '\\citeauthor*',
+            '\\Citeauthor',
+            '\\Citeauthor*',
+            '\\citetitle',
+            '\\citetitle*',
+            '\\citeyear',
+            '\\citeyear*',
+            '\\citedate',
+            '\\citedate*',
+            '\\citeurl',
+            '\\fullcite',
+            '\\citeyearpar',
+            '\\citealt',
+            '\\citealp',
+            '\\citetext',
+            '\\parencite',
+            '\\parencite*',
+            '\\Parencite',
+            '\\footcite',
+            '\\footfullcite',
+            '\\footcitetext',
+            '\\textcite',
+            '\\Textcite',
+            '\\smartcite',
+            '\\Smartcite',
+            '\\supercite',
+            '\\autocite',
+            '\\Autocite',
+            '\\autocite*',
+            '\\Autocite*',
+            '\\volcite',
+            '\\Volcite',
+            '\\pvolcite',
+            '\\Pvolcite',
+            '\\fvolcite',
+            '\\ftvolcite',
+            '\\svolcite',
+            '\\Svolcite',
+            '\\tvolcite',
+            '\\Tvolcite',
+            '\\avolcite',
+            '\\Avolcite',
+            '\\notecite',
+            '\\Notecite',
+            '\\pnotecite',
+            '\\Pnotecite',
+            '\\fnotecite'
+          )
         ),
-        optional(seq($.brack_group, optional($.brack_group))),
-        $.curly_group_text_list
+        optional(
+          seq(
+            field('prenote', $.brack_group),
+            field('postnote', optional($.brack_group))
+          )
+        ),
+        field('keys', $.curly_group_text_list)
       ),
 
-    label_definition: $ => seq('\\label', $.curly_group_text),
+    label_definition: $ =>
+      seq(field('command', '\\label'), field('name', $.curly_group_text)),
 
     label_reference: $ =>
       seq(
-        choice(
-          '\\ref',
-          '\\eqref',
-          '\\vref',
-          '\\Vref',
-          '\\autoref',
-          '\\pageref',
-          '\\cref',
-          '\\Cref',
-          '\\cref*',
-          '\\Cref*',
-          '\\namecref',
-          '\\nameCref',
-          '\\lcnamecref',
-          '\\namecrefs',
-          '\\nameCrefs',
-          '\\lcnamecrefs',
-          '\\labelcref',
-          '\\labelcpageref'
+        field(
+          'command',
+          choice(
+            '\\ref',
+            '\\eqref',
+            '\\vref',
+            '\\Vref',
+            '\\autoref',
+            '\\pageref',
+            '\\cref',
+            '\\Cref',
+            '\\cref*',
+            '\\Cref*',
+            '\\namecref',
+            '\\nameCref',
+            '\\lcnamecref',
+            '\\namecrefs',
+            '\\nameCrefs',
+            '\\lcnamecrefs',
+            '\\labelcref',
+            '\\labelcpageref'
+          )
         ),
-        $.curly_group_text_list
+        field('names', $.curly_group_text_list)
       ),
 
     label_reference_range: $ =>
       seq(
-        choice('\\crefrange', '\\crefrange*', '\\Crefrange', '\\Crefrange*'),
-        $.curly_group_text,
-        $.curly_group_text
+        field(
+          'command',
+          choice('\\crefrange', '\\crefrange*', '\\Crefrange', '\\Crefrange*')
+        ),
+        field('from', $.curly_group_text),
+        field('to', $.curly_group_text)
       ),
 
-    label_number: $ => seq('\\newlabel', $.curly_group_text, $.curly_group),
+    label_number: $ =>
+      seq(
+        field('command', '\\newlabel'),
+        field('name', $.curly_group_text),
+        field('number', $.curly_group)
+      ),
 
     new_command_definition: $ =>
       seq(
-        choice(
-          '\\newcommand',
-          '\\newcommand*',
-          '\\renewcommand',
-          '\\renewcommand*',
-          '\\DeclareRobustCommand',
-          '\\DeclareRobustCommand*',
-          '\\DeclareMathOperator',
-          '\\DeclareMathOperator*'
+        field(
+          'command',
+          choice(
+            '\\newcommand',
+            '\\newcommand*',
+            '\\renewcommand',
+            '\\renewcommand*',
+            '\\DeclareRobustCommand',
+            '\\DeclareRobustCommand*',
+            '\\DeclareMathOperator',
+            '\\DeclareMathOperator*'
+          )
         ),
-        $.curly_group_command_name,
-        optional($.brack_group_argc),
-        $.curly_group
+        field('declaration', $.curly_group_command_name),
+        field('argc', optional($.brack_group_argc)),
+        field('implementation', $.curly_group)
       ),
 
-    old_command_definition: $ => seq('\\def', $.command_name),
+    old_command_definition: $ =>
+      seq(field('command', '\\def'), field('declaration', $.command_name)),
 
     let_command_definition: $ =>
-      seq(seq('\\let', $.command_name, optional('='), $.command_name)),
+      seq(
+        field('command', '\\let'),
+        field('declaration', $.command_name),
+        optional('='),
+        field('implementation', $.command_name)
+      ),
 
     environment_definition: $ =>
       seq(
         '\\newenvironment',
-        $.curly_group_text,
-        optional($.brack_group_argc),
-        $.curly_group_impl,
-        $.curly_group_impl
+        field('name', $.curly_group_text),
+        field('argc', optional($.brack_group_argc)),
+        field('begin', $.curly_group_impl),
+        field('end', $.curly_group_impl)
       ),
 
     glossary_entry_definition: $ =>
-      seq('\\newglossaryentry', $.curly_group_text, $.curly_group_key_value),
+      seq(
+        field('command', '\\newglossaryentry'),
+        field('name', $.curly_group_text),
+        field('options', $.curly_group_key_value)
+      ),
 
     glossary_entry_reference: $ =>
       seq(
-        choice(
-          '\\gls',
-          '\\Gls',
-          '\\GLS',
-          '\\glspl',
-          '\\Glspl',
-          '\\GLSpl',
-          '\\glsdisp',
-          '\\glslink',
-          '\\glstext',
-          '\\Glstext',
-          '\\GLStext',
-          '\\glsfirst',
-          '\\Glsfirst',
-          '\\GLSfirst',
-          '\\glsplural',
-          '\\Glsplural',
-          '\\GLSplural',
-          '\\glsfirstplural',
-          '\\Glsfirstplural',
-          '\\GLSfirstplural',
-          '\\glsname',
-          '\\Glsname',
-          '\\GLSname',
-          '\\glssymbol',
-          '\\Glssymbol',
-          '\\glsdesc',
-          '\\Glsdesc',
-          '\\GLSdesc',
-          '\\glsuseri',
-          '\\Glsuseri',
-          '\\GLSuseri',
-          '\\glsuserii',
-          '\\Glsuserii',
-          '\\GLSuserii',
-          '\\glsuseriii',
-          '\\Glsuseriii',
-          '\\GLSuseriii',
-          '\\glsuseriv',
-          '\\Glsuseriv',
-          '\\GLSuseriv',
-          '\\glsuserv',
-          '\\Glsuserv',
-          '\\GLSuserv',
-          '\\glsuservi',
-          '\\Glsuservi',
-          '\\GLSuservi'
+        field(
+          'command',
+          choice(
+            '\\gls',
+            '\\Gls',
+            '\\GLS',
+            '\\glspl',
+            '\\Glspl',
+            '\\GLSpl',
+            '\\glsdisp',
+            '\\glslink',
+            '\\glstext',
+            '\\Glstext',
+            '\\GLStext',
+            '\\glsfirst',
+            '\\Glsfirst',
+            '\\GLSfirst',
+            '\\glsplural',
+            '\\Glsplural',
+            '\\GLSplural',
+            '\\glsfirstplural',
+            '\\Glsfirstplural',
+            '\\GLSfirstplural',
+            '\\glsname',
+            '\\Glsname',
+            '\\GLSname',
+            '\\glssymbol',
+            '\\Glssymbol',
+            '\\glsdesc',
+            '\\Glsdesc',
+            '\\GLSdesc',
+            '\\glsuseri',
+            '\\Glsuseri',
+            '\\GLSuseri',
+            '\\glsuserii',
+            '\\Glsuserii',
+            '\\GLSuserii',
+            '\\glsuseriii',
+            '\\Glsuseriii',
+            '\\GLSuseriii',
+            '\\glsuseriv',
+            '\\Glsuseriv',
+            '\\GLSuseriv',
+            '\\glsuserv',
+            '\\Glsuserv',
+            '\\GLSuserv',
+            '\\glsuservi',
+            '\\Glsuservi',
+            '\\GLSuservi'
+          )
         ),
-        optional($.brack_group_key_value),
-        $.curly_group_text
+        field('options', optional($.brack_group_key_value)),
+        field('name', $.curly_group_text)
       ),
 
     acronym_definition: $ =>
       seq(
-        '\\newacronym',
-        optional($.brack_group_key_value),
-        $.curly_group_text,
-        $.curly_group,
-        $.curly_group
+        field('command', '\\newacronym'),
+        field('options', optional($.brack_group_key_value)),
+        field('name', $.curly_group_text),
+        field('short', $.curly_group),
+        field('long', $.curly_group)
       ),
 
     acronym_reference: $ =>
       seq(
-        choice(
-          '\\acrshort',
-          '\\Acrshort',
-          '\\ACRshort',
-          '\\acrshortpl',
-          '\\Acrshortpl',
-          '\\ACRshortpl',
-          '\\acrlong',
-          '\\Acrlong',
-          '\\ACRlong',
-          '\\acrlongpl',
-          '\\Acrlongpl',
-          '\\ACRlongpl',
-          '\\acrfull',
-          '\\Acrfull',
-          '\\ACRfull',
-          '\\acrfullpl',
-          '\\Acrfullpl',
-          '\\ACRfullpl',
-          '\\acs',
-          '\\Acs',
-          '\\acsp',
-          '\\Acsp',
-          '\\acl',
-          '\\Acl',
-          '\\aclp',
-          '\\Aclp',
-          '\\acf',
-          '\\Acf',
-          '\\acfp',
-          '\\Acfp',
-          '\\ac',
-          '\\Ac',
-          '\\acp',
-          '\\glsentrylong',
-          '\\Glsentrylong',
-          '\\glsentrylongpl',
-          '\\Glsentrylongpl',
-          '\\glsentryshort',
-          '\\Glsentryshort',
-          '\\glsentryshortpl',
-          '\\Glsentryshortpl',
-          '\\glsentryfullpl',
-          '\\Glsentryfullpl'
+        field(
+          'command',
+          choice(
+            '\\acrshort',
+            '\\Acrshort',
+            '\\ACRshort',
+            '\\acrshortpl',
+            '\\Acrshortpl',
+            '\\ACRshortpl',
+            '\\acrlong',
+            '\\Acrlong',
+            '\\ACRlong',
+            '\\acrlongpl',
+            '\\Acrlongpl',
+            '\\ACRlongpl',
+            '\\acrfull',
+            '\\Acrfull',
+            '\\ACRfull',
+            '\\acrfullpl',
+            '\\Acrfullpl',
+            '\\ACRfullpl',
+            '\\acs',
+            '\\Acs',
+            '\\acsp',
+            '\\Acsp',
+            '\\acl',
+            '\\Acl',
+            '\\aclp',
+            '\\Aclp',
+            '\\acf',
+            '\\Acf',
+            '\\acfp',
+            '\\Acfp',
+            '\\ac',
+            '\\Ac',
+            '\\acp',
+            '\\glsentrylong',
+            '\\Glsentrylong',
+            '\\glsentrylongpl',
+            '\\Glsentrylongpl',
+            '\\glsentryshort',
+            '\\Glsentryshort',
+            '\\glsentryshortpl',
+            '\\Glsentryshortpl',
+            '\\glsentryfullpl',
+            '\\Glsentryfullpl'
+          )
         ),
-        optional($.brack_group_key_value),
-        $.curly_group_text
+        field('options', optional($.brack_group_key_value)),
+        field('name', $.curly_group_text)
       ),
 
     theorem_definition: $ =>
       prec.right(
         seq(
-          choice('\\newtheorem', '\\declaretheorem'),
-          $.brack_group_key_value,
-          $.curly_group_text,
+          field('command', choice('\\newtheorem', '\\declaretheorem')),
+          field('options', $.brack_group_key_value),
+          field('name', $.curly_group_text),
           optional(
             choice(
-              seq($.curly_group, optional($.brack_group_text)),
-              seq($.brack_group_text, $.curly_group)
+              seq(
+                field('title', $.curly_group),
+                field('counter', optional($.brack_group_text))
+              ),
+              seq(
+                field('counter', $.brack_group_text),
+                field('title', $.curly_group)
+              )
             )
           )
         )
@@ -781,30 +902,36 @@ module.exports = grammar({
 
     color_definition: $ =>
       seq(
-        '\\definecolor',
+        field('command', '\\definecolor'),
         optional($.brack_group_text),
-        $.curly_group_text,
-        $.curly_group_text,
-        $.curly_group_text
+        field('name', $.curly_group_text),
+        field('model', $.curly_group_text),
+        field('spec', $.curly_group_text)
       ),
 
     color_set_definition: $ =>
       seq(
-        '\\definecolorset',
-        optional($.brack_group_text),
-        $.curly_group_text_list,
-        $.curly_group,
-        $.curly_group,
-        $.curly_group
+        field('command', '\\definecolorset'),
+        field('ty', optional($.brack_group_text)),
+        field('model', $.curly_group_text_list),
+        field('head', $.curly_group),
+        field('tail', $.curly_group),
+        field('spec', $.curly_group)
       ),
 
     color_reference: $ =>
       seq(
-        choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'),
-        $.curly_group_text
+        field(
+          'command',
+          choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor')
+        ),
+        field('name', $.curly_group_text)
       ),
 
     tikz_library_import: $ =>
-      seq(choice('\\usepgflibrary', '\\usetikzlibrary'), $.curly_group_text),
+      seq(
+        field('command', choice('\\usepgflibrary', '\\usetikzlibrary')),
+        field('path', $.curly_group_text)
+      ),
   },
 });

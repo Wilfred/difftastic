@@ -94,7 +94,7 @@ Acroynm definition
   (acronym_definition
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (curly_group

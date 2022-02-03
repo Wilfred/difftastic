@@ -301,7 +301,7 @@ tree-sitter-latex (Issue #13)
   (graphics_include
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (text

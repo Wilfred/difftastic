@@ -37,7 +37,7 @@ Package include with options
   (package_include
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (text
@@ -45,7 +45,7 @@ Package include with options
           (command
             (command_name))))
       (key_value_pair
-        (key
+        (text
           (word)
           (word))))
     (curly_group_path_list
@@ -93,7 +93,7 @@ Class include with options
   (class_include
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (text
@@ -101,7 +101,7 @@ Class include with options
           (command
             (command_name))))
       (key_value_pair
-        (key
+        (text
           (word)
           (word))))
     (curly_group_path
@@ -143,7 +143,7 @@ BibLaTeX glob include
   (biblatex_include
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))))
     (curly_group_glob_pattern
       (glob_pattern))))
@@ -173,13 +173,13 @@ Graphics include with options
   (graphics_include
     (brack_group_key_value
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (text
             (word))))
       (key_value_pair
-        (key
+        (text
           (word))
         (value
           (text
