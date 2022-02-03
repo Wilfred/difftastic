@@ -803,7 +803,7 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
-    let highlight = if node.is_extra() {
+    let highlight = if node.is_extra() || node.kind() == "comment" {
         AtomKind::Comment
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
