@@ -241,13 +241,17 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Hack => {
+            // TODO: upstream
+            // TODO: upstream doesn't support the `readonly` keyword yet.
+            let query = "(comment) @comment\n(string) @string\n(heredoc) @string\n\n[\n  \"class\"\n  \"public\"\n  \"protected\"\n  \"private\"\n  \"static\"\n  \"async\"\n  \"function\"\n  \"return\"\n  \"if\"\n  \"else\"\n  \"elseif\"\n  \"while\"\n  \"for\"\n  \"foreach\"\n  \"break\"\n  \"continue\"\n  \"type\"\n  \"new\"\n] @keyword\n\n(type_specifier) @type";
+
             let language = unsafe { tree_sitter_hack() };
             TreeSitterConfig {
                 name: "Hack",
                 language,
                 atom_nodes: (vec![]).into_iter().collect(),
                 delimiter_tokens: (vec![("[", "]"), ("(", ")"), ("{", "}")]),
-                highlight_query: ts::Query::new(language, "").unwrap(),
+                highlight_query: ts::Query::new(language, query).unwrap(),
             }
         }
         Haskell => {
