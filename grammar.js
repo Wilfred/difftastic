@@ -28,9 +28,9 @@ module.exports = grammar({
 
     block_comment: $ =>
       seq(
-        alias('\\iffalse', $.command_name),
+        '\\iffalse',
         optional(alias($._trivia_raw_fi, $.comment)),
-        optional(alias('\\fi', $.command_name))
+        optional('\\fi')
       ),
 
     //--- Content
@@ -113,10 +113,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(
-            choice('\\part', '\\part*', '\\addpart', '\\addpart*'),
-            $.command_name
-          ),
+          choice('\\part', '\\part*', '\\addpart', '\\addpart*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -139,10 +136,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(
-            choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*'),
-            $.command_name
-          ),
+          choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -164,10 +158,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(
-            choice('\\section', '\\section*', '\\addsec', '\\addsec*'),
-            $.command_name
-          ),
+          choice('\\section', '\\section*', '\\addsec', '\\addsec*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -188,7 +179,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(choice('\\subsection', '\\subsection*'), $.command_name),
+          choice('\\subsection', '\\subsection*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -208,7 +199,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(choice('\\subsubsection', '\\subsubsection*'), $.command_name),
+          choice('\\subsubsection', '\\subsubsection*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -227,7 +218,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(choice('\\paragraph', '\\paragraph*'), $.command_name),
+          choice('\\paragraph', '\\paragraph*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(
@@ -240,7 +231,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(choice('\\subparagraph', '\\subparagraph*'), $.command_name),
+          choice('\\subparagraph', '\\subparagraph*'),
           optional($.curly_group),
           repeat($._flat_content),
           optional(prec.right(choice(repeat1($.enum_item))))
@@ -251,7 +242,7 @@ module.exports = grammar({
       prec.right(
         1,
         seq(
-          alias(choice('\\item', '\\item*'), $.command_name),
+          choice('\\item', '\\item*'),
           optional($.brack_group_text),
           repeat($._flat_content),
           optional(prec.right(choice()))
@@ -328,42 +319,22 @@ module.exports = grammar({
 
     displayed_equation: $ =>
       prec.left(
-        seq(
-          choice('$$', alias('\\[', $.command_name)),
-          repeat($._root_content),
-          choice('$$', alias('\\]', $.command_name))
-        )
+        seq(choice('$$', '\\['), repeat($._root_content), choice('$$', '\\]'))
       ),
 
     inline_formula: $ =>
       prec.left(
-        seq(
-          choice('$', alias('\\(', $.command_name)),
-          repeat($._root_content),
-          choice('$', alias('\\)', $.command_name))
-        )
+        seq(choice('$', '\\('), repeat($._root_content), choice('$', '\\)'))
       ),
 
-    math_set: $ =>
-      seq(
-        alias('\\{', $.command_name),
-        repeat($._root_content),
-        alias('\\}', $.command_name)
-      ),
+    math_set: $ => seq('\\{', repeat($._root_content), '\\}'),
 
     //--- Environments
 
     begin: $ =>
-      prec.right(
-        seq(
-          alias('\\begin', $.command_name),
-          $.curly_group_text,
-          optional($.brack_group)
-        )
-      ),
+      prec.right(seq('\\begin', $.curly_group_text, optional($.brack_group))),
 
-    end: $ =>
-      prec.right(seq(alias('\\end', $.command_name), $.curly_group_text)),
+    end: $ => prec.right(seq('\\end', $.curly_group_text)),
 
     environment: $ => seq($.begin, repeat($._root_content), $.end),
 
@@ -377,16 +348,10 @@ module.exports = grammar({
       ),
 
     _trivia_begin_comment: $ =>
-      seq(
-        alias('\\begin', $.command_name),
-        alias($._trivia_curly_group_comment, $.curly_group_text)
-      ),
+      seq('\\begin', alias($._trivia_curly_group_comment, $.curly_group_text)),
 
     _trivia_end_comment: $ =>
-      seq(
-        alias('\\end', $.command_name),
-        alias($._trivia_curly_group_comment, $.curly_group_text)
-      ),
+      seq('\\end', alias($._trivia_curly_group_comment, $.curly_group_text)),
 
     _trivia_curly_group_comment: $ =>
       seq('{', alias($._trivia_text_comment, $.text), '}'),
@@ -403,16 +368,10 @@ module.exports = grammar({
       ),
 
     _trivia_begin_verbatim: $ =>
-      seq(
-        alias('\\begin', $.command_name),
-        alias($._trivia_curly_group_verbatim, $.curly_group_text)
-      ),
+      seq('\\begin', alias($._trivia_curly_group_verbatim, $.curly_group_text)),
 
     _trivia_end_verbatim: $ =>
-      seq(
-        alias('\\end', $.command_name),
-        alias($._trivia_curly_group_verbatim, $.curly_group_text)
-      ),
+      seq('\\end', alias($._trivia_curly_group_verbatim, $.curly_group_text)),
 
     _trivia_curly_group_verbatim: $ =>
       seq('{', alias($._trivia_text_verbatim, $.text), '}'),
@@ -429,16 +388,10 @@ module.exports = grammar({
       ),
 
     _trivia_begin_listing: $ =>
-      seq(
-        alias('\\begin', $.command_name),
-        alias($._trivia_curly_group_listing, $.curly_group_text)
-      ),
+      seq('\\begin', alias($._trivia_curly_group_listing, $.curly_group_text)),
 
     _trivia_end_listing: $ =>
-      seq(
-        alias('\\end', $.command_name),
-        alias($._trivia_curly_group_listing, $.curly_group_text)
-      ),
+      seq('\\end', alias($._trivia_curly_group_listing, $.curly_group_text)),
 
     _trivia_curly_group_listing: $ =>
       seq('{', alias($._trivia_text_listing, $.text), '}'),
@@ -455,16 +408,10 @@ module.exports = grammar({
       ),
 
     _trivia_begin_minted: $ =>
-      seq(
-        alias('\\begin', $.command_name),
-        alias($._trivia_curly_group_minted, $.curly_group_text)
-      ),
+      seq('\\begin', alias($._trivia_curly_group_minted, $.curly_group_text)),
 
     _trivia_end_minted: $ =>
-      seq(
-        alias('\\end', $.command_name),
-        alias($._trivia_curly_group_minted, $.curly_group_text)
-      ),
+      seq('\\end', alias($._trivia_curly_group_minted, $.curly_group_text)),
 
     _trivia_curly_group_minted: $ =>
       seq('{', alias($._trivia_text_minted, $.text), '}'),
@@ -481,16 +428,10 @@ module.exports = grammar({
       ),
 
     _trivia_begin_pycode: $ =>
-      seq(
-        alias('\\begin', $.command_name),
-        alias($._trivia_curly_group_pycode, $.curly_group_text)
-      ),
+      seq('\\begin', alias($._trivia_curly_group_pycode, $.curly_group_text)),
 
     _trivia_end_pycode: $ =>
-      seq(
-        alias('\\end', $.command_name),
-        alias($._trivia_curly_group_pycode, $.curly_group_text)
-      ),
+      seq('\\end', alias($._trivia_curly_group_pycode, $.curly_group_text)),
 
     _trivia_curly_group_pycode: $ =>
       seq('{', alias($._trivia_text_pycode, $.text), '}'),
@@ -508,239 +449,198 @@ module.exports = grammar({
 
     package_include: $ =>
       seq(
-        alias(choice('\\usepackage', '\\RequirePackage'), $.command_name),
+        choice('\\usepackage', '\\RequirePackage'),
         optional($.brack_group_key_value),
         $.curly_group_path_list
       ),
 
     class_include: $ =>
       seq(
-        alias('\\documentclass', $.command_name),
+        '\\documentclass',
         optional($.brack_group_key_value),
         $.curly_group_path
       ),
 
     latex_include: $ =>
       seq(
-        alias(
-          choice('\\include', '\\subfileinclude', '\\input', '\\subfile'),
-          $.command_name
-        ),
+        choice('\\include', '\\subfileinclude', '\\input', '\\subfile'),
         $.curly_group_path
       ),
 
     biblatex_include: $ =>
       seq(
-        alias('\\addbibresource', $.command_name),
+        '\\addbibresource',
         optional($.brack_group_key_value),
         $.curly_group_glob_pattern
       ),
 
-    bibtex_include: $ =>
-      seq(alias('\\bibliography', $.command_name), $.curly_group_path),
+    bibtex_include: $ => seq('\\bibliography', $.curly_group_path),
 
     graphics_include: $ =>
       seq(
-        alias('\\includegraphics', $.command_name),
+        '\\includegraphics',
         optional($.brack_group_key_value),
         $.curly_group_path
       ),
 
     svg_include: $ =>
       seq(
-        alias('\\includesvg', $.command_name),
+        '\\includesvg',
         optional($.brack_group_key_value),
         $.curly_group_path
       ),
 
     inkscape_include: $ =>
       seq(
-        alias('\\includeinkscape', $.command_name),
+        '\\includeinkscape',
         optional($.brack_group_key_value),
         $.curly_group_path
       ),
 
     verbatim_include: $ =>
-      seq(
-        alias(choice('\\verbatiminput', '\\VerbatimInput'), $.command_name),
-        $.curly_group_path
-      ),
+      seq(choice('\\verbatiminput', '\\VerbatimInput'), $.curly_group_path),
 
     import_include: $ =>
       seq(
-        alias(
-          choice(
-            '\\import',
-            '\\subimport',
-            '\\inputfrom',
-            '\\subimportfrom',
-            '\\includefrom',
-            '\\subincludefrom'
-          ),
-          $.command_name
+        choice(
+          '\\import',
+          '\\subimport',
+          '\\inputfrom',
+          '\\subimportfrom',
+          '\\includefrom',
+          '\\subincludefrom'
         ),
         $.curly_group_path,
         $.curly_group_path
       ),
 
-    caption: $ =>
-      seq(
-        alias('\\caption', $.command_name),
-        optional($.brack_group),
-        $.curly_group
-      ),
+    caption: $ => seq('\\caption', optional($.brack_group), $.curly_group),
 
     citation: $ =>
       seq(
-        alias(
-          choice(
-            '\\cite',
-            '\\cite*',
-            '\\Cite',
-            '\\nocite',
-            '\\citet',
-            '\\citep',
-            '\\citet*',
-            '\\citep*',
-            '\\citeauthor',
-            '\\citeauthor*',
-            '\\Citeauthor',
-            '\\Citeauthor*',
-            '\\citetitle',
-            '\\citetitle*',
-            '\\citeyear',
-            '\\citeyear*',
-            '\\citedate',
-            '\\citedate*',
-            '\\citeurl',
-            '\\fullcite',
-            '\\citeyearpar',
-            '\\citealt',
-            '\\citealp',
-            '\\citetext',
-            '\\parencite',
-            '\\parencite*',
-            '\\Parencite',
-            '\\footcite',
-            '\\footfullcite',
-            '\\footcitetext',
-            '\\textcite',
-            '\\Textcite',
-            '\\smartcite',
-            '\\Smartcite',
-            '\\supercite',
-            '\\autocite',
-            '\\Autocite',
-            '\\autocite*',
-            '\\Autocite*',
-            '\\volcite',
-            '\\Volcite',
-            '\\pvolcite',
-            '\\Pvolcite',
-            '\\fvolcite',
-            '\\ftvolcite',
-            '\\svolcite',
-            '\\Svolcite',
-            '\\tvolcite',
-            '\\Tvolcite',
-            '\\avolcite',
-            '\\Avolcite',
-            '\\notecite',
-            '\\Notecite',
-            '\\pnotecite',
-            '\\Pnotecite',
-            '\\fnotecite'
-          ),
-          $.command_name
+        choice(
+          '\\cite',
+          '\\cite*',
+          '\\Cite',
+          '\\nocite',
+          '\\citet',
+          '\\citep',
+          '\\citet*',
+          '\\citep*',
+          '\\citeauthor',
+          '\\citeauthor*',
+          '\\Citeauthor',
+          '\\Citeauthor*',
+          '\\citetitle',
+          '\\citetitle*',
+          '\\citeyear',
+          '\\citeyear*',
+          '\\citedate',
+          '\\citedate*',
+          '\\citeurl',
+          '\\fullcite',
+          '\\citeyearpar',
+          '\\citealt',
+          '\\citealp',
+          '\\citetext',
+          '\\parencite',
+          '\\parencite*',
+          '\\Parencite',
+          '\\footcite',
+          '\\footfullcite',
+          '\\footcitetext',
+          '\\textcite',
+          '\\Textcite',
+          '\\smartcite',
+          '\\Smartcite',
+          '\\supercite',
+          '\\autocite',
+          '\\Autocite',
+          '\\autocite*',
+          '\\Autocite*',
+          '\\volcite',
+          '\\Volcite',
+          '\\pvolcite',
+          '\\Pvolcite',
+          '\\fvolcite',
+          '\\ftvolcite',
+          '\\svolcite',
+          '\\Svolcite',
+          '\\tvolcite',
+          '\\Tvolcite',
+          '\\avolcite',
+          '\\Avolcite',
+          '\\notecite',
+          '\\Notecite',
+          '\\pnotecite',
+          '\\Pnotecite',
+          '\\fnotecite'
         ),
         optional(seq($.brack_group, optional($.brack_group))),
         $.curly_group_text_list
       ),
 
-    label_definition: $ =>
-      seq(alias('\\label', $.command_name), $.curly_group_text),
+    label_definition: $ => seq('\\label', $.curly_group_text),
 
     label_reference: $ =>
       seq(
-        alias(
-          choice(
-            '\\ref',
-            '\\eqref',
-            '\\vref',
-            '\\Vref',
-            '\\autoref',
-            '\\pageref',
-            '\\cref',
-            '\\Cref',
-            '\\cref*',
-            '\\Cref*',
-            '\\namecref',
-            '\\nameCref',
-            '\\lcnamecref',
-            '\\namecrefs',
-            '\\nameCrefs',
-            '\\lcnamecrefs',
-            '\\labelcref',
-            '\\labelcpageref'
-          ),
-          $.command_name
+        choice(
+          '\\ref',
+          '\\eqref',
+          '\\vref',
+          '\\Vref',
+          '\\autoref',
+          '\\pageref',
+          '\\cref',
+          '\\Cref',
+          '\\cref*',
+          '\\Cref*',
+          '\\namecref',
+          '\\nameCref',
+          '\\lcnamecref',
+          '\\namecrefs',
+          '\\nameCrefs',
+          '\\lcnamecrefs',
+          '\\labelcref',
+          '\\labelcpageref'
         ),
         $.curly_group_text_list
       ),
 
     label_reference_range: $ =>
       seq(
-        alias(
-          choice('\\crefrange', '\\crefrange*', '\\Crefrange', '\\Crefrange*'),
-          $.command_name
-        ),
+        choice('\\crefrange', '\\crefrange*', '\\Crefrange', '\\Crefrange*'),
         $.curly_group_text,
         $.curly_group_text
       ),
 
-    label_number: $ =>
-      seq(
-        alias('\\newlabel', $.command_name),
-        $.curly_group_text,
-        $.curly_group
-      ),
+    label_number: $ => seq('\\newlabel', $.curly_group_text, $.curly_group),
 
     new_command_definition: $ =>
       seq(
-        alias(
-          choice(
-            '\\newcommand',
-            '\\newcommand*',
-            '\\renewcommand',
-            '\\renewcommand*',
-            '\\DeclareRobustCommand',
-            '\\DeclareRobustCommand*',
-            '\\DeclareMathOperator',
-            '\\DeclareMathOperator*'
-          ),
-          $.command_name
+        choice(
+          '\\newcommand',
+          '\\newcommand*',
+          '\\renewcommand',
+          '\\renewcommand*',
+          '\\DeclareRobustCommand',
+          '\\DeclareRobustCommand*',
+          '\\DeclareMathOperator',
+          '\\DeclareMathOperator*'
         ),
         $.curly_group_command_name,
         optional($.brack_group_argc),
         $.curly_group
       ),
 
-    old_command_definition: $ =>
-      seq(alias('\\def', $.command_name), $.command_name),
+    old_command_definition: $ => seq('\\def', $.command_name),
 
     let_command_definition: $ =>
-      seq(
-        seq(
-          alias('\\let', $.command_name),
-          $.command_name,
-          optional('='),
-          $.command_name
-        )
-      ),
+      seq(seq('\\let', $.command_name, optional('='), $.command_name)),
 
     environment_definition: $ =>
       seq(
-        alias('\\newenvironment', $.command_name),
+        '\\newenvironment',
         $.curly_group_text,
         optional($.brack_group_argc),
         $.curly_group_impl,
@@ -748,64 +648,57 @@ module.exports = grammar({
       ),
 
     glossary_entry_definition: $ =>
-      seq(
-        alias('\\newglossaryentry', $.command_name),
-        $.curly_group_text,
-        $.curly_group_key_value
-      ),
+      seq('\\newglossaryentry', $.curly_group_text, $.curly_group_key_value),
 
     glossary_entry_reference: $ =>
       seq(
-        alias(
-          choice(
-            '\\gls',
-            '\\Gls',
-            '\\GLS',
-            '\\glspl',
-            '\\Glspl',
-            '\\GLSpl',
-            '\\glsdisp',
-            '\\glslink',
-            '\\glstext',
-            '\\Glstext',
-            '\\GLStext',
-            '\\glsfirst',
-            '\\Glsfirst',
-            '\\GLSfirst',
-            '\\glsplural',
-            '\\Glsplural',
-            '\\GLSplural',
-            '\\glsfirstplural',
-            '\\Glsfirstplural',
-            '\\GLSfirstplural',
-            '\\glsname',
-            '\\Glsname',
-            '\\GLSname',
-            '\\glssymbol',
-            '\\Glssymbol',
-            '\\glsdesc',
-            '\\Glsdesc',
-            '\\GLSdesc',
-            '\\glsuseri',
-            '\\Glsuseri',
-            '\\GLSuseri',
-            '\\glsuserii',
-            '\\Glsuserii',
-            '\\GLSuserii',
-            '\\glsuseriii',
-            '\\Glsuseriii',
-            '\\GLSuseriii',
-            '\\glsuseriv',
-            '\\Glsuseriv',
-            '\\GLSuseriv',
-            '\\glsuserv',
-            '\\Glsuserv',
-            '\\GLSuserv',
-            '\\glsuservi',
-            '\\Glsuservi',
-            '\\GLSuservi'
-          ),
-          $.command_name
+        choice(
+          '\\gls',
+          '\\Gls',
+          '\\GLS',
+          '\\glspl',
+          '\\Glspl',
+          '\\GLSpl',
+          '\\glsdisp',
+          '\\glslink',
+          '\\glstext',
+          '\\Glstext',
+          '\\GLStext',
+          '\\glsfirst',
+          '\\Glsfirst',
+          '\\GLSfirst',
+          '\\glsplural',
+          '\\Glsplural',
+          '\\GLSplural',
+          '\\glsfirstplural',
+          '\\Glsfirstplural',
+          '\\GLSfirstplural',
+          '\\glsname',
+          '\\Glsname',
+          '\\GLSname',
+          '\\glssymbol',
+          '\\Glssymbol',
+          '\\glsdesc',
+          '\\Glsdesc',
+          '\\GLSdesc',
+          '\\glsuseri',
+          '\\Glsuseri',
+          '\\GLSuseri',
+          '\\glsuserii',
+          '\\Glsuserii',
+          '\\GLSuserii',
+          '\\glsuseriii',
+          '\\Glsuseriii',
+          '\\GLSuseriii',
+          '\\glsuseriv',
+          '\\Glsuseriv',
+          '\\GLSuseriv',
+          '\\glsuserv',
+          '\\Glsuserv',
+          '\\GLSuserv',
+          '\\glsuservi',
+          '\\Glsuservi',
+          '\\GLSuservi'
         ),
         optional($.brack_group_key_value),
         $.curly_group_text
@@ -813,7 +706,7 @@ module.exports = grammar({
 
     acronym_definition: $ =>
       seq(
-        alias('\\newacronym', $.command_name),
+        '\\newacronym',
         optional($.brack_group_key_value),
         $.curly_group_text,
         $.curly_group,
@@ -822,53 +715,50 @@ module.exports = grammar({
 
     acronym_reference: $ =>
       seq(
-        alias(
-          choice(
-            '\\acrshort',
-            '\\Acrshort',
-            '\\ACRshort',
-            '\\acrshortpl',
-            '\\Acrshortpl',
-            '\\ACRshortpl',
-            '\\acrlong',
-            '\\Acrlong',
-            '\\ACRlong',
-            '\\acrlongpl',
-            '\\Acrlongpl',
-            '\\ACRlongpl',
-            '\\acrfull',
-            '\\Acrfull',
-            '\\ACRfull',
-            '\\acrfullpl',
-            '\\Acrfullpl',
-            '\\ACRfullpl',
-            '\\acs',
-            '\\Acs',
-            '\\acsp',
-            '\\Acsp',
-            '\\acl',
-            '\\Acl',
-            '\\aclp',
-            '\\Aclp',
-            '\\acf',
-            '\\Acf',
-            '\\acfp',
-            '\\Acfp',
-            '\\ac',
-            '\\Ac',
-            '\\acp',
-            '\\glsentrylong',
-            '\\Glsentrylong',
-            '\\glsentrylongpl',
-            '\\Glsentrylongpl',
-            '\\glsentryshort',
-            '\\Glsentryshort',
-            '\\glsentryshortpl',
-            '\\Glsentryshortpl',
-            '\\glsentryfullpl',
-            '\\Glsentryfullpl'
-          ),
-          $.command_name
+        choice(
+          '\\acrshort',
+          '\\Acrshort',
+          '\\ACRshort',
+          '\\acrshortpl',
+          '\\Acrshortpl',
+          '\\ACRshortpl',
+          '\\acrlong',
+          '\\Acrlong',
+          '\\ACRlong',
+          '\\acrlongpl',
+          '\\Acrlongpl',
+          '\\ACRlongpl',
+          '\\acrfull',
+          '\\Acrfull',
+          '\\ACRfull',
+          '\\acrfullpl',
+          '\\Acrfullpl',
+          '\\ACRfullpl',
+          '\\acs',
+          '\\Acs',
+          '\\acsp',
+          '\\Acsp',
+          '\\acl',
+          '\\Acl',
+          '\\aclp',
+          '\\Aclp',
+          '\\acf',
+          '\\Acf',
+          '\\acfp',
+          '\\Acfp',
+          '\\ac',
+          '\\Ac',
+          '\\acp',
+          '\\glsentrylong',
+          '\\Glsentrylong',
+          '\\glsentrylongpl',
+          '\\Glsentrylongpl',
+          '\\glsentryshort',
+          '\\Glsentryshort',
+          '\\glsentryshortpl',
+          '\\Glsentryshortpl',
+          '\\glsentryfullpl',
+          '\\Glsentryfullpl'
         ),
         optional($.brack_group_key_value),
         $.curly_group_text
@@ -877,7 +767,7 @@ module.exports = grammar({
     theorem_definition: $ =>
       prec.right(
         seq(
-          alias(choice('\\newtheorem', '\\declaretheorem'), $.command_name),
+          choice('\\newtheorem', '\\declaretheorem'),
           $.brack_group_key_value,
           $.curly_group_text,
           optional(
@@ -891,7 +781,7 @@ module.exports = grammar({
 
     color_definition: $ =>
       seq(
-        alias('\\definecolor', $.command_name),
+        '\\definecolor',
         optional($.brack_group_text),
         $.curly_group_text,
         $.curly_group_text,
@@ -900,7 +790,7 @@ module.exports = grammar({
 
     color_set_definition: $ =>
       seq(
-        alias('\\definecolorset', $.command_name),
+        '\\definecolorset',
         optional($.brack_group_text),
         $.curly_group_text_list,
         $.curly_group,
@@ -910,17 +800,11 @@ module.exports = grammar({
 
     color_reference: $ =>
       seq(
-        alias(
-          choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'),
-          $.command_name
-        ),
+        choice('\\color', '\\colorbox', '\\textcolor', '\\pagecolor'),
         $.curly_group_text
       ),
 
     tikz_library_import: $ =>
-      seq(
-        alias(choice('\\usepgflibrary', '\\usetikzlibrary'), $.command_name),
-        $.curly_group_text
-      ),
+      seq(choice('\\usepgflibrary', '\\usetikzlibrary'), $.curly_group_text),
   },
 });

@@ -18,12 +18,10 @@ foo foo foo foo foo foo
 
 (source_file
   (class_include
-    (command_name)
     (curly_group_path
       (path)))
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
@@ -98,7 +96,6 @@ foo foo foo foo foo foo
       (word)
       (word))
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -120,23 +117,18 @@ something here
 
 (source_file
   (block_comment
-    (command_name)
-    (comment)
-    (command_name))
+    (comment))
   (package_include
-    (command_name)
     (curly_group_path_list
       (path)))
   (line_comment)
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
     (comment)
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -154,8 +146,7 @@ tree-sitter-latex (Issue #10)
   (command
     (command_name)
     (curly_group
-      (section
-        (command_name)))
+      (section))
     (curly_group
       (command
         (command_name)))
@@ -171,8 +162,7 @@ tree-sitter-latex (Issue #10)
   (command
     (command_name)
     (curly_group
-      (paragraph
-        (command_name)))
+      (paragraph))
     (curly_group
       (text
         (word)))
@@ -202,7 +192,6 @@ rm -rf "$(biber --cache)"
 
 (source_file
   (biblatex_include
-    (command_name)
     (curly_group_glob_pattern
       (glob_pattern)))
   (text
@@ -219,13 +208,11 @@ rm -rf "$(biber --cache)"
     (word))
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
     (source_code)
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -242,7 +229,6 @@ tree-sitter-latex (Issue #11)
 
 (source_file
   (environment_definition
-    (command_name)
     (curly_group_text
       (text
         (word)))
@@ -272,8 +258,7 @@ tree-sitter-latex (Issue #10)
   (command
     (command_name)
     (curly_group
-      (section
-        (command_name)))
+      (section))
     (curly_group
       (command
         (command_name)))
@@ -289,8 +274,7 @@ tree-sitter-latex (Issue #10)
   (command
     (command_name)
     (curly_group
-      (paragraph
-        (command_name)))
+      (paragraph))
     (curly_group
       (text
         (word)))
@@ -315,7 +299,6 @@ tree-sitter-latex (Issue #13)
 
 (source_file
   (graphics_include
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key

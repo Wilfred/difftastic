@@ -26,11 +26,9 @@ Foo \[ Bar Baz \]
   (text
     (word))
   (displayed_equation
-    (command_name)
     (text
       (word)
-      (word))
-    (command_name)))
+      (word))))
 
 ================================================================================
 Displayed equation (mixed)
@@ -44,7 +42,6 @@ Foo \[ Bar Baz $$
   (text
     (word))
   (displayed_equation
-    (command_name)
     (text
       (word)
       (word))))
@@ -65,10 +62,8 @@ Foo $$ Bar Baz \[ Qux \] $$
       (word)
       (word))
     (displayed_equation
-      (command_name)
       (text
-        (word))
-      (command_name))))
+        (word)))))
 
 ================================================================================
 Displayed equation (flat)
@@ -118,11 +113,9 @@ Foo \( Bar Baz \)
   (text
     (word))
   (inline_formula
-    (command_name)
     (text
       (word)
-      (word))
-    (command_name)))
+      (word))))
 
 ================================================================================
 Inline formula (mixed)
@@ -136,7 +129,6 @@ Foo \( Bar Baz $
   (text
     (word))
   (inline_formula
-    (command_name)
     (text
       (word)
       (word))))
@@ -157,10 +149,8 @@ Foo $ Bar Baz \( Qux \) $
       (word)
       (word))
     (inline_formula
-      (command_name)
       (text
-        (word))
-      (command_name))))
+        (word)))))
 
 ================================================================================
 Inline formula (flat)
@@ -206,11 +196,9 @@ Simple math set
 
 (source_file
   (math_set
-    (command_name)
     (text
       (word))
     (text
       (word))
     (text
-      (word))
-    (command_name)))
+      (word))))

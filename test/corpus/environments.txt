@@ -13,7 +13,6 @@ Hello World!
 (source_file
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
@@ -21,7 +20,6 @@ Hello World!
       (word)
       (word))
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -41,7 +39,6 @@ Hello World!
 (source_file
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word)))
@@ -53,7 +50,6 @@ Hello World!
       (word)
       (word))
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -73,7 +69,6 @@ Hello World!
 (source_file
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word)))
@@ -89,7 +84,6 @@ Hello World!
       (word)
       (word))
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -109,7 +103,6 @@ Hello World!
 (source_file
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word)))
@@ -120,7 +113,6 @@ Hello World!
       (word)
       (word))
     (end
-      (command_name)
       (curly_group_text
         (text
           (word))))))
@@ -150,13 +142,11 @@ Bar
     (word))
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
     (comment)
     (end
-      (command_name)
       (curly_group_text
         (text
           (word)))))
@@ -188,13 +178,11 @@ Bar
     (word))
   (environment
     (begin
-      (command_name)
       (curly_group_text
         (text
           (word))))
     (comment)
     (end
-      (command_name)
       (curly_group_text
         (text
           (word)))))

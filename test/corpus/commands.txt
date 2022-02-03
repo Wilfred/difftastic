@@ -74,12 +74,10 @@ Command with incomplete argument
     (command_name)
     (environment
       (begin
-        (command_name)
         (curly_group_text
           (text
             (word))))
       (end
-        (command_name)
         (curly_group_text
           (text
             (word)))))))
@@ -94,7 +92,6 @@ Acroynm definition
 
 (source_file
   (acronym_definition
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key

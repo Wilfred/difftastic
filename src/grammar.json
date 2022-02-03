@@ -21,13 +21,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\iffalse"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\iffalse"
         },
         {
           "type": "CHOICE",
@@ -50,13 +45,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "\\fi"
-              },
-              "named": true,
-              "value": "command_name"
+              "type": "STRING",
+              "value": "\\fi"
             },
             {
               "type": "BLANK"
@@ -394,30 +384,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\part"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\part*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addpart"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addpart*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\part"
+              },
+              {
+                "type": "STRING",
+                "value": "\\part*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addpart"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addpart*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -514,30 +499,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\chapter"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\chapter*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addchap"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addchap*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\chapter"
+              },
+              {
+                "type": "STRING",
+                "value": "\\chapter*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addchap"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addchap*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -627,30 +607,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\section"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\section*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addsec"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\addsec*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\section"
+              },
+              {
+                "type": "STRING",
+                "value": "\\section*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addsec"
+              },
+              {
+                "type": "STRING",
+                "value": "\\addsec*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -733,22 +708,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\subsection"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\subsection*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\subsection"
+              },
+              {
+                "type": "STRING",
+                "value": "\\subsection*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -824,22 +794,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\subsubsection"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\subsubsection*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\subsubsection"
+              },
+              {
+                "type": "STRING",
+                "value": "\\subsubsection*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -908,22 +873,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\paragraph"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\paragraph*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\paragraph"
+              },
+              {
+                "type": "STRING",
+                "value": "\\paragraph*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -985,22 +945,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\subparagraph"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\subparagraph*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\subparagraph"
+              },
+              {
+                "type": "STRING",
+                "value": "\\subparagraph*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -1055,22 +1010,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\item"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\item*"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\item"
+              },
+              {
+                "type": "STRING",
+                "value": "\\item*"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -1665,13 +1615,8 @@
                 "value": "$$"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "\\["
-                },
-                "named": true,
-                "value": "command_name"
+                "type": "STRING",
+                "value": "\\["
               }
             ]
           },
@@ -1690,13 +1635,8 @@
                 "value": "$$"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "\\]"
-                },
-                "named": true,
-                "value": "command_name"
+                "type": "STRING",
+                "value": "\\]"
               }
             ]
           }
@@ -1717,13 +1657,8 @@
                 "value": "$"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "\\("
-                },
-                "named": true,
-                "value": "command_name"
+                "type": "STRING",
+                "value": "\\("
               }
             ]
           },
@@ -1742,13 +1677,8 @@
                 "value": "$"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "\\)"
-                },
-                "named": true,
-                "value": "command_name"
+                "type": "STRING",
+                "value": "\\)"
               }
             ]
           }
@@ -1759,13 +1689,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\{"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\{"
         },
         {
           "type": "REPEAT",
@@ -1775,13 +1700,8 @@
           }
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\}"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\}"
         }
       ]
     },
@@ -1792,13 +1712,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "STRING",
-              "value": "\\begin"
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "STRING",
+            "value": "\\begin"
           },
           {
             "type": "SYMBOL",
@@ -1826,13 +1741,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "STRING",
-              "value": "\\end"
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "STRING",
+            "value": "\\end"
           },
           {
             "type": "SYMBOL",
@@ -1897,13 +1807,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\begin"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\begin"
         },
         {
           "type": "ALIAS",
@@ -1920,13 +1825,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\end"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\end"
         },
         {
           "type": "ALIAS",
@@ -2011,13 +1911,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\begin"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\begin"
         },
         {
           "type": "ALIAS",
@@ -2034,13 +1929,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\end"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\end"
         },
         {
           "type": "ALIAS",
@@ -2125,13 +2015,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\begin"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\begin"
         },
         {
           "type": "ALIAS",
@@ -2148,13 +2033,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\end"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\end"
         },
         {
           "type": "ALIAS",
@@ -2239,13 +2119,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\begin"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\begin"
         },
         {
           "type": "ALIAS",
@@ -2262,13 +2137,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\end"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\end"
         },
         {
           "type": "ALIAS",
@@ -2353,13 +2223,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\begin"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\begin"
         },
         {
           "type": "ALIAS",
@@ -2376,13 +2241,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\end"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\end"
         },
         {
           "type": "ALIAS",
@@ -2468,22 +2328,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\usepackage"
-              },
-              {
-                "type": "STRING",
-                "value": "\\RequirePackage"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\usepackage"
+            },
+            {
+              "type": "STRING",
+              "value": "\\RequirePackage"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -2507,13 +2362,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\documentclass"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\documentclass"
         },
         {
           "type": "CHOICE",
@@ -2537,30 +2387,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\include"
-              },
-              {
-                "type": "STRING",
-                "value": "\\subfileinclude"
-              },
-              {
-                "type": "STRING",
-                "value": "\\input"
-              },
-              {
-                "type": "STRING",
-                "value": "\\subfile"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\include"
+            },
+            {
+              "type": "STRING",
+              "value": "\\subfileinclude"
+            },
+            {
+              "type": "STRING",
+              "value": "\\input"
+            },
+            {
+              "type": "STRING",
+              "value": "\\subfile"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2572,13 +2417,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\addbibresource"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\addbibresource"
         },
         {
           "type": "CHOICE",
@@ -2602,13 +2442,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\bibliography"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\bibliography"
         },
         {
           "type": "SYMBOL",
@@ -2620,13 +2455,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\includegraphics"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\includegraphics"
         },
         {
           "type": "CHOICE",
@@ -2650,13 +2480,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\includesvg"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\includesvg"
         },
         {
           "type": "CHOICE",
@@ -2680,13 +2505,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\includeinkscape"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\includeinkscape"
         },
         {
           "type": "CHOICE",
@@ -2710,22 +2530,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\verbatiminput"
-              },
-              {
-                "type": "STRING",
-                "value": "\\VerbatimInput"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\verbatiminput"
+            },
+            {
+              "type": "STRING",
+              "value": "\\VerbatimInput"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2737,38 +2552,33 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\import"
-              },
-              {
-                "type": "STRING",
-                "value": "\\subimport"
-              },
-              {
-                "type": "STRING",
-                "value": "\\inputfrom"
-              },
-              {
-                "type": "STRING",
-                "value": "\\subimportfrom"
-              },
-              {
-                "type": "STRING",
-                "value": "\\includefrom"
-              },
-              {
-                "type": "STRING",
-                "value": "\\subincludefrom"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\import"
+            },
+            {
+              "type": "STRING",
+              "value": "\\subimport"
+            },
+            {
+              "type": "STRING",
+              "value": "\\inputfrom"
+            },
+            {
+              "type": "STRING",
+              "value": "\\subimportfrom"
+            },
+            {
+              "type": "STRING",
+              "value": "\\includefrom"
+            },
+            {
+              "type": "STRING",
+              "value": "\\subincludefrom"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2784,13 +2594,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\caption"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\caption"
         },
         {
           "type": "CHOICE",
@@ -2814,238 +2619,233 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\cite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\cite*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Cite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\nocite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citet"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citep"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citet*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citep*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeauthor"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeauthor*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Citeauthor"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Citeauthor*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citetitle"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citetitle*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeyear"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeyear*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citedate"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citedate*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeurl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\fullcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citeyearpar"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citealt"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citealp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\citetext"
-              },
-              {
-                "type": "STRING",
-                "value": "\\parencite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\parencite*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Parencite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\footcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\footfullcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\footcitetext"
-              },
-              {
-                "type": "STRING",
-                "value": "\\textcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Textcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\smartcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Smartcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\supercite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\autocite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Autocite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\autocite*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Autocite*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\volcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Volcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\pvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Pvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\fvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ftvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\svolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Svolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\tvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Tvolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\avolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Avolcite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\notecite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Notecite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\pnotecite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Pnotecite"
-              },
-              {
-                "type": "STRING",
-                "value": "\\fnotecite"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\cite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\cite*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Cite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\nocite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citet"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citep"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citet*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citep*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeauthor"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeauthor*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Citeauthor"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Citeauthor*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citetitle"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citetitle*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeyear"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeyear*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citedate"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citedate*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeurl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\fullcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citeyearpar"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citealt"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citealp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\citetext"
+            },
+            {
+              "type": "STRING",
+              "value": "\\parencite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\parencite*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Parencite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\footcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\footfullcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\footcitetext"
+            },
+            {
+              "type": "STRING",
+              "value": "\\textcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Textcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\smartcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Smartcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\supercite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\autocite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Autocite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\autocite*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Autocite*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\volcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Volcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\pvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Pvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\fvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ftvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\svolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Svolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\tvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Tvolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\avolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Avolcite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\notecite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Notecite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\pnotecite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Pnotecite"
+            },
+            {
+              "type": "STRING",
+              "value": "\\fnotecite"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -3086,13 +2886,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\label"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\label"
         },
         {
           "type": "SYMBOL",
@@ -3104,86 +2899,81 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\ref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\eqref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\vref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Vref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\autoref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\pageref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\cref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Cref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\cref*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Cref*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\namecref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\nameCref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\lcnamecref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\namecrefs"
-              },
-              {
-                "type": "STRING",
-                "value": "\\nameCrefs"
-              },
-              {
-                "type": "STRING",
-                "value": "\\lcnamecrefs"
-              },
-              {
-                "type": "STRING",
-                "value": "\\labelcref"
-              },
-              {
-                "type": "STRING",
-                "value": "\\labelcpageref"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\ref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\eqref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\vref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Vref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\autoref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\pageref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\cref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Cref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\cref*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Cref*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\namecref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\nameCref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\lcnamecref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\namecrefs"
+            },
+            {
+              "type": "STRING",
+              "value": "\\nameCrefs"
+            },
+            {
+              "type": "STRING",
+              "value": "\\lcnamecrefs"
+            },
+            {
+              "type": "STRING",
+              "value": "\\labelcref"
+            },
+            {
+              "type": "STRING",
+              "value": "\\labelcpageref"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3195,30 +2985,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\crefrange"
-              },
-              {
-                "type": "STRING",
-                "value": "\\crefrange*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Crefrange"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Crefrange*"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\crefrange"
+            },
+            {
+              "type": "STRING",
+              "value": "\\crefrange*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Crefrange"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Crefrange*"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3234,13 +3019,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\newlabel"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\newlabel"
         },
         {
           "type": "SYMBOL",
@@ -3256,46 +3036,41 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\newcommand"
-              },
-              {
-                "type": "STRING",
-                "value": "\\newcommand*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\renewcommand"
-              },
-              {
-                "type": "STRING",
-                "value": "\\renewcommand*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\DeclareRobustCommand"
-              },
-              {
-                "type": "STRING",
-                "value": "\\DeclareRobustCommand*"
-              },
-              {
-                "type": "STRING",
-                "value": "\\DeclareMathOperator"
-              },
-              {
-                "type": "STRING",
-                "value": "\\DeclareMathOperator*"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\newcommand"
+            },
+            {
+              "type": "STRING",
+              "value": "\\newcommand*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\renewcommand"
+            },
+            {
+              "type": "STRING",
+              "value": "\\renewcommand*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\DeclareRobustCommand"
+            },
+            {
+              "type": "STRING",
+              "value": "\\DeclareRobustCommand*"
+            },
+            {
+              "type": "STRING",
+              "value": "\\DeclareMathOperator"
+            },
+            {
+              "type": "STRING",
+              "value": "\\DeclareMathOperator*"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3323,13 +3098,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\def"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\def"
         },
         {
           "type": "SYMBOL",
@@ -3344,13 +3114,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "\\let"
-              },
-              "named": true,
-              "value": "command_name"
+              "type": "STRING",
+              "value": "\\let"
             },
             {
               "type": "SYMBOL",
@@ -3380,13 +3145,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\newenvironment"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\newenvironment"
         },
         {
           "type": "SYMBOL",
@@ -3418,13 +3178,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\newglossaryentry"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\newglossaryentry"
         },
         {
           "type": "SYMBOL",
@@ -3440,198 +3195,193 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\gls"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Gls"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLS"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glspl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glspl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsdisp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glslink"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glstext"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glstext"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLStext"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsfirst"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsfirst"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSfirst"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsfirstplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsfirstplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSfirstplural"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsname"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsname"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSname"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glssymbol"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glssymbol"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsdesc"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsdesc"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSdesc"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuseri"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuseri"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuseri"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuserii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuserii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuserii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuseriii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuseriii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuseriii"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuseriv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuseriv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuseriv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuserv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuserv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuserv"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsuservi"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsuservi"
-              },
-              {
-                "type": "STRING",
-                "value": "\\GLSuservi"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\gls"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Gls"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLS"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glspl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glspl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsdisp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glslink"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glstext"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glstext"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLStext"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsfirst"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsfirst"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSfirst"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsfirstplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsfirstplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSfirstplural"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsname"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsname"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSname"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glssymbol"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glssymbol"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsdesc"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsdesc"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSdesc"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuseri"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuseri"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuseri"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuserii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuserii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuserii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuseriii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuseriii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuseriii"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuseriv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuseriv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuseriv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuserv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuserv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuserv"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsuservi"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsuservi"
+            },
+            {
+              "type": "STRING",
+              "value": "\\GLSuservi"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -3655,13 +3405,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\newacronym"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\newacronym"
         },
         {
           "type": "CHOICE",
@@ -3693,186 +3438,181 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\acrshort"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrshort"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRshort"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acrshortpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrshortpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRshortpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acrlong"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrlong"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRlong"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acrlongpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrlongpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRlongpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acrfull"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrfull"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRfull"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acrfullpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acrfullpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ACRfullpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acs"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acs"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acsp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acsp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\aclp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Aclp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acf"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acf"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acfp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Acfp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\ac"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Ac"
-              },
-              {
-                "type": "STRING",
-                "value": "\\acp"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsentrylong"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsentrylong"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsentrylongpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsentrylongpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsentryshort"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsentryshort"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsentryshortpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsentryshortpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\glsentryfullpl"
-              },
-              {
-                "type": "STRING",
-                "value": "\\Glsentryfullpl"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\acrshort"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrshort"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRshort"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acrshortpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrshortpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRshortpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acrlong"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrlong"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRlong"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acrlongpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrlongpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRlongpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acrfull"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrfull"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRfull"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acrfullpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acrfullpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ACRfullpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acs"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acs"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acsp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acsp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\aclp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Aclp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acf"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acf"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acfp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Acfp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\ac"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Ac"
+            },
+            {
+              "type": "STRING",
+              "value": "\\acp"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsentrylong"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsentrylong"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsentrylongpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsentrylongpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsentryshort"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsentryshort"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsentryshortpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsentryshortpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\glsentryfullpl"
+            },
+            {
+              "type": "STRING",
+              "value": "\\Glsentryfullpl"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -3899,22 +3639,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\newtheorem"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\declaretheorem"
-                }
-              ]
-            },
-            "named": true,
-            "value": "command_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\newtheorem"
+              },
+              {
+                "type": "STRING",
+                "value": "\\declaretheorem"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -3978,13 +3713,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\definecolor"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\definecolor"
         },
         {
           "type": "CHOICE",
@@ -4016,13 +3746,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "\\definecolorset"
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "STRING",
+          "value": "\\definecolorset"
         },
         {
           "type": "CHOICE",
@@ -4058,30 +3783,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\color"
-              },
-              {
-                "type": "STRING",
-                "value": "\\colorbox"
-              },
-              {
-                "type": "STRING",
-                "value": "\\textcolor"
-              },
-              {
-                "type": "STRING",
-                "value": "\\pagecolor"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\color"
+            },
+            {
+              "type": "STRING",
+              "value": "\\colorbox"
+            },
+            {
+              "type": "STRING",
+              "value": "\\textcolor"
+            },
+            {
+              "type": "STRING",
+              "value": "\\pagecolor"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -4093,22 +3813,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "\\usepgflibrary"
-              },
-              {
-                "type": "STRING",
-                "value": "\\usetikzlibrary"
-              }
-            ]
-          },
-          "named": true,
-          "value": "command_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\usepgflibrary"
+            },
+            {
+              "type": "STRING",
+              "value": "\\usetikzlibrary"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

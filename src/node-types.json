@@ -12,10 +12,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -39,10 +35,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_text",
           "named": true
         }
@@ -59,10 +51,6 @@
       "types": [
         {
           "type": "brack_group",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -85,10 +73,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_glob_pattern",
           "named": true
         }
@@ -100,13 +84,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_path",
           "named": true
@@ -119,13 +99,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "comment",
           "named": true
@@ -354,10 +330,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         }
@@ -370,7 +342,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -418,10 +390,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -564,10 +532,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_text_list",
           "named": true
         }
@@ -584,10 +548,6 @@
       "types": [
         {
           "type": "brack_group_key_value",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -610,10 +570,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_text",
           "named": true
         }
@@ -625,13 +581,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_text",
           "named": true
@@ -649,10 +601,6 @@
       "types": [
         {
           "type": "brack_group_text",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -1201,10 +1149,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -1340,13 +1284,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_text",
           "named": true
@@ -1360,7 +1300,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -1412,10 +1352,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -1741,10 +1677,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_impl",
           "named": true
         },
@@ -1769,10 +1701,6 @@
       "required": true,
       "types": [
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_key_value",
           "named": true
         },
@@ -1796,10 +1724,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_text",
           "named": true
         }
@@ -1819,10 +1743,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_path",
           "named": true
         }
@@ -1837,10 +1757,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_path",
           "named": true
@@ -1858,10 +1774,6 @@
       "types": [
         {
           "type": "brack_group_key_value",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -1929,10 +1841,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -2109,13 +2017,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_text",
           "named": true
@@ -2132,10 +2036,6 @@
       "required": true,
       "types": [
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -2151,13 +2051,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_text_list",
           "named": true
@@ -2174,10 +2070,6 @@
       "required": true,
       "types": [
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_text",
           "named": true
         }
@@ -2189,13 +2081,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_path",
           "named": true
@@ -2224,7 +2112,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -2276,10 +2164,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -2589,10 +2473,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -2608,7 +2488,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2631,10 +2511,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_path_list",
           "named": true
         }
@@ -2647,7 +2523,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -2695,10 +2571,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -2818,7 +2690,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -2870,10 +2742,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -3009,7 +2877,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -3057,10 +2925,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -3383,7 +3247,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -3431,10 +3295,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -3550,7 +3410,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -3598,10 +3458,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -3729,7 +3585,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "acronym_definition",
@@ -3777,10 +3633,6 @@
         },
         {
           "type": "command",
-          "named": true
-        },
-        {
-          "type": "command_name",
           "named": true
         },
         {
@@ -3911,10 +3763,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group_path",
           "named": true
         }
@@ -3957,10 +3805,6 @@
           "named": true
         },
         {
-          "type": "command_name",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -3976,13 +3820,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_text",
           "named": true
@@ -4154,13 +3994,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "command_name",
-          "named": true
-        },
         {
           "type": "curly_group_path",
           "named": true
@@ -4194,6 +4030,986 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\(",
+    "named": false
+  },
+  {
+    "type": "\\)",
+    "named": false
+  },
+  {
+    "type": "\\ACRfull",
+    "named": false
+  },
+  {
+    "type": "\\ACRfullpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRlong",
+    "named": false
+  },
+  {
+    "type": "\\ACRlongpl",
+    "named": false
+  },
+  {
+    "type": "\\ACRshort",
+    "named": false
+  },
+  {
+    "type": "\\ACRshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Ac",
+    "named": false
+  },
+  {
+    "type": "\\Acf",
+    "named": false
+  },
+  {
+    "type": "\\Acfp",
+    "named": false
+  },
+  {
+    "type": "\\Acl",
+    "named": false
+  },
+  {
+    "type": "\\Aclp",
+    "named": false
+  },
+  {
+    "type": "\\Acrfull",
+    "named": false
+  },
+  {
+    "type": "\\Acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrlong",
+    "named": false
+  },
+  {
+    "type": "\\Acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\Acrshort",
+    "named": false
+  },
+  {
+    "type": "\\Acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Acs",
+    "named": false
+  },
+  {
+    "type": "\\Acsp",
+    "named": false
+  },
+  {
+    "type": "\\Autocite",
+    "named": false
+  },
+  {
+    "type": "\\Autocite*",
+    "named": false
+  },
+  {
+    "type": "\\Avolcite",
+    "named": false
+  },
+  {
+    "type": "\\Cite",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\Citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\Cref",
+    "named": false
+  },
+  {
+    "type": "\\Cref*",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange",
+    "named": false
+  },
+  {
+    "type": "\\Crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator",
+    "named": false
+  },
+  {
+    "type": "\\DeclareMathOperator*",
+    "named": false
+  },
+  {
+    "type": "\\DeclareRobustCommand",
+    "named": false
+  },
+  {
+    "type": "\\DeclareRobustCommand*",
+    "named": false
+  },
+  {
+    "type": "\\GLS",
+    "named": false
+  },
+  {
+    "type": "\\GLSdesc",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirst",
+    "named": false
+  },
+  {
+    "type": "\\GLSfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\GLSname",
+    "named": false
+  },
+  {
+    "type": "\\GLSpl",
+    "named": false
+  },
+  {
+    "type": "\\GLSplural",
+    "named": false
+  },
+  {
+    "type": "\\GLStext",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseri",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriii",
+    "named": false
+  },
+  {
+    "type": "\\GLSuseriv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuserv",
+    "named": false
+  },
+  {
+    "type": "\\GLSuservi",
+    "named": false
+  },
+  {
+    "type": "\\Gls",
+    "named": false
+  },
+  {
+    "type": "\\Glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\Glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\Glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\Glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\Glsname",
+    "named": false
+  },
+  {
+    "type": "\\Glspl",
+    "named": false
+  },
+  {
+    "type": "\\Glsplural",
+    "named": false
+  },
+  {
+    "type": "\\Glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\Glstext",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\Glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\Glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\Notecite",
+    "named": false
+  },
+  {
+    "type": "\\Parencite",
+    "named": false
+  },
+  {
+    "type": "\\Pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\Pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\RequirePackage",
+    "named": false
+  },
+  {
+    "type": "\\Smartcite",
+    "named": false
+  },
+  {
+    "type": "\\Svolcite",
+    "named": false
+  },
+  {
+    "type": "\\Textcite",
+    "named": false
+  },
+  {
+    "type": "\\Tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\VerbatimInput",
+    "named": false
+  },
+  {
+    "type": "\\Volcite",
+    "named": false
+  },
+  {
+    "type": "\\Vref",
+    "named": false
+  },
+  {
+    "type": "\\[",
+    "named": false
+  },
+  {
+    "type": "\\]",
+    "named": false
+  },
+  {
+    "type": "\\ac",
+    "named": false
+  },
+  {
+    "type": "\\acf",
+    "named": false
+  },
+  {
+    "type": "\\acfp",
+    "named": false
+  },
+  {
+    "type": "\\acl",
+    "named": false
+  },
+  {
+    "type": "\\aclp",
+    "named": false
+  },
+  {
+    "type": "\\acp",
+    "named": false
+  },
+  {
+    "type": "\\acrfull",
+    "named": false
+  },
+  {
+    "type": "\\acrfullpl",
+    "named": false
+  },
+  {
+    "type": "\\acrlong",
+    "named": false
+  },
+  {
+    "type": "\\acrlongpl",
+    "named": false
+  },
+  {
+    "type": "\\acrshort",
+    "named": false
+  },
+  {
+    "type": "\\acrshortpl",
+    "named": false
+  },
+  {
+    "type": "\\acs",
+    "named": false
+  },
+  {
+    "type": "\\acsp",
+    "named": false
+  },
+  {
+    "type": "\\addbibresource",
+    "named": false
+  },
+  {
+    "type": "\\addchap",
+    "named": false
+  },
+  {
+    "type": "\\addchap*",
+    "named": false
+  },
+  {
+    "type": "\\addpart",
+    "named": false
+  },
+  {
+    "type": "\\addpart*",
+    "named": false
+  },
+  {
+    "type": "\\addsec",
+    "named": false
+  },
+  {
+    "type": "\\addsec*",
+    "named": false
+  },
+  {
+    "type": "\\autocite",
+    "named": false
+  },
+  {
+    "type": "\\autocite*",
+    "named": false
+  },
+  {
+    "type": "\\autoref",
+    "named": false
+  },
+  {
+    "type": "\\avolcite",
+    "named": false
+  },
+  {
+    "type": "\\begin",
+    "named": false
+  },
+  {
+    "type": "\\bibliography",
+    "named": false
+  },
+  {
+    "type": "\\caption",
+    "named": false
+  },
+  {
+    "type": "\\chapter",
+    "named": false
+  },
+  {
+    "type": "\\chapter*",
+    "named": false
+  },
+  {
+    "type": "\\cite",
+    "named": false
+  },
+  {
+    "type": "\\cite*",
+    "named": false
+  },
+  {
+    "type": "\\citealp",
+    "named": false
+  },
+  {
+    "type": "\\citealt",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor",
+    "named": false
+  },
+  {
+    "type": "\\citeauthor*",
+    "named": false
+  },
+  {
+    "type": "\\citedate",
+    "named": false
+  },
+  {
+    "type": "\\citedate*",
+    "named": false
+  },
+  {
+    "type": "\\citep",
+    "named": false
+  },
+  {
+    "type": "\\citep*",
+    "named": false
+  },
+  {
+    "type": "\\citet",
+    "named": false
+  },
+  {
+    "type": "\\citet*",
+    "named": false
+  },
+  {
+    "type": "\\citetext",
+    "named": false
+  },
+  {
+    "type": "\\citetitle",
+    "named": false
+  },
+  {
+    "type": "\\citetitle*",
+    "named": false
+  },
+  {
+    "type": "\\citeurl",
+    "named": false
+  },
+  {
+    "type": "\\citeyear",
+    "named": false
+  },
+  {
+    "type": "\\citeyear*",
+    "named": false
+  },
+  {
+    "type": "\\citeyearpar",
+    "named": false
+  },
+  {
+    "type": "\\color",
+    "named": false
+  },
+  {
+    "type": "\\colorbox",
+    "named": false
+  },
+  {
+    "type": "\\cref",
+    "named": false
+  },
+  {
+    "type": "\\cref*",
+    "named": false
+  },
+  {
+    "type": "\\crefrange",
+    "named": false
+  },
+  {
+    "type": "\\crefrange*",
+    "named": false
+  },
+  {
+    "type": "\\declaretheorem",
+    "named": false
+  },
+  {
+    "type": "\\def",
+    "named": false
+  },
+  {
+    "type": "\\definecolor",
+    "named": false
+  },
+  {
+    "type": "\\definecolorset",
+    "named": false
+  },
+  {
+    "type": "\\documentclass",
+    "named": false
+  },
+  {
+    "type": "\\end",
+    "named": false
+  },
+  {
+    "type": "\\eqref",
+    "named": false
+  },
+  {
+    "type": "\\fi",
+    "named": false
+  },
+  {
+    "type": "\\fnotecite",
+    "named": false
+  },
+  {
+    "type": "\\footcite",
+    "named": false
+  },
+  {
+    "type": "\\footcitetext",
+    "named": false
+  },
+  {
+    "type": "\\footfullcite",
+    "named": false
+  },
+  {
+    "type": "\\ftvolcite",
+    "named": false
+  },
+  {
+    "type": "\\fullcite",
+    "named": false
+  },
+  {
+    "type": "\\fvolcite",
+    "named": false
+  },
+  {
+    "type": "\\gls",
+    "named": false
+  },
+  {
+    "type": "\\glsdesc",
+    "named": false
+  },
+  {
+    "type": "\\glsdisp",
+    "named": false
+  },
+  {
+    "type": "\\glsentryfullpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylong",
+    "named": false
+  },
+  {
+    "type": "\\glsentrylongpl",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshort",
+    "named": false
+  },
+  {
+    "type": "\\glsentryshortpl",
+    "named": false
+  },
+  {
+    "type": "\\glsfirst",
+    "named": false
+  },
+  {
+    "type": "\\glsfirstplural",
+    "named": false
+  },
+  {
+    "type": "\\glslink",
+    "named": false
+  },
+  {
+    "type": "\\glsname",
+    "named": false
+  },
+  {
+    "type": "\\glspl",
+    "named": false
+  },
+  {
+    "type": "\\glsplural",
+    "named": false
+  },
+  {
+    "type": "\\glssymbol",
+    "named": false
+  },
+  {
+    "type": "\\glstext",
+    "named": false
+  },
+  {
+    "type": "\\glsuseri",
+    "named": false
+  },
+  {
+    "type": "\\glsuserii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriii",
+    "named": false
+  },
+  {
+    "type": "\\glsuseriv",
+    "named": false
+  },
+  {
+    "type": "\\glsuserv",
+    "named": false
+  },
+  {
+    "type": "\\glsuservi",
+    "named": false
+  },
+  {
+    "type": "\\iffalse",
+    "named": false
+  },
+  {
+    "type": "\\import",
+    "named": false
+  },
+  {
+    "type": "\\include",
+    "named": false
+  },
+  {
+    "type": "\\includefrom",
+    "named": false
+  },
+  {
+    "type": "\\includegraphics",
+    "named": false
+  },
+  {
+    "type": "\\includeinkscape",
+    "named": false
+  },
+  {
+    "type": "\\includesvg",
+    "named": false
+  },
+  {
+    "type": "\\input",
+    "named": false
+  },
+  {
+    "type": "\\inputfrom",
+    "named": false
+  },
+  {
+    "type": "\\item",
+    "named": false
+  },
+  {
+    "type": "\\item*",
+    "named": false
+  },
+  {
+    "type": "\\label",
+    "named": false
+  },
+  {
+    "type": "\\labelcpageref",
+    "named": false
+  },
+  {
+    "type": "\\labelcref",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecref",
+    "named": false
+  },
+  {
+    "type": "\\lcnamecrefs",
+    "named": false
+  },
+  {
+    "type": "\\let",
+    "named": false
+  },
+  {
+    "type": "\\nameCref",
+    "named": false
+  },
+  {
+    "type": "\\nameCrefs",
+    "named": false
+  },
+  {
+    "type": "\\namecref",
+    "named": false
+  },
+  {
+    "type": "\\namecrefs",
+    "named": false
+  },
+  {
+    "type": "\\newacronym",
+    "named": false
+  },
+  {
+    "type": "\\newcommand",
+    "named": false
+  },
+  {
+    "type": "\\newcommand*",
+    "named": false
+  },
+  {
+    "type": "\\newenvironment",
+    "named": false
+  },
+  {
+    "type": "\\newglossaryentry",
+    "named": false
+  },
+  {
+    "type": "\\newlabel",
+    "named": false
+  },
+  {
+    "type": "\\newtheorem",
+    "named": false
+  },
+  {
+    "type": "\\nocite",
+    "named": false
+  },
+  {
+    "type": "\\notecite",
+    "named": false
+  },
+  {
+    "type": "\\pagecolor",
+    "named": false
+  },
+  {
+    "type": "\\pageref",
+    "named": false
+  },
+  {
+    "type": "\\paragraph",
+    "named": false
+  },
+  {
+    "type": "\\paragraph*",
+    "named": false
+  },
+  {
+    "type": "\\parencite",
+    "named": false
+  },
+  {
+    "type": "\\parencite*",
+    "named": false
+  },
+  {
+    "type": "\\part",
+    "named": false
+  },
+  {
+    "type": "\\part*",
+    "named": false
+  },
+  {
+    "type": "\\pnotecite",
+    "named": false
+  },
+  {
+    "type": "\\pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\ref",
+    "named": false
+  },
+  {
+    "type": "\\renewcommand",
+    "named": false
+  },
+  {
+    "type": "\\renewcommand*",
+    "named": false
+  },
+  {
+    "type": "\\section",
+    "named": false
+  },
+  {
+    "type": "\\section*",
+    "named": false
+  },
+  {
+    "type": "\\smartcite",
+    "named": false
+  },
+  {
+    "type": "\\subfile",
+    "named": false
+  },
+  {
+    "type": "\\subfileinclude",
+    "named": false
+  },
+  {
+    "type": "\\subimport",
+    "named": false
+  },
+  {
+    "type": "\\subimportfrom",
+    "named": false
+  },
+  {
+    "type": "\\subincludefrom",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph",
+    "named": false
+  },
+  {
+    "type": "\\subparagraph*",
+    "named": false
+  },
+  {
+    "type": "\\subsection",
+    "named": false
+  },
+  {
+    "type": "\\subsection*",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection",
+    "named": false
+  },
+  {
+    "type": "\\subsubsection*",
+    "named": false
+  },
+  {
+    "type": "\\supercite",
+    "named": false
+  },
+  {
+    "type": "\\svolcite",
+    "named": false
+  },
+  {
+    "type": "\\textcite",
+    "named": false
+  },
+  {
+    "type": "\\textcolor",
+    "named": false
+  },
+  {
+    "type": "\\tvolcite",
+    "named": false
+  },
+  {
+    "type": "\\usepackage",
+    "named": false
+  },
+  {
+    "type": "\\usepgflibrary",
+    "named": false
+  },
+  {
+    "type": "\\usetikzlibrary",
+    "named": false
+  },
+  {
+    "type": "\\verbatiminput",
+    "named": false
+  },
+  {
+    "type": "\\volcite",
+    "named": false
+  },
+  {
+    "type": "\\vref",
+    "named": false
+  },
+  {
+    "type": "\\{",
+    "named": false
+  },
+  {
+    "type": "\\}",
     "named": false
   },
   {

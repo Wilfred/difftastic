@@ -47,8 +47,6 @@ Test
     (word)
     (word))
   (block_comment
-    (command_name)
-    (comment)
-    (command_name))
+    (comment))
   (text
     (word)))

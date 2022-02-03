@@ -8,7 +8,6 @@ Simple package include
 
 (source_file
   (package_include
-    (command_name)
     (curly_group_path_list
       (path))))
 
@@ -22,7 +21,6 @@ Package include with two paths
 
 (source_file
   (package_include
-    (command_name)
     (curly_group_path_list
       (path)
       (path))))
@@ -37,7 +35,6 @@ Package include with options
 
 (source_file
   (package_include
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key
@@ -64,7 +61,6 @@ Simple class include
 
 (source_file
   (class_include
-    (command_name)
     (curly_group_path
       (path))))
 
@@ -78,7 +74,6 @@ Class include with two paths
 
 (source_file
   (class_include
-    (command_name)
     (curly_group_path
       (path)
       (MISSING "}")))
@@ -96,7 +91,6 @@ Class include with options
 
 (source_file
   (class_include
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key
@@ -123,7 +117,6 @@ Simple LaTeX include
 
 (source_file
   (latex_include
-    (command_name)
     (curly_group_path
       (path))))
 
@@ -136,8 +129,7 @@ Empty LaTeX include
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR
-    (command_name)))
+  (ERROR))
 
 ================================================================================
 BibLaTeX glob include
@@ -149,7 +141,6 @@ BibLaTeX glob include
 
 (source_file
   (biblatex_include
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key
@@ -167,7 +158,6 @@ BibTeX include with absolute path
 
 (source_file
   (bibtex_include
-    (command_name)
     (curly_group_path
       (path))))
 
@@ -181,7 +171,6 @@ Graphics include with options
 
 (source_file
   (graphics_include
-    (command_name)
     (brack_group_key_value
       (key_value_pair
         (key
