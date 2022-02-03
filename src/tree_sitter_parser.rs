@@ -53,6 +53,7 @@ extern "C" {
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
+    fn tree_sitter_hack() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
@@ -237,6 +238,16 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../vendor/highlights/go.scm"),
                 )
                 .unwrap(),
+            }
+        }
+        Hack => {
+            let language = unsafe { tree_sitter_hack() };
+            TreeSitterConfig {
+                name: "Hack",
+                language: unsafe { tree_sitter_hack() },
+                atom_nodes: (vec![]).into_iter().collect(),
+                delimiter_tokens: (vec![("[", "]"), ("(", ")"), ("{", "}")]),
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         Haskell => {
