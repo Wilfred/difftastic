@@ -467,6 +467,12 @@ pub fn parse_to_tree(
     if let Some(idx) = config.highlight_query.capture_index_for_name("constant") {
         keyword_ish_capture_ids.push(idx);
     }
+    if let Some(idx) = config
+        .highlight_query
+        .capture_index_for_name("constant.builtin")
+    {
+        keyword_ish_capture_ids.push(idx);
+    }
 
     let mut string_capture_ids = vec![];
     if let Some(idx) = config.highlight_query.capture_index_for_name("string") {
