@@ -1,10 +1,12 @@
 package foo
 
+// A Scala program.
 import foo.Bar
 
 class Foo {
 
   def blah(): Int {
+    /* foo */
     throw new Exception("before");
   }
 
