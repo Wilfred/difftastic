@@ -1,0 +1,3 @@
+<<<EOF
+Heredoc
+EOF;

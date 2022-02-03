@@ -1,0 +1,11 @@
+(script
+  (expression_statement
+    (heredoc
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable)))))

@@ -1,0 +1,20 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement
+      (expression_statement
+        (yield_expression
+          (string)))
+      (expression_statement
+        (yield_expression
+          (yield_expression
+            (element_initializer
+              (string)
+              (integer)))))
+      (expression_statement
+        (yield_expression
+          (element_initializer
+            (integer)
+            (string)))))))

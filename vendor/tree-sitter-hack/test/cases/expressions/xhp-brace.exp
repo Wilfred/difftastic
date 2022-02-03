@@ -1,0 +1,19 @@
+(script
+  (return_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (braced_expression
+        (variable))
+      (xhp_string)
+      (braced_expression
+        (call_expression
+          function: (selection_expression
+            (variable)
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier)))))

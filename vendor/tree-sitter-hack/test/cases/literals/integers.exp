@@ -1,0 +1,15 @@
+(script
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer)))

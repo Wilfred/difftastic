@@ -1,0 +1,23 @@
+(script
+  (interface_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    body: (member_declarations)))

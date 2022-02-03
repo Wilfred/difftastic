@@ -1,0 +1,14 @@
+(script
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (array
+          (array_type))
+        right: (type_specifier))
+      (integer)))
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (integer)
+        right: (type_specifier))
+      (integer))))

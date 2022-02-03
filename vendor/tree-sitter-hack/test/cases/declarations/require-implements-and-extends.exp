@@ -1,0 +1,23 @@
+(script
+  (trait_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    body: (member_declarations
+      (require_implements_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier))))))
+      (require_extends_clause
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier
+              (qualified_identifier
+                (identifier)))))))))

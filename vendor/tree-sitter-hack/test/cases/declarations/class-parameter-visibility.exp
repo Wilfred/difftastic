@@ -1,0 +1,21 @@
+(script
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters
+          (parameter
+            (attribute_modifier
+              (qualified_identifier
+                (identifier)))
+            (visibility_modifier)
+            type: (type_specifier)
+            name: (variable)
+            default_value: (integer))
+          (parameter
+            type: (type_specifier)
+            (variadic_modifier)
+            name: (variable)))
+        body: (compound_statement)))))

@@ -1,0 +1,36 @@
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (type_specifier)
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (type_specifier)
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer)))))

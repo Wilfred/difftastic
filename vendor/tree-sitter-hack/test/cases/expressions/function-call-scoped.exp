@@ -1,0 +1,15 @@
+(script
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (variable))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (arguments))))

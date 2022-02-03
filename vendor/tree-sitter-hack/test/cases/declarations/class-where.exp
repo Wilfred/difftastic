@@ -1,0 +1,50 @@
+(script
+  (class_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)))
+    (extends_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (implements_clause
+      (type_specifier
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier
+            (qualified_identifier
+              (identifier))))))
+    (where_clause
+      (where_constraint
+        constraint_left_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_right_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    body: (member_declarations
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters
+          (parameter
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)))
+            name: (variable)))
+        (where_clause
+          (where_constraint
+            constraint_left_type: (type_specifier
+              (nullable_modifier)
+              (qualified_identifier
+                (identifier)))
+            constraint_right_type: (type_specifier
+              (type_arguments
+                (type_specifier)))))
+        body: (compound_statement)))))

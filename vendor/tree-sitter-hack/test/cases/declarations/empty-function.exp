@@ -1,0 +1,25 @@
+(script
+  (namespace_declaration
+    body: (compound_statement
+      (function_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)
+        (parameters
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier))
+      (function_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)
+        (parameters
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier)))))

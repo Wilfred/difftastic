@@ -1,0 +1,11 @@
+(script
+  (enum_declaration
+    name: (identifier)
+    type: (type_specifier)
+    as: (type_specifier)
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (integer))))
