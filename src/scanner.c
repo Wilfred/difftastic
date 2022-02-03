@@ -12,24 +12,40 @@ unsigned tree_sitter_scss_external_scanner_serialize(void *p, char *buffer) { re
 void tree_sitter_scss_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
 
 bool tree_sitter_scss_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  if (iswspace(lexer->lookahead)) {
-    lexer->advance(lexer, true);
+  if (iswspace(lexer->lookahead) && valid_symbols[DESCENDANT_OP]) {
+    lexer->result_symbol = DESCENDANT_OP;
 
+    lexer->advance(lexer, true);
     while (iswspace(lexer->lookahead)) {
       lexer->advance(lexer, true);
     }
+    lexer->mark_end(lexer);
 
     if (
       lexer->lookahead == '#' ||
       lexer->lookahead == '.' ||
       lexer->lookahead == '[' ||
-      lexer->lookahead == ':' ||
       lexer->lookahead == '-' ||
       lexer->lookahead == '&' ||
       iswalnum(lexer->lookahead)
     ) {
-      lexer->result_symbol = DESCENDANT_OP;
       return true;
+    }
+
+    if (lexer->lookahead == ':') {
+      lexer->advance(lexer, false);
+      if (iswspace(lexer->lookahead)) return false;
+      for (;;) {
+        if (
+          lexer->lookahead == ';' ||
+          lexer->lookahead == '}' ||
+          lexer->eof(lexer)
+        ) return false;
+        if (lexer->lookahead == '{') {
+          return true;
+        }
+        lexer->advance(lexer, false);
+      }
     }
   }
 

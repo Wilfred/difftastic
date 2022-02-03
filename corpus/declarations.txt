@@ -86,6 +86,7 @@ a {
   c: 5em;
   margin: 10E3px;
   margin: -456.8px;
+  margin: -5px;
   margin: -0.0px;
 }
 
@@ -97,6 +98,7 @@ a {
     (declaration (property_name) (integer_value (unit)))
     (declaration (property_name) (float_value (unit)))
     (declaration (property_name) (float_value (unit)))
+    (declaration (property_name) (integer_value (unit)))
     (declaration (property_name) (float_value (unit))))))
 
 ============================
@@ -240,7 +242,7 @@ a-property: calc(5px + var(--a-variable));
 ---
 
 (stylesheet
-  (declaration (property_name) (plain_value))
+  (declaration (property_name) (integer_value (unit)))
   (declaration (property_name) (call_expression (function_name) (arguments (binary_expression (integer_value (unit)) (call_expression (function_name) (arguments (plain_value))))))))
 
 =================================
@@ -352,3 +354,26 @@ Placeholders
     (name)
     (block
       (declaration (property_name) (integer_value (unit))))))
+
+=============================================
+Spaces after colons in property declarations
+=============================================
+
+div {
+  margin      : 0;
+  padding     : 0;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors
+      (tag_name))
+    (block
+      (declaration
+        (property_name)
+        (integer_value))
+      (declaration
+        (property_name)
+        (integer_value)))))

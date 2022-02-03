@@ -253,6 +253,7 @@ Extend statements
         (selectors (class_selector (class_name)))
         (block (extend_statement (plain_value)) 
           (extend_statement (class_selector (class_name)))))))) 
+
 =================================
 Operators
 =================================
