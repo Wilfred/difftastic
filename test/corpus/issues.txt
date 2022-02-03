@@ -20,7 +20,7 @@ foo foo foo foo foo foo
   (class_include
     (curly_group_path
       (path)))
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text
@@ -122,7 +122,7 @@ something here
     (curly_group_path_list
       (path)))
   (line_comment)
-  (environment
+  (comment_environment
     (begin
       (curly_group_text
         (text
@@ -206,7 +206,7 @@ rm -rf "$(biber --cache)"
     (word))
   (text
     (word))
-  (environment
+  (listing_environment
     (begin
       (curly_group_text
         (text

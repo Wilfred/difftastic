@@ -273,6 +273,16 @@
           }
         ]
       },
+      "language": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": false,
@@ -454,6 +464,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -462,11 +476,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -518,7 +532,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -531,6 +553,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -547,6 +573,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -730,6 +760,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -742,11 +776,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -798,7 +832,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -815,6 +857,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -847,6 +893,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -1349,6 +1399,42 @@
     }
   },
   {
+    "type": "comment_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "comment": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "curly_group",
     "named": true,
     "fields": {},
@@ -1409,6 +1495,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -1421,11 +1511,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -1477,7 +1567,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -1498,6 +1596,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -1530,6 +1632,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -1877,6 +1983,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -1889,11 +1999,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -1945,7 +2055,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -1966,6 +2084,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -1998,6 +2120,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -2125,6 +2251,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -2133,11 +2263,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -2189,7 +2319,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -2202,6 +2340,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -2221,6 +2363,10 @@
           "named": true
         },
         {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
           "type": "verbatim_include",
           "named": true
         }
@@ -2228,7 +2374,53 @@
     }
   },
   {
-    "type": "environment",
+    "type": "environment_definition",
+    "named": true,
+    "fields": {
+      "argc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_argc",
+            "named": true
+          }
+        ]
+      },
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_environment",
     "named": true,
     "fields": {
       "begin": {
@@ -2241,42 +2433,12 @@
           }
         ]
       },
-      "code": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "source_code",
-            "named": true
-          }
-        ]
-      },
-      "comment": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "comment",
-            "named": true
-          }
-        ]
-      },
       "end": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "end",
-            "named": true
-          }
-        ]
-      },
-      "verbatim": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "comment",
             "named": true
           }
         ]
@@ -2339,6 +2501,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -2351,11 +2517,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -2407,7 +2573,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -2428,6 +2602,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -2463,56 +2641,14 @@
           "named": true
         },
         {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
           "type": "verbatim_include",
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "environment_definition",
-    "named": true,
-    "fields": {
-      "argc": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "brack_group_argc",
-            "named": true
-          }
-        ]
-      },
-      "begin": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "curly_group_impl",
-            "named": true
-          }
-        ]
-      },
-      "end": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "curly_group_impl",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "curly_group_text",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -2961,6 +3097,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -2973,11 +3113,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -3029,7 +3169,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -3050,6 +3198,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -3082,6 +3234,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -3396,6 +3552,42 @@
     }
   },
   {
+    "type": "listing_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "math_set",
     "named": true,
     "fields": {},
@@ -3456,6 +3648,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -3468,11 +3664,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -3524,7 +3720,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -3545,6 +3749,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -3580,10 +3788,50 @@
           "named": true
         },
         {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
           "type": "verbatim_include",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "minted_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3643,6 +3891,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -3651,11 +3903,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -3707,7 +3959,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -3727,6 +3987,10 @@
           "named": true
         },
         {
+          "type": "pycode_environment",
+          "named": true
+        },
+        {
           "type": "svg_include",
           "named": true
         },
@@ -3740,6 +4004,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -3971,6 +4239,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -3983,11 +4255,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -4039,7 +4311,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -4052,6 +4332,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -4072,6 +4356,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -4175,6 +4463,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -4187,11 +4479,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -4243,7 +4535,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -4260,6 +4560,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -4295,10 +4599,50 @@
           "named": true
         },
         {
+          "type": "verbatim_environment",
+          "named": true
+        },
+        {
           "type": "verbatim_include",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "pycode_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "source_code",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4391,6 +4735,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -4403,11 +4751,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -4459,7 +4807,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -4476,6 +4832,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -4504,6 +4864,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -4574,6 +4938,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -4586,11 +4954,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -4642,7 +5010,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -4663,6 +5039,10 @@
         },
         {
           "type": "part",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -4695,6 +5075,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -4786,6 +5170,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -4798,11 +5186,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -4854,7 +5242,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -4867,6 +5263,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -4883,6 +5283,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -4974,6 +5378,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -4986,11 +5394,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -5042,7 +5450,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -5059,6 +5475,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -5083,6 +5503,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -5174,6 +5598,10 @@
           "named": true
         },
         {
+          "type": "comment_environment",
+          "named": true
+        },
+        {
           "type": "curly_group",
           "named": true
         },
@@ -5186,11 +5614,11 @@
           "named": true
         },
         {
-          "type": "environment",
+          "type": "environment_definition",
           "named": true
         },
         {
-          "type": "environment_definition",
+          "type": "generic_environment",
           "named": true
         },
         {
@@ -5242,7 +5670,15 @@
           "named": true
         },
         {
+          "type": "listing_environment",
+          "named": true
+        },
+        {
           "type": "math_set",
+          "named": true
+        },
+        {
+          "type": "minted_environment",
           "named": true
         },
         {
@@ -5259,6 +5695,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "pycode_environment",
           "named": true
         },
         {
@@ -5279,6 +5719,10 @@
         },
         {
           "type": "tikz_library_import",
+          "named": true
+        },
+        {
+          "type": "verbatim_environment",
           "named": true
         },
         {
@@ -5601,6 +6045,42 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "verbatim_environment",
+    "named": true,
+    "fields": {
+      "begin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "end",
+            "named": true
+          }
+        ]
+      },
+      "verbatim": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

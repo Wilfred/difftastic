@@ -44,12 +44,12 @@ module.exports = grammar({
       choice(
         ',',
         '=',
-        alias($._trivia_environment_comment, $.environment),
-        alias($._trivia_environment_verbatim, $.environment),
-        alias($._trivia_environment_listing, $.environment),
-        alias($._trivia_environment_minted, $.environment),
-        alias($._trivia_environment_pycode, $.environment),
-        $.environment,
+        $.comment_environment,
+        $.verbatim_environment,
+        $.listing_environment,
+        $.minted_environment,
+        $.pycode_environment,
+        $.generic_environment,
         $._text_content
       ),
 
@@ -362,7 +362,7 @@ module.exports = grammar({
         seq(field('command', '\\end'), field('name', $.curly_group_text))
       ),
 
-    environment: $ =>
+    generic_environment: $ =>
       seq(
         field('begin', $.begin),
         repeat($._root_content),
@@ -371,7 +371,7 @@ module.exports = grammar({
 
     //--- Comment environment
 
-    _trivia_environment_comment: $ =>
+    comment_environment: $ =>
       seq(
         field('begin', alias($._trivia_begin_comment, $.begin)),
         field('comment', alias($._trivia_raw_env_comment, $.comment)),
@@ -397,7 +397,7 @@ module.exports = grammar({
 
     //--- Verbatim environment
 
-    _trivia_environment_verbatim: $ =>
+    verbatim_environment: $ =>
       seq(
         field('begin', alias($._trivia_begin_verbatim, $.begin)),
         field('verbatim', alias($._trivia_raw_env_verbatim, $.comment)),
@@ -423,7 +423,7 @@ module.exports = grammar({
 
     //--- Listing environment
 
-    _trivia_environment_listing: $ =>
+    listing_environment: $ =>
       seq(
         field('begin', alias($._trivia_begin_listing, $.begin)),
         field('code', alias($._trivia_raw_env_listing, $.source_code)),
@@ -449,7 +449,7 @@ module.exports = grammar({
 
     //--- Minted environment
 
-    _trivia_environment_minted: $ =>
+    minted_environment: $ =>
       seq(
         field('begin', alias($._trivia_begin_minted, $.begin)),
         field('code', alias($._trivia_raw_env_minted, $.source_code)),
@@ -459,7 +459,8 @@ module.exports = grammar({
     _trivia_begin_minted: $ =>
       seq(
         field('command', '\\begin'),
-        field('name', alias($._trivia_curly_group_minted, $.curly_group_text))
+        field('name', alias($._trivia_curly_group_minted, $.curly_group_text)),
+        field('language', $.curly_group_text)
       ),
 
     _trivia_end_minted: $ =>
@@ -475,7 +476,7 @@ module.exports = grammar({
 
     //--- Pycode environment
 
-    _trivia_environment_pycode: $ =>
+    pycode_environment: $ =>
       seq(
         field('begin', alias($._trivia_begin_pycode, $.begin)),
         field('code', alias($._trivia_raw_env_pycode, $.source_code)),

@@ -121,53 +121,28 @@
           "value": "="
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_environment_comment"
-          },
-          "named": true,
-          "value": "environment"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_environment_verbatim"
-          },
-          "named": true,
-          "value": "environment"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_environment_listing"
-          },
-          "named": true,
-          "value": "environment"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_environment_minted"
-          },
-          "named": true,
-          "value": "environment"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_environment_pycode"
-          },
-          "named": true,
-          "value": "environment"
+          "type": "SYMBOL",
+          "name": "comment_environment"
         },
         {
           "type": "SYMBOL",
-          "name": "environment"
+          "name": "verbatim_environment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "listing_environment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "minted_environment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pycode_environment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generic_environment"
         },
         {
           "type": "SYMBOL",
@@ -1910,7 +1885,7 @@
         ]
       }
     },
-    "environment": {
+    "generic_environment": {
       "type": "SEQ",
       "members": [
         {
@@ -1938,7 +1913,7 @@
         }
       ]
     },
-    "_trivia_environment_comment": {
+    "comment_environment": {
       "type": "SEQ",
       "members": [
         {
@@ -2078,7 +2053,7 @@
         }
       ]
     },
-    "_trivia_environment_verbatim": {
+    "verbatim_environment": {
       "type": "SEQ",
       "members": [
         {
@@ -2218,7 +2193,7 @@
         }
       ]
     },
-    "_trivia_environment_listing": {
+    "listing_environment": {
       "type": "SEQ",
       "members": [
         {
@@ -2358,7 +2333,7 @@
         }
       ]
     },
-    "_trivia_environment_minted": {
+    "minted_environment": {
       "type": "SEQ",
       "members": [
         {
@@ -2424,6 +2399,14 @@
             },
             "named": true,
             "value": "curly_group_text"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "language",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_text"
           }
         }
       ]
@@ -2498,7 +2481,7 @@
         }
       ]
     },
-    "_trivia_environment_pycode": {
+    "pycode_environment": {
       "type": "SEQ",
       "members": [
         {

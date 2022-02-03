@@ -19,7 +19,7 @@ Top level sections
 --------------------------------------------------------------------------------
 
 (source_file
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text

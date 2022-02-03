@@ -11,7 +11,7 @@ Hello World!
 --------------------------------------------------------------------------------
 
 (source_file
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text
@@ -37,7 +37,7 @@ Hello World!
 --------------------------------------------------------------------------------
 
 (source_file
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text
@@ -67,7 +67,7 @@ Hello World!
 --------------------------------------------------------------------------------
 
 (source_file
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text
@@ -101,7 +101,7 @@ Hello World!
 --------------------------------------------------------------------------------
 
 (source_file
-  (environment
+  (generic_environment
     (begin
       (curly_group_text
         (text
@@ -140,7 +140,7 @@ Bar
 (source_file
   (text
     (word))
-  (environment
+  (comment_environment
     (begin
       (curly_group_text
         (text
@@ -176,7 +176,7 @@ Bar
 (source_file
   (text
     (word))
-  (environment
+  (verbatim_environment
     (begin
       (curly_group_text
         (text
@@ -188,3 +188,28 @@ Bar
           (word)))))
   (text
     (word)))
+
+================================================================================
+Minted environment
+================================================================================
+
+\begin{minted}{c}
+  int a = 1;
+\end{minted}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (minted_environment
+    (begin
+      (curly_group_text
+        (text
+          (word)))
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))

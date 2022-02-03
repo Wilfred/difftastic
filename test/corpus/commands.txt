@@ -72,7 +72,7 @@ Command with incomplete argument
 (source_file
   (ERROR
     (command_name)
-    (environment
+    (generic_environment
       (begin
         (curly_group_text
           (text
