@@ -28,6 +28,7 @@ pub enum Language {
     Elixir,
     EmacsLisp,
     Go,
+    Hack,
     Haskell,
     Java,
     JavaScript,
@@ -76,6 +77,7 @@ fn from_shebang(src: &str) -> Option<Language> {
                     "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
                     "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
+                    "hhvm" => return Some(Hack),
                     "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
                     | "v8-shell" => return Some(JavaScript),
                     "ocaml" | "ocamlrun" | "ocamlscript" => return Some(OCaml),
@@ -85,7 +87,12 @@ fn from_shebang(src: &str) -> Option<Language> {
                     _ => {}
                 }
             }
-        };
+        }
+
+        // Hack can use <?hh in files with a .php extension.
+        if first_line.starts_with("<?hh") {
+            return Some(Hack);
+        }
     }
 
     None
@@ -130,6 +137,7 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "el" => Some(EmacsLisp),
         "ex" | "exs" => Some(Elixir),
         "go" => Some(Go),
+        "hack" | "hck" => Some(Hack),
         "hs" => Some(Haskell),
         "java" => Some(Java),
         "cjs" | "js" | "mjs" => Some(JavaScript),
