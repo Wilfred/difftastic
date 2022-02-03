@@ -249,7 +249,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Hack",
                 language,
-                atom_nodes: (vec![]).into_iter().collect(),
+                atom_nodes: (vec!["prefixed_stirng", "heredoc"]).into_iter().collect(),
                 delimiter_tokens: (vec![("[", "]"), ("(", ")"), ("{", "}")]),
                 highlight_query: ts::Query::new(language, query).unwrap(),
             }
