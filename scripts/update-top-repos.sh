@@ -56,7 +56,7 @@ if ! git diff --quiet; then
     git remote add dest "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
     git push dest HEAD:$branch_name
     git fetch origin
-    gh pr create --fill --draft
+    gh pr create --fill
     echo "Pull request created!"
 else
     echo "No repositories have been updated, so there's nothing more to do!"
