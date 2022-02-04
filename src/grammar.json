@@ -968,17 +968,22 @@
               "type": "FIELD",
               "name": "pattern",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "expression"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "list_splat_pattern"
-                  }
-                ]
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "expression"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "list_splat_pattern"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "case_pattern"
               }
             },
             {
@@ -994,17 +999,22 @@
                     "type": "FIELD",
                     "name": "pattern",
                     "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "expression"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "list_splat_pattern"
-                        }
-                      ]
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "expression"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "list_splat_pattern"
+                          }
+                        ]
+                      },
+                      "named": true,
+                      "value": "case_pattern"
                     }
                   }
                 ]
@@ -5190,7 +5200,6 @@
   "supertypes": [
     "_simple_statement",
     "_compound_statement",
-    "ReferenceError",
     "expression",
     "primary_expression",
     "pattern",

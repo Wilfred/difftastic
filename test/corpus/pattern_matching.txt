@@ -23,8 +23,9 @@ match command.split():
         (identifier))
       (argument_list))
     (case_clause
-      (list
-        (string))
+      (case_pattern
+        (list
+          (string)))
       (block
         (expression_statement
           (call
@@ -36,8 +37,9 @@ match command.split():
             (identifier)
             (argument_list)))))
     (case_clause
-      (list
-        (string))
+      (case_pattern
+        (list
+          (string)))
       (block
         (expression_statement
           (call
@@ -46,9 +48,10 @@ match command.split():
               (identifier))
             (argument_list)))))
     (case_clause
-      (list
-        (string)
-        (identifier))
+      (case_pattern
+        (list
+          (string)
+          (identifier)))
       (block
         (expression_statement
           (call
@@ -59,9 +62,10 @@ match command.split():
               (identifier)
               (identifier))))))
     (case_clause
-      (list
-        (string)
-        (identifier))
+      (case_pattern
+        (list
+          (string)
+          (identifier)))
       (block
         (expression_statement
           (assignment
@@ -92,10 +96,11 @@ match command.split():
         (identifier))
       (argument_list))
     (case_clause
-      (list
-        (string)
-        (list_splat
-          (identifier)))
+      (case_pattern
+        (list
+          (string)
+          (list_splat
+            (identifier))))
       (block
         (for_statement
           (identifier)
@@ -133,27 +138,31 @@ match command.split():
       (argument_list))
     (comment)
     (case_clause
-      (list
-        (string))
+      (case_pattern
+        (list
+          (string)))
       (block
         (expression_statement
           (ellipsis))
         (comment)))
     (case_clause
-      (list
-        (string)
-        (identifier))
-      (block
-        (pass_statement)))
-    (case_clause
-      (list
-        (string)
-        (list_splat
+      (case_pattern
+        (list
+          (string)
           (identifier)))
       (block
         (pass_statement)))
     (case_clause
-      (identifier)
+      (case_pattern
+        (list
+          (string)
+          (list_splat
+            (identifier))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (identifier))
       (block
         (expression_statement
           (call
@@ -183,12 +192,13 @@ match command.split():
         (identifier))
       (argument_list))
     (case_clause
-      (binary_operator
-        (list
-          (string))
-        (list
-          (string)
-          (string)))
+      (case_pattern
+        (binary_operator
+          (list
+            (string))
+          (list
+            (string)
+            (string))))
       (block
         (expression_statement
           (assignment
@@ -200,19 +210,20 @@ match command.split():
               (argument_list
                 (string)))))))
     (case_clause
-      (binary_operator
+      (case_pattern
         (binary_operator
+          (binary_operator
+            (list
+              (string)
+              (identifier))
+            (list
+              (string)
+              (string)
+              (identifier)))
           (list
             (string)
-            (identifier))
-          (list
-            (string)
-            (string)
-            (identifier)))
-        (list
-          (string)
-          (identifier)
-          (string)))
+            (identifier)
+            (string))))
       (block
         (pass_statement)))))
 
@@ -233,19 +244,20 @@ match command.split():
         (identifier))
       (argument_list))
     (case_clause
-      (list
-        (string)
-        (as_pattern
-          (parenthesized_expression
-            (binary_operator
+      (case_pattern
+        (list
+          (string)
+          (as_pattern
+            (parenthesized_expression
               (binary_operator
                 (binary_operator
-                  (string)
+                  (binary_operator
+                    (string)
+                    (string))
                   (string))
-                (string))
-              (string)))
-          (as_pattern_target
-            (identifier))))
+                (string)))
+            (as_pattern_target
+              (identifier)))))
       (block
         (expression_statement
           (assignment
@@ -399,7 +411,8 @@ match 0:
   (match_statement
     (integer)
     (case_clause
-      (integer)
+      (case_pattern
+        (integer))
       (if_clause
         (false))
       (block
@@ -408,7 +421,8 @@ match 0:
             (identifier)
             (false)))))
     (case_clause
-      (integer)
+      (case_pattern
+        (integer))
       (if_clause
         (true))
       (block
@@ -434,16 +448,19 @@ match (0, 1, 2):
       (integer)
       (integer))
     (case_clause
-      (integer)
-      (integer)
+      (case_pattern
+        (integer))
+      (case_pattern
+        (integer))
       (block
         (expression_statement
           (assignment
             (identifier)
             (integer)))))
     (case_clause
-      (integer)
-      (list_splat_pattern
+      (case_pattern
+        (integer))
+      (case_pattern
         (identifier))
       (block
         (expression_statement
@@ -463,7 +480,7 @@ match x,:
   (match_statement
     (identifier)
     (case_clause
-      (list_splat_pattern
+      (case_pattern
         (identifier))
       (block
         (expression_statement
@@ -486,8 +503,10 @@ match ..., ...:
     (ellipsis)
     (ellipsis)
     (case_clause
-      (identifier)
-      (identifier)
+      (case_pattern
+        (identifier))
+      (case_pattern
+        (identifier))
       (block
         (return_statement
           (call
@@ -513,7 +532,8 @@ match match:
   (match_statement
     (identifier)
     (case_clause
-      (identifier)
+      (case_pattern
+        (identifier))
       (block
         (expression_statement
           (assignment
