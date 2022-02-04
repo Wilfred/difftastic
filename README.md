@@ -88,6 +88,6 @@ If you need a `parser.c`, and you don't care about the tree-sitter version, but 
 allow you to obtain the parser, you can just download one from a recent workflow run in this package. To do so:
 * Go to the [GitHub actions page](https://github.com/alex-pinkus/tree-sitter-swift/actions) for this
   repository.
-* Click on the "Check grammar and style" action for the appropriate commit.
+* Click on the "Publish `grammar.json` and `parser.c`" action for the appropriate commit.
 * Go down to `Artifacts` and click on `generated-parser-src`. All the relevant parser files will be available in your
   download.

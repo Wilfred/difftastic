@@ -35,8 +35,3 @@ jobs:
     - run: npm run test-ci
     - run: cargo test
     - run: cd ./test-npm-package && npm test; cd ..
-    - name: Publish parser source
-      uses: actions/upload-artifact@v2
-      with:
-        name: generated-parser-src
-        path: src
