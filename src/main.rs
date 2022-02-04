@@ -48,7 +48,7 @@ use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Ar
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use style::BackgroundColor;
-use summary::DiffResult;
+use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
 use unchanged::skip_unchanged;
@@ -386,9 +386,8 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
         return DiffResult {
             path: display_path.into(),
             language: None,
-            binary: true,
-            lhs_src: "".into(),
-            rhs_src: "".into(),
+            lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
+            rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
             lhs_positions: vec![],
             rhs_positions: vec![],
         };
@@ -416,12 +415,12 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
     let ts_lang = guess(path, guess_src).map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
+        // TODO: explain rationale here.
         return DiffResult {
             path: display_path.into(),
             language: ts_lang.map(|l| l.name.into()),
-            binary: false,
-            lhs_src: "".into(),
-            rhs_src: "".into(),
+            lhs_src: FileContent::Text("".into()),
+            rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
             rhs_positions: vec![],
         };
@@ -461,9 +460,8 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
     DiffResult {
         path: display_path.into(),
         language: lang_name,
-        binary: false,
-        lhs_src,
-        rhs_src,
+        lhs_src: FileContent::Text(lhs_src),
+        rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
         rhs_positions,
     }
@@ -498,73 +496,89 @@ fn print_diff_result(
     print_unchanged: bool,
     summary: &DiffResult,
 ) {
-    if summary.binary {
-        if print_unchanged {
+    match (&summary.lhs_src, &summary.rhs_src) {
+        (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
+            let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
+            let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
+
+            let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
+            let hunks = merge_adjacent(
+                &hunks,
+                &opposite_to_lhs,
+                &opposite_to_rhs,
+                lhs_src.max_line(),
+                rhs_src.max_line(),
+            );
+
+            let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
+            if hunks.is_empty() {
+                if print_unchanged {
+                    println!(
+                        "{}",
+                        style::header(&summary.path, 1, 1, &lang_name, background)
+                    );
+                    if lang_name == "text" {
+                        println!("No changes.\n");
+                    } else {
+                        println!("No syntactic changes.\n");
+                    }
+                }
+                return;
+            }
+
+            if env::var("INLINE").is_ok() {
+                println!(
+                    "{}",
+                    inline::display(
+                        lhs_src,
+                        rhs_src,
+                        &summary.lhs_positions,
+                        &summary.rhs_positions,
+                        &hunks,
+                        &summary.path,
+                        &lang_name,
+                        background
+                    )
+                );
+            } else {
+                println!(
+                    "{}",
+                    side_by_side::display_hunks(
+                        &hunks,
+                        display_width,
+                        background,
+                        &summary.path,
+                        &lang_name,
+                        lhs_src,
+                        rhs_src,
+                        &summary.lhs_positions,
+                        &summary.rhs_positions,
+                    )
+                );
+            }
+        }
+        (FileContent::Binary(lhs_bytes), FileContent::Binary(rhs_bytes)) => {
+            let changed = lhs_bytes != rhs_bytes;
+            if print_unchanged || changed {
+                println!(
+                    "{}",
+                    style::header(&summary.path, 1, 1, "binary", background)
+                );
+                if changed {
+                    println!("Binary contents changed.")
+                } else {
+                    println!("No changes.")
+                }
+            }
+        }
+        (_, FileContent::Binary(_)) | (FileContent::Binary(_), _) => {
+            // We're diffing a binary file against a text file.
             println!(
                 "{}",
                 style::header(&summary.path, 1, 1, "binary", background)
             );
+            println!("Binary contents changed.")
         }
-        return;
-    }
-
-    let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
-    let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
-
-    let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
-    let hunks = merge_adjacent(
-        &hunks,
-        &opposite_to_lhs,
-        &opposite_to_rhs,
-        summary.lhs_src.max_line(),
-        summary.rhs_src.max_line(),
-    );
-
-    let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
-    if hunks.is_empty() {
-        if print_unchanged {
-            println!(
-                "{}",
-                style::header(&summary.path, 1, 1, &lang_name, background)
-            );
-            if lang_name == "text" {
-                println!("No changes.\n");
-            } else {
-                println!("No syntactic changes.\n");
-            }
-        }
-        return;
-    }
-
-    if env::var("INLINE").is_ok() {
-        println!(
-            "{}",
-            inline::display(
-                &summary.lhs_src,
-                &summary.rhs_src,
-                &summary.lhs_positions,
-                &summary.rhs_positions,
-                &hunks,
-                &summary.path,
-                &lang_name,
-                background
-            )
-        );
-    } else {
-        println!(
-            "{}",
-            side_by_side::display_hunks(
-                &hunks,
-                display_width,
-                background,
-                &summary.path,
-                &lang_name,
-                &summary.lhs_src,
-                &summary.rhs_src,
-                &summary.lhs_positions,
-                &summary.rhs_positions,
-            )
-        );
     }
 }
 
@@ -579,7 +593,6 @@ mod tests {
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
-        assert!(!res.binary);
     }
 
     #[test]

@@ -16,6 +16,11 @@ Improved syntax highlighting for Clojure and Common Lisp.
 Built-in constants are now highlighted consistently with other
 constants.
 
+### Diffing
+
+If given binary files, difftastic will now report if the file contents
+are identical.
+
 ## 0.18.1 (released 30 January 2022)
 
 Fixed a compilation issue on Rust 1.54 (0.18 only built on newer
