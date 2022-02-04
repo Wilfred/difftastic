@@ -385,7 +385,7 @@
         "required": true,
         "types": [
           {
-            "type": "expression",
+            "type": "as_pattern_target",
             "named": true
           }
         ]

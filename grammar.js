@@ -544,7 +544,7 @@ module.exports = grammar({
     as_pattern: $ => prec.left(seq(
       $.expression,
       'as',
-      field('alias', $.expression)
+      field('alias', alias($.expression, $.as_pattern_target))
     )),
 
     // Expressions
