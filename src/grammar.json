@@ -2422,8 +2422,13 @@
             "type": "FIELD",
             "name": "alias",
             "content": {
-              "type": "SYMBOL",
-              "name": "expression"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              "named": true,
+              "value": "as_pattern_target"
             }
           }
         ]
@@ -5185,6 +5190,7 @@
   "supertypes": [
     "_simple_statement",
     "_compound_statement",
+    "ReferenceError",
     "expression",
     "primary_expression",
     "pattern",
