@@ -2,7 +2,11 @@
 
 use std::{fs, io::ErrorKind::*, path::Path};
 
-pub fn read_files_or_die(lhs_path: &Path, rhs_path: &Path) -> (Vec<u8>, Vec<u8>) {
+pub fn read_files_or_die(
+    lhs_path: &Path,
+    rhs_path: &Path,
+    missing_as_empty: bool,
+) -> (Vec<u8>, Vec<u8>) {
     let lhs_res = fs::read(lhs_path);
     let rhs_res = fs::read(rhs_path);
 
@@ -12,8 +16,8 @@ pub fn read_files_or_die(lhs_path: &Path, rhs_path: &Path) -> (Vec<u8>, Vec<u8>)
         // Proceed if we've been given two paths and only one
         // exists. This is important for mercurial diffs when a file
         // has been removed.
-        (Ok(lhs_src), Err(e)) if e.kind() == NotFound => (lhs_src, vec![]),
-        (Err(e), Ok(rhs_src)) if e.kind() == NotFound => (vec![], rhs_src),
+        (Ok(lhs_src), Err(e)) if missing_as_empty && e.kind() == NotFound => (lhs_src, vec![]),
+        (Err(e), Ok(rhs_src)) if missing_as_empty && e.kind() == NotFound => (vec![], rhs_src),
         (lhs_res, rhs_res) => {
             // Something else went wrong. Print both errors
             // encountered.

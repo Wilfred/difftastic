@@ -95,6 +95,7 @@ enum ColorOutput {
 enum Mode {
     Diff {
         print_unchanged: bool,
+        missing_as_empty: bool,
         background_color: BackgroundColor,
         color_output: ColorOutput,
         display_width: usize,
@@ -169,6 +170,10 @@ fn app() -> clap::App<'static> {
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
                 .help("Don't display anything if a file is unchanged.")
+        )
+        .arg(
+            Arg::new("missing-as-empty").long("missing-as-empty")
+                .help("Treat paths that don't exist as equivalent to an empty file.")
         )
         .arg(
             Arg::new("paths")
@@ -274,9 +279,11 @@ fn parse_args() -> Mode {
     };
 
     let print_unchanged = !matches.is_present("skip-unchanged");
+    let missing_as_empty = matches.is_present("missing-as-empty");
 
     Mode::Diff {
         print_unchanged,
+        missing_as_empty,
         background_color,
         color_output,
         display_width,
@@ -340,6 +347,7 @@ fn main() {
         }
         Mode::Diff {
             print_unchanged,
+            missing_as_empty,
             background_color,
             color_output,
             display_width,
@@ -354,7 +362,7 @@ fn main() {
             let rhs_path = Path::new(&rhs_path);
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
-                for diff_result in diff_directories(lhs_path, rhs_path) {
+                for diff_result in diff_directories(lhs_path, rhs_path, missing_as_empty) {
                     print_diff_result(
                         display_width,
                         background_color,
@@ -363,7 +371,7 @@ fn main() {
                     );
                 }
             } else {
-                let diff_result = diff_file(&display_path, lhs_path, rhs_path);
+                let diff_result = diff_file(&display_path, lhs_path, rhs_path, missing_as_empty);
                 print_diff_result(
                     display_width,
                     background_color,
@@ -376,8 +384,13 @@ fn main() {
 }
 
 /// Print a diff between two files.
-fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult {
-    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path);
+fn diff_file(
+    display_path: &str,
+    lhs_path: &Path,
+    rhs_path: &Path,
+    missing_as_empty: bool,
+) -> DiffResult {
+    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(display_path, &lhs_bytes, &rhs_bytes)
 }
 
@@ -473,7 +486,7 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
-fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
+fn diff_directories(lhs_dir: &Path, rhs_dir: &Path, missing_as_empty: bool) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
@@ -486,7 +499,12 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        res.push(diff_file(&rel_path.to_string_lossy(), lhs_path, &rhs_path));
+        res.push(diff_file(
+            &rel_path.to_string_lossy(),
+            lhs_path,
+            &rhs_path,
+            missing_as_empty,
+        ));
     }
     res
 }
