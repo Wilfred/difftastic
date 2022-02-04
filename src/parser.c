@@ -158,7 +158,7 @@ enum {
   sym_source_file = 139,
   sym__statement = 140,
   sym_empty_statement = 141,
-  sym__expression_statement = 142,
+  sym_expression_statement = 142,
   sym_macro_definition = 143,
   sym_macro_rule = 144,
   sym__token_pattern = 145,
@@ -480,7 +480,7 @@ static const char * const ts_symbol_names[] = {
   [sym_source_file] = "source_file",
   [sym__statement] = "_statement",
   [sym_empty_statement] = "empty_statement",
-  [sym__expression_statement] = "_expression_statement",
+  [sym_expression_statement] = "expression_statement",
   [sym_macro_definition] = "macro_definition",
   [sym_macro_rule] = "macro_rule",
   [sym__token_pattern] = "_token_pattern",
@@ -802,7 +802,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_source_file] = sym_source_file,
   [sym__statement] = sym__statement,
   [sym_empty_statement] = sym_empty_statement,
-  [sym__expression_statement] = sym__expression_statement,
+  [sym_expression_statement] = sym_expression_statement,
   [sym_macro_definition] = sym_macro_definition,
   [sym_macro_rule] = sym_macro_rule,
   [sym__token_pattern] = sym__token_pattern,
@@ -1550,8 +1550,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [sym__expression_statement] = {
-    .visible = false,
+  [sym_expression_statement] = {
+    .visible = true,
     .named = true,
   },
   [sym_macro_definition] = {
@@ -14727,7 +14727,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_source_file] = STATE(2460),
     [sym__statement] = STATE(13),
     [sym_empty_statement] = STATE(13),
-    [sym__expression_statement] = STATE(13),
+    [sym_expression_statement] = STATE(13),
     [sym_macro_definition] = STATE(13),
     [sym_attribute_item] = STATE(13),
     [sym_inner_attribute_item] = STATE(13),
@@ -14876,7 +14876,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [2] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -15025,7 +15025,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [3] = {
     [sym__statement] = STATE(12),
     [sym_empty_statement] = STATE(12),
-    [sym__expression_statement] = STATE(12),
+    [sym_expression_statement] = STATE(12),
     [sym_macro_definition] = STATE(12),
     [sym_attribute_item] = STATE(12),
     [sym_inner_attribute_item] = STATE(12),
@@ -15174,7 +15174,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [4] = {
     [sym__statement] = STATE(6),
     [sym_empty_statement] = STATE(6),
-    [sym__expression_statement] = STATE(6),
+    [sym_expression_statement] = STATE(6),
     [sym_macro_definition] = STATE(6),
     [sym_attribute_item] = STATE(6),
     [sym_inner_attribute_item] = STATE(6),
@@ -15323,7 +15323,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [5] = {
     [sym__statement] = STATE(10),
     [sym_empty_statement] = STATE(10),
-    [sym__expression_statement] = STATE(10),
+    [sym_expression_statement] = STATE(10),
     [sym_macro_definition] = STATE(10),
     [sym_attribute_item] = STATE(10),
     [sym_inner_attribute_item] = STATE(10),
@@ -15472,7 +15472,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [6] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -15621,7 +15621,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [7] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -15770,7 +15770,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [8] = {
     [sym__statement] = STATE(8),
     [sym_empty_statement] = STATE(8),
-    [sym__expression_statement] = STATE(8),
+    [sym_expression_statement] = STATE(8),
     [sym_macro_definition] = STATE(8),
     [sym_attribute_item] = STATE(8),
     [sym_inner_attribute_item] = STATE(8),
@@ -15919,7 +15919,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [9] = {
     [sym__statement] = STATE(15),
     [sym_empty_statement] = STATE(15),
-    [sym__expression_statement] = STATE(15),
+    [sym_expression_statement] = STATE(15),
     [sym_macro_definition] = STATE(15),
     [sym_attribute_item] = STATE(15),
     [sym_inner_attribute_item] = STATE(15),
@@ -16068,7 +16068,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [10] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -16217,7 +16217,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [11] = {
     [sym__statement] = STATE(7),
     [sym_empty_statement] = STATE(7),
-    [sym__expression_statement] = STATE(7),
+    [sym_expression_statement] = STATE(7),
     [sym_macro_definition] = STATE(7),
     [sym_attribute_item] = STATE(7),
     [sym_inner_attribute_item] = STATE(7),
@@ -16366,7 +16366,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [12] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -16515,7 +16515,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [13] = {
     [sym__statement] = STATE(8),
     [sym_empty_statement] = STATE(8),
-    [sym__expression_statement] = STATE(8),
+    [sym_expression_statement] = STATE(8),
     [sym_macro_definition] = STATE(8),
     [sym_attribute_item] = STATE(8),
     [sym_inner_attribute_item] = STATE(8),
@@ -16664,7 +16664,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [14] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -16813,7 +16813,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [15] = {
     [sym__statement] = STATE(2),
     [sym_empty_statement] = STATE(2),
-    [sym__expression_statement] = STATE(2),
+    [sym_expression_statement] = STATE(2),
     [sym_macro_definition] = STATE(2),
     [sym_attribute_item] = STATE(2),
     [sym_inner_attribute_item] = STATE(2),
@@ -16962,7 +16962,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [16] = {
     [sym__statement] = STATE(14),
     [sym_empty_statement] = STATE(14),
-    [sym__expression_statement] = STATE(14),
+    [sym_expression_statement] = STATE(14),
     [sym_macro_definition] = STATE(14),
     [sym_attribute_item] = STATE(14),
     [sym_inner_attribute_item] = STATE(14),
@@ -127354,8 +127354,8 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [564] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__statement, 1),
   [566] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__expression_except_range, 1),
   [568] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__expression_except_range, 1),
-  [570] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__expression_statement, 1),
-  [572] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__expression_statement, 1),
+  [570] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_expression_statement, 1),
+  [572] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_expression_statement, 1),
   [574] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_while_expression, 5, .production_id = 133),
   [576] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_while_expression, 5, .production_id = 133),
   [578] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_loop_expression, 4, .production_id = 90),
@@ -127648,8 +127648,8 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [1188] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_extern_crate_declaration, 7, .production_id = 214),
   [1190] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_function_signature_item, 8, .production_id = 227),
   [1192] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_function_signature_item, 8, .production_id = 227),
-  [1194] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__expression_statement, 2),
-  [1196] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__expression_statement, 2),
+  [1194] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_expression_statement, 2),
+  [1196] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_expression_statement, 2),
   [1198] = {.entry = {.count = 1, .reusable = false}}, SHIFT(1408),
   [1200] = {.entry = {.count = 1, .reusable = true}}, SHIFT(549),
   [1202] = {.entry = {.count = 1, .reusable = true}}, SHIFT(231),

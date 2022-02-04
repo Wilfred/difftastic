@@ -84,13 +84,13 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $._expression_statement,
+      $.expression_statement,
       $._declaration_statement
     ),
 
     empty_statement: $ => ';',
 
-    _expression_statement: $ => choice(
+    expression_statement: $ => choice(
       seq($._expression, ';'),
       prec(1, $._expression_ending_with_block)
     ),

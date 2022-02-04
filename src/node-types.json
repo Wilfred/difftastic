@@ -803,6 +803,10 @@
         {
           "type": "_expression",
           "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
         }
       ]
     }
@@ -1512,6 +1516,21 @@
         },
         {
           "type": "enum_variant",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expression_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -3423,7 +3442,7 @@
           "named": true
         },
         {
-          "type": "_expression",
+          "type": "expression_statement",
           "named": true
         }
       ]

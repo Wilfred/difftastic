@@ -1,6 +1,6 @@
-============================================
+================================================================================
 Macro invocation - no arguments
-============================================
+================================================================================
 
 a!();
 b![];
@@ -8,18 +8,39 @@ c!{};
 d::e!();
 f::g::h!{};
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (macro_invocation (identifier) (token_tree))
-  (macro_invocation (identifier) (token_tree))
-  (macro_invocation (identifier) (token_tree))
-  (macro_invocation (scoped_identifier (identifier) (identifier)) (token_tree))
-  (macro_invocation (scoped_identifier (scoped_identifier (identifier) (identifier)) (identifier)) (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (scoped_identifier
+        (identifier)
+        (identifier))
+      (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (scoped_identifier
+        (scoped_identifier
+          (identifier)
+          (identifier))
+        (identifier))
+      (token_tree))))
 
-============================================
+================================================================================
 Macro invocation - arbitrary tokens
-============================================
+================================================================================
 
 a!(* a *);
 a!(& a &);
@@ -31,56 +52,78 @@ a!('lifetime)
 default!(a);
 union!(a);
 
-----
+--------------------------------------------------------------------------------
 
 (source_file
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier)
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (char_literal)
+        (char_literal))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (char_literal)
+        (char_literal))))
   (macro_invocation
     (identifier)
-    (token_tree (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier) (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (char_literal) (char_literal)))
-  (macro_invocation
-    (identifier)
-    (token_tree (char_literal) (char_literal)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier)))
-  (macro_invocation
-    (identifier)
-    (token_tree (identifier))))
+    (token_tree
+      (identifier)))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier)))))
 
-=====================================
+================================================================================
 Macro invocation with comments
-=====================================
+================================================================================
 
 ok! {
   // one
   /* two */
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (macro_invocation
     (identifier)
-    (token_tree (line_comment) (block_comment))))
+    (token_tree
+      (line_comment)
+      (block_comment))))
 
-============================================
+================================================================================
 Macro definition
-============================================
+================================================================================
 
 macro_rules! say_hello {
     () => (
@@ -111,7 +154,7 @@ macro_rules! zero_or_one {
     };
 }
 
-----
+--------------------------------------------------------------------------------
 
 (source_file
   (macro_definition
