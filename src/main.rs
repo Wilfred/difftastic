@@ -415,7 +415,8 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
     let ts_lang = guess(path, guess_src).map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
-        // TODO: explain rationale here.
+        // If the two files are completely identical, return early
+        // rather than doing any more work.
         return DiffResult {
             path: display_path.into(),
             language: ts_lang.map(|l| l.name.into()),
