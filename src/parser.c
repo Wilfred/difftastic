@@ -9,7 +9,7 @@
 #define STATE_COUNT 1281
 #define LARGE_STATE_COUNT 150
 #define SYMBOL_COUNT 240
-#define ALIAS_COUNT 1
+#define ALIAS_COUNT 2
 #define TOKEN_COUNT 105
 #define EXTERNAL_TOKEN_COUNT 6
 #define FIELD_COUNT 29
@@ -257,6 +257,7 @@ enum {
   aux_sym_string_repeat1 = 238,
   aux_sym_format_specifier_repeat1 = 239,
   alias_sym_as_pattern_target = 240,
+  alias_sym_case_pattern = 241,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -501,6 +502,7 @@ static const char * const ts_symbol_names[] = {
   [aux_sym_string_repeat1] = "string_repeat1",
   [aux_sym_format_specifier_repeat1] = "format_specifier_repeat1",
   [alias_sym_as_pattern_target] = "as_pattern_target",
+  [alias_sym_case_pattern] = "case_pattern",
 };
 
 static const TSSymbol ts_symbol_map[] = {
@@ -745,6 +747,7 @@ static const TSSymbol ts_symbol_map[] = {
   [aux_sym_string_repeat1] = aux_sym_string_repeat1,
   [aux_sym_format_specifier_repeat1] = aux_sym_format_specifier_repeat1,
   [alias_sym_as_pattern_target] = alias_sym_as_pattern_target,
+  [alias_sym_case_pattern] = alias_sym_case_pattern,
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -1716,6 +1719,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
+  [alias_sym_case_pattern] = {
+    .visible = true,
+    .named = true,
+  },
 };
 
 enum {
@@ -2356,7 +2363,11 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
   [80] = {
     [2] = sym_block,
   },
+  [87] = {
+    [1] = alias_sym_case_pattern,
+  },
   [88] = {
+    [1] = alias_sym_case_pattern,
     [3] = sym_block,
   },
   [90] = {
@@ -2372,12 +2383,18 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [6] = sym_block,
   },
   [97] = {
+    [1] = alias_sym_case_pattern,
     [4] = sym_block,
   },
+  [98] = {
+    [1] = alias_sym_case_pattern,
+  },
   [99] = {
+    [1] = alias_sym_case_pattern,
     [4] = sym_block,
   },
   [100] = {
+    [1] = alias_sym_case_pattern,
     [4] = sym_block,
   },
   [101] = {
@@ -2386,20 +2403,45 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
   [103] = {
     [7] = sym_block,
   },
+  [106] = {
+    [1] = alias_sym_case_pattern,
+  },
   [107] = {
+    [1] = alias_sym_case_pattern,
     [5] = sym_block,
+  },
+  [108] = {
+    [1] = alias_sym_case_pattern,
   },
   [109] = {
+    [1] = alias_sym_case_pattern,
     [5] = sym_block,
   },
+  [110] = {
+    [1] = alias_sym_case_pattern,
+  },
   [111] = {
+    [1] = alias_sym_case_pattern,
     [5] = sym_block,
   },
   [114] = {
     [5] = sym_block,
   },
+  [115] = {
+    [1] = alias_sym_case_pattern,
+  },
+  [116] = {
+    [1] = alias_sym_case_pattern,
+  },
   [117] = {
+    [1] = alias_sym_case_pattern,
     [6] = sym_block,
+  },
+  [118] = {
+    [1] = alias_sym_case_pattern,
+  },
+  [119] = {
+    [1] = alias_sym_case_pattern,
   },
 };
 
@@ -2410,9 +2452,13 @@ static const uint16_t ts_non_terminal_alias_map[] = {
   sym_parenthesized_list_splat, 2,
     sym_parenthesized_list_splat,
     sym_parenthesized_expression,
-  sym_expression, 2,
+  sym_list_splat_pattern, 2,
+    sym_list_splat_pattern,
+    alias_sym_case_pattern,
+  sym_expression, 3,
     sym_expression,
     alias_sym_as_pattern_target,
+    alias_sym_case_pattern,
   0,
 };
 
