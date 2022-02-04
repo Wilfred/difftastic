@@ -21,6 +21,14 @@ constants.
 If given binary files, difftastic will now report if the file contents
 are identical.
 
+### Command Line Interface
+
+Difftastic will now error if either argument does not exist, unless
+`--missing-as-empty` (new argument) is passed. This is a better
+default, but requires Mercurial uses to [specify this
+flag](https://difftastic.wilfred.me.uk/mercurial.html) in their
+configuration.
+
 ## 0.18.1 (released 30 January 2022)
 
 Fixed a compilation issue on Rust 1.54 (0.18 only built on newer
