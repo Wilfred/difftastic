@@ -14,7 +14,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expression_statement"
+          "name": "expression_statement"
         },
         {
           "type": "SYMBOL",
@@ -26,7 +26,7 @@
       "type": "STRING",
       "value": ";"
     },
-    "_expression_statement": {
+    "expression_statement": {
       "type": "CHOICE",
       "members": [
         {
