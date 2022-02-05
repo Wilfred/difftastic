@@ -41,12 +41,20 @@ ifeq ($(shell uname),Darwin)
 	SOEXT = dylib
 	SOEXTVER_MAJOR = $(SONAME_MAJOR).dylib
 	SOEXTVER = $(SONAME_MAJOR).$(SONAME_MINOR).dylib
-	LINKSHARED += -dynamiclib -Wl,$(ADDITIONALLIBS),-install_name,$(LIBDIR)/libtree-sitter-$(PARSER_NAME).$(SONAME_MAJOR).dylib,-rpath,@executable_path/../Frameworks
+	LINKSHARED := $(LINKSHARED)-dynamiclib -Wl,
+	ifneq ($(ADDITIONALLIBS),)
+	LINKSHARED := $(LINKSHARED)$(ADDITIONALLIBS),
+	endif
+	LINKSHARED := $(LINKSHARED)-install_name,$(LIBDIR)/libtree-sitter-$(PARSER_NAME).$(SONAME_MAJOR).dylib,-rpath,@executable_path/../Frameworks
 else
 	SOEXT = so
 	SOEXTVER_MAJOR = so.$(SONAME_MAJOR)
 	SOEXTVER = so.$(SONAME_MAJOR).$(SONAME_MINOR)
-	LINKSHARED += -shared -Wl,$(ADDITIONALLIBS),-soname,libtree-sitter-$(PARSER_NAME).so.$(SONAME_MAJOR)
+	LINKSHARED := $(LINKSHARED)-shared -Wl,
+	ifneq ($(ADDITIONALLIBS),)
+	LINKSHARED := $(LINKSHARED)$(ADDITIONALLIBS)
+	endif
+	LINKSHARED := $(LINKSHARED)-soname,libtree-sitter-$(PARSER_NAME).so.$(SONAME_MAJOR)
 endif
 ifneq (,$(filter $(shell uname),FreeBSD NetBSD DragonFly))
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
