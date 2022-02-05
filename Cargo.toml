@@ -34,4 +34,5 @@ criterion = { version = "0.3.5", features = ["html_reports"] }
 
 [[bench]]
 name = "bench_main"
+path = "benches/bench_main.rs"
 harness = false
