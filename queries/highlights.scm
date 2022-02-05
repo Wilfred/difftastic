@@ -21,7 +21,7 @@
 (function_declaration (simple_identifier) @method)
 (function_declaration ["init" @constructor])
 (throws) @keyword
-(async) @keyword
+"async" @keyword
 (where_keyword) @keyword
 (parameter external_name: (simple_identifier) @parameter)
 (parameter name: (simple_identifier) @parameter)
@@ -37,6 +37,12 @@
   "protocol"
   "extension"
   "indirect"
+] @keyword
+
+[
+  (getter_specifier)
+  (setter_specifier)
+  (modify_specifier)
 ] @keyword
 
 (class_body (property_declaration (value_binding_pattern (non_binding_pattern (simple_identifier) @property))))
