@@ -83,165 +83,151 @@ var CUSTOM_OPERATORS = token(
 // * Custom operators and `<` for type arguments
 module.exports = grammar({
   name: "swift",
-  conflicts: function ($) {
-    return [
-      // @Type(... could either be an annotation constructor invocation or an annotated expression
-      [$.attribute],
-      // Is `foo { ... }` a constructor invocation or function invocation?
-      [$._simple_user_type, $._expression],
-      // To support nested types A.B not being interpreted as `(navigation_expression ... (type_identifier)) (navigation_suffix)`
-      [$.user_type],
-      // How to tell the difference between Foo.bar(with:and:), and Foo.bar(with: smth, and: other)? You need GLR
-      [$.value_argument],
-      // { (foo, bar) ...
-      [$._expression, $.lambda_parameter],
-      [$._primary_expression, $.lambda_parameter],
-      // (start: start, end: end)
-      [$._tuple_type_item_identifier, $.tuple_expression],
-      // After a `{` in a function or switch context, it's ambigous whether we're starting a set of local statements or
-      // applying some modifiers to a capture or pattern.
-      [$.modifiers],
-      // Custom operators get weird special handling for `<` characters in silly stuff like `func =<<<<T>(...)`
-      [$.custom_operator],
-      [$._prefix_unary_operator, $._referenceable_operator],
-      // `+(...)` is ambigously either "call the function produced by a reference to the operator `+`" or "use the unary
-      // operator `+` on the result of the parenthetical expression."
-      [$._additive_operator, $._prefix_unary_operator],
-      // `{ [self, b, c] ...` could be a capture list or an array literal depending on what else happens.
-      [$.capture_list_item, $.self_expression],
-      [$.capture_list_item, $._expression],
-      [$.capture_list_item, $._expression, $._simple_user_type],
-      [$._primary_expression, $.capture_list_item],
-      // a ? b : c () could be calling c(), or it could be calling a function that's produced by the result of
-      // `(a ? b : c)`. We have a small hack to force it to be the former of these by intentionally introducing a
-      // conflict.
-      [$.call_suffix, $.expr_hack_at_ternary_call_suffix],
-      // try {expression} is a bit magic and applies quite broadly: `try foo()` and `try foo { }` show that this is right
-      // associative, and `try foo ? bar() : baz` even more so. But it doesn't always win: something like
-      // `if try foo { } ...` should award its braces to the `if`. In order to make this actually happen, we need to parse
-      // all the options and pick the best one that doesn't error out.
-      [$.try_expression, $._unary_expression],
-      [$.try_expression, $._expression],
-      // await {expression} has the same special cases as `try`.
-      [$.await_expression, $._unary_expression],
-      [$.await_expression, $._expression],
-      // In a computed property, when you see an @attribute, it's not yet clear if that's going to be for a
-      // locally-declared class or a getter / setter specifier.
-      [
-        $._local_property_declaration,
-        $._local_typealias_declaration,
-        $._local_function_declaration,
-        $._local_class_declaration,
-        $.computed_getter,
-        $.computed_modify,
-        $.computed_setter,
-      ],
-      // In a lambda literal's capture list, same problem with class attributes vs capture specifier attributes.
-      [
-        $.capture_list,
-        $._local_property_declaration,
-        $._local_typealias_declaration,
-        $._local_function_declaration,
-        $._local_class_declaration,
-      ],
-    ];
-  },
-  extras: function ($) {
-    return [
-      $.comment,
-      $.multiline_comment,
-      $.directive,
-      $.diagnostic,
-      /\s+/, // Whitespace
-    ];
-  },
-  externals: function ($) {
-    return [
-      // Comments and raw strings are parsed in a custom scanner because they require us to carry forward state to
-      // maintain symmetry. For instance, parsing a multiline comment requires us to increment a counter whenever we see
-      // `/*`, and decrement it whenever we see `*/`. A standard grammar would only be able to exit the comment at the
-      // first `*/` (like C does). Similarly, when you start a string with `##"`, you're required to include the same
-      // number of `#` symbols to end it.
-      $.multiline_comment,
-      $.raw_str_part,
-      $.raw_str_continuing_indicator,
-      $.raw_str_end_part,
-      // Because Swift doesn't have explicit semicolons, we also do some whitespace handling in a custom scanner. Line
-      // breaks are _sometimes_ meaningful as the end of a statement: try to write `let foo: Foo let bar: Bar`, for
-      // instance and the compiler will complain, but add either a newline or a semicolon and it's fine. We borrow the
-      // idea from the Kotlin grammar that a newline is sometimes a "semicolon". By including `\n` in both `_semi` and
-      // an anonymous `whitespace` extras, we _should_ be able to let the parser decide if a newline is meaningful. If the
-      // parser sees something like `foo.bar(1\n)`, it knows that a "semicolon" would not be valid there, so it parses
-      // that as whitespace. On the other hand, `let foo: Foo\n let bar: Bar` has a meaningful newline.
-      // Unfortunately, we can't simply stop at that. There are some expressions and statements that remain valid if you
-      // end them early, but are expected to be parsed across multiple lines. One particular nefarious example is a
-      // function declaration, where you might have something like `func foo<A>(args: A) -> Foo throws where A: Hashable`.
-      // This would still be a valid declaration even if it ended after the `)`, the `Foo`, or the `throws`, so a grammar
-      // that simply interprets a newline as "sometimes a semi" would parse those incorrectly.
-      // To solve that case, our custom scanner must do a bit of extra lookahead itself. If we're about to generate a
-      // `_semi`, we advance a bit further to see if the next non-whitespace token would be one of these other operators.
-      // If so, we ignore the `_semi` and just produce the operator; if not, we produce the `_semi` and let the rest of
-      // the grammar sort it out. This isn't perfect, but it works well enough most of the time.
-      $._semi,
-      // Every one of the below operators will suppress a `_semi` if we encounter it after a newline.
-      $._arrow_operator_custom,
-      $._dot_custom,
-      $._three_dot_operator_custom,
-      $._open_ended_range_operator_custom,
-      $._conjunction_operator_custom,
-      $._disjunction_operator_custom,
-      $._nil_coalescing_operator_custom,
-      $._eq_custom,
-      $._eq_eq_custom,
-      $._plus_then_ws,
-      $._minus_then_ws,
-      $.bang,
-      $._throws_keyword,
-      $._rethrows_keyword,
-      $.default_keyword,
-      $.where_keyword,
-      $["else"],
-      $.catch_keyword,
-      $._as_custom,
-      $._as_quest_custom,
-      $._as_bang_custom,
-      $._async_keyword_custom,
-    ];
-  },
+  conflicts: ($) => [
+    // @Type(... could either be an annotation constructor invocation or an annotated expression
+    [$.attribute],
+    // Is `foo { ... }` a constructor invocation or function invocation?
+    [$._simple_user_type, $._expression],
+    // To support nested types A.B not being interpreted as `(navigation_expression ... (type_identifier)) (navigation_suffix)`
+    [$.user_type],
+    // How to tell the difference between Foo.bar(with:and:), and Foo.bar(with: smth, and: other)? You need GLR
+    [$.value_argument],
+    // { (foo, bar) ...
+    [$._expression, $.lambda_parameter],
+    [$._primary_expression, $.lambda_parameter],
+    // (start: start, end: end)
+    [$._tuple_type_item_identifier, $.tuple_expression],
+    // After a `{` in a function or switch context, it's ambigous whether we're starting a set of local statements or
+    // applying some modifiers to a capture or pattern.
+    [$.modifiers],
+    // Custom operators get weird special handling for `<` characters in silly stuff like `func =<<<<T>(...)`
+    [$.custom_operator],
+    [$._prefix_unary_operator, $._referenceable_operator],
+    // `+(...)` is ambigously either "call the function produced by a reference to the operator `+`" or "use the unary
+    // operator `+` on the result of the parenthetical expression."
+    [$._additive_operator, $._prefix_unary_operator],
+    // `{ [self, b, c] ...` could be a capture list or an array literal depending on what else happens.
+    [$.capture_list_item, $.self_expression],
+    [$.capture_list_item, $._expression],
+    [$.capture_list_item, $._expression, $._simple_user_type],
+    [$._primary_expression, $.capture_list_item],
+    // a ? b : c () could be calling c(), or it could be calling a function that's produced by the result of
+    // `(a ? b : c)`. We have a small hack to force it to be the former of these by intentionally introducing a
+    // conflict.
+    [$.call_suffix, $.expr_hack_at_ternary_call_suffix],
+    // try {expression} is a bit magic and applies quite broadly: `try foo()` and `try foo { }` show that this is right
+    // associative, and `try foo ? bar() : baz` even more so. But it doesn't always win: something like
+    // `if try foo { } ...` should award its braces to the `if`. In order to make this actually happen, we need to parse
+    // all the options and pick the best one that doesn't error out.
+    [$.try_expression, $._unary_expression],
+    [$.try_expression, $._expression],
+    // await {expression} has the same special cases as `try`.
+    [$.await_expression, $._unary_expression],
+    [$.await_expression, $._expression],
+    // In a computed property, when you see an @attribute, it's not yet clear if that's going to be for a
+    // locally-declared class or a getter / setter specifier.
+    [
+      $._local_property_declaration,
+      $._local_typealias_declaration,
+      $._local_function_declaration,
+      $._local_class_declaration,
+      $.computed_getter,
+      $.computed_modify,
+      $.computed_setter,
+    ],
+    // In a lambda literal's capture list, same problem with class attributes vs capture specifier attributes.
+    [
+      $.capture_list,
+      $._local_property_declaration,
+      $._local_typealias_declaration,
+      $._local_function_declaration,
+      $._local_class_declaration,
+    ],
+  ],
+  extras: ($) => [
+    $.comment,
+    $.multiline_comment,
+    $.directive,
+    $.diagnostic,
+    /\s+/, // Whitespace
+  ],
+  externals: ($) => [
+    // Comments and raw strings are parsed in a custom scanner because they require us to carry forward state to
+    // maintain symmetry. For instance, parsing a multiline comment requires us to increment a counter whenever we see
+    // `/*`, and decrement it whenever we see `*/`. A standard grammar would only be able to exit the comment at the
+    // first `*/` (like C does). Similarly, when you start a string with `##"`, you're required to include the same
+    // number of `#` symbols to end it.
+    $.multiline_comment,
+    $.raw_str_part,
+    $.raw_str_continuing_indicator,
+    $.raw_str_end_part,
+    // Because Swift doesn't have explicit semicolons, we also do some whitespace handling in a custom scanner. Line
+    // breaks are _sometimes_ meaningful as the end of a statement: try to write `let foo: Foo let bar: Bar`, for
+    // instance and the compiler will complain, but add either a newline or a semicolon and it's fine. We borrow the
+    // idea from the Kotlin grammar that a newline is sometimes a "semicolon". By including `\n` in both `_semi` and
+    // an anonymous `whitespace` extras, we _should_ be able to let the parser decide if a newline is meaningful. If the
+    // parser sees something like `foo.bar(1\n)`, it knows that a "semicolon" would not be valid there, so it parses
+    // that as whitespace. On the other hand, `let foo: Foo\n let bar: Bar` has a meaningful newline.
+    // Unfortunately, we can't simply stop at that. There are some expressions and statements that remain valid if you
+    // end them early, but are expected to be parsed across multiple lines. One particular nefarious example is a
+    // function declaration, where you might have something like `func foo<A>(args: A) -> Foo throws where A: Hashable`.
+    // This would still be a valid declaration even if it ended after the `)`, the `Foo`, or the `throws`, so a grammar
+    // that simply interprets a newline as "sometimes a semi" would parse those incorrectly.
+    // To solve that case, our custom scanner must do a bit of extra lookahead itself. If we're about to generate a
+    // `_semi`, we advance a bit further to see if the next non-whitespace token would be one of these other operators.
+    // If so, we ignore the `_semi` and just produce the operator; if not, we produce the `_semi` and let the rest of
+    // the grammar sort it out. This isn't perfect, but it works well enough most of the time.
+    $._semi,
+    // Every one of the below operators will suppress a `_semi` if we encounter it after a newline.
+    $._arrow_operator_custom,
+    $._dot_custom,
+    $._three_dot_operator_custom,
+    $._open_ended_range_operator_custom,
+    $._conjunction_operator_custom,
+    $._disjunction_operator_custom,
+    $._nil_coalescing_operator_custom,
+    $._eq_custom,
+    $._eq_eq_custom,
+    $._plus_then_ws,
+    $._minus_then_ws,
+    $.bang,
+    $._throws_keyword,
+    $._rethrows_keyword,
+    $.default_keyword,
+    $.where_keyword,
+    $["else"],
+    $.catch_keyword,
+    $._as_custom,
+    $._as_quest_custom,
+    $._as_bang_custom,
+    $._async_keyword_custom,
+  ],
   rules: {
     ////////////////////////////////
     // File Structure
     ////////////////////////////////
-    source_file: function ($) {
-      return seq(
+    source_file: ($) =>
+      seq(
         optional($.shebang_line),
         repeat(seq($._top_level_statement, $._semi))
-      );
-    },
-    shebang_line: function ($) {
-      return seq("#!", /[^\r\n]*/);
-    },
+      ),
+    shebang_line: ($) => seq("#!", /[^\r\n]*/),
     ////////////////////////////////
     // Lexical Structure - https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html
     ////////////////////////////////
-    comment: function ($) {
-      return token(prec(PRECS.comment, seq("//", /.*/)));
-    },
+    comment: ($) => token(prec(PRECS.comment, seq("//", /.*/))),
     // Identifiers
-    simple_identifier: function ($) {
-      return choice(
+    simple_identifier: ($) =>
+      choice(
         LEXICAL_IDENTIFIER,
         /`[^\r\n` ]*`/,
         /\$[0-9]+/,
         token(seq("$", LEXICAL_IDENTIFIER))
-      );
-    },
-    identifier: function ($) {
-      return sep1($.simple_identifier, $._dot);
-    },
+      ),
+    identifier: ($) => sep1($.simple_identifier, $._dot),
     // Literals
-    _basic_literal: function ($) {
-      return choice(
+    _basic_literal: ($) =>
+      choice(
         $.integer_literal,
         $.hex_literal,
         $.oct_literal,
@@ -250,70 +236,48 @@ module.exports = grammar({
         $.boolean_literal,
         $._string_literal,
         "nil"
-      );
-    },
+      ),
     // TODO: Hex exponents
-    real_literal: function ($) {
-      return token(
+    real_literal: ($) =>
+      token(
         choice(
           seq(DEC_DIGITS, REAL_EXPONENT),
           seq(optional(DEC_DIGITS), ".", DEC_DIGITS, optional(REAL_EXPONENT))
         )
-      );
-    },
-    integer_literal: function ($) {
-      return token(seq(optional(/[1-9]/), DEC_DIGITS));
-    },
-    hex_literal: function ($) {
-      return token(seq("0", /[xX]/, HEX_DIGITS));
-    },
-    oct_literal: function ($) {
-      return token(seq("0", /[oO]/, OCT_DIGITS));
-    },
-    bin_literal: function ($) {
-      return token(seq("0", /[bB]/, BIN_DIGITS));
-    },
-    boolean_literal: function ($) {
-      return choice("true", "false");
-    },
+      ),
+    integer_literal: ($) => token(seq(optional(/[1-9]/), DEC_DIGITS)),
+    hex_literal: ($) => token(seq("0", /[xX]/, HEX_DIGITS)),
+    oct_literal: ($) => token(seq("0", /[oO]/, OCT_DIGITS)),
+    bin_literal: ($) => token(seq("0", /[bB]/, BIN_DIGITS)),
+    boolean_literal: ($) => choice("true", "false"),
     // String literals
-    _string_literal: function ($) {
-      return choice(
+    _string_literal: ($) =>
+      choice(
         $.line_string_literal,
         $.multi_line_string_literal,
         $.raw_string_literal
-      );
-    },
-    line_string_literal: function ($) {
-      return seq(
+      ),
+    line_string_literal: ($) =>
+      seq(
         '"',
         repeat(choice(field("text", $._line_string_content), $._interpolation)),
         '"'
-      );
-    },
-    _line_string_content: function ($) {
-      return choice($.line_str_text, $.str_escaped_char);
-    },
-    line_str_text: function ($) {
-      return /[^\\"]+/;
-    },
-    str_escaped_char: function ($) {
-      return choice($._escaped_identifier, $._uni_character_literal);
-    },
-    _uni_character_literal: function ($) {
-      return seq("\\", "u", /\{[0-9a-fA-F]+\}/);
-    },
-    multi_line_string_literal: function ($) {
-      return seq(
+      ),
+    _line_string_content: ($) => choice($.line_str_text, $.str_escaped_char),
+    line_str_text: ($) => /[^\\"]+/,
+    str_escaped_char: ($) =>
+      choice($._escaped_identifier, $._uni_character_literal),
+    _uni_character_literal: ($) => seq("\\", "u", /\{[0-9a-fA-F]+\}/),
+    multi_line_string_literal: ($) =>
+      seq(
         '"""',
         repeat(
           choice(field("text", $._multi_line_string_content), $._interpolation)
         ),
         '"""'
-      );
-    },
-    raw_string_literal: function ($) {
-      return seq(
+      ),
+    raw_string_literal: ($) =>
+      seq(
         repeat(
           seq(
             field("text", $.raw_str_part),
@@ -322,52 +286,37 @@ module.exports = grammar({
           )
         ),
         field("text", $.raw_str_end_part)
-      );
-    },
-    raw_str_interpolation: function ($) {
-      return seq($.raw_str_interpolation_start, $._interpolation_contents, ")");
-    },
-    raw_str_interpolation_start: function ($) {
-      return /\\#*\(/;
-    },
-    _multi_line_string_content: function ($) {
-      return choice($.multi_line_str_text, $.str_escaped_char, '"');
-    },
-    _interpolation: function ($) {
-      return seq("\\(", $._interpolation_contents, ")");
-    },
-    _interpolation_contents: function ($) {
-      return sep1(
+      ),
+    raw_str_interpolation: ($) =>
+      seq($.raw_str_interpolation_start, $._interpolation_contents, ")"),
+    raw_str_interpolation_start: ($) => /\\#*\(/,
+    _multi_line_string_content: ($) =>
+      choice($.multi_line_str_text, $.str_escaped_char, '"'),
+    _interpolation: ($) => seq("\\(", $._interpolation_contents, ")"),
+    _interpolation_contents: ($) =>
+      sep1(
         field(
           "interpolation",
           alias($.value_argument, $.interpolated_expression)
         ),
         ","
-      );
-    },
-    _escaped_identifier: function ($) {
-      return /\\[0\\tnr"'\n]/;
-    },
-    multi_line_str_text: function ($) {
-      return /[^\\"]+/;
-    },
+      ),
+    _escaped_identifier: ($) => /\\[0\\tnr"'\n]/,
+    multi_line_str_text: ($) => /[^\\"]+/,
     ////////////////////////////////
     // Types - https://docs.swift.org/swift-book/ReferenceManual/Types.html
     ////////////////////////////////
-    type_annotation: function ($) {
-      return seq(":", field("type", $._possibly_implicitly_unwrapped_type));
-    },
-    _possibly_implicitly_unwrapped_type: function ($) {
-      return seq($._type, optional(token.immediate("!")));
-    },
-    _type: function ($) {
-      return prec.right(
+    type_annotation: ($) =>
+      seq(":", field("type", $._possibly_implicitly_unwrapped_type)),
+    _possibly_implicitly_unwrapped_type: ($) =>
+      seq($._type, optional(token.immediate("!"))),
+    _type: ($) =>
+      prec.right(
         PRECS.ty,
         seq(optional($.type_modifiers), field("name", $._unannotated_type))
-      );
-    },
-    _unannotated_type: function ($) {
-      return prec.right(
+      ),
+    _unannotated_type: ($) =>
+      prec.right(
         PRECS.ty,
         choice(
           $.user_type,
@@ -380,65 +329,50 @@ module.exports = grammar({
           $.opaque_type,
           $.protocol_composition_type
         )
-      );
-    },
+      ),
     // The grammar just calls this whole thing a `type-identifier` but that's a bit confusing.
-    user_type: function ($) {
-      return sep1($._simple_user_type, $._dot);
-    },
-    _simple_user_type: function ($) {
-      return prec.right(
+    user_type: ($) => sep1($._simple_user_type, $._dot),
+    _simple_user_type: ($) =>
+      prec.right(
         PRECS.ty,
         seq(
           alias($.simple_identifier, $.type_identifier),
           optional($.type_arguments)
         )
-      );
-    },
-    tuple_type: function ($) {
-      return seq(
-        "(",
-        optional(sep1(field("element", $.tuple_type_item), ",")),
-        ")"
-      );
-    },
-    tuple_type_item: function ($) {
-      return prec(
+      ),
+    tuple_type: ($) =>
+      seq("(", optional(sep1(field("element", $.tuple_type_item), ",")), ")"),
+    tuple_type_item: ($) =>
+      prec(
         PRECS.expr,
         seq(
           optional($._tuple_type_item_identifier),
           optional($.parameter_modifiers),
           field("type", $._type)
         )
-      );
-    },
-    _tuple_type_item_identifier: function ($) {
-      return prec(
+      ),
+    _tuple_type_item_identifier: ($) =>
+      prec(
         PRECS.expr,
         seq(
           optional($.wildcard_pattern),
           field("name", $.simple_identifier),
           ":"
         )
-      );
-    },
-    function_type: function ($) {
-      return seq(
+      ),
+    function_type: ($) =>
+      seq(
         field("params", $.tuple_type),
         optional($._async_keyword),
         optional($.throws),
         $._arrow_operator,
         field("return_type", $._type)
-      );
-    },
-    array_type: function ($) {
-      return seq("[", field("element", $._type), "]");
-    },
-    dictionary_type: function ($) {
-      return seq("[", field("key", $._type), ":", field("value", $._type), "]");
-    },
-    optional_type: function ($) {
-      return prec.left(
+      ),
+    array_type: ($) => seq("[", field("element", $._type), "]"),
+    dictionary_type: ($) =>
+      seq("[", field("key", $._type), ":", field("value", $._type), "]"),
+    optional_type: ($) =>
+      prec.left(
         seq(
           field(
             "wrapped",
@@ -446,35 +380,24 @@ module.exports = grammar({
           ),
           repeat1(alias($._immediate_quest, "?"))
         )
-      );
-    },
-    metatype: function ($) {
-      return prec.left(
-        seq($._unannotated_type, ".", choice("Type", "Protocol"))
-      );
-    },
-    _quest: function ($) {
-      return "?";
-    },
-    _immediate_quest: function ($) {
-      return token.immediate("?");
-    },
-    opaque_type: function ($) {
-      return seq("some", $.user_type);
-    },
-    protocol_composition_type: function ($) {
-      return prec.right(
+      ),
+    metatype: ($) =>
+      prec.left(seq($._unannotated_type, ".", choice("Type", "Protocol"))),
+    _quest: ($) => "?",
+    _immediate_quest: ($) => token.immediate("?"),
+    opaque_type: ($) => seq("some", $.user_type),
+    protocol_composition_type: ($) =>
+      prec.right(
         seq(
           $._unannotated_type,
           repeat1(seq("&", prec.right($._unannotated_type)))
         )
-      );
-    },
+      ),
     ////////////////////////////////
     // Expressions - https://docs.swift.org/swift-book/ReferenceManual/Expressions.html
     ////////////////////////////////
-    _expression: function ($) {
-      return prec(
+    _expression: ($) =>
+      prec(
         PRECS.expr,
         choice(
           $.simple_identifier,
@@ -486,11 +409,10 @@ module.exports = grammar({
           seq($._expression, alias($._immediate_quest, "?")),
           alias("async", $.simple_identifier)
         )
-      );
-    },
+      ),
     // Unary expressions
-    _unary_expression: function ($) {
-      return choice(
+    _unary_expression: ($) =>
+      choice(
         $.postfix_expression,
         $.call_expression,
         $.constructor_expression,
@@ -500,19 +422,17 @@ module.exports = grammar({
         $.selector_expression,
         $.open_start_range_expression,
         $.open_end_range_expression
-      );
-    },
-    postfix_expression: function ($) {
-      return prec.left(
+      ),
+    postfix_expression: ($) =>
+      prec.left(
         PRECS.postfix_operations,
         seq(
           field("target", $._expression),
           field("operation", $._postfix_unary_operator)
         )
-      );
-    },
-    constructor_expression: function ($) {
-      return prec(
+      ),
+    constructor_expression: ($) =>
+      prec(
         PRECS.call,
         seq(
           field(
@@ -521,62 +441,54 @@ module.exports = grammar({
           ),
           $.constructor_suffix
         )
-      );
-    },
-    navigation_expression: function ($) {
-      return prec.left(
+      ),
+    navigation_expression: ($) =>
+      prec.left(
         PRECS.navigation,
         seq(
           field("target", choice($._navigable_type_expression, $._expression)),
           field("suffix", $.navigation_suffix)
         )
-      );
-    },
-    _navigable_type_expression: function ($) {
-      return choice($.user_type, $.array_type, $.dictionary_type);
-    },
-    open_start_range_expression: function ($) {
-      return prec.right(
+      ),
+    _navigable_type_expression: ($) =>
+      choice($.user_type, $.array_type, $.dictionary_type),
+    open_start_range_expression: ($) =>
+      prec.right(
         PRECS.range,
         seq(
           choice($._open_ended_range_operator, $._three_dot_operator),
           prec.right(PRECS.range_suffix, field("end", $._expression))
         )
-      );
-    },
-    open_end_range_expression: function ($) {
-      return prec.right(
+      ),
+    open_end_range_expression: ($) =>
+      prec.right(
         PRECS.range,
         seq(field("start", $._expression), $._three_dot_operator)
-      );
-    },
-    prefix_expression: function ($) {
-      return prec.left(
+      ),
+    prefix_expression: ($) =>
+      prec.left(
         PRECS.prefix_operations,
         seq(
           field("operation", $._prefix_unary_operator),
           field("target", $._expression)
         )
-      );
-    },
-    as_expression: function ($) {
-      return prec.left(
+      ),
+    as_expression: ($) =>
+      prec.left(
         PRECS.as,
         seq(field("expr", $._expression), $.as_operator, field("type", $._type))
-      );
-    },
-    selector_expression: function ($) {
-      return seq(
+      ),
+    selector_expression: ($) =>
+      seq(
         "#selector",
         "(",
         optional(choice("getter:", "setter:")),
         $._expression,
         ")"
-      );
-    },
+      ),
     // Binary expressions
-    _binary_expression: function ($) {
-      return choice(
+    _binary_expression: ($) =>
+      choice(
         $.multiplicative_expression,
         $.additive_expression,
         $.range_expression,
@@ -589,30 +501,27 @@ module.exports = grammar({
         $.conjunction_expression,
         $.disjunction_expression,
         $.bitwise_operation
-      );
-    },
-    multiplicative_expression: function ($) {
-      return prec.left(
+      ),
+    multiplicative_expression: ($) =>
+      prec.left(
         PRECS.multiplication,
         seq(
           field("lhs", $._expression),
           field("op", $._multiplicative_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    additive_expression: function ($) {
-      return prec.left(
+      ),
+    additive_expression: ($) =>
+      prec.left(
         PRECS.addition,
         seq(
           field("lhs", $._expression),
           field("op", $._additive_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    range_expression: function ($) {
-      return prec.right(
+      ),
+    range_expression: ($) =>
+      prec.right(
         PRECS.range,
         seq(
           field("start", $._expression),
@@ -622,98 +531,86 @@ module.exports = grammar({
           ),
           field("end", $._expression)
         )
-      );
-    },
-    infix_expression: function ($) {
-      return prec.left(
+      ),
+    infix_expression: ($) =>
+      prec.left(
         PRECS.infix_operations,
         seq(
           field("lhs", $._expression),
           field("op", $.custom_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    nil_coalescing_expression: function ($) {
-      return prec.right(
+      ),
+    nil_coalescing_expression: ($) =>
+      prec.right(
         PRECS.nil_coalescing,
         seq(
           field("value", $._expression),
           $._nil_coalescing_operator,
           field("if_nil", $._expression)
         )
-      );
-    },
-    check_expression: function ($) {
-      return prec.left(
+      ),
+    check_expression: ($) =>
+      prec.left(
         PRECS.check,
         seq(
           field("target", $._expression),
           field("op", $._is_operator),
           field("type", $._type)
         )
-      );
-    },
-    comparison_expression: function ($) {
-      return prec.left(
+      ),
+    comparison_expression: ($) =>
+      prec.left(
         seq(
           field("lhs", $._expression),
           field("op", $._comparison_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    equality_expression: function ($) {
-      return prec.left(
+      ),
+    equality_expression: ($) =>
+      prec.left(
         PRECS.equality,
         seq(
           field("lhs", $._expression),
           field("op", $._equality_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    conjunction_expression: function ($) {
-      return prec.left(
+      ),
+    conjunction_expression: ($) =>
+      prec.left(
         PRECS.conjunction,
         seq(
           field("lhs", $._expression),
           field("op", $._conjunction_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    disjunction_expression: function ($) {
-      return prec.left(
+      ),
+    disjunction_expression: ($) =>
+      prec.left(
         PRECS.disjunction,
         seq(
           field("lhs", $._expression),
           field("op", $._disjunction_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    bitwise_operation: function ($) {
-      return prec.left(
+      ),
+    bitwise_operation: ($) =>
+      prec.left(
         seq(
           field("lhs", $._expression),
           field("op", $._bitwise_binary_operator),
           field("rhs", $._expression)
         )
-      );
-    },
-    custom_operator: function ($) {
-      return seq(CUSTOM_OPERATORS, optional("<"));
-    },
+      ),
+    custom_operator: ($) => seq(CUSTOM_OPERATORS, optional("<")),
     // Suffixes
-    navigation_suffix: function ($) {
-      return seq(
+    navigation_suffix: ($) =>
+      seq(
         $._dot,
         field("suffix", choice($.simple_identifier, $.integer_literal))
-      );
-    },
-    call_suffix: function ($) {
-      return prec(
+      ),
+    call_suffix: ($) =>
+      prec(
         PRECS.call_suffix,
         seq(
           choice(
@@ -721,10 +618,9 @@ module.exports = grammar({
             sep1($.lambda_literal, seq(field("name", $.simple_identifier), ":"))
           )
         )
-      );
-    },
-    constructor_suffix: function ($) {
-      return prec(
+      ),
+    constructor_suffix: ($) =>
+      prec(
         PRECS.call_suffix,
         seq(
           choice(
@@ -732,24 +628,19 @@ module.exports = grammar({
             $.lambda_literal
           )
         )
-      );
-    },
-    _constructor_value_arguments: function ($) {
-      return seq("(", optional(sep1($.value_argument, ",")), ")");
-    },
-    type_arguments: function ($) {
-      return prec.left(seq("<", sep1($._type, ","), ">"));
-    },
-    value_arguments: function ($) {
-      return seq(
+      ),
+    _constructor_value_arguments: ($) =>
+      seq("(", optional(sep1($.value_argument, ",")), ")"),
+    type_arguments: ($) => prec.left(seq("<", sep1($._type, ","), ">")),
+    value_arguments: ($) =>
+      seq(
         choice(
           seq("(", optional(sep1($.value_argument, ",")), ")"),
           seq("[", optional(sep1($.value_argument, ",")), "]")
         )
-      );
-    },
-    value_argument: function ($) {
-      return prec.left(
+      ),
+    value_argument: ($) =>
+      prec.left(
         seq(
           optional($.type_modifiers),
           choice(
@@ -773,10 +664,9 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    try_expression: function ($) {
-      return prec.right(
+      ),
+    try_expression: ($) =>
+      prec.right(
         PRECS["try"],
         seq(
           $._try_operator,
@@ -797,10 +687,9 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    await_expression: function ($) {
-      return prec.right(
+      ),
+    await_expression: ($) =>
+      prec.right(
         PRECS.await,
         seq(
           $._await_operator,
@@ -815,13 +704,10 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    _await_operator: function ($) {
-      return "await";
-    },
-    ternary_expression: function ($) {
-      return prec.right(
+      ),
+    _await_operator: ($) => "await",
+    ternary_expression: ($) =>
+      prec.right(
         PRECS.ternary,
         seq(
           field("condition", $._expression),
@@ -839,22 +725,17 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    expr_hack_at_ternary_call: function ($) {
-      return seq(
+      ),
+    expr_hack_at_ternary_call: ($) =>
+      seq(
         $._expression,
         alias($.expr_hack_at_ternary_call_suffix, $.call_suffix)
-      );
-    },
-    expr_hack_at_ternary_call_suffix: function ($) {
-      return prec(PRECS.call_suffix, $.value_arguments);
-    },
-    call_expression: function ($) {
-      return prec(PRECS.call, seq($._expression, $.call_suffix));
-    },
-    _primary_expression: function ($) {
-      return choice(
+      ),
+    expr_hack_at_ternary_call_suffix: ($) =>
+      prec(PRECS.call_suffix, $.value_arguments),
+    call_expression: ($) => prec(PRECS.call, seq($._expression, $.call_suffix)),
+    _primary_expression: ($) =>
+      choice(
         $.tuple_expression,
         $._basic_literal,
         $.lambda_literal,
@@ -873,10 +754,9 @@ module.exports = grammar({
           PRECS.fully_open_range,
           alias($._three_dot_operator, $.fully_open_range)
         )
-      );
-    },
-    tuple_expression: function ($) {
-      return prec.right(
+      ),
+    tuple_expression: ($) =>
+      prec.right(
         PRECS.tuple,
         seq(
           "(",
@@ -889,33 +769,25 @@ module.exports = grammar({
           ),
           ")"
         )
-      );
-    },
-    array_literal: function ($) {
-      return seq(
+      ),
+    array_literal: ($) =>
+      seq(
         "[",
         optional(sep1(field("element", $._expression), ",")),
         optional(","),
         "]"
-      );
-    },
-    dictionary_literal: function ($) {
-      return seq(
+      ),
+    dictionary_literal: ($) =>
+      seq(
         "[",
         choice(":", sep1($._dictionary_literal_item, ",")),
         optional(","),
         "]"
-      );
-    },
-    _dictionary_literal_item: function ($) {
-      return seq(
-        field("key", $._expression),
-        ":",
-        field("value", $._expression)
-      );
-    },
-    _special_literal: function ($) {
-      return choice(
+      ),
+    _dictionary_literal_item: ($) =>
+      seq(field("key", $._expression), ":", field("value", $._expression)),
+    _special_literal: ($) =>
+      choice(
         "#file",
         "#fileID",
         "#filePath",
@@ -923,18 +795,16 @@ module.exports = grammar({
         "#column",
         "#function",
         "#dsohandle"
-      );
-    },
-    _playground_literal: function ($) {
-      return seq(
+      ),
+    _playground_literal: ($) =>
+      seq(
         choice("#colorLiteral", "#fileLiteral", "#imageLiteral"),
         "(",
         sep1(seq($.simple_identifier, ":", $._expression), ","),
         ")"
-      );
-    },
-    lambda_literal: function ($) {
-      return prec.left(
+      ),
+    lambda_literal: ($) =>
+      prec.left(
         PRECS.lambda,
         seq(
           "{",
@@ -943,13 +813,11 @@ module.exports = grammar({
           optional($.statements),
           "}"
         )
-      );
-    },
-    capture_list: function ($) {
-      return seq(repeat($.attribute), "[", sep1($.capture_list_item, ","), "]");
-    },
-    capture_list_item: function ($) {
-      return choice(
+      ),
+    capture_list: ($) =>
+      seq(repeat($.attribute), "[", sep1($.capture_list_item, ","), "]"),
+    capture_list_item: ($) =>
+      choice(
         field("name", $.self_expression),
         prec(
           PRECS.expr,
@@ -959,10 +827,9 @@ module.exports = grammar({
             optional(seq($._equal_sign, field("value", $._expression)))
           )
         )
-      );
-    },
-    lambda_function_type: function ($) {
-      return prec(
+      ),
+    lambda_function_type: ($) =>
+      prec(
         PRECS.expr,
         seq(
           choice(
@@ -978,13 +845,10 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    lambda_function_type_parameters: function ($) {
-      return sep1($.lambda_parameter, ",");
-    },
-    lambda_parameter: function ($) {
-      return seq(
+      ),
+    lambda_function_type_parameters: ($) => sep1($.lambda_parameter, ","),
+    lambda_parameter: ($) =>
+      seq(
         optional($.attribute),
         choice(
           $.self_expression,
@@ -1000,19 +864,12 @@ module.exports = grammar({
             )
           )
         )
-      );
-    },
-    self_expression: function ($) {
-      return "self";
-    },
-    super_expression: function ($) {
-      return seq("super");
-    },
-    _else_options: function ($) {
-      return choice($._block, $.if_statement);
-    },
-    if_statement: function ($) {
-      return prec.right(
+      ),
+    self_expression: ($) => "self",
+    super_expression: ($) => seq("super"),
+    _else_options: ($) => choice($._block, $.if_statement),
+    if_statement: ($) =>
+      prec.right(
         PRECS["if"],
         seq(
           "if",
@@ -1020,16 +877,13 @@ module.exports = grammar({
           $._block,
           optional(seq($["else"], $._else_options))
         )
-      );
-    },
-    _if_condition_sequence_item: function ($) {
-      return choice($._if_let_binding, $._expression, $.availability_condition);
-    },
-    _if_let_binding: function ($) {
-      return seq($._direct_or_indirect_binding, $._equal_sign, $._expression);
-    },
-    guard_statement: function ($) {
-      return prec.right(
+      ),
+    _if_condition_sequence_item: ($) =>
+      choice($._if_let_binding, $._expression, $.availability_condition),
+    _if_let_binding: ($) =>
+      seq($._direct_or_indirect_binding, $._equal_sign, $._expression),
+    guard_statement: ($) =>
+      prec.right(
         PRECS["if"],
         seq(
           "guard",
@@ -1037,10 +891,9 @@ module.exports = grammar({
           $["else"],
           $._block
         )
-      );
-    },
-    switch_statement: function ($) {
-      return prec.right(
+      ),
+    switch_statement: ($) =>
+      prec.right(
         PRECS["switch"],
         seq(
           "switch",
@@ -1049,10 +902,9 @@ module.exports = grammar({
           repeat($.switch_entry),
           "}"
         )
-      );
-    },
-    switch_entry: function ($) {
-      return seq(
+      ),
+    switch_entry: ($) =>
+      seq(
         optional($.modifiers),
         choice(
           seq(
@@ -1068,19 +920,12 @@ module.exports = grammar({
         ":",
         $.statements,
         optional("fallthrough")
-      );
-    },
-    switch_pattern: function ($) {
-      return generate_pattern_matching_rule($, true, false, true);
-    },
-    do_statement: function ($) {
-      return prec.right(
-        PRECS["do"],
-        seq("do", $._block, repeat($.catch_block))
-      );
-    },
-    catch_block: function ($) {
-      return seq(
+      ),
+    switch_pattern: ($) => generate_pattern_matching_rule($, true, false, true),
+    do_statement: ($) =>
+      prec.right(PRECS["do"], seq("do", $._block, repeat($.catch_block))),
+    catch_block: ($) =>
+      seq(
         $.catch_keyword,
         field(
           "error",
@@ -1088,13 +933,10 @@ module.exports = grammar({
         ),
         optional($.where_clause),
         $._block
-      );
-    },
-    where_clause: function ($) {
-      return prec.left(seq($.where_keyword, $._expression));
-    },
-    key_path_expression: function ($) {
-      return prec.right(
+      ),
+    where_clause: ($) => prec.left(seq($.where_keyword, $._expression)),
+    key_path_expression: ($) =>
+      prec.right(
         PRECS.keypath,
         seq(
           "\\",
@@ -1103,58 +945,39 @@ module.exports = grammar({
           ),
           repeat(seq(".", $._key_path_component))
         )
-      );
-    },
-    key_path_string_expression: function ($) {
-      return prec.left(seq("#keyPath", "(", $._expression, ")"));
-    },
-    _key_path_component: function ($) {
-      return prec.left(
+      ),
+    key_path_string_expression: ($) =>
+      prec.left(seq("#keyPath", "(", $._expression, ")")),
+    _key_path_component: ($) =>
+      prec.left(
         choice(
           seq($.simple_identifier, repeat($._key_path_postfixes)),
           repeat1($._key_path_postfixes)
         )
-      );
-    },
-    _key_path_postfixes: function ($) {
-      return choice(
+      ),
+    _key_path_postfixes: ($) =>
+      choice(
         "?",
         $.bang,
         "self",
         seq("[", optional(sep1($.value_argument, ",")), "]")
-      );
-    },
-    _try_operator: function ($) {
-      return choice("try", "try!", "try?");
-    },
-    _assignment_and_operator: function ($) {
-      return choice("+=", "-=", "*=", "/=", "%=", "=");
-    },
-    _equality_operator: function ($) {
-      return choice("!=", "!==", $._eq_eq, "===");
-    },
-    _comparison_operator: function ($) {
-      return choice("<", ">", "<=", ">=");
-    },
-    _is_operator: function ($) {
-      return "is";
-    },
-    _additive_operator: function ($) {
-      return choice(
+      ),
+    _try_operator: ($) => choice("try", "try!", "try?"),
+    _assignment_and_operator: ($) => choice("+=", "-=", "*=", "/=", "%=", "="),
+    _equality_operator: ($) => choice("!=", "!==", $._eq_eq, "==="),
+    _comparison_operator: ($) => choice("<", ">", "<=", ">="),
+    _is_operator: ($) => "is",
+    _additive_operator: ($) =>
+      choice(
         alias($._plus_then_ws, "+"),
         alias($._minus_then_ws, "-"),
         "+",
         "-"
-      );
-    },
-    _multiplicative_operator: function ($) {
-      return choice("*", "/", "%");
-    },
-    as_operator: function ($) {
-      return choice($._as, $._as_quest, $._as_bang);
-    },
-    _prefix_unary_operator: function ($) {
-      return prec.right(
+      ),
+    _multiplicative_operator: ($) => choice("*", "/", "%"),
+    as_operator: ($) => choice($._as, $._as_quest, $._as_bang),
+    _prefix_unary_operator: ($) =>
+      prec.right(
         choice(
           "++",
           "--",
@@ -1166,57 +989,46 @@ module.exports = grammar({
           $._dot,
           $.custom_operator
         )
-      );
-    },
-    _bitwise_binary_operator: function ($) {
-      return choice("&", "|", "^", "<<", ">>");
-    },
-    _postfix_unary_operator: function ($) {
-      return choice("++", "--", $.bang);
-    },
-    directly_assignable_expression: function ($) {
-      return choice(
+      ),
+    _bitwise_binary_operator: ($) => choice("&", "|", "^", "<<", ">>"),
+    _postfix_unary_operator: ($) => choice("++", "--", $.bang),
+    directly_assignable_expression: ($) =>
+      choice(
         $.simple_identifier,
         $.navigation_expression,
         $.call_expression,
         $.tuple_expression,
         $.self_expression
-      );
-    },
+      ),
     ////////////////////////////////
     // Statements - https://docs.swift.org/swift-book/ReferenceManual/Statements.html
     ////////////////////////////////
-    statements: function ($) {
-      return prec.left(
+    statements: ($) =>
+      prec.left(
         // Left precedence is required in switch statements
         seq(
           $._local_statement,
           repeat(seq($._semi, $._local_statement)),
           optional($._semi)
         )
-      );
-    },
-    _local_statement: function ($) {
-      return choice(
+      ),
+    _local_statement: ($) =>
+      choice(
         $._expression,
         $._local_declaration,
         $._labeled_statement,
         $.control_transfer_statement
-      );
-    },
-    _top_level_statement: function ($) {
-      return choice(
+      ),
+    _top_level_statement: ($) =>
+      choice(
         $._expression,
         $._global_declaration,
         $._labeled_statement,
         $._throw_statement
-      );
-    },
-    _block: function ($) {
-      return prec(PRECS.block, seq("{", optional($.statements), "}"));
-    },
-    _labeled_statement: function ($) {
-      return seq(
+      ),
+    _block: ($) => prec(PRECS.block, seq("{", optional($.statements), "}")),
+    _labeled_statement: ($) =>
+      seq(
         optional($.statement_label),
         choice(
           $.for_statement,
@@ -1227,13 +1039,10 @@ module.exports = grammar({
           $.guard_statement,
           $.switch_statement
         )
-      );
-    },
-    statement_label: function ($) {
-      return token(/[a-zA-Z_][a-zA-Z_0-9]*:/);
-    },
-    for_statement: function ($) {
-      return prec(
+      ),
+    statement_label: ($) => token(/[a-zA-Z_][a-zA-Z_0-9]*:/),
+    for_statement: ($) =>
+      prec(
         PRECS.loop,
         seq(
           "for",
@@ -1246,10 +1055,9 @@ module.exports = grammar({
           optional($.where_clause),
           $._block
         )
-      );
-    },
-    while_statement: function ($) {
-      return prec(
+      ),
+    while_statement: ($) =>
+      prec(
         PRECS.loop,
         seq(
           "while",
@@ -1258,10 +1066,9 @@ module.exports = grammar({
           optional($.statements),
           "}"
         )
-      );
-    },
-    repeat_while_statement: function ($) {
-      return prec(
+      ),
+    repeat_while_statement: ($) =>
+      prec(
         PRECS.loop,
         seq(
           "repeat",
@@ -1271,10 +1078,9 @@ module.exports = grammar({
           "while",
           sep1(field("condition", $._if_condition_sequence_item), ",")
         )
-      );
-    },
-    control_transfer_statement: function ($) {
-      return choice(
+      ),
+    control_transfer_statement: ($) =>
+      choice(
         prec.right(PRECS.control_transfer, $._throw_statement),
         prec.right(
           PRECS.control_transfer,
@@ -1283,43 +1089,34 @@ module.exports = grammar({
             field("result", optional($._expression))
           )
         )
-      );
-    },
-    _throw_statement: function ($) {
-      return seq($.throw_keyword, $._expression);
-    },
-    throw_keyword: function ($) {
-      return "throw";
-    },
-    _optionally_valueful_control_keyword: function ($) {
-      return choice("return", "continue", "break", "yield");
-    },
-    assignment: function ($) {
-      return prec.left(
+      ),
+    _throw_statement: ($) => seq($.throw_keyword, $._expression),
+    throw_keyword: ($) => "throw",
+    _optionally_valueful_control_keyword: ($) =>
+      choice("return", "continue", "break", "yield"),
+    assignment: ($) =>
+      prec.left(
         PRECS.assignment,
         seq(
           field("target", $.directly_assignable_expression),
           field("operator", $._assignment_and_operator),
           field("result", $._expression)
         )
-      );
-    },
-    availability_condition: function ($) {
-      return seq(
+      ),
+    availability_condition: ($) =>
+      seq(
         "#available",
         "(",
         sep1(choice($._availability_argument, "*"), ","),
         ")"
-      );
-    },
-    _availability_argument: function ($) {
-      return seq($.identifier, sep1($.integer_literal, "."));
-    },
+      ),
+    _availability_argument: ($) =>
+      seq($.identifier, sep1($.integer_literal, ".")),
     ////////////////////////////////
     // Declarations - https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
     ////////////////////////////////
-    _global_declaration: function ($) {
-      return choice(
+    _global_declaration: ($) =>
+      choice(
         $.import_declaration,
         $.property_declaration,
         $.typealias_declaration,
@@ -1330,10 +1127,9 @@ module.exports = grammar({
         $.operator_declaration,
         $.precedence_group_declaration,
         $.associatedtype_declaration
-      );
-    },
-    _type_level_declaration: function ($) {
-      return choice(
+      ),
+    _type_level_declaration: ($) =>
+      choice(
         $.import_declaration,
         $.property_declaration,
         $.typealias_declaration,
@@ -1345,50 +1141,43 @@ module.exports = grammar({
         $.operator_declaration,
         $.precedence_group_declaration,
         $.associatedtype_declaration
-      );
-    },
-    _local_declaration: function ($) {
-      return choice(
+      ),
+    _local_declaration: ($) =>
+      choice(
         alias($._local_property_declaration, $.property_declaration),
         alias($._local_typealias_declaration, $.typealias_declaration),
         alias($._local_function_declaration, $.function_declaration),
         alias($._local_class_declaration, $.class_declaration)
-      );
-    },
-    _local_property_declaration: function ($) {
-      return seq(
+      ),
+    _local_property_declaration: ($) =>
+      seq(
         optional($._locally_permitted_modifiers),
         $._modifierless_property_declaration
-      );
-    },
-    _local_typealias_declaration: function ($) {
-      return seq(
+      ),
+    _local_typealias_declaration: ($) =>
+      seq(
         optional($._locally_permitted_modifiers),
         $._modifierless_typealias_declaration
-      );
-    },
-    _local_function_declaration: function ($) {
-      return seq(
+      ),
+    _local_function_declaration: ($) =>
+      seq(
         optional($._locally_permitted_modifiers),
         $._modifierless_function_declaration
-      );
-    },
-    _local_class_declaration: function ($) {
-      return seq(
+      ),
+    _local_class_declaration: ($) =>
+      seq(
         optional($._locally_permitted_modifiers),
         $._modifierless_class_declaration
-      );
-    },
-    import_declaration: function ($) {
-      return seq(
+      ),
+    import_declaration: ($) =>
+      seq(
         optional($.modifiers),
         "import",
         optional($._import_kind),
         $.identifier
-      );
-    },
-    _import_kind: function ($) {
-      return choice(
+      ),
+    _import_kind: ($) =>
+      choice(
         "typealias",
         "struct",
         "class",
@@ -1397,10 +1186,9 @@ module.exports = grammar({
         "let",
         "var",
         "func"
-      );
-    },
-    protocol_property_declaration: function ($) {
-      return prec.right(
+      ),
+    protocol_property_declaration: ($) =>
+      prec.right(
         seq(
           optional($.modifiers),
           field("name", $.value_binding_pattern),
@@ -1408,24 +1196,17 @@ module.exports = grammar({
           optional($.type_constraints),
           $.protocol_property_requirements
         )
-      );
-    },
-    protocol_property_requirements: function ($) {
-      return seq(
-        "{",
-        repeat(choice($.getter_specifier, $.setter_specifier)),
-        "}"
-      );
-    },
-    property_declaration: function ($) {
-      return seq(
+      ),
+    protocol_property_requirements: ($) =>
+      seq("{", repeat(choice($.getter_specifier, $.setter_specifier)), "}"),
+    property_declaration: ($) =>
+      seq(
         optional($.modifiers),
         optional("class"),
         $._modifierless_property_declaration
-      );
-    },
-    _modifierless_property_declaration: function ($) {
-      return prec.right(
+      ),
+    _modifierless_property_declaration: ($) =>
+      prec.right(
         seq(
           choice(seq(optional($._async_modifier), "let"), "var"),
           sep1(
@@ -1446,45 +1227,38 @@ module.exports = grammar({
             ","
           )
         )
-      );
-    },
-    property_binding_pattern: function ($) {
-      return generate_pattern_matching_rule($, false, false);
-    },
-    typealias_declaration: function ($) {
-      return seq(optional($.modifiers), $._modifierless_typealias_declaration);
-    },
-    _modifierless_typealias_declaration: function ($) {
-      return seq(
+      ),
+    property_binding_pattern: ($) =>
+      generate_pattern_matching_rule($, false, false),
+    typealias_declaration: ($) =>
+      seq(optional($.modifiers), $._modifierless_typealias_declaration),
+    _modifierless_typealias_declaration: ($) =>
+      seq(
         "typealias",
         field("name", alias($.simple_identifier, $.type_identifier)),
         optional($.type_parameters),
         $._equal_sign,
         field("value", $._type)
-      );
-    },
-    function_declaration: function ($) {
-      return prec.right(
+      ),
+    function_declaration: ($) =>
+      prec.right(
         seq($._bodyless_function_declaration, field("body", $.function_body))
-      );
-    },
-    _modifierless_function_declaration: function ($) {
-      return prec.right(
+      ),
+    _modifierless_function_declaration: ($) =>
+      prec.right(
         seq(
           $._modifierless_function_declaration_no_body,
           field("body", $.function_body)
         )
-      );
-    },
-    _bodyless_function_declaration: function ($) {
-      return seq(
+      ),
+    _bodyless_function_declaration: ($) =>
+      seq(
         optional($.modifiers),
         optional("class"), // XXX: This should be possible in non-last position, but that creates parsing ambiguity
         $._modifierless_function_declaration_no_body
-      );
-    },
-    _modifierless_function_declaration_no_body: function ($) {
-      return prec.right(
+      ),
+    _modifierless_function_declaration_no_body: ($) =>
+      prec.right(
         seq(
           choice(
             $._constructor_function_decl,
@@ -1502,16 +1276,12 @@ module.exports = grammar({
           ),
           optional($.type_constraints)
         )
-      );
-    },
-    function_body: function ($) {
-      return $._block;
-    },
-    class_declaration: function ($) {
-      return seq(optional($.modifiers), $._modifierless_class_declaration);
-    },
-    _modifierless_class_declaration: function ($) {
-      return prec.right(
+      ),
+    function_body: ($) => $._block,
+    class_declaration: ($) =>
+      seq(optional($.modifiers), $._modifierless_class_declaration),
+    _modifierless_class_declaration: ($) =>
+      prec.right(
         choice(
           seq(
             field("declaration_kind", choice("class", "struct")),
@@ -1539,90 +1309,66 @@ module.exports = grammar({
             field("body", $.enum_class_body)
           )
         )
-      );
-    },
-    class_body: function ($) {
-      return seq("{", optional($._class_member_declarations), "}");
-    },
-    _inheritance_specifiers: function ($) {
-      return prec.left(
-        sep1($._annotated_inheritance_specifier, choice(",", "&"))
-      );
-    },
-    inheritance_specifier: function ($) {
-      return prec.left(
-        field("inherits_from", choice($.user_type, $.function_type))
-      );
-    },
-    _annotated_inheritance_specifier: function ($) {
-      return seq(repeat($.attribute), $.inheritance_specifier);
-    },
-    type_parameters: function ($) {
-      return seq("<", sep1($.type_parameter, ","), ">");
-    },
-    type_parameter: function ($) {
-      return seq(
+      ),
+    class_body: ($) => seq("{", optional($._class_member_declarations), "}"),
+    _inheritance_specifiers: ($) =>
+      prec.left(sep1($._annotated_inheritance_specifier, choice(",", "&"))),
+    inheritance_specifier: ($) =>
+      prec.left(field("inherits_from", choice($.user_type, $.function_type))),
+    _annotated_inheritance_specifier: ($) =>
+      seq(repeat($.attribute), $.inheritance_specifier),
+    type_parameters: ($) => seq("<", sep1($.type_parameter, ","), ">"),
+    type_parameter: ($) =>
+      seq(
         optional($.type_parameter_modifiers),
         alias($.simple_identifier, $.type_identifier),
         optional(seq(":", $._type))
-      );
-    },
-    type_constraints: function ($) {
-      return prec.right(seq($.where_keyword, sep1($.type_constraint, ",")));
-    },
-    type_constraint: function ($) {
-      return choice($.inheritance_constraint, $.equality_constraint);
-    },
-    inheritance_constraint: function ($) {
-      return seq(
+      ),
+    type_constraints: ($) =>
+      prec.right(seq($.where_keyword, sep1($.type_constraint, ","))),
+    type_constraint: ($) =>
+      choice($.inheritance_constraint, $.equality_constraint),
+    inheritance_constraint: ($) =>
+      seq(
         repeat($.attribute),
         field("constrained_type", $.identifier),
         ":",
         field("inherits_from", $._possibly_implicitly_unwrapped_type)
-      );
-    },
-    equality_constraint: function ($) {
-      return seq(
+      ),
+    equality_constraint: ($) =>
+      seq(
         repeat($.attribute),
         field("constrained_type", $.identifier),
         choice($._equal_sign, $._eq_eq),
         field("must_equal", $._type)
-      );
-    },
-    _class_member_separator: function ($) {
-      return choice($._semi, $.multiline_comment);
-    },
-    _class_member_declarations: function ($) {
-      return seq(
+      ),
+    _class_member_separator: ($) => choice($._semi, $.multiline_comment),
+    _class_member_declarations: ($) =>
+      seq(
         sep1($._type_level_declaration, $._class_member_separator),
         optional($._class_member_separator)
-      );
-    },
-    _function_value_parameters: function ($) {
-      return seq("(", optional(sep1($._function_value_parameter, ",")), ")");
-    },
-    _function_value_parameter: function ($) {
-      return seq(
+      ),
+    _function_value_parameters: ($) =>
+      seq("(", optional(sep1($._function_value_parameter, ",")), ")"),
+    _function_value_parameter: ($) =>
+      seq(
         optional($.attribute),
         $.parameter,
         optional(seq($._equal_sign, field("default_value", $._expression)))
-      );
-    },
-    parameter: function ($) {
-      return seq(
+      ),
+    parameter: ($) =>
+      seq(
         optional(field("external_name", $.simple_identifier)),
         field("name", $.simple_identifier),
         ":",
         optional($.parameter_modifiers),
         field("type", $._possibly_implicitly_unwrapped_type),
         optional($._three_dot_operator)
-      );
-    },
-    _constructor_function_decl: function ($) {
-      return seq(field("name", "init"), optional(choice($._quest, $.bang)));
-    },
-    _non_constructor_function_decl: function ($) {
-      return seq(
+      ),
+    _constructor_function_decl: ($) =>
+      seq(field("name", "init"), optional(choice($._quest, $.bang))),
+    _non_constructor_function_decl: ($) =>
+      seq(
         "func",
         field(
           "name",
@@ -1632,10 +1378,9 @@ module.exports = grammar({
             $._bitwise_binary_operator
           )
         )
-      );
-    },
-    _referenceable_operator: function ($) {
-      return choice(
+      ),
+    _referenceable_operator: ($) =>
+      choice(
         $.custom_operator,
         $._comparison_operator,
         $._additive_operator,
@@ -1646,71 +1391,37 @@ module.exports = grammar({
         "--",
         $.bang,
         "~"
-      );
-    },
+      ),
     // Hide the fact that certain symbols come from the custom scanner by aliasing them to their
     // string variants. This keeps us from having to see them in the syntax tree (which would be
     // noisy) but allows callers to refer to them as nodes by their text form like with any
     // operator.
-    _equal_sign: function ($) {
-      return alias($._eq_custom, "=");
-    },
-    _eq_eq: function ($) {
-      return alias($._eq_eq_custom, "==");
-    },
-    _dot: function ($) {
-      return alias($._dot_custom, ".");
-    },
-    _arrow_operator: function ($) {
-      return alias($._arrow_operator_custom, "->");
-    },
-    _three_dot_operator: function ($) {
-      return alias($._three_dot_operator_custom, "...");
-    },
-    _open_ended_range_operator: function ($) {
-      return alias($._open_ended_range_operator_custom, "..<");
-    },
-    _conjunction_operator: function ($) {
-      return alias($._conjunction_operator_custom, "&&");
-    },
-    _disjunction_operator: function ($) {
-      return alias($._disjunction_operator_custom, "||");
-    },
-    _nil_coalescing_operator: function ($) {
-      return alias($._nil_coalescing_operator_custom, "??");
-    },
-    _as: function ($) {
-      return alias($._as_custom, "as");
-    },
-    _as_quest: function ($) {
-      return alias($._as_quest_custom, "as?");
-    },
-    _as_bang: function ($) {
-      return alias($._as_bang_custom, "as!");
-    },
+    _equal_sign: ($) => alias($._eq_custom, "="),
+    _eq_eq: ($) => alias($._eq_eq_custom, "=="),
+    _dot: ($) => alias($._dot_custom, "."),
+    _arrow_operator: ($) => alias($._arrow_operator_custom, "->"),
+    _three_dot_operator: ($) => alias($._three_dot_operator_custom, "..."),
+    _open_ended_range_operator: ($) =>
+      alias($._open_ended_range_operator_custom, "..<"),
+    _conjunction_operator: ($) => alias($._conjunction_operator_custom, "&&"),
+    _disjunction_operator: ($) => alias($._disjunction_operator_custom, "||"),
+    _nil_coalescing_operator: ($) =>
+      alias($._nil_coalescing_operator_custom, "??"),
+    _as: ($) => alias($._as_custom, "as"),
+    _as_quest: ($) => alias($._as_quest_custom, "as?"),
+    _as_bang: ($) => alias($._as_bang_custom, "as!"),
     _async_keyword: function ($) {
       // Backward compatibility: make `async` both a named node and a string node. Remove this once downstream queries
       // have all been switched over.
       return prec(-1, alias($._async_keyword_internal, $.async));
     },
-    _async_keyword_internal: function ($) {
-      return alias($._async_keyword_custom, "async");
-    },
-    _async_modifier: function ($) {
-      return token("async");
-    },
-    throws: function ($) {
-      return choice($._throws_keyword, $._rethrows_keyword);
-    },
-    enum_class_body: function ($) {
-      return seq(
-        "{",
-        repeat(choice($.enum_entry, $._type_level_declaration)),
-        "}"
-      );
-    },
-    enum_entry: function ($) {
-      return seq(
+    _async_keyword_internal: ($) => alias($._async_keyword_custom, "async"),
+    _async_modifier: ($) => token("async"),
+    throws: ($) => choice($._throws_keyword, $._rethrows_keyword),
+    enum_class_body: ($) =>
+      seq("{", repeat(choice($.enum_entry, $._type_level_declaration)), "}"),
+    enum_entry: ($) =>
+      seq(
         optional($.modifiers),
         optional("indirect"),
         "case",
@@ -1727,10 +1438,9 @@ module.exports = grammar({
           ","
         ),
         optional(";")
-      );
-    },
-    enum_type_parameters: function ($) {
-      return seq(
+      ),
+    enum_type_parameters: ($) =>
+      seq(
         "(",
         optional(
           sep1(
@@ -1745,10 +1455,9 @@ module.exports = grammar({
           )
         ),
         ")"
-      );
-    },
-    protocol_declaration: function ($) {
-      return prec.right(
+      ),
+    protocol_declaration: ($) =>
+      prec.right(
         seq(
           optional($.modifiers),
           field("declaration_kind", "protocol"),
@@ -1758,19 +1467,13 @@ module.exports = grammar({
           optional($.type_constraints),
           field("body", $.protocol_body)
         )
-      );
-    },
-    protocol_body: function ($) {
-      return seq("{", optional($._protocol_member_declarations), "}");
-    },
-    _protocol_member_declarations: function ($) {
-      return seq(
-        sep1($._protocol_member_declaration, $._semi),
-        optional($._semi)
-      );
-    },
-    _protocol_member_declaration: function ($) {
-      return choice(
+      ),
+    protocol_body: ($) =>
+      seq("{", optional($._protocol_member_declarations), "}"),
+    _protocol_member_declarations: ($) =>
+      seq(sep1($._protocol_member_declaration, $._semi), optional($._semi)),
+    _protocol_member_declaration: ($) =>
+      choice(
         alias(
           seq(
             $._bodyless_function_declaration,
@@ -1783,15 +1486,13 @@ module.exports = grammar({
         $.typealias_declaration,
         $.associatedtype_declaration,
         $.subscript_declaration
-      );
-    },
-    deinit_declaration: function ($) {
-      return prec.right(
+      ),
+    deinit_declaration: ($) =>
+      prec.right(
         seq(optional($.modifiers), "deinit", field("body", $.function_body))
-      );
-    },
-    subscript_declaration: function ($) {
-      return prec.right(
+      ),
+    subscript_declaration: ($) =>
+      prec.right(
         seq(
           optional($.modifiers),
           "subscript",
@@ -1813,10 +1514,9 @@ module.exports = grammar({
           ),
           "}"
         )
-      );
-    },
-    computed_property: function ($) {
-      return seq(
+      ),
+    computed_property: ($) =>
+      seq(
         "{",
         choice(
           optional($.statements),
@@ -1825,80 +1525,59 @@ module.exports = grammar({
           )
         ),
         "}"
-      );
-    },
-    computed_getter: function ($) {
-      return seq(repeat($.attribute), $.getter_specifier, optional($._block));
-    },
-    computed_modify: function ($) {
-      return seq(repeat($.attribute), $.modify_specifier, optional($._block));
-    },
-    computed_setter: function ($) {
-      return seq(
+      ),
+    computed_getter: ($) =>
+      seq(repeat($.attribute), $.getter_specifier, optional($._block)),
+    computed_modify: ($) =>
+      seq(repeat($.attribute), $.modify_specifier, optional($._block)),
+    computed_setter: ($) =>
+      seq(
         repeat($.attribute),
         $.setter_specifier,
         optional(seq("(", $.simple_identifier, ")")),
         optional($._block)
-      );
-    },
-    getter_specifier: function ($) {
-      return seq(
-        optional($.mutation_modifier),
-        "get",
-        optional($._getter_effects)
-      );
-    },
-    setter_specifier: function ($) {
-      return seq(optional($.mutation_modifier), "set");
-    },
-    modify_specifier: function ($) {
-      return seq(optional($.mutation_modifier), "_modify");
-    },
-    _getter_effects: function ($) {
-      return repeat1(choice($._async_keyword, $.throws));
-    },
-    operator_declaration: function ($) {
-      return seq(
+      ),
+    getter_specifier: ($) =>
+      seq(optional($.mutation_modifier), "get", optional($._getter_effects)),
+    setter_specifier: ($) => seq(optional($.mutation_modifier), "set"),
+    modify_specifier: ($) => seq(optional($.mutation_modifier), "_modify"),
+    _getter_effects: ($) => repeat1(choice($._async_keyword, $.throws)),
+    operator_declaration: ($) =>
+      seq(
         choice("prefix", "infix", "postfix"),
         "operator",
         $.custom_operator,
         optional(seq(":", $.simple_identifier))
-      );
-    },
-    precedence_group_declaration: function ($) {
-      return seq(
+      ),
+    precedence_group_declaration: ($) =>
+      seq(
         "precedencegroup",
         $.simple_identifier,
         "{",
         optional($.precedence_group_attributes),
         "}"
-      );
-    },
-    precedence_group_attributes: function ($) {
-      return repeat1($.precedence_group_attribute);
-    },
-    precedence_group_attribute: function ($) {
-      return seq(
+      ),
+    precedence_group_attributes: ($) => repeat1($.precedence_group_attribute),
+    precedence_group_attribute: ($) =>
+      seq(
         $.simple_identifier,
         ":",
         choice($.simple_identifier, $.boolean_literal)
-      );
-    },
-    associatedtype_declaration: function ($) {
-      return seq(
+      ),
+    associatedtype_declaration: ($) =>
+      seq(
         optional($.modifiers),
         "associatedtype",
         field("name", alias($.simple_identifier, $.type_identifier)),
         optional(seq(":", field("must_inherit", $._type))),
         optional($.type_constraints),
         optional(seq($._equal_sign, field("default_value", $._type)))
-      );
-    },
+      ),
     ////////////////////////////////
     // Attributes - https://docs.swift.org/swift-book/ReferenceManual/Attributes.html
     ////////////////////////////////
-    attribute: function ($) {
-      return seq(
+    attribute: ($) =>
+      seq(
         "@",
         $.user_type,
         // attribute arguments are a mess of special cases, maybe this is good enough?
@@ -1921,52 +1600,35 @@ module.exports = grammar({
             ")"
           )
         )
-      );
-    },
+      ),
     ////////////////////////////////
     // Patterns - https://docs.swift.org/swift-book/ReferenceManual/Patterns.html
     ////////////////////////////////
     // Higher-than-default precedence to resolve `x as SomeType` ambiguity (expression patterns seem not to support
     // as-expressions)
-    binding_pattern: function ($) {
-      return prec.left(
-        1,
-        generate_pattern_matching_rule($, true, false, false, true)
-      );
-    },
-    non_binding_pattern: function ($) {
-      return prec.left(
+    binding_pattern: ($) =>
+      prec.left(1, generate_pattern_matching_rule($, true, false, false, true)),
+    non_binding_pattern: ($) =>
+      prec.left(
         1,
         generate_pattern_matching_rule($, false, false, false, true)
-      );
-    },
+      ),
     // Higher precedence than pattern w/o binding since these are strictly more flexible
-    _binding_pattern_with_expr: function ($) {
-      return prec.left(
-        2,
-        generate_pattern_matching_rule($, true, false, true, true)
-      );
-    },
-    _non_binding_pattern_with_expr: function ($) {
-      return prec.left(
-        2,
-        generate_pattern_matching_rule($, false, false, true, true)
-      );
-    },
-    _direct_or_indirect_binding: function ($) {
-      return seq(
+    _binding_pattern_with_expr: ($) =>
+      prec.left(2, generate_pattern_matching_rule($, true, false, true, true)),
+    _non_binding_pattern_with_expr: ($) =>
+      prec.left(2, generate_pattern_matching_rule($, false, false, true, true)),
+    _direct_or_indirect_binding: ($) =>
+      seq(
         choice(
           $.value_binding_pattern,
           seq("case", generate_pattern_matching_rule($, true, false, false))
         ),
         optional($.type_annotation)
-      );
-    },
-    wildcard_pattern: function ($) {
-      return "_";
-    },
-    value_binding_pattern: function ($) {
-      return prec.left(
+      ),
+    wildcard_pattern: ($) => "_",
+    value_binding_pattern: ($) =>
+      prec.left(
         choice(
           seq("var", generate_pattern_matching_rule($, false, false)),
           seq(
@@ -1975,80 +1637,52 @@ module.exports = grammar({
             generate_pattern_matching_rule($, false, false)
           )
         )
-      );
-    },
+      ),
     // ==========
     // Modifiers
     // ==========
-    modifiers: function ($) {
-      return repeat1(
+    modifiers: ($) =>
+      repeat1(
         choice($._non_local_scope_modifier, $._locally_permitted_modifiers)
-      );
-    },
-    _locally_permitted_modifiers: function ($) {
-      return repeat1(choice($.attribute, $._locally_permitted_modifier));
-    },
-    parameter_modifiers: function ($) {
-      return repeat1($.parameter_modifier);
-    },
-    _modifier: function ($) {
-      return choice($._non_local_scope_modifier, $._locally_permitted_modifier);
-    },
-    _non_local_scope_modifier: function ($) {
-      return choice(
+      ),
+    _locally_permitted_modifiers: ($) =>
+      repeat1(choice($.attribute, $._locally_permitted_modifier)),
+    parameter_modifiers: ($) => repeat1($.parameter_modifier),
+    _modifier: ($) =>
+      choice($._non_local_scope_modifier, $._locally_permitted_modifier),
+    _non_local_scope_modifier: ($) =>
+      choice(
         $.member_modifier,
         $.visibility_modifier,
         $.function_modifier,
         $.mutation_modifier,
         $.property_modifier,
         $.parameter_modifier
-      );
-    },
-    _locally_permitted_modifier: function ($) {
-      return choice(
+      ),
+    _locally_permitted_modifier: ($) =>
+      choice(
         $.ownership_modifier,
         $.property_behavior_modifier,
         $.inheritance_modifier
-      );
-    },
-    property_behavior_modifier: function ($) {
-      return "lazy";
-    },
-    type_modifiers: function ($) {
-      return repeat1($.attribute);
-    },
-    member_modifier: function ($) {
-      return choice("override", "convenience", "required");
-    },
-    visibility_modifier: function ($) {
-      return seq(
+      ),
+    property_behavior_modifier: ($) => "lazy",
+    type_modifiers: ($) => repeat1($.attribute),
+    member_modifier: ($) => choice("override", "convenience", "required"),
+    visibility_modifier: ($) =>
+      seq(
         choice("public", "private", "internal", "fileprivate", "open"),
         optional(seq("(", "set", ")"))
-      );
-    },
-    type_parameter_modifiers: function ($) {
-      return repeat1($.attribute);
-    },
-    function_modifier: function ($) {
-      return choice("infix", "postfix", "prefix");
-    },
-    mutation_modifier: function ($) {
-      return choice("mutating", "nonmutating");
-    },
-    property_modifier: function ($) {
-      return choice("static", "dynamic", "optional");
-    },
-    inheritance_modifier: function ($) {
-      return choice("final");
-    },
-    parameter_modifier: function ($) {
-      return choice("inout", "@escaping", "@autoclosure");
-    },
-    ownership_modifier: function ($) {
-      return choice("weak", "unowned", "unowned(safe)", "unowned(unsafe)");
-    },
-    use_site_target: function ($) {
-      return seq(
+      ),
+    type_parameter_modifiers: ($) => repeat1($.attribute),
+    function_modifier: ($) => choice("infix", "postfix", "prefix"),
+    mutation_modifier: ($) => choice("mutating", "nonmutating"),
+    property_modifier: ($) => choice("static", "dynamic", "optional"),
+    inheritance_modifier: ($) => choice("final"),
+    parameter_modifier: ($) => choice("inout", "@escaping", "@autoclosure"),
+    ownership_modifier: ($) =>
+      choice("weak", "unowned", "unowned(safe)", "unowned(unsafe)"),
+    use_site_target: ($) =>
+      seq(
         choice(
           "property",
           "get",
@@ -2059,10 +1693,9 @@ module.exports = grammar({
           "delegate"
         ),
         ":"
-      );
-    },
-    directive: function ($) {
-      return token(
+      ),
+    directive: ($) =>
+      token(
         prec(
           PRECS.comment,
           choice(
@@ -2073,10 +1706,9 @@ module.exports = grammar({
             seq(/#sourceLocation([^\r\n]*)/)
           )
         )
-      );
-    },
-    diagnostic: function ($) {
-      return token(
+      ),
+    diagnostic: ($) =>
+      token(
         prec(
           PRECS.comment,
           choice(
@@ -2086,8 +1718,7 @@ module.exports = grammar({
             seq(/#warning([^\r\n]*)/)
           )
         )
-      );
-    },
+      ),
   },
 });
 function sep1(rule, separator) {
