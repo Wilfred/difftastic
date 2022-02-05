@@ -423,7 +423,10 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../vendor/highlights/typescript.scm"),
+                    concat!(
+                        include_str!("../vendor/highlights/javascript.scm"),
+                        include_str!("../vendor/highlights/typescript.scm"),
+                    ),
                 )
                 .unwrap(),
             }
@@ -437,7 +440,10 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../vendor/highlights/typescript.scm"),
+                    concat!(
+                        include_str!("../vendor/highlights/javascript.scm"),
+                        include_str!("../vendor/highlights/typescript.scm"),
+                    ),
                 )
                 .unwrap(),
             }

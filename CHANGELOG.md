@@ -11,7 +11,7 @@ Added support for Hack programs.
 
 Fixed an issue where larger additions were not lined up with removals.
 
-Improved syntax highlighting for Clojure and Common Lisp.
+Improved syntax highlighting for Clojure, Common Lisp and TypeScript.
 
 Built-in constants are now highlighted consistently with other
 constants.
