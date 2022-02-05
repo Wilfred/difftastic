@@ -6,3 +6,8 @@ node_modules
 /test
 Cargo.lock
 /target/*
+*.a
+*.dylib
+*.so
+*.o
+bindings/c/*.h
