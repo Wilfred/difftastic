@@ -1108,3 +1108,35 @@ let a = false
         (simple_identifier)))
     (boolean_literal))
   (simple_identifier))
+
+================================================================================
+Calling `async` in positions where it could be a keyword
+================================================================================
+async(async: async, qos: qos, flags: flags) {
+    work()
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (call_expression
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (simple_identifier)
+            (simple_identifier))
+          (value_argument
+            (simple_identifier)
+            (simple_identifier))
+          (value_argument
+            (simple_identifier)
+            (simple_identifier)))))
+    (call_suffix
+      (lambda_literal
+        (statements
+          (call_expression
+            (simple_identifier)
+            (call_suffix
+              (value_arguments))))))))

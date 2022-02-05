@@ -500,6 +500,36 @@ class SomethingElse: ThingProvider {
         (function_body)))))
 
 ================================================================================
+Effectful getters
+================================================================================
+
+class Alphabet {
+    var a: Int {
+        get async { 65 }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier
+              (async))
+            (statements
+              (integer_literal))))))))
+
+================================================================================
 Class declaration without any newlines
 ================================================================================
 

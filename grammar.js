@@ -205,7 +205,7 @@ module.exports = grammar({
       $._as_custom,
       $._as_quest_custom,
       $._as_bang_custom,
-      $.async,
+      $._async_keyword_custom,
     ];
   },
   rules: {
@@ -425,7 +425,7 @@ module.exports = grammar({
     function_type: function ($) {
       return seq(
         field("params", $.tuple_type),
-        optional($.async),
+        optional($._async_keyword),
         optional($.throws),
         $._arrow_operator,
         field("return_type", $._type)
@@ -483,7 +483,8 @@ module.exports = grammar({
           $.ternary_expression,
           $._primary_expression,
           $.assignment,
-          seq($._expression, alias($._immediate_quest, "?"))
+          seq($._expression, alias($._immediate_quest, "?")),
+          alias("async", $.simple_identifier)
         )
       );
     },
@@ -756,7 +757,18 @@ module.exports = grammar({
               seq(field("reference_specifier", $.simple_identifier), ":")
             ),
             seq(
-              optional(seq(field("name", $.simple_identifier), ":")),
+              optional(
+                seq(
+                  field(
+                    "name",
+                    choice(
+                      $.simple_identifier,
+                      alias("async", $.simple_identifier)
+                    )
+                  ),
+                  ":"
+                )
+              ),
               field("value", $._expression)
             )
           )
@@ -957,7 +969,7 @@ module.exports = grammar({
             $.lambda_function_type_parameters,
             seq("(", optional($.lambda_function_type_parameters), ")")
           ),
-          optional($.async),
+          optional($._async_keyword),
           optional($.throws),
           optional(
             seq(
@@ -1415,7 +1427,7 @@ module.exports = grammar({
     _modifierless_property_declaration: function ($) {
       return prec.right(
         seq(
-          choice("let", "var"),
+          choice(seq(optional($._async_modifier), "let"), "var"),
           sep1(
             seq(
               field(
@@ -1480,7 +1492,7 @@ module.exports = grammar({
           ),
           optional($.type_parameters),
           $._function_value_parameters,
-          optional($.async),
+          optional($._async_keyword),
           optional($.throws),
           optional(
             seq(
@@ -1676,6 +1688,17 @@ module.exports = grammar({
     _as_bang: function ($) {
       return alias($._as_bang_custom, "as!");
     },
+    _async_keyword: function ($) {
+      // Backward compatibility: make `async` both a named node and a string node. Remove this once downstream queries
+      // have all been switched over.
+      return prec(-1, alias($._async_keyword_internal, $.async));
+    },
+    _async_keyword_internal: function ($) {
+      return alias($._async_keyword_custom, "async");
+    },
+    _async_modifier: function ($) {
+      return token("async");
+    },
     throws: function ($) {
       return choice($._throws_keyword, $._rethrows_keyword);
     },
@@ -1819,13 +1842,20 @@ module.exports = grammar({
       );
     },
     getter_specifier: function ($) {
-      return seq(optional($.mutation_modifier), "get");
+      return seq(
+        optional($.mutation_modifier),
+        "get",
+        optional($._getter_effects)
+      );
     },
     setter_specifier: function ($) {
       return seq(optional($.mutation_modifier), "set");
     },
     modify_specifier: function ($) {
       return seq(optional($.mutation_modifier), "_modify");
+    },
+    _getter_effects: function ($) {
+      return repeat1(choice($._async_keyword, $.throws));
     },
     operator_declaration: function ($) {
       return seq(
@@ -1939,7 +1969,11 @@ module.exports = grammar({
       return prec.left(
         choice(
           seq("var", generate_pattern_matching_rule($, false, false)),
-          seq("let", generate_pattern_matching_rule($, false, false))
+          seq(
+            optional($._async_modifier),
+            "let",
+            generate_pattern_matching_rule($, false, false)
+          )
         )
       );
     },

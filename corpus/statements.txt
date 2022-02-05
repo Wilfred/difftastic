@@ -928,3 +928,24 @@ Compiler diagnostics
   (directive)
   (directive)
   (directive))
+
+================================================================================
+Async let
+================================================================================
+
+async let foo = 64
+async let bar = 66
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (integer_literal))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (integer_literal)))
