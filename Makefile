@@ -52,7 +52,7 @@ ifneq (,$(filter $(shell uname),FreeBSD NetBSD DragonFly))
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
 endif
 				
-all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER) tree-sitter.h
+all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/tree-sitter.h
 
 libtree-sitter-$(PARSER_NAME).a: $(OBJ)
 	$(AR) rcs $@ $^
@@ -62,10 +62,10 @@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER): $(OBJ)
 	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXT)
 	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
 
-tree-sitter.h:
+ bindings/c/tree-sitter.h:
 	sed -e 's|@UPPER_PARSERNAME@|$(UPPER_PARSER_NAME)|' \
 		-e 's|@PARSERNAME@|$(PARSER_NAME)|' \
-		bindings/c/$@.in > bindings/c/$@
+		$@.in > $@
 
 install: all
 	install -d '$(DESTDIR)$(LIBDIR)'
