@@ -794,3 +794,27 @@ func multipleType() -> Foo & Bar { return Foo() }
             (simple_identifier)
             (call_suffix
               (value_arguments))))))))
+
+================================================================================
+Annotated function parameters in lambdas
+================================================================================
+
+types.flatMap { @Sendable _ in }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (lambda_literal
+        (lambda_function_type
+          (lambda_function_type_parameters
+            (lambda_parameter
+              (attribute
+                (user_type
+                  (type_identifier)))
+              (simple_identifier))))))))
