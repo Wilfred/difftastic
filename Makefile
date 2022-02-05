@@ -52,7 +52,7 @@ ifneq (,$(filter $(shell uname),FreeBSD NetBSD DragonFly))
 	PCLIBDIR := $(PREFIX)/libdata/pkgconfig
 endif
 				
-all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/tree-sitter.h
+all: libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/tree-sitter-$(PARSER_NAME).h
 
 libtree-sitter-$(PARSER_NAME).a: $(OBJ)
 	$(AR) rcs $@ $^
@@ -62,10 +62,10 @@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER): $(OBJ)
 	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXT)
 	ln -sf $@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
 
- bindings/c/tree-sitter.h:
+bindings/c/tree-sitter-$(PARSER_NAME).h:
 	sed -e 's|@UPPER_PARSERNAME@|$(UPPER_PARSER_NAME)|' \
 		-e 's|@PARSERNAME@|$(PARSER_NAME)|' \
-		$@.in > $@
+		bindings/c/tree-sitter.in > $@
 
 install: all
 	install -d '$(DESTDIR)$(LIBDIR)'
@@ -74,7 +74,7 @@ install: all
 	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR)
 	ln -sf libtree-sitter-$(PARSER_NAME).$(SOEXTVER) '$(DESTDIR)$(LIBDIR)'/libtree-sitter-$(PARSER_NAME).$(SOEXT)
 	install -d '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter
-	install -m644 bindings/c/tree-sitter.h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/
+	install -m644 bindings/c/tree-sitter-$(PARSER_NAME).h '$(DESTDIR)$(INCLUDEDIR)'/tree_sitter/
 	install -d '$(DESTDIR)$(PCLIBDIR)'
 	sed -e 's|@LIBDIR@|$(LIBDIR)|;s|@INCLUDEDIR@|$(INCLUDEDIR)|;s|@VERSION@|$(VERSION)|' \
 	    -e 's|=$(PREFIX)|=$${prefix}|' \
@@ -85,6 +85,6 @@ install: all
 	    bindings/c/tree-sitter.pc.in > '$(DESTDIR)$(PCLIBDIR)'/tree-sitter-$(PARSER_NAME).pc
 
 clean:
-	rm -f $(OBJ) libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXT) libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR) libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/tree-sitter.h
+	rm -f $(OBJ) libtree-sitter-$(PARSER_NAME).a libtree-sitter-$(PARSER_NAME).$(SOEXT) libtree-sitter-$(PARSER_NAME).$(SOEXTVER_MAJOR) libtree-sitter-$(PARSER_NAME).$(SOEXTVER) bindings/c/tree-sitter-$(PARSER_NAME).h
 
 .PHONY: all install clean

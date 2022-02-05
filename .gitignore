@@ -10,4 +10,4 @@ Cargo.lock
 *.dylib
 *.so
 *.o
-bindings/c/tree-sitter.h
+bindings/c/*.h
