@@ -972,17 +972,20 @@ module.exports = grammar({
       return sep1($.lambda_parameter, ",");
     },
     lambda_parameter: function ($) {
-      return choice(
-        $.self_expression,
-        prec(PRECS.expr, field("name", $.simple_identifier)),
-        prec(
-          PRECS.expr,
-          seq(
-            optional(field("external_name", $.simple_identifier)),
-            field("name", $.simple_identifier),
-            ":",
-            optional($.parameter_modifiers),
-            field("type", $._possibly_implicitly_unwrapped_type)
+      return seq(
+        optional($.attribute),
+        choice(
+          $.self_expression,
+          prec(PRECS.expr, field("name", $.simple_identifier)),
+          prec(
+            PRECS.expr,
+            seq(
+              optional(field("external_name", $.simple_identifier)),
+              field("name", $.simple_identifier),
+              ":",
+              optional($.parameter_modifiers),
+              field("type", $._possibly_implicitly_unwrapped_type)
+            )
           )
         )
       );
