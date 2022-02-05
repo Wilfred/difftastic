@@ -65,7 +65,7 @@ libtree-sitter-$(PARSER_NAME).$(SOEXTVER): $(OBJ)
 bindings/c/tree-sitter-$(PARSER_NAME).h:
 	sed -e 's|@UPPER_PARSERNAME@|$(UPPER_PARSER_NAME)|' \
 		-e 's|@PARSERNAME@|$(PARSER_NAME)|' \
-		bindings/c/tree-sitter.in > $@
+		bindings/c/tree-sitter.h.in > $@
 
 install: all
 	install -d '$(DESTDIR)$(LIBDIR)'
