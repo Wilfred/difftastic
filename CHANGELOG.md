@@ -13,6 +13,9 @@ Fixed an issue where larger additions were not lined up with removals.
 
 Improved syntax highlighting for Clojure, Common Lisp and TypeScript.
 
+Comments are now highlighted with italics, making it easier to see
+syntax even when text is red.
+
 Built-in constants are now highlighted consistently with other
 constants.
 
