@@ -459,8 +459,8 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
             fix_all_sliders(&possibly_changed_lhs);
             fix_all_sliders(&possibly_changed_rhs);
 
-            let lhs_positions = syntax::change_positions(&lhs_src, &rhs_src, &lhs);
-            let rhs_positions = syntax::change_positions(&rhs_src, &lhs_src, &rhs);
+            let lhs_positions = syntax::change_positions(&lhs);
+            let rhs_positions = syntax::change_positions(&rhs);
             (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
         }
         None => {
