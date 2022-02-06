@@ -387,7 +387,7 @@ class SomethingElse: ThingProvider {
         return thing
     }
 
-    class func nothing() { }
+    class override func nothing() { }
 }
 
 --------------------------------------------------------------------------------
@@ -496,6 +496,9 @@ class SomethingElse: ThingProvider {
             (control_transfer_statement
               (simple_identifier)))))
       (function_declaration
+          (modifiers
+            (property_modifier)
+            (member_modifier))
         (simple_identifier)
         (function_body)))))
 
