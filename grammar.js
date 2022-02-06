@@ -143,6 +143,9 @@ module.exports = grammar({
       $._local_function_declaration,
       $._local_class_declaration,
     ],
+    // The `class` modifier is legal in many of the same positions that a class declaration itself would be.
+    [$._bodyless_function_declaration, $.property_modifier],
+    [$._local_class_declaration, $.modifiers],
   ],
   extras: ($) => [
     $.comment,
@@ -1200,11 +1203,7 @@ module.exports = grammar({
     protocol_property_requirements: ($) =>
       seq("{", repeat(choice($.getter_specifier, $.setter_specifier)), "}"),
     property_declaration: ($) =>
-      seq(
-        optional($.modifiers),
-        optional("class"),
-        $._modifierless_property_declaration
-      ),
+      seq(optional($.modifiers), $._modifierless_property_declaration),
     _modifierless_property_declaration: ($) =>
       prec.right(
         seq(
@@ -1676,7 +1675,7 @@ module.exports = grammar({
     type_parameter_modifiers: ($) => repeat1($.attribute),
     function_modifier: ($) => choice("infix", "postfix", "prefix"),
     mutation_modifier: ($) => choice("mutating", "nonmutating"),
-    property_modifier: ($) => choice("static", "dynamic", "optional"),
+    property_modifier: ($) => choice("static", "dynamic", "optional", "class"),
     inheritance_modifier: ($) => choice("final"),
     parameter_modifier: ($) => choice("inout", "@escaping", "@autoclosure"),
     ownership_modifier: ($) =>
