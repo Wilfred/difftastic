@@ -23,6 +23,7 @@ pub struct Style {
     background: Option<Color>,
     bold: bool,
     dimmed: bool,
+    italic: bool,
 }
 
 impl Style {
@@ -37,6 +38,9 @@ impl Style {
         }
         if self.dimmed {
             res = res.dimmed();
+        }
+        if self.italic {
+            res = res.italic();
         }
         if let Some(background) = self.background {
             res = res.on_color(background);
@@ -236,6 +240,7 @@ pub fn color_positions(
                     _ => false,
                 },
                 dimmed: false,
+                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
             MatchKind::Novel { highlight, .. } => Style {
                 foreground: Some(novel_color),
@@ -247,18 +252,21 @@ pub fn color_positions(
                     TokenKind::Atom(_) => false,
                 },
                 dimmed: false,
+                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
             MatchKind::ChangedCommentPart { .. } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: true,
                 dimmed: false,
+                italic: true,
             },
             MatchKind::UnchangedCommentPart { .. } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: false,
                 dimmed: false,
+                italic: true,
             },
         };
         styles.push((line_pos, style));
