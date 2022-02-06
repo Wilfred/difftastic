@@ -716,25 +716,13 @@ impl MatchedPos {
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
-pub fn change_positions<'a>(
-    src: &str,
-    opposite_src: &str,
-    nodes: &[&'a Syntax<'a>],
-) -> Vec<MatchedPos> {
-    let nl_pos = NewlinePositions::from(src);
-    let opposite_nl_pos = NewlinePositions::from(opposite_src);
-
+pub fn change_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
-    change_positions_(&nl_pos, &opposite_nl_pos, nodes, &mut positions);
+    change_positions_(nodes, &mut positions);
     positions
 }
 
-fn change_positions_<'a>(
-    nl_pos: &NewlinePositions,
-    opposite_nl_pos: &NewlinePositions,
-    nodes: &[&'a Syntax<'a>],
-    positions: &mut Vec<MatchedPos>,
-) {
+fn change_positions_<'a>(nodes: &[&'a Syntax<'a>], positions: &mut Vec<MatchedPos>) {
     for node in nodes {
         let change = node
             .change()
@@ -754,7 +742,7 @@ fn change_positions_<'a>(
                     false,
                 ));
 
-                change_positions_(nl_pos, opposite_nl_pos, children, positions);
+                change_positions_(children, positions);
 
                 positions.extend(MatchedPos::new(
                     change,
