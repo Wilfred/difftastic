@@ -239,6 +239,11 @@ fn diff_file_content(
             let possibly_changed_num =
                 num_nodes(&possibly_changed_lhs) + num_nodes(&possibly_changed_rhs);
             if possibly_changed_num > node_limit {
+                info!(
+                    "Found {} nodes, exceeding the limit {}",
+                    possibly_changed_num, node_limit
+                );
+
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
                 (
