@@ -241,7 +241,11 @@ fn diff_file_content(
             if possibly_changed_num > node_limit {
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                (Some("hit limit".into()), lhs_positions, rhs_positions)
+                (
+                    Some("Text (exceeded DFT_NODE_LIMIT)".into()),
+                    lhs_positions,
+                    rhs_positions,
+                )
             } else {
                 init_next_prev(&possibly_changed_lhs);
                 init_next_prev(&possibly_changed_rhs);
@@ -330,14 +334,14 @@ fn print_diff_result(
                 rhs_src.max_line(),
             );
 
-            let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
+            let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());
             if hunks.is_empty() {
                 if print_unchanged {
                     println!(
                         "{}",
                         style::header(&summary.path, 1, 1, &lang_name, background)
                     );
-                    if lang_name == "text" {
+                    if lang_name == "Text" {
                         println!("No changes.\n");
                     } else {
                         println!("No syntactic changes.\n");
