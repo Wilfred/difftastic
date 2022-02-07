@@ -221,7 +221,7 @@ pub fn color_positions(
     for pos in positions {
         let line_pos = pos.pos;
         let style = match pos.kind {
-            MatchKind::Unchanged { highlight, .. } => Style {
+            MatchKind::UnchangedToken { highlight, .. } => Style {
                 foreground: match highlight {
                     TokenKind::Atom(AtomKind::String) => Some(match background {
                         BackgroundColor::Dark => Color::BrightMagenta,
@@ -254,14 +254,14 @@ pub fn color_positions(
                 dimmed: false,
                 italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
-            MatchKind::ChangedCommentPart { highlight } => Style {
+            MatchKind::NovelLinePart { highlight } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: true,
                 dimmed: false,
                 italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
-            MatchKind::UnchangedCommentPart { highlight, .. } => Style {
+            MatchKind::UnchangedLinePart { highlight, .. } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: false,

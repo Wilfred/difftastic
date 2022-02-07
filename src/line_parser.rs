@@ -111,7 +111,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                     let rhs_pos = rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_line.len() - 1);
 
                     res.push(MatchedPos {
-                        kind: MatchKind::Unchanged {
+                        kind: MatchKind::UnchangedToken {
                             highlight: TokenKind::Atom(AtomKind::Normal),
                             self_pos: lhs_pos.clone(),
                             opposite_pos: rhs_pos,
@@ -134,10 +134,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 res.push(MatchedPos {
-                                    // TODO: rename this kind to reflect
-                                    // that it's used for both code
-                                    // comments and plain text.
-                                    kind: MatchKind::ChangedCommentPart {
+                                    kind: MatchKind::NovelLinePart {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                     },
                                     pos: lhs_pos[0],
@@ -154,7 +151,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                                     rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
 
                                 res.push(MatchedPos {
-                                    kind: MatchKind::UnchangedCommentPart {
+                                    kind: MatchKind::UnchangedLinePart {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
                                         opposite_pos: rhs_pos,

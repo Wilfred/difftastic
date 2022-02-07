@@ -531,8 +531,7 @@ pub enum TokenKind {
 /// A matched token (an atom, a delimiter, or a comment word).
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
-    // TODO: Prefer UnchangedToken and UnchangedLine.
-    Unchanged {
+    UnchangedToken {
         highlight: TokenKind,
         self_pos: Vec<SingleLineSpan>,
         opposite_pos: Vec<SingleLineSpan>,
@@ -540,12 +539,12 @@ pub enum MatchKind {
     Novel {
         highlight: TokenKind,
     },
-    UnchangedCommentPart {
+    UnchangedLinePart {
         highlight: TokenKind,
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
-    ChangedCommentPart {
+    NovelLinePart {
         highlight: TokenKind,
     },
 }
@@ -553,17 +552,17 @@ pub enum MatchKind {
 impl MatchKind {
     pub fn first_opposite_span(&self) -> Option<SingleLineSpan> {
         match self {
-            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.first().copied(),
-            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.first().copied(),
+            MatchKind::UnchangedToken { opposite_pos, .. } => opposite_pos.first().copied(),
+            MatchKind::UnchangedLinePart { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::Novel { .. } => None,
-            MatchKind::ChangedCommentPart { .. } => None,
+            MatchKind::NovelLinePart { .. } => None,
         }
     }
 
     pub fn is_change(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. }
+            MatchKind::Novel { .. } | MatchKind::NovelLinePart { .. }
         )
     }
 }
@@ -606,7 +605,7 @@ fn split_comment_words(
             diff::Result::Left(word) => {
                 // This word is novel to this side.
                 res.push(MatchedPos {
-                    kind: MatchKind::ChangedCommentPart {
+                    kind: MatchKind::NovelLinePart {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                     },
                     pos: content_newlines.from_offsets_relative_to(
@@ -628,7 +627,7 @@ fn split_comment_words(
                 );
 
                 res.push(MatchedPos {
-                    kind: MatchKind::UnchangedCommentPart {
+                    kind: MatchKind::UnchangedLinePart {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: word_pos,
                         opposite_pos: opposite_word_pos,
@@ -692,7 +691,7 @@ impl MatchedPos {
                     Atom { position, .. } => position.clone(),
                 };
 
-                MatchKind::Unchanged {
+                MatchKind::UnchangedToken {
                     highlight,
                     self_pos: pos.to_vec(),
                     opposite_pos,
@@ -928,7 +927,7 @@ mod tests {
         assert_eq!(
             res,
             vec![MatchedPos {
-                kind: MatchKind::ChangedCommentPart {
+                kind: MatchKind::NovelLinePart {
                     highlight: TokenKind::Atom(AtomKind::Comment),
                 },
                 pos: SingleLineSpan {
