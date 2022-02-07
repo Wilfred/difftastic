@@ -539,3 +539,30 @@ match match:
           (assignment
             (identifier)
             (integer)))))))
+
+================================================================================
+Walrus match (Issue #150)
+================================================================================
+if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII):
+    return 42
+--------------------------------------------------------------------------------
+
+(module
+  (if_statement
+    (named_expression
+      (identifier)
+      (call
+        (attribute
+          (identifier)
+          (identifier))
+        (argument_list
+          (string)
+          (identifier)
+          (keyword_argument
+            (identifier)
+            (attribute
+              (identifier)
+              (identifier))))))
+    (block
+      (return_statement
+        (integer)))))
