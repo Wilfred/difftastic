@@ -8,7 +8,7 @@ use crate::{
     syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
-fn split_lines_keep_newline(s: &str) -> Vec<String> {
+fn split_lines_keep_newline(s: &str) -> Vec<&str> {
     lazy_static! {
         static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
     }
@@ -33,13 +33,13 @@ enum TextChangeKind {
     Unchanged,
 }
 
-fn merge_novel(
-    lines: &[(TextChangeKind, Vec<String>, Vec<String>)],
-) -> Vec<(TextChangeKind, Vec<String>, Vec<String>)> {
-    let mut lhs_novel: Vec<String> = vec![];
-    let mut rhs_novel: Vec<String> = vec![];
+fn merge_novel<'a>(
+    lines: &[(TextChangeKind, Vec<&'a str>, Vec<&'a str>)],
+) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
+    let mut lhs_novel = vec![];
+    let mut rhs_novel = vec![];
 
-    let mut res: Vec<(TextChangeKind, Vec<String>, Vec<String>)> = vec![];
+    let mut res: Vec<(TextChangeKind, Vec<_>, Vec<_>)> = vec![];
     for (kind, lhs_lines, rhs_lines) in lines {
         match kind {
             TextChangeKind::Novel => {
@@ -68,25 +68,24 @@ fn merge_novel(
     res
 }
 
-fn changed_parts(src: &str, opposite_src: &str) -> Vec<(TextChangeKind, Vec<String>, Vec<String>)> {
+fn changed_parts<'a>(
+    src: &'a str,
+    opposite_src: &'a str,
+) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
     let src_lines = split_lines_keep_newline(src);
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
-    let mut res: Vec<(TextChangeKind, Vec<String>, Vec<String>)> = vec![];
+    let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
     for diff_res in diff::slice(&src_lines, &opposite_src_lines) {
         match diff_res {
             diff::Result::Left(line) => {
-                res.push((TextChangeKind::Novel, vec![line.into()], vec![]));
+                res.push((TextChangeKind::Novel, vec![line], vec![]));
             }
             diff::Result::Both(line, opposite_line) => {
-                res.push((
-                    TextChangeKind::Unchanged,
-                    vec![line.into()],
-                    vec![opposite_line.into()],
-                ));
+                res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
             }
             diff::Result::Right(opposite_line) => {
-                res.push((TextChangeKind::Novel, vec![], vec![opposite_line.into()]));
+                res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
             }
         }
     }
