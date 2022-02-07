@@ -254,19 +254,19 @@ pub fn color_positions(
                 dimmed: false,
                 italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
-            MatchKind::ChangedCommentPart { .. } => Style {
+            MatchKind::ChangedCommentPart { highlight } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: true,
                 dimmed: false,
-                italic: true,
+                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
-            MatchKind::UnchangedCommentPart { .. } => Style {
+            MatchKind::UnchangedCommentPart { highlight, .. } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: false,
                 dimmed: false,
-                italic: true,
+                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
         };
         styles.push((line_pos, style));
