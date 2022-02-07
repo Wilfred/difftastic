@@ -37,10 +37,10 @@ fn novel_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
     let mut lines = HashSet::new();
     for mp in mps {
         match mp.kind {
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => {
+            MatchKind::Novel { .. } | MatchKind::NovelLinePart { .. } => {
                 lines.insert(mp.pos.line);
             }
-            MatchKind::Unchanged { .. } | MatchKind::UnchangedCommentPart { .. } => {}
+            MatchKind::UnchangedToken { .. } | MatchKind::UnchangedLinePart { .. } => {}
         }
     }
 
@@ -56,8 +56,8 @@ fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumb
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for mp in mps {
         let opposite_line = match &mp.kind {
-            MatchKind::Unchanged { opposite_pos, .. }
-            | MatchKind::UnchangedCommentPart { opposite_pos, .. } => {
+            MatchKind::UnchangedToken { opposite_pos, .. }
+            | MatchKind::UnchangedLinePart { opposite_pos, .. } => {
                 if let Some(highest_opposite_side) = highest_opposite_line {
                     opposite_pos
                         .iter()
@@ -67,7 +67,7 @@ fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumb
                     opposite_pos.first().map(|p| p.line)
                 }
             }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => None,
+            MatchKind::Novel { .. } | MatchKind::NovelLinePart { .. } => None,
         };
 
         let should_insert = match highest_line {
@@ -125,7 +125,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
 
     for mp in mps {
         match &mp.kind {
-            MatchKind::Unchanged {
+            MatchKind::UnchangedToken {
                 self_pos,
                 opposite_pos,
                 ..
@@ -135,7 +135,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
                     opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::UnchangedCommentPart {
+            MatchKind::UnchangedLinePart {
                 opposite_pos,
                 self_pos,
                 ..
@@ -145,7 +145,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
                     opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => {}
+            MatchKind::Novel { .. } | MatchKind::NovelLinePart { .. } => {}
         }
     }
 
@@ -440,7 +440,7 @@ mod tests {
                 },
             },
             MatchedPos {
-                kind: MatchKind::Unchanged {
+                kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
                     self_pos: vec![matched_pos],
                     opposite_pos: vec![matched_pos],

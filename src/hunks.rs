@@ -705,7 +705,7 @@ mod tests {
             },
         };
         let matched_mp = MatchedPos {
-            kind: MatchKind::Unchanged {
+            kind: MatchKind::UnchangedToken {
                 highlight: TokenKind::Delimiter,
                 self_pos: vec![SingleLineSpan {
                     line: 1.into(),
@@ -751,7 +751,7 @@ mod tests {
                 },
             },
             MatchedPos {
-                kind: MatchKind::Unchanged {
+                kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
                     self_pos: vec![matched_pos],
                     opposite_pos: vec![matched_pos],
@@ -772,7 +772,7 @@ mod tests {
                 },
             },
             MatchedPos {
-                kind: MatchKind::Unchanged {
+                kind: MatchKind::UnchangedToken {
                     highlight: TokenKind::Delimiter,
                     self_pos: vec![matched_pos],
                     opposite_pos: vec![matched_pos],
