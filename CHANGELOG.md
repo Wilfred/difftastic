@@ -24,6 +24,10 @@ constants.
 If given binary files, difftastic will now report if the file contents
 are identical.
 
+Difftastic will now use a text diff for large files, rather than
+trying to use more memory than is available. This threshold is
+configurable with `--node-limit` and `DFT_NODE_LIMIT`.
+
 ### Command Line Interface
 
 Difftastic will now error if either argument does not exist, unless
