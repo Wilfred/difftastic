@@ -30,6 +30,7 @@ mod unchanged;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use const_format::formatcp;
 use context::opposite_positions;
 use files::read_files_or_die;
 use guess_language::guess;
@@ -64,6 +65,8 @@ use crate::{
 
 extern crate pretty_env_logger;
 
+const DEFAULT_NODE_LIMIT: u32 = 50_000;
+
 /// Choose the display width: try to autodetect, or fall back to a
 /// sensible default.
 fn detect_display_width() -> usize {
@@ -93,6 +96,7 @@ enum ColorOutput {
 
 enum Mode {
     Diff {
+        node_limit: u32,
         print_unchanged: bool,
         missing_as_empty: bool,
         background_color: BackgroundColor,
@@ -173,6 +177,15 @@ fn app() -> clap::App<'static> {
         .arg(
             Arg::new("missing-as-empty").long("missing-as-empty")
                 .help("Treat paths that don't exist as equivalent to an empty file.")
+        )
+        .arg(
+            Arg::new("node-limit").long("node-limit")
+                .takes_value(true)
+                .value_name("LIMIT")
+                .help(concat!("Use a text diff if the number of syntax nodes exceeds this number. Overrides $DFT_NODE_LIMIT if present."))
+                .default_value(formatcp!("{}", DEFAULT_NODE_LIMIT))
+                .validator(|s| s.parse::<u32>())
+                .required(false),
         )
         .arg(
             Arg::new("paths")
@@ -277,10 +290,25 @@ fn parse_args() -> Mode {
         }
     };
 
+    let node_limit: u32 = if matches.occurrences_of("node-limit") == 0 {
+        if let Ok(env_width) = env::var("DFT_NODE_LIMIT") {
+            env_width.parse::<u32>().ok().unwrap_or(DEFAULT_NODE_LIMIT)
+        } else {
+            DEFAULT_NODE_LIMIT
+        }
+    } else {
+        matches
+            .value_of("node-limit")
+            .expect("Always present as we've given clap a default")
+            .parse::<u32>()
+            .expect("Value already validated by clap")
+    };
+
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
 
     Mode::Diff {
+        node_limit,
         print_unchanged,
         missing_as_empty,
         background_color,
@@ -345,6 +373,7 @@ fn main() {
             }
         }
         Mode::Diff {
+            node_limit,
             print_unchanged,
             missing_as_empty,
             background_color,
@@ -361,7 +390,9 @@ fn main() {
             let rhs_path = Path::new(&rhs_path);
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
-                for diff_result in diff_directories(lhs_path, rhs_path, missing_as_empty) {
+                for diff_result in
+                    diff_directories(lhs_path, rhs_path, missing_as_empty, node_limit)
+                {
                     print_diff_result(
                         display_width,
                         background_color,
@@ -370,7 +401,13 @@ fn main() {
                     );
                 }
             } else {
-                let diff_result = diff_file(&display_path, lhs_path, rhs_path, missing_as_empty);
+                let diff_result = diff_file(
+                    &display_path,
+                    lhs_path,
+                    rhs_path,
+                    missing_as_empty,
+                    node_limit,
+                );
                 print_diff_result(
                     display_width,
                     background_color,
@@ -388,12 +425,18 @@ fn diff_file(
     lhs_path: &Path,
     rhs_path: &Path,
     missing_as_empty: bool,
+    node_limit: u32,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    diff_file_content(display_path, &lhs_bytes, &rhs_bytes)
+    diff_file_content(display_path, &lhs_bytes, &rhs_bytes, node_limit)
 }
 
-fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> DiffResult {
+fn diff_file_content(
+    display_path: &str,
+    lhs_bytes: &[u8],
+    rhs_bytes: &[u8],
+    node_limit: u32,
+) -> DiffResult {
     if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
             path: display_path.into(),
@@ -448,20 +491,29 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
             init_all_info(&lhs, &rhs);
 
             let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged(&lhs, &rhs);
-            init_next_prev(&possibly_changed_lhs);
-            init_next_prev(&possibly_changed_rhs);
 
-            mark_syntax(
-                possibly_changed_lhs.get(0).copied(),
-                possibly_changed_rhs.get(0).copied(),
-            );
+            let possibly_changed_num =
+                num_nodes(&possibly_changed_lhs) + num_nodes(&possibly_changed_rhs);
+            if possibly_changed_num > node_limit {
+                let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
+                let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+                (Some("hit limit".into()), lhs_positions, rhs_positions)
+            } else {
+                init_next_prev(&possibly_changed_lhs);
+                init_next_prev(&possibly_changed_rhs);
 
-            fix_all_sliders(&possibly_changed_lhs);
-            fix_all_sliders(&possibly_changed_rhs);
+                mark_syntax(
+                    possibly_changed_lhs.get(0).copied(),
+                    possibly_changed_rhs.get(0).copied(),
+                );
 
-            let lhs_positions = syntax::change_positions(&lhs);
-            let rhs_positions = syntax::change_positions(&rhs);
-            (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
+                fix_all_sliders(&possibly_changed_lhs);
+                fix_all_sliders(&possibly_changed_rhs);
+
+                let lhs_positions = syntax::change_positions(&lhs);
+                let rhs_positions = syntax::change_positions(&rhs);
+                (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
+            }
         }
         None => {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
@@ -485,7 +537,12 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
-fn diff_directories(lhs_dir: &Path, rhs_dir: &Path, missing_as_empty: bool) -> Vec<DiffResult> {
+fn diff_directories(
+    lhs_dir: &Path,
+    rhs_dir: &Path,
+    missing_as_empty: bool,
+    node_limit: u32,
+) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
@@ -503,6 +560,7 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path, missing_as_empty: bool) -> V
             lhs_path,
             &rhs_path,
             missing_as_empty,
+            node_limit,
         ));
     }
     res
@@ -600,6 +658,21 @@ fn print_diff_result(
     }
 }
 
+/// What is the total number of nodes in `roots`?
+fn num_nodes(roots: &[&syntax::Syntax]) -> u32 {
+    roots
+        .iter()
+        .map(|n| {
+            1 + match n {
+                syntax::Syntax::List {
+                    num_descendants, ..
+                } => *num_descendants,
+                syntax::Syntax::Atom { .. } => 0,
+            }
+        })
+        .sum()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -607,7 +680,7 @@ mod tests {
     #[test]
     fn test_diff_identical_content() {
         let s = "foo";
-        let res = diff_file_content("foo.el", s.as_bytes(), s.as_bytes());
+        let res = diff_file_content("foo.el", s.as_bytes(), s.as_bytes(), DEFAULT_NODE_LIMIT);
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);

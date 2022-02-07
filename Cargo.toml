@@ -39,6 +39,7 @@ mimalloc = { version = "0.1.26", default-features = false }
 radix-heap = "0.4.1"
 walkdir = "2.3.2"
 term_size = "0.3.2"
+const_format = "0.2.22"
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"
