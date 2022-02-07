@@ -48,3 +48,7 @@ match: int = secret
 x, match: str = 2, "hey, what's up?"
 # <- variable
 #   ^ variable
+
+if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII):
+    # ^ variable
+    return match
