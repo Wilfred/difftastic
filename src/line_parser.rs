@@ -137,7 +137,9 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                                     // TODO: rename this kind to reflect
                                     // that it's used for both code
                                     // comments and plain text.
-                                    kind: MatchKind::ChangedCommentPart {},
+                                    kind: MatchKind::ChangedCommentPart {
+                                        highlight: TokenKind::Atom(AtomKind::Normal),
+                                    },
                                     pos: lhs_pos[0],
                                 });
                             }
@@ -153,6 +155,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
                                 res.push(MatchedPos {
                                     kind: MatchKind::UnchangedCommentPart {
+                                        highlight: TokenKind::Atom(AtomKind::Normal),
                                         self_pos: lhs_pos[0],
                                         opposite_pos: rhs_pos,
                                     },
