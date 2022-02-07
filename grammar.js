@@ -265,7 +265,12 @@ module.exports = grammar({
 
     case_clause: $ => seq(
       'case',
-      commaSep1(field('pattern', choice($.expression, $.list_splat_pattern))),
+      commaSep1(
+        field(
+          'pattern',
+          alias(choice($.expression, $.list_splat_pattern), $.case_pattern),
+        )
+      ),
       optional(','),
       optional(field('guard', $.if_clause)),
       ':',
@@ -544,7 +549,7 @@ module.exports = grammar({
     as_pattern: $ => prec.left(seq(
       $.expression,
       'as',
-      field('alias', $.expression)
+      field('alias', alias($.expression, $.as_pattern_target))
     )),
 
     // Expressions

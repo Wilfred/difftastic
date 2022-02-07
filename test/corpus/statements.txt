@@ -501,7 +501,8 @@ finally:
     (except_clause
       (as_pattern
         (identifier)
-        alias: (identifier))
+        alias: (as_pattern_target
+          (identifier)))
       (block
         (expression_statement
           (identifier))))
@@ -554,7 +555,8 @@ with (open('d') as d,
       (with_item
         (as_pattern
           (identifier)
-          (identifier))))
+          (as_pattern_target
+            (identifier)))))
     (block
       (expression_statement
         (identifier))))
@@ -567,13 +569,15 @@ with (open('d') as d,
               (identifier)
               (argument_list
                 (string)))
-            (identifier))
+            (as_pattern_target
+              (identifier)))
           (as_pattern
             (call
               (identifier)
               (argument_list
                 (string)))
-            (identifier)))))
+            (as_pattern_target
+              (identifier))))))
     (block
       (expression_statement
         (identifier)))))
@@ -783,8 +787,11 @@ def h(*a):
       (positional_separator)
       (identifier)
       (keyword_separator)
-      (default_parameter name: (identifier) value: (integer))
-      (dictionary_splat_pattern (identifier)))
+      (default_parameter
+        name: (identifier)
+        value: (integer))
+      (dictionary_splat_pattern
+        (identifier)))
     body: (block
       (return_statement
         (expression_list
