@@ -162,7 +162,7 @@ pub fn parse_args() -> Mode {
             )
         }
         _ => {
-            eprintln!("error: Difftastic does not support being called with {} arguments. See --help for more information.", args.len());
+            eprintln!("error: Difftastic does not support being called with {} argument{}. See --help for usage information.", args.len(), if args.len() == 1 {""} else {"s"});
             std::process::exit(1);
         }
     };
