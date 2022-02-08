@@ -36,6 +36,7 @@ enum TextChangeKind {
     Unchanged,
 }
 
+/// Merge contiguous sequences marked as novel.
 fn merge_novel<'a>(
     lines: &[(TextChangeKind, Vec<&'a str>, Vec<&'a str>)],
 ) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
@@ -143,6 +144,7 @@ fn changed_parts<'a>(
         }
     }
 
+    // Merge so we can try word highlighting on similar lines.
     merge_novel(&res)
 }
 
