@@ -301,7 +301,8 @@ pub fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = SourceDimensions::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
+        let source_dims =
+            SourceDimensions::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 lhs_line_num,
@@ -319,7 +320,7 @@ pub fn print(
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,
                 rhs_line_num,
-                &widths,
+                &source_dims,
                 background,
                 lhs_line_novel,
                 rhs_line_novel,
@@ -368,15 +369,15 @@ pub fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.0],
-                        widths.lhs_content_width,
+                        source_dims.lhs_content_width,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                     ),
-                    None => vec![" ".repeat(widths.lhs_content_width)],
+                    None => vec![" ".repeat(source_dims.lhs_content_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.0],
-                        widths.rhs_content_width,
+                        source_dims.rhs_content_width,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec!["".into()],
@@ -386,7 +387,8 @@ pub fn print(
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line = lhs_line.unwrap_or_else(|| " ".repeat(widths.lhs_content_width));
+                    let lhs_line =
+                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.lhs_content_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
@@ -394,7 +396,7 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             lhs_line_num
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
-                            widths.lhs_line_nums_width,
+                            source_dims.lhs_line_nums_width,
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
@@ -413,7 +415,7 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             rhs_line_num
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
-                            widths.rhs_line_nums_width,
+                            source_dims.rhs_line_nums_width,
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
@@ -452,15 +454,15 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let widths = SourceDimensions::new(
+        let source_dims = SourceDimensions::new(
             80,
             &line_nums,
             &split_on_newlines("foo\nbar\n"),
             &split_on_newlines("x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"),
         );
 
-        assert_eq!(widths.lhs_line_nums_width, 2);
-        assert_eq!(widths.rhs_line_nums_width, 3);
+        assert_eq!(source_dims.lhs_line_nums_width, 2);
+        assert_eq!(source_dims.rhs_line_nums_width, 3);
     }
 
     #[test]
