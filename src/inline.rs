@@ -9,7 +9,7 @@ use crate::{
 };
 use colored::*;
 
-pub fn display(
+pub fn print(
     lhs_src: &str,
     rhs_src: &str,
     lhs_positions: &[MatchedPos],
@@ -18,27 +18,21 @@ pub fn display(
     display_path: &str,
     lang_name: &str,
     background: BackgroundColor,
-) -> String {
+) {
     let lhs_colored = apply_colors(lhs_src, true, background, lhs_positions);
     let rhs_colored = apply_colors(rhs_src, false, background, rhs_positions);
 
     let lhs_lines: Vec<_> = lhs_colored.lines().collect();
     let rhs_lines: Vec<_> = rhs_colored.lines().collect();
 
-    let mut res = String::new();
-
     let opposite_to_lhs = opposite_positions(lhs_positions);
     let opposite_to_rhs = opposite_positions(rhs_positions);
 
     for (i, hunk) in hunks.iter().enumerate() {
-        res.push_str(&style::header(
-            display_path,
-            i + 1,
-            hunks.len(),
-            lang_name,
-            background,
-        ));
-        res.push('\n');
+        println!(
+            "{}",
+            style::header(display_path, i + 1, hunks.len(), lang_name, background)
+        );
 
         let hunk_lines = hunk.lines.clone();
 
@@ -55,48 +49,42 @@ pub fn display(
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
-                res.push_str(&format_line_num(lhs_line));
-                res.push_str("   ");
-                res.push_str(lhs_lines[lhs_line.0]);
+                println!("{}   {}", format_line_num(lhs_line), lhs_lines[lhs_line.0]);
             } else {
                 continue;
             }
-            res.push('\n');
         }
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
-                res.push_str(&format_line_num(*lhs_line).red().bold().to_string());
-                res.push_str("   ");
-                res.push_str(lhs_lines[lhs_line.0]);
+                println!(
+                    "{}   {}",
+                    format_line_num(*lhs_line).red().bold().to_string(),
+                    lhs_lines[lhs_line.0]
+                );
             } else {
                 continue;
             }
-            res.push('\n');
         }
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
-                res.push_str("   ");
-                res.push_str(&format_line_num(*rhs_line).green().bold().to_string());
-                res.push_str(rhs_lines[rhs_line.0]);
+                println!(
+                    "   {}{}",
+                    format_line_num(*rhs_line).green().bold().to_string(),
+                    rhs_lines[rhs_line.0]
+                );
             } else {
                 continue;
             }
-            res.push('\n');
         }
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
-                res.push_str("   ");
-                res.push_str(&format_line_num(*rhs_line));
-                res.push_str(rhs_lines[rhs_line.0]);
+                println!("   {}{}", format_line_num(*rhs_line), rhs_lines[rhs_line.0]);
             } else {
                 continue;
             }
-            res.push('\n');
         }
-        res.push('\n');
+        println!();
     }
-
-    res
 }

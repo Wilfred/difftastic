@@ -356,33 +356,27 @@ fn print_diff_result(
             }
 
             if env::var("INLINE").is_ok() {
-                println!(
-                    "{}",
-                    inline::display(
-                        lhs_src,
-                        rhs_src,
-                        &summary.lhs_positions,
-                        &summary.rhs_positions,
-                        &hunks,
-                        &summary.path,
-                        &lang_name,
-                        background
-                    )
+                inline::print(
+                    lhs_src,
+                    rhs_src,
+                    &summary.lhs_positions,
+                    &summary.rhs_positions,
+                    &hunks,
+                    &summary.path,
+                    &lang_name,
+                    background,
                 );
             } else {
-                println!(
-                    "{}",
-                    side_by_side::display_hunks(
-                        &hunks,
-                        display_width,
-                        background,
-                        &summary.path,
-                        &lang_name,
-                        lhs_src,
-                        rhs_src,
-                        &summary.lhs_positions,
-                        &summary.rhs_positions,
-                    )
+                side_by_side::print(
+                    &hunks,
+                    display_width,
+                    background,
+                    &summary.path,
+                    &lang_name,
+                    lhs_src,
+                    rhs_src,
+                    &summary.lhs_positions,
+                    &summary.rhs_positions,
                 );
             }
         }
