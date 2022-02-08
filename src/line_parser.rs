@@ -250,6 +250,15 @@ mod tests {
     }
 
     #[test]
+    fn test_positions_whitespace_is_change() {
+        // Even though the word exists on both sides, it should still
+        // be treated as a change. We're doing a line-based diff and
+        // the lines are different.
+        let positions = change_positions("foo", " foo");
+        assert!(positions[0].kind.is_change());
+    }
+
+    #[test]
     fn test_no_changes_trailing_newlines() {
         let positions = change_positions("foo\n", "foo\n");
 
