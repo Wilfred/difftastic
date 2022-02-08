@@ -188,18 +188,20 @@ module.exports = grammar({
 
         contract_body: $  => seq(
             "{",
-            repeat(choice(
-                $.function_definition,
-                $.modifier_definition,
-                $.state_variable_declaration,
-                $.struct_declaration,
-                $.enum_declaration,
-                $.event_definition,
-                $.using_directive,
-                $.constructor_definition,
-                $.fallback_receive_definition,
-            )),
+            repeat($._contract_member),   
             "}",
+        ),
+
+        _contract_member: $ => choice(
+            $.function_definition,
+            $.modifier_definition,
+            $.state_variable_declaration,
+            $.struct_declaration,
+            $.enum_declaration,
+            $.event_definition,
+            $.using_directive,
+            $.constructor_definition,
+            $.fallback_receive_definition,
         ),
 
         struct_declaration: $ =>  seq(
