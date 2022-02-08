@@ -19,6 +19,8 @@ syntax even when text is red.
 Built-in constants are now highlighted consistently with other
 constants.
 
+Improved minor display issues when one file is longer than the other.
+
 ### Diffing
 
 If given binary files, difftastic will now report if the file contents

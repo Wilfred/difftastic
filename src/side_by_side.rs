@@ -33,11 +33,31 @@ fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     )
 }
 
-fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String {
+fn format_missing_line_num(
+    prev_num: LineNumber,
+    source_dims: &SourceDimensions,
+    is_lhs: bool,
+) -> String {
+    let column_width = if is_lhs {
+        source_dims.lhs_line_nums_width
+    } else {
+        source_dims.rhs_line_nums_width
+    };
+
+    let after_end = if is_lhs {
+        prev_num >= source_dims.lhs_max_line
+    } else {
+        prev_num >= source_dims.rhs_max_line
+    };
+
+    if after_end && !is_lhs {
+        return "".into();
+    }
+
     let num_digits = format!("{}", prev_num.one_indexed()).len();
     format!(
         "{:>width$} ",
-        ".".repeat(num_digits),
+        (if after_end { " " } else { "." }).repeat(num_digits),
         width = column_width - 1
     )
     .dimmed()
@@ -104,7 +124,8 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
-            source_dims.lhs_line_nums_width,
+            source_dims,
+            true,
         ),
     };
     let display_rhs_line_num: String = match rhs_line_num {
@@ -122,7 +143,8 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
-            source_dims.rhs_line_nums_width,
+            source_dims,
+            false,
         ),
     };
 
@@ -135,6 +157,8 @@ struct SourceDimensions {
     rhs_content_width: usize,
     lhs_line_nums_width: usize,
     rhs_line_nums_width: usize,
+    lhs_max_line: LineNumber,
+    rhs_max_line: LineNumber,
 }
 
 impl SourceDimensions {
@@ -173,6 +197,8 @@ impl SourceDimensions {
             rhs_content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
+            lhs_max_line,
+            rhs_max_line,
         }
     }
 }
@@ -396,7 +422,8 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             lhs_line_num
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
-                            source_dims.lhs_line_nums_width,
+                            &source_dims,
+                            true,
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
@@ -415,7 +442,8 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             rhs_line_num
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
-                            source_dims.rhs_line_nums_width,
+                            &source_dims,
+                            false,
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
@@ -463,6 +491,42 @@ mod tests {
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
         assert_eq!(source_dims.rhs_line_nums_width, 3);
+    }
+
+    #[test]
+    fn test_format_missing_line_num() {
+        let source_dims = SourceDimensions::new(
+            80,
+            &[
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+            ],
+            &split_on_newlines("foo\nbar\n"),
+            &split_on_newlines("fox\nbax\n"),
+        );
+
+        assert_eq!(
+            format_missing_line_num(0.into(), &source_dims, true),
+            ". ".dimmed().to_string()
+        );
+    }
+
+    #[test]
+    fn test_format_missing_line_num_at_end() {
+        let source_dims = SourceDimensions::new(
+            80,
+            &[
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+            ],
+            &split_on_newlines("foo\nbar\n"),
+            &split_on_newlines("fox\nbax\n"),
+        );
+
+        assert_eq!(
+            format_missing_line_num(1.into(), &source_dims, true),
+            "  ".dimmed().to_string()
+        );
     }
 
     #[test]
