@@ -249,7 +249,7 @@ fn highlight_as_novel(
     false
 }
 
-pub fn display_hunks(
+pub fn print(
     hunks: &[Hunk],
     display_width: usize,
     background: BackgroundColor,
@@ -259,15 +259,21 @@ pub fn display_hunks(
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> String {
+) {
     let lhs_colored_src = apply_colors(lhs_src, true, background, lhs_mps);
     let rhs_colored_src = apply_colors(rhs_src, false, background, rhs_mps);
 
     if lhs_src.is_empty() {
-        return display_single_column(display_path, lang_name, &rhs_colored_src, false, background);
+        println!(
+            "{}",
+            display_single_column(display_path, lang_name, &rhs_colored_src, false, background)
+        );
     }
     if rhs_src.is_empty() {
-        return display_single_column(display_path, lang_name, &lhs_colored_src, true, background);
+        println!(
+            "{}",
+            display_single_column(display_path, lang_name, &lhs_colored_src, true, background)
+        );
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
@@ -284,16 +290,11 @@ pub fn display_hunks(
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps);
 
-    let mut out_lines: Vec<String> = vec![];
-
     for (i, hunk) in hunks.iter().enumerate() {
-        out_lines.push(style::header(
-            display_path,
-            i + 1,
-            hunks.len(),
-            lang_name,
-            background,
-        ));
+        println!(
+            "{}",
+            style::header(display_path, i + 1, hunks.len(), lang_name, background)
+        );
 
         let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
         let no_lhs_changes = hunk.novel_lhs.is_empty();
@@ -331,19 +332,19 @@ pub fn display_hunks(
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.0];
                         if same_lines {
-                            out_lines.push(format!("{}{}", display_rhs_line_num, rhs_line));
+                            println!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
-                            out_lines.push(format!(
+                            println!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, rhs_line
-                            ));
+                            );
                         }
                     }
                     None => {
                         // We didn't have any changed RHS lines in the
                         // hunk, but we had some contextual lines that
                         // only occurred on the LHS (e.g. extra newlines).
-                        out_lines.push(format!("{}{}", display_rhs_line_num, display_rhs_line_num));
+                        println!("{}{}", display_rhs_line_num, display_rhs_line_num);
                     }
                 }
             } else if no_rhs_changes {
@@ -351,16 +352,16 @@ pub fn display_hunks(
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.0];
                         if same_lines {
-                            out_lines.push(format!("{}{}", display_lhs_line_num, lhs_line));
+                            println!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
-                            out_lines.push(format!(
+                            println!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, lhs_line
-                            ));
+                            );
                         }
                     }
                     None => {
-                        out_lines.push(format!("{}{}", display_lhs_line_num, display_rhs_line_num));
+                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
                     }
                 }
             } else {
@@ -426,10 +427,7 @@ pub fn display_hunks(
                         s
                     };
 
-                    out_lines.push(format!(
-                        "{}{}{}{}{}",
-                        lhs_num, lhs_line, SPACER, rhs_num, rhs_line
-                    ));
+                    println!("{}{}{}{}{}", lhs_num, lhs_line, SPACER, rhs_num, rhs_line);
                 }
             }
 
@@ -440,10 +438,8 @@ pub fn display_hunks(
                 prev_rhs_line_num = rhs_line_num;
             }
         }
-        out_lines.push("".into());
+        println!();
     }
-
-    out_lines.join("\n")
 }
 
 #[cfg(test)]
@@ -543,7 +539,7 @@ mod tests {
         }];
 
         // Simple smoke test.
-        display_hunks(
+        print(
             &hunks,
             80,
             BackgroundColor::Dark,
