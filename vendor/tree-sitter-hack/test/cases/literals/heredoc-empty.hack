@@ -1,5 +1,0 @@
-<<<EOF
-EOF;
-
-<<<EOF
-EOF;

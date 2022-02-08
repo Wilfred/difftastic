@@ -1,7 +1,0 @@
-(script
-  (echo_statement
-    (integer))
-  (echo_statement
-    (integer)
-    (integer)
-    (integer)))

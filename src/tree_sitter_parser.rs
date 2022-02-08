@@ -53,7 +53,6 @@ extern "C" {
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
-    fn tree_sitter_hack() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
@@ -238,20 +237,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../vendor/highlights/go.scm"),
                 )
                 .unwrap(),
-            }
-        }
-        Hack => {
-            // TODO: upstream
-            // TODO: upstream doesn't support the `readonly` keyword yet.
-            let query = "(comment) @comment\n\n(string) @string\n(heredoc) @string\n(prefixed_string) @string\n\n[\n  \"class\"\n  \"interface\"\n  \"trait\"\n  \"public\"\n  \"protected\"\n  \"private\"\n  \"static\"\n  \"async\"\n  \"function\"\n  \"return\"\n  \"if\"\n  \"else\"\n  \"elseif\"\n  \"while\"\n  \"for\"\n  \"foreach\"\n  \"break\"\n  \"continue\"\n  \"type\"\n  \"new\"\n  \"throw\"\n] @keyword\n\n(type_specifier) @type\n";
-
-            let language = unsafe { tree_sitter_hack() };
-            TreeSitterConfig {
-                name: "Hack",
-                language,
-                atom_nodes: (vec!["prefixed_stirng", "heredoc"]).into_iter().collect(),
-                delimiter_tokens: (vec![("[", "]"), ("(", ")"), ("{", "}")]),
-                highlight_query: ts::Query::new(language, query).unwrap(),
             }
         }
         Haskell => {
