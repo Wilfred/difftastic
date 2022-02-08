@@ -4302,12 +4302,20 @@
             }
           },
           {
-            "type": "FIELD",
-            "name": "options",
-            "content": {
-              "type": "SYMBOL",
-              "name": "brack_group_key_value"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "options",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "brack_group_key_value"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "FIELD",

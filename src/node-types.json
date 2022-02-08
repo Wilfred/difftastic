@@ -5847,7 +5847,7 @@
       },
       "options": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "brack_group_key_value",

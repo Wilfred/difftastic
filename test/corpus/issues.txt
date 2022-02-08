@@ -310,3 +310,23 @@ tree-sitter-latex (Issue #13)
             (command_name)))))
     (curly_group_path
       (path))))
+
+================================================================================
+tree-sitter-latex (Issue #24)
+================================================================================
+
+\newtheorem{definition}{Definition}[section]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (theorem_definition
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)))
+    (brack_group_text
+      (text
+        (word)))))
