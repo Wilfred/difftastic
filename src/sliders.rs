@@ -36,6 +36,12 @@ use crate::{
 use Syntax::*;
 
 pub fn fix_all_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
+    // TODO: fix sliders that require more than two steps.
+    fix_all_sliders_one_step(nodes);
+    fix_all_sliders_one_step(nodes);
+}
+
+fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>]) {
     for node in nodes {
         if let List { children, .. } = node {
             fix_all_sliders(children);
@@ -196,7 +202,7 @@ fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
     let distance_to_before_start = distance_between(before_start_node, start_node);
     let distance_to_last = distance_between(before_last_node, last_node);
 
-    if distance_to_before_start < distance_to_last {
+    if distance_to_before_start <= distance_to_last {
         // Deep checks walk the whole tree, so do these last.
         if !is_unchanged_deep(before_start_node) {
             return;
@@ -336,7 +342,11 @@ impl<'a> Syntax<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::syntax::{init_all_info, AtomKind};
+    use crate::{
+        guess_language,
+        syntax::{init_all_info, AtomKind},
+        tree_sitter_parser::{from_language, parse},
+    };
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
 
@@ -432,5 +442,26 @@ mod tests {
         assert_eq!(lhs[0].change(), Some(Unchanged(rhs[0])));
         assert_eq!(lhs[1].change(), Some(Novel));
         assert_eq!(lhs[2].change(), Some(Novel));
+    }
+    #[test]
+    fn test_slider_two_steps() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs = parse(&arena, "A B", &config);
+        let rhs = parse(&arena, "A B X\n A B", &config);
+        init_all_info(&lhs, &rhs);
+
+        rhs[0].set_change(Unchanged(lhs[0]));
+        rhs[1].set_change(Unchanged(lhs[1]));
+        rhs[2].set_change(Novel);
+        rhs[3].set_change(Novel);
+        rhs[4].set_change(Novel);
+
+        fix_all_sliders(&rhs);
+        assert_eq!(rhs[0].change(), Some(Novel));
+        assert_eq!(rhs[1].change(), Some(Novel));
+        assert_eq!(rhs[2].change(), Some(Novel));
+        assert_eq!(rhs[3].change(), Some(Unchanged(rhs[0])));
     }
 }

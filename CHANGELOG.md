@@ -1,5 +1,9 @@
 ## 0.20 (unreleased)
 
+### Diffing
+
+Improved slider logic in larger expressions.
+
 ## 0.19 (released 7th February 2022)
 
 ### Parsing
