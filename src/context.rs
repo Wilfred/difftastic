@@ -37,10 +37,12 @@ fn novel_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
     let mut lines = HashSet::new();
     for mp in mps {
         match mp.kind {
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } => {
+            MatchKind::Novel { .. }
+            | MatchKind::NovelWord { .. }
+            | MatchKind::NovelLinePart { .. } => {
                 lines.insert(mp.pos.line);
             }
-            MatchKind::UnchangedToken { .. } | MatchKind::NovelLinePart { .. } => {}
+            MatchKind::UnchangedToken { .. } => {}
         }
     }
 
@@ -453,6 +455,64 @@ mod tests {
             matched_lines(&mps),
             vec![(Some(0.into()), None), (Some(1.into()), Some(1.into()))]
         );
+    }
+
+    #[test]
+    fn test_novel_lines() {
+        let mps = [
+            MatchedPos {
+                kind: MatchKind::NovelLinePart {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    },
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 2,
+                        end_col: 3,
+                    }],
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 2,
+                    end_col: 3,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+        ];
+
+        assert_eq!(novel_lines(&mps), vec![0.into(), 2.into()]);
     }
 
     #[test]
