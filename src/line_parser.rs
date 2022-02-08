@@ -188,7 +188,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 res.push(MatchedPos {
-                                    kind: MatchKind::NovelLinePart {
+                                    kind: MatchKind::NovelWord {
                                         highlight: TokenKind::Atom(AtomKind::Normal),
                                     },
                                     pos: lhs_pos[0],

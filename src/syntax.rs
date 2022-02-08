@@ -544,7 +544,7 @@ pub enum MatchKind {
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
-    NovelLinePart {
+    NovelWord {
         highlight: TokenKind,
     },
 }
@@ -555,14 +555,14 @@ impl MatchKind {
             MatchKind::UnchangedToken { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::UnchangedLinePart { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::Novel { .. } => None,
-            MatchKind::NovelLinePart { .. } => None,
+            MatchKind::NovelWord { .. } => None,
         }
     }
 
     pub fn is_change(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. } | MatchKind::NovelLinePart { .. }
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. }
         )
     }
 }
@@ -605,7 +605,7 @@ fn split_comment_words(
             diff::Result::Left(word) => {
                 // This word is novel to this side.
                 res.push(MatchedPos {
-                    kind: MatchKind::NovelLinePart {
+                    kind: MatchKind::NovelWord {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                     },
                     pos: content_newlines.from_offsets_relative_to(
@@ -927,7 +927,7 @@ mod tests {
         assert_eq!(
             res,
             vec![MatchedPos {
-                kind: MatchKind::NovelLinePart {
+                kind: MatchKind::NovelWord {
                     highlight: TokenKind::Atom(AtomKind::Comment),
                 },
                 pos: SingleLineSpan {
