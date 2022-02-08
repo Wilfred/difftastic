@@ -1,6 +1,0 @@
-BasedOnStyle: Google
-ColumnLimit: 100
-AlignAfterOpenBracket: AlwaysBreak
-BinPackParameters: false
-BinPackArguments: false
-

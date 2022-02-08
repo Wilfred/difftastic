@@ -1,8 +1,0 @@
-(script
-  (foreach_statement
-    collection: (binary_expression
-      left: (variable)
-      right: (array
-        (array_type)))
-    value: (variable)
-    body: (compound_statement)))
