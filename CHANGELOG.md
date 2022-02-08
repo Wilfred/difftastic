@@ -7,8 +7,6 @@
 Fixed an issue with changes being ignored in OCaml's `{||}` string
 literals.
 
-Added support for Hack programs.
-
 ### Display
 
 Fixed an issue where larger additions were not lined up with removals.
