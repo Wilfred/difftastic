@@ -539,7 +539,7 @@ pub enum MatchKind {
     Novel {
         highlight: TokenKind,
     },
-    UnchangedLinePart {
+    NovelLinePart {
         highlight: TokenKind,
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
@@ -553,7 +553,7 @@ impl MatchKind {
     pub fn first_opposite_span(&self) -> Option<SingleLineSpan> {
         match self {
             MatchKind::UnchangedToken { opposite_pos, .. } => opposite_pos.first().copied(),
-            MatchKind::UnchangedLinePart { opposite_pos, .. } => opposite_pos.first().copied(),
+            MatchKind::NovelLinePart { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::Novel { .. } => None,
             MatchKind::NovelWord { .. } => None,
         }
@@ -627,7 +627,7 @@ fn split_comment_words(
                 );
 
                 res.push(MatchedPos {
-                    kind: MatchKind::UnchangedLinePart {
+                    kind: MatchKind::NovelLinePart {
                         highlight: TokenKind::Atom(AtomKind::Comment),
                         self_pos: word_pos,
                         opposite_pos: opposite_word_pos,
