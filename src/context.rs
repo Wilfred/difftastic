@@ -40,7 +40,7 @@ fn novel_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
             MatchKind::Novel { .. } | MatchKind::NovelWord { .. } => {
                 lines.insert(mp.pos.line);
             }
-            MatchKind::UnchangedToken { .. } | MatchKind::UnchangedLinePart { .. } => {}
+            MatchKind::UnchangedToken { .. } | MatchKind::NovelLinePart { .. } => {}
         }
     }
 
@@ -57,7 +57,7 @@ fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumb
     for mp in mps {
         let opposite_line = match &mp.kind {
             MatchKind::UnchangedToken { opposite_pos, .. }
-            | MatchKind::UnchangedLinePart { opposite_pos, .. } => {
+            | MatchKind::NovelLinePart { opposite_pos, .. } => {
                 if let Some(highest_opposite_side) = highest_opposite_line {
                     opposite_pos
                         .iter()
@@ -135,7 +135,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
                     opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::UnchangedLinePart {
+            MatchKind::NovelLinePart {
                 opposite_pos,
                 self_pos,
                 ..

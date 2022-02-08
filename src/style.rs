@@ -261,7 +261,7 @@ pub fn color_positions(
                 dimmed: false,
                 italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
             },
-            MatchKind::UnchangedLinePart { highlight, .. } => Style {
+            MatchKind::NovelLinePart { highlight, .. } => Style {
                 foreground: Some(novel_color),
                 background: None,
                 bold: false,
