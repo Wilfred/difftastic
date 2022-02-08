@@ -81,7 +81,7 @@ fn display_single_column(
 fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
-    widths: &Widths,
+    source_dims: &SourceDimensions,
     background: BackgroundColor,
     lhs_has_novel: bool,
     rhs_has_novel: bool,
@@ -90,7 +90,7 @@ fn display_line_nums(
 ) -> (String, String) {
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
-            let s = format_line_num_padded(line_num, widths.lhs_line_nums);
+            let s = format_line_num_padded(line_num, source_dims.lhs_line_nums_width);
             if lhs_has_novel {
                 // TODO: factor out applying colours to line numbers.
                 match background {
@@ -104,12 +104,12 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
-            widths.lhs_line_nums,
+            source_dims.lhs_line_nums_width,
         ),
     };
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
-            let s = format_line_num_padded(line_num, widths.rhs_line_nums);
+            let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
             if rhs_has_novel {
                 match background {
                     BackgroundColor::Dark => s.bright_green(),
@@ -122,7 +122,7 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
-            widths.rhs_line_nums,
+            source_dims.rhs_line_nums_width,
         ),
     };
 
@@ -130,14 +130,14 @@ fn display_line_nums(
 }
 
 // Sizes used when displaying a hunk.
-struct Widths {
-    lhs_content: usize,
-    rhs_content: usize,
-    lhs_line_nums: usize,
-    rhs_line_nums: usize,
+struct SourceDimensions {
+    lhs_content_width: usize,
+    rhs_content_width: usize,
+    lhs_line_nums_width: usize,
+    rhs_line_nums_width: usize,
 }
 
-impl Widths {
+impl SourceDimensions {
     fn new(
         terminal_width: usize,
         line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
@@ -169,10 +169,10 @@ impl Widths {
             terminal_width - lhs_total_width - SPACER.len() - rhs_line_nums_width;
 
         Self {
-            lhs_content: lhs_content_width,
-            rhs_content: rhs_content_width,
-            lhs_line_nums: lhs_line_nums_width,
-            rhs_line_nums: rhs_line_nums_width,
+            lhs_content_width,
+            rhs_content_width,
+            lhs_line_nums_width,
+            rhs_line_nums_width,
         }
     }
 }
@@ -301,7 +301,7 @@ pub fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = Widths::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
+        let widths = SourceDimensions::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 lhs_line_num,
@@ -368,15 +368,15 @@ pub fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.0],
-                        widths.lhs_content,
+                        widths.lhs_content_width,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                     ),
-                    None => vec![" ".repeat(widths.lhs_content)],
+                    None => vec![" ".repeat(widths.lhs_content_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.0],
-                        widths.rhs_content,
+                        widths.rhs_content_width,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec!["".into()],
@@ -386,7 +386,7 @@ pub fn print(
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line = lhs_line.unwrap_or_else(|| " ".repeat(widths.lhs_content));
+                    let lhs_line = lhs_line.unwrap_or_else(|| " ".repeat(widths.lhs_content_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
@@ -394,7 +394,7 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             lhs_line_num
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
-                            widths.lhs_line_nums,
+                            widths.lhs_line_nums_width,
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
@@ -413,7 +413,7 @@ pub fn print(
                         let mut s = format_missing_line_num(
                             rhs_line_num
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
-                            widths.rhs_line_nums,
+                            widths.rhs_line_nums_width,
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
@@ -452,15 +452,15 @@ mod tests {
     #[test]
     fn test_width_calculations() {
         let line_nums = [(Some(1.into()), Some(10.into()))];
-        let widths = Widths::new(
+        let widths = SourceDimensions::new(
             80,
             &line_nums,
             &split_on_newlines("foo\nbar\n"),
             &split_on_newlines("x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"),
         );
 
-        assert_eq!(widths.lhs_line_nums, 2);
-        assert_eq!(widths.rhs_line_nums, 3);
+        assert_eq!(widths.lhs_line_nums_width, 2);
+        assert_eq!(widths.rhs_line_nums_width, 3);
     }
 
     #[test]
