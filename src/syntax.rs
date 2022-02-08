@@ -562,7 +562,7 @@ impl MatchKind {
     pub fn is_change(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. }
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
         )
     }
 }
