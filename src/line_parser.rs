@@ -184,7 +184,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 for diff_res in diff::slice(&split_words(&lhs_part), &split_words(&rhs_part)) {
                     match diff_res {
                         diff::Result::Left(lhs_word) => {
-                            if lhs_word != "\n" {
+                            if *lhs_word != "\n" {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 res.push(MatchedPos {
@@ -198,7 +198,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                             lhs_offset += lhs_word.len();
                         }
                         diff::Result::Both(lhs_word, rhs_word) => {
-                            if lhs_word != "\n" {
+                            if *lhs_word != "\n" {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
                                 let rhs_pos =
