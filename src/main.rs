@@ -118,6 +118,7 @@ fn main() {
         }
         Mode::Diff {
             node_limit,
+            byte_limit,
             print_unchanged,
             missing_as_empty,
             background_color,
@@ -135,7 +136,7 @@ fn main() {
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in
-                    diff_directories(lhs_path, rhs_path, missing_as_empty, node_limit)
+                    diff_directories(lhs_path, rhs_path, missing_as_empty, node_limit, byte_limit)
                 {
                     print_diff_result(
                         display_width,
@@ -151,6 +152,7 @@ fn main() {
                     rhs_path,
                     missing_as_empty,
                     node_limit,
+                    byte_limit,
                 );
                 print_diff_result(
                     display_width,
@@ -170,9 +172,10 @@ fn diff_file(
     rhs_path: &Path,
     missing_as_empty: bool,
     node_limit: u32,
+    byte_limit: usize,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    diff_file_content(display_path, &lhs_bytes, &rhs_bytes, node_limit)
+    diff_file_content(display_path, &lhs_bytes, &rhs_bytes, node_limit, byte_limit)
 }
 
 fn diff_file_content(
@@ -180,6 +183,7 @@ fn diff_file_content(
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
     node_limit: u32,
+    byte_limit: usize,
 ) -> DiffResult {
     if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
@@ -227,6 +231,15 @@ fn diff_file_content(
     }
 
     let (lang_name, lhs_positions, rhs_positions) = match ts_lang {
+        _ if lhs_bytes.len() > byte_limit || rhs_bytes.len() > byte_limit => {
+            let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
+            let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+            (
+                Some("Text (exceeded DFT_BYTE_LIMIT)".into()),
+                lhs_positions,
+                rhs_positions,
+            )
+        }
         Some(ts_lang) => {
             let arena = Arena::new();
             let lhs = tsp::parse(&arena, &lhs_src, &ts_lang);
@@ -295,6 +308,7 @@ fn diff_directories(
     rhs_dir: &Path,
     missing_as_empty: bool,
     node_limit: u32,
+    byte_limit: usize,
 ) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
@@ -314,6 +328,7 @@ fn diff_directories(
             &rhs_path,
             missing_as_empty,
             node_limit,
+            byte_limit,
         ));
     }
     res
@@ -347,6 +362,8 @@ fn print_diff_result(
                         style::header(&summary.path, 1, 1, &lang_name, background)
                     );
                     if lang_name == "Text" {
+                        // TODO: there are other Text names now, so
+                        // they will hit the second case incorrectly.
                         println!("No changes.\n");
                     } else {
                         println!("No syntactic changes.\n");
@@ -423,12 +440,18 @@ fn num_nodes(roots: &[&syntax::Syntax]) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::options::DEFAULT_NODE_LIMIT;
+    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_NODE_LIMIT};
 
     #[test]
     fn test_diff_identical_content() {
         let s = "foo";
-        let res = diff_file_content("foo.el", s.as_bytes(), s.as_bytes(), DEFAULT_NODE_LIMIT);
+        let res = diff_file_content(
+            "foo.el",
+            s.as_bytes(),
+            s.as_bytes(),
+            DEFAULT_NODE_LIMIT,
+            DEFAULT_BYTE_LIMIT,
+        );
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);

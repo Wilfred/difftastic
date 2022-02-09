@@ -4,6 +4,12 @@
 
 Improved slider logic in larger expressions.
 
+### Command Line Interface
+
+Difftastic will now use a text dif for large files that are too big to
+parse in a reasonable amount of time. This threshold is
+configurable with `--byte-limit` and `DFT_BYTE_LIMIT`.
+
 ## 0.19 (released 7th February 2022)
 
 ### Parsing
