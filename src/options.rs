@@ -7,6 +7,7 @@ use const_format::formatcp;
 use crate::style::BackgroundColor;
 
 pub const DEFAULT_NODE_LIMIT: u32 = 50_000;
+pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 
 pub enum ColorOutput {
     Always,
@@ -88,6 +89,15 @@ fn app() -> clap::App<'static> {
                 .required(false),
         )
         .arg(
+            Arg::new("byte-limit").long("byte-limit")
+                .takes_value(true)
+                .value_name("LIMIT")
+                .help(concat!("Use a text diff if either input file exceeds this size. Overrides $DFT_BYTE_LIMIT if present."))
+                .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
+                .validator(|s| s.parse::<usize>())
+                .required(false),
+        )
+        .arg(
             Arg::new("paths")
                 .value_name("PATHS")
                 .multiple_values(true)
@@ -99,6 +109,7 @@ fn app() -> clap::App<'static> {
 pub enum Mode {
     Diff {
         node_limit: u32,
+        byte_limit: usize,
         print_unchanged: bool,
         missing_as_empty: bool,
         background_color: BackgroundColor,
@@ -224,11 +235,29 @@ pub fn parse_args() -> Mode {
             .expect("Value already validated by clap")
     };
 
+    let byte_limit: usize = if matches.occurrences_of("byte-limit") == 0 {
+        if let Ok(env_width) = env::var("DFT_BYTE_LIMIT") {
+            env_width
+                .parse::<usize>()
+                .ok()
+                .unwrap_or(DEFAULT_BYTE_LIMIT)
+        } else {
+            DEFAULT_BYTE_LIMIT
+        }
+    } else {
+        matches
+            .value_of("byte-limit")
+            .expect("Always present as we've given clap a default")
+            .parse::<usize>()
+            .expect("Value already validated by clap")
+    };
+
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
 
     Mode::Diff {
         node_limit,
+        byte_limit,
         print_unchanged,
         missing_as_empty,
         background_color,
