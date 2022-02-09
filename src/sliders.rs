@@ -44,7 +44,7 @@ pub fn fix_all_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
 fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>]) {
     for node in nodes {
         if let List { children, .. } = node {
-            fix_all_sliders(children);
+            fix_all_sliders_one_step(children);
         }
     }
     fix_sliders(nodes);
