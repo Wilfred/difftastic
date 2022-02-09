@@ -334,6 +334,7 @@ fn diff_directories(
     res
 }
 
+// TODO: factor out a DiffOptions struct.
 fn print_diff_result(
     display_width: usize,
     background: BackgroundColor,
