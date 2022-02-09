@@ -574,12 +574,12 @@ pub struct MatchedPos {
 }
 
 // "foo bar" -> vec!["foo", " ", "bar"]
-pub fn split_words(s: &str) -> Vec<String> {
+pub fn split_words(s: &str) -> Vec<&str> {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|\n|[^a-zA-Z0-9\n]").unwrap();
     }
 
-    RE.find_iter(s).map(|m| m.as_str().to_owned()).collect()
+    RE.find_iter(s).map(|m| m.as_str()).collect()
 }
 
 fn split_comment_words(
