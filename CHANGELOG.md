@@ -4,6 +4,10 @@
 
 Improved slider logic in larger expressions.
 
+### Display
+
+Fixed an issue where whole file additions/removals were printed twice.
+
 ### Command Line Interface
 
 Difftastic will now use a text dif for large files that are too big to

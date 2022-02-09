@@ -294,12 +294,14 @@ pub fn print(
             "{}",
             display_single_column(display_path, lang_name, &rhs_colored_src, false, background)
         );
+        return;
     }
     if rhs_src.is_empty() {
         println!(
             "{}",
             display_single_column(display_path, lang_name, &lhs_colored_src, true, background)
         );
+        return;
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
