@@ -41,6 +41,7 @@ term_size = "0.3.2"
 const_format = "0.2.22"
 owo-colors = "3.2.0"
 im-rc = "15.0.0"
+askama = "0.11.0"
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"
