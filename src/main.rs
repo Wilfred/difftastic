@@ -26,6 +26,7 @@ mod summary;
 mod syntax;
 mod tree_sitter_parser;
 mod unchanged;
+mod html;
 
 #[macro_use]
 extern crate log;
@@ -388,6 +389,8 @@ fn print_diff_result(
                     use_color,
                     background,
                 );
+            } else if env::var("HTML").is_ok() {
+                html::print();
             } else {
                 side_by_side::print(
                     &hunks,
