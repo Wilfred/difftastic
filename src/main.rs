@@ -13,6 +13,7 @@ mod dijkstra;
 mod files;
 mod graph;
 mod guess_language;
+mod html;
 mod hunks;
 mod inline;
 mod line_parser;
@@ -26,7 +27,6 @@ mod summary;
 mod syntax;
 mod tree_sitter_parser;
 mod unchanged;
-mod html;
 
 #[macro_use]
 extern crate log;
@@ -390,7 +390,7 @@ fn print_diff_result(
                     background,
                 );
             } else if env::var("HTML").is_ok() {
-                html::print();
+                html::print(&summary.path);
             } else {
                 side_by_side::print(
                     &hunks,
