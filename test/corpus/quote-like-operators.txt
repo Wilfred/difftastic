@@ -95,6 +95,24 @@ $string =~ m/Simple/is;
 )
 
 =================================================
+m matcher operator - $ at the end shouldn't interpolate
+=================================================
+
+my $x = 'shru';
+if ($x =~ m/u$/) {
+}
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+  (if_statement
+    (parenthesized_expression (binary_expression (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter))))
+      (block)
+  )
+) 
+
+=================================================
 qr regex operator
 =================================================
 

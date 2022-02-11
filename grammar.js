@@ -108,6 +108,9 @@ module.exports = grammar({
     $._start_delimiter_qw,
     $._element_in_qw,
     $._end_delimiter_qw,
+    $._start_delimiter_regex,
+    $._regex_pattern, // supports interpolation
+    $._end_delimiter_regex,
     $._start_delimiter_search_replace,
     $._search_replace_content,
     $._separator_delimiter_search_replace,
@@ -1594,9 +1597,9 @@ module.exports = grammar({
     patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
       'm',
       // /'.*'/, // don't interpolate for a single quote. TODO: not working
-      alias($._start_delimiter, $.start_delimiter),
-      repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
-      alias($._end_delimiter, $.end_delimiter),
+      alias($._start_delimiter_regex, $.start_delimiter),
+      repeat(choice($._regex_pattern, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter_regex, $.end_delimiter),
       optional($.regex_option),
     )),
 
@@ -1610,9 +1613,9 @@ module.exports = grammar({
     regex_pattern_qr: $ => prec(PRECEDENCE.REGEXP, seq(
       'qr',
       // /'.*'/, // don't interpolate for a single quote. TODO: not working
-      alias($._start_delimiter, $.start_delimiter),
-      repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
-      alias($._end_delimiter, $.end_delimiter),
+      alias($._start_delimiter_regex, $.start_delimiter),
+      repeat(choice($._regex_pattern, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter_regex, $.end_delimiter),
       optional($.regex_option),
     )),
 
@@ -1661,11 +1664,11 @@ module.exports = grammar({
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
       '\\',
       token.immediate(
-        /[tnrfbae']/,
+        /[tnrfbae]/,
       ),
     )),
 
-    not_escape_sequence: $ => '\\',
+    // escape_character: $ => '\\[.]+',
 
     interpolation: $ => choice(
       $.array_variable,
