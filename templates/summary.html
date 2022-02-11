@@ -9,7 +9,17 @@
         <div class="ui grid container">
             <div class="column">
 
-                Hello, {{ display_path }}!
+                <h1>{{ display_path }}</h1>
+
+                <h2>Old</h2>
+                <pre>
+                    {%- for line in lhs_src -%}
+                    {%- for part in line -%}
+                    {{- part.0 -}}
+                    {%- endfor -%}
+                    {%- endfor -%}
+                </pre>
+                <h2>New</h2>
 
             </div>
         </div>
