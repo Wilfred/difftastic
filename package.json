@@ -16,4 +16,14 @@
   "scripts": {
     "test": "tree-sitter test"
   }
+  ,
+  "tree-sitter": [
+    {
+      "scope": "source.zig",
+      "injection-regex": "zig",
+      "file-types": [
+        "zig"
+      ]
+    }
+  ]
 }
