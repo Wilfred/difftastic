@@ -390,7 +390,13 @@ fn print_diff_result(
                     background,
                 );
             } else if env::var("HTML").is_ok() {
-                html::print(&summary.path, lhs_src, rhs_src);
+                html::print(
+                    &summary.path,
+                    lhs_src,
+                    rhs_src,
+                    &summary.lhs_positions,
+                    &summary.rhs_positions,
+                );
             } else {
                 side_by_side::print(
                     &hunks,
