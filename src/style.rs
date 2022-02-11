@@ -135,8 +135,8 @@ pub fn split_and_apply(
     styled_parts
 }
 
-/// Return a copy of `line` with styles applied to all the spans specified.
-/// Dim any parts of the line that have no spans.
+/// Return a copy of `line` with styles applied to all the spans
+/// specified.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     if styles.is_empty() && !line.is_empty() {
         return highlight_missing_style_bug(line);
@@ -186,8 +186,7 @@ fn group_by_line(
     ranges_by_line
 }
 
-/// Apply the `Style`s to the spans specified. Dim any text that
-/// doesn't have any styles applied.
+/// Apply the `Style`s to the spans specified.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
 fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
