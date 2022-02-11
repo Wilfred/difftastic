@@ -7515,7 +7515,7 @@
                       "value": 4,
                       "content": {
                         "type": "PATTERN",
-                        "value": "[^\\/]+"
+                        "value": "[^/]+"
                       }
                     }
                   },
@@ -7778,7 +7778,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_start_delimiter"
+              "name": "_start_delimiter_regex"
             },
             "named": true,
             "value": "start_delimiter"
@@ -7790,7 +7790,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_string_qq_quoted_content"
+                  "name": "_regex_pattern"
                 },
                 {
                   "type": "SYMBOL",
@@ -7807,7 +7807,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_end_delimiter"
+              "name": "_end_delimiter_regex"
             },
             "named": true,
             "value": "end_delimiter"
@@ -7874,7 +7874,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_start_delimiter"
+              "name": "_start_delimiter_regex"
             },
             "named": true,
             "value": "start_delimiter"
@@ -7886,7 +7886,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_string_qq_quoted_content"
+                  "name": "_regex_pattern"
                 },
                 {
                   "type": "SYMBOL",
@@ -7903,7 +7903,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_end_delimiter"
+              "name": "_end_delimiter_regex"
             },
             "named": true,
             "value": "end_delimiter"
@@ -8165,7 +8165,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^\\/\\\\\\[\\n]"
+              "value": "[^/\\\\\\[\\n]"
             }
           ]
         }
@@ -8197,15 +8197,11 @@
             "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "PATTERN",
-              "value": "[tnrfbae']"
+              "value": "[tnrfbae]"
             }
           }
         ]
       }
-    },
-    "not_escape_sequence": {
-      "type": "STRING",
-      "value": "\\"
     },
     "interpolation": {
       "type": "CHOICE",
@@ -9437,6 +9433,18 @@
     {
       "type": "SYMBOL",
       "name": "_end_delimiter_qw"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_start_delimiter_regex"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_regex_pattern"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_end_delimiter_regex"
     },
     {
       "type": "SYMBOL",

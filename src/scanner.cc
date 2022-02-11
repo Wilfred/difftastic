@@ -18,6 +18,9 @@ namespace {
     START_DELIMITER_QW,
     ELEMENT_IN_QW,
     END_DELIMITER_QW,
+    START_DELIMITER_REGEX,
+    REGEX_PATTERN,
+    END_DELIMITER_REGEX,
     START_DELIMITER_SEARCH_REPLACE,
     SEARCH_REPLACE_CONTENT,
     SEPARATOR_DELIMITER_SEARCH_REPLACE,
@@ -87,6 +90,9 @@ namespace {
         && valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]
         && valid_symbols[START_DELIMITER_QW]
         && valid_symbols[END_DELIMITER_QW]
+        && valid_symbols[START_DELIMITER_REGEX]
+        && valid_symbols[REGEX_PATTERN]
+        && valid_symbols[END_DELIMITER_REGEX]
         && valid_symbols[START_DELIMITER_SEARCH_REPLACE]
         && valid_symbols[SEARCH_REPLACE_CONTENT]
         && valid_symbols[SEPARATOR_DELIMITER_SEARCH_REPLACE]
@@ -139,51 +145,7 @@ namespace {
       }
       
       if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
-        if (lexer->lookahead == get_end_delimiter()) {
-          lexer->result_symbol = END_DELIMITER;
-          advance(lexer);
-          lexer->mark_end(lexer);
-          return true;
-        }
-        else {
-          // oh boy! the interpolation
-          if (lexer->lookahead == '$') {
-            return handle_interpolation(lexer);
-          }
-          // escape sequences, only basic support as of now
-          if (lexer->lookahead == '\\') {
-            advance(lexer);
-            // also, self end delimiter will be treated as string
-            if (
-              lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
-              || lexer->lookahead == get_end_delimiter()
-            ) {
-              advance(lexer);
-              lexer->mark_end(lexer);
-              return false;
-            }
-            else {
-              // dont return, below logic will take care
-            }
-          }
-          
-          if (!lexer->lookahead) {
-            lexer->mark_end(lexer);
-            return false;
-          }
-
-          // handling nested delimiters qq { hello { from { the}}};
-          if (lexer->lookahead == start_delimiter_char) {
-            lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
-            advance(lexer);
-            return scan_nested_delimiters(lexer, valid_symbols, STRING_QQ_QUOTED_CONTENT);
-          }
-
-          lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
-          advance(lexer);
-          lexer->mark_end(lexer);
-          return true;
-        }
+        return parse_delimited_and_interpolated_content(lexer, STRING_QQ_QUOTED_CONTENT, END_DELIMITER);
       }
 
       if (valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]) {
@@ -195,22 +157,11 @@ namespace {
 
         // oh boy! the interpolation
         if (lexer->lookahead == '$') {
-          return handle_interpolation(lexer);
+          return handle_interpolation(lexer, STRING_DOUBLE_QUOTED_CONTENT);
         }
         // escape sequences, only basic support as of now
         if (lexer->lookahead == '\\') {
-          advance(lexer);
-          if (
-            lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
-            || lexer->lookahead == '"'
-          ) {
-            advance(lexer);
-            lexer->mark_end(lexer);
-            return false;
-          }
-          else {
-            // dont return, below logic will take care
-          }
+          return handle_escape_sequence(lexer, STRING_DOUBLE_QUOTED_CONTENT);
         }
 
         // some exit conditions
@@ -260,6 +211,13 @@ namespace {
         return true;
       }
 
+      if (valid_symbols[START_DELIMITER_REGEX]) {
+        return parse_start_delimiter(lexer, START_DELIMITER_REGEX);
+      }
+      if (valid_symbols[REGEX_PATTERN]) {
+        return parse_delimited_and_interpolated_content(lexer, REGEX_PATTERN, END_DELIMITER_REGEX);
+      }
+
       if (valid_symbols[START_DELIMITER_SEARCH_REPLACE]) {
         return parse_start_delimiter(lexer, START_DELIMITER_SEARCH_REPLACE);
       }
@@ -271,23 +229,11 @@ namespace {
         else {
           // oh boy! the interpolation
           if (lexer->lookahead == '$') {
-            return handle_interpolation(lexer);
+            return handle_interpolation(lexer, SEARCH_REPLACE_CONTENT);
           }
           // escape sequences, only basic support as of now
           if (lexer->lookahead == '\\') {
-            advance(lexer);
-            // also, self end delimiter will be treated as string
-            if (
-              lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
-              || lexer->lookahead == get_end_delimiter()
-            ) {
-              advance(lexer);
-              lexer->mark_end(lexer);
-              return false;
-            }
-            else {
-              // dont return, below logic will take care
-            }
+            return handle_escape_sequence(lexer, SEARCH_REPLACE_CONTENT);
           }
 
           // some exit conditions
@@ -300,7 +246,7 @@ namespace {
           if (lexer->lookahead == start_delimiter_char) {
             lexer->result_symbol = SEARCH_REPLACE_CONTENT;
             advance(lexer);
-            return scan_nested_delimiters(lexer, valid_symbols, SEARCH_REPLACE_CONTENT);
+            return scan_nested_delimiters(lexer, SEARCH_REPLACE_CONTENT);
           }
 
           lexer->result_symbol = SEARCH_REPLACE_CONTENT;
@@ -340,7 +286,7 @@ namespace {
         if (lexer->lookahead == start_delimiter_char) {
           lexer->result_symbol = TRANSLITERATION_CONTENT;
           advance(lexer);
-          return scan_nested_delimiters(lexer, valid_symbols, TRANSLITERATION_CONTENT);
+          return scan_nested_delimiters(lexer, TRANSLITERATION_CONTENT);
         }
 
         lexer->result_symbol = TRANSLITERATION_CONTENT;
@@ -348,7 +294,6 @@ namespace {
         lexer->mark_end(lexer);
         return true;
       }
-
 
       if (valid_symbols[POD_CONTENT]) {
 
@@ -383,7 +328,46 @@ namespace {
       return false;
     }
 
-    bool scan_nested_delimiters(TSLexer *lexer, const bool *valid_symbols, TokenType token_type) {
+    bool parse_delimited_and_interpolated_content(TSLexer *lexer, TokenType token_type, TokenType ending_delimiter) {
+      if (lexer->lookahead == get_end_delimiter()) {
+        lexer->result_symbol = ending_delimiter;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
+      else {
+        // oh boy! the interpolation
+        if (lexer->lookahead == '$') {
+          return handle_interpolation(lexer, token_type);
+        }
+        // escape sequences, only basic support as of now
+        if (lexer->lookahead == '\\') {
+          return handle_escape_sequence(lexer, token_type);
+        }
+        
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
+        }
+
+        // handling nested delimiters qq { hello { from { the}}};
+        if (lexer->lookahead == start_delimiter_char) {
+          lexer->result_symbol = token_type;
+          advance(lexer);
+          return scan_nested_delimiters(lexer, token_type);
+        }
+
+        lexer->result_symbol = token_type;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
+
+      // shouldn't reach here
+      return false;
+    }
+
+    bool scan_nested_delimiters(TSLexer *lexer, TokenType token_type) {
       while(lexer->lookahead) {
         if (lexer->lookahead == get_end_delimiter()) {
           lexer->result_symbol = token_type;
@@ -394,7 +378,7 @@ namespace {
         else if (lexer->lookahead == start_delimiter_char) {
           lexer->result_symbol = token_type;
           advance(lexer);
-          scan_nested_delimiters(lexer, valid_symbols, token_type);
+          scan_nested_delimiters(lexer, token_type);
         }
         else if (lexer->lookahead == '\\') {
           advance(lexer);
@@ -489,70 +473,52 @@ namespace {
       }
     }
 
-    bool handle_interpolation(TSLexer *lexer) {
-      if (lexer->lookahead == '$') {
+    // runs with the spaces using advance
+    void run_with_spaces(TSLexer *lexer) {
+      while(lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
         advance(lexer);
-        if (lexer->lookahead != ' ') {
+      }
+    }
+
+    bool handle_interpolation(TSLexer *lexer, TokenType surrounding_token) {
+      if (lexer->lookahead == '$') {
+
+        // allow $ to be last character in a regex
+        if (surrounding_token == SEARCH_REPLACE_CONTENT || surrounding_token == REGEX_PATTERN) {
           advance(lexer);
-          while(lexer->lookahead) {
-            // hash ref access: $hashref->{key}
-            if (lexer->lookahead == '-') {
-              advance(lexer);
-              if (lexer->lookahead == '>') {
-                advance(lexer);
-                if (lexer->lookahead == '{') {
-                  while(lexer->lookahead) {
-                    if (lexer->lookahead == '}') {
-                      advance(lexer);
-                      lexer->mark_end(lexer);
-                      return false;
-                    }
-                    advance(lexer);
-                  }
-                }
-              }
-            }
-            // hash access: $hash{someKey}
-            else if (lexer->lookahead == '{') {
-              while(lexer->lookahead) {
-                if (lexer->lookahead == '}') {
-                  advance(lexer);
-                  lexer->mark_end(lexer);
-                  return false;
-                }
-                advance(lexer);
-              }
-            }
-            // scalar variable: $i_am_groot
-            else if (lexer->lookahead == ' ') {
-              advance(lexer);
-              lexer->mark_end(lexer);
-              return false;
-            }
-            advance(lexer);
+          run_with_spaces(lexer);
+          if (lexer->lookahead == get_end_delimiter()) {
+            lexer->result_symbol = surrounding_token;
+            lexer->mark_end(lexer);
+            return true;
           }
         }
+        return false;
       }
+
       return false;
     }
 
-    bool handle_escape_sequence(TSLexer *lexer) {
+    bool handle_escape_sequence(TSLexer *lexer, TokenType surrounding_token) {
+      // escape sequences, only basic support as of now
       if (lexer->lookahead == '\\') {
         advance(lexer);
         // also, self end delimiter will be treated as string
         if (
           lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
-          || lexer->lookahead == get_end_delimiter()
         ) {
-          advance(lexer);
+          // advance(lexer);
           lexer->mark_end(lexer);
           return false;
         }
         else {
-          // dont return, below logic will take care
+          lexer->result_symbol = surrounding_token;
+          advance(lexer);
+          lexer->mark_end(lexer);
+          return true;
         }
-      }
-      return false;
+        return false;
+    }
     }
 
     bool handle_nested_delimiters() {
