@@ -2,8 +2,6 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::{
     cell::Cell,
     collections::HashMap,
@@ -573,13 +571,34 @@ pub struct MatchedPos {
     pub pos: SingleLineSpan,
 }
 
-// "foo bar" -> vec!["foo", " ", "bar"]
+/// Split `s` into a vec of things that look like words and individual
+/// non-word characters.
+///
+/// "foo bar" -> vec!["foo", " ", "bar"]
 pub fn split_words(s: &str) -> Vec<&str> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|\n|[^a-zA-Z0-9\n]").unwrap();
+    let mut res = vec![];
+    let mut word_start = None;
+    for (idx, c) in s.char_indices() {
+        #[allow(clippy::manual_range_contains)]
+        let is_word_constituent =
+            ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9');
+        if is_word_constituent {
+            if word_start.is_none() {
+                word_start = Some(idx);
+            }
+        } else {
+            if let Some(start) = word_start {
+                res.push(&s[start..idx]);
+                word_start = None;
+            }
+            res.push(&s[idx..idx + 1]);
+        }
     }
 
-    RE.find_iter(s).map(|m| m.as_str()).collect()
+    if let Some(start) = word_start {
+        res.push(&s[start..]);
+    }
+    res
 }
 
 fn split_comment_words(
