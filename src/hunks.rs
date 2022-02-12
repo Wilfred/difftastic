@@ -18,8 +18,12 @@ use crate::{
 /// together.
 #[derive(Debug, Clone)]
 pub struct Hunk {
+    /// The LHS line numbers that contain novel content.
     pub novel_lhs: HashSet<LineNumber>,
+    /// The RHS line numbers that contain novel content.
     pub novel_rhs: HashSet<LineNumber>,
+    /// Line pairs that contain modified lines. This does not include
+    /// padding, so at least one of the two lines has novel content.
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
