@@ -4,6 +4,10 @@
 
 Improved slider logic in larger expressions.
 
+Increased the default value DFT_NODE_LIMIT to 100,000 (from
+50,000). This increases the likelihood that files get a syntactic diff
+whilst still having acceptable performance.
+
 ### Display
 
 Fixed an issue where whole file additions/removals were printed twice.
