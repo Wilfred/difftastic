@@ -12,6 +12,9 @@ whilst still having acceptable performance.
 
 Fixed an issue where whole file additions/removals were printed twice.
 
+Fixed an issue where difftastic didn't show context on hunks where the
+unchanged content was on different lines.
+
 ### Command Line Interface
 
 Difftastic will now use a text dif for large files that are too big to
