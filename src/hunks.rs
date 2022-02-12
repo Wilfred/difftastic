@@ -663,7 +663,6 @@ pub fn matched_lines_for_hunk(
     for (i, matched_line) in matched_lines.iter().enumerate() {
         if either_side_equal(matched_line, hunk_last) {
             end_i = Some(i + 1);
-            break;
         }
     }
 
@@ -844,6 +843,43 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
                 (Some(2.into()), Some(2.into())),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_matched_lines_for_hunk_misaligned() {
+        let matched_lines = &[
+            (Some(0.into()), Some(0.into())),
+            (Some(1.into()), Some(1.into())),
+            (Some(2.into()), Some(2.into())),
+            (Some(3.into()), Some(3.into())),
+            (Some(4.into()), Some(4.into())),
+            (Some(5.into()), Some(5.into())),
+        ];
+
+        let novel_lhs = HashSet::from_iter([1.into()]);
+        let novel_rhs = HashSet::from_iter([2.into()]);
+        let hunk = Hunk {
+            novel_lhs,
+            novel_rhs,
+            // LHS and RHS are misaligned
+            lines: vec![(Some(1.into()), Some(2.into()))],
+        };
+
+        let res = matched_lines_for_hunk(matched_lines, &hunk);
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+                (Some(2.into()), Some(2.into())),
+                // We want to show the full 3 lines of padding after
+                // the lower of the two lines, so up to line 5
+                // inclusive.
+                (Some(3.into()), Some(3.into())),
+                (Some(4.into()), Some(4.into())),
+                (Some(5.into()), Some(5.into())),
             ]
         );
     }
