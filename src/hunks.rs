@@ -685,6 +685,8 @@ pub fn matched_lines_for_hunk(
 
 #[cfg(test)]
 mod tests {
+    use std::iter::FromIterator;
+
     use super::*;
     use crate::{
         positions::SingleLineSpan,
@@ -817,5 +819,32 @@ mod tests {
                 (Some(1.into()), Some(1.into())),
             ]
         )
+    }
+
+    #[test]
+    fn test_matched_lines_for_hunk() {
+        let matched_lines = &[
+            (Some(0.into()), Some(0.into())),
+            (Some(1.into()), Some(1.into())),
+            (Some(2.into()), Some(2.into())),
+        ];
+
+        let novel_lhs = HashSet::from_iter([1.into()]);
+        let novel_rhs = HashSet::from_iter([1.into()]);
+        let hunk = Hunk {
+            novel_lhs,
+            novel_rhs,
+            lines: vec![(Some(1.into()), Some(1.into()))],
+        };
+
+        let res = matched_lines_for_hunk(matched_lines, &hunk);
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+                (Some(2.into()), Some(2.into())),
+            ]
+        );
     }
 }
