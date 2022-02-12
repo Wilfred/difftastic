@@ -402,6 +402,7 @@ namespace {
 
     void set_end_delimiter(int32_t start_delimiter) {
       // round, angle, square, curly
+      is_delimiter_enclosing = true;
       if (start_delimiter == '(') {
         end_delimiter_char = ')';
       }
@@ -415,6 +416,7 @@ namespace {
         end_delimiter_char = '}';
       }
       else {
+        is_delimiter_enclosing = false;
         end_delimiter_char = start_delimiter;
       }
     }
@@ -430,17 +432,30 @@ namespace {
         lexer->result_symbol = separator_token;
         advance(lexer);
         lexer->mark_end(lexer);
-        run_over_spaces(lexer);
-        lexer->result_symbol = separator_token;
 
-        if (lexer->lookahead == start_delimiter_char) {
-          advance(lexer);
+        // if delimiter is {}, (), <>, []
+        if (is_delimiter_enclosing) {
+          run_over_spaces(lexer);
+
+          if (lexer->lookahead == start_delimiter_char) {
+            lexer->result_symbol = separator_token;
+            advance(lexer);
+            lexer->mark_end(lexer);
+
+            is_separator_delimiter_parsed = true;
+
+            return true;
+          }
+
+          return false;
+        }
+        else {
+          is_separator_delimiter_parsed = true;
+
+          return true;
         }
 
-        is_separator_delimiter_parsed = true;
-
-        lexer->mark_end(lexer);
-        return true;
+        return false;
       }
     }
 
@@ -528,6 +543,7 @@ namespace {
     int32_t start_delimiter_char;
     int32_t end_delimiter_char;
     bool is_separator_delimiter_parsed;
+    bool is_delimiter_enclosing; // is the delimiter {}, <> and same character not //, !!
     int delimiter_cout = 0;
     bool reached;
 

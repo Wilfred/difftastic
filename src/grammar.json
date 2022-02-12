@@ -7963,16 +7963,13 @@
             }
           },
           {
-            "type": "REPEAT1",
+            "type": "ALIAS",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_separator_delimiter_search_replace"
-              },
-              "named": true,
-              "value": "separator_delimiter"
-            }
+              "type": "SYMBOL",
+              "name": "_separator_delimiter_search_replace"
+            },
+            "named": true,
+            "value": "separator_delimiter"
           },
           {
             "type": "REPEAT",
@@ -8058,16 +8055,13 @@
             }
           },
           {
-            "type": "REPEAT1",
+            "type": "ALIAS",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_separator_delimiter_transliteration"
-              },
-              "named": true,
-              "value": "separator_delimiter"
-            }
+              "type": "SYMBOL",
+              "name": "_separator_delimiter_transliteration"
+            },
+            "named": true,
+            "value": "separator_delimiter"
           },
           {
             "type": "REPEAT",

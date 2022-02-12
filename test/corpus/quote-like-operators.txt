@@ -130,15 +130,28 @@ my $rex = qr/my.STRING/is;
 s regex substitution
 =================================================
 
-my $subs =~ s/my.STRING/foo/is;
+$subs =~ s/my.STRING/foo/is;
 
 ---
 
 (source_file
-  (variable_declaration
-    (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (substitution_pattern_s (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_substitution))) (semi_colon)
-  )
+  (binary_expression
+    (scalar_variable)
+    (substitution_pattern_s (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_substitution))) (semi_colon)
+)
+
+=================================================
+s regex substitution - no replace content
+=================================================
+
+$subs =~ s/search//is;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable)
+    (substitution_pattern_s (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_substitution))) (semi_colon)
 )
 
 =================================================
