@@ -142,12 +142,13 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
         return highlight_missing_style_bug(line);
     }
 
+    let line_codepoints = codepoint_len(line);
     let mut res = String::with_capacity(line.len());
     let mut i = 0;
     for (span, style) in styles {
         // The remaining spans are beyond the end of this line. This
         // occurs when we truncate the line to fit on the display.
-        if span.start_col >= codepoint_len(line) {
+        if span.start_col >= line_codepoints {
             break;
         }
 
@@ -158,14 +159,14 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
         // Apply style to the substring in this span.
         let span_s =
-            substring_by_codepoint(line, span.start_col, min(codepoint_len(line), span.end_col));
+            substring_by_codepoint(line, span.start_col, min(line_codepoints, span.end_col));
         res.push_str(&style.apply(span_s));
         i = span.end_col;
     }
 
     // Unstyled text after the last span.
-    if i < codepoint_len(line) {
-        let span_s = substring_by_codepoint(line, i, codepoint_len(line));
+    if i < line_codepoints {
+        let span_s = substring_by_codepoint(line, i, line_codepoints);
         res.push_str(span_s);
     }
     res
