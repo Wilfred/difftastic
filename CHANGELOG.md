@@ -18,6 +18,8 @@ Difftastic will now use a text dif for large files that are too big to
 parse in a reasonable amount of time. This threshold is
 configurable with `--byte-limit` and `DFT_BYTE_LIMIT`.
 
+Fixed a crash when called with zero arguments.
+
 ## 0.19 (released 7th February 2022)
 
 ### Parsing

@@ -144,7 +144,7 @@ pub fn parse_args() -> Mode {
     }
 
     // TODO: Use OsString rather than forcing paths to be valid UTF-8.
-    let args: Vec<_> = matches.values_of_lossy("paths").unwrap();
+    let args: Vec<_> = matches.values_of_lossy("paths").unwrap_or_default();
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
