@@ -7,7 +7,7 @@ use crate::{
     style::{self, apply_colors, BackgroundColor},
     syntax::MatchedPos,
 };
-use colored::*;
+use owo_colors::colored::*;
 
 pub fn print(
     lhs_src: &str,

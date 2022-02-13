@@ -300,7 +300,7 @@ pub fn configure_color(color_output: ColorOutput) {
         ColorOutput::Never => false,
     };
 
-    colored::control::set_override(enable_color);
+    owo_colors::set_override(enable_color);
 }
 
 #[cfg(test)]

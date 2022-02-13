@@ -1,6 +1,6 @@
 //! Side-by-side (two column) display of diffs.
 
-use colored::{Color, Colorize};
+use owo_colors::{OwoColorize, Style};
 use std::{
     cmp::max,
     collections::{HashMap, HashSet},
@@ -11,7 +11,7 @@ use crate::{
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
     positions::SingleLineSpan,
-    style::{self, apply_colors, color_positions, split_and_apply, BackgroundColor, Style},
+    style::{self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor},
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
@@ -78,17 +78,12 @@ fn display_single_column(
     result.push_str(&style::header(display_path, 1, 1, lang_name, background));
     result.push('\n');
 
-    let color = match (is_lhs, background) {
-        (true, BackgroundColor::Dark) => Color::BrightRed,
-        (true, BackgroundColor::Light) => Color::Red,
-        (false, BackgroundColor::Dark) => Color::BrightGreen,
-        (false, BackgroundColor::Light) => Color::Green,
-    };
+    let style = novel_style(Style::new(), is_lhs, background);
 
     for (i, line) in src.lines().enumerate() {
         result.push_str(
             &format_line_num_padded(i.into(), column_width)
-                .color(color)
+                .style(style)
                 .to_string(),
         );
         result.push_str(line);
@@ -114,10 +109,9 @@ fn display_line_nums(
             if lhs_has_novel {
                 // TODO: factor out applying colours to line numbers.
                 match background {
-                    BackgroundColor::Dark => s.bright_red(),
-                    BackgroundColor::Light => s.red(),
+                    BackgroundColor::Dark => s.bright_red().to_string(),
+                    BackgroundColor::Light => s.red().to_string(),
                 }
-                .to_string()
             } else {
                 s
             }
@@ -133,10 +127,9 @@ fn display_line_nums(
             let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
             if rhs_has_novel {
                 match background {
-                    BackgroundColor::Dark => s.bright_green(),
-                    BackgroundColor::Light => s.green(),
+                    BackgroundColor::Dark => s.bright_green().to_string(),
+                    BackgroundColor::Light => s.green().to_string(),
                 }
-                .to_string()
             } else {
                 s
             }
@@ -430,10 +423,9 @@ pub fn print(
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
                                 s = match background {
-                                    BackgroundColor::Dark => s.bright_red(),
-                                    BackgroundColor::Light => s.red(),
-                                }
-                                .to_string();
+                                    BackgroundColor::Dark => s.bright_red().to_string(),
+                                    BackgroundColor::Light => s.red().to_string(),
+                                };
                             }
                         }
                         s
@@ -450,10 +442,9 @@ pub fn print(
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
                                 s = match background {
-                                    BackgroundColor::Dark => s.bright_green(),
-                                    BackgroundColor::Light => s.green(),
-                                }
-                                .to_string();
+                                    BackgroundColor::Dark => s.bright_green().to_string(),
+                                    BackgroundColor::Light => s.green().to_string(),
+                                };
                             }
                         }
                         s
