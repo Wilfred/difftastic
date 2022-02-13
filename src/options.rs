@@ -179,7 +179,11 @@ pub fn parse_args() -> Mode {
         }
         _ => {
             if !args.is_empty() {
-                eprintln!("error: Difftastic does not support being called with {} argument{}.\n", args.len(), if args.len() == 1 {""} else {"s"});
+                eprintln!(
+                    "error: Difftastic does not support being called with {} argument{}.\n",
+                    args.len(),
+                    if args.len() == 1 { "" } else { "s" }
+                );
             }
             eprintln!("USAGE:\n\n    {}\n", USAGE);
             eprintln!("For more information try --help");
