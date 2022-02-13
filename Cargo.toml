@@ -22,7 +22,6 @@ include = [
 
 [dependencies]
 regex = "1.5.4"
-colored = "2.0.0"
 diff = "0.1.12"
 clap = { version = "3.0.13", features = ["cargo"] }
 itertools = "0.10.1"
@@ -40,6 +39,7 @@ radix-heap = "0.4.1"
 walkdir = "2.3.2"
 term_size = "0.3.2"
 const_format = "0.2.22"
+owo-colors = { version = "3.2.0", features = ["supports-colors"]}
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"

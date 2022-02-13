@@ -5,7 +5,7 @@ use crate::{
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
-use colored::*;
+use owo_colors::{OwoColorize, Style};
 use std::{
     cmp::{max, min},
     collections::HashMap,
@@ -16,38 +16,6 @@ use std::{
 pub enum BackgroundColor {
     Dark,
     Light,
-}
-
-#[derive(Clone, Copy, Debug)]
-pub struct Style {
-    foreground: Option<Color>,
-    background: Option<Color>,
-    bold: bool,
-    dimmed: bool,
-    italic: bool,
-}
-
-impl Style {
-    fn apply(&self, s: &str) -> String {
-        let mut res = if let Some(foreground) = self.foreground {
-            s.color(foreground)
-        } else {
-            s.normal()
-        };
-        if self.bold {
-            res = res.bold();
-        }
-        if self.dimmed {
-            res = res.dimmed();
-        }
-        if self.italic {
-            res = res.italic();
-        }
-        if let Some(background) = self.background {
-            res = res.on_color(background);
-        };
-        res.to_string()
-    }
 }
 
 /// Split a string into equal length parts, padding the last part if
@@ -119,7 +87,7 @@ pub fn split_and_apply(
                     max(0, span.start_col as isize - prev_length as isize) as usize,
                     min(codepoint_len(&part), span.end_col - prev_length),
                 );
-                res.push_str(&style.apply(span_s));
+                res.push_str(&span_s.style(*style).to_string());
             }
             i = span.end_col;
         }
@@ -161,7 +129,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
         // Apply style to the substring in this span.
         let span_s =
             substring_by_codepoint(line, span.start_col, min(line_codepoints, span.end_col));
-        res.push_str(&style.apply(span_s));
+        res.push_str(&span_s.style(*style).to_string());
         i = span.end_col;
     }
 
@@ -203,74 +171,90 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     res
 }
 
+pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> Style {
+    match background {
+        BackgroundColor::Dark => {
+            if is_lhs {
+                style.bright_red()
+            } else {
+                style.bright_green()
+            }
+        }
+        BackgroundColor::Light => {
+            if is_lhs {
+                style.red()
+            } else {
+                style.green()
+            }
+        }
+    }
+}
+
 pub fn color_positions(
     is_lhs: bool,
     background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
-    let red = match background {
-        BackgroundColor::Dark => Color::BrightRed,
-        BackgroundColor::Light => Color::Red,
-    };
-    let green = match background {
-        BackgroundColor::Dark => Color::BrightGreen,
-        BackgroundColor::Light => Color::Green,
-    };
-    let novel_color = if is_lhs { red } else { green };
-
     let mut styles = vec![];
     for pos in positions {
-        let line_pos = pos.pos;
-        let style = match pos.kind {
-            MatchKind::UnchangedToken { highlight, .. } => Style {
-                foreground: match highlight {
-                    TokenKind::Atom(AtomKind::String) => Some(match background {
-                        BackgroundColor::Dark => Color::BrightMagenta,
-                        BackgroundColor::Light => Color::Magenta,
-                    }),
-                    TokenKind::Atom(AtomKind::Comment) => Some(match background {
-                        BackgroundColor::Dark => Color::BrightBlue,
-                        BackgroundColor::Light => Color::Blue,
-                    }),
-                    _ => None,
+        let mut style = Style::new();
+        match pos.kind {
+            MatchKind::UnchangedToken { highlight, .. } => match highlight {
+                TokenKind::Atom(atom_kind) => match atom_kind {
+                    AtomKind::String => match background {
+                        BackgroundColor::Dark => {
+                            style = style.bright_magenta();
+                        }
+                        BackgroundColor::Light => {
+                            style = style.magenta();
+                        }
+                    },
+                    AtomKind::Comment => {
+                        style = style.italic();
+                        match background {
+                            BackgroundColor::Dark => {
+                                style = style.bright_blue();
+                            }
+                            BackgroundColor::Light => {
+                                style = style.blue();
+                            }
+                        }
+                    }
+                    AtomKind::Keyword | AtomKind::Type => {
+                        style = style.bold();
+                    }
+                    _ => {}
                 },
-                background: None,
-                bold: match highlight {
-                    TokenKind::Atom(AtomKind::Keyword) => true,
-                    TokenKind::Atom(AtomKind::Type) => true,
-                    _ => false,
-                },
-                dimmed: false,
-                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
+                _ => {}
             },
-            MatchKind::Novel { highlight, .. } => Style {
-                foreground: Some(novel_color),
-                background: None,
-                bold: match highlight {
-                    TokenKind::Delimiter => true,
-                    TokenKind::Atom(AtomKind::Keyword) => true,
-                    TokenKind::Atom(AtomKind::Type) => true,
-                    TokenKind::Atom(_) => false,
-                },
-                dimmed: false,
-                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
-            },
-            MatchKind::NovelWord { highlight } => Style {
-                foreground: Some(novel_color),
-                background: None,
-                bold: true,
-                dimmed: false,
-                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
-            },
-            MatchKind::NovelLinePart { highlight, .. } => Style {
-                foreground: Some(novel_color),
-                background: None,
-                bold: false,
-                dimmed: false,
-                italic: matches!(highlight, TokenKind::Atom(AtomKind::Comment)),
-            },
+            MatchKind::Novel { highlight, .. } => {
+                style = novel_style(style, is_lhs, background);
+                match highlight {
+                    TokenKind::Delimiter
+                    | TokenKind::Atom(AtomKind::Keyword)
+                    | TokenKind::Atom(AtomKind::Type) => {
+                        style = style.bold();
+                    }
+                    _ => {}
+                }
+                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                    style = style.italic();
+                }
+            }
+            MatchKind::NovelWord { highlight } => {
+                style = novel_style(style, is_lhs, background).bold();
+                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                    style = style.italic();
+                }
+            }
+            MatchKind::NovelLinePart { highlight, .. } => {
+                style = novel_style(style, is_lhs, background);
+                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                    style = style.italic();
+                }
+            }
         };
-        styles.push((line_pos, style));
+        styles.push((pos.pos, style));
     }
     styles
 }
@@ -295,8 +279,8 @@ pub fn header(
     format!(
         "{} --- {}/{} --- {}",
         match background {
-            BackgroundColor::Dark => file_name.bright_yellow(),
-            BackgroundColor::Light => file_name.yellow(),
+            BackgroundColor::Dark => file_name.bright_yellow().to_string(),
+            BackgroundColor::Light => file_name.yellow().to_string(),
         }
         .bold(),
         hunk_num,
