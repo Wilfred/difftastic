@@ -169,6 +169,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_nullary_operator"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unary_operator"
         },
         {
@@ -806,6 +810,10 @@
               },
               {
                 "type": "STRING",
+                "value": ".."
+              },
+              {
+                "type": "STRING",
                 "value": "**"
               },
               {
@@ -927,10 +935,6 @@
               {
                 "type": "STRING",
                 "value": "---"
-              },
-              {
-                "type": "STRING",
-                "value": ".."
               },
               {
                 "type": "STRING",
@@ -2289,6 +2293,10 @@
               },
               {
                 "type": "STRING",
+                "value": ".."
+              },
+              {
+                "type": "STRING",
                 "value": "**"
               },
               {
@@ -2410,10 +2418,6 @@
               {
                 "type": "STRING",
                 "value": "---"
-              },
-              {
-                "type": "STRING",
-                "value": ".."
               },
               {
                 "type": "STRING",
@@ -2783,6 +2787,19 @@
           ]
         }
       ]
+    },
+    "_nullary_operator": {
+      "type": "ALIAS",
+      "content": {
+        "type": "PREC",
+        "value": 160,
+        "content": {
+          "type": "STRING",
+          "value": ".."
+        }
+      },
+      "named": true,
+      "value": "operator_identifier"
     },
     "unary_operator": {
       "type": "CHOICE",
@@ -3653,13 +3670,42 @@
                     },
                     {
                       "type": "STRING",
-                      "value": ".."
-                    },
-                    {
-                      "type": "STRING",
                       "value": "<>"
                     }
                   ]
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 160,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "STRING",
+                  "value": ".."
                 }
               },
               {
@@ -4029,10 +4075,6 @@
         {
           "type": "STRING",
           "value": "---"
-        },
-        {
-          "type": "STRING",
-          "value": ".."
         },
         {
           "type": "STRING",
