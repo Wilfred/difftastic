@@ -9,6 +9,8 @@ use crate::style::BackgroundColor;
 pub const DEFAULT_NODE_LIMIT: u32 = 100_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 
+const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
+
 pub enum ColorOutput {
     Always,
     Auto,
@@ -17,6 +19,7 @@ pub enum ColorOutput {
 
 fn app() -> clap::App<'static> {
     App::new("Difftastic")
+        .override_usage(USAGE)
         .version(crate_version!())
         .about(crate_description!())
         .author(crate_authors!())
@@ -101,6 +104,7 @@ fn app() -> clap::App<'static> {
             Arg::new("paths")
                 .value_name("PATHS")
                 .multiple_values(true)
+                .hide(true)
                 .allow_invalid_utf8(true),
         )
         .setting(AppSettings::ArgRequiredElseHelp)
@@ -174,7 +178,11 @@ pub fn parse_args() -> Mode {
             )
         }
         _ => {
-            eprintln!("error: Difftastic does not support being called with {} argument{}. See --help for usage information.", args.len(), if args.len() == 1 {""} else {"s"});
+            if !args.is_empty() {
+                eprintln!("error: Difftastic does not support being called with {} argument{}.\n", args.len(), if args.len() == 1 {""} else {"s"});
+            }
+            eprintln!("USAGE:\n\n    {}\n", USAGE);
+            eprintln!("For more information try --help");
             std::process::exit(1);
         }
     };
