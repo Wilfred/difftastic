@@ -82,3 +82,8 @@ y = true and false
 #                           ^ module
 #                                 ^ operator
 #                                  ^ function
+
+range = ..
+# <- variable
+#     ^ operator
+#        ^ operator
