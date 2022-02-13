@@ -151,20 +151,6 @@ pub fn codepoint_len(s: &str) -> usize {
     s.chars().count()
 }
 
-/// Slice `s` from `start` to `end` by codepoint. This is safer than
-/// slicing by bytes, which panics if the byte isn't on a codepoint
-/// boundary.
-pub fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
-    assert!(end > start);
-
-    let mut char_idx_iter = s.char_indices();
-    let byte_start = char_idx_iter.nth(start).expect("Expected a codepoint index inside `s`.").0;
-    match char_idx_iter.nth(end - 1 - start) {
-        Some(byte_end) => &s[byte_start..byte_end.0],
-        None => &s[byte_start..],
-    }
-}
-
 pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }

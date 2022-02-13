@@ -1,7 +1,7 @@
 //! Apply colours and styling to strings.
 
 use crate::{
-    lines::{codepoint_len, substring_by_codepoint, LineNumber},
+    lines::{codepoint_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
@@ -16,6 +16,20 @@ use std::{
 pub enum BackgroundColor {
     Dark,
     Light,
+}
+
+/// Slice `s` from `start` to `end` by codepoint. This is safer than
+/// slicing by bytes, which panics if the byte isn't on a codepoint
+/// boundary.
+fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
+    assert!(end > start);
+
+    let mut char_idx_iter = s.char_indices();
+    let byte_start = char_idx_iter.nth(start).expect("Expected a codepoint index inside `s`.").0;
+    match char_idx_iter.nth(end - 1 - start) {
+        Some(byte_end) => &s[byte_start..byte_end.0],
+        None => &s[byte_start..],
+    }
 }
 
 /// Split a string into equal length parts, padding the last part if
