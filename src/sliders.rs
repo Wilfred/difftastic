@@ -59,7 +59,7 @@ fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
     }
 }
 
-fn novel_regions_after_unchanged<'a>(nodes: &[&'a Syntax]) -> Vec<(usize, usize)> {
+fn novel_regions_after_unchanged(nodes: &[&Syntax]) -> Vec<(usize, usize)> {
     let mut regions: Vec<Vec<usize>> = vec![];
     let mut region: Option<Vec<usize>> = None;
 
@@ -108,7 +108,7 @@ fn novel_regions_after_unchanged<'a>(nodes: &[&'a Syntax]) -> Vec<(usize, usize)
         .collect()
 }
 
-fn novel_regions_before_unchanged<'a>(nodes: &[&'a Syntax]) -> Vec<(usize, usize)> {
+fn novel_regions_before_unchanged(nodes: &[&Syntax]) -> Vec<(usize, usize)> {
     let mut regions: Vec<Vec<usize>> = vec![];
     let mut region: Option<Vec<usize>> = None;
 
@@ -182,7 +182,7 @@ fn is_unchanged_deep(node: &Syntax) -> bool {
     }
 }
 
-fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
+fn slide_to_prev_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
     if start_idx == 0 {
         return;
     }
@@ -228,7 +228,7 @@ fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
     }
 }
 
-fn slide_to_next_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
+fn slide_to_next_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
     if end_idx == nodes.len() - 1 {
         return;
     }
