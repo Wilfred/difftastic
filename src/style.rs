@@ -11,6 +11,7 @@ use std::{
     collections::HashMap,
 };
 
+// TODO: Define an is_dark helper rather than verbose matching.
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
     Dark,
