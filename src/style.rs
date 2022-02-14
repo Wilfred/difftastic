@@ -18,15 +18,22 @@ pub enum BackgroundColor {
     Light,
 }
 
-/// Slice `s` from `start` to `end` by codepoint. This is safer than
+/// Slice `s` from `start` inclusive to `end` exclusive by codepoint. This is safer than
 /// slicing by bytes, which panics if the byte isn't on a codepoint
 /// boundary.
 fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
+    if start == end {
+        return &s[0..0];
+    }
+
     assert!(end > start);
 
     let mut char_idx_iter = s.char_indices();
-    let byte_start = char_idx_iter.nth(start).expect("Expected a codepoint index inside `s`.").0;
-    match char_idx_iter.nth(end - 1 - start) {
+    let byte_start = char_idx_iter
+        .nth(start)
+        .expect("Expected a codepoint index inside `s`.")
+        .0;
+    match char_idx_iter.nth(end - start - 1) {
         Some(byte_end) => &s[byte_start..byte_end.0],
         None => &s[byte_start..],
     }
@@ -307,6 +314,16 @@ pub fn header(
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[test]
+    fn test_substring_by_codepoint() {
+        assert_eq!(substring_by_codepoint("abcd", 0, 2), "ab");
+    }
+
+    #[test]
+    fn test_substring_by_codepoint_empty() {
+        assert_eq!(substring_by_codepoint("abcd", 0, 0), "");
+    }
 
     #[test]
     fn split_string_simple() {
