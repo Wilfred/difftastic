@@ -11,11 +11,16 @@ use std::{
     collections::HashMap,
 };
 
-// TODO: Define an is_dark helper rather than verbose matching.
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
     Dark,
     Light,
+}
+
+impl BackgroundColor {
+    pub fn is_dark(&self) -> bool {
+        matches!(self, BackgroundColor::Dark)
+    }
 }
 
 /// Slice `s` from `start` inclusive to `end` exclusive by codepoint. This is safer than
@@ -200,20 +205,17 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 }
 
 pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> Style {
-    match background {
-        BackgroundColor::Dark => {
-            if is_lhs {
-                style.bright_red()
-            } else {
-                style.bright_green()
-            }
+    if background.is_dark() {
+        if is_lhs {
+            style.bright_red()
+        } else {
+            style.bright_green()
         }
-        BackgroundColor::Light => {
-            if is_lhs {
-                style.red()
-            } else {
-                style.green()
-            }
+    } else {
+        if is_lhs {
+            style.red()
+        } else {
+            style.green()
         }
     }
 }
@@ -229,24 +231,20 @@ pub fn color_positions(
         match pos.kind {
             MatchKind::UnchangedToken { highlight, .. } => match highlight {
                 TokenKind::Atom(atom_kind) => match atom_kind {
-                    AtomKind::String => match background {
-                        BackgroundColor::Dark => {
-                            style = style.bright_magenta();
-                        }
-                        BackgroundColor::Light => {
-                            style = style.magenta();
-                        }
-                    },
+                    AtomKind::String => {
+                        style = if background.is_dark() {
+                            style.bright_magenta()
+                        } else {
+                            style.magenta()
+                        };
+                    }
                     AtomKind::Comment => {
                         style = style.italic();
-                        match background {
-                            BackgroundColor::Dark => {
-                                style = style.bright_blue();
-                            }
-                            BackgroundColor::Light => {
-                                style = style.blue();
-                            }
-                        }
+                        style = if background.is_dark() {
+                            style.bright_blue()
+                        } else {
+                            style.blue()
+                        };
                     }
                     AtomKind::Keyword | AtomKind::Type => {
                         style = style.bold();
@@ -306,9 +304,10 @@ pub fn header(
     background: BackgroundColor,
 ) -> String {
     let file_name_pretty = if use_color {
-        match background {
-            BackgroundColor::Dark => file_name.bright_yellow().to_string(),
-            BackgroundColor::Light => file_name.yellow().to_string(),
+        if background.is_dark() {
+            file_name.bright_yellow().to_string()
+        } else {
+            file_name.yellow().to_string()
         }
         .bold()
         .to_string()
