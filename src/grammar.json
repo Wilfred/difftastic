@@ -1292,11 +1292,19 @@
               {
                 "type": "SYMBOL",
                 "name": "direction_constraint"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "auto_increment_constraint"
               }
             ]
           }
         }
       ]
+    },
+    "auto_increment_constraint": {
+      "type": "STRING",
+      "value": "auto_increment"
     },
     "direction_constraint": {
       "type": "CHOICE",
@@ -1694,6 +1702,36 @@
           },
           "named": false,
           "value": "CREATE_TABLE"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[iI][fF]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[nN][oO][tT]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[eE][xX][iI][sS][tT][sS]"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "IF_NOT_EXISTS"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
