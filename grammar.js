@@ -111,7 +111,7 @@ module.exports = grammar({
 
     part: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field(
             'command',
@@ -137,7 +137,7 @@ module.exports = grammar({
 
     chapter: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field(
             'command',
@@ -162,7 +162,7 @@ module.exports = grammar({
 
     section: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field(
             'command',
@@ -186,7 +186,7 @@ module.exports = grammar({
 
     subsection: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field('command', choice('\\subsection', '\\subsection*')),
           field('text', optional($.curly_group)),
@@ -206,7 +206,7 @@ module.exports = grammar({
 
     subsubsection: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field('command', choice('\\subsubsection', '\\subsubsection*')),
           field('text', optional($.curly_group)),
@@ -225,7 +225,7 @@ module.exports = grammar({
 
     paragraph: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field('command', choice('\\paragraph', '\\paragraph*')),
           field('text', optional($.curly_group)),
@@ -238,7 +238,7 @@ module.exports = grammar({
 
     subparagraph: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field('command', choice('\\subparagraph', '\\subparagraph*')),
           field('text', optional($.curly_group)),
@@ -249,7 +249,7 @@ module.exports = grammar({
 
     enum_item: $ =>
       prec.right(
-        1,
+        -1,
         seq(
           field('command', choice('\\item', '\\item*')),
           field('label', optional($.brack_group_text)),
