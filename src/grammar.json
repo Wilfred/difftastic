@@ -366,7 +366,7 @@
     },
     "part": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -489,7 +489,7 @@
     },
     "chapter": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -605,7 +605,7 @@
     },
     "section": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -714,7 +714,7 @@
     },
     "subsection": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -808,7 +808,7 @@
     },
     "subsubsection": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -895,7 +895,7 @@
     },
     "paragraph": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -975,7 +975,7 @@
     },
     "subparagraph": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1048,7 +1048,7 @@
     },
     "enum_item": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
