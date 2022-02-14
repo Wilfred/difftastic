@@ -3,7 +3,7 @@
 set -e
 
 echo "==> Building difftastic"
-cargo build --release
+cargo build --release -q
 
 echo "==> Check outputs"
 for before_f in sample_files/*before.*; do
