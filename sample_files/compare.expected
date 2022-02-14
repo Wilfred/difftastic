@@ -1,5 +1,8 @@
 ==> Building difftastic
 ==> Check outputs
+sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
+1390d71291b8221e7ced6078250fbd7b  -
+
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 5d8238346885f21b1075debaf97b4aa9  -
 
@@ -27,6 +30,9 @@ ea8536e5b6cc2fb60d79d519358df211  -
 sample_files/helpful_before.el sample_files/helpful_after.el
 46fde3e518b9365c6b6a04843b509082  -
 
+sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
+14616503c934f36972a3498bd63085c7  -
+
 sample_files/if_before.py sample_files/if_after.py
 5b53818f229e4232c29466ca82bf402b  -
 
@@ -42,8 +48,14 @@ sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
 sample_files/json_before.json sample_files/json_after.json
 e0138d5ed144ccf30e64c6f58c744edd  -
 
+sample_files/jsx_before.jsx sample_files/jsx_after.jsx
+3c21b73a5d784bca89e76342eb47a422  -
+
 sample_files/load_before.js sample_files/load_after.js
 25a954ed7ead705b0326e51b6cf8ee4e  -
+
+sample_files/nest_before.rs sample_files/nest_after.rs
+9e561ba227c1fee426820982ac4d10c6  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 5374cc9d21db1ec56ff87100766a882b  -
@@ -74,4 +86,7 @@ sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 
 sample_files/text_before.txt sample_files/text_after.txt
 f61b57cb275332d01b9539efa88aa2f6  -
+
+sample_files/typing_before.ml sample_files/typing_after.ml
+93d598c35b7cf6e6599e9414b561f064  -
 
