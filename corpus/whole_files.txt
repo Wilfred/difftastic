@@ -78,7 +78,8 @@ if javascript {
                 (argument
                   value: (identifier))
                 (argument
-                  value: (string))
+                  value: (string
+                    (quoted_content)))
                 (argument
                   value: (string)))))))))
   (target_group
@@ -92,8 +93,10 @@ if javascript {
       return_type: (type
         name: (type_identifier))
       body: (external_function_body
-        (string)
-        (string))))
+        (string
+          (quoted_content))
+        (string
+          (quoted_content)))))
   (target_group
     target: (target)
     (external_function
@@ -105,8 +108,10 @@ if javascript {
       return_type: (type
         name: (type_identifier))
       body: (external_function_body
-        (string)
-        (string)))))
+        (string
+          (quoted_content))
+        (string
+          (quoted_content))))))
 
 ================================================================================
 Excerpt from stdlib's bool.gleam
@@ -252,7 +257,8 @@ fn foo(a,) {
       (arguments
         (argument
           (label)
-          (string)))))
+          (string
+            (quoted_content))))))
   (type_definition
     (type_name
       (type_identifier))
@@ -273,8 +279,10 @@ fn foo(a,) {
     (type
       (type_identifier))
     (external_function_body
-      (string)
-      (string)))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
   (function
     (identifier)
     (function_parameters
@@ -299,7 +307,8 @@ fn foo(a,) {
           (record_update_arguments
             (record_update_argument
               (label)
-              (string)))))
+              (string
+                (quoted_content))))))
       (let
         (tuple_pattern
           (identifier))

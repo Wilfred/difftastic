@@ -26,8 +26,10 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
           (type
             name: (type_identifier)))))
     body: (external_function_body
-      (string)
-      (string)))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
   (external_function
     name: (identifier)
     parameters: (function_parameters
@@ -38,8 +40,10 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     return_type: (type
       name: (type_identifier))
     body: (external_function_body
-      (string)
-      (string)))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
   (external_function
     name: (identifier)
     parameters: (function_parameters)
@@ -57,8 +61,10 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
         return_type: (type
           name: (type_identifier))))
     body: (external_function_body
-      (string)
-      (string))))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content)))))
 
 ==========================
 Public external functions
@@ -88,8 +94,10 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
           (type
             name: (type_identifier)))))
     body: (external_function_body
-      (string)
-      (string)))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
   (public_external_function
     name: (identifier)
     parameters: (function_parameters
@@ -100,8 +108,10 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     return_type: (type
       name: (type_identifier))
     body: (external_function_body
-      (string)
-      (string)))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
   (public_external_function
     name: (identifier)
     parameters: (function_parameters)
@@ -119,5 +129,7 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
         return_type: (type
           name: (type_identifier))))
     body: (external_function_body
-      (string)
-      (string))))
+      (string
+        (quoted_content))
+      (string
+        (quoted_content)))))

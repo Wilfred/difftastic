@@ -26,7 +26,8 @@ if javascript {
       value: (integer))
     (constant
       name: (identifier)
-      value: (string))))
+      value: (string
+        (quoted_content)))))
 
 ========================
 Target group edge cases
