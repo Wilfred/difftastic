@@ -3276,6 +3276,25 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "quoted_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "target",
     "named": true,
     "fields": {}
@@ -4129,6 +4148,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -4341,6 +4364,10 @@
     "named": false
   },
   {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
     "type": "external",
     "named": false
   },
@@ -4381,15 +4408,15 @@
     "named": false
   },
   {
+    "type": "quoted_content",
+    "named": true
+  },
+  {
     "type": "size",
     "named": false
   },
   {
     "type": "statement_comment",
-    "named": true
-  },
-  {
-    "type": "string",
     "named": true
   },
   {

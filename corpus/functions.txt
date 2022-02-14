@@ -294,7 +294,8 @@ fn field_access(x) {
     name: (identifier)
     parameters: (function_parameters)
     body: (function_body
-      (string)))
+      (string
+        (quoted_content))))
   (function
     name: (identifier)
     parameters: (function_parameters)
@@ -314,7 +315,8 @@ fn field_access(x) {
         arguments: (arguments
           (argument
             label: (label)
-            value: (string))))))
+            value: (string
+              (quoted_content)))))))
   (function
     name: (identifier)
     parameters: (function_parameters)
@@ -326,7 +328,8 @@ fn field_access(x) {
         arguments: (arguments
           (argument
             label: (label)
-            value: (string))))))
+            value: (string
+              (quoted_content)))))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -346,7 +349,8 @@ fn field_access(x) {
     parameters: (function_parameters)
     body: (function_body
       (todo
-        message: (string))))
+        message: (string
+          (quoted_content)))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -408,7 +412,8 @@ fn field_access(x) {
         (binary_expression
           left: (integer)
           right: (integer))
-        (string))))
+        (string
+          (quoted_content)))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -448,7 +453,8 @@ fn field_access(x) {
           (binary_expression
             left: (integer)
             right: (integer))
-          (string)))
+          (string
+            (quoted_content))))
       (let
         pattern: (identifier)
         value: (identifier))
@@ -469,7 +475,8 @@ fn field_access(x) {
           (binary_expression
             left: (integer)
             right: (integer))
-          (string)))
+          (string
+            (quoted_content))))
       (assert
         pattern: (identifier)
         value: (identifier))
@@ -492,7 +499,8 @@ fn field_access(x) {
         arguments: (record_update_arguments
           (record_update_argument
             label: (label)
-            value: (string))
+            value: (string
+              (quoted_content)))
           (record_update_argument
             label: (label)
             value: (binary_expression
@@ -508,7 +516,8 @@ fn field_access(x) {
         arguments: (record_update_arguments
           (record_update_argument
             label: (label)
-            value: (string))
+            value: (string
+              (quoted_content)))
           (record_update_argument
             label: (label)
             value: (integer))))))
@@ -672,7 +681,8 @@ fn trial(x, y, z) {
                         name: (type_identifier)
                         arguments: (record_pattern_arguments
                           (record_pattern_argument
-                            pattern: (string)))))
+                            pattern: (string
+                              (quoted_content))))))
                     (pattern_spread)))))
             value: (record
               name: (type_identifier)))
@@ -731,7 +741,8 @@ fn try_try_again(x, y) -> Int {
           name: (type_identifier))
         value: (todo))
       (try
-        pattern: (string)
+        pattern: (string
+          (quoted_content))
         value: (todo))
       (try
         pattern: (integer)
@@ -849,7 +860,8 @@ fn complex_data_fun(x, y) {
           index: (integer))
         arguments: (arguments
           (argument
-            value: (string))
+            value: (string
+              (quoted_content)))
           (argument
             value: (integer))))
       (function_call
@@ -864,7 +876,8 @@ fn complex_data_fun(x, y) {
           (argument
             value: (float))
           (argument
-            value: (string)))))))
+            value: (string
+              (quoted_content))))))))
 
 ================================================================================
 Unusual function invocations
@@ -896,7 +909,8 @@ fn weird(x) {
         arguments: (arguments
           (argument
             label: (label)
-            value: (string))))
+            value: (string
+              (quoted_content)))))
       (function_call
         function: (anonymous_function
           parameters: (function_parameters

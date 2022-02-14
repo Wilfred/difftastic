@@ -582,7 +582,10 @@ module.exports = grammar({
     _type_alias: ($) => seq($.type_name, "=", $._type),
 
     /* Literals */
-    string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
+    string: ($) => seq('"', repeat($._string_part), '"'),
+    _string_part: ($) => choice($.escape_sequence, $.quoted_content),
+    escape_sequence: ($) => /\\[efnrt\"\\]/,
+    quoted_content: ($) => /(?:[^\\\"]|\\[^efnrt\"\\])+/,
     float: ($) => /-?[0-9_]+\.[0-9_]+/,
     integer: ($) =>
       seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),
