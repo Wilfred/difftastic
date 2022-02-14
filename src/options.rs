@@ -289,8 +289,8 @@ fn detect_display_width() -> usize {
     term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
 }
 
-pub fn configure_color(color_output: ColorOutput) {
-    let enable_color = match color_output {
+pub fn should_use_color(color_output: ColorOutput) -> bool {
+    match color_output {
         ColorOutput::Always => true,
         ColorOutput::Auto => {
             // Always enable colour if stdout is a TTY or if the git pager is active.
@@ -299,9 +299,7 @@ pub fn configure_color(color_output: ColorOutput) {
             atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok()
         }
         ColorOutput::Never => false,
-    };
-
-    owo_colors::set_override(enable_color);
+    }
 }
 
 #[cfg(test)]

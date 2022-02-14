@@ -17,10 +17,17 @@ pub fn print(
     hunks: &[Hunk],
     display_path: &str,
     lang_name: &str,
+    use_color: bool,
     background: BackgroundColor,
 ) {
-    let lhs_colored = apply_colors(lhs_src, true, background, lhs_positions);
-    let rhs_colored = apply_colors(rhs_src, false, background, rhs_positions);
+    let (lhs_colored, rhs_colored) = if use_color {
+        (
+            apply_colors(lhs_src, true, background, lhs_positions),
+            apply_colors(rhs_src, false, background, rhs_positions),
+        )
+    } else {
+        (lhs_src.to_string(), rhs_src.to_string())
+    };
 
     let lhs_lines: Vec<_> = lhs_colored.lines().collect();
     let rhs_lines: Vec<_> = rhs_colored.lines().collect();
@@ -31,7 +38,14 @@ pub fn print(
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
             "{}",
-            style::header(display_path, i + 1, hunks.len(), lang_name, background)
+            style::header(
+                display_path,
+                i + 1,
+                hunks.len(),
+                lang_name,
+                use_color,
+                background
+            )
         );
 
         let hunk_lines = hunk.lines.clone();
