@@ -11,6 +11,7 @@ pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 
+#[derive(Debug)]
 pub enum ColorOutput {
     Always,
     Auto,
