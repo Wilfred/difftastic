@@ -196,9 +196,11 @@ module.exports = grammar({
             $.null_constraint,
             $.named_constraint,
             $.direction_constraint,
+            $.auto_increment_constraint,
           ),
         ),
       ),
+    auto_increment_constraint: _ => "auto_increment",
     direction_constraint: _ => choice(kw("ASC"), kw("DESC")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     column_default: $ =>
@@ -244,7 +246,12 @@ module.exports = grammar({
       seq(kw("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
     primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
-      seq(kw("CREATE TABLE"), $.table_reference, $.create_table_parameters),
+      seq(
+        kw("CREATE TABLE"),
+        optional(kw("IF NOT EXISTS")),
+        $.table_reference,
+        $.create_table_parameters,
+      ),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),

@@ -1087,6 +1087,10 @@
       "required": false,
       "types": [
         {
+          "type": "auto_increment_constraint",
+          "named": true
+        },
+        {
           "type": "check_constraint",
           "named": true
         },
@@ -3711,6 +3715,10 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "auto_increment_constraint",
+    "named": true
   },
   {
     "type": "comment",
