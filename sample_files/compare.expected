@@ -1,8 +1,5 @@
 ==> Building difftastic
 ==> Check outputs
-sample_files/before.js sample_files/after.js
-741c57dd76ee21161df8bcf29b46e0d3  -
-
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 5d8238346885f21b1075debaf97b4aa9  -
 
@@ -38,6 +35,9 @@ sample_files/java_before.java sample_files/java_after.java
 
 sample_files/javascript_before.js sample_files/javascript_after.js
 5ac5d4bcb4750289f28409a7e0671174  -
+
+sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
+58208dbd2347671a5eb068d775a5f4f9  -
 
 sample_files/json_before.json sample_files/json_after.json
 e0138d5ed144ccf30e64c6f58c744edd  -
