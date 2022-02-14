@@ -351,29 +351,29 @@ tree-sitter-latex (Issue #25 Nesting of document structure)
 
 (source_file
   (section
-    (curly_group
+    text: (curly_group
       (text
-        (word)))
+        word: (word)))
     (text
-      (word))
+      word: (word))
     (generic_environment
-      (begin
-        (curly_group_text
-          (text
-            (word))))
+      begin: (begin
+        name: (curly_group_text
+          text: (text
+            word: (word))))
       (enum_item
         (text
-          (word))
+          word: (word))
         (command
-          (command_name)
-          (curly_group
+          command: (command_name)
+          arg: (curly_group
             (text
-              (word))))
+              word: (word))))
         (text
-          (word)))
-      (end
-        (curly_group_text
-          (text
-            (word)))))
+          word: (word)))
+      end: (end
+        name: (curly_group_text
+          text: (text
+            word: (word)))))
     (text
-      (word))))
+      word: (word))))
