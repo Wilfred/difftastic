@@ -1,0 +1,62 @@
+================
+CREATE statement
+================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  `id` int(11) NOT NULL auto_increment,
+  `recid` int(11) NOT NULL default '0',
+  `cvfilename` varchar(250)  NOT NULL default '',
+  `cvpagenumber`  int(11) NULL,
+  `cilineno` int(11)  NULL,
+  `batchname`  varchar(100) NOT NULL default '',
+  `type` varchar(20) NOT NULL default '',
+  `data` varchar(100) NOT NULL default '',
+   PRIMARY KEY  (`id`)
+);
+
+---
+
+(source_file
+  (create_table_statement
+    (table_reference (identifier))
+    (create_table_parameters
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (auto_increment_constraint))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string))) (primary_key (identifier)))))
+
+===
+CREATE TABLE
+===
+
+CREATE TABLE IF NOT EXISTS tblsample
+(
+  id int(11) NOT NULL auto_increment,
+  recid int(11) NOT NULL default '0',
+  cvfilename varchar(250)  NOT NULL default '',
+  cvpagenumber  int(11) NULL,
+  cilineno int(11)  NULL,
+  `batchname`  varchar(100) NOT NULL default '',
+  `type` varchar(20) NOT NULL default '',
+  `data` varchar(100) NOT NULL default '',
+   PRIMARY KEY  (`id`)
+)
+
+---
+
+(source_file
+  (create_table_statement
+    (table_reference (identifier))
+    (create_table_parameters
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (auto_increment_constraint))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string)))
+      (create_table_column_parameter (identifier) (type (number)) (null_constraint (NULL)) (column_default (string))) (primary_key (identifier)))))
