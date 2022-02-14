@@ -46,6 +46,7 @@ module.exports = grammar({
     $._simple_type,
     $._unannotated_type,
     $.comment,
+    $.module_directive,
   ],
 
   inline: $ => [
@@ -648,17 +649,61 @@ module.exports = grammar({
       '}'
     ),
 
-    module_directive: $ => seq(choice(
-      seq('requires', repeat($.requires_modifier), $._name),
-      seq('exports', $._name, optional('to'), optional($._name), repeat(seq(',', $._name))),
-      seq('opens', $._name, optional('to'), optional($._name), repeat(seq(',', $._name))),
-      seq('uses', $._name),
-      seq('provides', $._name, 'with', $._name, repeat(seq(',', $._name)))
-    ), ';'),
+    module_directive: $ => choice(
+      $.requires_module_directive,
+      $.exports_module_directive,
+      $.opens_module_directive,
+      $.uses_module_directive,
+      $.provides_module_directive
+    ),
+
+    requires_module_directive: $ => seq(
+      'requires',
+      repeat(field('modifiers', $.requires_modifier)),
+      field('module', $._name),
+      ';'
+    ),
 
     requires_modifier: $ => choice(
       'transitive',
       'static'
+    ),
+
+    exports_module_directive: $ => seq(
+      'exports',
+      field('package', $._name),
+      optional(seq(
+        'to',
+        field('modules', $._name),
+        repeat(seq(',', field('modules', $._name)))
+      )),
+      ';'
+    ),
+
+    opens_module_directive: $ => seq(
+      'opens',
+      field('package', $._name),
+      optional(seq(
+        'to',
+        field('modules', $._name),
+        repeat(seq(',', field('modules', $._name)))
+      )),
+      ';'
+    ),
+
+    uses_module_directive: $ => seq(
+      'uses',
+      field('type', $._name),
+      ';'
+    ),
+
+    provides_module_directive: $ => seq(
+      'provides',
+      field('provided', $._name),
+      'with',
+      $._name,
+      repeat(seq(',', (field('provider', $._name)))),
+      ';'
     ),
 
     package_declaration: $ => seq(
