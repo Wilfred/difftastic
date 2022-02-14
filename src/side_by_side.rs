@@ -120,9 +120,10 @@ fn display_line_nums(
             let s = format_line_num_padded(line_num, source_dims.lhs_line_nums_width);
             if lhs_has_novel && use_color {
                 // TODO: factor out applying colours to line numbers.
-                match background {
-                    BackgroundColor::Dark => s.bright_red().to_string(),
-                    BackgroundColor::Light => s.red().to_string(),
+                if background.is_dark() {
+                    s.bright_red().to_string()
+                } else {
+                    s.red().to_string()
                 }
             } else {
                 s
@@ -138,9 +139,10 @@ fn display_line_nums(
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
             if rhs_has_novel && use_color {
-                match background {
-                    BackgroundColor::Dark => s.bright_green().to_string(),
-                    BackgroundColor::Light => s.green().to_string(),
+                if background.is_dark() {
+                    s.bright_green().to_string()
+                } else {
+                    s.green().to_string()
                 }
             } else {
                 s
@@ -470,9 +472,10 @@ pub fn print(
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
-                                s = match background {
-                                    BackgroundColor::Dark => s.bright_red().to_string(),
-                                    BackgroundColor::Light => s.red().to_string(),
+                                s = if background.is_dark() {
+                                    s.bright_red().to_string()
+                                } else {
+                                    s.red().to_string()
                                 };
                             }
                         }
@@ -489,9 +492,10 @@ pub fn print(
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
-                                s = match background {
-                                    BackgroundColor::Dark => s.bright_green().to_string(),
-                                    BackgroundColor::Light => s.green().to_string(),
+                                s = if background.is_dark() {
+                                    s.bright_green().to_string()
+                                } else {
+                                    s.green().to_string()
                                 };
                             }
                         }
