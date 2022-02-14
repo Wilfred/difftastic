@@ -68,13 +68,20 @@ fn highlight_missing_style_bug(s: &str) -> String {
 pub fn split_and_apply(
     line: &str,
     max_len: usize,
+    use_color: bool,
     styles: &[(SingleLineSpan, Style)],
 ) -> Vec<String> {
     if styles.is_empty() && !line.is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
         return split_string(line, max_len)
             .into_iter()
-            .map(|part| highlight_missing_style_bug(&part))
+            .map(|part| {
+                if use_color {
+                    highlight_missing_style_bug(&part)
+                } else {
+                    part
+                }
+            })
             .collect();
     }
 
@@ -295,18 +302,22 @@ pub fn header(
     hunk_num: usize,
     hunk_total: usize,
     language_name: &str,
+    use_color: bool,
     background: BackgroundColor,
 ) -> String {
-    format!(
-        "{} --- {}/{} --- {}",
+    let file_name_pretty = if use_color {
         match background {
             BackgroundColor::Dark => file_name.bright_yellow().to_string(),
             BackgroundColor::Light => file_name.yellow().to_string(),
         }
-        .bold(),
-        hunk_num,
-        hunk_total,
-        language_name
+        .bold()
+        .to_string()
+    } else {
+        file_name.to_string()
+    };
+    format!(
+        "{} --- {}/{} --- {}",
+        file_name_pretty, hunk_num, hunk_total, language_name
     )
 }
 

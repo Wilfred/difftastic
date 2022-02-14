@@ -70,15 +70,26 @@ fn display_single_column(
     lang_name: &str,
     src: &str,
     is_lhs: bool,
+    use_color: bool,
     background: BackgroundColor,
 ) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
 
     let mut result = String::with_capacity(src.len());
-    result.push_str(&style::header(display_path, 1, 1, lang_name, background));
+    result.push_str(&style::header(
+        display_path,
+        1,
+        1,
+        lang_name,
+        use_color,
+        background,
+    ));
     result.push('\n');
 
-    let style = novel_style(Style::new(), is_lhs, background);
+    let mut style = Style::new();
+    if use_color {
+        style = novel_style(Style::new(), is_lhs, background);
+    }
 
     for (i, line) in src.lines().enumerate() {
         result.push_str(
@@ -97,6 +108,7 @@ fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
     source_dims: &SourceDimensions,
+    use_color: bool,
     background: BackgroundColor,
     lhs_has_novel: bool,
     rhs_has_novel: bool,
@@ -106,7 +118,7 @@ fn display_line_nums(
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.lhs_line_nums_width);
-            if lhs_has_novel {
+            if lhs_has_novel && use_color {
                 // TODO: factor out applying colours to line numbers.
                 match background {
                     BackgroundColor::Dark => s.bright_red().to_string(),
@@ -125,7 +137,7 @@ fn display_line_nums(
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
-            if rhs_has_novel {
+            if rhs_has_novel && use_color {
                 match background {
                     BackgroundColor::Dark => s.bright_green().to_string(),
                     BackgroundColor::Light => s.green().to_string(),
@@ -271,6 +283,7 @@ fn highlight_as_novel(
 pub fn print(
     hunks: &[Hunk],
     display_width: usize,
+    use_color: bool,
     background: BackgroundColor,
     display_path: &str,
     lang_name: &str,
@@ -279,26 +292,51 @@ pub fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let lhs_colored_src = apply_colors(lhs_src, true, background, lhs_mps);
-    let rhs_colored_src = apply_colors(rhs_src, false, background, rhs_mps);
+    let (lhs_colored_src, rhs_colored_src) = if use_color {
+        (
+            apply_colors(lhs_src, true, background, lhs_mps),
+            apply_colors(rhs_src, false, background, rhs_mps),
+        )
+    } else {
+        (lhs_src.to_string(), rhs_src.to_string())
+    };
 
     if lhs_src.is_empty() {
         println!(
             "{}",
-            display_single_column(display_path, lang_name, &rhs_colored_src, false, background)
+            display_single_column(
+                display_path,
+                lang_name,
+                &rhs_colored_src,
+                false,
+                use_color,
+                background
+            )
         );
         return;
     }
     if rhs_src.is_empty() {
         println!(
             "{}",
-            display_single_column(display_path, lang_name, &lhs_colored_src, true, background)
+            display_single_column(
+                display_path,
+                lang_name,
+                &lhs_colored_src,
+                true,
+                use_color,
+                background
+            )
         );
         return;
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
-    let (lhs_highlights, rhs_highlights) = highlight_positions(background, lhs_mps, rhs_mps);
+    let (lhs_highlights, rhs_highlights) = if use_color {
+        highlight_positions(background, lhs_mps, rhs_mps)
+    } else {
+        (HashMap::new(), HashMap::new())
+    };
+
     let lhs_lines = split_on_newlines(lhs_src);
     let rhs_lines = split_on_newlines(rhs_src);
     let lhs_colored_lines = split_on_newlines(&lhs_colored_src);
@@ -314,7 +352,14 @@ pub fn print(
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
             "{}",
-            style::header(display_path, i + 1, hunks.len(), lang_name, background)
+            style::header(
+                display_path,
+                i + 1,
+                hunks.len(),
+                lang_name,
+                use_color,
+                background
+            )
         );
 
         let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
@@ -342,6 +387,7 @@ pub fn print(
                 lhs_line_num,
                 rhs_line_num,
                 &source_dims,
+                use_color,
                 background,
                 lhs_line_novel,
                 rhs_line_novel,
@@ -391,6 +437,7 @@ pub fn print(
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.0],
                         source_dims.lhs_content_width,
+                        use_color,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec![" ".repeat(source_dims.lhs_content_width)],
@@ -399,6 +446,7 @@ pub fn print(
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.0],
                         source_dims.rhs_content_width,
+                        use_color,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec!["".into()],
@@ -530,6 +578,7 @@ mod tests {
             "Python",
             "print(123)\n",
             false,
+            true,
             BackgroundColor::Dark,
         );
         assert!(res.len() > 10);
@@ -601,6 +650,7 @@ mod tests {
         print(
             &hunks,
             80,
+            true,
             BackgroundColor::Dark,
             "foo.el",
             "Emacs Lisp",

@@ -44,7 +44,7 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use options::{configure_color, Mode};
+use options::{should_use_color, Mode};
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use style::BackgroundColor;
@@ -129,7 +129,7 @@ fn main() {
             rhs_path,
             ..
         } => {
-            configure_color(color_output);
+            let use_color = should_use_color(color_output);
 
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
@@ -140,6 +140,7 @@ fn main() {
                 {
                     print_diff_result(
                         display_width,
+                        use_color,
                         background_color,
                         print_unchanged,
                         &diff_result,
@@ -156,6 +157,7 @@ fn main() {
                 );
                 print_diff_result(
                     display_width,
+                    use_color,
                     background_color,
                     print_unchanged,
                     &diff_result,
@@ -337,6 +339,7 @@ fn diff_directories(
 // TODO: factor out a DiffOptions struct.
 fn print_diff_result(
     display_width: usize,
+    use_color: bool,
     background: BackgroundColor,
     print_unchanged: bool,
     summary: &DiffResult,
@@ -360,7 +363,7 @@ fn print_diff_result(
                 if print_unchanged {
                     println!(
                         "{}",
-                        style::header(&summary.path, 1, 1, &lang_name, background)
+                        style::header(&summary.path, 1, 1, &lang_name, use_color, background)
                     );
                     if lang_name == "Text" {
                         // TODO: there are other Text names now, so
@@ -382,12 +385,14 @@ fn print_diff_result(
                     &hunks,
                     &summary.path,
                     &lang_name,
+                    use_color,
                     background,
                 );
             } else {
                 side_by_side::print(
                     &hunks,
                     display_width,
+                    use_color,
                     background,
                     &summary.path,
                     &lang_name,
@@ -403,7 +408,7 @@ fn print_diff_result(
             if print_unchanged || changed {
                 println!(
                     "{}",
-                    style::header(&summary.path, 1, 1, "binary", background)
+                    style::header(&summary.path, 1, 1, "binary", use_color, background)
                 );
                 if changed {
                     println!("Binary contents changed.")
@@ -416,7 +421,7 @@ fn print_diff_result(
             // We're diffing a binary file against a text file.
             println!(
                 "{}",
-                style::header(&summary.path, 1, 1, "binary", background)
+                style::header(&summary.path, 1, 1, "binary", use_color, background)
             );
             println!("Binary contents changed.")
         }
