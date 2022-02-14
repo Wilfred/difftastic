@@ -330,3 +330,50 @@ tree-sitter-latex (Issue #24)
     (brack_group_text
       (text
         (word)))))
+
+================================================================================
+tree-sitter-latex (Issue #25 Nesting of document structure)
+================================================================================
+
+\section{SomeSection}
+
+1
+
+\begin{itemize}
+
+    \item 2 \texttt{3} 4
+
+\end{itemize}
+
+5
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (section
+    (curly_group
+      (text
+        (word)))
+    (text
+      (word))
+    (generic_environment
+      (begin
+        (curly_group_text
+          (text
+            (word))))
+      (enum_item
+        (text
+          (word))
+        (command
+          (command_name)
+          (curly_group
+            (text
+              (word))))
+        (text
+          (word)))
+      (end
+        (curly_group_text
+          (text
+            (word)))))
+    (text
+      (word))))
