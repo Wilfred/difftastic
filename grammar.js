@@ -3,7 +3,7 @@
 const PREC = {
     COMMENT: 1,
     STRING: 2,
-    
+
     COMMA: -1,
     OBJECT: -1,
     USER_TYPE: 1,
@@ -24,7 +24,7 @@ const PREC = {
     INC: 11,
     CALL: 12,
     NEW: 13,
-    MEMBER: 14 
+    MEMBER: 14
 }
 
 // The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
@@ -38,7 +38,7 @@ module.exports = grammar({
         // Allow characters such as whitespaces to be placed anywhere in the file
         /[\s\uFEFF\u2060\u200B\u00A0]/
     ],
-    
+
     // The word token allows tree-sitter to appropriately handle scenario's where an identifier includes a keyword.
     // Documentation: https://tree-sitter.github.io/tree-sitter/creating-parsers#keywords
     word: $ => $.identifier,
@@ -49,21 +49,22 @@ module.exports = grammar({
         [$._primary_expression, $.type_cast_expression],
         [$._yul_expression, $.yul_path],
         [$._yul_expression, $.yul_assignment],
+        [$.pragma_value, $._solidity]
     ],
 
     rules: {
-        //  -- [ Program ] --  
+        //  -- [ Program ] --
         source_file: $ => seq(
             repeat($._source_unit),
         ),
 
-        //  -- [ Source Element ] --  
+        //  -- [ Source Element ] --
         _source_unit: $ =>  choice(
             $._directive,
             $._declaration,
         ),
 
-        //  -- [ Directives ] --  
+        //  -- [ Directives ] --
         _directive: $ => choice(
             $.pragma_directive,
             $.import_directive,
@@ -72,17 +73,29 @@ module.exports = grammar({
         // Pragma
         pragma_directive: $ => seq(
             "pragma",
-            "solidity",
-            repeat(field("version_constraint", $._pragma_version_constraint)),
+            choice($.solidity_pragma_token, $.any_pragma_token),
             $._semicolon,
         ),
 
-        _pragma_version_constraint: $ => seq(
-            optional($._solidity_version_comparison_operator),
-            $._solidity_version,
+        solidity_pragma_token: $ => prec(10, seq(
+            $._solidity,
+            repeat(field("version_constraint", $._pragma_version_constraint)),
+        )),
+
+        any_pragma_token: $ => seq(
+            $.identifier,
+            $.pragma_value,
         ),
-        _solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
-        _solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
+
+        _solidity: $ => prec(1, "solidity"),
+        pragma_value: $ =>  prec(0, /[^;]+/),
+
+        _pragma_version_constraint: $ => seq(
+            optional($.solidity_version_comparison_operator),
+            $.solidity_version,
+        ),
+        solidity_version: $ => /\d+(.\d+(.\d+)?)?/,
+        solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
 
         // Import
         import_directive: $ => seq(
@@ -107,7 +120,7 @@ module.exports = grammar({
         _from_clause: $ => seq(
             "from", field('source', $.string)
         ),
-    
+
         _single_import: $ => seq(
             "*",
             optional(
@@ -117,7 +130,7 @@ module.exports = grammar({
                 )
             )
         ),
-    
+
         _multiple_import: $ => seq(
             '{',
             commaSep($._import_declaration),
@@ -134,7 +147,7 @@ module.exports = grammar({
             )
         ),
 
-        //  -- [ Declarations ] --  
+        //  -- [ Declarations ] --
         _declaration: $ => choice(
             $.contract_declaration,
             $.interface_declaration,
@@ -149,11 +162,11 @@ module.exports = grammar({
             field("type", $.type_name),
             $.constant,
             field("name", $.identifier),
-            '=', 
+            '=',
             field("value", $._expression),
             $._semicolon
         ),
-        
+
         // Contract Declarations
         contract_declaration: $ => seq(
             optional('abstract'),
@@ -177,7 +190,7 @@ module.exports = grammar({
         ),
 
         _class_heritage: $ => seq(
-            "is", 
+            "is",
             commaSep1($.inheritance_specifier)
         ),
 
@@ -207,7 +220,7 @@ module.exports = grammar({
         struct_declaration: $ =>  seq(
             'struct',
             field("struct_name", $.identifier),
-            '{', 
+            '{',
             repeat1($.struct_member),
             '}',
         ),
@@ -225,7 +238,7 @@ module.exports = grammar({
             commaSep(alias($.identifier, $.enum_value)),
             '}',
         ),
-            
+
 
         event_definition: $ => seq(
             'event',  field('name', $.identifier), $._event_parameter_list ,  optional('anonymous'), $._semicolon
@@ -244,7 +257,7 @@ module.exports = grammar({
         ),
 
         using_directive: $ => seq(
-            'using', 
+            'using',
             alias($._user_defined_type, $.type_alias),
             'for',
             field("source", choice($.any_source_type, $.type_name)),
@@ -292,7 +305,7 @@ module.exports = grammar({
             $.yul_continue,
             $.yul_function_definition
         ),
-        
+
         yul_leave: $ => "leave",
         yul_break: $ => "break",
         yul_continue: $ => "continue",
@@ -300,7 +313,7 @@ module.exports = grammar({
         yul_identifier: $ => /[a-zA-Z$_]+/,
         _yul_expression: $ => choice($.yul_path, $.yul_function_call, $._yul_literal),
         yul_path: $ => prec.left(dotSep1($.yul_identifier)),
-        
+
         // -- Yul Literals --
         _yul_literal: $ =>  choice(
             $.yul_decimal_number,
@@ -321,7 +334,7 @@ module.exports = grammar({
                 'let', field("left", choice(
                     commaSep1($.yul_identifier),
                     seq('(', commaSep1($.yul_identifier), ')')
-                )), 
+                )),
                 optional(seq(':=', field("right", $.yul_function_call)))),
         )),
         yul_assignment: $ => prec.left(PREC.ASSIGN, choice(
@@ -439,7 +452,7 @@ module.exports = grammar({
         //     choice(
         //         $.identifier,
         //         seq(
-        //             '(', 
+        //             '(',
         //             optional($.identifier),
         //             repeat(
         //                 seq(
@@ -462,12 +475,12 @@ module.exports = grammar({
 
         variable_declaration_tuple: $ => prec(3, choice(
             seq(
-                '(', 
+                '(',
                 commaSep($.variable_declaration),
                 ')'
             ),
             seq('var',
-                '(', 
+                '(',
                 optional($.identifier),
                 repeat(
                     seq(
@@ -484,9 +497,9 @@ module.exports = grammar({
         if_statement: $ => prec.left(seq(
             'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
         )),
-        
+
         for_statement: $ => seq(
-            'for', '(', 
+            'for', '(',
             choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
             choice($.expression_statement, $._semicolon),
             optional($._expression),
@@ -498,10 +511,10 @@ module.exports = grammar({
         ),
         do_while_statement: $ => seq(
             'do', $._statement, 'while', '(',$._expression, ')',
-        ),        
+        ),
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
-        
+
         try_statement: $ => seq(
             'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
         ),
@@ -518,8 +531,8 @@ module.exports = grammar({
         ),
 
 
-        //  -- [ Definitions ] --  
-        
+        //  -- [ Definitions ] --
+
         // Definitions
         state_variable_declaration: $ => seq(
             field("type", $.type_name),
@@ -591,10 +604,10 @@ module.exports = grammar({
                 "function"
             ),
             '(', ')',
-            // FIXME: We use repeat to allow for unorderedness. However, this means that the parser 
+            // FIXME: We use repeat to allow for unorderedness. However, this means that the parser
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
-                $.visibility,      
+                $.visibility,
                 $.modifier_invocation,
                 $.state_mutability,
                 $.virtual,
@@ -618,14 +631,14 @@ module.exports = grammar({
             choice($._semicolon, field('body', $.function_body))
         ),
 
-        return_type_definition: $ => seq(     
+        return_type_definition: $ => seq(
             'returns',
             $._parameter_list,
         ),
 
         virtual: $ => "virtual",
         modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
-        
+
         _call_arguments: $ => prec(4,
             seq(
                 '(',
@@ -638,7 +651,7 @@ module.exports = grammar({
         ),
 
         function_body: $ => seq(
-            "{", 
+            "{",
             // TODO: make sure this is correct
                 repeat($._statement),
             "}",
@@ -685,7 +698,7 @@ module.exports = grammar({
         new_expression: $ => prec.left(seq('new', $.type_name, optional($._call_arguments))),
 
         tuple_expression: $ => prec(1, seq(
-            '(', 
+            '(',
             optional($._expression),
             repeat(
                 seq(
@@ -697,7 +710,7 @@ module.exports = grammar({
         )),
 
         inline_array_expression: $ => seq(
-            '[', 
+            '[',
             commaSep($._expression),
             ']'
         ),
@@ -770,16 +783,16 @@ module.exports = grammar({
         array_access: $ => prec.right(14,seq(
             field('base', $._expression),
             '[',
-            field('index', $._expression), 
+            field('index', $._expression),
             ']'
         )),
 
         slice_access: $ => prec(PREC.MEMBER, seq(
             field('base', $._expression),
             '[',
-            field('from', $._expression), 
+            field('from', $._expression),
             ':',
-            field('to', $._expression), 
+            field('to', $._expression),
             ']'
         )),
 
@@ -793,7 +806,7 @@ module.exports = grammar({
             )),
             "}"
         ),
-        
+
         _lhs_expression: $ => choice(
             $.member_expression,
             $.array_access,
@@ -808,21 +821,21 @@ module.exports = grammar({
             '=',
             field('right', $._expression)
         )),
-      
+
         augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
             field('left', $._lhs_expression),
             choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
                 '<<=',),
             field('right', $._expression)
         )),
-          
+
         call_expression: $ => seq(
             seq($._expression, $._call_arguments),
         ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
-        
+
         type_name: $ => prec(0, choice(
             $.primitive_type,
             $._user_defined_type,
@@ -832,7 +845,7 @@ module.exports = grammar({
         )),
 
         _array_type: $ => prec(1, seq($.type_name, '[', optional($._expression), ']')),
-        
+
         _function_type: $ => prec.right(seq(
             'function', $._parameter_list, optional($._return_parameters),
         )),
@@ -896,7 +909,7 @@ module.exports = grammar({
             'int', 'int8', 'int16', 'int24', 'int32', 'int40', 'int48', 'int56', 'int64', 'int72', 'int80', 'int88', 'int96', 'int104', 'int112', 'int120', 'int128', 'int136', 'int144', 'int152', 'int160', 'int168', 'int176', 'int184', 'int192', 'int200', 'int208', 'int216', 'int224', 'int232', 'int240', 'int248', 'int256'
         ),
         _uint: $ => choice (
-            'uint', 'uint8', 'uint16', 'uint24', 'uint32', 'uint40', 'uint48', 'uint56', 'uint64', 'uint72', 'uint80', 'uint88', 'uint96', 'uint104', 'uint112', 'uint120', 'uint128', 'uint136', 'uint144', 'uint152', 'uint160', 'uint168', 'uint176', 'uint184', 'uint192', 'uint200', 'uint208', 'uint216', 'uint224', 'uint232', 'uint240', 'uint248', 'uint256' 
+            'uint', 'uint8', 'uint16', 'uint24', 'uint32', 'uint40', 'uint48', 'uint56', 'uint64', 'uint72', 'uint80', 'uint88', 'uint96', 'uint104', 'uint112', 'uint120', 'uint128', 'uint136', 'uint144', 'uint152', 'uint160', 'uint168', 'uint176', 'uint184', 'uint192', 'uint200', 'uint208', 'uint216', 'uint224', 'uint232', 'uint240', 'uint248', 'uint256'
         ),
         _bytes: $ => choice (
             'byte', 'bytes', 'bytes1', 'bytes2', 'bytes3', 'bytes4', 'bytes5', 'bytes6', 'bytes7', 'bytes8', 'bytes9', 'bytes10', 'bytes11', 'bytes12', 'bytes13', 'bytes14', 'bytes15', 'bytes16', 'bytes17', 'bytes18', 'bytes19', 'bytes20', 'bytes21', 'bytes22', 'bytes23', 'bytes24', 'bytes25', 'bytes26', 'bytes27', 'bytes28', 'bytes29', 'bytes30', 'bytes31', 'bytes32'
@@ -932,7 +945,7 @@ module.exports = grammar({
             /\.\d+([eE](-)?\d+)?/,
         ),
         _hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
-        _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/, 
+        _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/,
         number_unit: $ => choice(
             'wei','szabo', 'finney', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
         ),
@@ -994,7 +1007,7 @@ module.exports = grammar({
         _string_immediate_elt_inside_quote: $ =>
             token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
 
-        
+
 
         // Based on: https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
         comment: $ => token(
@@ -1022,7 +1035,7 @@ function dotSep1(rule) {
                 rule
             )
         ),
-    );  
+    );
 }
 
 function dotSep(rule) {
@@ -1039,9 +1052,9 @@ function commaSep1(rule) {
             )
         ),
         optional(','),
-    );  
+    );
 }
-  
+
 function commaSep(rule) {
     return optional(commaSep1(rule));
 }
@@ -1055,6 +1068,6 @@ function optionalDashSeparation(rule) {
                 rule
             )
         ),
-    );  
+    );
 }
-  
+
