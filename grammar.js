@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-var PRECS = {
+const PRECS = {
   multiplication: 11,
   addition: 10,
   infix_operations: 9,
@@ -59,13 +59,22 @@ var PRECS = {
   comment: -3,
   lambda: -3,
 };
-var DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
-var HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
-var OCT_DIGITS = token(sep1(/[0-7]+/, /_+/));
-var BIN_DIGITS = token(sep1(/[01]+/, /_+/));
-var REAL_EXPONENT = token(seq(/[eE]/, optional(/[+-]/), DEC_DIGITS));
-var LEXICAL_IDENTIFIER = /[_\p{XID_Start}][_\p{XID_Continue}]*/;
-var CUSTOM_OPERATORS = token(
+const DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
+const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
+const OCT_DIGITS = token(sep1(/[0-7]+/, /_+/));
+const BIN_DIGITS = token(sep1(/[01]+/, /_+/));
+const REAL_EXPONENT = token(seq(/[eE]/, optional(/[+-]/), DEC_DIGITS));
+
+var LEXICAL_IDENTIFIER;
+
+if (tree_sitter_version_supports_emoji()) {
+  LEXICAL_IDENTIFIER =
+    /[_\p{XID_Start}\p{Emoji}&&[^0-9#*]](\p{EMod}|\x{FE0F}\x{20E3}?)?([_\p{XID_Continue}\p{Emoji}\x{200D}](\p{EMod}|\x{FE0F}\x{20E3}?)?)*/;
+} else {
+  LEXICAL_IDENTIFIER = /[_\p{XID_Start}][_\p{XID_Continue}]*/;
+}
+
+const CUSTOM_OPERATORS = token(
   choice(
     // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html#ID418
     // This supports a subset of the operators that Swift does but I'm really not concerned about the esoteric ones.
@@ -1803,4 +1812,20 @@ function generate_pattern_matching_rule(
     .concat(case_pattern)
     .concat(expression_pattern);
   return seq(choice.apply(void 0, all_patterns), optional($._quest));
+}
+
+function tree_sitter_version_supports_emoji() {
+  try {
+    return (
+      TREE_SITTER_CLI_VERSION_MAJOR > 0 ||
+      TREE_SITTER_CLI_VERSION_MINOR > 20 ||
+      TREE_SITTER_CLI_VERSION_PATCH >= 5
+    );
+  } catch (err) {
+    if (err instanceof ReferenceError) {
+      return false;
+    } else {
+      throw err;
+    }
+  }
 }

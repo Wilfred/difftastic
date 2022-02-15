@@ -26,7 +26,7 @@
   "homepage": "https://github.com/alex-pinkus/tree-sitter-swift#readme",
   "dependencies": {
     "nan": "^2.15.0",
-    "tree-sitter-cli": "^0.20.0",
+    "tree-sitter-cli": "^0.20.6",
     "which": "2.0.2"
   },
   "devDependencies": {
