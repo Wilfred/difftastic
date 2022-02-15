@@ -364,9 +364,9 @@
         ]
       }
     },
-    "part": {
+    "_part_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -410,6 +410,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "part": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_part_declaration"
           },
           {
             "type": "REPEAT",
@@ -487,9 +500,9 @@
         ]
       }
     },
-    "chapter": {
+    "_chapter_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -533,6 +546,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "chapter": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_chapter_declaration"
           },
           {
             "type": "REPEAT",
@@ -603,9 +629,9 @@
         ]
       }
     },
-    "section": {
+    "_section_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -649,6 +675,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "section": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_section_declaration"
           },
           {
             "type": "REPEAT",
@@ -712,9 +751,9 @@
         ]
       }
     },
-    "subsection": {
+    "_subsection_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -750,6 +789,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "subsection": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_subsection_declaration"
           },
           {
             "type": "REPEAT",
@@ -806,9 +858,9 @@
         ]
       }
     },
-    "subsubsection": {
+    "_subsubsection_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -844,6 +896,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "subsubsection": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_subsubsection_declaration"
           },
           {
             "type": "REPEAT",
@@ -893,9 +958,9 @@
         ]
       }
     },
-    "paragraph": {
+    "_paragraph_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -931,6 +996,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "paragraph": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_paragraph_declaration"
           },
           {
             "type": "REPEAT",
@@ -973,9 +1051,9 @@
         ]
       }
     },
-    "subparagraph": {
+    "_subparagraph_declaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1011,6 +1089,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "subparagraph": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_subparagraph_declaration"
           },
           {
             "type": "REPEAT",
@@ -1046,9 +1137,9 @@
         ]
       }
     },
-    "enum_item": {
+    "_enum_itemdeclaration": {
       "type": "PREC_RIGHT",
-      "value": -1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1084,6 +1175,19 @@
                 }
               ]
             }
+          }
+        ]
+      }
+    },
+    "enum_item": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_enum_itemdeclaration"
           },
           {
             "type": "REPEAT",

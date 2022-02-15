@@ -109,15 +109,22 @@ module.exports = grammar({
         )
       ),
 
-    part: $ =>
+    _part_declaration: $ =>
       prec.right(
-        -1,
         seq(
           field(
             'command',
             choice('\\part', '\\part*', '\\addpart', '\\addpart*')
           ),
-          field('text', optional($.curly_group)),
+          field('text', optional($.curly_group))
+        )
+      ),
+
+    part: $ =>
+      prec.right(
+        -1,
+        seq(
+          $._part_declaration,
           repeat($._flat_content),
           optional(
             prec.right(
@@ -135,15 +142,22 @@ module.exports = grammar({
         )
       ),
 
-    chapter: $ =>
+    _chapter_declaration: $ =>
       prec.right(
-        -1,
         seq(
           field(
             'command',
             choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*')
           ),
-          field('text', optional($.curly_group)),
+          field('text', optional($.curly_group))
+        )
+      ),
+
+    chapter: $ =>
+      prec.right(
+        -1,
+        seq(
+          $._chapter_declaration,
           repeat($._flat_content),
           optional(
             prec.right(
@@ -160,15 +174,22 @@ module.exports = grammar({
         )
       ),
 
-    section: $ =>
+    _section_declaration: $ =>
       prec.right(
-        -1,
         seq(
           field(
             'command',
             choice('\\section', '\\section*', '\\addsec', '\\addsec*')
           ),
-          field('text', optional($.curly_group)),
+          field('text', optional($.curly_group))
+        )
+      ),
+
+    section: $ =>
+      prec.right(
+        -1,
+        seq(
+          $._section_declaration,
           repeat($._flat_content),
           optional(
             prec.right(
@@ -184,12 +205,19 @@ module.exports = grammar({
         )
       ),
 
+    _subsection_declaration: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\subsection', '\\subsection*')),
+          field('text', optional($.curly_group))
+        )
+      ),
+
     subsection: $ =>
       prec.right(
         -1,
         seq(
-          field('command', choice('\\subsection', '\\subsection*')),
-          field('text', optional($.curly_group)),
+          $._subsection_declaration,
           repeat($._flat_content),
           optional(
             prec.right(
@@ -204,12 +232,19 @@ module.exports = grammar({
         )
       ),
 
+    _subsubsection_declaration: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\subsubsection', '\\subsubsection*')),
+          field('text', optional($.curly_group))
+        )
+      ),
+
     subsubsection: $ =>
       prec.right(
         -1,
         seq(
-          field('command', choice('\\subsubsection', '\\subsubsection*')),
-          field('text', optional($.curly_group)),
+          $._subsubsection_declaration,
           repeat($._flat_content),
           optional(
             prec.right(
@@ -223,12 +258,19 @@ module.exports = grammar({
         )
       ),
 
+    _paragraph_declaration: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\paragraph', '\\paragraph*')),
+          field('text', optional($.curly_group))
+        )
+      ),
+
     paragraph: $ =>
       prec.right(
         -1,
         seq(
-          field('command', choice('\\paragraph', '\\paragraph*')),
-          field('text', optional($.curly_group)),
+          $._paragraph_declaration,
           repeat($._flat_content),
           optional(
             prec.right(choice(repeat1($.subparagraph), repeat1($.enum_item)))
@@ -236,14 +278,29 @@ module.exports = grammar({
         )
       ),
 
+    _subparagraph_declaration: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\subparagraph', '\\subparagraph*')),
+          field('text', optional($.curly_group))
+        )
+      ),
+
     subparagraph: $ =>
       prec.right(
         -1,
         seq(
-          field('command', choice('\\subparagraph', '\\subparagraph*')),
-          field('text', optional($.curly_group)),
+          $._subparagraph_declaration,
           repeat($._flat_content),
           optional(prec.right(choice(repeat1($.enum_item))))
+        )
+      ),
+
+    _enum_itemdeclaration: $ =>
+      prec.right(
+        seq(
+          field('command', choice('\\item', '\\item*')),
+          field('label', optional($.brack_group_text))
         )
       ),
 
@@ -251,8 +308,7 @@ module.exports = grammar({
       prec.right(
         -1,
         seq(
-          field('command', choice('\\item', '\\item*')),
-          field('label', optional($.brack_group_text)),
+          $._enum_itemdeclaration,
           repeat($._flat_content),
           optional(prec.right(choice()))
         )
