@@ -21,7 +21,7 @@ SwiftLint realm/SwiftLint 0.46.2 0 2
 SwiftLint realm/SwiftLint 0.46.2 1 2
 ClashX yichengchen/clashX 1.90.0
 Carthage Carthage/Carthage 0.38.0
-Rectangle rxhanson/Rectangle v0.50
+Rectangle rxhanson/Rectangle v0.51
 PromiseKit mxcl/PromiseKit 6.16.3
 Moya Moya/Moya 15.0.0
 MonitorControl MonitorControl/MonitorControl v4.0.2
