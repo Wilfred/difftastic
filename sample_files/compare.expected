@@ -1,10 +1,10 @@
 ==> Building difftastic
 ==> Check outputs
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
-1390d71291b8221e7ced6078250fbd7b  -
+5d0d52b7e57900da78ba1f96634901fe  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
-5d8238346885f21b1075debaf97b4aa9  -
+6c82d4f44e0b2474b2dd82682940da7e  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
 c42c13edc47f4d6a74e3038835d97505  -
@@ -34,28 +34,28 @@ sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 14616503c934f36972a3498bd63085c7  -
 
 sample_files/if_before.py sample_files/if_after.py
-5b53818f229e4232c29466ca82bf402b  -
+942363607f41d9da834350023afd3a1f  -
 
 sample_files/java_before.java sample_files/java_after.java
 4b57e58be24d5ccbc2568810889ced8e  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
-81d8ae1fdb7847729b19fa615b871e04  -
+49afda10b2ba4177cc7cab307f48fc1a  -
 
 sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
 58208dbd2347671a5eb068d775a5f4f9  -
 
 sample_files/json_before.json sample_files/json_after.json
-e0138d5ed144ccf30e64c6f58c744edd  -
+43a1d679b7c0dc9794cf343c1d1dc6fd  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 3c21b73a5d784bca89e76342eb47a422  -
 
 sample_files/load_before.js sample_files/load_after.js
-8506aca66358fb17d06702b05bf0693d  -
+08a68dc60b213ade4eec37a9f8a12f66  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-9e561ba227c1fee426820982ac4d10c6  -
+d02776678882e861a40fee2152e0935a  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 9b6f28e64c94a7d615012d72b08265da  -
@@ -64,19 +64,19 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 4a9847a91e32ec6afdc2f0b01e28d2d6  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-9d22090a6e439d5cd0057ed4d6d2702f  -
+3969ef383bce9bd20587eb467fa34934  -
 
 sample_files/simple_before.js sample_files/simple_after.js
-71dd2e5c7beece67e5e49b5b1b48832c  -
+1ddd283a18d06008f1d1741e9ff4ca70  -
 
 sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-aa8764aeaa628231e9c16dd2476a17c8  -
+df5572916163b4f2b36aacddb933310b  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-2f6efdf8c27f87d65a5fb226caf7215c  -
+e93bf01abcd97ea2fe4bc141e279a57e  -
 
 sample_files/small_before.js sample_files/small_after.js
 eb0d76aeb39e33b5ef539812d80c78d7  -
@@ -88,5 +88,5 @@ sample_files/text_before.txt sample_files/text_after.txt
 f61b57cb275332d01b9539efa88aa2f6  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
-3941fd44b0bf744da834a0b3eda1ba76  -
+8457b5ead7a12be8ee3f1ad0c11349de  -
 

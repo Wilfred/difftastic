@@ -1,5 +1,6 @@
 //! A graph representation for computing tree diffs.
 
+use rustc_hash::FxHasher;
 use std::{
     cmp::min,
     hash::{Hash, Hasher},
@@ -41,11 +42,18 @@ use Edge::*;
 pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
+    // Instead, store parent pointers for both sides and a hashset of
+    // novel delimiter parent IDs.
+    parents: im_rc::Vector<(Option<&'a Syntax<'a>>, Option<&'a Syntax<'a>>)>,
+    parents_hash: u64,
 }
+
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
+            && self.parents_hash == other.parents_hash
+            && self.eq_parents_each_side(other)
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -54,12 +62,68 @@ impl<'a> Hash for Vertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
+
+        self.parents_hash.hash(state);
     }
+}
+
+fn hash_parents(parents: &im_rc::Vector<(Option<&Syntax>, Option<&Syntax>)>) -> u64 {
+    let mut hasher = FxHasher::default();
+
+    for (parent_id, _) in parents.iter() {
+        if let Some(parent_id) = parent_id {
+            // FxHasher finishes with 0 if called with
+            // .write_u32(0). Ensure the u32 written is always
+            // non-zero.
+            hasher.write_u32(parent_id.id() + 1);
+        }
+    }
+    for (_, parent_id) in parents.iter() {
+        if let Some(parent_id) = parent_id {
+            // FxHasher finishes with 0 if called with
+            // .write_u32(0). Ensure the u32 written is always
+            // non-zero.
+            hasher.write_u32(parent_id.id() + 1);
+        }
+    }
+
+    hasher.finish()
 }
 
 impl<'a> Vertex<'a> {
     pub fn is_end(&self) -> bool {
-        self.lhs_syntax.is_none() && self.rhs_syntax.is_none()
+        self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
+    }
+
+    fn eq_parents_each_side(&self, other: &Self) -> bool {
+        let self_lhs_parents = self.parents.iter().filter_map(|(lhs, _)| *lhs);
+        let other_lhs_parents = other.parents.iter().filter_map(|(lhs, _)| *lhs);
+        for (self_lhs_parent, other_lhs_parent) in self_lhs_parents.zip(other_lhs_parents) {
+            if self_lhs_parent.id() != other_lhs_parent.id() {
+                return false;
+            }
+        }
+
+        let self_rhs_parents = self.parents.iter().filter_map(|(_, rhs)| *rhs);
+        let other_rhs_parents = other.parents.iter().filter_map(|(_, rhs)| *rhs);
+        for (self_rhs_parent, other_rhs_parent) in self_rhs_parents.zip(other_rhs_parents) {
+            if self_rhs_parent.id() != other_rhs_parent.id() {
+                return false;
+            }
+        }
+
+        true
+    }
+
+    pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
+        let parents = im_rc::Vector::new();
+        let parents_hash = hash_parents(&parents);
+        Vertex {
+            lhs_syntax,
+            rhs_syntax,
+            parents,
+            parents_hash,
+        }
     }
 }
 
@@ -77,16 +141,26 @@ pub enum Edge {
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
+    // TODO: A NovelDelimiterBoth node might help performance rather
+    // doing LHS and RHS separately.
     NovelDelimiterLHS { contiguous: bool },
     NovelDelimiterRHS { contiguous: bool },
     NovelTreeLHS { num_descendants: u32 },
     NovelTreeRHS { num_descendants: u32 },
+    // TODO: rename to EnterNovelDelimiter and LeaveDelimiter?
+    MoveParentLHS,
+    MoveParentRHS,
+    MoveParentBoth,
 }
 
 impl Edge {
     pub fn cost(&self) -> u64 {
         match self {
+            MoveParentBoth => 1,
+            MoveParentLHS | MoveParentRHS => 2,
+
             // Matching nodes is always best.
+            // TODO: now we model parents correctly, do we need to track depth difference?
             UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
             // Matching an outer delimiter is good.
             UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
@@ -131,6 +205,70 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     }
 
     let mut i = 0;
+
+    if let Some((lhs_parent, rhs_parent)) = v.parents.back() {
+        match (lhs_parent, rhs_parent) {
+            (Some(lhs_parent), Some(rhs_parent))
+                if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() =>
+            {
+                // We have exhausted all the nodes on both lists, so we can
+                // move up to the parent node.
+                let mut next_parents = v.parents.clone();
+                next_parents.pop_back();
+                let parents_hash = hash_parents(&next_parents);
+
+                // Continue from sibling of parent.
+                buf[i] = Some((
+                    MoveParentBoth,
+                    Vertex {
+                        lhs_syntax: lhs_parent.next_if_same_layer(),
+                        rhs_syntax: rhs_parent.next_if_same_layer(),
+                        parents: next_parents,
+                        parents_hash,
+                    },
+                ));
+                i += 1;
+            }
+            (Some(lhs_parent), None) if v.lhs_syntax.is_none() => {
+                // Move to next after LHS parent.
+                let mut next_parents = v.parents.clone();
+                next_parents.pop_back();
+                let parents_hash = hash_parents(&next_parents);
+
+                // Continue from sibling of parent.
+                buf[i] = Some((
+                    MoveParentLHS,
+                    Vertex {
+                        lhs_syntax: lhs_parent.next_if_same_layer(),
+                        rhs_syntax: v.rhs_syntax,
+                        parents: next_parents,
+                        parents_hash,
+                    },
+                ));
+                i += 1;
+            }
+            (None, Some(rhs_parent)) if v.rhs_syntax.is_none() => {
+                // Move to next after RHS parent.
+                let mut next_parents = v.parents.clone();
+                next_parents.pop_back();
+                let parents_hash = hash_parents(&next_parents);
+
+                // Continue from sibling of parent.
+                buf[i] = Some((
+                    MoveParentRHS,
+                    Vertex {
+                        lhs_syntax: v.lhs_syntax,
+                        rhs_syntax: rhs_parent.next_if_same_layer(),
+                        parents: next_parents,
+                        parents_hash,
+                    },
+                ));
+                i += 1;
+            }
+            _ => {}
+        }
+    }
+
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
@@ -138,12 +276,13 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 .abs() as u32;
 
             // Both nodes are equal, the happy case.
-            // TODO: this is only OK if we've not changed depth.
             buf[i] = Some((
                 UnchangedNode { depth_difference },
                 Vertex {
-                    lhs_syntax: lhs_syntax.next(),
-                    rhs_syntax: rhs_syntax.next(),
+                    lhs_syntax: lhs_syntax.next_if_same_layer(),
+                    rhs_syntax: rhs_syntax.next_if_same_layer(),
+                    parents: v.parents.clone(),
+                    parents_hash: v.parents_hash,
                 },
             ));
             return;
@@ -166,16 +305,13 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let lhs_next = if lhs_children.is_empty() {
-                    lhs_syntax.next()
-                } else {
-                    Some(lhs_children[0])
-                };
-                let rhs_next = if rhs_children.is_empty() {
-                    rhs_syntax.next()
-                } else {
-                    Some(rhs_children[0])
-                };
+                let lhs_next = lhs_children.get(0).copied();
+                let rhs_next = rhs_children.get(0).copied();
+
+                // TODO: be consistent between parents_next and next_parents.
+                let mut parents_next = v.parents.clone();
+                parents_next.push_back((Some(lhs_syntax), Some(rhs_syntax)));
+                let parents_hash = hash_parents(&parents_next);
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
@@ -186,6 +322,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
+                        parents: parents_next,
+                        parents_hash,
                     },
                 ));
                 i += 1;
@@ -213,8 +351,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 buf[i] = Some((
                     ReplacedComment { levenshtein_pct },
                     Vertex {
-                        lhs_syntax: lhs_syntax.next(),
-                        rhs_syntax: rhs_syntax.next(),
+                        lhs_syntax: lhs_syntax.next_if_same_layer(),
+                        rhs_syntax: rhs_syntax.next_if_same_layer(),
+                        parents: v.parents.clone(),
+                        parents_hash: v.parents_hash,
                     },
                 ));
                 i += 1;
@@ -228,11 +368,15 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             Syntax::Atom { .. } => {
                 buf[i] = Some((
                     NovelAtomLHS {
+                        // TODO: should this apply if prev is a parent
+                        // node rather than a sibling?
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
-                        lhs_syntax: lhs_syntax.next(),
+                        lhs_syntax: lhs_syntax.next_if_same_layer(),
                         rhs_syntax: v.rhs_syntax,
+                        parents: v.parents.clone(),
+                        parents_hash: v.parents_hash,
                     },
                 ));
                 i += 1;
@@ -243,11 +387,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 num_descendants,
                 ..
             } => {
-                let lhs_next = if children.is_empty() {
-                    lhs_syntax.next()
-                } else {
-                    Some(children[0])
-                };
+                let lhs_next = children.get(0).copied();
+
+                let mut parents_next = v.parents.clone();
+                parents_next.push_back((Some(lhs_syntax), None));
+                let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
                     NovelDelimiterLHS {
@@ -256,6 +400,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: v.rhs_syntax,
+                        parents: parents_next,
+                        parents_hash,
                     },
                 ));
                 i += 1;
@@ -266,8 +412,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             num_descendants: *num_descendants,
                         },
                         Vertex {
-                            lhs_syntax: lhs_syntax.next(),
+                            lhs_syntax: lhs_syntax.next_if_same_layer(),
                             rhs_syntax: v.rhs_syntax,
+                            parents: v.parents.clone(),
+                            parents_hash: v.parents_hash,
                         },
                     ));
                     i += 1;
@@ -286,7 +434,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_syntax.next(),
+                        rhs_syntax: rhs_syntax.next_if_same_layer(),
+                        parents: v.parents.clone(),
+                        parents_hash: v.parents_hash,
                     },
                 ));
                 i += 1;
@@ -297,11 +447,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 num_descendants,
                 ..
             } => {
-                let rhs_next = if children.is_empty() {
-                    rhs_syntax.next()
-                } else {
-                    Some(children[0])
-                };
+                let rhs_next = children.get(0).copied();
+
+                let mut parents_next = v.parents.clone();
+                parents_next.push_back((None, Some(rhs_syntax)));
+                let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
                     NovelDelimiterRHS {
@@ -310,6 +460,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
+                        parents: parents_next,
+                        parents_hash,
                     },
                 ));
                 i += 1;
@@ -321,7 +473,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         },
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_syntax.next(),
+                            rhs_syntax: rhs_syntax.next_if_same_layer(),
+                            parents: v.parents.clone(),
+                            parents_hash: v.parents_hash,
                         },
                     ));
                     i += 1;
@@ -338,6 +492,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 pub fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
+            MoveParentBoth | MoveParentLHS | MoveParentRHS => {
+                // Nothing to do: we have already marked this node when we entered it.
+            }
             UnchangedNode { .. } => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();

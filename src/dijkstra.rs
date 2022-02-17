@@ -25,7 +25,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // usage.
     let mut predecessors: FxHashMap<Vertex, PredecessorInfo> = FxHashMap::default();
 
-    let mut neighbour_buf = [None, None, None, None, None, None, None, None, None, None];
+    let mut neighbour_buf = [
+        None, None, None, None, None, None, None, None, None, None, None, None,
+    ];
     let end = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
@@ -89,10 +91,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 }
 
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
-    let start = Vertex {
-        lhs_syntax,
-        rhs_syntax,
-    };
+    let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
     mark_route(&route);
 }
@@ -134,10 +133,7 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let start = Vertex {
-            lhs_syntax: Some(lhs),
-            rhs_syntax: Some(rhs),
-        };
+        let start = Vertex::new(Some(lhs), Some(rhs));
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -177,10 +173,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -190,7 +183,8 @@ mod tests {
                 UnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomLHS { contiguous: false }
+                NovelAtomLHS { contiguous: false },
+                MoveParentBoth,
             ]
         );
     }
@@ -221,10 +215,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -235,7 +226,8 @@ mod tests {
                     depth_difference: 0
                 },
                 NovelAtomRHS { contiguous: false },
-                NovelAtomRHS { contiguous: false }
+                NovelAtomRHS { contiguous: false },
+                MoveParentBoth,
             ]
         );
     }
@@ -269,10 +261,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -286,7 +275,9 @@ mod tests {
                 },
                 UnchangedNode {
                     depth_difference: 0
-                }
+                },
+                MoveParentLHS,
+                MoveParentRHS,
             ],
         );
     }
@@ -309,10 +300,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -349,10 +337,7 @@ mod tests {
         let rhs = vec![];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -361,6 +346,7 @@ mod tests {
             vec![
                 NovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
+                MoveParentLHS,
             ]
         );
     }
@@ -389,10 +375,7 @@ mod tests {
         let rhs = vec![];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -401,7 +384,8 @@ mod tests {
             vec![
                 NovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
-                NovelAtomLHS { contiguous: true }
+                MoveParentLHS,
+                NovelAtomLHS { contiguous: true },
             ]
         );
     }
@@ -474,10 +458,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -513,10 +494,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -547,10 +525,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -589,10 +564,7 @@ mod tests {
         )];
         init_all_info(&lhs, &rhs);
 
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).copied(),
-            rhs_syntax: rhs.get(0).copied(),
-        };
+        let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
