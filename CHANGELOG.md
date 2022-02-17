@@ -2,6 +2,12 @@
 
 ### Diffing
 
+Diffing now correctly handles nodes being moved to parent
+lists. Previously this would be ignored, leading to difftastic
+incorrectly claiming things were unchanged. This also leads to better
+diffing results in general, although is somewhat slower (2x in
+testing).
+
 Improved slider logic in larger expressions.
 
 Increased the default value DFT_NODE_LIMIT to 100,000 (from

@@ -248,8 +248,26 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    pub fn next(&self) -> Option<&'a Syntax<'a>> {
+    fn next(&self) -> Option<&'a Syntax<'a>> {
         self.info().next.get()
+    }
+
+    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
+        self.info().parent.get()
+    }
+
+    // TODO: Replace next() with this logic, maybe even during
+    // SyntaxInfo init.
+    pub fn next_if_same_layer(&self) -> Option<&'a Syntax<'a>> {
+        if let Some(next) = self.next() {
+            if self.parent().map(|n| n.id()) == next.parent().map(|n| n.id()) {
+                Some(next)
+            } else {
+                None
+            }
+        } else {
+            None
+        }
     }
 
     pub fn prev_is_contiguous(&self) -> bool {
