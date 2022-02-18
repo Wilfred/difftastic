@@ -1264,7 +1264,8 @@ hash with reserved word key
   if: :foo,
   unless: :foo,
   while: :foo,
-  until: :foo
+  until: :foo,
+  until:
 }
 
 ---
@@ -1305,14 +1306,16 @@ hash with reserved word key
   (pair (hash_key_symbol) (simple_symbol))
   (pair (hash_key_symbol) (simple_symbol))
   (pair (hash_key_symbol) (simple_symbol))
-  (pair (hash_key_symbol) (simple_symbol))))
+  (pair (hash_key_symbol) (simple_symbol))
+  (pair (hash_key_symbol))))
 
 ======================
 hash with keyword keys
 ======================
 
 { a: 1, b: 2, "c": 3 }
-{a:1, b:2, "c":3 }
+{a:1, B:2, "c":3 }
+{ a:, B: }
 
 ---
 
@@ -1324,7 +1327,12 @@ hash with keyword keys
   (hash
     (pair (hash_key_symbol) (integer))
     (pair (hash_key_symbol) (integer))
-    (pair (string (string_content)) (integer))))
+    (pair (string (string_content)) (integer)))
+  (hash
+    (pair (hash_key_symbol))
+    (pair (hash_key_symbol))
+  )
+)
 
 ========================
 hash with trailing comma

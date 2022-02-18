@@ -246,7 +246,13 @@ end
 def foo(name:, **)
 end
 
+def foo(x, **nil)
+end
+
 def foo(&block)
+end
+
+def foo(&)
 end
 
 def foo(...)
@@ -265,7 +271,9 @@ end
   (method (identifier) (method_parameters (identifier) (splat_parameter (identifier)) (identifier)))
   (method (identifier) (method_parameters (hash_splat_parameter (identifier))))
   (method (identifier) (method_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
+  (method (identifier) (method_parameters (identifier) (hash_splat_nil)))
   (method (identifier) (method_parameters (block_parameter (identifier))))
+  (method (identifier) (method_parameters (block_parameter)))
   (method (identifier) (method_parameters (forward_parameter))
     (call (super) (argument_list (forward_argument)))
   )  

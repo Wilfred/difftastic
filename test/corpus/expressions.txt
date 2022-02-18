@@ -807,13 +807,18 @@ method call with keyword args
 foo(a: true)
 foo a: true
 foo B: true
+foo a:
+foo B:
 
 ---
 
 (program
   (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
   (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
-  (call (identifier) (argument_list (pair (hash_key_symbol) (true)))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol))))
+  (call (identifier) (argument_list (pair (hash_key_symbol))))
+)
 
 ===============================
 method call with reserved keyword args
@@ -856,6 +861,7 @@ foo until: true
 foo when: true
 foo while: true
 foo yield: true
+foo yield:
 
 ---
 
@@ -896,7 +902,8 @@ foo yield: true
   (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
   (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
   (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
-  (call (identifier) (argument_list (pair (hash_key_symbol) (true)))))
+  (call (identifier) (argument_list (pair (hash_key_symbol) (true))))
+  (call (identifier) (argument_list (pair (hash_key_symbol)))))
 
 ===============================
 method call with paren args
@@ -917,6 +924,10 @@ foo(&bar)
 foo(&bar, 1)
 foo &bar
 foo &bar, 1
+foo(&)
+foo(&, 1)
+foo &;
+foo 1, &;
 
 ---
 
@@ -925,7 +936,12 @@ foo &bar, 1
   (call (identifier) (argument_list (block_argument (identifier))))
   (call (identifier) (argument_list (block_argument (identifier)) (integer)))
   (call (identifier) (argument_list (block_argument (identifier))))
-  (call (identifier) (argument_list (block_argument (identifier)) (integer))))
+  (call (identifier) (argument_list (block_argument (identifier)) (integer)))
+  (call (identifier) (argument_list (block_argument)))
+  (call (identifier) (argument_list (block_argument) (integer)))
+  (call (identifier) (argument_list (block_argument)))
+  (call (identifier) (argument_list (integer) (block_argument)))
+)
 
 ===============================
 method call with splat argument
@@ -1328,6 +1344,19 @@ end
     (do_block
       (call (identifier) (argument_list (integer))))))
 
+
+========================================================================
+call with normal and keyword argument with value that looks like a block
+========================================================================
+render "foo/bars/show", locals: { }
+render "foo/bars/show", locals: { display_text: dt, safe_text: "hello" }
+
+---
+
+(program 
+  (call (identifier) (argument_list (string (string_content)) (pair (hash_key_symbol) (hash))))
+  (call (identifier) (argument_list (string (string_content)) (pair (hash_key_symbol) (hash (pair (hash_key_symbol) (identifier)) (pair (hash_key_symbol) (string (string_content)))))))
+)
 
 ==============
 empty lambda expression
