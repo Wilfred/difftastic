@@ -377,3 +377,24 @@ tree-sitter-latex (Issue #25 Nesting of document structure)
             word: (word)))))
     (text
       word: (word))))
+
+================================================================================
+tree-sitter-latex (Issue #28 \usetikzlibrary with multiple libs)
+================================================================================
+
+\usetikzlibrary{
+  calc,
+  external,
+  shapes,
+  math
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (tikz_library_import
+    (curly_group_path_list
+      (path)
+      (path)
+      (path)
+      (path))))

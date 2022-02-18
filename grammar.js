@@ -993,7 +993,7 @@ module.exports = grammar({
     tikz_library_import: $ =>
       seq(
         field('command', choice('\\usepgflibrary', '\\usetikzlibrary')),
-        field('path', $.curly_group_text)
+        field('paths', $.curly_group_path_list)
       ),
   },
 });

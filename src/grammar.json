@@ -4665,10 +4665,10 @@
         },
         {
           "type": "FIELD",
-          "name": "path",
+          "name": "paths",
           "content": {
             "type": "SYMBOL",
-            "name": "curly_group_text"
+            "name": "curly_group_path_list"
           }
         }
       ]

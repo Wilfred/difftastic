@@ -5885,12 +5885,12 @@
           }
         ]
       },
-      "path": {
+      "paths": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "curly_group_text",
+            "type": "curly_group_path_list",
             "named": true
           }
         ]
