@@ -289,6 +289,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         rhs_syntax: rhs_syntax.next(),
                     },
                 ));
+                i += 1;
             }
             // Step into this partially/fully novel list.
             Syntax::List {
@@ -323,6 +324,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             rhs_syntax: rhs_syntax.next(),
                         },
                     ));
+                    i += 1;
                 }
             }
         }
