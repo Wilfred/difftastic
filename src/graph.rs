@@ -329,7 +329,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             }
         }
     }
-    assert!(i > 0, "Must always find some next steps if node is not the end");
+    assert!(
+        i > 0,
+        "Must always find some next steps if node is not the end"
+    );
 }
 
 pub fn mark_route(route: &[(Edge, Vertex)]) {
