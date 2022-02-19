@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::cmp::Reverse;
+use std::{cmp::Reverse, env};
 
 use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
@@ -75,7 +75,15 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     info!("Found a path of {} with cost {}.", route.len(), cost);
     info!(
         "Initial path: {:#?}",
-        route.iter().map(|x| x.0).take(5).collect_vec()
+        route
+            .iter()
+            .map(|x| x.0)
+            .take(if env::var("DFT_VERBOSE").is_ok() {
+                50
+            } else {
+                5
+            })
+            .collect_vec()
     );
     route
 }
