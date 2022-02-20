@@ -214,7 +214,9 @@ fn pad_before(ln: LineNumber) -> Vec<LineNumber> {
     let mut res = vec![];
 
     let mut current = ln;
-    for _ in 0..MAX_PADDING {
+    // Use one more line than MAX_PADDING so we merge immediately
+    // adjacent hunks.
+    for _ in 0..MAX_PADDING + 1 {
         if current.0 == 0 {
             break;
         }
@@ -231,7 +233,9 @@ fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
     let mut res = vec![];
 
     let mut current = ln;
-    for _ in 0..MAX_PADDING {
+    // Use one more line than MAX_PADDING so we merge immediately
+    // adjacent hunks.
+    for _ in 0..MAX_PADDING + 1 {
         if current == max_line {
             break;
         }

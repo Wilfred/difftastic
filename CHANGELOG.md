@@ -15,6 +15,10 @@ Fixed an issue where whole file additions/removals were printed twice.
 Fixed an issue where difftastic didn't show context on hunks where the
 unchanged content was on different lines.
 
+Hunks are now merged if the lines are immediately adjacent
+(e.g. hunk 1 ends on line 11, hunk 2 starts on line 12), not just if
+they're overlapping.
+
 ### Command Line Interface
 
 Difftastic will now use a text dif for large files that are too big to

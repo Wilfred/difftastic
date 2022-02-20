@@ -40,7 +40,7 @@ sample_files/java_before.java sample_files/java_after.java
 4b57e58be24d5ccbc2568810889ced8e  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
-5ac5d4bcb4750289f28409a7e0671174  -
+81d8ae1fdb7847729b19fa615b871e04  -
 
 sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
 58208dbd2347671a5eb068d775a5f4f9  -
@@ -52,13 +52,13 @@ sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 3c21b73a5d784bca89e76342eb47a422  -
 
 sample_files/load_before.js sample_files/load_after.js
-25a954ed7ead705b0326e51b6cf8ee4e  -
+8506aca66358fb17d06702b05bf0693d  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
 9e561ba227c1fee426820982ac4d10c6  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
-5374cc9d21db1ec56ff87100766a882b  -
+9b6f28e64c94a7d615012d72b08265da  -
 
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 4a9847a91e32ec6afdc2f0b01e28d2d6  -
@@ -73,10 +73,10 @@ sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-7bedc399bf8aa11ae19236a1ec854fab  -
+aa8764aeaa628231e9c16dd2476a17c8  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-1c7ebf9ad15ccd1614b559d03ab1f90b  -
+2f6efdf8c27f87d65a5fb226caf7215c  -
 
 sample_files/small_before.js sample_files/small_after.js
 eb0d76aeb39e33b5ef539812d80c78d7  -
@@ -88,5 +88,5 @@ sample_files/text_before.txt sample_files/text_after.txt
 f61b57cb275332d01b9539efa88aa2f6  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
-93d598c35b7cf6e6599e9414b561f064  -
+3941fd44b0bf744da834a0b3eda1ba76  -
 
