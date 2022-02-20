@@ -397,7 +397,7 @@ pub fn print(
                 prev_rhs_line_num,
             );
 
-            if no_lhs_changes {
+            if no_lhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.0];
@@ -417,7 +417,7 @@ pub fn print(
                         println!("{}{}", display_rhs_line_num, display_rhs_line_num);
                     }
                 }
-            } else if no_rhs_changes {
+            } else if no_rhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
                 match lhs_line_num {
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.0];
