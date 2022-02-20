@@ -483,14 +483,14 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
             MoveParentBoth | MoveParentLHS | MoveParentRHS => {
                 // Nothing to do: we have already marked this node when we entered it.
             }
-            UnchangedNode { .. } => {
+            UnchangedNode => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
-            UnchangedDelimiter { .. } => {
+            UnchangedDelimiter => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();
