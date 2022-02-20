@@ -134,32 +134,31 @@ impl<'a> Vertex<'a> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
     UnchangedNode,
-    UnchangedDelimiter,
+    EnterUnchangedDelimiter,
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
-    // TODO: A NovelDelimiterBoth node might help performance rather
-    // doing LHS and RHS separately.
-    NovelDelimiterLHS { contiguous: bool },
-    NovelDelimiterRHS { contiguous: bool },
+    // TODO: An EnterNovelDelimiterBoth edge might help performance
+    // rather doing LHS and RHS separately.
+    EnterNovelDelimiterLHS { contiguous: bool },
+    EnterNovelDelimiterRHS { contiguous: bool },
     NovelTreeLHS { num_descendants: u32 },
     NovelTreeRHS { num_descendants: u32 },
-    // TODO: rename to EnterNovelDelimiter and LeaveDelimiter?
-    MoveParentLHS,
-    MoveParentRHS,
-    MoveParentBoth,
+    ExitDelimiterLHS,
+    ExitDelimiterRHS,
+    ExitDelimiterBoth,
 }
 
 impl Edge {
     pub fn cost(&self) -> u64 {
         match self {
-            MoveParentBoth => 1,
-            MoveParentLHS | MoveParentRHS => 2,
+            ExitDelimiterBoth => 1,
+            ExitDelimiterLHS | ExitDelimiterRHS => 2,
 
             // Matching nodes is always best.
             UnchangedNode => 1,
             // Matching an outer delimiter is good.
-            UnchangedDelimiter => 100,
+            EnterUnchangedDelimiter => 100,
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
@@ -167,8 +166,8 @@ impl Edge {
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous }
             | NovelAtomRHS { contiguous }
-            | NovelDelimiterLHS { contiguous }
-            | NovelDelimiterRHS { contiguous } => {
+            | EnterNovelDelimiterLHS { contiguous }
+            | EnterNovelDelimiterRHS { contiguous } => {
                 if *contiguous {
                     300
                 } else {
@@ -215,7 +214,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 // Continue from sibling of parent.
                 buf[i] = Some((
-                    MoveParentBoth,
+                    ExitDelimiterBoth,
                     Vertex {
                         lhs_syntax: lhs_parent.next_if_same_layer(),
                         rhs_syntax: rhs_parent.next_if_same_layer(),
@@ -233,7 +232,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 // Continue from sibling of parent.
                 buf[i] = Some((
-                    MoveParentLHS,
+                    ExitDelimiterLHS,
                     Vertex {
                         lhs_syntax: lhs_parent.next_if_same_layer(),
                         rhs_syntax: v.rhs_syntax,
@@ -251,7 +250,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 // Continue from sibling of parent.
                 buf[i] = Some((
-                    MoveParentRHS,
+                    ExitDelimiterRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_parent.next_if_same_layer(),
@@ -306,7 +305,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
-                    UnchangedDelimiter,
+                    EnterUnchangedDelimiter,
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
@@ -382,7 +381,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
-                    NovelDelimiterLHS {
+                    EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
@@ -442,7 +441,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
-                    NovelDelimiterRHS {
+                    EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
@@ -480,7 +479,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 pub fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
-            MoveParentBoth | MoveParentLHS | MoveParentRHS => {
+            ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
                 // Nothing to do: we have already marked this node when we entered it.
             }
             UnchangedNode => {
@@ -490,7 +489,7 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
-            UnchangedDelimiter => {
+            EnterUnchangedDelimiter => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();
@@ -510,11 +509,11 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
                     rhs.set_change(ChangeKind::Novel);
                 }
             }
-            NovelAtomLHS { .. } | NovelDelimiterLHS { .. } => {
+            NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
                 lhs.set_change(ChangeKind::Novel);
             }
-            NovelAtomRHS { .. } | NovelDelimiterRHS { .. } => {
+            NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 rhs.set_change(ChangeKind::Novel);
             }
