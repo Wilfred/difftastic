@@ -75,17 +75,15 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     route.reverse();
 
     info!("Found a path of {} with cost {}.", route.len(), cost);
+    let print_length = if env::var("DFT_VERBOSE").is_ok() {
+        50
+    } else {
+        5
+    };
     info!(
-        "Initial path: {:#?}",
-        route
-            .iter()
-            .map(|x| x.0)
-            .take(if env::var("DFT_VERBOSE").is_ok() {
-                50
-            } else {
-                5
-            })
-            .collect_vec()
+        "Initial {} items on path: {:#?}",
+        print_length,
+        route.iter().map(|x| x.0).take(print_length).collect_vec()
     );
     route
 }
