@@ -136,8 +136,8 @@ impl<'a> Vertex<'a> {
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
-    UnchangedNode { depth_difference: u32 },
-    UnchangedDelimiter { depth_difference: u32 },
+    UnchangedNode,
+    UnchangedDelimiter,
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
@@ -160,10 +160,9 @@ impl Edge {
             MoveParentLHS | MoveParentRHS => 2,
 
             // Matching nodes is always best.
-            // TODO: now we model parents correctly, do we need to track depth difference?
-            UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
+            UnchangedNode => 1,
             // Matching an outer delimiter is good.
-            UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
+            UnchangedDelimiter => 100,
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
@@ -271,13 +270,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
-            let depth_difference = (lhs_syntax.num_ancestors() as i32
-                - rhs_syntax.num_ancestors() as i32)
-                .abs() as u32;
-
             // Both nodes are equal, the happy case.
             buf[i] = Some((
-                UnchangedNode { depth_difference },
+                UnchangedNode,
                 Vertex {
                     lhs_syntax: lhs_syntax.next_if_same_layer(),
                     rhs_syntax: rhs_syntax.next_if_same_layer(),
@@ -313,12 +308,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 parents_next.push_back((Some(lhs_syntax), Some(rhs_syntax)));
                 let parents_hash = hash_parents(&parents_next);
 
-                let depth_difference = (lhs_syntax.num_ancestors() as i32
-                    - rhs_syntax.num_ancestors() as i32)
-                    .abs() as u32;
-
                 buf[i] = Some((
-                    UnchangedDelimiter { depth_difference },
+                    UnchangedDelimiter,
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
