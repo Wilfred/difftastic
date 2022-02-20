@@ -31,6 +31,19 @@ jobs:
         with:
           command: test
 
+  regression_test:
+    name: Output Regression Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.54.0
+          override: true
+      - name: Generate output for all sample files
+        run: ./sample_files/compare_all.sh | tee sample_files/compare.result
+
   package:
     name: Build releasable package
     runs-on: ubuntu-latest
