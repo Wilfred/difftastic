@@ -7,6 +7,19 @@ const PREC = Object.assign(C.PREC, {
   THREE_WAY: C.PREC.RELATIONAL + 1,
 })
 
+const FOLD_OPERATORS = [
+  '+', '-', '*', '/', '%',
+  '^', '&', '|',
+  '=', '<', '>',
+  '<<', '>>',
+  '+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=',
+  '>>=', '<<=',
+  '==', '!=', '<=', '>=',
+  '&&', '||',
+  ',',
+  '.*', '->*',
+]
+
 module.exports = grammar(C, {
   name: 'cpp',
 
@@ -32,6 +45,7 @@ module.exports = grammar(C, {
     [$._declaration_modifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._declaration_modifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._binary_fold_operator, $._fold_operator],
   ]),
 
   inline: ($, original) => original.concat([
@@ -793,7 +807,8 @@ module.exports = grammar(C, {
       $.nullptr,
       $.this,
       $.raw_string_literal,
-      $.user_defined_literal
+      $.user_defined_literal,
+      $.fold_expression
     ),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
@@ -872,14 +887,53 @@ module.exports = grammar(C, {
 
     requirement_seq: $ => seq('{', repeat($._requirement), '}'),
 
+    constraint_conjunction: $ => prec.left(PREC.LOGICAL_AND, seq(
+      field('left', $._requirement_clause_constraint),
+      field('operator', '&&'),
+      field('right', $._requirement_clause_constraint))
+    ),
+
+    constraint_disjunction: $ => prec.left(PREC.LOGICAL_OR, seq(
+      field('left', $._requirement_clause_constraint),
+      field('operator', '||'),
+      field('right', $._requirement_clause_constraint))
+    ),
+
+    _requirement_clause_constraint: $ => choice(
+      // Primary expressions"
+      $.true,
+      $.false,
+      $._class_name,
+      $.fold_expression,
+      $.lambda_expression,
+      $.requires_expression,
+
+      // Parenthesized expressions
+      seq('(', $._expression, ')'),
+
+      // conjunction or disjunction of the above
+      $.constraint_conjunction,
+      $.constraint_disjunction,
+    ),
+
     requires_clause: $ => seq(
       'requires',
-      field('constraint', choice($._class_name, $.requires_expression))
+      field('constraint', $._requirement_clause_constraint)
+    ),
+
+    requires_parameter_list: $ => seq(
+      '(',
+      commaSep(choice(
+        $.parameter_declaration,
+        $.optional_parameter_declaration,
+        $.variadic_parameter_declaration,
+      )),
+      ')'
     ),
 
     requires_expression: $ => seq(
       'requires',
-      field('parameters', optional($.parameter_list)),
+      field('parameters', optional(alias($.requires_parameter_list, $.parameter_list))),
       field('requirements', $.requirement_seq)
     ),
 
@@ -907,6 +961,35 @@ module.exports = grammar(C, {
     )),
 
     lambda_default_capture: $ => choice('=', '&'),
+
+    _fold_operator: $ => choice(...FOLD_OPERATORS),
+    _binary_fold_operator: $ => choice(...FOLD_OPERATORS.map(operator => seq(field('operator', operator), '...', operator))),
+
+    _unary_left_fold: $ => seq(
+      field('left', '...'),
+      field('operator', $._fold_operator),
+      field('right', $._expression)
+    ),
+    _unary_right_fold: $ => seq(
+      field('left', $._expression),
+      field('operator', $._fold_operator),
+      field('right', '...')
+    ),
+    _binary_fold: $ => seq(
+      field('left', $._expression),
+      $._binary_fold_operator,
+      field('right', $._expression)
+    ),
+
+    fold_expression: $ => seq(
+      '(',
+      choice(
+        $._unary_right_fold,
+        $._unary_left_fold,
+        $._binary_fold
+      ),
+      ')'
+    ),
 
     parameter_pack_expansion: $ => prec(-1, seq(
       field('pattern', $._expression),

@@ -908,7 +908,7 @@ co_await fn() || co_await var;
         (identifier)))))
 
 ============================================
- Three-way comparison
+Three-way comparison
 ============================================
 
 auto x = a <=> b;
@@ -934,3 +934,58 @@ bool y = 0 > a <=> b;
         (binary_expression
           (identifier)
           (identifier))))))
+
+============================================
+Fold Expressions
+============================================
+
+bool t  = (... + IndexOf<T>);
+bool t2 = (IndexOf<T> + ...);
+bool t3 = (1 + ... + IndexOf<T>);
+bool t3 = (IndexOf<T> + ... + 1);
+
+---
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (fold_expression
+        (template_function
+          (identifier)
+          (template_argument_list
+            (type_descriptor
+              (type_identifier)))))))
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (fold_expression
+        (template_function
+          (identifier)
+          (template_argument_list
+            (type_descriptor
+              (type_identifier)))))))
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (fold_expression
+        (number_literal)
+        (template_function
+          (identifier)
+          (template_argument_list
+            (type_descriptor
+              (type_identifier)))))))
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (fold_expression
+        (template_function
+          (identifier)
+          (template_argument_list
+            (type_descriptor
+              (type_identifier))))
+        (number_literal)))))

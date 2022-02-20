@@ -91,6 +91,22 @@ template<typename T>
     requires requires (T x) { x + x; } // ad-hoc constraint, note keyword used twice
 T add(T a, T b) { return a + b; }
 
+template<typename T>
+    requires (!std::is_same_v<T, bool>) // parenthesized expressions are allowed
+void f(T);
+
+template<typename T> requires Addable<T> && Subtractable<T> // conjunctions
+T f(T);
+
+template<typename T> requires Addable<T> || Subtractable<T> // disjunctions
+T f(T);
+
+template<typename T> requires false || true // boolean literals
+T f(T);
+
+template<typename... T> requires (... && Addable<T>) // fold expressions
+T f(T);
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -188,7 +204,113 @@ T add(T a, T b) { return a + b; }
         (return_statement
           (binary_expression
             (identifier)
-            (identifier)))))))
+            (identifier))))))
+      (template_declaration
+        (template_parameter_list
+          (type_parameter_declaration
+            (type_identifier)))
+        (requires_clause
+          (unary_expression
+            (qualified_identifier
+              (namespace_identifier)
+              (template_function
+                (identifier)
+                (template_argument_list
+                  (type_descriptor
+                    (type_identifier))
+                  (type_descriptor
+                    (primitive_type)))))))
+        (comment)
+        (declaration
+          (primitive_type)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (parameter_declaration
+                (type_identifier))))))
+      (template_declaration
+        (template_parameter_list
+          (type_parameter_declaration
+            (type_identifier)))
+        (requires_clause
+          (constraint_conjunction
+            (template_type
+              (type_identifier)
+              (template_argument_list
+                (type_descriptor
+                  (type_identifier))))
+            (template_type
+              (type_identifier)
+              (template_argument_list
+                (type_descriptor
+                  (type_identifier))))))
+        (comment)
+        (declaration
+          (type_identifier)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (parameter_declaration
+                (type_identifier))))))
+      (template_declaration
+        (template_parameter_list
+          (type_parameter_declaration
+            (type_identifier)))
+        (requires_clause
+          (constraint_disjunction
+            (template_type
+              (type_identifier)
+              (template_argument_list
+                (type_descriptor
+                  (type_identifier))))
+            (template_type
+              (type_identifier)
+              (template_argument_list
+                (type_descriptor
+                  (type_identifier))))))
+        (comment)
+        (declaration
+          (type_identifier)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (parameter_declaration
+                (type_identifier))))))
+      (template_declaration
+        (template_parameter_list
+          (type_parameter_declaration
+            (type_identifier)))
+        (requires_clause
+          (constraint_disjunction
+            (false)
+            (true)))
+        (comment)
+        (declaration
+          (type_identifier)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (parameter_declaration
+                (type_identifier))))))
+      (template_declaration
+        (template_parameter_list
+          (variadic_type_parameter_declaration
+            (type_identifier)))
+        (requires_clause
+          (fold_expression
+            (template_function
+              (identifier)
+              (template_argument_list
+                (type_descriptor
+                  (type_identifier))))))
+        (comment)
+        (declaration
+          (type_identifier)
+          (function_declarator
+            (identifier)
+            (parameter_list
+              (parameter_declaration
+                (type_identifier)))))))
 
 ================================================================================
 Compound requirements
