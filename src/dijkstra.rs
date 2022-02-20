@@ -175,9 +175,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                UnchangedDelimiter,
+                EnterUnchangedDelimiter,
                 NovelAtomLHS { contiguous: false },
-                MoveParentBoth,
+                ExitDelimiterBoth,
             ]
         );
     }
@@ -215,10 +215,10 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                UnchangedDelimiter,
+                EnterUnchangedDelimiter,
                 NovelAtomRHS { contiguous: false },
                 NovelAtomRHS { contiguous: false },
-                MoveParentBoth,
+                ExitDelimiterBoth,
             ]
         );
     }
@@ -259,12 +259,12 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterRHS { contiguous: false },
-                NovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterRHS { contiguous: false },
+                EnterNovelDelimiterLHS { contiguous: false },
                 UnchangedNode,
                 UnchangedNode,
-                MoveParentLHS,
-                MoveParentRHS,
+                ExitDelimiterLHS,
+                ExitDelimiterRHS,
             ],
         );
     }
@@ -329,9 +329,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
-                MoveParentLHS,
+                ExitDelimiterLHS,
             ]
         );
     }
@@ -367,9 +367,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
-                MoveParentLHS,
+                ExitDelimiterLHS,
                 NovelAtomLHS { contiguous: true },
             ]
         );
