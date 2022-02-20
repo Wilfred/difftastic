@@ -40,9 +40,8 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
-    /// The syntax node that occurs after this one, in a depth-first
-    /// tree traversal.
-    pub next: Cell<Option<&'a Syntax<'a>>>,
+    /// The next node with the same parent as this one.
+    pub next_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The syntax node that occurs before this one, in a depth-first
     /// tree traversal.
     pub prev: Cell<Option<&'a Syntax<'a>>>,
@@ -69,7 +68,7 @@ pub struct SyntaxInfo<'a> {
 impl<'a> SyntaxInfo<'a> {
     pub fn new() -> Self {
         Self {
-            next: Cell::new(None),
+            next_sibling: Cell::new(None),
             prev: Cell::new(None),
             parent: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
@@ -143,12 +142,12 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 if env::var("DFT_VERBOSE").is_ok() {
                     ds.field("change", &info.change.get());
 
-                    let next_s = match info.next.get() {
+                    let next_sibling_s = match info.next_sibling.get() {
                         Some(List { .. }) => "Some(List)",
                         Some(Atom { .. }) => "Some(Atom)",
                         None => "None",
                     };
-                    ds.field("next", &next_s);
+                    ds.field("next_sibling", &next_sibling_s);
                 }
 
                 ds.finish()
@@ -171,12 +170,12 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 if env::var("DFT_VERBOSE").is_ok() {
                     ds.field("highlight", highlight);
                     ds.field("change", &info.change.get());
-                    let next_s = match info.next.get() {
+                    let next_sibling_s = match info.next_sibling.get() {
                         Some(List { .. }) => "Some(List)",
                         Some(Atom { .. }) => "Some(Atom)",
                         None => "None",
                     };
-                    ds.field("next", &next_s);
+                    ds.field("next_sibling", &next_sibling_s);
                 }
 
                 ds.finish()
@@ -248,26 +247,8 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    fn next(&self) -> Option<&'a Syntax<'a>> {
-        self.info().next.get()
-    }
-
-    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
-        self.info().parent.get()
-    }
-
-    // TODO: Replace next() with this logic, maybe even during
-    // SyntaxInfo init.
-    pub fn next_if_same_layer(&self) -> Option<&'a Syntax<'a>> {
-        if let Some(next) = self.next() {
-            if self.parent().map(|n| n.id()) == next.parent().map(|n| n.id()) {
-                Some(next)
-            } else {
-                None
-            }
-        } else {
-            None
-        }
+    pub fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
+        self.info().next_sibling.get()
     }
 
     pub fn prev_is_contiguous(&self) -> bool {
@@ -415,7 +396,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
 }
 
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
-    set_next(roots, None);
+    set_next_sibling(roots);
     set_prev(roots, None);
     set_prev_is_contiguous(roots);
 }
@@ -436,18 +417,13 @@ fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut u32) {
     }
 }
 
-/// For every syntax node in the tree, mark the next node according to
-/// a preorder traversal.
-fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
+fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
     for (i, node) in nodes.iter().enumerate() {
-        let node_next = match nodes.get(i + 1) {
-            Some(node_next) => Some(*node_next),
-            None => parent_next,
-        };
+        let sibling = nodes.get(i + 1).copied();
+        node.info().next_sibling.set(sibling);
 
-        node.info().next.set(node_next);
         if let List { children, .. } = node {
-            set_next(children, node_next);
+            set_next_sibling(children);
         }
     }
 }

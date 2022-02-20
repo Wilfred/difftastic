@@ -216,8 +216,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 buf[i] = Some((
                     ExitDelimiterBoth,
                     Vertex {
-                        lhs_syntax: lhs_parent.next_if_same_layer(),
-                        rhs_syntax: rhs_parent.next_if_same_layer(),
+                        lhs_syntax: lhs_parent.next_sibling(),
+                        rhs_syntax: rhs_parent.next_sibling(),
                         parents: next_parents,
                         parents_hash,
                     },
@@ -234,7 +234,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 buf[i] = Some((
                     ExitDelimiterLHS,
                     Vertex {
-                        lhs_syntax: lhs_parent.next_if_same_layer(),
+                        lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: next_parents,
                         parents_hash,
@@ -253,7 +253,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     ExitDelimiterRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_parent.next_if_same_layer(),
+                        rhs_syntax: rhs_parent.next_sibling(),
                         parents: next_parents,
                         parents_hash,
                     },
@@ -270,8 +270,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             buf[i] = Some((
                 UnchangedNode,
                 Vertex {
-                    lhs_syntax: lhs_syntax.next_if_same_layer(),
-                    rhs_syntax: rhs_syntax.next_if_same_layer(),
+                    lhs_syntax: lhs_syntax.next_sibling(),
+                    rhs_syntax: rhs_syntax.next_sibling(),
                     parents: v.parents.clone(),
                     parents_hash: v.parents_hash,
                 },
@@ -338,8 +338,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 buf[i] = Some((
                     ReplacedComment { levenshtein_pct },
                     Vertex {
-                        lhs_syntax: lhs_syntax.next_if_same_layer(),
-                        rhs_syntax: rhs_syntax.next_if_same_layer(),
+                        lhs_syntax: lhs_syntax.next_sibling(),
+                        rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
                         parents_hash: v.parents_hash,
                     },
@@ -360,7 +360,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
-                        lhs_syntax: lhs_syntax.next_if_same_layer(),
+                        lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: v.parents.clone(),
                         parents_hash: v.parents_hash,
@@ -399,7 +399,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             num_descendants: *num_descendants,
                         },
                         Vertex {
-                            lhs_syntax: lhs_syntax.next_if_same_layer(),
+                            lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
                             parents_hash: v.parents_hash,
@@ -421,7 +421,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_syntax.next_if_same_layer(),
+                        rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
                         parents_hash: v.parents_hash,
                     },
@@ -460,7 +460,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         },
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_syntax.next_if_same_layer(),
+                            rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
                             parents_hash: v.parents_hash,
                         },
