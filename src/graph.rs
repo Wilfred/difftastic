@@ -1,10 +1,7 @@
 //! A graph representation for computing tree diffs.
 
 use rustc_hash::FxHasher;
-use std::{
-    cmp::min,
-    hash::{Hash, Hasher},
-};
+use std::hash::{Hash, Hasher};
 use strsim::normalized_levenshtein;
 
 use crate::syntax::{AtomKind, ChangeKind, Syntax};
