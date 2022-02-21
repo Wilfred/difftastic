@@ -93,6 +93,15 @@ impl<'a> Vertex<'a> {
     }
 
     fn eq_parents_each_side(&self, other: &Self) -> bool {
+        // Compare LHS and RHS parents separately. This ensures that
+        // the following are considered equal:
+        //
+        // [EnterNovelDelimiterLHS, EnterNovelDelimiterRHS]
+        // [EnterNovelDelimiterRHS, EnterNovelDelimiterLHS]
+        //
+        // Otherwise we would construct a much bigger graph and
+        // difftastic wouldn't scale to medium size programs such as
+        // sample_files/nest_after.rs.
         let self_lhs_parents = self.parents.iter().filter_map(|(lhs, _)| *lhs);
         let other_lhs_parents = other.parents.iter().filter_map(|(lhs, _)| *lhs);
         for (self_lhs_parent, other_lhs_parent) in self_lhs_parents.zip(other_lhs_parents) {
