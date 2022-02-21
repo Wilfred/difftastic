@@ -109,13 +109,11 @@ Performance Book](https://nnethercote.github.io/perf-book/).
 
 ## Releasing
 
-Use Cargo to create a new release, and tag it in git.
+Use Cargo to create a new release, and tag it in git. Difftastic has a
+helper script for this:
 
 ```
-$ cargo publish
-$ VERSION=$(cargo metadata | jq -r '.packages | .[] | select(.name == "difftastic") | .version')
-$ git tag $VERSION
-$ git push --tags
+$ ./scripts/release.sh
 ```
 
 You can now increment the version in Cargo.toml and add a new entry to
