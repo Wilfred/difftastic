@@ -2,6 +2,8 @@
 
 use std::collections::{HashMap, HashSet};
 
+use rustc_hash::FxHashSet;
+
 use crate::{
     hunks::{compact_gaps, ensure_contiguous},
     lines::LineNumber,
@@ -28,30 +30,28 @@ fn all_matched_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let lhs_matched_lines = matched_lines(lhs_mps);
-    let rhs_novel_lines = novel_lines(rhs_mps);
-    merge_in_opposite_lines(&lhs_matched_lines, &rhs_novel_lines)
+    let lhs_matched_lines = matched_lines_from_unchanged(lhs_mps);
+    let rhs_lines = all_lines(rhs_mps);
+
+    let lines = merge_in_opposite_lines(&lhs_matched_lines, &rhs_lines);
+
+    let lhs_lines = all_lines(lhs_mps);
+    flip_tuples(&merge_in_opposite_lines(&flip_tuples(&lines), &lhs_lines))
 }
 
-fn novel_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
-    let mut lines = HashSet::new();
+fn all_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
+    let mut lines = FxHashSet::default();
     for mp in mps {
-        match mp.kind {
-            MatchKind::Novel { .. }
-            | MatchKind::NovelWord { .. }
-            | MatchKind::NovelLinePart { .. } => {
-                lines.insert(mp.pos.line);
-            }
-            MatchKind::UnchangedToken { .. } => {}
-        }
+        lines.insert(mp.pos.line);
     }
-
     let mut res: Vec<LineNumber> = lines.into_iter().collect();
     res.sort_unstable();
     res
 }
 
-fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+fn matched_lines_from_unchanged(
+    mps: &[MatchedPos],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut highest_line = None;
     let mut highest_opposite_line = None;
 
@@ -77,7 +77,7 @@ fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumb
             None => true,
         };
 
-        if should_insert {
+        if should_insert && opposite_line.is_some() {
             res.push((Some(mp.pos.line), opposite_line));
 
             highest_line = Some(mp.pos.line);
@@ -428,13 +428,13 @@ mod tests {
     }
 
     #[test]
-    fn test_matched_lines() {
+    fn test_all_matched_lines() {
         let matched_pos = SingleLineSpan {
             line: 1.into(),
             start_col: 2,
             end_col: 3,
         };
-        let mps = [
+        let lhs_mps = [
             MatchedPos {
                 kind: MatchKind::Novel {
                     highlight: TokenKind::Delimiter,
@@ -454,15 +454,57 @@ mod tests {
                 pos: matched_pos,
             },
         ];
+        let rhs_mps = [MatchedPos {
+            kind: MatchKind::UnchangedToken {
+                highlight: TokenKind::Delimiter,
+                self_pos: vec![matched_pos],
+                opposite_pos: vec![matched_pos],
+            },
+            pos: matched_pos,
+        }];
 
         assert_eq!(
-            matched_lines(&mps),
+            all_matched_lines(&lhs_mps, &rhs_mps),
             vec![(Some(0.into()), None), (Some(1.into()), Some(1.into()))]
         );
     }
 
     #[test]
-    fn test_novel_lines() {
+    fn test_matched_lines_novel_on_same_line() {
+        let matched_pos = SingleLineSpan {
+            line: 1.into(),
+            start_col: 2,
+            end_col: 3,
+        };
+        let mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::UnchangedToken {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![matched_pos],
+                    opposite_pos: vec![matched_pos],
+                },
+                pos: matched_pos,
+            },
+        ];
+
+        assert_eq!(
+            matched_lines_from_unchanged(&mps),
+            vec![(Some(1.into()), Some(1.into()))]
+        );
+    }
+
+    #[test]
+    fn test_all_lines() {
         let mps = [
             MatchedPos {
                 kind: MatchKind::NovelLinePart {
@@ -516,7 +558,7 @@ mod tests {
             },
         ];
 
-        assert_eq!(novel_lines(&mps), vec![0.into(), 2.into()]);
+        assert_eq!(all_lines(&mps), vec![0.into(), 1.into(), 2.into()]);
     }
 
     #[test]
