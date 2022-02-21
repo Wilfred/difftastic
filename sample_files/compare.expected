@@ -73,7 +73,7 @@ sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-df5572916163b4f2b36aacddb933310b  -
+7ade4cc518d4cf0b52492da534b9dc1f  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
 e93bf01abcd97ea2fe4bc141e279a57e  -
