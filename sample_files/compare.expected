@@ -49,13 +49,13 @@ sample_files/json_before.json sample_files/json_after.json
 559447b4a48066c2918502c4b0450f50  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-cb5551b5e5cf3df6643da71a3f86f08c  -
+f5f4b593da94e3b94b236fc51d565125  -
 
 sample_files/load_before.js sample_files/load_after.js
-64c757b801047f5cd1b62ad6a0975333  -
+c7a5800de30556a6a2cf795744fc28b9  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-2a0683e5ee90e866a0eb32c7c1167c99  -
+791901de922abc7f24e5b9068706417d  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 10f583899eee701776e2b25d96e78b56  -
