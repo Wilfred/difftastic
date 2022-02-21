@@ -22,7 +22,7 @@ for before_f in sample_files/*before.*; do
     after_f=${before_f/before/after}
     echo "$before_f $after_f"
 
-    difft_out=$(./target/release/difft --color=always "$before_f" "$after_f" | md5sum)
+    difft_out=$(DFT_WIDTH=180 ./target/release/difft --color=always "$before_f" "$after_f" | md5sum)
     echo "$difft_out"
     echo
 done
