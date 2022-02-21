@@ -17,6 +17,10 @@ set -e
 echo "==> Building difftastic"
 cargo build --release -q
 
+# Set language so we expand globs in a consistent order regardless of
+# locale (e.g. on GitHub actions).
+LANG=en_US.UTF-8
+
 echo "==> Check outputs"
 for before_f in sample_files/*before.*; do
     after_f=${before_f/before/after}
