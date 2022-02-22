@@ -350,4 +350,22 @@ mod tests {
         let res = split_and_apply("foo", 3, true, &[]);
         assert_eq!(res, vec![highlight_missing_style_bug("foo")])
     }
+
+    #[test]
+    fn test_split_and_apply() {
+        let res = split_and_apply(
+            "foo",
+            3,
+            true,
+            &[(
+                SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 3,
+                },
+                Style::new(),
+            )],
+        );
+        assert_eq!(res, vec!["foo"])
+    }
 }
