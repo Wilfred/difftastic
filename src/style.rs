@@ -105,15 +105,13 @@ pub fn split_and_apply(
                 break;
             }
 
-            if prev_style_end >= part_start {
-                // Unstyled text before the next span.
-                if prev_style_end < span.start_col {
-                    res.push_str(substring_by_codepoint(
-                        &part,
-                        prev_style_end - part_start,
-                        span.start_col - part_start,
-                    ));
-                }
+            // Unstyled text before the next span.
+            if prev_style_end < span.start_col {
+                res.push_str(substring_by_codepoint(
+                    &part,
+                    prev_style_end - part_start,
+                    span.start_col - part_start,
+                ));
             }
 
             // Apply style to the substring in this span.
