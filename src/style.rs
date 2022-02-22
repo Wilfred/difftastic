@@ -344,4 +344,10 @@ mod tests {
     fn split_string_unicode() {
         assert_eq!(split_string("ab📦def", 3), vec!["ab📦", "def"]);
     }
+
+    #[test]
+    fn test_split_and_apply_missing() {
+        let res = split_and_apply("foo", 3, true, &[]);
+        assert_eq!(res, vec![highlight_missing_style_bug("foo")])
+    }
 }
