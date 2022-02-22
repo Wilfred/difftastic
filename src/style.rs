@@ -70,6 +70,9 @@ fn highlight_missing_style_bug(s: &str) -> String {
     s.on_purple().to_string()
 }
 
+/// Split `line` (from the source code) into multiple lines of
+/// `max_len` (i.e. word wrapping), and apply `styles` to each part
+/// according to its original position in `line`.
 pub fn split_and_apply(
     line: &str,
     max_len: usize,
