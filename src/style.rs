@@ -105,11 +105,13 @@ pub fn split_and_apply(
                 break;
             }
 
-            // Unstyled text before the next span.
-            if prev_style_end < span.start_col {
+            // If there's an unstyled gap before the next span.
+            if span.start_col > part_start && prev_style_end < span.start_col {
+                // Then append that text without styling.
+                let unstyled_start = max(prev_style_end, part_start);
                 res.push_str(substring_by_codepoint(
                     &part,
-                    prev_style_end - part_start,
+                    unstyled_start - part_start,
                     span.start_col - part_start,
                 ));
             }
@@ -394,6 +396,34 @@ mod tests {
             )],
         );
         assert_eq!(res, vec!["foobar"])
+    }
+
+    #[test]
+    fn test_split_and_apply_gap_between_styles_on_wrap_boundary() {
+        let res = split_and_apply(
+            "foobar",
+            3,
+            true,
+            &[
+                (
+                    SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 2,
+                    },
+                    Style::new(),
+                ),
+                (
+                    SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 4,
+                        end_col: 6,
+                    },
+                    Style::new(),
+                ),
+            ],
+        );
+        assert_eq!(res, vec!["foo", "bar"])
     }
 
     #[test]
