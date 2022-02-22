@@ -126,7 +126,8 @@ pub fn split_and_apply(
             prev_style_end = span.end_col;
         }
 
-        // Ensure that i is at least at the start of this part.
+        // Ensure that prev_style_end is at least at the start of this
+        // part.
         if prev_style_end < part_start {
             prev_style_end = part_start;
         }
