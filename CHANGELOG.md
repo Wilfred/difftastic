@@ -6,6 +6,8 @@ Improved alignment logic. This fixes a bug where the last line of a
 file wasn't displayed, and generally improves how difftastic chooses
 to align content.
 
+Fixed a crash when line wrapping produced an entirely blank line.
+
 ## 0.20 (release 20th February 2022)
 
 ### Diffing

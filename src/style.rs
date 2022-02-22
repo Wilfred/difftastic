@@ -127,6 +127,12 @@ pub fn split_and_apply(
             }
             i = span.end_col;
         }
+
+        // Ensure that i is at least at the start of this part.
+        if i < prev_length {
+            i = prev_length;
+        }
+
         // Unstyled text after the last span.
         if i < prev_length + codepoint_len(&part) {
             let span_s = substring_by_codepoint(&part, i - prev_length, codepoint_len(&part));
@@ -388,5 +394,23 @@ mod tests {
             )],
         );
         assert_eq!(res, vec!["foobar"])
+    }
+
+    #[test]
+    fn test_split_and_apply_trailing_text_newline() {
+        let res = split_and_apply(
+            "foobar      ",
+            6,
+            true,
+            &[(
+                SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 3,
+                },
+                Style::new(),
+            )],
+        );
+        assert_eq!(res, vec!["foobar", "      "])
     }
 }
