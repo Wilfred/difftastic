@@ -94,53 +94,54 @@ pub fn split_and_apply(
     }
 
     let mut styled_parts = vec![];
-    let mut prev_length = 0;
+    let mut part_start = 0;
 
     for part in split_string(line, max_len) {
         let mut res = String::with_capacity(part.len());
-        let mut i = 0;
+        let mut prev_style_end = 0;
         for (span, style) in styles {
             // The remaining spans are beyond the end of this part.
-            if span.start_col >= prev_length + codepoint_len(&part) {
+            if span.start_col >= part_start + codepoint_len(&part) {
                 break;
             }
 
-            if i >= prev_length {
+            if prev_style_end >= part_start {
                 // Unstyled text before the next span.
-                if i < span.start_col {
+                if prev_style_end < span.start_col {
                     res.push_str(substring_by_codepoint(
                         &part,
-                        i - prev_length,
-                        span.start_col - prev_length,
+                        prev_style_end - part_start,
+                        span.start_col - part_start,
                     ));
                 }
             }
 
             // Apply style to the substring in this span.
-            if span.end_col > prev_length {
+            if span.end_col > part_start {
                 let span_s = substring_by_codepoint(
                     &part,
-                    max(0, span.start_col as isize - prev_length as isize) as usize,
-                    min(codepoint_len(&part), span.end_col - prev_length),
+                    max(0, span.start_col as isize - part_start as isize) as usize,
+                    min(codepoint_len(&part), span.end_col - part_start),
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
-            i = span.end_col;
+            prev_style_end = span.end_col;
         }
 
         // Ensure that i is at least at the start of this part.
-        if i < prev_length {
-            i = prev_length;
+        if prev_style_end < part_start {
+            prev_style_end = part_start;
         }
 
         // Unstyled text after the last span.
-        if i < prev_length + codepoint_len(&part) {
-            let span_s = substring_by_codepoint(&part, i - prev_length, codepoint_len(&part));
+        if prev_style_end < part_start + codepoint_len(&part) {
+            let span_s =
+                substring_by_codepoint(&part, prev_style_end - part_start, codepoint_len(&part));
             res.push_str(span_s);
         }
 
         styled_parts.push(res);
-        prev_length += codepoint_len(&part)
+        part_start += codepoint_len(&part)
     }
 
     styled_parts
