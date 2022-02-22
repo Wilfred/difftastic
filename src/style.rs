@@ -368,4 +368,22 @@ mod tests {
         );
         assert_eq!(res, vec!["foo"])
     }
+
+    #[test]
+    fn test_split_and_apply_trailing_text() {
+        let res = split_and_apply(
+            "foobar",
+            6,
+            true,
+            &[(
+                SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 3,
+                },
+                Style::new(),
+            )],
+        );
+        assert_eq!(res, vec!["foobar"])
+    }
 }
