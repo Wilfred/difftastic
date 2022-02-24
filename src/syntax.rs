@@ -573,10 +573,7 @@ pub fn split_words(s: &str) -> Vec<&str> {
     let mut res = vec![];
     let mut word_start = None;
     for (idx, c) in s.char_indices() {
-        #[allow(clippy::manual_range_contains)]
-        let is_word_constituent =
-            ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9');
-        if is_word_constituent {
+        if c.is_alphanumeric() {
             if word_start.is_none() {
                 word_start = Some(idx);
             }
@@ -585,7 +582,7 @@ pub fn split_words(s: &str) -> Vec<&str> {
                 res.push(&s[start..idx]);
                 word_start = None;
             }
-            res.push(&s[idx..idx + 1]);
+            res.push(&s[idx..idx + c.len_utf8()]);
         }
     }
 
@@ -972,4 +969,26 @@ mod tests {
         let res = split_words(s);
         assert_eq!(res, vec!["example", ".", "\n", "com"])
     }
+
+    #[test]
+    fn test_split_words_single_unicode() {
+        let s = "a ö b";
+        let res = split_words(s);
+        assert_eq!(res, vec!["a", " ", "ö", " ", "b"])
+    }
+
+    #[test]
+    fn test_split_words_single_unicode_not_alphabetic() {
+        let s = "a 💝 b";
+        let res = split_words(s);
+        assert_eq!(res, vec!["a", " ", "💝", " ", "b"])
+    }
+
+    #[test]
+    fn test_split_words_unicode() {
+        let s = "a xöy b";
+        let res = split_words(s);
+        assert_eq!(res, vec!["a", " ", "xöy", " ", "b"])
+    }
+
 }
