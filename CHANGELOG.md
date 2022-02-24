@@ -13,6 +13,14 @@ to align content.
 
 Fixed a crash when line wrapping produced an entirely blank line.
 
+### Diffing
+
+Improved word diffing (in both comments and textual diffs) when source
+contains Unicode characters. Word splitting now uses the Unicode
+alphabetic property.
+
+Fixed a crash when comments contained multibyte Unicode characters.
+
 ## 0.20 (release 20th February 2022)
 
 ### Diffing
