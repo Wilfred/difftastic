@@ -46,6 +46,9 @@ pub enum Language {
 use Language::*;
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
+    if let Some(lang) = from_emacs_mode_header(src) {
+        return Some(lang);
+    }
     if let Some(lang) = from_shebang(src) {
         return Some(lang);
     }
@@ -56,6 +59,53 @@ pub fn guess(path: &Path, src: &str) -> Option<Language> {
     match path.extension() {
         Some(extension) => from_extension(extension),
         None => None,
+    }
+}
+
+/// Try to guess the language based on an Emacs mode comment at the
+/// beginning of the file.
+///
+/// <https://www.gnu.org/software/emacs/manual/html_node/emacs/Choosing-Modes.html>
+/// <https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html>
+fn from_emacs_mode_header(src: &str) -> Option<Language> {
+    lazy_static! {
+        static ref MODE_RE: Regex = Regex::new(r"-\*-.*mode:([^;]+?);.*-\*-").unwrap();
+        static ref SHORTHAND_RE: Regex = Regex::new(r"-\*-(.+)-\*-").unwrap();
+    }
+    if let Some(first_line) = src.lines().next() {
+        let mode_name: String = match (
+            MODE_RE.captures(first_line),
+            SHORTHAND_RE.captures(first_line),
+        ) {
+            (Some(cap), _) => cap[1].into(),
+            (_, Some(cap)) => cap[1].into(),
+            _ => "".into(),
+        };
+        match mode_name.to_ascii_lowercase().trim().borrow() {
+            "c" => Some(C),
+            "clojure" => Some(Clojure),
+            "csharp" => Some(CSharp),
+            "css" => Some(Css),
+            "c++" => Some(CPlusPlus),
+            "elixir" => Some(Elixir),
+            "emacs-lisp" => Some(EmacsLisp),
+            "go" => Some(Go),
+            "haskell" => Some(Haskell),
+            "java" => Some(Java),
+            "js" | "js2" => Some(JavaScript),
+            "lisp" => Some(CommonLisp),
+            "python" => Some(Python),
+            "rjsx" => Some(Jsx),
+            "ruby" => Some(Ruby),
+            "rust" => Some(Rust),
+            "scala" => Some(Scala),
+            "sh" => Some(Bash),
+            "tuareg" => Some(OCaml),
+            "typescript" => Some(TypeScript),
+            _ => None,
+        }
+    } else {
+        None
     }
 }
 
@@ -174,6 +224,27 @@ mod tests {
     fn test_guess_by_env_shebang() {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#!/usr/bin/env python"), Some(Python));
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode() {
+        let path = Path::new("foo");
+        assert_eq!(
+            guess(path, "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-"),
+            Some(CommonLisp)
+        );
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_shorthand() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "(* -*- tuareg -*- *)"), Some(OCaml));
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_shorthand_no_spaces() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "# -*-python-*-"), Some(Python));
     }
 
     #[test]

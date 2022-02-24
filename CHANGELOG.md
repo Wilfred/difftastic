@@ -1,5 +1,10 @@
 ## 0.21 (unreleased)
 
+### Parsing
+
+Difftastic now understands `-*-` file headers (as used by Emacs) when
+performing language detection.
+
 ### Display
 
 Improved alignment logic. This fixes a bug where the last line of a
