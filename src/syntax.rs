@@ -990,5 +990,4 @@ mod tests {
         let res = split_words(s);
         assert_eq!(res, vec!["a", " ", "xöy", " ", "b"])
     }
-
 }
