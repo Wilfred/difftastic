@@ -61,6 +61,38 @@ could make `x` look changed.
 
 This should be highlighted similar to the expanding delimiter case.
 
+## Disconnected Delimiters
+
+```
+;; Before
+(foo (bar))
+
+;; After
+(foo (novel) (bar))
+```
+
+We want to highlight `(novel)`. It is easy to end up with
+`( +novel+ ) +(+ bar +)+`, where a later pair of delimiters are
+chosen.
+
+## Rewrapping Large Nodes
+
+```
+;; Before
+[[foo]]
+(x y)
+
+;; After
+([[foo]] x y)
+```
+
+We want to highlight `[[foo]]` being moved inside the
+parentheses. However, a naive syntax differ prefers consider a removal
+of `()` in the before and an addition of `()` in the after to be more
+minimal diff.
+
+(Reported as [issue 44](https://github.com/Wilfred/difftastic/issues/44).)
+
 ## Reordering Within A List
 
 ```
