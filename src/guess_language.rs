@@ -72,16 +72,16 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
         static ref MODE_RE: Regex = Regex::new(r"-\*-.*mode:([^;]+?);.*-\*-").unwrap();
         static ref SHORTHAND_RE: Regex = Regex::new(r"-\*-(.+)-\*-").unwrap();
     }
-    if let Some(first_line) = src.lines().next() {
-        let mode_name: String = match (
-            MODE_RE.captures(first_line),
-            SHORTHAND_RE.captures(first_line),
-        ) {
+
+    // Emacs allows the mode header to occur on the second line if the
+    // first line is a shebang.
+    for line in src.lines().take(2) {
+        let mode_name: String = match (MODE_RE.captures(line), SHORTHAND_RE.captures(line)) {
             (Some(cap), _) => cap[1].into(),
             (_, Some(cap)) => cap[1].into(),
             _ => "".into(),
         };
-        match mode_name.to_ascii_lowercase().trim().borrow() {
+        let lang = match mode_name.to_ascii_lowercase().trim().borrow() {
             "c" => Some(C),
             "clojure" => Some(Clojure),
             "csharp" => Some(CSharp),
@@ -103,10 +103,13 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "tuareg" => Some(OCaml),
             "typescript" => Some(TypeScript),
             _ => None,
+        };
+        if lang.is_some() {
+            return lang;
         }
-    } else {
-        None
     }
+
+    None
 }
 
 /// Try to guess the language based on a shebang present in the source.
@@ -231,6 +234,15 @@ mod tests {
         let path = Path::new("foo");
         assert_eq!(
             guess(path, "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-"),
+            Some(CommonLisp)
+        );
+    }
+
+    #[test]
+    fn test_guess_by_emacs_mode_second_line() {
+        let path = Path::new("foo");
+        assert_eq!(
+            guess(path, "!#/bin/bash\n; -*- mode: Lisp; -*-"),
             Some(CommonLisp)
         );
     }
