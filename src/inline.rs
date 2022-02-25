@@ -73,7 +73,7 @@ pub fn print(
             if let Some(lhs_line) = lhs_line {
                 println!(
                     "{}   {}",
-                    format_line_num(*lhs_line).red().bold().to_string(),
+                    format_line_num(*lhs_line).red().bold(),
                     lhs_lines[lhs_line.0]
                 );
             } else {
@@ -84,7 +84,7 @@ pub fn print(
             if let Some(rhs_line) = rhs_line {
                 println!(
                     "   {}{}",
-                    format_line_num(*rhs_line).green().bold().to_string(),
+                    format_line_num(*rhs_line).green().bold(),
                     rhs_lines[rhs_line.0]
                 );
             } else {
