@@ -683,7 +683,7 @@ pub fn matched_lines_for_hunk(
         end_i = matched_lines.len();
     }
 
-    matched_lines[start_i..end_i].iter().copied().collect()
+    matched_lines[start_i..end_i].to_vec()
 }
 
 #[cfg(test)]

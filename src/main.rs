@@ -201,10 +201,10 @@ fn diff_file_content(
     // TODO: don't replace tab characters inside string literals.
     let lhs_src = String::from_utf8_lossy(lhs_bytes)
         .to_string()
-        .replace("\t", "    ");
+        .replace('\t', "    ");
     let rhs_src = String::from_utf8_lossy(rhs_bytes)
         .to_string()
-        .replace("\t", "    ");
+        .replace('\t', "    ");
 
     // TODO: take a Path directly instead.
     let path = Path::new(&display_path);

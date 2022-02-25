@@ -240,39 +240,40 @@ pub fn color_positions(
     for pos in positions {
         let mut style = Style::new();
         match pos.kind {
-            MatchKind::UnchangedToken { highlight, .. } => match highlight {
-                TokenKind::Atom(atom_kind) => match atom_kind {
-                    AtomKind::String => {
-                        style = if background.is_dark() {
-                            style.bright_magenta()
-                        } else {
-                            style.magenta()
-                        };
+            MatchKind::UnchangedToken { highlight, .. } => {
+                if let TokenKind::Atom(atom_kind) = highlight {
+                    match atom_kind {
+                        AtomKind::String => {
+                            style = if background.is_dark() {
+                                style.bright_magenta()
+                            } else {
+                                style.magenta()
+                            };
+                        }
+                        AtomKind::Comment => {
+                            style = style.italic();
+                            style = if background.is_dark() {
+                                style.bright_blue()
+                            } else {
+                                style.blue()
+                            };
+                        }
+                        AtomKind::Keyword | AtomKind::Type => {
+                            style = style.bold();
+                        }
+                        _ => {}
                     }
-                    AtomKind::Comment => {
-                        style = style.italic();
-                        style = if background.is_dark() {
-                            style.bright_blue()
-                        } else {
-                            style.blue()
-                        };
-                    }
-                    AtomKind::Keyword | AtomKind::Type => {
-                        style = style.bold();
-                    }
-                    _ => {}
-                },
-                _ => {}
-            },
+                }
+            }
             MatchKind::Novel { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                match highlight {
+                if matches!(
+                    highlight,
                     TokenKind::Delimiter
-                    | TokenKind::Atom(AtomKind::Keyword)
-                    | TokenKind::Atom(AtomKind::Type) => {
-                        style = style.bold();
-                    }
-                    _ => {}
+                        | TokenKind::Atom(AtomKind::Keyword)
+                        | TokenKind::Atom(AtomKind::Type)
+                ) {
+                    style = style.bold();
                 }
                 if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
