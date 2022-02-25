@@ -1,5 +1,3 @@
-==> Building difftastic
-==> Check outputs
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 ffb31b7f11712d0e28a7f874bb7756c6  -
 

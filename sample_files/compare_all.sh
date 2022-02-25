@@ -4,7 +4,7 @@
 # has been changed.
 #
 # # Generate a new compare.result.
-# $ sample_files/compare_all.sh | tee sample_files/compare.result
+# $ sample_files/compare_all.sh
 #
 # # Compare it with the previous one.
 # $ difft sample_files/compare.expected sample_files/compare.result
@@ -15,7 +15,7 @@
 set -e
 
 echo "==> Building difftastic"
-cargo build --release -q
+cargo build --release
 
 # Set language so we expand globs in a consistent order regardless of
 # locale (e.g. on GitHub actions).
@@ -29,4 +29,4 @@ for before_f in sample_files/*before.*; do
     difft_out=$(DFT_WIDTH=180 ./target/release/difft --color=always "$before_f" "$after_f" | md5sum)
     echo "$difft_out"
     echo
-done
+done | tee sample_files/compare.result

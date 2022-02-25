@@ -42,8 +42,7 @@ jobs:
           toolchain: 1.54.0
           override: true
       - name: Generate output for all sample files
-        run: ./sample_files/compare_all.sh | tee sample_files/compare.result
-      # TODO: work out why GitHub actions differ from my machine
+        run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
         run: diff sample_files/compare.result sample_files/compare.expected
 
