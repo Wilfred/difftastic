@@ -460,10 +460,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -477,6 +473,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -756,10 +756,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -777,6 +773,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -1369,36 +1369,6 @@
     }
   },
   {
-    "type": "command",
-    "named": true,
-    "fields": {
-      "arg": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "curly_group",
-            "named": true
-          },
-          {
-            "type": "mixed_group",
-            "named": true
-          }
-        ]
-      },
-      "command": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "command_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "comment_environment",
     "named": true,
     "fields": {
@@ -1491,10 +1461,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -1512,6 +1478,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -1730,10 +1700,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -1743,6 +1709,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -1979,10 +1949,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -2000,6 +1966,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -2247,10 +2217,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -2264,6 +2230,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -2420,6 +2390,36 @@
     }
   },
   {
+    "type": "generic_command",
+    "named": true,
+    "fields": {
+      "arg": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "mixed_group",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "generic_environment",
     "named": true,
     "fields": {
@@ -2497,10 +2497,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -2518,6 +2514,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -3093,10 +3093,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -3114,6 +3110,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -3644,10 +3644,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -3665,6 +3661,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -3887,10 +3887,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -3904,6 +3900,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -4250,10 +4250,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -4271,6 +4267,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -4474,10 +4474,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -4495,6 +4491,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -4746,10 +4746,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -4767,6 +4763,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -4949,10 +4949,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -4970,6 +4966,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -5181,10 +5181,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -5202,6 +5198,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -5389,10 +5389,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -5410,6 +5406,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -5609,10 +5609,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "comment_environment",
           "named": true
         },
@@ -5630,6 +5626,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {
@@ -5964,10 +5964,6 @@
           "named": true
         },
         {
-          "type": "command",
-          "named": true
-        },
-        {
           "type": "curly_group",
           "named": true
         },
@@ -5977,6 +5973,10 @@
         },
         {
           "type": "environment_definition",
+          "named": true
+        },
+        {
+          "type": "generic_command",
           "named": true
         },
         {

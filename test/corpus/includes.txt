@@ -42,7 +42,7 @@ Package include with options
         (value
           (text
             (word))
-          (command
+          (generic_command
             (command_name))))
       (key_value_pair
         (text
@@ -98,7 +98,7 @@ Class include with options
         (value
           (text
             (word))
-          (command
+          (generic_command
             (command_name))))
       (key_value_pair
         (text

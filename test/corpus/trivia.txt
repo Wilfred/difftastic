@@ -21,7 +21,7 @@ Escaped percent
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
+  (generic_command
     (command_name))
   (text
     (word)))

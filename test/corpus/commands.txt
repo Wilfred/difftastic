@@ -7,7 +7,7 @@ Command without arguments
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
+  (generic_command
     (command_name))
   (text
     (word)))
@@ -21,7 +21,7 @@ Command with one curly argument
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
+  (generic_command
     (command_name)
     (curly_group
       (text
@@ -36,7 +36,7 @@ Command with one curly argument and one mixed argument
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
+  (generic_command
     (command_name)
     (curly_group
       (text
@@ -54,7 +54,7 @@ Command with nested paren argument
 --------------------------------------------------------------------------------
 
 (source_file
-  (command
+  (generic_command
     (command_name)
     (mixed_group
       (mixed_group

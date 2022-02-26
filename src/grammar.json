@@ -179,6 +179,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_command"
+        }
+      ]
+    },
+    "_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "package_include"
         },
         {
@@ -295,7 +304,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "command"
+          "name": "generic_command"
         }
       ]
     },
@@ -2758,7 +2767,7 @@
         }
       ]
     },
-    "command": {
+    "generic_command": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {

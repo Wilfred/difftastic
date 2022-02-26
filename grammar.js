@@ -61,6 +61,11 @@ module.exports = grammar({
         $.inline_formula,
         $.math_set,
         $.block_comment,
+        $._command
+      ),
+
+    _command: $ =>
+      choice(
         $.package_include,
         $.class_include,
         $.latex_include,
@@ -90,7 +95,7 @@ module.exports = grammar({
         $.color_set_definition,
         $.color_reference,
         $.tikz_library_import,
-        $.command
+        $.generic_command
       ),
 
     //--- Sections
@@ -557,7 +562,7 @@ module.exports = grammar({
 
     //--- Command
 
-    command: $ =>
+    generic_command: $ =>
       prec.right(
         seq(
           field('command', $.command_name),

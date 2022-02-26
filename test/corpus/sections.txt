@@ -68,7 +68,7 @@ Nested sections
     (word))
   (part
     (curly_group
-      (command
+      (generic_command
         (command_name)))
     (text
       (word))
