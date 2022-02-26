@@ -12,14 +12,22 @@
                 <h1>{{ display_path }}</h1>
 
                 <h2>Old</h2>
-                <pre>
+                <pre><code>
                     {%- for line in lhs_src -%}
                     {%- for part in line -%}
                     {{- part.0 -}}
                     {%- endfor -%}
                     {%- endfor -%}
-                </pre>
+                </code></pre>
+
                 <h2>New</h2>
+                <pre><code>
+                    {%- for line in rhs_src -%}
+                    {%- for part in line -%}
+                    {{- part.0 -}}
+                    {%- endfor -%}
+                    {%- endfor -%}
+                </code></pre>
 
             </div>
         </div>
