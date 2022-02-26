@@ -4,7 +4,7 @@ use askama::Template;
 
 use crate::{
     line_parser::split_lines_keep_newline,
-    lines::LineNumber,
+    lines::{codepoint_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
@@ -13,25 +13,63 @@ use crate::{
 #[template(path = "summary.html")]
 struct SummaryTemplate {
     display_path: String,
-    lhs_src: Vec<Vec<(String, Option<String>)>>,
-    rhs_src: Vec<Vec<(String, Option<String>)>>,
+    lhs_src: Vec<Vec<(String, Option<&'static str>)>>,
+    rhs_src: Vec<Vec<(String, Option<&'static str>)>>,
 }
 
-fn apply_classes(src: &str) -> Vec<Vec<(String, Option<String>)>> {
+fn apply_line(
+    line: &str,
+    styles: &[(SingleLineSpan, Option<&'static str>)],
+) -> Vec<(String, Option<&'static str>)> {
+    let mut offset = 0;
+    let mut res = vec![];
+
+    for (span, classes) in styles {
+        if offset < span.start_col {
+            res.push((line[offset..span.start_col].to_owned(), None));
+        }
+
+        res.push((line[span.start_col..span.end_col].to_owned(), *classes));
+        offset = span.end_col;
+    }
+    if offset < codepoint_len(line) {
+        res.push((line[offset..].to_owned(), None));
+    }
+
+    res
+}
+
+fn apply_classes(src: &str, mps: &[MatchedPos]) -> Vec<Vec<(String, Option<&'static str>)>> {
+    let styles = apply_styles(mps);
+
     let lines = split_lines_keep_newline(src);
-    lines
-        .iter()
-        .map(|line| vec![(line.to_string(), None)])
-        .collect()
+
+    let mut res = vec![];
+    for (i, line) in lines.into_iter().enumerate() {
+        let ln: LineNumber = i.into();
+        let empty_styles = vec![];
+        let line_styles = styles.get(&ln).unwrap_or(&empty_styles);
+        res.push(apply_line(line, line_styles));
+    }
+
+    res
 }
 
-fn apply_styles(mps: &[MatchedPos]) -> HashMap<LineNumber, Vec<(SingleLineSpan, Option<String>)>> {
+fn apply_styles(
+    mps: &[MatchedPos],
+) -> HashMap<LineNumber, Vec<(SingleLineSpan, Option<&'static str>)>> {
     let mut line_styles = HashMap::new();
     for mp in mps {
         let line_pos = mp.pos;
         let style = match mp.kind {
             MatchKind::UnchangedToken { highlight, .. } => match highlight {
-                TokenKind::Atom(AtomKind::Comment) => Some("comment".to_string()),
+                TokenKind::Atom(kind) => match kind {
+                    AtomKind::Normal => None,
+                    AtomKind::String => Some("string"),
+                    AtomKind::Type => Some("type"),
+                    AtomKind::Comment => Some("comment"),
+                    AtomKind::Keyword => Some("keyword"),
+                },
                 _ => None,
             },
             _ => None,
@@ -53,8 +91,8 @@ pub fn print(
 ) {
     let template = SummaryTemplate {
         display_path: display_path.into(),
-        lhs_src: apply_classes(lhs_src),
-        rhs_src: apply_classes(rhs_src),
+        lhs_src: apply_classes(lhs_src, lhs_mps),
+        rhs_src: apply_classes(rhs_src, rhs_mps),
     };
     println!("{}", template.render().unwrap());
 }

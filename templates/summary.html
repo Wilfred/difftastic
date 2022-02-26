@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <title>Diff: {{ display_path }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .comment { color: blue; }
+            .keyword { font-weight: bold; }
+            .string { color: magenta;  }
+            .type { color: orange; font-weight: bold; }
+        </style>
     </head>
     <body>
         <div class="ui grid container">
@@ -15,7 +21,12 @@
                 <pre><code>
                     {%- for line in lhs_src -%}
                     {%- for part in line -%}
+                    {%- match part.1 -%}
+                    {%- when Some with (class_name) -%}
+                    <span class="{{class_name}}">{{- part.0 -}}</span>
+                    {%- when None -%}
                     {{- part.0 -}}
+                    {%- endmatch -%}
                     {%- endfor -%}
                     {%- endfor -%}
                 </code></pre>
@@ -24,7 +35,12 @@
                 <pre><code>
                     {%- for line in rhs_src -%}
                     {%- for part in line -%}
+                    {%- match part.1 -%}
+                    {%- when Some with (class_name) -%}
+                    <span class="{{class_name}}">{{- part.0 -}}</span>
+                    {%- when None -%}
                     {{- part.0 -}}
+                    {%- endmatch -%}
                     {%- endfor -%}
                     {%- endfor -%}
                 </code></pre>
