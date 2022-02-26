@@ -5,7 +5,11 @@
         <title>Diff: {{ display_path }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            td { border: 1px solid black; }
+            table { border-spacing: 0; border: 1px solid black; line-height: 0; }
+            table td + td.line-number { border-left: 1px solid black; }
+            td { padding: 0 5px; }
+            .line-number { background-color: #eeeeee; text-align: right; }
+
             .comment { color: blue; }
             .keyword { font-weight: bold; }
             .string { color: magenta;  }
@@ -25,7 +29,8 @@
                             {% match lhs %}
                             {%- when Some with (num_content) -%}
 
-                            <td>{{num_content.0.0}}</td>
+                            <td class="line-number">{{num_content.0.0}}</td>
+
                             <td><pre>{%- for part in num_content.1 -%}
                             {%- match part.1 -%}
                             {%- when Some with (class_name) -%}
@@ -33,17 +38,18 @@
                             {%- when None -%}
                             {{- part.0 -}}
                             {%- endmatch -%}
-                            {%- endfor -%}</pre></td>
+                            {%- endfor -%}&nbsp;</pre></td>
 
                             {% when None %}
-                            <td>..</td>
+                            <td class="line-number"></td>
                             <td></td>
                             {% endmatch %}
                             
                             {% match rhs %}
                             {%- when Some with (num_content) -%}
 
-                            <td>{{num_content.0.0}}</td>
+                            <td class="line-number">{{num_content.0.0}}</td>
+
                             <td><pre>{%- for part in num_content.1 -%}
                             {%- match part.1 -%}
                             {%- when Some with (class_name) -%}
@@ -51,10 +57,10 @@
                             {%- when None -%}
                             {{- part.0 -}}
                             {%- endmatch -%}
-                            {%- endfor -%}</pre></td>
+                            {%- endfor -%}&nbsp;</pre></td>
 
-                            {%- when None -%}
-                            <td>..</td>
+                            {% when None %}
+                            <td class="line-number"></td>
                             <td></td>
                             {% endmatch %}
                         </tr>
