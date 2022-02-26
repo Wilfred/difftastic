@@ -5,6 +5,7 @@
         <title>Diff: {{ display_path }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            td { border: 1px solid black; }
             .comment { color: blue; }
             .keyword { font-weight: bold; }
             .string { color: magenta;  }
@@ -17,33 +18,49 @@
 
                 <h1>{{ display_path }}</h1>
 
-                <h2>Old</h2>
-                <pre><code>
-                    {%- for line in lhs_src -%}
-                    {%- for part in line -%}
-                    {%- match part.1 -%}
-                    {%- when Some with (class_name) -%}
-                    <span class="{{class_name}}">{{- part.0 -}}</span>
-                    {%- when None -%}
-                    {{- part.0 -}}
-                    {%- endmatch -%}
-                    {%- endfor -%}
-                    {%- endfor -%}
-                </code></pre>
+                <table>
+                    <tbody>
+                        {%- for (lhs, rhs) in paired_lines -%}
+                        <tr>
+                            {% match lhs %}
+                            {%- when Some with (num_content) -%}
 
-                <h2>New</h2>
-                <pre><code>
-                    {%- for line in rhs_src -%}
-                    {%- for part in line -%}
-                    {%- match part.1 -%}
-                    {%- when Some with (class_name) -%}
-                    <span class="{{class_name}}">{{- part.0 -}}</span>
-                    {%- when None -%}
-                    {{- part.0 -}}
-                    {%- endmatch -%}
-                    {%- endfor -%}
-                    {%- endfor -%}
-                </code></pre>
+                            <td>{{num_content.0.0}}</td>
+                            <td><pre>{%- for part in num_content.1 -%}
+                            {%- match part.1 -%}
+                            {%- when Some with (class_name) -%}
+                            <span class="{{class_name}}">{{- part.0 -}}</span>
+                            {%- when None -%}
+                            {{- part.0 -}}
+                            {%- endmatch -%}
+                            {%- endfor -%}</pre></td>
+
+                            {% when None %}
+                            <td>..</td>
+                            <td></td>
+                            {% endmatch %}
+                            
+                            {% match rhs %}
+                            {%- when Some with (num_content) -%}
+
+                            <td>{{num_content.0.0}}</td>
+                            <td><pre>{%- for part in num_content.1 -%}
+                            {%- match part.1 -%}
+                            {%- when Some with (class_name) -%}
+                            <span class="{{class_name}}">{{- part.0 -}}</span>
+                            {%- when None -%}
+                            {{- part.0 -}}
+                            {%- endmatch -%}
+                            {%- endfor -%}</pre></td>
+
+                            {%- when None -%}
+                            <td>..</td>
+                            <td></td>
+                            {% endmatch %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
             </div>
         </div>

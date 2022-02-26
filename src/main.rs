@@ -391,6 +391,7 @@ fn print_diff_result(
                 );
             } else if env::var("HTML").is_ok() {
                 html::print(
+                    &hunks,
                     &summary.path,
                     lhs_src,
                     rhs_src,

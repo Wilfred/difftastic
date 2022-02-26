@@ -21,7 +21,7 @@ const SPACER: &str = " ";
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
-fn split_on_newlines(s: &str) -> Vec<&str> {
+pub fn split_on_newlines(s: &str) -> Vec<&str> {
     s.split('\n').collect()
 }
 
