@@ -21,7 +21,7 @@ alphabetic property.
 
 Fixed a crash when comments contained multibyte Unicode characters.
 
-## 0.20 (release 20th February 2022)
+## 0.20 (released 20th February 2022)
 
 ### Diffing
 
