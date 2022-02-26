@@ -54,48 +54,17 @@ module.exports = grammar({
       ),
 
     _text_content: $ =>
-      choice(
-        $.curly_group,
-        $.text,
-        $.displayed_equation,
-        $.inline_formula,
-        $.math_set,
-        $.block_comment,
-        $._command
-      ),
-
-    _command: $ =>
-      choice(
-        $.package_include,
-        $.class_include,
-        $.latex_include,
-        $.biblatex_include,
-        $.bibtex_include,
-        $.graphics_include,
-        $.svg_include,
-        $.inkscape_include,
-        $.verbatim_include,
-        $.import_include,
-        $.caption,
-        $.citation,
-        $.label_definition,
-        $.label_reference,
-        $.label_reference_range,
-        $.label_number,
-        $.new_command_definition,
-        $.old_command_definition,
-        $.let_command_definition,
-        $.environment_definition,
-        $.glossary_entry_definition,
-        $.glossary_entry_reference,
-        $.acronym_definition,
-        $.acronym_reference,
-        $.theorem_definition,
-        $.color_definition,
-        $.color_set_definition,
-        $.color_reference,
-        $.tikz_library_import,
-        $.generic_command
+      prec.right(
+        1,
+        choice(
+          $.curly_group,
+          $.block_comment,
+          $._command,
+          $.text,
+          $.displayed_equation,
+          $.inline_formula,
+          $.math_set
+        )
       ),
 
     //--- Sections
@@ -369,7 +338,18 @@ module.exports = grammar({
 
     text: $ =>
       prec.right(
-        repeat1(field('word', choice($.operator, $.word, $.placeholder)))
+        repeat1(
+          field(
+            'word',
+            choice(
+              $.operator,
+              $.word,
+              $.placeholder,
+              $.block_comment,
+              $._command
+            )
+          )
+        )
       ),
 
     word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#]+/,
@@ -561,6 +541,40 @@ module.exports = grammar({
     _trivia_text_pycode: $ => seq(alias('pycode', $.word)),
 
     //--- Command
+
+    _command: $ =>
+      choice(
+        $.package_include,
+        $.class_include,
+        $.latex_include,
+        $.biblatex_include,
+        $.bibtex_include,
+        $.graphics_include,
+        $.svg_include,
+        $.inkscape_include,
+        $.verbatim_include,
+        $.import_include,
+        $.caption,
+        $.citation,
+        $.label_definition,
+        $.label_reference,
+        $.label_reference_range,
+        $.label_number,
+        $.new_command_definition,
+        $.old_command_definition,
+        $.let_command_definition,
+        $.environment_definition,
+        $.glossary_entry_definition,
+        $.glossary_entry_reference,
+        $.acronym_definition,
+        $.acronym_reference,
+        $.theorem_definition,
+        $.color_definition,
+        $.color_set_definition,
+        $.color_reference,
+        $.tikz_library_import,
+        $.generic_command
+      ),
 
     generic_command: $ =>
       prec.right(

@@ -5792,11 +5792,135 @@
         "required": false,
         "types": [
           {
+            "type": "acronym_definition",
+            "named": true
+          },
+          {
+            "type": "acronym_reference",
+            "named": true
+          },
+          {
+            "type": "biblatex_include",
+            "named": true
+          },
+          {
+            "type": "bibtex_include",
+            "named": true
+          },
+          {
+            "type": "block_comment",
+            "named": true
+          },
+          {
+            "type": "caption",
+            "named": true
+          },
+          {
+            "type": "citation",
+            "named": true
+          },
+          {
+            "type": "class_include",
+            "named": true
+          },
+          {
+            "type": "color_definition",
+            "named": true
+          },
+          {
+            "type": "color_reference",
+            "named": true
+          },
+          {
+            "type": "color_set_definition",
+            "named": true
+          },
+          {
+            "type": "environment_definition",
+            "named": true
+          },
+          {
+            "type": "generic_command",
+            "named": true
+          },
+          {
+            "type": "glossary_entry_definition",
+            "named": true
+          },
+          {
+            "type": "glossary_entry_reference",
+            "named": true
+          },
+          {
+            "type": "graphics_include",
+            "named": true
+          },
+          {
+            "type": "import_include",
+            "named": true
+          },
+          {
+            "type": "inkscape_include",
+            "named": true
+          },
+          {
+            "type": "label_definition",
+            "named": true
+          },
+          {
+            "type": "label_number",
+            "named": true
+          },
+          {
+            "type": "label_reference",
+            "named": true
+          },
+          {
+            "type": "label_reference_range",
+            "named": true
+          },
+          {
+            "type": "latex_include",
+            "named": true
+          },
+          {
+            "type": "let_command_definition",
+            "named": true
+          },
+          {
+            "type": "new_command_definition",
+            "named": true
+          },
+          {
+            "type": "old_command_definition",
+            "named": true
+          },
+          {
             "type": "operator",
             "named": true
           },
           {
+            "type": "package_include",
+            "named": true
+          },
+          {
             "type": "placeholder",
+            "named": true
+          },
+          {
+            "type": "svg_include",
+            "named": true
+          },
+          {
+            "type": "theorem_definition",
+            "named": true
+          },
+          {
+            "type": "tikz_library_import",
+            "named": true
+          },
+          {
+            "type": "verbatim_include",
             "named": true
           },
           {

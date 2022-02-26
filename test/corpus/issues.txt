@@ -37,13 +37,12 @@ foo foo foo foo foo foo
       (word)
       (word)
       (word)
-      (word))
-    (generic_command
-      (command_name)
-      (curly_group
-        (text
-          (word))))
-    (text
+      (word)
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word))))
       (word)
       (word)
       (word)
@@ -55,13 +54,12 @@ foo foo foo foo foo foo
       (word)
       (word)
       (word)
-      (word))
-    (generic_command
-      (command_name)
-      (curly_group
-        (text
-          (word))))
-    (text
+      (word)
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word))))
       (word)
       (word)
       (word)
@@ -168,14 +166,14 @@ tree-sitter-latex (Issue #10)
         (word)))
     (curly_group
       (text
-        (word))
-      (generic_command
-        (command_name)))
+        (word)
+        (generic_command
+          (command_name))))
     (curly_group
       (text
-        (word))
-      (generic_command
-        (command_name)))))
+        (word)
+        (generic_command
+          (command_name))))))
 
 ================================================================================
 tree-sitter-latex (Issue #7)
@@ -196,13 +194,12 @@ rm -rf "$(biber --cache)"
       (glob_pattern)))
   (text
     (word)
-    (word))
-  (generic_command
-    (command_name)
-    (curly_group
-      (text
-        (word))))
-  (text
+    (word)
+    (generic_command
+      (command_name)
+      (curly_group
+        (text
+          (word))))
     (word))
   (text
     (word))
@@ -280,14 +277,14 @@ tree-sitter-latex (Issue #10)
         (word)))
     (curly_group
       (text
-        (word))
-      (generic_command
-        (command_name)))
+        (word)
+        (generic_command
+          (command_name))))
     (curly_group
       (text
-        (word))
-      (generic_command
-        (command_name)))))
+        (word)
+        (generic_command
+          (command_name))))))
 
 ================================================================================
 tree-sitter-latex (Issue #13)
@@ -305,9 +302,9 @@ tree-sitter-latex (Issue #13)
           (word))
         (value
           (text
-            (word))
-          (generic_command
-            (command_name)))))
+            (word)
+            (generic_command
+              (command_name))))))
     (curly_group_path
       (path))))
 
@@ -363,13 +360,12 @@ tree-sitter-latex (Issue #25 Nesting of document structure)
             word: (word))))
       (enum_item
         (text
-          word: (word))
-        (generic_command
-          command: (command_name)
-          arg: (curly_group
-            (text
-              word: (word))))
-        (text
+          word: (word)
+          word: (generic_command
+            command: (command_name)
+            arg: (curly_group
+              (text
+                word: (word))))
           word: (word)))
       end: (end
         name: (curly_group_text
@@ -398,3 +394,18 @@ tree-sitter-latex (Issue #28 \usetikzlibrary with multiple libs)
       (path)
       (path)
       (path))))
+
+================================================================================
+tree-sitter-latex (Issue #29)
+================================================================================
+
+\color{\currentcolor}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (color_reference
+    (curly_group_text
+      (text
+        (generic_command
+          (command_name))))))

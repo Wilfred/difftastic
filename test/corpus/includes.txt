@@ -41,9 +41,9 @@ Package include with options
           (word))
         (value
           (text
-            (word))
-          (generic_command
-            (command_name))))
+            (word)
+            (generic_command
+              (command_name)))))
       (key_value_pair
         (text
           (word)
@@ -97,9 +97,9 @@ Class include with options
           (word))
         (value
           (text
-            (word))
-          (generic_command
-            (command_name))))
+            (word)
+            (generic_command
+              (command_name)))))
       (key_value_pair
         (text
           (word)

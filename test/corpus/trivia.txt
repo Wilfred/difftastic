@@ -45,8 +45,7 @@ Test
 (source_file
   (text
     (word)
-    (word))
-  (block_comment
-    (comment))
-  (text
+    (word)
+    (block_comment
+      (comment))
     (word)))

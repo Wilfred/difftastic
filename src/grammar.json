@@ -151,162 +151,41 @@
       ]
     },
     "_text_content": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "curly_group"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "text"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "displayed_equation"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "inline_formula"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "math_set"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block_comment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_command"
-        }
-      ]
-    },
-    "_command": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "package_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "class_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "latex_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "biblatex_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "bibtex_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "graphics_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "svg_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "inkscape_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "verbatim_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "import_include"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "caption"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "citation"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "label_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "label_reference"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "label_reference_range"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "label_number"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "new_command_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "old_command_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "let_command_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "environment_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "glossary_entry_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "glossary_entry_reference"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "acronym_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "acronym_reference"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "theorem_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "color_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "color_set_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "color_reference"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tikz_library_import"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generic_command"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "curly_group"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "block_comment"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_command"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "text"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "displayed_equation"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "inline_formula"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "math_set"
+          }
+        ]
+      }
     },
     "_section": {
       "type": "PREC_RIGHT",
@@ -1712,6 +1591,14 @@
               {
                 "type": "SYMBOL",
                 "name": "placeholder"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "block_comment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_command"
               }
             ]
           }
@@ -2764,6 +2651,131 @@
           },
           "named": true,
           "value": "word"
+        }
+      ]
+    },
+    "_command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "package_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "latex_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "biblatex_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bibtex_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "graphics_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "svg_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "inkscape_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "verbatim_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "import_include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "caption"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "citation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label_reference_range"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label_number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "new_command_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "old_command_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "let_command_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "environment_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "glossary_entry_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "glossary_entry_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "acronym_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "acronym_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "theorem_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "color_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "color_set_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "color_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tikz_library_import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generic_command"
         }
       ]
     },
