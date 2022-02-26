@@ -41,3 +41,29 @@
     (image
       (image_description)
       (link_destination))))
+
+================================================================================
+#33 - Fenced code block attributes
+================================================================================
+```{R}
+1 + 1
+```
+
+```{}
+1 + 1
+```
+
+--------------------------------------------------------------------------------
+
+(document
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (info_string
+      (language))
+    (code_fence_content)
+    (fenced_code_block_delimiter))
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (info_string)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))

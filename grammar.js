@@ -294,10 +294,19 @@ module.exports = grammar(add_inline_rules({
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
         info_string: $ => choice(
-            seq($.language, repeat(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
-            repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
+            seq(
+                prec.right(repeat1(prec(1, choice('{', '}')))),
+                optional(choice(
+                    seq($.language, repeat(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
+                    repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
+                ))
+            ),
+            choice(
+                seq($.language, repeat(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
+                repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
+            )
         ),
-        language: $ => prec.right(repeat1(prec(1, choice($._word, punctuation_without($, []), $.backslash_escape, $.entity_reference, $.numeric_character_reference)))), 
+        language: $ => prec.right(repeat1(prec(1, choice($._word, punctuation_without($, ['{', '}']), $.backslash_escape, $.entity_reference, $.numeric_character_reference)))), 
 
         // An HTML block. We do not emit addition nodes relating to the kind or structure or of the
         // html block as this is best done using language injections and a proper html parsers.

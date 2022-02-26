@@ -542,11 +542,139 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "language"
+              "type": "PREC_RIGHT",
+              "value": 0,
+              "content": {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "{"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "}"
+                      }
+                    ]
+                  }
+                }
+              }
             },
             {
-              "type": "REPEAT",
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "language"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "_text"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "backslash_escape"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "entity_reference"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "numeric_character_reference"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_text"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "backslash_escape"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "entity_reference"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "numeric_character_reference"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "language"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_text"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "backslash_escape"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "entity_reference"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "numeric_character_reference"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "REPEAT1",
               "content": {
                 "type": "CHOICE",
                 "members": [
@@ -570,30 +698,6 @@
               }
             }
           ]
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_text"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "backslash_escape"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "entity_reference"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "numeric_character_reference"
-              }
-            ]
-          }
         }
       ]
     },
@@ -732,15 +836,7 @@
                       },
                       {
                         "type": "STRING",
-                        "value": "{"
-                      },
-                      {
-                        "type": "STRING",
                         "value": "|"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "}"
                       },
                       {
                         "type": "STRING",
