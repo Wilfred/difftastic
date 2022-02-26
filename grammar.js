@@ -562,16 +562,16 @@ module.exports = grammar({
     public_opaque_type_definition: ($) =>
       seq("pub", "opaque", "type", $._custom_type_definition),
     _custom_type_definition: ($) =>
-      seq($.type_name, "{", $.type_constructors, "}"),
-    type_constructors: ($) => repeat1($.type_constructor),
-    type_constructor: ($) =>
+      seq($.type_name, "{", $.data_constructors, "}"),
+    data_constructors: ($) => repeat1($.data_constructor),
+    data_constructor: ($) =>
       seq(
         field("name", $.type_identifier),
-        optional(field("arguments", $.type_constructor_arguments))
+        optional(field("arguments", $.data_constructor_arguments))
       ),
-    type_constructor_arguments: ($) =>
-      seq("(", optional(series_of($.type_constructor_argument, ",")), ")"),
-    type_constructor_argument: ($) =>
+    data_constructor_arguments: ($) =>
+      seq("(", optional(series_of($.data_constructor_argument, ",")), ")"),
+    data_constructor_argument: ($) =>
       seq(optional(seq(field("label", $.label), ":")), field("value", $._type)),
 
     /* Type aliases */

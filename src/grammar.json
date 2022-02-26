@@ -4935,7 +4935,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type_constructors"
+          "name": "data_constructors"
         },
         {
           "type": "STRING",
@@ -4943,14 +4943,14 @@
         }
       ]
     },
-    "type_constructors": {
+    "data_constructors": {
       "type": "REPEAT1",
       "content": {
         "type": "SYMBOL",
-        "name": "type_constructor"
+        "name": "data_constructor"
       }
     },
-    "type_constructor": {
+    "data_constructor": {
       "type": "SEQ",
       "members": [
         {
@@ -4969,7 +4969,7 @@
               "name": "arguments",
               "content": {
                 "type": "SYMBOL",
-                "name": "type_constructor_arguments"
+                "name": "data_constructor_arguments"
               }
             },
             {
@@ -4979,7 +4979,7 @@
         }
       ]
     },
-    "type_constructor_arguments": {
+    "data_constructor_arguments": {
       "type": "SEQ",
       "members": [
         {
@@ -4994,7 +4994,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "type_constructor_argument"
+                  "name": "data_constructor_argument"
                 },
                 {
                   "type": "REPEAT",
@@ -5007,7 +5007,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "type_constructor_argument"
+                        "name": "data_constructor_argument"
                       }
                     ]
                   }
@@ -5037,7 +5037,7 @@
         }
       ]
     },
-    "type_constructor_argument": {
+    "data_constructor_argument": {
       "type": "SEQ",
       "members": [
         {

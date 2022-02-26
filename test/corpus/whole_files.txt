@@ -262,11 +262,11 @@ fn foo(a,) {
   (type_definition
     (type_name
       (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         (type_identifier)
-        (type_constructor_arguments
-          (type_constructor_argument
+        (data_constructor_arguments
+          (data_constructor_argument
             (label)
             (type
               (type_identifier)))))))
