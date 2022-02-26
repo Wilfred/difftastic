@@ -1396,6 +1396,104 @@
     }
   },
   {
+    "type": "data_constructor",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "data_constructor_arguments",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "data_constructor_argument",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "label",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "data_constructor_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "data_constructor_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "data_constructors",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "data_constructor",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "discard",
     "named": true,
     "fields": {}
@@ -2730,7 +2828,7 @@
       "required": true,
       "types": [
         {
-          "type": "type_constructors",
+          "type": "data_constructors",
           "named": true
         },
         {
@@ -2784,7 +2882,7 @@
       "required": true,
       "types": [
         {
-          "type": "type_constructors",
+          "type": "data_constructors",
           "named": true
         },
         {
@@ -3913,104 +4011,6 @@
     }
   },
   {
-    "type": "type_constructor",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type_constructor_arguments",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_identifier",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "type_constructor_argument",
-    "named": true,
-    "fields": {
-      "label": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "label",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "type_constructor_arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "type_constructor_argument",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type_constructors",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "type_constructor",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "type_definition",
     "named": true,
     "fields": {},
@@ -4019,7 +4019,7 @@
       "required": true,
       "types": [
         {
-          "type": "type_constructors",
+          "type": "data_constructors",
           "named": true
         },
         {

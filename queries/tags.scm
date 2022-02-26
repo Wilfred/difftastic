@@ -37,12 +37,12 @@
   (type_name
     name: (type_identifier) @name)) @definition.type
 (public_type_definition
-  (type_constructors
-    (type_constructor
+  (data_constructors
+    (data_constructor
       name: (type_identifier) @name))) @definition.type
 (type_definition
-  (type_constructors
-    (type_constructor
+  (data_constructors
+    (data_constructor
       name: (type_identifier) @name))) @definition.type
 (external_type
   (type_name

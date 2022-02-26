@@ -13,17 +13,17 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
   (type_definition
     (type_name
       name: (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier))))
   (type_definition
     (type_name
       name: (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             value: (type
               name: (type_identifier)))))))
   (type_definition
@@ -31,11 +31,11 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
       name: (type_identifier)
       parameters: (type_parameters
         (type_parameter)))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type_var))))))
   (type_definition
@@ -43,14 +43,14 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
       name: (type_identifier)
       parameters: (type_parameters
         (type_parameter)))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type_var)))))))
 
@@ -88,15 +88,15 @@ type Boring {
   (type_definition
     (type_name
       name: (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))))))
@@ -104,26 +104,26 @@ type Boring {
     (type_name
       name: (type_identifier)
       parameters: (type_parameters))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))))
-      (type_constructor
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))))))
@@ -133,32 +133,32 @@ type Boring {
       parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             value: (type_var))))
-      (type_constructor
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             value: (type_var))))))
   (type_definition
     (type_name
       name: (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier))
-      (type_constructor
+      (data_constructor
         name: (type_identifier))
-      (type_constructor
+      (data_constructor
         name: (type_identifier))))
   (type_definition
     (type_name
       name: (type_identifier))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)))))
 
 ================================================================================
@@ -179,26 +179,26 @@ pub type Animal(name, cuteness) {
       parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))))
-      (type_constructor
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier))))))))
@@ -221,26 +221,26 @@ pub opaque type Animal(name, cuteness) {
       parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
-    (type_constructors
-      (type_constructor
+    (data_constructors
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))))
-      (type_constructor
+      (data_constructor
         name: (type_identifier)
-        arguments: (type_constructor_arguments
-          (type_constructor_argument
+        arguments: (data_constructor_arguments
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier)))
-          (type_constructor_argument
+          (data_constructor_argument
             label: (label)
             value: (type
               name: (type_identifier))))))))
