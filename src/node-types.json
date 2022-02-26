@@ -4079,6 +4079,16 @@
           }
         ]
       },
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      },
       "implementation": {
         "multiple": false,
         "required": true,

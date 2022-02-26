@@ -111,3 +111,42 @@ Acroynm definition
         (word)
         (word)
         (word)))))
+
+================================================================================
+Command definition without default arg
+================================================================================
+
+\newcommand{\foo}[1]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+Command definition with default arg
+================================================================================
+
+\newcommand{\foo}[1][bar]{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (new_command_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (brack_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (placeholder)))))

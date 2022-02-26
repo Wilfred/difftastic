@@ -790,7 +790,12 @@ module.exports = grammar({
           )
         ),
         field('declaration', $.curly_group_command_name),
-        field('argc', optional($.brack_group_argc)),
+        optional(
+          seq(
+            field('argc', $.brack_group_argc),
+            field('default', optional($.brack_group))
+          )
+        ),
         field('implementation', $.curly_group)
       ),
 
