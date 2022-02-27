@@ -54,10 +54,10 @@ fn apply_styles(
             MatchKind::UnchangedToken { highlight, .. } => match highlight {
                 TokenKind::Atom(kind) => match kind {
                     AtomKind::Normal => None,
-                    AtomKind::String => Some("string"),
-                    AtomKind::Type => Some("type"),
-                    AtomKind::Comment => Some("comment"),
-                    AtomKind::Keyword => Some("keyword"),
+                    AtomKind::String => Some("pl-s"),
+                    AtomKind::Type => Some("pl-k"),
+                    AtomKind::Comment => Some("pl-c"),
+                    AtomKind::Keyword => Some("pl-k"),
                 },
                 _ => None,
             },
