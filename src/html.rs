@@ -7,7 +7,8 @@ use crate::{
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, LineNumber},
     positions::SingleLineSpan,
-    syntax::{AtomKind, MatchKind, MatchedPos, TokenKind}, side_by_side::split_on_newlines,
+    side_by_side::split_on_newlines,
+    syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
 type StyledLine = Vec<(String, Option<&'static str>)>;
@@ -43,6 +44,7 @@ fn apply_line(
 }
 
 fn apply_styles(
+    is_lhs: bool,
     mps: &[MatchedPos],
 ) -> HashMap<LineNumber, Vec<(SingleLineSpan, Option<&'static str>)>> {
     let mut line_styles = HashMap::new();
@@ -59,7 +61,9 @@ fn apply_styles(
                 },
                 _ => None,
             },
-            _ => None,
+            MatchKind::Novel { .. }
+            | MatchKind::NovelLinePart { .. }
+            | MatchKind::NovelWord { .. } => Some(if is_lhs { "novel-lhs" } else { "novel-rhs" }),
         };
 
         let line_classes = line_styles.entry(line_pos.line).or_insert_with(Vec::new);
@@ -79,8 +83,8 @@ pub fn print(
 ) {
     let lhs_lines = split_on_newlines(lhs_src);
     let rhs_lines = split_on_newlines(rhs_src);
-    let lhs_line_styles = apply_styles(lhs_mps);
-    let rhs_line_styles = apply_styles(rhs_mps);
+    let lhs_line_styles = apply_styles(true, lhs_mps);
+    let rhs_line_styles = apply_styles(false, rhs_mps);
     let empty_styles = vec![];
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps);
@@ -89,8 +93,24 @@ pub fn print(
     for hunk in hunks {
         let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
         for (lhs_num, rhs_num) in aligned_lines {
-            let lhs = lhs_num.map(|ln| (ln, apply_line(lhs_lines[ln.0], lhs_line_styles.get(&ln).unwrap_or(&empty_styles))));
-            let rhs = rhs_num.map(|ln| (ln, apply_line(rhs_lines[ln.0], rhs_line_styles.get(&ln).unwrap_or(&empty_styles))));
+            let lhs = lhs_num.map(|ln| {
+                (
+                    ln,
+                    apply_line(
+                        lhs_lines[ln.0],
+                        lhs_line_styles.get(&ln).unwrap_or(&empty_styles),
+                    ),
+                )
+            });
+            let rhs = rhs_num.map(|ln| {
+                (
+                    ln,
+                    apply_line(
+                        rhs_lines[ln.0],
+                        rhs_line_styles.get(&ln).unwrap_or(&empty_styles),
+                    ),
+                )
+            });
             paired_lines.push((lhs, rhs));
         }
     }
