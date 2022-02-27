@@ -32,7 +32,7 @@
                             {% match lhs %}
                             {%- when Some with (num_content) -%}
 
-                            <td class="line-number">{{num_content.0.0}}</td>
+                            <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
                             <td><pre>{%- for part in num_content.1 -%}
                             {%- match part.1 -%}
@@ -51,7 +51,7 @@
                             {% match rhs %}
                             {%- when Some with (num_content) -%}
 
-                            <td class="line-number">{{num_content.0.0}}</td>
+                            <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
                             <td><pre>{%- for part in num_content.1 -%}
                             {%- match part.1 -%}
