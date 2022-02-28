@@ -162,16 +162,10 @@
                         <tr>
                             {% match lhs %}
                             {%- when Some with (num_content) -%}
-
                             <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
                             <td><pre>{%- for part in num_content.1 -%}
-                            {%- match part.1 -%}
-                            {%- when Some with (class_name) -%}
-                            <span class="{{class_name}}">{{- part.0 -}}</span>
-                            {%- when None -%}
-                            {{- part.0 -}}
-                            {%- endmatch -%}
+                            <span class="{{part.1.join(" ")}}">{{- part.0 -}}</span>
                             {%- endfor -%}&nbsp;</pre></td>
 
                             {% when None %}
@@ -181,16 +175,10 @@
                             
                             {% match rhs %}
                             {%- when Some with (num_content) -%}
-
                             <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
                             <td><pre>{%- for part in num_content.1 -%}
-                            {%- match part.1 -%}
-                            {%- when Some with (class_name) -%}
-                            <span class="{{class_name}}">{{- part.0 -}}</span>
-                            {%- when None -%}
-                            {{- part.0 -}}
-                            {%- endmatch -%}
+                            <span class="{{part.1.join(" ")}}">{{- part.0 -}}</span>
                             {%- endfor -%}&nbsp;</pre></td>
 
                             {% when None %}

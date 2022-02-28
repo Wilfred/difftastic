@@ -11,7 +11,7 @@ use crate::{
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
-type StyledLine = Vec<(String, Option<&'static str>)>;
+type StyledLine = Vec<(String, Vec<&'static str>)>;
 type NumberedLine = (LineNumber, StyledLine);
 
 #[derive(Template)]
@@ -23,21 +23,21 @@ struct SummaryTemplate {
 
 fn apply_line(
     line: &str,
-    styles: &[(SingleLineSpan, Option<&'static str>)],
-) -> Vec<(String, Option<&'static str>)> {
+    styles: &[(SingleLineSpan, Vec<&'static str>)],
+) -> Vec<(String, Vec<&'static str>)> {
     let mut offset = 0;
     let mut res = vec![];
 
     for (span, classes) in styles {
         if offset < span.start_col {
-            res.push((line[offset..span.start_col].to_owned(), None));
+            res.push((line[offset..span.start_col].to_owned(), vec![]));
         }
 
-        res.push((line[span.start_col..span.end_col].to_owned(), *classes));
+        res.push((line[span.start_col..span.end_col].to_owned(), classes.clone()));
         offset = span.end_col;
     }
     if offset < codepoint_len(line) {
-        res.push((line[offset..].to_owned(), None));
+        res.push((line[offset..].to_owned(), vec![]));
     }
 
     res
@@ -46,28 +46,31 @@ fn apply_line(
 fn apply_styles(
     is_lhs: bool,
     mps: &[MatchedPos],
-) -> HashMap<LineNumber, Vec<(SingleLineSpan, Option<&'static str>)>> {
+) -> HashMap<LineNumber, Vec<(SingleLineSpan, Vec<&'static str>)>> {
     let mut line_styles = HashMap::new();
     for mp in mps {
         let line_pos = mp.pos;
-        let style = match mp.kind {
+        let mut span_classes = vec![];
+        match mp.kind {
             MatchKind::UnchangedToken { highlight, .. } => match highlight {
                 TokenKind::Atom(kind) => match kind {
-                    AtomKind::Normal => None,
-                    AtomKind::String => Some("pl-s"),
-                    AtomKind::Type => Some("pl-k"),
-                    AtomKind::Comment => Some("pl-c"),
-                    AtomKind::Keyword => Some("pl-k"),
+                    AtomKind::Normal => {}
+                    AtomKind::String => span_classes.push("pl-s"),
+                    AtomKind::Type => span_classes.push("pl-k"),
+                    AtomKind::Comment => span_classes.push("pl-c"),
+                    AtomKind::Keyword => span_classes.push("pl-k"),
                 },
-                _ => None,
+                _ => {}
             },
             MatchKind::Novel { .. }
             | MatchKind::NovelLinePart { .. }
-            | MatchKind::NovelWord { .. } => Some(if is_lhs { "novel-lhs" } else { "novel-rhs" }),
-        };
+            | MatchKind::NovelWord { .. } => {
+                span_classes.push(if is_lhs { "novel-lhs" } else { "novel-rhs" });
+            }
+        }
 
         let line_classes = line_styles.entry(line_pos.line).or_insert_with(Vec::new);
-        line_classes.push((line_pos, style));
+        line_classes.push((line_pos, span_classes));
     }
 
     line_styles
