@@ -1393,6 +1393,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "visibility_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1649,6 +1659,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "visibility_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1671,11 +1691,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "visibility_modifier",
           "named": true
         }
       ]
@@ -1795,6 +1819,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "visibility_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2578,321 +2612,6 @@
     "fields": {}
   },
   {
-    "type": "public_constant",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bit_string",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "record",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "public_external_function",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "external_function_body",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_parameters",
-            "named": true
-          }
-        ]
-      },
-      "return_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "public_external_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "public_function",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_body",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_parameters",
-            "named": true
-          }
-        ]
-      },
-      "return_type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "public_opaque_type_alias",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_hole",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "public_opaque_type_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "data_constructors",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "public_type_alias",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_hole",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "public_type_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "data_constructors",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "record",
     "named": true,
     "fields": {
@@ -3327,38 +3046,6 @@
           "named": true
         },
         {
-          "type": "public_constant",
-          "named": true
-        },
-        {
-          "type": "public_external_function",
-          "named": true
-        },
-        {
-          "type": "public_external_type",
-          "named": true
-        },
-        {
-          "type": "public_function",
-          "named": true
-        },
-        {
-          "type": "public_opaque_type_alias",
-          "named": true
-        },
-        {
-          "type": "public_opaque_type_definition",
-          "named": true
-        },
-        {
-          "type": "public_type_alias",
-          "named": true
-        },
-        {
-          "type": "public_type_definition",
-          "named": true
-        },
-        {
           "type": "target_group",
           "named": true
         },
@@ -3434,38 +3121,6 @@
         },
         {
           "type": "import",
-          "named": true
-        },
-        {
-          "type": "public_constant",
-          "named": true
-        },
-        {
-          "type": "public_external_function",
-          "named": true
-        },
-        {
-          "type": "public_external_type",
-          "named": true
-        },
-        {
-          "type": "public_function",
-          "named": true
-        },
-        {
-          "type": "public_opaque_type_alias",
-          "named": true
-        },
-        {
-          "type": "public_opaque_type_definition",
-          "named": true
-        },
-        {
-          "type": "public_type_alias",
-          "named": true
-        },
-        {
-          "type": "public_type_definition",
           "named": true
         },
         {
@@ -3942,6 +3597,10 @@
           "named": true
         },
         {
+          "type": "opacity_modifier",
+          "named": true
+        },
+        {
           "type": "tuple_type",
           "named": true
         },
@@ -3959,6 +3618,10 @@
         },
         {
           "type": "type_var",
+          "named": true
+        },
+        {
+          "type": "visibility_modifier",
           "named": true
         }
       ]
@@ -4023,7 +3686,15 @@
           "named": true
         },
         {
+          "type": "opacity_modifier",
+          "named": true
+        },
+        {
           "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "visibility_modifier",
           "named": true
         }
       ]
@@ -4400,12 +4071,8 @@
     "named": true
   },
   {
-    "type": "opaque",
-    "named": false
-  },
-  {
-    "type": "pub",
-    "named": false
+    "type": "opacity_modifier",
+    "named": true
   },
   {
     "type": "quoted_content",
@@ -4434,6 +4101,10 @@
   {
     "type": "unit",
     "named": false
+  },
+  {
+    "type": "visibility_modifier",
+    "named": true
   },
   {
     "type": "{",
