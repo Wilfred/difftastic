@@ -127,7 +127,8 @@ pub fn replace(
 --------------------------------------------------------------------------------
 
 (source_file
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
@@ -144,7 +145,8 @@ pub fn replace(
       (binary_expression
         left: (identifier)
         right: (identifier))))
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
@@ -167,14 +169,16 @@ pub fn replace(
               arguments: (arguments
                 (argument
                   value: (identifier)))))))))
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
     body: (function_body
       (identifier)))
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter

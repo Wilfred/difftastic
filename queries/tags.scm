@@ -10,11 +10,7 @@
 ; Functions
 (function
   name: (identifier) @name) @definition.function
-(public_function
-  name: (identifier) @name) @definition.function
 (external_function
-  name: (identifier) @name) @definition.function
-(public_external_function
   name: (identifier) @name) @definition.function
 (unqualified_import (identifier) @name) @reference.function
 ((function_call
@@ -30,24 +26,14 @@
  (#is-not? local)) @reference.function
 
 ; Types
-(public_type_definition
-  (type_name
-    name: (type_identifier) @name)) @definition.type
 (type_definition
   (type_name
     name: (type_identifier) @name)) @definition.type
-(public_type_definition
-  (data_constructors
-    (data_constructor
-      name: (type_identifier) @name))) @definition.type
 (type_definition
   (data_constructors
     (data_constructor
       name: (type_identifier) @name))) @definition.type
 (external_type
-  (type_name
-    name: (type_identifier) @name)) @definition.type
-(public_external_type
   (type_name
     name: (type_identifier) @name)) @definition.type
 

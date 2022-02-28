@@ -12,7 +12,8 @@ pub fn main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (public_function
+  (function
+    (visibility_modifier)
     (identifier)
     (function_parameters)
     (function_body
