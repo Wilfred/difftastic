@@ -34,4 +34,5 @@ jobs:
       env:
           PREFIX: /tmp
     - run: cargo test
-    - run: cd ./test-npm-package && npm test; cd ..
+    - run: cd ./test-npm-package && npm test; cd -
+    - run: npm pack && cd .. && npm install -g ./tree-sitter-swift/tree-sitter-swift-*.tgz; cd -
