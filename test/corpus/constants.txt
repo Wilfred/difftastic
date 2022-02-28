@@ -224,21 +224,25 @@ pub const a = uri.Uri(host: "github.com")
 --------------------------------------------------------------------------------
 
 (source_file
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (string
       (quoted_content)))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (type
       name: (type_identifier))
     value: (integer))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (type
       name: (type_identifier))
     value: (float))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (tuple_type
       (type
@@ -249,11 +253,13 @@ pub const a = uri.Uri(host: "github.com")
       (integer)
       (string
         (quoted_content))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (tuple_type)
     value: (tuple))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (type
       name: (type_identifier)
@@ -264,7 +270,8 @@ pub const a = uri.Uri(host: "github.com")
     value: (list
       (integer)
       (integer)))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     type: (type
       name: (type_identifier)
@@ -272,12 +279,14 @@ pub const a = uri.Uri(host: "github.com")
         (type_argument
           (type_hole))))
     value: (list))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (bit_string
       (bit_string_segment
         value: (integer))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (bit_string
       (bit_string_segment
@@ -292,14 +301,16 @@ pub const a = uri.Uri(host: "github.com")
         value: (integer)
         options: (bit_string_segment_options
           (integer)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (bit_string
       (bit_string_segment
         value: (integer)
         options: (bit_string_segment_options
           (bit_string_segment_option_size)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (bit_string
       (bit_string_segment
@@ -307,7 +318,8 @@ pub const a = uri.Uri(host: "github.com")
         options: (bit_string_segment_options
           (bit_string_segment_option_size)
           (bit_string_segment_option_unit)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (bit_string
       (bit_string_segment
@@ -315,16 +327,19 @@ pub const a = uri.Uri(host: "github.com")
           (quoted_content))
         options: (bit_string_segment_options
           (bit_string_segment_option_utf8)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (record
       name: (type_identifier)))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (record
       name: (type_identifier)
       arguments: (arguments)))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (record
       name: (type_identifier)
@@ -334,7 +349,8 @@ pub const a = uri.Uri(host: "github.com")
             (quoted_content)))
         (argument
           value: (integer)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (record
       name: (type_identifier)
@@ -346,7 +362,8 @@ pub const a = uri.Uri(host: "github.com")
         (argument
           label: (label)
           value: (integer)))))
-  (public_constant
+  (constant
+    (visibility_modifier)
     name: (identifier)
     value: (record
       name: (remote_type_identifier

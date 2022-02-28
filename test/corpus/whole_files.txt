@@ -34,7 +34,8 @@ if javascript {
     module: (module))
   (statement_comment)
   (statement_comment)
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
@@ -173,7 +174,8 @@ pub fn negate(bool: Bool) -> Bool {
   (statement_comment)
   (statement_comment)
   (statement_comment)
-  (public_function
+  (function
+    (visibility_modifier)
     name: (identifier)
     parameters: (function_parameters
       (function_parameter

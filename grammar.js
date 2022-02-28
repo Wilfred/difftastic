@@ -27,19 +27,11 @@ module.exports = grammar({
       choice(
         $.import,
         $.constant,
-        $.public_constant,
         $.external_type,
-        $.public_external_type,
         $.external_function,
-        $.public_external_function,
         $.function,
-        $.public_function,
         $.type_definition,
-        $.public_type_definition,
-        $.public_opaque_type_definition,
-        $.type_alias,
-        $.public_type_alias,
-        $.public_opaque_type_alias
+        $.type_alias
       ),
 
     /* Comments */
@@ -76,10 +68,9 @@ module.exports = grammar({
       ),
 
     /* Constant statements */
-    public_constant: ($) => seq("pub", $._constant),
-    constant: ($) => $._constant,
-    _constant: ($) =>
+    constant: ($) =>
       seq(
+        optional($.visibility_modifier),
         "const",
         field("name", $.identifier),
         optional($._constant_type_annotation),
@@ -149,16 +140,13 @@ module.exports = grammar({
       ),
     constant_type_argument: ($) => $._constant_type,
 
-    /* External types */
-    public_external_type: ($) => seq("pub", $._external_type),
-    external_type: ($) => $._external_type,
-    _external_type: ($) => seq("external", "type", $.type_name),
+    external_type: ($) =>
+      seq(optional($.visibility_modifier), "external", "type", $.type_name),
 
-    /* External functions */
-    public_external_function: ($) => seq("pub", $._external_function),
-    external_function: ($) => $._external_function,
-    _external_function: ($) =>
+    /* External function */
+    external_function: ($) =>
       seq(
+        optional($.visibility_modifier),
         "external",
         "fn",
         field("name", $.identifier),
@@ -192,9 +180,9 @@ module.exports = grammar({
     external_function_body: ($) => seq($.string, $.string),
 
     /* Functions */
-    function: ($) => $._function,
-    _function: ($) =>
+    function: ($) =>
       seq(
+        optional($.visibility_modifier),
         "fn",
         field("name", $.identifier),
         field("parameters", $.function_parameters),
@@ -552,17 +540,20 @@ module.exports = grammar({
     list_pattern_tail: ($) =>
       seq("..", optional(choice($.identifier, $.discard))),
 
-    /* Public functions */
-    public_function: ($) => seq("pub", $._function),
+    visibility_modifier: ($) => "pub",
+    opacity_modifier: ($) => "opaque",
 
     /* Custom type definitions */
-    type_definition: ($) => seq("type", $._custom_type_definition),
-    public_type_definition: ($) =>
-      seq("pub", "type", $._custom_type_definition),
-    public_opaque_type_definition: ($) =>
-      seq("pub", "opaque", "type", $._custom_type_definition),
-    _custom_type_definition: ($) =>
-      seq($.type_name, "{", $.data_constructors, "}"),
+    type_definition: ($) =>
+      seq(
+        optional($.visibility_modifier),
+        optional($.opacity_modifier),
+        "type",
+        $.type_name,
+        "{",
+        $.data_constructors,
+        "}"
+      ),
     data_constructors: ($) => repeat1($.data_constructor),
     data_constructor: ($) =>
       seq(
@@ -575,11 +566,15 @@ module.exports = grammar({
       seq(optional(seq(field("label", $.label), ":")), field("value", $._type)),
 
     /* Type aliases */
-    type_alias: ($) => seq("type", $._type_alias),
-    public_type_alias: ($) => seq("pub", "type", $._type_alias),
-    public_opaque_type_alias: ($) =>
-      seq("pub", "opaque", "type", $._type_alias),
-    _type_alias: ($) => seq($.type_name, "=", $._type),
+    type_alias: ($) =>
+      seq(
+        optional($.visibility_modifier),
+        optional($.opacity_modifier),
+        "type",
+        $.type_name,
+        "=",
+        $._type
+      ),
 
     /* Literals */
     string: ($) => seq('"', repeat($._string_part), '"'),

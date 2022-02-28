@@ -21,11 +21,7 @@
 (unqualified_import (identifier) @function)
 (function
   name: (identifier) @function)
-(public_function
-  name: (identifier) @function)
 (external_function
-  name: (identifier) @function)
-(public_external_function
   name: (identifier) @function)
 (function_parameter
   name: (identifier) @variable.parameter)
@@ -64,18 +60,17 @@
 
 ; Keywords
 [
+  (visibility_modifier) ; "pub"
+  (opacity_modifier) ; "opaque"
   "as"
   "assert"
   "case"
   "const"
   "external"
-  "pub"
   "fn"
   "if"
   "import"
   "let"
-  "opaque"
-  "pub"
   "todo"
   "try"
   "type"

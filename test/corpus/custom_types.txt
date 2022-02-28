@@ -173,7 +173,8 @@ pub type Animal(name, cuteness) {
 --------------------------------------------------------------------------------
 
 (source_file
-  (public_type_definition
+  (type_definition
+    (visibility_modifier)
     (type_name
       name: (type_identifier)
       parameters: (type_parameters
@@ -215,7 +216,9 @@ pub opaque type Animal(name, cuteness) {
 --------------------------------------------------------------------------------
 
 (source_file
-  (public_opaque_type_definition
+  (type_definition
+    (visibility_modifier)
+    (opacity_modifier)
     (type_name
       name: (type_identifier)
       parameters: (type_parameters
