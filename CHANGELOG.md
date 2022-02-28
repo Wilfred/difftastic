@@ -1,4 +1,6 @@
-## 0.21 (unreleased)
+## 0.22 (unreleased)
+
+## 0.21 (released 28th February 2022)
 
 ### Parsing
 
