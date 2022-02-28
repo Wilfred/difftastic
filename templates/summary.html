@@ -10,8 +10,11 @@
             td { padding: 0 5px; }
             .line-number { background-color: #eeeeee; text-align: right; font-family: monospace; }
 
-            .novel-lhs { background-color: rgba(200, 0, 0, 0.25); }
-            .novel-rhs { background-color: rgba(0, 200, 0, 0.25); }
+            .novel-lhs-line { background-color: rgba(200, 100, 100, 0.25); }
+            .novel-rhs-line { background-color: rgba(100, 200, 100, 0.25); }
+
+            .novel-lhs { background-color: rgba(200, 100, 100, 0.3); }
+            .novel-rhs { background-color: rgba(100, 200, 100, 0.3); }
 
             .comment { color: blue; }
             .keyword { font-weight: bold; }
@@ -164,9 +167,15 @@
                             {%- when Some with (num_content) -%}
                             <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
-                            <td><pre>{%- for part in num_content.1 -%}
+                            {%- if lhs_lines_with_novel.contains(num_content.0) -%}
+                            <td class="novel-lhs-line">
+                            {% else %}
+                            <td>
+                            {%- endif -%}
+                            <pre>{%- for part in num_content.1 -%}
                             <span class="{{part.1.join(" ")}}">{{- part.0 -}}</span>
-                            {%- endfor -%}&nbsp;</pre></td>
+                            {%- endfor -%}&nbsp;</pre>
+                            </td>
 
                             {% when None %}
                             <td class="line-number"></td>
@@ -177,9 +186,15 @@
                             {%- when Some with (num_content) -%}
                             <td class="line-number">{{num_content.0.one_indexed()}}</td>
 
-                            <td><pre>{%- for part in num_content.1 -%}
+                            {%- if rhs_lines_with_novel.contains(num_content.0) -%}
+                            <td class="novel-rhs-line">
+                            {% else %}
+                            <td>
+                            {%- endif -%}
+                            <pre>{%- for part in num_content.1 -%}
                             <span class="{{part.1.join(" ")}}">{{- part.0 -}}</span>
-                            {%- endfor -%}&nbsp;</pre></td>
+                            {%- endfor -%}&nbsp;</pre>
+                            </td>
 
                             {% when None %}
                             <td class="line-number"></td>

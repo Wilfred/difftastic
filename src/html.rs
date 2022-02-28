@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use askama::Template;
 
@@ -7,7 +7,7 @@ use crate::{
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, LineNumber},
     positions::SingleLineSpan,
-    side_by_side::split_on_newlines,
+    side_by_side::{lines_with_novel, split_on_newlines},
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
@@ -19,6 +19,8 @@ type NumberedLine = (LineNumber, StyledLine);
 struct SummaryTemplate {
     display_path: String,
     paired_lines: Vec<(Option<NumberedLine>, Option<NumberedLine>)>,
+    lhs_lines_with_novel: HashSet<LineNumber>,
+    rhs_lines_with_novel: HashSet<LineNumber>,
 }
 
 fn apply_line(
@@ -33,7 +35,10 @@ fn apply_line(
             res.push((line[offset..span.start_col].to_owned(), vec![]));
         }
 
-        res.push((line[span.start_col..span.end_col].to_owned(), classes.clone()));
+        res.push((
+            line[span.start_col..span.end_col].to_owned(),
+            classes.clone(),
+        ));
         offset = span.end_col;
     }
     if offset < codepoint_len(line) {
@@ -52,21 +57,33 @@ fn apply_styles(
         let line_pos = mp.pos;
         let mut span_classes = vec![];
         match mp.kind {
-            MatchKind::UnchangedToken { highlight, .. } => match highlight {
-                TokenKind::Atom(kind) => match kind {
-                    AtomKind::Normal => {}
-                    AtomKind::String => span_classes.push("pl-s"),
-                    AtomKind::Type => span_classes.push("pl-k"),
-                    AtomKind::Comment => span_classes.push("pl-c"),
-                    AtomKind::Keyword => span_classes.push("pl-k"),
-                },
-                _ => {}
-            },
             MatchKind::Novel { .. }
-            | MatchKind::NovelLinePart { .. }
             | MatchKind::NovelWord { .. } => {
                 span_classes.push(if is_lhs { "novel-lhs" } else { "novel-rhs" });
             }
+            MatchKind::UnchangedToken { .. } => {}
+            MatchKind::NovelLinePart { .. } => {
+                // We don't want extra highlighting for a line: the
+                // relevant part is highlighted as NovelWord.
+            }
+        }
+
+        let highlight = match mp.kind {
+            MatchKind::UnchangedToken { highlight, .. } => highlight,
+            MatchKind::Novel { highlight } => highlight,
+            MatchKind::NovelLinePart { highlight, .. } => highlight,
+            MatchKind::NovelWord { highlight } => highlight,
+        };
+
+        match highlight {
+            TokenKind::Atom(kind) => match kind {
+                AtomKind::Normal => {}
+                AtomKind::String => span_classes.push("pl-s"),
+                AtomKind::Type => span_classes.push("pl-k"),
+                AtomKind::Comment => span_classes.push("pl-c"),
+                AtomKind::Keyword => span_classes.push("pl-k"),
+            },
+            _ => {}
         }
 
         let line_classes = line_styles.entry(line_pos.line).or_insert_with(Vec::new);
@@ -89,6 +106,8 @@ pub fn print(
     let lhs_line_styles = apply_styles(true, lhs_mps);
     let rhs_line_styles = apply_styles(false, rhs_mps);
     let empty_styles = vec![];
+
+    let (lhs_lines_with_novel, rhs_lines_with_novel) = lines_with_novel(lhs_mps, rhs_mps);
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps);
 
@@ -121,6 +140,8 @@ pub fn print(
     let template = SummaryTemplate {
         display_path: display_path.into(),
         paired_lines,
+        lhs_lines_with_novel,
+        rhs_lines_with_novel,
     };
     println!("{}", template.render().unwrap());
 }
