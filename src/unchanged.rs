@@ -1,39 +1,41 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 use crate::syntax::{ChangeKind, Syntax};
+
+#[derive(Debug)]
+struct EqOnFirstItem<X, Y>(X, Y);
+
+impl<X: Eq, Y> PartialEq for EqOnFirstItem<X, Y> {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+impl<X: Eq, Y> Eq for EqOnFirstItem<X, Y> {}
 
 fn mark_unchanged_extract_ids<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> (HashSet<u32>, HashSet<u32>) {
-    let mut id_to_node = HashMap::new();
-    for node in lhs_nodes {
-        id_to_node.insert(node.content_id(), *node);
-    }
-    for node in rhs_nodes {
-        id_to_node.insert(node.content_id(), *node);
-    }
-
     let lhs_node_ids = lhs_nodes
         .iter()
-        .map(|n| n.content_id())
-        .collect::<Vec<u32>>();
+        .map(|n| EqOnFirstItem(n.content_id(), *n))
+        .collect::<Vec<_>>();
     let rhs_node_ids = rhs_nodes
         .iter()
-        .map(|n| n.content_id())
-        .collect::<Vec<u32>>();
+        .map(|n| EqOnFirstItem(n.content_id(), *n))
+        .collect::<Vec<_>>();
 
     let mut lhs_unchanged_ids: HashSet<u32> = HashSet::new();
     let mut rhs_unchanged_ids: HashSet<u32> = HashSet::new();
 
     for diff_res in diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
-            diff::Result::Both(lhs_id, rhs_id) => {
-                lhs_unchanged_ids.insert(*lhs_id);
-                rhs_unchanged_ids.insert(*rhs_id);
+            diff::Result::Both(lhs, rhs) => {
+                let lhs_node = lhs.1;
+                let rhs_node = rhs.1;
+                lhs_unchanged_ids.insert(lhs_node.id());
+                rhs_unchanged_ids.insert(rhs_node.id());
 
-                let lhs_node = id_to_node.get(lhs_id).unwrap();
-                let rhs_node = id_to_node.get(rhs_id).unwrap();
                 lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
                 rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
             }
@@ -57,11 +59,11 @@ pub fn split_definitely_unchanged<'a>(
 
     let mut res = vec![];
     for lhs_node in lhs_nodes {
-        if lhs_unchanged_ids.contains(&lhs_node.content_id()) {
+        if lhs_unchanged_ids.contains(&lhs_node.id()) {
             // This node is definitely unchanged.
             while rhs_i < rhs_nodes.len() {
                 let rhs_node = rhs_nodes[rhs_i];
-                if rhs_unchanged_ids.contains(&rhs_node.content_id()) {
+                if rhs_unchanged_ids.contains(&rhs_node.id()) {
                     break;
                 } else {
                     current_rhs.push(rhs_node);
@@ -69,9 +71,7 @@ pub fn split_definitely_unchanged<'a>(
 
                 rhs_i += 1;
             }
-            while rhs_i < rhs_nodes.len()
-                && rhs_unchanged_ids.contains(&rhs_nodes[rhs_i].content_id())
-            {
+            while rhs_i < rhs_nodes.len() && rhs_unchanged_ids.contains(&rhs_nodes[rhs_i].id()) {
                 rhs_i += 1;
             }
 
@@ -90,7 +90,7 @@ pub fn split_definitely_unchanged<'a>(
 
     while rhs_i < rhs_nodes.len() {
         let rhs_node = rhs_nodes[rhs_i];
-        if !rhs_unchanged_ids.contains(&rhs_node.content_id()) {
+        if !rhs_unchanged_ids.contains(&rhs_node.id()) {
             current_rhs.push(rhs_node);
         }
 
@@ -218,6 +218,7 @@ mod tests {
         syntax::init_all_info,
         tree_sitter_parser::{from_language, parse},
     };
+    use pretty_assertions::assert_eq;
     use typed_arena::Arena;
 
     #[test]
@@ -338,8 +339,8 @@ mod tests {
         assert_eq!(lhs_unchanged_ids.len(), 1);
         assert_eq!(rhs_unchanged_ids.len(), 1);
 
-        assert!(lhs_unchanged_ids.contains(&lhs_nodes[1].content_id()));
-        assert!(rhs_unchanged_ids.contains(&rhs_nodes[1].content_id()));
+        assert!(lhs_unchanged_ids.contains(&lhs_nodes[1].id()));
+        assert!(rhs_unchanged_ids.contains(&rhs_nodes[1].id()));
 
         assert_eq!(
             lhs_nodes[1].change(),

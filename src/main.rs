@@ -51,7 +51,7 @@ use style::BackgroundColor;
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
-use unchanged::skip_unchanged;
+use unchanged::{skip_unchanged, split_definitely_unchanged};
 use walkdir::WalkDir;
 
 use crate::{
@@ -272,16 +272,22 @@ fn diff_file_content(
                     rhs_positions,
                 )
             } else {
-                init_next_prev(&possibly_changed_lhs);
-                init_next_prev(&possibly_changed_rhs);
+                for (lhs_section_nodes, rhs_section_nodes) in
+                    split_definitely_unchanged(&possibly_changed_lhs, &possibly_changed_rhs)
+                {
+                    dbg!(lhs_section_nodes.len());
+                    dbg!(rhs_section_nodes.len());
+                    init_next_prev(&lhs_section_nodes);
+                    init_next_prev(&rhs_section_nodes);
 
-                mark_syntax(
-                    possibly_changed_lhs.get(0).copied(),
-                    possibly_changed_rhs.get(0).copied(),
-                );
+                    mark_syntax(
+                        lhs_section_nodes.get(0).copied(),
+                        rhs_section_nodes.get(0).copied(),
+                    );
 
-                fix_all_sliders(&possibly_changed_lhs);
-                fix_all_sliders(&possibly_changed_rhs);
+                    fix_all_sliders(&lhs_section_nodes);
+                    fix_all_sliders(&rhs_section_nodes);
+                }
 
                 let lhs_positions = syntax::change_positions(&lhs);
                 let rhs_positions = syntax::change_positions(&rhs);
