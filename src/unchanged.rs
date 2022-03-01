@@ -1,11 +1,19 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use crate::syntax::{ChangeKind, Syntax};
 
-fn unchanged_ids<'a>(
+fn mark_unchanged_extract_ids<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> (HashSet<u32>, HashSet<u32>) {
+    let mut id_to_node = HashMap::new();
+    for node in lhs_nodes {
+        id_to_node.insert(node.content_id(), *node);
+    }
+    for node in rhs_nodes {
+        id_to_node.insert(node.content_id(), *node);
+    }
+
     let lhs_node_ids = lhs_nodes
         .iter()
         .map(|n| n.content_id())
@@ -23,9 +31,14 @@ fn unchanged_ids<'a>(
             diff::Result::Both(lhs_id, rhs_id) => {
                 lhs_unchanged_ids.insert(*lhs_id);
                 rhs_unchanged_ids.insert(*rhs_id);
+
+                let lhs_node = id_to_node.get(lhs_id).unwrap();
+                let rhs_node = id_to_node.get(rhs_id).unwrap();
+                lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
+                rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
             }
-            diff::Result::Left(_) => todo!(),
-            diff::Result::Right(_) => todo!(),
+            diff::Result::Left(_) => {}
+            diff::Result::Right(_) => {}
         }
     }
 
@@ -36,7 +49,7 @@ pub fn split_definitely_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let (lhs_unchanged_ids, rhs_unchanged_ids) = unchanged_ids(lhs_nodes, rhs_nodes);
+    let (lhs_unchanged_ids, rhs_unchanged_ids) = mark_unchanged_extract_ids(lhs_nodes, rhs_nodes);
 
     let mut rhs_i = 0;
     let mut current_lhs: Vec<&'a Syntax<'a>> = vec![];
@@ -309,5 +322,51 @@ mod tests {
         // The inner items haven't had their change set yet.
         assert_eq!(lhs_after_skip[0].change(), None);
         assert_eq!(rhs_after_skip[0].change(), None);
+    }
+
+    #[test]
+    fn test_unchanged_ids() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(&arena, "novel-lhs (unchanged ()) novel-lhs-2", &config);
+        let rhs_nodes = parse(&arena, "novel-rhs (unchanged ()) novel-rhs-2", &config);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let (lhs_unchanged_ids, rhs_unchanged_ids) =
+            mark_unchanged_extract_ids(&lhs_nodes, &rhs_nodes);
+        assert_eq!(lhs_unchanged_ids.len(), 1);
+        assert_eq!(rhs_unchanged_ids.len(), 1);
+
+        assert!(lhs_unchanged_ids.contains(&lhs_nodes[1].content_id()));
+        assert!(rhs_unchanged_ids.contains(&rhs_nodes[1].content_id()));
+
+        assert_eq!(
+            lhs_nodes[1].change(),
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+        );
+        assert_eq!(
+            rhs_nodes[1].change(),
+            Some(ChangeKind::Unchanged(lhs_nodes[1]))
+        );
+    }
+
+    #[test]
+    fn test_split_definitely_unchanged() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(&arena, "novel-lhs (unchanged ()) novel-lhs-2", &config);
+        let rhs_nodes = parse(&arena, "novel-rhs (unchanged ()) novel-rhs-2", &config);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let res = split_definitely_unchanged(&lhs_nodes, &rhs_nodes);
+        assert_eq!(
+            res,
+            vec![
+                (vec![lhs_nodes[0]], vec![rhs_nodes[0]]),
+                (vec![lhs_nodes[2]], vec![rhs_nodes[2]])
+            ]
+        );
     }
 }
