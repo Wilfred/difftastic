@@ -51,7 +51,7 @@ use style::BackgroundColor;
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
-use unchanged::{skip_unchanged, split_definitely_unchanged};
+use unchanged::{mark_unchanged_extract_possibly_changed, skip_unchanged};
 use walkdir::WalkDir;
 
 use crate::{
@@ -273,10 +273,11 @@ fn diff_file_content(
                 )
             } else {
                 for (lhs_section_nodes, rhs_section_nodes) in
-                    split_definitely_unchanged(&possibly_changed_lhs, &possibly_changed_rhs)
+                    mark_unchanged_extract_possibly_changed(
+                        &possibly_changed_lhs,
+                        &possibly_changed_rhs,
+                    )
                 {
-                    dbg!(lhs_section_nodes.len());
-                    dbg!(rhs_section_nodes.len());
                     init_next_prev(&lhs_section_nodes);
                     init_next_prev(&rhs_section_nodes);
 

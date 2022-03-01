@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use crate::syntax::{ChangeKind, Syntax};
 
 #[derive(Debug)]
@@ -12,10 +10,10 @@ impl<X: Eq, Y> PartialEq for EqOnFirstItem<X, Y> {
 }
 impl<X: Eq, Y> Eq for EqOnFirstItem<X, Y> {}
 
-fn mark_unchanged_extract_ids<'a>(
+pub fn mark_unchanged_extract_possibly_changed<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-) -> (HashSet<u32>, HashSet<u32>) {
+) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let lhs_node_ids = lhs_nodes
         .iter()
         .map(|n| EqOnFirstItem(n.content_id(), *n))
@@ -25,82 +23,36 @@ fn mark_unchanged_extract_ids<'a>(
         .map(|n| EqOnFirstItem(n.content_id(), *n))
         .collect::<Vec<_>>();
 
-    let mut lhs_unchanged_ids: HashSet<u32> = HashSet::new();
-    let mut rhs_unchanged_ids: HashSet<u32> = HashSet::new();
-
+    let mut section_lhs_nodes = vec![];
+    let mut section_rhs_nodes = vec![];
+    let mut res = vec![];
     for diff_res in diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
             diff::Result::Both(lhs, rhs) => {
+                if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
+                    res.push((section_lhs_nodes, section_rhs_nodes));
+                    section_lhs_nodes = vec![];
+                    section_rhs_nodes = vec![];
+                }
+
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
-                lhs_unchanged_ids.insert(lhs_node.id());
-                rhs_unchanged_ids.insert(rhs_node.id());
 
                 lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
                 rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
             }
-            diff::Result::Left(_) => {}
-            diff::Result::Right(_) => {}
+            diff::Result::Left(lhs) => {
+                section_lhs_nodes.push(lhs.1);
+            }
+            diff::Result::Right(rhs) => {
+                section_rhs_nodes.push(rhs.1);
+            }
         }
     }
 
-    (lhs_unchanged_ids, rhs_unchanged_ids)
-}
-
-pub fn split_definitely_unchanged<'a>(
-    lhs_nodes: &[&'a Syntax<'a>],
-    rhs_nodes: &[&'a Syntax<'a>],
-) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let (lhs_unchanged_ids, rhs_unchanged_ids) = mark_unchanged_extract_ids(lhs_nodes, rhs_nodes);
-
-    let mut rhs_i = 0;
-    let mut current_lhs: Vec<&'a Syntax<'a>> = vec![];
-    let mut current_rhs: Vec<&'a Syntax<'a>> = vec![];
-
-    let mut res = vec![];
-    for lhs_node in lhs_nodes {
-        if lhs_unchanged_ids.contains(&lhs_node.id()) {
-            // This node is definitely unchanged.
-            while rhs_i < rhs_nodes.len() {
-                let rhs_node = rhs_nodes[rhs_i];
-                if rhs_unchanged_ids.contains(&rhs_node.id()) {
-                    break;
-                } else {
-                    current_rhs.push(rhs_node);
-                }
-
-                rhs_i += 1;
-            }
-            while rhs_i < rhs_nodes.len() && rhs_unchanged_ids.contains(&rhs_nodes[rhs_i].id()) {
-                rhs_i += 1;
-            }
-
-            // If we have previous possibly-changed nodes, add them to
-            // the current section.
-            if !current_lhs.is_empty() || !current_rhs.is_empty() {
-                res.push((current_lhs, current_rhs));
-                current_lhs = vec![];
-                current_rhs = vec![];
-            }
-        } else {
-            // Node is possibly changed.
-            current_lhs.push(lhs_node);
-        }
+    if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
+        res.push((section_lhs_nodes, section_rhs_nodes));
     }
-
-    while rhs_i < rhs_nodes.len() {
-        let rhs_node = rhs_nodes[rhs_i];
-        if !rhs_unchanged_ids.contains(&rhs_node.id()) {
-            current_rhs.push(rhs_node);
-        }
-
-        rhs_i += 1;
-    }
-
-    if !current_lhs.is_empty() || !current_rhs.is_empty() {
-        res.push((current_lhs, current_rhs));
-    }
-
     res
 }
 
@@ -334,13 +286,7 @@ mod tests {
         let rhs_nodes = parse(&arena, "novel-rhs (unchanged ()) novel-rhs-2", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let (lhs_unchanged_ids, rhs_unchanged_ids) =
-            mark_unchanged_extract_ids(&lhs_nodes, &rhs_nodes);
-        assert_eq!(lhs_unchanged_ids.len(), 1);
-        assert_eq!(rhs_unchanged_ids.len(), 1);
-
-        assert!(lhs_unchanged_ids.contains(&lhs_nodes[1].id()));
-        assert!(rhs_unchanged_ids.contains(&rhs_nodes[1].id()));
+        mark_unchanged_extract_possibly_changed(&lhs_nodes, &rhs_nodes);
 
         assert_eq!(
             lhs_nodes[1].change(),
@@ -361,12 +307,38 @@ mod tests {
         let rhs_nodes = parse(&arena, "novel-rhs (unchanged ()) novel-rhs-2", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_definitely_unchanged(&lhs_nodes, &rhs_nodes);
+        let res = mark_unchanged_extract_possibly_changed(&lhs_nodes, &rhs_nodes);
         assert_eq!(
             res,
             vec![
                 (vec![lhs_nodes[0]], vec![rhs_nodes[0]]),
                 (vec![lhs_nodes[2]], vec![rhs_nodes[2]])
+            ]
+        );
+    }
+    #[test]
+    fn test_split_definitely_unchanged_multiple() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(
+            &arena,
+            "novel-lhs unchanged-1 unchanged-2 novel-lhs-2",
+            &config,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "novel-rhs unchanged-1 unchanged-2 novel-rhs-2",
+            &config,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let res = mark_unchanged_extract_possibly_changed(&lhs_nodes, &rhs_nodes);
+        assert_eq!(
+            res,
+            vec![
+                (vec![lhs_nodes[0]], vec![rhs_nodes[0]]),
+                (vec![lhs_nodes[3]], vec![rhs_nodes[3]])
             ]
         );
     }
