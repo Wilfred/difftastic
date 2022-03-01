@@ -1,4 +1,95 @@
+use std::collections::HashSet;
+
 use crate::syntax::{ChangeKind, Syntax};
+
+fn unchanged_ids<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+) -> (HashSet<u32>, HashSet<u32>) {
+    let lhs_node_ids = lhs_nodes
+        .iter()
+        .map(|n| n.content_id())
+        .collect::<Vec<u32>>();
+    let rhs_node_ids = rhs_nodes
+        .iter()
+        .map(|n| n.content_id())
+        .collect::<Vec<u32>>();
+
+    let mut lhs_unchanged_ids: HashSet<u32> = HashSet::new();
+    let mut rhs_unchanged_ids: HashSet<u32> = HashSet::new();
+
+    for diff_res in diff::slice(&lhs_node_ids, &rhs_node_ids) {
+        match diff_res {
+            diff::Result::Both(lhs_id, rhs_id) => {
+                lhs_unchanged_ids.insert(*lhs_id);
+                rhs_unchanged_ids.insert(*rhs_id);
+            }
+            diff::Result::Left(_) => todo!(),
+            diff::Result::Right(_) => todo!(),
+        }
+    }
+
+    (lhs_unchanged_ids, rhs_unchanged_ids)
+}
+
+pub fn split_definitely_unchanged<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    let (lhs_unchanged_ids, rhs_unchanged_ids) = unchanged_ids(lhs_nodes, rhs_nodes);
+
+    let mut rhs_i = 0;
+    let mut current_lhs: Vec<&'a Syntax<'a>> = vec![];
+    let mut current_rhs: Vec<&'a Syntax<'a>> = vec![];
+
+    let mut res = vec![];
+    for lhs_node in lhs_nodes {
+        if lhs_unchanged_ids.contains(&lhs_node.content_id()) {
+            // This node is definitely unchanged.
+            while rhs_i < rhs_nodes.len() {
+                let rhs_node = rhs_nodes[rhs_i];
+                if rhs_unchanged_ids.contains(&rhs_node.content_id()) {
+                    break;
+                } else {
+                    current_rhs.push(rhs_node);
+                }
+
+                rhs_i += 1;
+            }
+            while rhs_i < rhs_nodes.len()
+                && rhs_unchanged_ids.contains(&rhs_nodes[rhs_i].content_id())
+            {
+                rhs_i += 1;
+            }
+
+            // If we have previous possibly-changed nodes, add them to
+            // the current section.
+            if !current_lhs.is_empty() || !current_rhs.is_empty() {
+                res.push((current_lhs, current_rhs));
+                current_lhs = vec![];
+                current_rhs = vec![];
+            }
+        } else {
+            // Node is possibly changed.
+            current_lhs.push(lhs_node);
+        }
+    }
+
+    while rhs_i < rhs_nodes.len() {
+        let rhs_node = rhs_nodes[rhs_i];
+        if !rhs_unchanged_ids.contains(&rhs_node.content_id()) {
+            current_rhs.push(rhs_node);
+        }
+
+        rhs_i += 1;
+    }
+
+    if !current_lhs.is_empty() || !current_rhs.is_empty() {
+        res.push((current_lhs, current_rhs));
+    }
+
+    res
+}
 
 /// Discard nodes that are obviously unchanged, so we have a smaller
 /// number of nodes to run the full diffing algorithm on.
