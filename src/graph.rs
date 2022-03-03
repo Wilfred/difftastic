@@ -402,7 +402,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 ));
                 i += 1;
 
-                if *num_descendants > NOVEL_TREE_THRESHOLD {
+                if *num_descendants > NOVEL_TREE_THRESHOLD && lhs_syntax.parent().is_none() {
                     buf[i] = Some((
                         NovelTreeLHS {
                             num_descendants: *num_descendants,
@@ -462,7 +462,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 ));
                 i += 1;
 
-                if *num_descendants > NOVEL_TREE_THRESHOLD {
+                if *num_descendants > NOVEL_TREE_THRESHOLD && rhs_syntax.parent().is_none() {
                     buf[i] = Some((
                         NovelTreeRHS {
                             num_descendants: *num_descendants,

@@ -1,5 +1,12 @@
 ## 0.22 (unreleased)
 
+### Diffing
+
+Adjusted the heuristics for 'so much has changed in this expression
+that it is confusing to highlight the unchanged parts'. The heuristic
+is now less aggressive, which helps performance (up to 20% time saved)
+and seems to produce slightly better results.
+
 ## 0.21 (released 28th February 2022)
 
 ### Parsing
