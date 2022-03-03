@@ -15,7 +15,10 @@ fn main() {
     let scanner_path = src_dir.join("scanner.c");
     c_config.file(&scanner_path);
     println!("cargo:rerun-if-changed={}", scanner_path.to_str().unwrap());
-    println!("cargo:rerun-if-changed={}", src_dir.join("typescript-scanner.h").to_str().unwrap());
+    println!(
+        "cargo:rerun-if-changed={}",
+        src_dir.join("typescript-scanner.h").to_str().unwrap()
+    );
 
     c_config.compile("parser-scanner");
 }
