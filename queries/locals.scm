@@ -1,4 +1,4 @@
-; Definitions
+;;; Definitions
 
 (ui_binding
   name: (identifier) @property
