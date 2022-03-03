@@ -1,4 +1,4 @@
-; Annotations
+;;; Annotations
 
 (ui_annotation
   "@" @operator
@@ -7,7 +7,7 @@
     (nested_identifier (identifier) @attribute)
   ])
 
-; Properties
+;;; Properties
 
 (ui_object_definition_binding
   name: [
@@ -21,10 +21,10 @@
     (nested_identifier (identifier) @property)
   ])
 
-; locals query appears not working unless id: <ref> isn't a parameter.
+;; locals query appears not working unless id: <ref> isn't a parameter.
 (ui_binding
   name: (identifier) @property
-  (#match? @property "^id$")
+  (#eq? @property "id")
   value: (expression_statement (identifier) @variable.parameter))
 
 (ui_property
@@ -36,7 +36,7 @@
 (ui_list_property_type
   ["<" ">"] @punctuation.bracket)
 
-; Signals
+;;; Signals
 
 (ui_signal
   name: (identifier) @function.signal)
@@ -44,7 +44,7 @@
 (ui_signal_parameter
   (identifier) @variable.parameter)
 
-; Keywords
+;;; Keywords
 
 [
   "as"
