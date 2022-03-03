@@ -28,6 +28,10 @@
         "named": true
       },
       {
+        "type": "intersection_type",
+        "named": true
+      },
+      {
         "type": "literal_type",
         "named": true
       },
@@ -69,6 +73,10 @@
       },
       {
         "type": "type_query",
+        "named": true
+      },
+      {
+        "type": "union_type",
         "named": true
       }
     ]
@@ -673,10 +681,6 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "property_identifier",
           "named": true
         },
@@ -686,10 +690,6 @@
         },
         {
           "type": "statement_block",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -864,15 +864,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -1586,15 +1578,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -1620,15 +1604,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -1654,15 +1630,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -1688,15 +1656,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -1728,15 +1688,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -1813,15 +1765,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -1907,15 +1851,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -2711,19 +2647,11 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
             "named": true
           },
           {
             "type": "type_predicate",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -2959,15 +2887,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -3127,15 +3047,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -3325,15 +3237,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -3739,15 +3643,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -3778,15 +3674,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -3822,15 +3710,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -4377,15 +4257,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -4416,15 +4288,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -4529,15 +4393,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -4691,15 +4547,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -4895,15 +4743,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -5077,15 +4917,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -5510,10 +5342,6 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "optional_parameter",
           "named": true
         },
@@ -5531,10 +5359,6 @@
         },
         {
           "type": "rest_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -5585,15 +5409,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -5625,15 +5441,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -5664,15 +5472,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
@@ -5787,15 +5587,7 @@
             "named": true
           },
           {
-            "type": "intersection_type",
-            "named": true
-          },
-          {
             "type": "readonly_type",
-            "named": true
-          },
-          {
-            "type": "union_type",
             "named": true
           }
         ]
@@ -6450,15 +6242,7 @@
           "named": true
         },
         {
-          "type": "intersection_type",
-          "named": true
-        },
-        {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "union_type",
           "named": true
         }
       ]
