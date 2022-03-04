@@ -888,11 +888,11 @@ function defineQuoted(start, end, name) {
     [`_quoted_i_${name}`]: ($) =>
       seq(
         field("quoted_start", start),
+        optional(alias($[`_quoted_content_i_${name}`], $.quoted_content)),
         repeat(
-          choice(
-            alias($[`_quoted_content_i_${name}`], $.quoted_content),
-            $.interpolation,
-            $.escape_sequence
+          seq(
+            choice($.interpolation, $.escape_sequence),
+            optional(alias($[`_quoted_content_i_${name}`], $.quoted_content))
           )
         ),
         field("quoted_end", end)
@@ -901,11 +901,12 @@ function defineQuoted(start, end, name) {
     [`_quoted_${name}`]: ($) =>
       seq(
         field("quoted_start", start),
+        optional(alias($[`_quoted_content_${name}`], $.quoted_content)),
         repeat(
-          choice(
-            alias($[`_quoted_content_${name}`], $.quoted_content),
-            // The end delimiter may always be escaped
-            $.escape_sequence
+          seq(
+            // The end delimiter may be escaped in non-interpolating strings too
+            $.escape_sequence,
+            optional(alias($[`_quoted_content_${name}`], $.quoted_content))
           )
         ),
         field("quoted_end", end)
