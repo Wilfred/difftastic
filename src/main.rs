@@ -249,7 +249,12 @@ fn diff_file_content(
 
             init_all_info(&lhs, &rhs);
 
-            let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged(&lhs, &rhs);
+            let (possibly_changed_lhs, possibly_changed_rhs) =
+                if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
+                    (lhs.clone(), rhs.clone())
+                } else {
+                    skip_unchanged(&lhs, &rhs)
+                };
 
             let possibly_changed_num =
                 num_nodes(&possibly_changed_lhs) + num_nodes(&possibly_changed_rhs);
