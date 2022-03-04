@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "prettier": "^2.3.2",
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.20.6"
   },
   "tree-sitter": [
     {
