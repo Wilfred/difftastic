@@ -41,7 +41,7 @@ pub struct Vertex<'a> {
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     // Instead, store parent pointers for both sides and a hashset of
     // novel delimiter parent IDs.
-    parents: im_rc::Vector<(Option<&'a Syntax<'a>>, Option<&'a Syntax<'a>>)>,
+    parents: rpds::Stack<(Option<&'a Syntax<'a>>, Option<&'a Syntax<'a>>)>,
     parents_hash: u64,
 }
 
@@ -64,7 +64,7 @@ impl<'a> Hash for Vertex<'a> {
     }
 }
 
-fn hash_parents(parents: &im_rc::Vector<(Option<&Syntax>, Option<&Syntax>)>) -> u64 {
+fn hash_parents(parents: &rpds::Stack<(Option<&Syntax>, Option<&Syntax>)>) -> u64 {
     let mut hasher = FxHasher::default();
 
     for (parent_id, _) in parents.iter() {
@@ -122,7 +122,7 @@ impl<'a> Vertex<'a> {
     }
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
-        let parents = im_rc::Vector::new();
+        let parents = rpds::Stack::new();
         let parents_hash = hash_parents(&parents);
         Vertex {
             lhs_syntax,
@@ -210,15 +210,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     let mut i = 0;
 
-    if let Some((lhs_parent, rhs_parent)) = v.parents.back() {
+    if let Some((lhs_parent, rhs_parent)) = v.parents.peek() {
         match (lhs_parent, rhs_parent) {
             (Some(lhs_parent), Some(rhs_parent))
                 if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() =>
             {
                 // We have exhausted all the nodes on both lists, so we can
                 // move up to the parent node.
-                let mut next_parents = v.parents.clone();
-                next_parents.pop_back();
+                let next_parents = v.parents.pop().unwrap();
                 let parents_hash = hash_parents(&next_parents);
 
                 // Continue from sibling of parent.
@@ -235,8 +234,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             }
             (Some(lhs_parent), None) if v.lhs_syntax.is_none() => {
                 // Move to next after LHS parent.
-                let mut next_parents = v.parents.clone();
-                next_parents.pop_back();
+                let next_parents = v.parents.pop().unwrap();
                 let parents_hash = hash_parents(&next_parents);
 
                 // Continue from sibling of parent.
@@ -253,8 +251,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             }
             (None, Some(rhs_parent)) if v.rhs_syntax.is_none() => {
                 // Move to next after RHS parent.
-                let mut next_parents = v.parents.clone();
-                next_parents.pop_back();
+                let next_parents = v.parents.pop().unwrap();
                 let parents_hash = hash_parents(&next_parents);
 
                 // Continue from sibling of parent.
@@ -309,8 +306,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 let rhs_next = rhs_children.get(0).copied();
 
                 // TODO: be consistent between parents_next and next_parents.
-                let mut parents_next = v.parents.clone();
-                parents_next.push_back((Some(lhs_syntax), Some(rhs_syntax)));
+                let parents_next = v.parents.push((Some(lhs_syntax), Some(rhs_syntax)));
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
@@ -385,8 +381,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             } => {
                 let lhs_next = children.get(0).copied();
 
-                let mut parents_next = v.parents.clone();
-                parents_next.push_back((Some(lhs_syntax), None));
+                let parents_next = v.parents.push((Some(lhs_syntax), None));
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
@@ -445,8 +440,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             } => {
                 let rhs_next = children.get(0).copied();
 
-                let mut parents_next = v.parents.clone();
-                parents_next.push_back((None, Some(rhs_syntax)));
+                let parents_next = v.parents.push((None, Some(rhs_syntax)));
                 let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
