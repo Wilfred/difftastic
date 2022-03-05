@@ -35,7 +35,7 @@ libc = "0.2.108"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 mimalloc = { version = "0.1.26", default-features = false }
-radix-heap = "0.4.1"
+radix-heap = "0.4.2"
 walkdir = "2.3.2"
 term_size = "0.3.2"
 const_format = "0.2.22"
