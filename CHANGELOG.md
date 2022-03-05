@@ -1,5 +1,7 @@
 ## 0.22 (unreleased)
 
+Difftastic now requires Rust 1.56 to build.
+
 ### Diffing
 
 Adjusted the heuristics for 'so much has changed in this expression
