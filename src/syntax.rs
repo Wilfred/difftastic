@@ -193,6 +193,17 @@ impl<'a> Syntax<'a> {
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
     ) -> &'a Syntax<'a> {
+        // Skip empty atoms: they aren't displayed, so there's no
+        // point making our syntax tree bigger. These occur when we're
+        // parsing incomplete or malformed programs.
+        let children = children
+            .into_iter()
+            .filter(|n| match n {
+                List { .. } => true,
+                Atom { content, .. } => !content.is_empty(),
+            })
+            .collect::<Vec<_>>();
+
         // Don't bother creating a list if we have no open/close and
         // there's only one child. This occurs in small files with
         // thorough tree-sitter parsers: you get parse trees like:
@@ -884,6 +895,27 @@ mod tests {
         let trivial_list = Syntax::new_list(&arena, "", vec![], vec![atom], "", vec![]);
 
         assert!(matches!(trivial_list, Atom { .. }));
+    }
+
+    #[test]
+    fn test_ignore_empty_atoms() {
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 2,
+        }];
+
+        let arena = Arena::new();
+        let atom = Syntax::new_atom(&arena, pos, "", AtomKind::Normal);
+
+        let trivial_list = Syntax::new_list(&arena, "(", vec![], vec![atom], ")", vec![]);
+
+        match trivial_list {
+            List { children, .. } => {
+                assert_eq!(children.len(), 0);
+            }
+            Atom { .. } => unreachable!(),
+        }
     }
 
     #[test]
