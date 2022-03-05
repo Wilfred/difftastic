@@ -340,13 +340,7 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     set_content_id(rhs_roots, &mut existing);
 }
 
-type ContentKey = (
-    Option<String>,
-    Option<String>,
-    Vec<u32>,
-    bool,
-    Option<AtomKind>,
-);
+type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
 
 fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     for node in nodes {
@@ -368,7 +362,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
                     Some(close_content.clone()),
                     children_content_ids,
                     true,
-                    None,
+                    true,
                 )
             }
             Atom {
@@ -376,18 +370,18 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
                 kind: highlight,
                 ..
             } => {
-                let clean_content =
-                    if *highlight == AtomKind::Comment && content.lines().count() > 1 {
-                        content
-                            .lines()
-                            .map(|l| l.trim_start())
-                            .collect::<Vec<_>>()
-                            .join("\n")
-                            .to_string()
-                    } else {
-                        content.clone()
-                    };
-                (Some(clean_content), None, vec![], false, Some(*highlight))
+                let is_comment = *highlight == AtomKind::Comment;
+                let clean_content = if is_comment && content.lines().count() > 1 {
+                    content
+                        .lines()
+                        .map(|l| l.trim_start())
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                        .to_string()
+                } else {
+                    content.clone()
+                };
+                (Some(clean_content), None, vec![], false, is_comment)
             }
         };
 
@@ -837,6 +831,8 @@ mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
 
+    /// Consider comment atoms as distinct to other atoms even if the
+    /// content matches otherwise.
     #[test]
     fn test_comment_and_atom_differ() {
         let pos = vec![SingleLineSpan {
@@ -852,6 +848,26 @@ mod tests {
         init_all_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
+    }
+
+    /// Ignore the syntax highighting kind when comparing
+    /// atoms. Sometimes changing delimiter wrapping can change
+    /// whether a parser thinks that a node is e.g. a type.
+    #[test]
+    fn test_atom_equality_ignores_highlighting() {
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 3,
+        }];
+
+        let arena = Arena::new();
+
+        let type_atom = Syntax::new_atom(&arena, pos.clone(), "foo", AtomKind::Type);
+        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
+        init_all_info(&[type_atom], &[atom]);
+
+        assert_eq!(type_atom, atom);
     }
 
     #[test]
