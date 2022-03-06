@@ -353,6 +353,8 @@ pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'
 }
 
 pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+    // TODO: start unique IDs at 1. This helps with hashing and makes
+    // it obvious if we've forgotten to init the syntax info.
     let mut id = 0;
     init_info_single(lhs_roots, &mut id);
     init_info_single(rhs_roots, &mut id);
