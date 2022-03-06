@@ -152,13 +152,15 @@ fn try_pop_lhs<'a>(
                 entered = entered.pop().unwrap();
 
                 let new_lhs_delims = lhs_delims.pop().unwrap();
-                Some((
-                    lhs_delim,
-                    entered.push(EnteredDelimiter::PopEither((
+
+                if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
+                    entered = entered.push(EnteredDelimiter::PopEither((
                         new_lhs_delims,
                         rhs_delims.clone(),
-                    ))),
-                ))
+                    )));
+                }
+
+                Some((lhs_delim, entered))
             }
             None => None,
         },
@@ -176,13 +178,15 @@ fn try_pop_rhs<'a>(
                 entered = entered.pop().unwrap();
 
                 let new_rhs_delims = rhs_delims.pop().unwrap();
-                Some((
-                    rhs_delim,
-                    entered.push(EnteredDelimiter::PopEither((
+
+                if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
+                    entered = entered.push(EnteredDelimiter::PopEither((
                         lhs_delims.clone(),
                         new_rhs_delims,
-                    ))),
-                ))
+                    )));
+                }
+
+                Some((rhs_delim, entered))
             }
             None => None,
         },
