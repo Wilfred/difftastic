@@ -4,4 +4,4 @@
   [x]
   (-> {:more (inc x)
        :less (dec x)}
-      (assoc :twice (+ x x)))
+      (assoc :twice (+ x x))))

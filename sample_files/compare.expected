@@ -2,7 +2,7 @@ sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 ffb31b7f11712d0e28a7f874bb7756c6  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
-f4f1eb9553b165c98c097c31cc5fd319  -
+8316bcd959ce706ac07011f6dc31c93a  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
 898ffdafebc08cdf4e9fe43cb3619e6c  -
