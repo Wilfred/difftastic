@@ -108,14 +108,14 @@ impl<'a> PartialEq for EnteredDelimiter<'a> {
                 for (self_lhs_delim, other_lhs_delim) in
                     self_lhs_delims.iter().zip(other_lhs_delims.iter())
                 {
-                    if self_lhs_delim.id() == other_lhs_delim.id() {
+                    if self_lhs_delim.id() != other_lhs_delim.id() {
                         return false;
                     }
                 }
                 for (self_rhs_delim, other_rhs_delim) in
                     self_rhs_delims.iter().zip(other_rhs_delims.iter())
                 {
-                    if self_rhs_delim.id() == other_rhs_delim.id() {
+                    if self_rhs_delim.id() != other_rhs_delim.id() {
                         return false;
                     }
                 }
