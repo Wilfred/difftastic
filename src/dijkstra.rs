@@ -83,7 +83,22 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     info!(
         "Initial {} items on path: {:#?}",
         print_length,
-        route.iter().map(|x| x.0).take(print_length).collect_vec()
+        route
+            .iter()
+            .map(|x| {
+                format!(
+                    "{:10} {:10} --- {:?}",
+                    x.1.lhs_syntax
+                        .map(Syntax::dbg_content)
+                        .unwrap_or_else(|| "None".into()),
+                    x.1.rhs_syntax
+                        .map(Syntax::dbg_content)
+                        .unwrap_or_else(|| "None".into()),
+                    x.0,
+                )
+            })
+            .take(print_length)
+            .collect_vec()
     );
     route
 }

@@ -287,6 +287,17 @@ impl<'a> Syntax<'a> {
         self.info().num_ancestors.get()
     }
 
+    pub fn dbg_content(&self) -> String {
+        match self {
+            List {
+                open_content,
+                close_content,
+                ..
+            } => format!("{} ... {}", open_content, close_content),
+            Atom { content, .. } => content.into(),
+        }
+    }
+
     pub fn first_line(&self) -> Option<LineNumber> {
         let position = match self {
             List { open_position, .. } => open_position,
