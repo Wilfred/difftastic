@@ -404,7 +404,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
             // Continue from sibling of parent.
             buf[i] = Some((
-                ExitDelimiterLHS,
+                ExitDelimiterRHS,
                 Vertex {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
