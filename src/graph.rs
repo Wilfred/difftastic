@@ -1,7 +1,10 @@
 //! A graph representation for computing tree diffs.
 
 use rustc_hash::FxHasher;
-use std::hash::{Hash, Hasher};
+use std::{
+    fmt,
+    hash::{Hash, Hasher},
+};
 use strsim::normalized_levenshtein;
 
 use crate::syntax::{AtomKind, ChangeKind, Syntax};
@@ -71,10 +74,22 @@ impl<'a> Hash for Vertex<'a> {
 // Otherwise we would construct a much bigger graph and
 // difftastic wouldn't scale to medium size programs such as
 // sample_files/nest_after.rs.
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 enum EnteredDelimiter<'a> {
     PopEither((rpds::Stack<&'a Syntax<'a>>, rpds::Stack<&'a Syntax<'a>>)),
     PopBoth((&'a Syntax<'a>, &'a Syntax<'a>)),
+}
+
+impl<'a> fmt::Debug for EnteredDelimiter<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let desc = match self {
+            EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
+                format!("PopEither({}, {})", lhs_delims.size(), rhs_delims.size())
+            }
+            EnteredDelimiter::PopBoth(_) => "PopBoth".to_string(),
+        };
+        f.write_str(&desc)
+    }
 }
 
 impl<'a> PartialEq for EnteredDelimiter<'a> {
