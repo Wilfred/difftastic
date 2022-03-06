@@ -39,9 +39,7 @@ use Edge::*;
 pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
-    // Instead, store parent pointers for both sides and a hashset of
-    // novel delimiter parent IDs.
-    parents: rpds::Stack<(Option<&'a Syntax<'a>>, Option<&'a Syntax<'a>>)>,
+    parents: rpds::Stack<EnteredDelimiter<'a>>,
     parents_hash: u64,
 }
 
@@ -64,23 +62,140 @@ impl<'a> Hash for Vertex<'a> {
     }
 }
 
-fn hash_parents(parents: &rpds::Stack<(Option<&Syntax>, Option<&Syntax>)>) -> u64 {
+#[derive(Debug, Clone)]
+enum EnteredDelimiter<'a> {
+    PopEither((rpds::Stack<&'a Syntax<'a>>, rpds::Stack<&'a Syntax<'a>>)),
+    PopBoth((&'a Syntax<'a>, &'a Syntax<'a>)),
+}
+
+fn push_both_delimiters<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    delimiters: (&'a Syntax<'a>, &'a Syntax<'a>),
+) -> rpds::Stack<EnteredDelimiter<'a>> {
+    entered.push(EnteredDelimiter::PopBoth(delimiters))
+}
+
+fn try_pop_both<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+) -> Option<(
+    &'a Syntax<'a>,
+    &'a Syntax<'a>,
+    rpds::Stack<EnteredDelimiter<'a>>,
+)> {
+    match entered.peek() {
+        Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
+            Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
+        }
+        _ => None,
+    }
+}
+
+fn try_pop_lhs<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, rpds::Stack<EnteredDelimiter<'a>>)> {
+    match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
+            Some(lhs_delim) => {
+                let mut entered = entered.clone();
+                entered = entered.pop().unwrap();
+
+                let new_lhs_delims = lhs_delims.pop().unwrap();
+                Some((
+                    lhs_delim,
+                    entered.push(EnteredDelimiter::PopEither((new_lhs_delims, *rhs_delims))),
+                ))
+            }
+            None => None,
+        },
+        _ => None,
+    }
+}
+
+fn try_pop_rhs<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, rpds::Stack<EnteredDelimiter<'a>>)> {
+    match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
+            Some(rhs_delim) => {
+                let mut entered = entered.clone();
+                entered = entered.pop().unwrap();
+
+                let new_rhs_delims = rhs_delims.pop().unwrap();
+                Some((
+                    rhs_delim,
+                    entered.push(EnteredDelimiter::PopEither((*lhs_delims, new_rhs_delims))),
+                ))
+            }
+            None => None,
+        },
+        _ => None,
+    }
+}
+
+fn push_lhs_delimiter<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    delimiter: &'a Syntax<'a>,
+) -> rpds::Stack<EnteredDelimiter<'a>> {
+    let mut entered = entered.clone();
+
+    let mut modifying_head = false;
+    let (mut lhs_delims, rhs_delims) = match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+            modifying_head = true;
+            (lhs_delims.clone(), rhs_delims.clone())
+        }
+        _ => (rpds::Stack::new(), rpds::Stack::new()),
+    };
+    lhs_delims = lhs_delims.push(delimiter);
+
+    if modifying_head {
+        entered = entered.pop().unwrap();
+    }
+    entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
+}
+
+fn push_rhs_delimiter<'a>(
+    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    delimiter: &'a Syntax<'a>,
+) -> rpds::Stack<EnteredDelimiter<'a>> {
+    let mut entered = entered.clone();
+
+    let mut modifying_head = false;
+    let (lhs_delims, mut rhs_delims) = match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
+            modifying_head = true;
+            (lhs_delims.clone(), rhs_delims.clone())
+        }
+        _ => (rpds::Stack::new(), rpds::Stack::new()),
+    };
+    rhs_delims = rhs_delims.push(delimiter);
+
+    if modifying_head {
+        entered = entered.pop().unwrap();
+    }
+    entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
+}
+
+fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
     let mut hasher = FxHasher::default();
 
-    for (parent_id, _) in parents.iter() {
-        if let Some(parent_id) = parent_id {
-            // FxHasher finishes with 0 if called with
-            // .write_u32(0). Ensure the u32 written is always
-            // non-zero.
-            hasher.write_u32(parent_id.id() + 1);
-        }
-    }
-    for (_, parent_id) in parents.iter() {
-        if let Some(parent_id) = parent_id {
-            // FxHasher finishes with 0 if called with
-            // .write_u32(0). Ensure the u32 written is always
-            // non-zero.
-            hasher.write_u32(parent_id.id() + 1);
+    for entered in parents.iter() {
+        match entered {
+            EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
+                // FxHasher finishes with 0 if called with
+                // .write_u32(0). Ensure the u32 written is always
+                // non-zero.
+                for lhs_delim in lhs_delims {
+                    hasher.write_u32(lhs_delim.id() + 1);
+                }
+                for rhs_delim in rhs_delims {
+                    hasher.write_u32(rhs_delim.id() + 1);
+                }
+            }
+            EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)) => {
+                hasher.write_u32(lhs_delim.id() + 1);
+                hasher.write_u32(rhs_delim.id() + 1);
+            }
         }
     }
 
@@ -210,63 +325,62 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     let mut i = 0;
 
-    if let Some((lhs_parent, rhs_parent)) = v.parents.peek() {
-        match (lhs_parent, rhs_parent) {
-            (Some(lhs_parent), Some(rhs_parent))
-                if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() =>
-            {
-                // We have exhausted all the nodes on both lists, so we can
-                // move up to the parent node.
-                let next_parents = v.parents.pop().unwrap();
-                let parents_hash = hash_parents(&next_parents);
+    if let Some(entered_delim) = v.parents.peek() {
+        match entered_delim {
+            EnteredDelimiter::PopBoth((lhs_parent, rhs_parent)) => {
+                if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() {
+                    // We have exhausted all the nodes on both lists, so we can
+                    // move up to the parent node.
+                    let next_parents = v.parents.pop().unwrap();
+                    let parents_hash = hash_parents(&next_parents);
 
-                // Continue from sibling of parent.
-                buf[i] = Some((
-                    ExitDelimiterBoth,
-                    Vertex {
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: rhs_parent.next_sibling(),
-                        parents: next_parents,
-                        parents_hash,
-                    },
-                ));
-                i += 1;
+                    // Continue from sibling of parent.
+                    buf[i] = Some((
+                        ExitDelimiterBoth,
+                        Vertex {
+                            lhs_syntax: lhs_parent.next_sibling(),
+                            rhs_syntax: rhs_parent.next_sibling(),
+                            parents: next_parents,
+                            parents_hash,
+                        },
+                    ));
+                    i += 1;
+                }
             }
-            (Some(lhs_parent), None) if v.lhs_syntax.is_none() => {
-                // Move to next after LHS parent.
-                let next_parents = v.parents.pop().unwrap();
-                let parents_hash = hash_parents(&next_parents);
+            EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {} // (Some(lhs_parent), None) if v.lhs_syntax.is_none() => {
+                                                                        //     // Move to next after LHS parent.
+                                                                        //     let next_parents = v.parents.pop().unwrap();
+                                                                        //     let parents_hash = hash_parents(&next_parents);
 
-                // Continue from sibling of parent.
-                buf[i] = Some((
-                    ExitDelimiterLHS,
-                    Vertex {
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: v.rhs_syntax,
-                        parents: next_parents,
-                        parents_hash,
-                    },
-                ));
-                i += 1;
-            }
-            (None, Some(rhs_parent)) if v.rhs_syntax.is_none() => {
-                // Move to next after RHS parent.
-                let next_parents = v.parents.pop().unwrap();
-                let parents_hash = hash_parents(&next_parents);
+                                                                        //     // Continue from sibling of parent.
+                                                                        //     buf[i] = Some((
+                                                                        //         ExitDelimiterLHS,
+                                                                        //         Vertex {
+                                                                        //             lhs_syntax: lhs_parent.next_sibling(),
+                                                                        //             rhs_syntax: v.rhs_syntax,
+                                                                        //             parents: next_parents,
+                                                                        //             parents_hash,
+                                                                        //         },
+                                                                        //     ));
+                                                                        //     i += 1;
+                                                                        // }
+                                                                        // (None, Some(rhs_parent)) if v.rhs_syntax.is_none() => {
+                                                                        //     // Move to next after RHS parent.
+                                                                        //     let next_parents = v.parents.pop().unwrap();
+                                                                        //     let parents_hash = hash_parents(&next_parents);
 
-                // Continue from sibling of parent.
-                buf[i] = Some((
-                    ExitDelimiterRHS,
-                    Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_parent.next_sibling(),
-                        parents: next_parents,
-                        parents_hash,
-                    },
-                ));
-                i += 1;
-            }
-            _ => {}
+                                                                        //     // Continue from sibling of parent.
+                                                                        //     buf[i] = Some((
+                                                                        //         ExitDelimiterRHS,
+                                                                        //         Vertex {
+                                                                        //             lhs_syntax: v.lhs_syntax,
+                                                                        //             rhs_syntax: rhs_parent.next_sibling(),
+                                                                        //             parents: next_parents,
+                                                                        //             parents_hash,
+                                                                        //         },
+                                                                        //     ));
+                                                                        //     i += 1;
+                                                                        // }
         }
     }
 
