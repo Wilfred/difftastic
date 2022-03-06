@@ -259,6 +259,11 @@ fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
     for entered in parents.iter() {
         match entered {
             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
+                // We also write a sentinel value to distinguish
+                // between a PopEither and a PopBoth with the same
+                // nodes.
+                hasher.write_u32(1001);
+
                 // FxHasher finishes with 0 if called with
                 // .write_u32(0). Ensure the u32 written is always
                 // non-zero.
@@ -270,6 +275,7 @@ fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
                 }
             }
             EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)) => {
+                hasher.write_u32(1002);
                 hasher.write_u32(lhs_delim.id() + 1);
                 hasher.write_u32(rhs_delim.id() + 1);
             }
