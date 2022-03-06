@@ -48,7 +48,7 @@ impl<'a> PartialEq for Vertex<'a> {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
             && self.parents_hash == other.parents_hash
-            && self.eq_parents_each_side(other)
+            && self.parents == other.parents
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -269,10 +269,6 @@ impl<'a> Vertex<'a> {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
-    fn eq_parents_each_side(&self, other: &Self) -> bool {
-        self.parents == other.parents
-    }
-
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         let parents = rpds::Stack::new();
         let parents_hash = hash_parents(&parents);
@@ -403,7 +399,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     if v.rhs_syntax.is_none() {
         if let Some((rhs_parent, parents_next)) = try_pop_rhs(&v.parents) {
-            // Move to next after LHS Rarent.
+            // Move to next after RHS parent.
             let parents_hash = hash_parents(&parents_next);
 
             // Continue from sibling of parent.
