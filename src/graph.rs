@@ -122,9 +122,7 @@ fn try_pop_lhs<'a>(
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
             Some(lhs_delim) => {
-                let mut entered = entered.clone();
-                entered = entered.pop().unwrap();
-
+                let mut entered = entered.pop().unwrap();
                 let new_lhs_delims = lhs_delims.pop().unwrap();
 
                 if !new_lhs_delims.is_empty() || !rhs_delims.is_empty() {
@@ -148,9 +146,7 @@ fn try_pop_rhs<'a>(
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
             Some(rhs_delim) => {
-                let mut entered = entered.clone();
-                entered = entered.pop().unwrap();
-
+                let mut entered = entered.pop().unwrap();
                 let new_rhs_delims = rhs_delims.pop().unwrap();
 
                 if !lhs_delims.is_empty() || !new_rhs_delims.is_empty() {
