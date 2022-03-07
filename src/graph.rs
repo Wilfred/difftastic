@@ -43,15 +43,16 @@ pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: rpds::Stack<EnteredDelimiter<'a>>,
-    parents_hash: u64,
+    lhs_parent_ids: rpds::Stack<u32>,
+    rhs_parent_ids: rpds::Stack<u32>,
 }
 
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
-            && self.parents_hash == other.parents_hash
-            && self.parents == other.parents
+            && self.lhs_parent_ids == other.lhs_parent_ids
+            && self.rhs_parent_ids == other.rhs_parent_ids
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -61,7 +62,7 @@ impl<'a> Hash for Vertex<'a> {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
 
-        self.parents_hash.hash(state);
+        hash_parent_ids(&self.lhs_parent_ids, &self.rhs_parent_ids).hash(state);
     }
 }
 
@@ -92,47 +93,47 @@ impl<'a> fmt::Debug for EnteredDelimiter<'a> {
     }
 }
 
-impl<'a> PartialEq for EnteredDelimiter<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (
-                EnteredDelimiter::PopEither((self_lhs_delims, self_rhs_delims)),
-                EnteredDelimiter::PopEither((other_lhs_delims, other_rhs_delims)),
-            ) => {
-                if self_lhs_delims.size() != other_lhs_delims.size() {
-                    return false;
-                }
-                if self_rhs_delims.size() != other_rhs_delims.size() {
-                    return false;
-                }
-                for (self_lhs_delim, other_lhs_delim) in
-                    self_lhs_delims.iter().zip(other_lhs_delims.iter())
-                {
-                    if self_lhs_delim.id() != other_lhs_delim.id() {
-                        return false;
-                    }
-                }
-                for (self_rhs_delim, other_rhs_delim) in
-                    self_rhs_delims.iter().zip(other_rhs_delims.iter())
-                {
-                    if self_rhs_delim.id() != other_rhs_delim.id() {
-                        return false;
-                    }
-                }
-                true
-            }
-            (
-                EnteredDelimiter::PopBoth((self_lhs_delim, self_rhs_delim)),
-                EnteredDelimiter::PopBoth((other_lhs_delim, other_rhs_delim)),
-            ) => {
-                self_lhs_delim.id() == other_lhs_delim.id()
-                    && self_rhs_delim.id() == other_rhs_delim.id()
-            }
-            _ => false,
-        }
-    }
-}
-impl<'a> Eq for EnteredDelimiter<'a> {}
+// impl<'a> PartialEq for EnteredDelimiter<'a> {
+//     fn eq(&self, other: &Self) -> bool {
+//         match (self, other) {
+//             (
+//                 EnteredDelimiter::PopEither((self_lhs_delims, self_rhs_delims)),
+//                 EnteredDelimiter::PopEither((other_lhs_delims, other_rhs_delims)),
+//             ) => {
+//                 if self_lhs_delims.size() != other_lhs_delims.size() {
+//                     return false;
+//                 }
+//                 if self_rhs_delims.size() != other_rhs_delims.size() {
+//                     return false;
+//                 }
+//                 for (self_lhs_delim, other_lhs_delim) in
+//                     self_lhs_delims.iter().zip(other_lhs_delims.iter())
+//                 {
+//                     if self_lhs_delim.id() != other_lhs_delim.id() {
+//                         return false;
+//                     }
+//                 }
+//                 for (self_rhs_delim, other_rhs_delim) in
+//                     self_rhs_delims.iter().zip(other_rhs_delims.iter())
+//                 {
+//                     if self_rhs_delim.id() != other_rhs_delim.id() {
+//                         return false;
+//                     }
+//                 }
+//                 true
+//             }
+//             (
+//                 EnteredDelimiter::PopBoth((self_lhs_delim, self_rhs_delim)),
+//                 EnteredDelimiter::PopBoth((other_lhs_delim, other_rhs_delim)),
+//             ) => {
+//                 self_lhs_delim.id() == other_lhs_delim.id()
+//                     && self_rhs_delim.id() == other_rhs_delim.id()
+//             }
+//             _ => false,
+//         }
+//     }
+// }
+// impl<'a> Eq for EnteredDelimiter<'a> {}
 
 fn push_both_delimiters<'a>(
     entered: &rpds::Stack<EnteredDelimiter<'a>>,
@@ -253,37 +254,56 @@ fn push_rhs_delimiter<'a>(
     entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
 }
 
-fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
+fn hash_parent_ids(lhs_parent_ids: &rpds::Stack<u32>, rhs_parent_ids: &rpds::Stack<u32>) -> u64 {
     let mut hasher = FxHasher::default();
 
-    for entered in parents.iter() {
-        match entered {
-            EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
-                // We also write a sentinel value to distinguish
-                // between a PopEither and a PopBoth with the same
-                // nodes.
-                hasher.write_u32(1001);
-
-                // FxHasher finishes with 0 if called with
-                // .write_u32(0). Ensure the u32 written is always
-                // non-zero.
-                for lhs_delim in lhs_delims {
-                    hasher.write_u32(lhs_delim.id() + 1);
-                }
-                for rhs_delim in rhs_delims {
-                    hasher.write_u32(rhs_delim.id() + 1);
-                }
-            }
-            EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)) => {
-                hasher.write_u32(1002);
-                hasher.write_u32(lhs_delim.id() + 1);
-                hasher.write_u32(rhs_delim.id() + 1);
-            }
-        }
+    for id in lhs_parent_ids {
+        // FxHasher finishes with 0 if called with
+        // .write_u32(0). Ensure the u32 written is always
+        // non-zero.
+        hasher.write_u32(id + 1)
+    }
+    for id in rhs_parent_ids {
+        // FxHasher finishes with 0 if called with
+        // .write_u32(0). Ensure the u32 written is always
+        // non-zero.
+        hasher.write_u32(id + 1)
     }
 
     hasher.finish()
 }
+
+// fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
+//     let mut hasher = FxHasher::default();
+
+//     for entered in parents.iter() {
+//         match entered {
+//             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
+//                 // We also write a sentinel value to distinguish
+//                 // between a PopEither and a PopBoth with the same
+//                 // nodes.
+//                 hasher.write_u32(1001);
+
+//                 // FxHasher finishes with 0 if called with
+//                 // .write_u32(0). Ensure the u32 written is always
+//                 // non-zero.
+//                 for lhs_delim in lhs_delims {
+//                     hasher.write_u32(lhs_delim.id() + 1);
+//                 }
+//                 for rhs_delim in rhs_delims {
+//                     hasher.write_u32(rhs_delim.id() + 1);
+//                 }
+//             }
+//             EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)) => {
+//                 hasher.write_u32(1002);
+//                 hasher.write_u32(lhs_delim.id() + 1);
+//                 hasher.write_u32(rhs_delim.id() + 1);
+//             }
+//         }
+//     }
+
+//     hasher.finish()
+// }
 
 impl<'a> Vertex<'a> {
     pub fn is_end(&self) -> bool {
@@ -292,12 +312,12 @@ impl<'a> Vertex<'a> {
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         let parents = rpds::Stack::new();
-        let parents_hash = hash_parents(&parents);
         Vertex {
             lhs_syntax,
             rhs_syntax,
             parents,
-            parents_hash,
+            lhs_parent_ids: rpds::Stack::new(),
+            rhs_parent_ids: rpds::Stack::new(),
         }
     }
 }
@@ -383,7 +403,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
         if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&v.parents) {
             // We have exhausted all the nodes on both lists, so we can
             // move up to the parent node.
-            let parents_hash = hash_parents(&parents_next);
 
             // Continue from sibling of parent.
             buf[i] = Some((
@@ -392,7 +411,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: rhs_parent.next_sibling(),
                     parents: parents_next,
-                    parents_hash,
+                    lhs_parent_ids: v.lhs_parent_ids.pop().unwrap(),
+                    rhs_parent_ids: v.rhs_parent_ids.pop().unwrap(),
                 },
             ));
             i += 1;
@@ -402,7 +422,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     if v.lhs_syntax.is_none() {
         if let Some((lhs_parent, parents_next)) = try_pop_lhs(&v.parents) {
             // Move to next after LHS parent.
-            let parents_hash = hash_parents(&parents_next);
 
             // Continue from sibling of parent.
             buf[i] = Some((
@@ -411,7 +430,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: v.rhs_syntax,
                     parents: parents_next,
-                    parents_hash,
+                    lhs_parent_ids: v.lhs_parent_ids.pop().unwrap(),
+                    rhs_parent_ids: v.rhs_parent_ids.clone(),
                 },
             ));
             i += 1;
@@ -421,7 +441,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     if v.rhs_syntax.is_none() {
         if let Some((rhs_parent, parents_next)) = try_pop_rhs(&v.parents) {
             // Move to next after RHS parent.
-            let parents_hash = hash_parents(&parents_next);
 
             // Continue from sibling of parent.
             buf[i] = Some((
@@ -430,14 +449,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
                     parents: parents_next,
-                    parents_hash,
+                    lhs_parent_ids: v.lhs_parent_ids.clone(),
+                    rhs_parent_ids: v.rhs_parent_ids.pop().unwrap(),
                 },
             ));
             i += 1;
         }
     }
 
-    let mut emitted_one_side = false;
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
             // Both nodes are equal, the happy case.
@@ -447,7 +466,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_syntax.next_sibling(),
                     rhs_syntax: rhs_syntax.next_sibling(),
                     parents: v.parents.clone(),
-                    parents_hash: v.parents_hash,
+                    lhs_parent_ids: v.lhs_parent_ids.clone(),
+                    rhs_parent_ids: v.rhs_parent_ids.clone(),
                 },
             ));
             return;
@@ -475,7 +495,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
-                let parents_hash = hash_parents(&parents_next);
 
                 buf[i] = Some((
                     EnterUnchangedDelimiter,
@@ -483,49 +502,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
                         parents: parents_next,
-                        parents_hash,
+                        lhs_parent_ids: v.lhs_parent_ids.push(lhs_syntax.id()),
+                        rhs_parent_ids: v.rhs_parent_ids.push(rhs_syntax.id()),
                     },
                 ));
-                i += 1;
-            }
-
-            if lhs_children.len() > rhs_children.len() {
-                let lhs_next = lhs_children.get(0).copied();
-
-                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
-                let parents_hash = hash_parents(&parents_next);
-
-                buf[i] = Some((
-                    EnterNovelDelimiterLHS {
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                    },
-                    Vertex {
-                        lhs_syntax: lhs_next,
-                        rhs_syntax: v.rhs_syntax,
-                        parents: parents_next,
-                        parents_hash,
-                    },
-                ));
-                emitted_one_side = true;
-                i += 1;
-            } else if lhs_children.len() < rhs_children.len() {
-                let rhs_next = rhs_children.get(0).copied();
-
-                let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
-                let parents_hash = hash_parents(&parents_next);
-
-                buf[i] = Some((
-                    EnterNovelDelimiterRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                    },
-                    Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_next,
-                        parents: parents_next,
-                        parents_hash,
-                    },
-                ));
-                emitted_one_side = true;
                 i += 1;
             }
         }
@@ -554,7 +534,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
-                        parents_hash: v.parents_hash,
+                        lhs_parent_ids: v.lhs_parent_ids.clone(),
+                        rhs_parent_ids: v.rhs_parent_ids.clone(),
                     },
                 ));
                 i += 1;
@@ -576,7 +557,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: v.parents.clone(),
-                        parents_hash: v.parents_hash,
+                        lhs_parent_ids: v.lhs_parent_ids.clone(),
+                        rhs_parent_ids: v.rhs_parent_ids.clone(),
                     },
                 ));
                 i += 1;
@@ -587,25 +569,23 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 num_descendants,
                 ..
             } => {
-                if !emitted_one_side {
-                    let lhs_next = children.get(0).copied();
+                let lhs_next = children.get(0).copied();
 
-                    let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
-                    let parents_hash = hash_parents(&parents_next);
+                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
-                    buf[i] = Some((
-                        EnterNovelDelimiterLHS {
-                            contiguous: lhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: v.rhs_syntax,
-                            parents: parents_next,
-                            parents_hash,
-                        },
-                    ));
-                    i += 1;
-                }
+                buf[i] = Some((
+                    EnterNovelDelimiterLHS {
+                        contiguous: lhs_syntax.prev_is_contiguous(),
+                    },
+                    Vertex {
+                        lhs_syntax: lhs_next,
+                        rhs_syntax: v.rhs_syntax,
+                        parents: parents_next,
+                        lhs_parent_ids: v.lhs_parent_ids.push(lhs_syntax.id()),
+                        rhs_parent_ids: v.rhs_parent_ids.clone(),
+                    },
+                ));
+                i += 1;
 
                 if *num_descendants > NOVEL_TREE_THRESHOLD && lhs_syntax.parent().is_none() {
                     buf[i] = Some((
@@ -616,7 +596,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
-                            parents_hash: v.parents_hash,
+                            lhs_parent_ids: v.lhs_parent_ids.clone(),
+                            rhs_parent_ids: v.rhs_parent_ids.clone(),
                         },
                     ));
                     i += 1;
@@ -637,7 +618,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
-                        parents_hash: v.parents_hash,
+                        lhs_parent_ids: v.lhs_parent_ids.clone(),
+                        rhs_parent_ids: v.rhs_parent_ids.clone(),
                     },
                 ));
                 i += 1;
@@ -648,25 +630,23 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 num_descendants,
                 ..
             } => {
-                if !emitted_one_side {
-                    let rhs_next = children.get(0).copied();
+                let rhs_next = children.get(0).copied();
 
-                    let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
-                    let parents_hash = hash_parents(&parents_next);
+                let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
-                    buf[i] = Some((
-                        EnterNovelDelimiterRHS {
-                            contiguous: rhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_next,
-                            parents: parents_next,
-                            parents_hash,
-                        },
-                    ));
-                    i += 1;
-                }
+                buf[i] = Some((
+                    EnterNovelDelimiterRHS {
+                        contiguous: rhs_syntax.prev_is_contiguous(),
+                    },
+                    Vertex {
+                        lhs_syntax: v.lhs_syntax,
+                        rhs_syntax: rhs_next,
+                        parents: parents_next,
+                        lhs_parent_ids: v.lhs_parent_ids.clone(),
+                        rhs_parent_ids: v.rhs_parent_ids.push(rhs_syntax.id()),
+                    },
+                ));
+                i += 1;
 
                 if *num_descendants > NOVEL_TREE_THRESHOLD && rhs_syntax.parent().is_none() {
                     buf[i] = Some((
@@ -677,7 +657,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
-                            parents_hash: v.parents_hash,
+                            lhs_parent_ids: v.lhs_parent_ids.clone(),
+                            rhs_parent_ids: v.rhs_parent_ids.clone(),
                         },
                     ));
                     i += 1;
