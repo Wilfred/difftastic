@@ -168,8 +168,6 @@ fn push_lhs_delimiter<'a>(
     entered: &rpds::Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
 ) -> rpds::Stack<EnteredDelimiter<'a>> {
-    let mut entered = entered.clone();
-
     let mut modifying_head = false;
     let (mut lhs_delims, rhs_delims) = match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
@@ -180,9 +178,11 @@ fn push_lhs_delimiter<'a>(
     };
     lhs_delims = lhs_delims.push(delimiter);
 
-    if modifying_head {
-        entered = entered.pop().unwrap();
-    }
+    let entered = if modifying_head {
+        entered.pop().unwrap()
+    } else {
+        entered.clone()
+    };
     entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
 }
 
@@ -190,8 +190,6 @@ fn push_rhs_delimiter<'a>(
     entered: &rpds::Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
 ) -> rpds::Stack<EnteredDelimiter<'a>> {
-    let mut entered = entered.clone();
-
     let mut modifying_head = false;
     let (lhs_delims, mut rhs_delims) = match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
@@ -202,9 +200,11 @@ fn push_rhs_delimiter<'a>(
     };
     rhs_delims = rhs_delims.push(delimiter);
 
-    if modifying_head {
-        entered = entered.pop().unwrap();
-    }
+    let entered = if modifying_head {
+        entered.pop().unwrap()
+    } else {
+        entered.clone()
+    };
     entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
 }
 
