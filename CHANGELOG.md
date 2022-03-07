@@ -4,13 +4,15 @@ Difftastic now requires Rust 1.56 to build.
 
 ### Diffing
 
+Improved diff results when lists have unequal sizes.
+
 Improved diff results when the language parser thinks that names occur
 in different syntactic positions.
 
 Adjusted the heuristics for 'so much has changed in this expression
 that it is confusing to highlight the unchanged parts'. The heuristic
-is now less aggressive, which helps performance (up to 20% time saved)
-and seems to produce slightly better results.
+is now less aggressive, which helps performance and seems to produce
+slightly better results.
 
 ## 0.21 (released 28th February 2022)
 
