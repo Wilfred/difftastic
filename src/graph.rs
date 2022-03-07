@@ -1,6 +1,5 @@
 //! A graph representation for computing tree diffs.
 
-use rustc_hash::FxHasher;
 use std::{
     fmt,
     hash::{Hash, Hasher},
@@ -51,8 +50,8 @@ impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
-            && self.lhs_parent_ids == other.lhs_parent_ids
-            && self.rhs_parent_ids == other.rhs_parent_ids
+            && self.lhs_parent_ids.peek() == other.lhs_parent_ids.peek()
+            && self.rhs_parent_ids.peek() == other.rhs_parent_ids.peek()
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -62,7 +61,8 @@ impl<'a> Hash for Vertex<'a> {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
 
-        hash_parent_ids(&self.lhs_parent_ids, &self.rhs_parent_ids).hash(state);
+        self.lhs_parent_ids.peek().hash(state);
+        self.rhs_parent_ids.peek().hash(state);
     }
 }
 
@@ -92,48 +92,6 @@ impl<'a> fmt::Debug for EnteredDelimiter<'a> {
         f.write_str(&desc)
     }
 }
-
-// impl<'a> PartialEq for EnteredDelimiter<'a> {
-//     fn eq(&self, other: &Self) -> bool {
-//         match (self, other) {
-//             (
-//                 EnteredDelimiter::PopEither((self_lhs_delims, self_rhs_delims)),
-//                 EnteredDelimiter::PopEither((other_lhs_delims, other_rhs_delims)),
-//             ) => {
-//                 if self_lhs_delims.size() != other_lhs_delims.size() {
-//                     return false;
-//                 }
-//                 if self_rhs_delims.size() != other_rhs_delims.size() {
-//                     return false;
-//                 }
-//                 for (self_lhs_delim, other_lhs_delim) in
-//                     self_lhs_delims.iter().zip(other_lhs_delims.iter())
-//                 {
-//                     if self_lhs_delim.id() != other_lhs_delim.id() {
-//                         return false;
-//                     }
-//                 }
-//                 for (self_rhs_delim, other_rhs_delim) in
-//                     self_rhs_delims.iter().zip(other_rhs_delims.iter())
-//                 {
-//                     if self_rhs_delim.id() != other_rhs_delim.id() {
-//                         return false;
-//                     }
-//                 }
-//                 true
-//             }
-//             (
-//                 EnteredDelimiter::PopBoth((self_lhs_delim, self_rhs_delim)),
-//                 EnteredDelimiter::PopBoth((other_lhs_delim, other_rhs_delim)),
-//             ) => {
-//                 self_lhs_delim.id() == other_lhs_delim.id()
-//                     && self_rhs_delim.id() == other_rhs_delim.id()
-//             }
-//             _ => false,
-//         }
-//     }
-// }
-// impl<'a> Eq for EnteredDelimiter<'a> {}
 
 fn push_both_delimiters<'a>(
     entered: &rpds::Stack<EnteredDelimiter<'a>>,
@@ -253,57 +211,6 @@ fn push_rhs_delimiter<'a>(
     }
     entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
 }
-
-fn hash_parent_ids(lhs_parent_ids: &rpds::Stack<u32>, rhs_parent_ids: &rpds::Stack<u32>) -> u64 {
-    let mut hasher = FxHasher::default();
-
-    for id in lhs_parent_ids {
-        // FxHasher finishes with 0 if called with
-        // .write_u32(0). Ensure the u32 written is always
-        // non-zero.
-        hasher.write_u32(id + 1)
-    }
-    for id in rhs_parent_ids {
-        // FxHasher finishes with 0 if called with
-        // .write_u32(0). Ensure the u32 written is always
-        // non-zero.
-        hasher.write_u32(id + 1)
-    }
-
-    hasher.finish()
-}
-
-// fn hash_parents(parents: &rpds::Stack<EnteredDelimiter>) -> u64 {
-//     let mut hasher = FxHasher::default();
-
-//     for entered in parents.iter() {
-//         match entered {
-//             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
-//                 // We also write a sentinel value to distinguish
-//                 // between a PopEither and a PopBoth with the same
-//                 // nodes.
-//                 hasher.write_u32(1001);
-
-//                 // FxHasher finishes with 0 if called with
-//                 // .write_u32(0). Ensure the u32 written is always
-//                 // non-zero.
-//                 for lhs_delim in lhs_delims {
-//                     hasher.write_u32(lhs_delim.id() + 1);
-//                 }
-//                 for rhs_delim in rhs_delims {
-//                     hasher.write_u32(rhs_delim.id() + 1);
-//                 }
-//             }
-//             EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)) => {
-//                 hasher.write_u32(1002);
-//                 hasher.write_u32(lhs_delim.id() + 1);
-//                 hasher.write_u32(rhs_delim.id() + 1);
-//             }
-//         }
-//     }
-
-//     hasher.finish()
-// }
 
 impl<'a> Vertex<'a> {
     pub fn is_end(&self) -> bool {
