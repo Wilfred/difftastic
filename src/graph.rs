@@ -42,16 +42,16 @@ pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: rpds::Stack<EnteredDelimiter<'a>>,
-    lhs_parent_ids: rpds::Stack<u32>,
-    rhs_parent_ids: rpds::Stack<u32>,
+    lhs_parent_id: Option<u32>,
+    rhs_parent_id: Option<u32>,
 }
 
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
-            && self.lhs_parent_ids.peek() == other.lhs_parent_ids.peek()
-            && self.rhs_parent_ids.peek() == other.rhs_parent_ids.peek()
+            && self.lhs_parent_id == other.lhs_parent_id
+            && self.rhs_parent_id == other.rhs_parent_id
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -61,8 +61,8 @@ impl<'a> Hash for Vertex<'a> {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
 
-        self.lhs_parent_ids.peek().hash(state);
-        self.rhs_parent_ids.peek().hash(state);
+        self.lhs_parent_id.hash(state);
+        self.rhs_parent_id.hash(state);
     }
 }
 
@@ -223,8 +223,8 @@ impl<'a> Vertex<'a> {
             lhs_syntax,
             rhs_syntax,
             parents,
-            lhs_parent_ids: rpds::Stack::new(),
-            rhs_parent_ids: rpds::Stack::new(),
+            lhs_parent_id: None,
+            rhs_parent_id: None,
         }
     }
 }
@@ -318,8 +318,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: rhs_parent.next_sibling(),
                     parents: parents_next,
-                    lhs_parent_ids: v.lhs_parent_ids.pop().unwrap(),
-                    rhs_parent_ids: v.rhs_parent_ids.pop().unwrap(),
+                    lhs_parent_id: lhs_parent.parent().map(Syntax::id),
+                    rhs_parent_id: rhs_parent.parent().map(Syntax::id),
                 },
             ));
             i += 1;
@@ -337,8 +337,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: v.rhs_syntax,
                     parents: parents_next,
-                    lhs_parent_ids: v.lhs_parent_ids.pop().unwrap(),
-                    rhs_parent_ids: v.rhs_parent_ids.clone(),
+                    lhs_parent_id: lhs_parent.parent().map(Syntax::id),
+                    rhs_parent_id: v.rhs_parent_id,
                 },
             ));
             i += 1;
@@ -356,8 +356,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
                     parents: parents_next,
-                    lhs_parent_ids: v.lhs_parent_ids.clone(),
-                    rhs_parent_ids: v.rhs_parent_ids.pop().unwrap(),
+                    lhs_parent_id: v.lhs_parent_id,
+                    rhs_parent_id: rhs_parent.parent().map(Syntax::id),
                 },
             ));
             i += 1;
@@ -373,8 +373,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     lhs_syntax: lhs_syntax.next_sibling(),
                     rhs_syntax: rhs_syntax.next_sibling(),
                     parents: v.parents.clone(),
-                    lhs_parent_ids: v.lhs_parent_ids.clone(),
-                    rhs_parent_ids: v.rhs_parent_ids.clone(),
+                    lhs_parent_id: v.lhs_parent_id,
+                    rhs_parent_id: v.rhs_parent_id,
                 },
             ));
             return;
@@ -409,8 +409,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
                         parents: parents_next,
-                        lhs_parent_ids: v.lhs_parent_ids.push(lhs_syntax.id()),
-                        rhs_parent_ids: v.rhs_parent_ids.push(rhs_syntax.id()),
+                        lhs_parent_id: Some(lhs_syntax.id()),
+                        rhs_parent_id: Some(rhs_syntax.id()),
                     },
                 ));
                 i += 1;
@@ -441,8 +441,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
-                        lhs_parent_ids: v.lhs_parent_ids.clone(),
-                        rhs_parent_ids: v.rhs_parent_ids.clone(),
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: v.rhs_parent_id,
                     },
                 ));
                 i += 1;
@@ -464,8 +464,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: v.parents.clone(),
-                        lhs_parent_ids: v.lhs_parent_ids.clone(),
-                        rhs_parent_ids: v.rhs_parent_ids.clone(),
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: v.rhs_parent_id,
                     },
                 ));
                 i += 1;
@@ -488,8 +488,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: lhs_next,
                         rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
-                        lhs_parent_ids: v.lhs_parent_ids.push(lhs_syntax.id()),
-                        rhs_parent_ids: v.rhs_parent_ids.clone(),
+                        lhs_parent_id: Some(lhs_syntax.id()),
+                        rhs_parent_id: v.rhs_parent_id,
                     },
                 ));
                 i += 1;
@@ -503,8 +503,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
-                            lhs_parent_ids: v.lhs_parent_ids.clone(),
-                            rhs_parent_ids: v.rhs_parent_ids.clone(),
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: v.rhs_parent_id,
                         },
                     ));
                     i += 1;
@@ -525,8 +525,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
-                        lhs_parent_ids: v.lhs_parent_ids.clone(),
-                        rhs_parent_ids: v.rhs_parent_ids.clone(),
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: v.rhs_parent_id,
                     },
                 ));
                 i += 1;
@@ -549,8 +549,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
                         parents: parents_next,
-                        lhs_parent_ids: v.lhs_parent_ids.clone(),
-                        rhs_parent_ids: v.rhs_parent_ids.push(rhs_syntax.id()),
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: Some(rhs_syntax.id()),
                     },
                 ));
                 i += 1;
@@ -564,8 +564,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
-                            lhs_parent_ids: v.lhs_parent_ids.clone(),
-                            rhs_parent_ids: v.rhs_parent_ids.clone(),
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: v.rhs_parent_id,
                         },
                     ));
                     i += 1;
