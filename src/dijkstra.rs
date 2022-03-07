@@ -276,8 +276,8 @@ mod tests {
                 EnterNovelDelimiterLHS { contiguous: false },
                 UnchangedNode,
                 UnchangedNode,
-                ExitDelimiterLHS,
                 ExitDelimiterRHS,
+                ExitDelimiterLHS,
             ],
         );
     }
