@@ -1,5 +1,6 @@
 //! A graph representation for computing tree diffs.
 
+use rpds::Stack;
 use std::{
     fmt,
     hash::{Hash, Hasher},
@@ -41,7 +42,7 @@ use Edge::*;
 pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
-    parents: rpds::Stack<EnteredDelimiter<'a>>,
+    parents: Stack<EnteredDelimiter<'a>>,
     lhs_parent_id: Option<u32>,
     rhs_parent_id: Option<u32>,
 }
@@ -77,7 +78,7 @@ impl<'a> Hash for Vertex<'a> {
 // sample_files/nest_after.rs.
 #[derive(Clone)]
 enum EnteredDelimiter<'a> {
-    PopEither((rpds::Stack<&'a Syntax<'a>>, rpds::Stack<&'a Syntax<'a>>)),
+    PopEither((Stack<&'a Syntax<'a>>, Stack<&'a Syntax<'a>>)),
     PopBoth((&'a Syntax<'a>, &'a Syntax<'a>)),
 }
 
@@ -94,20 +95,16 @@ impl<'a> fmt::Debug for EnteredDelimiter<'a> {
 }
 
 fn push_both_delimiters<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    entered: &Stack<EnteredDelimiter<'a>>,
     lhs_delim: &'a Syntax<'a>,
     rhs_delim: &'a Syntax<'a>,
-) -> rpds::Stack<EnteredDelimiter<'a>> {
+) -> Stack<EnteredDelimiter<'a>> {
     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)))
 }
 
 fn try_pop_both<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
-) -> Option<(
-    &'a Syntax<'a>,
-    &'a Syntax<'a>,
-    rpds::Stack<EnteredDelimiter<'a>>,
-)> {
+    entered: &Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, &'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
             Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
@@ -117,8 +114,8 @@ fn try_pop_both<'a>(
 }
 
 fn try_pop_lhs<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
-) -> Option<(&'a Syntax<'a>, rpds::Stack<EnteredDelimiter<'a>>)> {
+    entered: &Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
             Some(lhs_delim) => {
@@ -141,8 +138,8 @@ fn try_pop_lhs<'a>(
 }
 
 fn try_pop_rhs<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
-) -> Option<(&'a Syntax<'a>, rpds::Stack<EnteredDelimiter<'a>>)> {
+    entered: &Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
             Some(rhs_delim) => {
@@ -165,16 +162,16 @@ fn try_pop_rhs<'a>(
 }
 
 fn push_lhs_delimiter<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    entered: &Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
-) -> rpds::Stack<EnteredDelimiter<'a>> {
+) -> Stack<EnteredDelimiter<'a>> {
     let mut modifying_head = false;
     let (mut lhs_delims, rhs_delims) = match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
             modifying_head = true;
             (lhs_delims.clone(), rhs_delims.clone())
         }
-        _ => (rpds::Stack::new(), rpds::Stack::new()),
+        _ => (Stack::new(), Stack::new()),
     };
     lhs_delims = lhs_delims.push(delimiter);
 
@@ -187,16 +184,16 @@ fn push_lhs_delimiter<'a>(
 }
 
 fn push_rhs_delimiter<'a>(
-    entered: &rpds::Stack<EnteredDelimiter<'a>>,
+    entered: &Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
-) -> rpds::Stack<EnteredDelimiter<'a>> {
+) -> Stack<EnteredDelimiter<'a>> {
     let mut modifying_head = false;
     let (lhs_delims, mut rhs_delims) = match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
             modifying_head = true;
             (lhs_delims.clone(), rhs_delims.clone())
         }
-        _ => (rpds::Stack::new(), rpds::Stack::new()),
+        _ => (Stack::new(), Stack::new()),
     };
     rhs_delims = rhs_delims.push(delimiter);
 
@@ -214,7 +211,7 @@ impl<'a> Vertex<'a> {
     }
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
-        let parents = rpds::Stack::new();
+        let parents = Stack::new();
         Vertex {
             lhs_syntax,
             rhs_syntax,
