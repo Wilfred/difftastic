@@ -51,6 +51,22 @@ impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
+            // Strictly speaking, we should compare the whole
+            // EnteredDelimiter stack, not just the immediate
+            // parents. By taking the immediate parent, we have
+            // vertices with different stacks that are 'equal'.
+            //
+            // This makes the graph traversal path dependent: the
+            // first vertex we see 'wins', and we use it for deciding
+            // how we can pop.
+            //
+            // In practice this seems to work well. The first vertex
+            // has the lowest cost, so has the most PopBoth
+            // occurrences, which is the best outcome.
+            //
+            // Handling this properly would require considering many
+            // more vertices to be distinct, exponentially increasing
+            // the graph size relative to tree depth.
             && self.lhs_parent_id == other.lhs_parent_id
             && self.rhs_parent_id == other.rhs_parent_id
     }
@@ -67,18 +83,21 @@ impl<'a> Hash for Vertex<'a> {
     }
 }
 
-// Compare LHS and RHS parents separately. This ensures that
-// the following are considered equal:
-//
-// [EnterNovelDelimiterLHS, EnterNovelDelimiterRHS]
-// [EnterNovelDelimiterRHS, EnterNovelDelimiterLHS]
-//
-// Otherwise we would construct a much bigger graph and
-// difftastic wouldn't scale to medium size programs such as
-// sample_files/nest_after.rs.
+/// Tracks entering syntax List nodes.
 #[derive(Clone)]
 enum EnteredDelimiter<'a> {
+    /// If we've entered the LHS or RHS separately, we can pop either
+    /// side independently.
+    ///
+    /// Assumes that at least one stack is non-empty.
     PopEither((Stack<&'a Syntax<'a>>, Stack<&'a Syntax<'a>>)),
+    /// If we've entered the LHS and RHS together, we must pop both
+    /// sides together too. Otherwise we'd consider the following case to have no changes.
+    ///
+    /// ```text
+    /// Old: (a b c)
+    /// New: (a b) c
+    /// ```
     PopBoth((&'a Syntax<'a>, &'a Syntax<'a>)),
 }
 
