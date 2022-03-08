@@ -648,7 +648,7 @@
         "required": false,
         "types": [
           {
-            "type": "delim_token_tree",
+            "type": "token_tree",
             "named": true
           }
         ]
@@ -1396,49 +1396,6 @@
       "types": [
         {
           "type": "_declaration_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "delim_token_tree",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "_literal",
-          "named": true
-        },
-        {
-          "type": "crate",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "mutable_specifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
-          "named": true
-        },
-        {
-          "type": "self",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "token_tree",
           "named": true
         }
       ]

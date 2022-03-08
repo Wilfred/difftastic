@@ -1048,7 +1048,7 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
       arguments: (arguments
         (attribute_item (attr_item
           (identifier)
-          arguments: (delim_token_tree (identifier) (identifier))))
+          arguments: (token_tree (identifier) (identifier))))
         (identifier)
         (identifier))))
   (expression_statement
@@ -1057,7 +1057,7 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
       arguments: (arguments
         (attribute_item (attr_item
           (identifier)
-          arguments: (delim_token_tree
+          arguments: (token_tree
             (identifier)
             (identifier)
             (identifier)
@@ -1065,8 +1065,8 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
             (identifier)
             (identifier)
             (identifier)
-            (delim_token_tree)
-            (delim_token_tree))))
+            (token_tree)
+            (token_tree))))
         (identifier)))))
 
 ================================================================================
@@ -1102,15 +1102,15 @@ pub enum Error {
     (enum_variant_list
       (attribute_item (attr_item
         (identifier)
-        (delim_token_tree
+        (token_tree
           (string_literal)
           (identifier)
-          (delim_token_tree (integer_literal)))))
+          (token_tree (integer_literal)))))
       (enum_variant (identifier)
         (ordered_field_declaration_list (type_identifier)))
       (attribute_item (attr_item
         (identifier)
-        (delim_token_tree
+        (token_tree
           (string_literal)
           (identifier)
           (identifier)
