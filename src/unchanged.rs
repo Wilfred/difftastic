@@ -34,21 +34,34 @@ fn mark_unchanged_toplevel<'a>(
     for diff_res in diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
             diff::Result::Both(lhs, rhs) => {
-                if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-                    mark_unchanged_outer_list(
-                        &section_lhs_nodes,
-                        &section_rhs_nodes,
-                        possibly_changed,
-                    );
-
-                    section_lhs_nodes = vec![];
-                    section_rhs_nodes = vec![];
-                }
-
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
-                lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
-                rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
+
+                let tiny_node = match lhs_node {
+                    Syntax::List {
+                        num_descendants, ..
+                    } => *num_descendants < 4,
+                    Syntax::Atom { .. } => true,
+                };
+
+                if tiny_node {
+                    section_lhs_nodes.push(lhs_node);
+                    section_rhs_nodes.push(rhs_node);
+                } else {
+                    if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
+                        mark_unchanged_outer_list(
+                            &section_lhs_nodes,
+                            &section_rhs_nodes,
+                            possibly_changed,
+                        );
+
+                        section_lhs_nodes = vec![];
+                        section_rhs_nodes = vec![];
+                    }
+
+                    lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
+                    rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
+                }
             }
             diff::Result::Left(lhs) => {
                 section_lhs_nodes.push(lhs.1);
