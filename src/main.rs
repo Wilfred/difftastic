@@ -51,7 +51,6 @@ use style::BackgroundColor;
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
-use unchanged::{mark_unchanged_extract_possibly_changed, skip_unchanged};
 use walkdir::WalkDir;
 
 use crate::{
@@ -249,19 +248,17 @@ fn diff_file_content(
 
             init_all_info(&lhs, &rhs);
 
-            let (possibly_changed_lhs, possibly_changed_rhs) =
-                if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
-                    (lhs.clone(), rhs.clone())
-                } else {
-                    skip_unchanged(&lhs, &rhs)
-                };
+            let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
+                vec![(lhs.clone(), rhs.clone())]
+            } else {
+                unchanged::mark_unchanged(&lhs, &rhs)
+            };
 
-            let possibly_changed_num =
-                num_nodes(&possibly_changed_lhs) + num_nodes(&possibly_changed_rhs);
-            if possibly_changed_num > node_limit {
+            let possibly_changed_max = max_num_nodes(&possibly_changed);
+            if possibly_changed_max > node_limit {
                 info!(
                     "Found {} nodes, exceeding the limit {}",
-                    possibly_changed_num, node_limit
+                    possibly_changed_max, node_limit
                 );
 
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
@@ -272,12 +269,7 @@ fn diff_file_content(
                     rhs_positions,
                 )
             } else {
-                for (lhs_section_nodes, rhs_section_nodes) in
-                    mark_unchanged_extract_possibly_changed(
-                        &possibly_changed_lhs,
-                        &possibly_changed_rhs,
-                    )
-                {
+                for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
                     init_next_prev(&lhs_section_nodes);
                     init_next_prev(&rhs_section_nodes);
 
@@ -453,6 +445,14 @@ fn num_nodes(roots: &[&syntax::Syntax]) -> u32 {
             }
         })
         .sum()
+}
+
+fn max_num_nodes(roots_vec: &[(Vec<&syntax::Syntax>, Vec<&syntax::Syntax>)]) -> u32 {
+    roots_vec
+        .iter()
+        .map(|(lhs, rhs)| num_nodes(lhs) + num_nodes(rhs))
+        .max()
+        .unwrap_or(0)
 }
 
 #[cfg(test)]
