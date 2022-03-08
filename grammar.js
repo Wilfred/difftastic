@@ -191,7 +191,12 @@ module.exports = grammar({
     ),
 
     _non_special_token: $ => choice(
-      $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
+      $._never_special_token,
+      $.metavariable
+    ),
+
+    _never_special_token: $ => choice(
+      $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
       /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
       '\'',
@@ -906,7 +911,7 @@ module.exports = grammar({
     ),
 
     _non_delim_token: $ => choice(
-      $._non_special_token,
+      $._never_special_token,
       '$'
     ),
 

@@ -658,15 +658,24 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_never_special_token"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "metavariable"
+        }
+      ]
+    },
+    "_never_special_token": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "_literal"
         },
         {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "metavariable"
         },
         {
           "type": "SYMBOL",
@@ -5026,7 +5035,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_non_special_token"
+          "name": "_never_special_token"
         },
         {
           "type": "STRING",
