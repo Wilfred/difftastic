@@ -997,6 +997,41 @@ mod macos_only {
               value: (string_literal))))))))
 
 ================================================================================
+Key-Value Attribute Expressions
+================================================================================
+
+#[doc = include_str!("foo-doc.md")]
+fn foo() {}
+
+#[namespace = foo::bar]
+fn baz() {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_item
+    (meta_item
+      (identifier)
+      (macro_invocation
+        (identifier)
+        (token_tree
+          (string_literal)))))
+  (function_item
+    (identifier)
+    (parameters)
+    (block))
+  (attribute_item
+    (attr_item
+      (identifier)
+      (scoped_identifier
+        (identifier)
+        (identifier))))
+  (function_item
+    (identifier)
+    (parameters)
+    (block)))
+
+================================================================================
 Attribute macros
 ================================================================================
 
