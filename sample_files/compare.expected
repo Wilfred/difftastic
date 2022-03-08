@@ -55,6 +55,9 @@ c7a5800de30556a6a2cf795744fc28b9  -
 sample_files/nest_before.rs sample_files/nest_after.rs
 791901de922abc7f24e5b9068706417d  -
 
+sample_files/nesting_before.el sample_files/nesting_after.el
+c9b74f137aada068b0a317c09966e705  -
+
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 10f583899eee701776e2b25d96e78b56  -
 
@@ -71,7 +74,7 @@ sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-170b6e249f414881f205c60aac6796d1  -
+78de439db7fba270a0d515ee9b786d25  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
 367ef5db3827a8945b16cad2a8cfad47  -

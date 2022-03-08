@@ -2,6 +2,7 @@
 
 use rpds::Stack;
 use std::{
+    cmp::min,
     fmt,
     hash::{Hash, Hasher},
 };
@@ -250,8 +251,8 @@ impl<'a> Vertex<'a> {
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
-    UnchangedNode,
-    EnterUnchangedDelimiter,
+    UnchangedNode { depth_difference: u32 },
+    EnterUnchangedDelimiter { depth_difference: u32 },
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
@@ -273,9 +274,10 @@ impl Edge {
             ExitDelimiterLHS | ExitDelimiterRHS => 2,
 
             // Matching nodes is always best.
-            UnchangedNode => 1,
+            // TODO: now we model parents correctly, do we need to track depth difference?
+            UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
             // Matching an outer delimiter is good.
-            EnterUnchangedDelimiter => 100,
+            EnterUnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
@@ -378,9 +380,13 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
+            let depth_difference = (lhs_syntax.num_ancestors() as i32
+                - rhs_syntax.num_ancestors() as i32)
+                .abs() as u32;
+
             // Both nodes are equal, the happy case.
             buf[i] = Some((
-                UnchangedNode,
+                UnchangedNode { depth_difference },
                 Vertex {
                     lhs_syntax: lhs_syntax.next_sibling(),
                     rhs_syntax: rhs_syntax.next_sibling(),
@@ -389,7 +395,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     rhs_parent_id: v.rhs_parent_id,
                 },
             ));
-            return;
+            i += 1;
         }
 
         if let (
@@ -415,8 +421,12 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
 
+                let depth_difference = (lhs_syntax.num_ancestors() as i32
+                    - rhs_syntax.num_ancestors() as i32)
+                    .abs() as u32;
+
                 buf[i] = Some((
-                    EnterUnchangedDelimiter,
+                    EnterUnchangedDelimiter { depth_difference },
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
@@ -597,14 +607,14 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
                 // Nothing to do: we have already marked this node when we entered it.
             }
-            UnchangedNode => {
+            UnchangedNode { .. } => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
-            EnterUnchangedDelimiter => {
+            EnterUnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();

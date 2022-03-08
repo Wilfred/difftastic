@@ -150,7 +150,12 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedNode]);
+        assert_eq!(
+            actions,
+            vec![UnchangedNode {
+                depth_difference: 0
+            }]
+        );
     }
 
     #[test]
@@ -188,7 +193,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterUnchangedDelimiter,
+                EnterUnchangedDelimiter {
+                    depth_difference: 0
+                },
                 NovelAtomLHS { contiguous: false },
                 ExitDelimiterBoth,
             ]
@@ -228,7 +235,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterUnchangedDelimiter,
+                EnterUnchangedDelimiter {
+                    depth_difference: 0
+                },
                 NovelAtomRHS { contiguous: false },
                 NovelAtomRHS { contiguous: false },
                 ExitDelimiterBoth,
@@ -274,8 +283,12 @@ mod tests {
             vec![
                 EnterNovelDelimiterRHS { contiguous: false },
                 EnterNovelDelimiterLHS { contiguous: false },
-                UnchangedNode,
-                UnchangedNode,
+                UnchangedNode {
+                    depth_difference: 0
+                },
+                UnchangedNode {
+                    depth_difference: 0
+                },
                 ExitDelimiterRHS,
                 ExitDelimiterLHS,
             ],
@@ -307,7 +320,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                UnchangedNode,
+                UnchangedNode {
+                    depth_difference: 0
+                },
                 NovelAtomLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
             ]
