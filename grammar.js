@@ -150,6 +150,7 @@ module.exports = grammar({
       $.token_tree_pattern,
       $.token_repetition_pattern,
       $.token_binding_pattern,
+      $.metavariable,
       $._non_special_token
     ),
 
@@ -177,6 +178,7 @@ module.exports = grammar({
     _tokens: $ => choice(
       $.token_tree,
       $.token_repetition,
+      $.metavariable,
       $._non_special_token
     ),
 
@@ -190,8 +192,11 @@ module.exports = grammar({
       '$', '(', repeat($._tokens), ')', optional(/[^+*?]+/), choice('+', '*', '?')
     ),
 
+    // Matches non-delimiter tokens common to both macro invocations and
+    // definitions. This is everything except $ and metavariables (which begin
+    // with $).
     _non_special_token: $ => choice(
-      $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
+      $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
       /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
       '\'',
@@ -891,7 +896,24 @@ module.exports = grammar({
         $._reserved_identifier,
       )),
       '!',
-      $.token_tree
+      alias($.delim_token_tree, $.token_tree)
+    ),
+
+    delim_token_tree: $ => choice(
+      seq('(', repeat($._delim_tokens), ')'),
+      seq('[', repeat($._delim_tokens), ']'),
+      seq('{', repeat($._delim_tokens), '}')
+    ),
+
+    _delim_tokens: $ => choice(
+      $._non_delim_token,
+      alias($.delim_token_tree, $.token_tree),
+    ),
+
+    // Should match any token other than a delimiter.
+    _non_delim_token: $ => choice(
+      $._non_special_token,
+      '$'
     ),
 
     scoped_identifier: $ => seq(
