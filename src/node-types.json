@@ -658,7 +658,7 @@
         "required": false,
         "types": [
           {
-            "type": "_literal",
+            "type": "_expression",
             "named": true
           }
         ]
@@ -2822,7 +2822,7 @@
         "required": false,
         "types": [
           {
-            "type": "_literal",
+            "type": "_expression",
             "named": true
           }
         ]

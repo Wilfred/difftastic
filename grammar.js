@@ -278,7 +278,7 @@ module.exports = grammar({
     custom_attr: $ => seq(
       $._path,
       optional(choice(
-        seq('=', field('value', $._literal)),
+        seq('=', field('value', $._expression)),
         field('arguments', $.delim_token_tree)
       ))
     ),
@@ -286,7 +286,7 @@ module.exports = grammar({
     built_in_attr: $ => seq(
       $._built_in_attr_path,
       optional(choice(
-        seq('=', field('value', $._literal)),
+        seq('=', field('value', $._expression)),
         field('arguments', $.meta_arguments)
       ))
     ),
@@ -298,7 +298,7 @@ module.exports = grammar({
     meta_item: $ => seq(
       $._path,
       optional(choice(
-        seq('=', field('value', $._literal)),
+        seq('=', field('value', $._expression)),
         field('arguments', $.meta_arguments)
       ))
     ),
