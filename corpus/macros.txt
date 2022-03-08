@@ -55,6 +55,7 @@ a!($);
 a!($());
 a!($ a $);
 a!(${$([ a ])});
+a!($a $a:ident $($a);*);
 
 --------------------------------------------------------------------------------
 
@@ -121,7 +122,16 @@ a!(${$([ a ])});
   (expression_statement
     (macro_invocation
       (identifier)
-      (token_tree (token_tree (token_tree (token_tree (identifier))))))))
+      (token_tree (token_tree (token_tree (token_tree (identifier)))))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier)
+        (identifier)
+        (identifier)
+        (token_tree
+          (identifier))))))
 
 ================================================================================
 Macro invocation with comments
