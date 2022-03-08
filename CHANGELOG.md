@@ -4,6 +4,10 @@ Difftastic now requires Rust 1.56 to build.
 
 ### Diffing
 
+Improved diff results when choosing between syntax nodes at different
+nesting levels. This is restoring a heuristic that was removed in
+0.20.
+
 Improved diff results when lists have unequal sizes.
 
 Improved diff results when the language parser thinks that names occur
