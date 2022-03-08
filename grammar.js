@@ -279,7 +279,7 @@ module.exports = grammar({
       $._path,
       optional(choice(
         seq('=', field('value', $._expression)),
-        field('arguments', $.delim_token_tree)
+        field('arguments', alias($.delim_token_tree, $.token_tree))
       ))
     ),
 

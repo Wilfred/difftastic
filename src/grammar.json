@@ -987,8 +987,13 @@
                   "type": "FIELD",
                   "name": "arguments",
                   "content": {
-                    "type": "SYMBOL",
-                    "name": "delim_token_tree"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "delim_token_tree"
+                    },
+                    "named": true,
+                    "value": "token_tree"
                   }
                 }
               ]
