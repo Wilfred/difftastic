@@ -1038,6 +1038,8 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
 Derive macro helper attributes
 ================================================================================
 
+// Example from https://github.com/dtolnay/thiserror/blob/21c26903e29cb92ba1a7ff11e82ae2001646b60d/README.md
+
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -1051,6 +1053,7 @@ pub enum Error {
 --------------------------------------------------------------------------------
 
 (source_file
+  (line_comment)
   (use_declaration
     (scoped_identifier (identifier) (identifier)))
   (attribute_item
