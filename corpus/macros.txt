@@ -51,6 +51,11 @@ a!('\u{0}'..='\u{2}');
 a!('lifetime)
 default!(a);
 union!(a);
+a!($);
+a!($());
+a!($ a $);
+a!(${$([ a ])});
+a!($a $a:ident $($a);*);
 
 --------------------------------------------------------------------------------
 
@@ -101,7 +106,32 @@ union!(a);
     (macro_invocation
       (identifier)
       (token_tree
-        (identifier)))))
+        (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree)))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree (token_tree))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree (identifier))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree (token_tree (token_tree (token_tree (identifier)))))))
+  (expression_statement
+    (macro_invocation
+      (identifier)
+      (token_tree
+        (identifier)
+        (identifier)
+        (identifier)
+        (token_tree
+          (identifier))))))
 
 ================================================================================
 Macro invocation with comments
