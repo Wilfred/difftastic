@@ -74,10 +74,10 @@ sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-78de439db7fba270a0d515ee9b786d25  -
+9b21c5790773eaba1a83e92fe2b9b5a8  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-367ef5db3827a8945b16cad2a8cfad47  -
+07c6dda6ca91de93a0553f90060697d0  -
 
 sample_files/small_before.js sample_files/small_after.js
 ee97a525a74be6dd18e959395d02265b  -

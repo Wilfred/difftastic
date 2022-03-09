@@ -122,7 +122,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: (vec!["string_literal", "char_literal"])
                     .into_iter()
                     .collect(),
-                delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
+                delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]),
                 highlight_query: ts::Query::new(
                     language,
                     concat!(
@@ -379,7 +379,13 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: (vec!["char_literal", "string_literal"])
                     .into_iter()
                     .collect(),
-                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")]),
+                delimiter_tokens: (vec![
+                    ("{", "}"),
+                    ("(", ")"),
+                    ("[", "]"),
+                    ("|", "|"),
+                    ("<", ">"),
+                ]),
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/rust.scm"),
