@@ -399,6 +399,7 @@ contract test {
         address addr;
         uint256 count;
     }
+    MyStructName({addr: myAddressVar, count: myCountVar})
 }
 contract C {
     function f() {

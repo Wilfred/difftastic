@@ -127,6 +127,7 @@ Call
 contract Example {
     function example() {
         a(b);
+        c({d: e, f: g});
     }
 }
 
@@ -135,12 +136,18 @@ contract Example {
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
+    body: (contract_body
         (function_definition
          function_name: (identifier)
-         body: (function_body 
-            (expression_statement (call_expression 
-            (identifier) 
+         body: (function_body
+            (expression_statement (call_expression
+            (identifier)
+            (identifier)))
+            (expression_statement (call_expression
+            (identifier)
+            (identifier)
+            (identifier)
+            (identifier)
             (identifier))))))))
 
 ====================

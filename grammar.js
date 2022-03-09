@@ -644,7 +644,7 @@ module.exports = grammar({
                 '(',
                 commaSep(choice(
                     $._expression,
-                    seq("{", commaSep($.identifier, ":", $._expression), "}"),
+                    seq("{", commaSep(seq($.identifier, ":", $._expression)), "}"),
                 )),
                 ')'
             ),
@@ -829,9 +829,7 @@ module.exports = grammar({
             field('right', $._expression)
         )),
 
-        call_expression: $ => seq(
-            seq($._expression, $._call_arguments),
-        ),
+        call_expression: $ => seq($._expression, $._call_arguments),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
