@@ -103,7 +103,31 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     route
 }
 
+fn node_count(root: Option<&Syntax>) -> u32 {
+    let mut node = root;
+    let mut count = 0;
+    while let Some(current_node) = node {
+        let current_count = match current_node {
+            Syntax::List {
+                num_descendants, ..
+            } => *num_descendants,
+            Syntax::Atom { .. } => 1,
+        };
+        count += current_count;
+
+        node = current_node.next_sibling();
+    }
+
+    count
+}
+
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
+    info!(
+        "LHS nodes: {}, RHS nodes: {}",
+        node_count(lhs_syntax),
+        node_count(rhs_syntax)
+    );
+
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
     mark_route(&route);
