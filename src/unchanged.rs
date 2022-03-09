@@ -1,5 +1,7 @@
 use crate::syntax::{ChangeKind, Syntax};
 
+const TINY_TREE_THRESHOLD: u32 = 10;
+
 /// Set ChangeKind on nodes that are obviously unchanged, and return a
 /// vec of pairs that need proper diffing.
 pub fn mark_unchanged<'a>(
@@ -37,10 +39,18 @@ fn mark_unchanged_toplevel<'a>(
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
 
+                // If we've matched a node but it's very small, don't
+                // mark it as unchanged. We're interested in marking
+                // large nodes as unchanged for performance, but small
+                // nodes are fine.
+                //
+                // If we don't do this, difftastic can find e.g. a
+                // single unchanged comma in a huge expression, which
+                // produces worse diffs.
                 let tiny_node = match lhs_node {
                     Syntax::List {
                         num_descendants, ..
-                    } => *num_descendants < 4,
+                    } => *num_descendants < TINY_TREE_THRESHOLD,
                     Syntax::Atom { .. } => true,
                 };
 
