@@ -2,6 +2,10 @@
 
 Difftastic now requires Rust 1.56 to build.
 
+### Parsing
+
+Fixed handling of `<` `>` delimiters in C++ and Rust.
+
 ### Diffing
 
 Improved diff results when choosing between syntax nodes at different
