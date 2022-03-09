@@ -214,6 +214,7 @@ module.exports = grammar({
     $._as_bang_custom,
     $._async_keyword_custom,
   ],
+  inline: ($) => [$._locally_permitted_modifiers],
   rules: {
     ////////////////////////////////
     // File Structure
