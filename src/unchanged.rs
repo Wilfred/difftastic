@@ -180,6 +180,10 @@ fn shrink_unchanged_at_ends<'a>(
     let mut rhs_nodes = rhs_nodes;
 
     while let (Some(lhs_node), Some(rhs_node)) = (lhs_nodes.first(), rhs_nodes.first()) {
+        // We don't consider TINY_TREE_THRESHOLD here because we are
+        // only considering equal nodes at the beginning or end of the
+        // file. There's no risk we split unrelated regions with a
+        // trivial unchanged node in the middle.
         if lhs_node.content_id() == rhs_node.content_id() {
             {
                 lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
@@ -223,7 +227,7 @@ mod tests {
     use typed_arena::Arena;
 
     #[test]
-    fn test_unchanged_at_start() {
+    fn test_shrink_unchanged_at_start() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -247,7 +251,7 @@ mod tests {
     }
 
     #[test]
-    fn test_unchanged_at_end() {
+    fn test_shrink_unchanged_at_end() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -271,7 +275,7 @@ mod tests {
     }
 
     #[test]
-    fn test_unchanged_outer_delimiters() {
+    fn test_shrink_unchanged_delimiters() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -304,7 +308,7 @@ mod tests {
     }
 
     #[test]
-    fn test_shrink_unchanged() {
+    fn test_shrink_unchanged_nested() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -325,29 +329,20 @@ mod tests {
         assert_eq!(lhs_after_skip[0].change(), None);
         assert_eq!(rhs_after_skip[0].change(), None);
     }
-}
-
-#[cfg(test)]
-mod tests2 {
-    use super::*;
-    use crate::{
-        guess_language,
-        syntax::init_all_info,
-        tree_sitter_parser::{from_language, parse},
-    };
-    use pretty_assertions::assert_eq;
-    use typed_arena::Arena;
 
     #[test]
-    fn test_unchanged_at_start() {
+    fn test_mark_unchanged_toplevel_at_start() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
-        let lhs_nodes = parse(&arena, "unchanged A B", &config);
-        let rhs_nodes = parse(&arena, "unchanged X", &config);
+        // Make sure that the initial unchanged node exceeds TINY_TREE_THRESHOLD.
+        let lhs_nodes = parse(&arena, "(unchanged (1 2 3 4 5 6 7 8 9 10)) A B", &config);
+        let rhs_nodes = parse(&arena, "(unchanged (1 2 3 4 5 6 7 8 9 10)) X", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut res = vec![];
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
 
@@ -365,15 +360,17 @@ mod tests2 {
     }
 
     #[test]
-    fn test_unchanged_at_end() {
+    fn test_mark_unchanged_toplevel_at_end() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
-        let lhs_nodes = parse(&arena, "A B unchanged", &config);
-        let rhs_nodes = parse(&arena, "X unchanged", &config);
+        let lhs_nodes = parse(&arena, "A B (unchanged (1 2 3 4 5 6 7 8 9 10))", &config);
+        let rhs_nodes = parse(&arena, "X (unchanged (1 2 3 4 5 6 7 8 9 10))", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut res = vec![];
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
 
@@ -391,7 +388,7 @@ mod tests2 {
     }
 
     #[test]
-    fn test_unchanged_outer_delimiters() {
+    fn test_mark_unchanged_outer_delimiters() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -399,7 +396,9 @@ mod tests2 {
         let rhs_nodes = parse(&arena, "(B)", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut res = vec![];
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
 
@@ -426,32 +425,7 @@ mod tests2 {
     }
 
     #[test]
-    fn test_skip_unchanged() {
-        let arena = Arena::new();
-        let config = from_language(guess_language::Language::EmacsLisp);
-
-        let lhs_nodes = parse(&arena, "unchanged-before (more-unchanged (A))", &config);
-        let rhs_nodes = parse(&arena, "unchanged-before (more-unchanged (B))", &config);
-        init_all_info(&lhs_nodes, &rhs_nodes);
-
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
-        assert_eq!(res.len(), 1);
-        let (lhs_after_skip, rhs_after_skip) = &res[0];
-
-        // The only possibly changed nodes are inside the lists.
-        assert_eq!(lhs_after_skip.len(), 1);
-        assert!(matches!(lhs_after_skip[0], Syntax::Atom { .. }));
-
-        assert_eq!(rhs_after_skip.len(), 1);
-        assert!(matches!(rhs_after_skip[0], Syntax::Atom { .. }));
-
-        // The inner items haven't had their change set yet.
-        assert_eq!(lhs_after_skip[0].change(), None);
-        assert_eq!(rhs_after_skip[0].change(), None);
-    }
-
-    #[test]
-    fn test_split_definitely_unchanged() {
+    fn test_mark_unchanged_middle() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -467,7 +441,9 @@ mod tests2 {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut res = vec![];
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+
         assert_eq!(
             res,
             vec![
@@ -485,8 +461,9 @@ mod tests2 {
             Some(ChangeKind::Unchanged(lhs_nodes[1]))
         );
     }
+
     #[test]
-    fn test_split_definitely_unchanged_multiple() {
+    fn test_mark_unchanged_multiple() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -502,7 +479,9 @@ mod tests2 {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = mark_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut res = vec![];
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+
         assert_eq!(
             res,
             vec![
