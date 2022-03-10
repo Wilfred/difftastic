@@ -1,0 +1,655 @@
+=======================================
+Complex: Variable access
+=======================================
+
+<?php
+
+"{$test}";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (variable_name (name))
+    )
+  )
+)
+
+=======================================
+Complex: Disallow space between { and $
+=======================================
+
+<?php
+
+"{ $test}";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+      (string)
+    )
+  )
+)
+
+=========================================
+Complex: PHP documentation tests
+=========================================
+<?php
+
+"This is {$great}";
+"This square is {$square->width}00 centimeters broad.";
+
+// Works, quoted keys only work using the curly brace syntax
+"This works: {$arr['key']}";
+"This works: {$arr[4][3]}";
+
+// Works. When using multi-dimensional arrays, always use braces around arrays
+// when inside of strings
+"This works: {$arr['foo'][3]}";
+
+"This works: " . $arr['foo'][3];
+
+"This works too: {$obj->values[3]->name}";
+
+"This is the value of the var named $name: {${$name}}";
+
+"This is the value of the var named by the return value of getName(): {${getName()}}";
+
+"This is the value of the var named by the return value of \$object->getName(): {${$object->getName()}}";
+
+// Won't work, outputs: This is the return value of getName(): {getName()}
+"This is the return value of getName(): {getName()}";
+
+"{$foo->$bar}\n";
+
+"{$foo->{$baz[1]}}\n";
+
+"I'd like an {${beers::softdrink}}\n";
+
+"I'd like an {${beers::$ale}}\n";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (member_access_expression
+        (variable_name (name))
+        (name)
+      )
+      (string)
+    )
+  )
+  (comment)
+  (expression_statement
+    (encapsed_string
+      (string)
+      (subscript_expression
+        (variable_name (name))
+        (string)
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (subscript_expression
+        (subscript_expression
+          (variable_name (name))
+          (integer)
+        )
+        (integer)
+      )
+    )
+  )
+  (comment)
+  (comment)
+  (expression_statement
+    (encapsed_string
+      (string)
+      (subscript_expression
+        (subscript_expression
+          (variable_name (name))
+          (string)
+        )
+        (integer)
+      )
+    )
+  )
+  (expression_statement
+    (binary_expression
+      (encapsed_string
+        (string)
+      )
+      (subscript_expression
+        (subscript_expression
+          (variable_name (name))
+          (string)
+        )
+        (integer)
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (member_access_expression
+        (subscript_expression
+          (member_access_expression
+            (variable_name (name))
+            (name)
+          )
+          (integer)
+        )
+        (name)
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+      (string)
+      (dynamic_variable_name
+        (variable_name (name))
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name
+        (function_call_expression
+          (name)
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (escape_sequence)
+      (string)
+      (dynamic_variable_name
+        (member_call_expression
+          (variable_name (name))
+          (name)
+          (arguments)
+        )
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string
+      (member_access_expression
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (escape_sequence)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (member_access_expression
+        (variable_name (name))
+        (subscript_expression
+          (variable_name (name))
+          (integer)
+        )
+      )
+      (escape_sequence)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name
+        (class_constant_access_expression
+          (name)
+          (name)
+        )
+      )
+      (escape_sequence)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name
+        (scoped_property_access_expression
+          (name)
+          (variable_name (name))
+        )
+      )
+      (escape_sequence)
+    )
+  )
+)
+
+=======================================
+Simple: Variable access
+=======================================
+
+<?php
+
+"Hello $people, you're awesome!";
+"hello ${a} world";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name (name))
+      (string)
+    )
+  )
+)
+
+=========================================
+Simple: Member and array access
+=========================================
+<?php
+
+"$people->john drank some $juices[0] juice.".PHP_EOL;
+"$people->john then said hello to $people->jane.".PHP_EOL;
+"$people->john's wife greeted $people->robert.";
+"The character at index -2 is $string[-2].";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (binary_expression
+      (encapsed_string
+        (member_access_expression
+          (variable_name (name))
+          (name)
+        )
+        (string)
+        (subscript_expression
+          (variable_name (name))
+          (integer)
+        )
+        (string)
+      )
+      (name)
+    )
+  )
+  (expression_statement
+    (binary_expression
+      (encapsed_string
+        (member_access_expression
+          (variable_name (name))
+          (name)
+        )
+        (string)
+        (member_access_expression
+          (variable_name (name))
+          (name)
+        )
+        (string)
+      )
+      (name)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (member_access_expression
+        (variable_name (name))
+        (name)
+      )
+      (string)
+      (member_access_expression
+        (variable_name (name))
+        (name)
+      )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (subscript_expression
+        (variable_name (name))
+        (unary_op_expression (integer))
+      )
+      (string)
+    )
+  )
+)
+
+
+=========================================
+Corner cases
+=========================================
+
+<?php
+
+"{";
+"{\$";
+"{ $";
+"/a";
+"#";
+"//";
+"/*";
+"/* text *#//";
+"/**/";
+"// # /**/";
+"\\";
+"\{";
+"";
+"\$notavar";
+"\\\\\$notavar";
+"\\\{$embedexp}";
+"#x$var";
+" # x $var#x";
+"sometext$var";
+"{$var::get()}";
+"Test $var->tester- Hello";
+" # x {$var->prop["key:"."key: {$var->func("arg")}"]}# x";
+"hello \0 world";
+"hello ${"a"."b"} world";
+"$$$$$$$$$$$$$a";
+"{$$$$$$$$b}";
+"\{$";
+"${a}[";
+"\u{$a}";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (escape_sequence)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string (escape_sequence))
+  )
+  (expression_statement
+    (encapsed_string (string))
+  )
+  (expression_statement
+    (encapsed_string)
+  )
+  (expression_statement
+    (encapsed_string
+      (escape_sequence)
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (escape_sequence)
+      (escape_sequence)
+      (escape_sequence)
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (escape_sequence)
+      (string)
+      (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (scoped_call_expression
+        (variable_name (name))
+        (name)
+        (arguments)
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (member_access_expression
+        (variable_name (name))
+        (name)
+      )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (subscript_expression
+        (member_access_expression
+          (variable_name (name))
+          (name)
+        )
+        (binary_expression
+          (encapsed_string (string))
+          (encapsed_string
+            (string)
+            (member_call_expression
+              (variable_name (name))
+              (name)
+              (arguments
+                (argument
+                  (encapsed_string (string))
+                )
+              )
+            )
+          )
+        )
+      )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (escape_sequence)
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name
+        (binary_expression
+          (encapsed_string (string))
+          (encapsed_string (string))
+        )
+      )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (dynamic_variable_name
+        (dynamic_variable_name
+          (dynamic_variable_name
+            (dynamic_variable_name
+              (dynamic_variable_name
+                (dynamic_variable_name
+                  (dynamic_variable_name
+                    (variable_name (name))
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (dynamic_variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
+    )
+  )
+)
+
+=========================================
+Single quoted
+=========================================
+
+<?php
+
+'this is a simple string';
+'You can also have embedded newlines in
+strings this way as it is
+okay to do';
+'Arnold once said: "I\'ll be back"';
+'You deleted C:\\*.*?';
+'You deleted C:\*.*?';
+'This will not expand: \n a newline';
+'Variables do not $expand $either';
+'socket://';
+'#valid regexp#';
+'hello#world';
+'hello//world';
+'/*valid regexp*/';
+'/*valid regexp';
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+)
+
+=========================================
+Bug: #113 
+=========================================
+
+<?php
+"$b'";
+"'";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+    )
+  )
+)
+
+
