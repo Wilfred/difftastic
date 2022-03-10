@@ -1,0 +1,25 @@
+[package]
+name = "tree-sitter-php"
+description = "php grammar for the tree-sitter parsing library"
+version = "0.19.0"
+keywords = ["incremental", "parsing", "php"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-javascript"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.19"
+
+[build-dependencies]
+cc = "1.0"
