@@ -135,6 +135,11 @@ fn main() {
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
+            name: "tree-sitter-php",
+            src_dir: "vendor/tree-sitter-php-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-python",
             src_dir: "vendor/tree-sitter-python-src",
             extra_files: vec!["scanner.cc"],

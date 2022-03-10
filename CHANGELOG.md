@@ -4,6 +4,8 @@ Difftastic now requires Rust 1.56 to build.
 
 ### Parsing
 
+Added support for PHP.
+
 Fixed handling of `<` `>` delimiters in C++ and Rust.
 
 ### Diffing

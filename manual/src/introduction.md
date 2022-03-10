@@ -19,6 +19,7 @@ tool that understands syntax. It supports the following languages:
 * JavaScript (and JSX)
 * JSON
 * OCaml
+* PHP
 * Python
 * Ruby
 * Rust
