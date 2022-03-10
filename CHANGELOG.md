@@ -8,6 +8,10 @@ Fixed handling of `<` `>` delimiters in C++ and Rust.
 
 ### Diffing
 
+Difftastic will now split files that contain obviously unchanged
+regions, substantially improving performance when a file has multiple
+changes that have many unchanged items between them.
+
 Improved diff results when choosing between syntax nodes at different
 nesting levels. This is restoring a heuristic that was removed in
 0.20.
