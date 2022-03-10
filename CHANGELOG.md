@@ -1,4 +1,6 @@
-## 0.22 (unreleased)
+## 0.23 (unreleased)
+
+## 0.22 (release 10th March 2022)
 
 Difftastic now requires Rust 1.56 to build.
 
