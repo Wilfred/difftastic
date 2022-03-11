@@ -10,8 +10,23 @@ pub fn mark_unchanged<'a>(
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let (lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes);
 
+    let size_threshold = if let Ok(env_threshold) = std::env::var("DFT_TINY_THRESHOLD") {
+        env_threshold
+            .parse::<u32>()
+            .ok()
+            .unwrap_or(TINY_TREE_THRESHOLD)
+    } else {
+        TINY_TREE_THRESHOLD
+    };
+    dbg!(size_threshold);
+
     let mut possibly_changed = vec![];
-    mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut possibly_changed);
+    mark_unchanged_toplevel(
+        &lhs_nodes,
+        &rhs_nodes,
+        &mut possibly_changed,
+        size_threshold,
+    );
     possibly_changed
 }
 
@@ -22,6 +37,7 @@ fn mark_unchanged_toplevel<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     possibly_changed: &mut Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+    size_threshold: u32,
 ) {
     let lhs_node_ids = lhs_nodes
         .iter()
@@ -52,7 +68,7 @@ fn mark_unchanged_toplevel<'a>(
                 let tiny_node = match lhs_node {
                     Syntax::List {
                         num_descendants, ..
-                    } => *num_descendants < TINY_TREE_THRESHOLD,
+                    } => *num_descendants < size_threshold,
                     Syntax::Atom { .. } => true,
                 };
 
@@ -65,6 +81,7 @@ fn mark_unchanged_toplevel<'a>(
                             &section_lhs_nodes,
                             &section_rhs_nodes,
                             possibly_changed,
+                            size_threshold,
                         );
 
                         section_lhs_nodes = vec![];
@@ -85,7 +102,12 @@ fn mark_unchanged_toplevel<'a>(
     }
 
     if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-        mark_unchanged_outer_list(&section_lhs_nodes, &section_rhs_nodes, possibly_changed);
+        mark_unchanged_outer_list(
+            &section_lhs_nodes,
+            &section_rhs_nodes,
+            possibly_changed,
+            size_threshold,
+        );
     }
 }
 
@@ -95,6 +117,7 @@ fn mark_unchanged_outer_list<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
     possibly_changed: &mut Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)>,
+    size_threshold: u32,
 ) {
     assert!(!lhs_nodes.is_empty() || !rhs_nodes.is_empty());
 
@@ -116,7 +139,7 @@ fn mark_unchanged_outer_list<'a>(
         if lhs_open == rhs_open && lhs_close == rhs_close {
             lhs_nodes[0].set_change(ChangeKind::Unchanged(rhs_nodes[0]));
             rhs_nodes[0].set_change(ChangeKind::Unchanged(lhs_nodes[0]));
-            mark_unchanged_toplevel(lhs_children, rhs_children, possibly_changed);
+            mark_unchanged_toplevel(lhs_children, rhs_children, possibly_changed, size_threshold);
         } else {
             possibly_changed.push((lhs_nodes.into(), rhs_nodes.into()));
         }
@@ -341,7 +364,7 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut res = vec![];
-        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res, TINY_TREE_THRESHOLD);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -369,7 +392,7 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut res = vec![];
-        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res, TINY_TREE_THRESHOLD);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -397,7 +420,7 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut res = vec![];
-        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res, TINY_TREE_THRESHOLD);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -442,7 +465,7 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut res = vec![];
-        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res, TINY_TREE_THRESHOLD);
 
         assert_eq!(
             res,
@@ -480,7 +503,7 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut res = vec![];
-        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res);
+        mark_unchanged_toplevel(&lhs_nodes, &rhs_nodes, &mut res, TINY_TREE_THRESHOLD);
 
         assert_eq!(
             res,
