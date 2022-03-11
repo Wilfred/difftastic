@@ -789,7 +789,7 @@
     }
   },
   {
-    "type": "bit_string_segment_option_size",
+    "type": "bit_string_segment_option",
     "named": true,
     "fields": {},
     "children": {
@@ -876,84 +876,15 @@
     }
   },
   {
-    "type": "bit_string_segment_option_unit",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "bit_string_segment_options",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "bit_string_segment_option_big",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_binary",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_bit_string",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_float",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_int",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_little",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_native",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_signed",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_size",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_unit",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_unsigned",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf16",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf16_codepoint",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf32",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf32_codepoint",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf8",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf8_codepoint",
+          "type": "bit_string_segment_option",
           "named": true
         },
         {
@@ -3959,64 +3890,24 @@
     "named": false
   },
   {
-    "type": "bit_string_segment_option_big",
-    "named": true
+    "type": "big",
+    "named": false
   },
   {
-    "type": "bit_string_segment_option_binary",
-    "named": true
+    "type": "binary",
+    "named": false
   },
   {
-    "type": "bit_string_segment_option_bit_string",
-    "named": true
+    "type": "bit_string",
+    "named": false
   },
   {
-    "type": "bit_string_segment_option_float",
-    "named": true
+    "type": "bits",
+    "named": false
   },
   {
-    "type": "bit_string_segment_option_int",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_little",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_native",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_signed",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_unsigned",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf16",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf16_codepoint",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf32",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf32_codepoint",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf8",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_utf8_codepoint",
-    "named": true
+    "type": "bytes",
+    "named": false
   },
   {
     "type": "case",
@@ -4044,6 +3935,10 @@
   },
   {
     "type": "float",
+    "named": false
+  },
+  {
+    "type": "float",
     "named": true
   },
   {
@@ -4059,6 +3954,10 @@
     "named": false
   },
   {
+    "type": "int",
+    "named": false
+  },
+  {
     "type": "javascript",
     "named": false
   },
@@ -4067,8 +3966,16 @@
     "named": false
   },
   {
+    "type": "little",
+    "named": false
+  },
+  {
     "type": "module_comment",
     "named": true
+  },
+  {
+    "type": "native",
+    "named": false
   },
   {
     "type": "opacity_modifier",
@@ -4077,6 +3984,10 @@
   {
     "type": "quoted_content",
     "named": true
+  },
+  {
+    "type": "signed",
+    "named": false
   },
   {
     "type": "size",
@@ -4100,6 +4011,34 @@
   },
   {
     "type": "unit",
+    "named": false
+  },
+  {
+    "type": "unsigned",
+    "named": false
+  },
+  {
+    "type": "utf16",
+    "named": false
+  },
+  {
+    "type": "utf16_codepoint",
+    "named": false
+  },
+  {
+    "type": "utf32",
+    "named": false
+  },
+  {
+    "type": "utf32_codepoint",
+    "named": false
+  },
+  {
+    "type": "utf8",
+    "named": false
+  },
+  {
+    "type": "utf8_codepoint",
     "named": false
   },
   {
