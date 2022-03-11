@@ -62,7 +62,6 @@ To-do List
 
 - [x] Add ability to parse all language constructs
 - [x] Syntax highlighting queries
-- [ ] Add more error case tests?
 - [ ] Have an issue? Let me know! Please [open an issue] 💁
 
 [open an issue]: https://github.com/J3RN/tree-sitter-gleam/issues/new
