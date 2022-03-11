@@ -18,7 +18,6 @@ pub fn mark_unchanged<'a>(
     } else {
         TINY_TREE_THRESHOLD
     };
-    dbg!(size_threshold);
 
     let mut possibly_changed = vec![];
     mark_unchanged_toplevel(
