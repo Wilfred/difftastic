@@ -764,11 +764,11 @@ fn try_try_again(x, y) -> Int {
           (bit_string_segment
             value: (identifier)
             options: (bit_string_segment_options
-              (bit_string_segment_option_utf8)))
+              (bit_string_segment_option)))
           (bit_string_segment
             value: (identifier)
             options: (bit_string_segment_options
-              (bit_string_segment_option_size
+              (bit_string_segment_option
                 (integer)))))
         value: (todo))
       (try
