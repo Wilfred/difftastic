@@ -109,15 +109,25 @@ fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<diff:
         rhs_ids.push(id);
     }
 
-    diff::slice(&lhs_ids[..], &rhs_ids[..])
+    wu_diff::diff(&lhs_ids[..], &rhs_ids[..])
         .into_iter()
         .map(|result| match result {
-            diff::Result::Left(id) => diff::Result::Left(*id_values.get(id).unwrap()),
-            diff::Result::Both(lhs_id, rhs_id) => diff::Result::Both(
-                *id_values.get(lhs_id).unwrap(),
-                *id_values.get(rhs_id).unwrap(),
-            ),
-            diff::Result::Right(id) => diff::Result::Right(*id_values.get(id).unwrap()),
+            wu_diff::DiffResult::Removed(r) => {
+                let id = lhs_ids[r.old_index.unwrap()];
+                diff::Result::Left(*id_values.get(&id).unwrap())
+            }
+            wu_diff::DiffResult::Common(c) => {
+                let lhs_id = lhs_ids[c.old_index.unwrap()];
+                let rhs_id = rhs_ids[c.new_index.unwrap()];
+                diff::Result::Both(
+                    *id_values.get(&lhs_id).unwrap(),
+                    *id_values.get(&rhs_id).unwrap(),
+                )
+            }
+            wu_diff::DiffResult::Added(a) => {
+                let id = rhs_ids[a.new_index.unwrap()];
+                diff::Result::Right(*id_values.get(&id).unwrap())
+            }
         })
         .collect::<Vec<diff::Result<&'a T>>>()
 }

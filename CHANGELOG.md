@@ -1,5 +1,9 @@
 ## 0.23 (unreleased)
 
+### Diffing
+
+Improved performance on very large files that are compared by text.
+
 ## 0.22 (release 10th March 2022)
 
 Difftastic now requires Rust 1.56 to build.
