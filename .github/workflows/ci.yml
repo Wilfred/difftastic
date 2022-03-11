@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
@@ -38,7 +38,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
