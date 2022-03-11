@@ -47,6 +47,7 @@
 
 ; Literals
 (string) @string
+(bit_string_segment_option) @function.builtin
 (integer) @number
 (float) @number
 
@@ -84,6 +85,8 @@
   "]"
   "{"
   "}"
+  "<<"
+  ">>"
 ] @punctuation.bracket
 [
   "."
@@ -94,4 +97,5 @@
   "="
   "->"
   ".."
+  "-"
 ] @punctuation.delimiter

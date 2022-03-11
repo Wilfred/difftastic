@@ -588,27 +588,26 @@ module.exports = grammar({
     _decimal: ($) => /[0-9][0-9_]*/,
     _octal: ($) => /0[oO][0-7_]+/,
     _binary: ($) => /0[bB][0-1_]+/,
-    _bit_string_segment_option_unit: ($) =>
-      seq("unit", "(", alias($.integer, $.bit_string_segment_option_unit), ")"),
-    _bit_string_segment_option_literal: ($) =>
+    _bit_string_segment_option: ($) =>
       choice(
-        alias("binary", $.bit_string_segment_option_binary),
-        alias("bytes", $.bit_string_segment_option_binary),
-        alias("int", $.bit_string_segment_option_int),
-        alias("float", $.bit_string_segment_option_float),
-        alias("bit_string", $.bit_string_segment_option_bit_string),
-        alias("bits", $.bit_string_segment_option_bit_string),
-        alias("utf8", $.bit_string_segment_option_utf8),
-        alias("utf16", $.bit_string_segment_option_utf16),
-        alias("utf32", $.bit_string_segment_option_utf32),
-        alias("utf8_codepoint", $.bit_string_segment_option_utf8_codepoint),
-        alias("utf16_codepoint", $.bit_string_segment_option_utf16_codepoint),
-        alias("utf32_codepoint", $.bit_string_segment_option_utf32_codepoint),
-        alias("signed", $.bit_string_segment_option_signed),
-        alias("unsigned", $.bit_string_segment_option_unsigned),
-        alias("big", $.bit_string_segment_option_big),
-        alias("little", $.bit_string_segment_option_little),
-        alias("native", $.bit_string_segment_option_native)
+        "binary",
+        "bytes",
+        "int",
+        "float",
+        "bit_string",
+        "bits",
+        "utf8",
+        "utf16",
+        "utf32",
+        "utf8_codepoint",
+        "utf16_codepoint",
+        "utf32_codepoint",
+        "signed",
+        "unsigned",
+        "big",
+        "little",
+        "native",
+        seq("unit", "(", $.integer, ")")
       ),
 
     /* Types */
@@ -710,18 +709,15 @@ function bit_string_segment_options(name, arg_parser) {
     [`_${name}_bit_string_segment_option`]: ($) =>
       choice($[`_${name}_bit_string_named_segment_option`], $.integer),
     [`_${name}_bit_string_named_segment_option`]: ($) =>
-      choice(
-        $._bit_string_segment_option_unit,
-        $[`_${name}_bit_string_segment_option_size`],
-        $._bit_string_segment_option_literal
+      alias(
+        choice(
+          $._bit_string_segment_option,
+          $[`_${name}_bit_string_segment_option_size`]
+        ),
+        $.bit_string_segment_option
       ),
     [`_${name}_bit_string_segment_option_size`]: ($) =>
-      seq(
-        "size",
-        "(",
-        alias($[arg_parser], $.bit_string_segment_option_size),
-        ")"
-      ),
+      seq("size", "(", $[arg_parser], ")"),
   };
 }
 
