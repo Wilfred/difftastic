@@ -17,6 +17,7 @@ mod hunks;
 mod inline;
 mod line_parser;
 mod lines;
+mod myers_diff;
 mod options;
 mod positions;
 mod side_by_side;
@@ -26,7 +27,6 @@ mod summary;
 mod syntax;
 mod tree_sitter_parser;
 mod unchanged;
-mod myers_diff;
 
 #[macro_use]
 extern crate log;
