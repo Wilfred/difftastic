@@ -458,17 +458,22 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
 }
 
 /// Parse `src` with tree-sitter.
-pub fn parse_to_tree(
-    src: &str,
-    config: &TreeSitterConfig,
-) -> (tree_sitter::Tree, HighlightedNodeIds) {
+pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
     let mut parser = ts::Parser::new();
     parser
         .set_language(config.language)
         .expect("Incompatible tree-sitter version");
 
-    let tree = parser.parse(src, None).unwrap();
+    parser.parse(src, None).unwrap()
+}
 
+/// Calculate which tree-sitter node IDs should have which syntax
+/// highlighting.
+fn tree_highlights(
+    tree: &tree_sitter::Tree,
+    src: &str,
+    config: &TreeSitterConfig,
+) -> HighlightedNodeIds {
     let mut keyword_ish_capture_ids = vec![];
     if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
         keyword_ish_capture_ids.push(idx);
@@ -528,12 +533,11 @@ pub fn parse_to_tree(
         }
     }
 
-    let highlights = HighlightedNodeIds {
+    HighlightedNodeIds {
         keyword_ids,
         string_ids,
         type_ids,
-    };
-    (tree, highlights)
+    }
 }
 
 pub fn print_tree(src: &str, tree: &tree_sitter::Tree) {
@@ -577,7 +581,8 @@ pub fn parse<'a>(
         return vec![];
     }
 
-    let (tree, highlights) = parse_to_tree(src, config);
+    let tree = parse_to_tree(src, config);
+    let highlights = tree_highlights(&tree, src, config);
 
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
