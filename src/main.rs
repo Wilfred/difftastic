@@ -26,6 +26,7 @@ mod summary;
 mod syntax;
 mod tree_sitter_parser;
 mod unchanged;
+mod myers_diff;
 
 #[macro_use]
 extern crate log;
