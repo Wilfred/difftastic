@@ -74,6 +74,7 @@
   ";"
   "."
   ","
+  "="
 ] @punctuation.delimiter
 
 [
