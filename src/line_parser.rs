@@ -78,7 +78,10 @@ fn merge_novel<'a>(
 ///
 /// This is the decorate-sort-undecorate pattern, or Schwartzian
 /// transform, for diffing.
-fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<myers_diff::DiffResult<&'a T>> {
+fn diff_slice_by_hash<'a, T: Eq + Hash>(
+    lhs: &'a [T],
+    rhs: &'a [T],
+) -> Vec<myers_diff::DiffResult<&'a T>> {
     let mut value_ids: FxHashMap<&T, u32> = FxHashMap::default();
     let mut id_values: FxHashMap<u32, &T> = FxHashMap::default();
 
@@ -113,12 +116,16 @@ fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<myers
     myers_diff::slice(&lhs_ids[..], &rhs_ids[..])
         .into_iter()
         .map(|result| match result {
-            myers_diff::DiffResult::Left(id) => myers_diff::DiffResult::Left(*id_values.get(id).unwrap()),
+            myers_diff::DiffResult::Left(id) => {
+                myers_diff::DiffResult::Left(*id_values.get(id).unwrap())
+            }
             myers_diff::DiffResult::Both(lhs_id, rhs_id) => myers_diff::DiffResult::Both(
                 *id_values.get(lhs_id).unwrap(),
                 *id_values.get(rhs_id).unwrap(),
             ),
-            myers_diff::DiffResult::Right(id) => myers_diff::DiffResult::Right(*id_values.get(id).unwrap()),
+            myers_diff::DiffResult::Right(id) => {
+                myers_diff::DiffResult::Right(*id_values.get(id).unwrap())
+            }
         })
         .collect::<Vec<_>>()
 }
@@ -184,9 +191,10 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                for diff_res in diff::slice(&split_words(&lhs_part), &split_words(&rhs_part)) {
+                for diff_res in myers_diff::slice(&split_words(&lhs_part), &split_words(&rhs_part))
+                {
                     match diff_res {
-                        diff::Result::Left(lhs_word) => {
+                        myers_diff::DiffResult::Left(lhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
@@ -200,7 +208,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
                             lhs_offset += lhs_word.len();
                         }
-                        diff::Result::Both(lhs_word, rhs_word) => {
+                        myers_diff::DiffResult::Both(lhs_word, rhs_word) => {
                             if *lhs_word != "\n" {
                                 let lhs_pos =
                                     lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
@@ -220,7 +228,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                             lhs_offset += lhs_word.len();
                             rhs_offset += rhs_word.len();
                         }
-                        diff::Result::Right(rhs_word) => {
+                        myers_diff::DiffResult::Right(rhs_word) => {
                             rhs_offset += rhs_word.len();
                         }
                     }
