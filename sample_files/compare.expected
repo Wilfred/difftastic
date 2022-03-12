@@ -52,6 +52,9 @@ sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 sample_files/load_before.js sample_files/load_after.js
 c7a5800de30556a6a2cf795744fc28b9  -
 
+sample_files/modules_before.ml sample_files/modules_after.ml
+d182f73a8729211cc41e297aeab8f7a9  -
+
 sample_files/nest_before.rs sample_files/nest_after.rs
 791901de922abc7f24e5b9068706417d  -
 
