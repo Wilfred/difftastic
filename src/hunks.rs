@@ -664,9 +664,10 @@ pub fn matched_lines_for_hunk(
     }
 
     let mut end_i = None;
-    for (i, matched_line) in matched_lines.iter().enumerate() {
+    for (i, matched_line) in matched_lines.iter().enumerate().rev() {
         if either_side_equal(matched_line, hunk_last) {
             end_i = Some(i + 1);
+            break;
         }
     }
 
