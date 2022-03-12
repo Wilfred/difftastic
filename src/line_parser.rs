@@ -78,7 +78,7 @@ fn merge_novel<'a>(
 ///
 /// This is the decorate-sort-undecorate pattern, or Schwartzian
 /// transform, for diffing.
-fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<diff::Result<&'a T>> {
+fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<myers_diff::DiffResult<&'a T>> {
     let mut value_ids: FxHashMap<&T, u32> = FxHashMap::default();
     let mut id_values: FxHashMap<u32, &T> = FxHashMap::default();
 
@@ -113,14 +113,14 @@ fn diff_slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<diff:
     myers_diff::slice(&lhs_ids[..], &rhs_ids[..])
         .into_iter()
         .map(|result| match result {
-            myers_diff::DiffResult::Left(id) => diff::Result::Left(*id_values.get(id).unwrap()),
-            myers_diff::DiffResult::Both(lhs_id, rhs_id) => diff::Result::Both(
+            myers_diff::DiffResult::Left(id) => myers_diff::DiffResult::Left(*id_values.get(id).unwrap()),
+            myers_diff::DiffResult::Both(lhs_id, rhs_id) => myers_diff::DiffResult::Both(
                 *id_values.get(lhs_id).unwrap(),
                 *id_values.get(rhs_id).unwrap(),
             ),
-            myers_diff::DiffResult::Right(id) => diff::Result::Right(*id_values.get(id).unwrap()),
+            myers_diff::DiffResult::Right(id) => myers_diff::DiffResult::Right(*id_values.get(id).unwrap()),
         })
-        .collect::<Vec<diff::Result<&'a T>>>()
+        .collect::<Vec<_>>()
 }
 
 fn changed_parts<'a>(
@@ -133,13 +133,13 @@ fn changed_parts<'a>(
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
     for diff_res in diff_slice_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
-            diff::Result::Left(line) => {
+            myers_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
             }
-            diff::Result::Both(line, opposite_line) => {
+            myers_diff::DiffResult::Both(line, opposite_line) => {
                 res.push((TextChangeKind::Unchanged, vec![line], vec![opposite_line]));
             }
-            diff::Result::Right(opposite_line) => {
+            myers_diff::DiffResult::Right(opposite_line) => {
                 res.push((TextChangeKind::Novel, vec![], vec![opposite_line]));
             }
         }
