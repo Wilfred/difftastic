@@ -12,6 +12,7 @@ use typed_arena::Arena;
 
 use crate::{
     lines::{LineNumber, NewlinePositions},
+    myers_diff,
     positions::SingleLineSpan,
 };
 use ChangeKind::*;
@@ -632,9 +633,9 @@ fn split_comment_words(
     let mut opposite_offset = 0;
 
     let mut res = vec![];
-    for diff_res in diff::slice(&content_parts, &other_parts) {
+    for diff_res in myers_diff::slice(&content_parts, &other_parts) {
         match diff_res {
-            diff::Result::Left(word) => {
+            myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
                 res.push(MatchedPos {
                     kind: MatchKind::NovelWord {
@@ -648,7 +649,7 @@ fn split_comment_words(
                 });
                 offset += word.len();
             }
-            diff::Result::Both(word, opposite_word) => {
+            myers_diff::DiffResult::Both(word, opposite_word) => {
                 // This word is present on both sides.
                 let word_pos =
                     content_newlines.from_offsets_relative_to(pos, offset, offset + word.len())[0];
@@ -669,7 +670,7 @@ fn split_comment_words(
                 offset += word.len();
                 opposite_offset += opposite_word.len();
             }
-            diff::Result::Right(opposite_word) => {
+            myers_diff::DiffResult::Right(opposite_word) => {
                 // Only exists on other side, nothing to do on this side.
                 opposite_offset += opposite_word.len();
             }
