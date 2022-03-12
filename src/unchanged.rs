@@ -1,3 +1,4 @@
+use crate::myers_diff;
 use crate::syntax::{ChangeKind, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
@@ -50,9 +51,9 @@ fn mark_unchanged_toplevel<'a>(
     let mut section_lhs_nodes = vec![];
     let mut section_rhs_nodes = vec![];
 
-    for diff_res in diff::slice(&lhs_node_ids, &rhs_node_ids) {
+    for diff_res in myers_diff::slice(&lhs_node_ids, &rhs_node_ids) {
         match diff_res {
-            diff::Result::Both(lhs, rhs) => {
+            myers_diff::DiffResult::Both(lhs, rhs) => {
                 let lhs_node = lhs.1;
                 let rhs_node = rhs.1;
 
@@ -91,10 +92,10 @@ fn mark_unchanged_toplevel<'a>(
                     rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
                 }
             }
-            diff::Result::Left(lhs) => {
+            myers_diff::DiffResult::Left(lhs) => {
                 section_lhs_nodes.push(lhs.1);
             }
-            diff::Result::Right(rhs) => {
+            myers_diff::DiffResult::Right(rhs) => {
                 section_rhs_nodes.push(rhs.1);
             }
         }
@@ -147,7 +148,7 @@ fn mark_unchanged_outer_list<'a>(
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct EqOnFirstItem<X, Y>(X, Y);
 
 impl<X: Eq, Y> PartialEq for EqOnFirstItem<X, Y> {

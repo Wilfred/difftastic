@@ -168,7 +168,6 @@ dependencies = [
  "cc",
  "clap",
  "const_format",
- "diff",
  "itertools",
  "lazy_static",
  "libc",
