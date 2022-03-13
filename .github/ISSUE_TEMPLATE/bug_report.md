@@ -1,18 +1,19 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Bug Report
+about: Report an issue
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+Thanks for reporting a bug! Please include all of the following:
 
-**To Reproduce**
-Include the before and after files you were diffing, or a repository URL and a commit hash.
+(1) A description of the issue. A screenshot is often helpful too.
 
-**Your environment (please complete the following information):**
- - difftastic version [e.g. 0.22]
- - Operating system [e.g. Arch Linux]
+(2) A copy of what you're diffing. If you're diffing files, include
+the before and after files. If you're using difftastic with a VSC
+repository, include the URL and commit hash.
+
+(3) The version of difftastic you're using (see `difft --version`) and
+your operating system.
