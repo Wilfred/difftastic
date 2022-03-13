@@ -274,7 +274,6 @@ impl Edge {
             ExitDelimiterLHS | ExitDelimiterRHS => 2,
 
             // Matching nodes is always best.
-            // TODO: now we model parents correctly, do we need to track depth difference?
             UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
             // Matching an outer delimiter is good.
             EnterUnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
