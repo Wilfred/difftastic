@@ -106,7 +106,11 @@ impl<'a> fmt::Debug for EnteredDelimiter<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
-                format!("PopEither(lhs count: {}, rhs count: {})", lhs_delims.size(), rhs_delims.size())
+                format!(
+                    "PopEither(lhs count: {}, rhs count: {})",
+                    lhs_delims.size(),
+                    rhs_delims.size()
+                )
             }
             EnteredDelimiter::PopBoth(_) => "PopBoth".to_string(),
         };
