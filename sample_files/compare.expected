@@ -1,6 +1,9 @@
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 ffb31b7f11712d0e28a7f874bb7756c6  -
 
+sample_files/change_outer_before.el sample_files/change_outer_after.el
+1e144818ad54091b05e58e2c617add8f  -
+
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 8316bcd959ce706ac07011f6dc31c93a  -
 
@@ -77,10 +80,10 @@ sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-9b21c5790773eaba1a83e92fe2b9b5a8  -
+ab11d8dfc684921d85f49d3ec4dfeec4  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-07c6dda6ca91de93a0553f90060697d0  -
+1f6176a6518e16eb8dfe32d7d81c63d9  -
 
 sample_files/small_before.js sample_files/small_after.js
 ee97a525a74be6dd18e959395d02265b  -
