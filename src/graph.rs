@@ -71,6 +71,11 @@ impl<'a> PartialEq for Vertex<'a> {
             // the graph size relative to tree depth.
             && self.lhs_parent_id == other.lhs_parent_id
             && self.rhs_parent_id == other.rhs_parent_id
+            // We do want to distinguish whether we can pop each side
+            // independently though. Without this, if we find a case
+            // where we can pop sides together, we don't consider the
+            // case where we get a better diff by popping each side
+            // separately.
             && self.can_pop_either == other.can_pop_either
     }
 }
