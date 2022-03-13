@@ -270,7 +270,15 @@ pub enum Edge {
 impl Edge {
     pub fn cost(&self) -> u64 {
         match self {
+            // When we're at the end of a list, there's only one exit
+            // delimiter possibility, so the cost doesn't matter. We
+            // choose a non-zero number as it's easier to reason
+            // about.
             ExitDelimiterBoth => 1,
+            // Choose a higher value for exiting individually. This
+            // shouldn't matter since entering a novel delimiter is
+            // already more expensive than entering a matched
+            // delimiter, but be defensive.
             ExitDelimiterLHS | ExitDelimiterRHS => 2,
 
             // Matching nodes is always best.
