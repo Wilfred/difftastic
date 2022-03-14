@@ -64,15 +64,16 @@ concept Hashable = requires(T a) {
               (argument_list
                 (identifier)))
             (trailing_return_type
-              (qualified_identifier
-                (namespace_identifier)
-                (template_type
-                  (type_identifier)
-                  (template_argument_list
-                    (type_descriptor
-                      (qualified_identifier
-                        (namespace_identifier)
-                        (type_identifier)))))))))))))
+              (type_descriptor
+                (qualified_identifier
+                  (namespace_identifier)
+                  (template_type
+                    (type_identifier)
+                    (template_argument_list
+                      (type_descriptor
+                        (qualified_identifier
+                          (namespace_identifier)
+                          (type_identifier))))))))))))))
 
 ================================================================================
 Requires clauses and expressions
@@ -347,16 +348,17 @@ requires(T x) {
             (pointer_expression
               (identifier))
             (trailing_return_type
-              (qualified_identifier
-                (namespace_identifier)
-                (template_type
-                  (type_identifier)
-                  (template_argument_list
-                    (type_descriptor
-                      (dependent_type
-                        (qualified_identifier
-                          (namespace_identifier)
-                          (type_identifier)))))))))
+              (type_descriptor
+                (qualified_identifier
+                  (namespace_identifier)
+                  (template_type
+                    (type_identifier)
+                    (template_argument_list
+                      (type_descriptor
+                        (dependent_type
+                          (qualified_identifier
+                            (namespace_identifier)
+                            (type_identifier))))))))))
           (comment)
           (comment)
           (comment)
@@ -365,13 +367,14 @@ requires(T x) {
               (identifier)
               (number_literal))
             (trailing_return_type
-              (qualified_identifier
-                (namespace_identifier)
-                (template_type
-                  (type_identifier)
-                  (template_argument_list
-                    (type_descriptor
-                      (primitive_type)))))))
+              (type_descriptor
+                (qualified_identifier
+                  (namespace_identifier)
+                  (template_type
+                    (type_identifier)
+                    (template_argument_list
+                      (type_descriptor
+                        (primitive_type))))))))
           (comment)
           (comment)
           (comment)
@@ -380,13 +383,14 @@ requires(T x) {
               (identifier)
               (number_literal))
             (trailing_return_type
-              (qualified_identifier
-                (namespace_identifier)
-                (template_type
-                  (type_identifier)
-                  (template_argument_list
-                    (type_descriptor
-                      (type_identifier)))))))
+              (type_descriptor
+                (qualified_identifier
+                  (namespace_identifier)
+                  (template_type
+                    (type_identifier)
+                    (template_argument_list
+                      (type_descriptor
+                        (type_identifier))))))))
           (comment)
           (comment))))))
 

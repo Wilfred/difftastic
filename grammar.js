@@ -114,6 +114,8 @@ module.exports = grammar(C, {
       'consteval',
     ),
 
+    type_descriptor: ($, original) => prec.right(original),
+
     // When used in a trailing return type, these specifiers can now occur immediately before
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
     // with an associativity.
@@ -551,12 +553,7 @@ module.exports = grammar(C, {
       optional($.requires_clause)
     )),
 
-    trailing_return_type: $ => prec.right(seq(
-      '->',
-      optional($.type_qualifier),
-      $._type_specifier,
-      optional($._abstract_declarator)
-    )),
+    trailing_return_type: $ => seq('->', $.type_descriptor),
 
     noexcept: $ => prec.right(seq(
       'noexcept',
