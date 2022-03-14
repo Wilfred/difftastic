@@ -7,6 +7,7 @@ use std::{
     collections::HashMap,
     env, fmt,
     hash::{Hash, Hasher},
+    num::NonZeroU32,
 };
 use typed_arena::Arena;
 
@@ -63,7 +64,7 @@ pub struct SyntaxInfo<'a> {
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
-    unique_id: Cell<u32>,
+    unique_id: Cell<NonZeroU32>,
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
     /// diff, or nodes at different positions.
@@ -81,7 +82,7 @@ impl<'a> SyntaxInfo<'a> {
             prev_is_contiguous: Cell::new(false),
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
-            unique_id: Cell::new(0),
+            unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
         }
     }
@@ -279,7 +280,7 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
-    pub fn id(&self) -> u32 {
+    pub fn id(&self) -> NonZeroU32 {
         self.info().unique_id.get()
     }
 
@@ -360,9 +361,7 @@ pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'
 }
 
 pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
-    // TODO: start unique IDs at 1. This helps with hashing and makes
-    // it obvious if we've forgotten to init the syntax info.
-    let mut id = 0;
+    let mut id = NonZeroU32::new(1).unwrap();
     init_info_single(lhs_roots, &mut id);
     init_info_single(rhs_roots, &mut id);
 
@@ -430,16 +429,17 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_is_contiguous(roots);
 }
 
-fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u32) {
+fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_unique_id(roots, next_id)
 }
 
-fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut u32) {
+fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
     for node in nodes {
         node.info().unique_id.set(*next_id);
-        *next_id += 1;
+        *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
+            .expect("Should not have more than u32::MAX nodes");
         if let List { children, .. } = node {
             set_unique_id(children, next_id);
         }

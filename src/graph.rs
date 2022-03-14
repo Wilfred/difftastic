@@ -5,6 +5,7 @@ use std::{
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
+    num::NonZeroU32,
 };
 use strsim::normalized_levenshtein;
 
@@ -44,8 +45,8 @@ pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
-    lhs_parent_id: Option<u32>,
-    rhs_parent_id: Option<u32>,
+    lhs_parent_id: Option<NonZeroU32>,
+    rhs_parent_id: Option<NonZeroU32>,
     can_pop_either: bool,
 }
 
