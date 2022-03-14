@@ -1,6 +1,6 @@
 [package]
 name = "difftastic"
-description = "A syntactic diff"
+description = "A diff that understands syntax"
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
