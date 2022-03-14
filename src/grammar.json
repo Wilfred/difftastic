@@ -6318,7 +6318,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_atype"
+          "name": "_type"
         }
       ]
     },

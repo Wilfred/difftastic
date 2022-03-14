@@ -191,6 +191,7 @@ plain adt: deriving via
 ================================================================================
 
 data A = A deriving (A) via (A A)
+data A = A deriving (A) via A A
 
 ---
 
@@ -200,7 +201,13 @@ data A = A deriving (A) via (A A)
   (constructors (data_constructor (constructor)))
   (deriving
    (constraint (class_name (type)))
-   (via (type_parens (type_apply (type_name (type)) (type_name (type))))))))
+   (via (type_parens (type_apply (type_name (type)) (type_name (type)))))))
+ (adt
+  (type)
+  (constructors (data_constructor (constructor)))
+  (deriving
+   (constraint (class_name (type)))
+   (via (type_apply (type_name (type)) (type_name (type)))))))
 
 ================================================================================
 plain adt: deriving on newline, multiple
