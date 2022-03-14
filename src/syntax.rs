@@ -25,17 +25,23 @@ pub enum ChangeKind<'a> {
     Novel,
 }
 
-/// A Debug implementation that ignores the corresponding node
-/// mentioned for Unchanged. Otherwise we will infinitely loop on
-/// unchanged nodes, which both point to the other.
+/// A Debug implementation that does not reucurse into the
+/// corresponding node mentioned for Unchanged. Otherwise we will
+/// infinitely loop on unchanged nodes, which both point to the other.
 impl<'a> fmt::Debug for ChangeKind<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
-            Unchanged(_) => "Unchanged",
-            ReplacedComment(_, _) => "ReplacedComment",
-            Novel => "Novel",
+            Unchanged(node) => format!("Unchanged(ID: {})", node.id()),
+            ReplacedComment(lhs_node, rhs_node) => {
+                format!(
+                    "ReplacedComment(lhs ID: {}, rhs ID: {})",
+                    lhs_node.id(),
+                    rhs_node.id()
+                )
+            }
+            Novel => "Novel".to_owned(),
         };
-        f.write_str(desc)
+        f.write_str(&desc)
     }
 }
 
