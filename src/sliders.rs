@@ -182,7 +182,7 @@ fn is_unchanged_deep(node: &Syntax) -> bool {
     }
 }
 
-fn slide_to_prev_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
+fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
     if start_idx == 0 {
         return;
     }
@@ -225,10 +225,11 @@ fn slide_to_prev_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
 
         before_start_node.set_change_deep(Novel);
         last_node.set_change_deep(Unchanged(opposite));
+        opposite.set_change_deep(Unchanged(last_node));
     }
 }
 
-fn slide_to_next_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
+fn slide_to_next_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
     if end_idx == nodes.len() - 1 {
         return;
     }
@@ -270,6 +271,7 @@ fn slide_to_next_node(nodes: &[&Syntax], start_idx: usize, end_idx: usize) {
         };
 
         start_node.set_change_deep(Unchanged(opposite));
+        opposite.set_change_deep(Unchanged(start_node));
         after_last_node.set_change_deep(Novel);
     }
 }
@@ -395,6 +397,7 @@ mod tests {
         assert_eq!(lhs[0].change(), Some(Novel));
         assert_eq!(lhs[1].change(), Some(Novel));
         assert_eq!(lhs[2].change(), Some(Unchanged(rhs[0])));
+        assert_eq!(rhs[0].change(), Some(Unchanged(lhs[2])));
     }
 
     /// Test that we slide at the end if the unchanged node is
@@ -439,6 +442,7 @@ mod tests {
         lhs[2].set_change(Unchanged(rhs[0]));
 
         fix_all_sliders(&lhs);
+        assert_eq!(rhs[0].change(), Some(Unchanged(lhs[0])));
         assert_eq!(lhs[0].change(), Some(Unchanged(rhs[0])));
         assert_eq!(lhs[1].change(), Some(Novel));
         assert_eq!(lhs[2].change(), Some(Novel));
