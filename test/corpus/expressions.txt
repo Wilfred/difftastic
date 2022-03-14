@@ -193,7 +193,7 @@ auto i = [] <typename T> requires Hashable<T> {
         (lambda_capture_specifier (lambda_default_capture))
         (abstract_function_declarator
           (parameter_list (parameter_declaration (primitive_type) (identifier)))
-          (trailing_return_type (primitive_type)))
+          (trailing_return_type (type_descriptor (primitive_type))))
         (compound_statement (return_statement (true))))))
   (declaration
     (placeholder_type_specifier (auto))

@@ -5462,19 +5462,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "_abstract_declarator",
-          "named": true
-        },
-        {
-          "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "type_qualifier",
+          "type": "type_descriptor",
           "named": true
         }
       ]
