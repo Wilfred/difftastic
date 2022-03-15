@@ -61,6 +61,9 @@ bf8527f91baff9a5f56380784b2a438e  -
 sample_files/modules_before.ml sample_files/modules_after.ml
 d182f73a8729211cc41e297aeab8f7a9  -
 
+sample_files/multibyte_before.py sample_files/multibyte_after.py
+8a5e31775d5e788e9158bd4a36e03254  -
+
 sample_files/nest_before.rs sample_files/nest_after.rs
 791901de922abc7f24e5b9068706417d  -
 
