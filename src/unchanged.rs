@@ -2,6 +2,8 @@ use crate::myers_diff;
 use crate::syntax::{ChangeKind, Syntax};
 
 const TINY_TREE_THRESHOLD: u32 = 10;
+const MOSTLY_UNCHANGED_MIN_NODES: usize = 4;
+const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
 /// Set ChangeKind on nodes that are obviously unchanged, and return a
 /// vec of pairs that need proper diffing.
@@ -10,7 +12,14 @@ pub fn mark_unchanged<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes);
-    split_unchanged(&lhs_nodes, &rhs_nodes)
+
+    let mut res = vec![];
+    for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
+        let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
+        res.extend(split_unchanged(&lhs_nodes, &rhs_nodes));
+    }
+
+    res
 }
 
 #[derive(Debug)]
@@ -101,6 +110,107 @@ fn split_unchanged_singleton_list<'a>(
             ));
         }
     }
+
+    res
+}
+
+/// Return true if both nodes are lists with same delimiters and have
+/// the same start and end children.
+fn is_mostly_unchanged_list(lhs: &Syntax, rhs: &Syntax) -> bool {
+    match (lhs, rhs) {
+        (
+            Syntax::List {
+                open_content: lhs_open_content,
+                close_content: lhs_close_content,
+                children: lhs_children,
+                ..
+            },
+            Syntax::List {
+                open_content: rhs_open_content,
+                close_content: rhs_close_content,
+                children: rhs_children,
+                ..
+            },
+        ) if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content => {
+            if lhs_children.len() < MOSTLY_UNCHANGED_MIN_NODES
+                || rhs_children.len() < MOSTLY_UNCHANGED_MIN_NODES
+            {
+                return false;
+            }
+
+            let first_children_unchanged = lhs_children
+                .iter()
+                .zip(rhs_children.iter())
+                .take(MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN)
+                .all(|(lhs, rhs)| lhs.content_id() == rhs.content_id());
+
+            let last_children_unchanged = lhs_children
+                .iter()
+                .rev()
+                .zip(rhs_children.iter().rev())
+                .take(MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN)
+                .all(|(lhs, rhs)| lhs.content_id() == rhs.content_id());
+
+            first_children_unchanged || last_children_unchanged
+        }
+        _ => false,
+    }
+}
+
+/// Split out top-level lists that are largely the same.
+///
+/// This is important in cases where we have two adjacent lists that
+/// have a small number of changes.
+///
+/// ```
+/// ; old
+/// (1 2 3 4) (a b c d)
+///
+/// ; new
+/// (1 2 novel 3 4) (a b novel-2 c d)
+/// ```
+///
+/// By splitting out these mostly-unchanged lists, we can
+/// substantially further shrink them.
+fn split_mostly_unchanged_toplevel<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    let mut lhs_nodes = lhs_nodes;
+    let mut rhs_nodes = rhs_nodes;
+
+    let mut leading: Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+    while let (Some(lhs), Some(rhs)) = (lhs_nodes.first(), rhs_nodes.first()) {
+        if is_mostly_unchanged_list(lhs, rhs) {
+            leading.push((vec![lhs], vec![rhs]));
+
+            lhs_nodes = &lhs_nodes[1..];
+            rhs_nodes = &rhs_nodes[1..];
+        } else {
+            break;
+        }
+    }
+
+    let mut trailing: Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+    while let (Some(lhs), Some(rhs)) = (lhs_nodes.last(), rhs_nodes.last()) {
+        if is_mostly_unchanged_list(lhs, rhs) {
+            trailing.push((vec![lhs], vec![rhs]));
+
+            lhs_nodes = &lhs_nodes[..lhs_nodes.len() - 1];
+            rhs_nodes = &rhs_nodes[..rhs_nodes.len() - 1];
+        } else {
+            break;
+        }
+    }
+
+    let mut res: Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+    res.extend_from_slice(&leading[..]);
+
+    if !lhs_nodes.is_empty() || !rhs_nodes.is_empty() {
+        res.push((Vec::from(lhs_nodes), Vec::from(rhs_nodes)));
+    }
+
+    res.extend(trailing.into_iter().rev());
 
     res
 }
@@ -556,5 +666,26 @@ mod tests {
             lhs_nodes[0].change(),
             Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
+    }
+
+    #[test]
+    fn test_split_mostly_unchanged_toplevel() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(
+            &arena,
+            "(1 2 3 4 5 6 7 8 9 10) (91 92 93 94 95 96 97 98 99 100)",
+            &config,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "(1 2 3 4 5 novel-1 6 7 8 9 10) (91 92 93 94 95 novel-2 96 97 98 99 100)",
+            &config,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let split = split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes);
+        assert_eq!(split.len(), 2);
     }
 }

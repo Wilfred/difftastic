@@ -6,6 +6,10 @@ Added support for Kotlin and TOML.
 
 Fixed an issue with YAML and `|` block strings.
 
+### Diffing
+
+Improved performance in large files when changes are clustered together.
+
 ### Display
 
 Improved syntax highlighting for keywords.
