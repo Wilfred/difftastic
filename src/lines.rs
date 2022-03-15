@@ -151,6 +151,14 @@ pub fn codepoint_len(s: &str) -> usize {
     s.chars().count()
 }
 
+/// Return the length of `s` in bytes.
+///
+/// This is a trivial wrapper to make it clear when we want bytes not
+/// codepoints.
+pub fn byte_len(s: &str) -> usize {
+    s.len()
+}
+
 pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }

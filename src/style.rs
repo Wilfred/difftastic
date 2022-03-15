@@ -1,7 +1,7 @@
 //! Apply colours and styling to strings.
 
 use crate::{
-    lines::{codepoint_len, LineNumber},
+    lines::{byte_len, codepoint_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
@@ -44,13 +44,17 @@ fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
     }
 }
 
+fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
+    &s[start..end]
+}
+
 /// Split a string into equal length parts, padding the last part if
 /// necessary.
 ///
 /// ```
-/// split_string("fooba", 3) // vec!["foo", "ba "]
+/// split_string_by_codepoint("fooba", 3) // vec!["foo", "ba "]
 /// ```
-fn split_string(s: &str, max_len: usize) -> Vec<String> {
+fn split_string_by_codepoint(s: &str, max_len: usize) -> Vec<String> {
     let mut res = vec![];
     let mut s = s;
 
@@ -81,7 +85,7 @@ pub fn split_and_apply(
 ) -> Vec<String> {
     if styles.is_empty() && !line.is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
-        return split_string(line, max_len)
+        return split_string_by_codepoint(line, max_len)
             .into_iter()
             .map(|part| {
                 if use_color {
@@ -96,12 +100,12 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for part in split_string(line, max_len) {
+    for part in split_string_by_codepoint(line, max_len) {
         let mut res = String::with_capacity(part.len());
         let mut prev_style_end = 0;
         for (span, style) in styles {
             // The remaining spans are beyond the end of this part.
-            if span.start_col >= part_start + codepoint_len(&part) {
+            if span.start_col >= part_start + byte_len(&part) {
                 break;
             }
 
@@ -109,7 +113,7 @@ pub fn split_and_apply(
             if span.start_col > part_start && prev_style_end < span.start_col {
                 // Then append that text without styling.
                 let unstyled_start = max(prev_style_end, part_start);
-                res.push_str(substring_by_codepoint(
+                res.push_str(substring_by_byte(
                     &part,
                     unstyled_start - part_start,
                     span.start_col - part_start,
@@ -118,10 +122,10 @@ pub fn split_and_apply(
 
             // Apply style to the substring in this span.
             if span.end_col > part_start {
-                let span_s = substring_by_codepoint(
+                let span_s = substring_by_byte(
                     &part,
                     max(0, span.start_col as isize - part_start as isize) as usize,
-                    min(codepoint_len(&part), span.end_col - part_start),
+                    min(byte_len(&part), span.end_col - part_start),
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
@@ -136,13 +140,12 @@ pub fn split_and_apply(
 
         // Unstyled text after the last span.
         if prev_style_end < part_start + codepoint_len(&part) {
-            let span_s =
-                substring_by_codepoint(&part, prev_style_end - part_start, codepoint_len(&part));
+            let span_s = substring_by_byte(&part, prev_style_end - part_start, byte_len(&part));
             res.push_str(span_s);
         }
 
         styled_parts.push(res);
-        part_start += codepoint_len(&part)
+        part_start += byte_len(&part)
     }
 
     styled_parts
@@ -155,31 +158,30 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
         return highlight_missing_style_bug(line);
     }
 
-    let line_codepoints = codepoint_len(line);
+    let line_bytes = byte_len(line);
     let mut res = String::with_capacity(line.len());
     let mut i = 0;
     for (span, style) in styles {
         // The remaining spans are beyond the end of this line. This
         // occurs when we truncate the line to fit on the display.
-        if span.start_col >= line_codepoints {
+        if span.start_col >= line_bytes {
             break;
         }
 
         // Unstyled text before the next span.
         if i < span.start_col {
-            res.push_str(substring_by_codepoint(line, i, span.start_col));
+            res.push_str(substring_by_byte(line, i, span.start_col));
         }
 
         // Apply style to the substring in this span.
-        let span_s =
-            substring_by_codepoint(line, span.start_col, min(line_codepoints, span.end_col));
+        let span_s = substring_by_byte(line, span.start_col, min(line_bytes, span.end_col));
         res.push_str(&span_s.style(*style).to_string());
         i = span.end_col;
     }
 
     // Unstyled text after the last span.
-    if i < line_codepoints {
-        let span_s = substring_by_codepoint(line, i, line_codepoints);
+    if i < line_bytes {
+        let span_s = substring_by_byte(line, i, line_bytes);
         res.push_str(span_s);
     }
     res
@@ -349,12 +351,12 @@ mod tests {
 
     #[test]
     fn split_string_simple() {
-        assert_eq!(split_string("fooba", 3), vec!["foo", "ba "]);
+        assert_eq!(split_string_by_codepoint("fooba", 3), vec!["foo", "ba "]);
     }
 
     #[test]
     fn split_string_unicode() {
-        assert_eq!(split_string("ab📦def", 3), vec!["ab📦", "def"]);
+        assert_eq!(split_string_by_codepoint("ab📦def", 3), vec!["ab📦", "def"]);
     }
 
     #[test]
