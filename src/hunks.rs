@@ -651,13 +651,25 @@ pub fn matched_lines_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    // TODO: Use binary search instead.
-    let hunk_first = hunk.lines.first().expect("Hunks are non-empty");
-    let hunk_last = hunk.lines.last().expect("Hunks are non-empty");
+    let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
+    hunk_lhs_novel.sort();
 
+    let mut hunk_rhs_novel = hunk.novel_rhs.iter().copied().collect::<Vec<_>>();
+    hunk_rhs_novel.sort();
+
+    let hunk_smallest = (
+        hunk_lhs_novel.first().copied(),
+        hunk_rhs_novel.first().copied(),
+    );
+    let hunk_largest = (
+        hunk_lhs_novel.last().copied(),
+        hunk_rhs_novel.last().copied(),
+    );
+
+    // TODO: Use binary search instead.
     let mut start_i = None;
     for (i, matched_line) in matched_lines.iter().enumerate() {
-        if either_side_equal(matched_line, hunk_first) {
+        if either_side_equal(matched_line, &hunk_smallest) {
             start_i = Some(i);
             break;
         }
@@ -665,7 +677,7 @@ pub fn matched_lines_for_hunk(
 
     let mut end_i = None;
     for (i, matched_line) in matched_lines.iter().enumerate().rev() {
-        if either_side_equal(matched_line, hunk_last) {
+        if either_side_equal(matched_line, &hunk_largest) {
             end_i = Some(i + 1);
             break;
         }
