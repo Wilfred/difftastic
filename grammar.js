@@ -1514,14 +1514,7 @@ module.exports = grammar({
             )
           ),
           optional($.type_constraints),
-          "{",
-          choice(
-            optional($.statements),
-            repeat(
-              choice($.computed_getter, $.computed_setter, $.computed_modify)
-            )
-          ),
-          "}"
+          $.computed_property
         )
       ),
     computed_property: ($) =>
