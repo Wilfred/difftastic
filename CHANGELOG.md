@@ -10,6 +10,10 @@ incorrect diffs.
 Fixed an issue where lines were not aligned correctly after correcting
 sliders.
 
+### Display
+
+Fixed an issue where some lines in a hunk were not displayed.
+
 ## 0.22 (release 10th March 2022)
 
 Difftastic now requires Rust 1.56 to build.
