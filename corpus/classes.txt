@@ -234,24 +234,11 @@ class GenericSubscript {
         (optional_type
           (user_type
             (type_identifier)))
-        (computed_getter
-          (getter_specifier)
-          (statements
-            (control_transfer_statement
-              (call_expression
-                (simple_identifier)
-                (call_suffix
-                  (value_arguments
-                    (value_argument
-                      (navigation_expression
-                        (simple_identifier)
-                        (navigation_suffix
-                          (simple_identifier))))))))))
-        (computed_setter
-          (setter_specifier)
-          (statements
-            (assignment
-              (directly_assignable_expression
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (control_transfer_statement
                 (call_expression
                   (simple_identifier)
                   (call_suffix
@@ -260,8 +247,22 @@ class GenericSubscript {
                         (navigation_expression
                           (simple_identifier)
                           (navigation_suffix
-                            (simple_identifier))))))))
-              (simple_identifier)))))))
+                            (simple_identifier))))))))))
+          (computed_setter
+            (setter_specifier)
+            (statements
+              (assignment
+                (directly_assignable_expression
+                  (call_expression
+                    (simple_identifier)
+                    (call_suffix
+                      (value_arguments
+                        (value_argument
+                          (navigation_expression
+                            (simple_identifier)
+                            (navigation_suffix
+                              (simple_identifier))))))))
+                (simple_identifier))))))))
   (class_declaration
     (type_identifier)
     (class_body
@@ -284,9 +285,10 @@ class GenericSubscript {
           (type_arguments
             (user_type
               (type_identifier))))
-        (statements
-          (control_transfer_statement
-            (simple_identifier)))))))
+        (computed_property
+          (statements
+            (control_transfer_statement
+              (simple_identifier))))))))
 
 ================================================================================
 Subscript with multiple arguments
@@ -329,9 +331,10 @@ class Subscriptable {
                 (simple_identifier))
               (user_type
                 (type_identifier)))))
-        (statements
-          (control_transfer_statement
-            (simple_identifier)))))))
+        (computed_property
+          (statements
+            (control_transfer_statement
+              (simple_identifier))))))))
 
 ================================================================================
 Inheritance
@@ -743,8 +746,9 @@ public protocol Indexable {
         (optional_type
           (user_type
             (type_identifier)))
-        (computed_getter
-          (getter_specifier))))))
+        (computed_property
+          (computed_getter
+            (getter_specifier)))))))
 
 ================================================================================
 Typealias
