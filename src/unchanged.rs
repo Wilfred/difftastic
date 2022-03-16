@@ -208,10 +208,8 @@ fn shrink_unchanged_at_ends<'a>(
         // file. There's no risk we split unrelated regions with a
         // trivial unchanged node in the middle.
         if lhs_node.content_id() == rhs_node.content_id() {
-            {
-                lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
-                rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
-            };
+            lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
+            rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
 
             lhs_nodes = &lhs_nodes[1..];
             rhs_nodes = &rhs_nodes[1..];
