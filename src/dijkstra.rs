@@ -87,13 +87,14 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
             .iter()
             .map(|x| {
                 format!(
-                    "{:10} {:10} --- {:?}",
+                    "{:10} {:10} --- {:3} {:?}",
                     x.1.lhs_syntax
                         .map(Syntax::dbg_content)
                         .unwrap_or_else(|| "None".into()),
                     x.1.rhs_syntax
                         .map(Syntax::dbg_content)
                         .unwrap_or_else(|| "None".into()),
+                    x.0.cost(),
                     x.0,
                 )
             })
