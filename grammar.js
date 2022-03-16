@@ -63,7 +63,8 @@ module.exports = grammar({
           $.text,
           $.displayed_equation,
           $.inline_formula,
-          $.math_set
+          $.math_set,
+          $.text_mode
         )
       ),
 
@@ -1018,6 +1019,12 @@ module.exports = grammar({
       seq(
         field('command', choice('\\usepgflibrary', '\\usetikzlibrary')),
         field('paths', $.curly_group_path_list)
+      ),
+
+    text_mode: $ =>
+      seq(
+        field('command', choice('\\text', '\\intertext', 'shortintertext')),
+        field('content', $.curly_group)
       ),
   },
 });

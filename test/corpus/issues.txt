@@ -409,3 +409,90 @@ tree-sitter-latex (Issue #29)
       (text
         (generic_command
           (command_name))))))
+
+================================================================================
+tree-sitter-latex (Issue #3) | \text
+================================================================================
+
+Let $C = \{ f \colon M \to \mathbb{R} \mid \text{$f$ is smooth} \}$.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (inline_formula
+    (text
+      (word))
+    (text
+      (word))
+    (math_set
+      (text
+        (word)
+        (generic_command
+          (command_name))
+        (word)
+        (generic_command
+          (command_name))
+        (generic_command
+          (command_name)
+          (curly_group
+            (text
+              (word))))
+        (generic_command
+          (command_name)))
+      (text_mode
+        (curly_group
+          (inline_formula
+            (text
+              (word)))
+          (text
+            (word)
+            (word))))))
+  (text
+    (word)))
+
+================================================================================
+tree-sitter-latex (Issue #3) | \intertext
+================================================================================
+
+Let
+\begin{align*}
+	F &= x^2 + y^2
+\intertext{and similarly}
+	G &= x^2 - y^2.
+\end{align*}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (text
+      (word)
+      (word))
+    (text
+      (word)
+      (operator)
+      (word))
+    (text_mode
+      (curly_group
+        (text
+          (word)
+          (word))))
+    (text
+      (word)
+      (word))
+    (text
+      (word)
+      (operator)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))

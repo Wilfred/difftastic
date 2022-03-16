@@ -568,6 +568,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -885,6 +889,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -1597,6 +1605,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -1785,6 +1797,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -2085,6 +2101,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -2322,6 +2342,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -2630,6 +2654,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -3229,6 +3257,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -3780,6 +3812,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -3996,6 +4032,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -4366,6 +4406,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -4603,6 +4647,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -4874,6 +4922,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -5085,6 +5137,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -5290,6 +5346,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -5513,6 +5573,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -5729,6 +5793,10 @@
           "named": true
         },
         {
+          "type": "text_mode",
+          "named": true
+        },
+        {
           "type": "theorem_definition",
           "named": true
         },
@@ -5939,6 +6007,40 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "text_mode",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\intertext",
+            "named": false
+          },
+          {
+            "type": "\\text",
+            "named": false
+          },
+          {
+            "type": "shortintertext",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6173,6 +6275,10 @@
         },
         {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_mode",
           "named": true
         },
         {
@@ -7057,6 +7163,10 @@
     "named": false
   },
   {
+    "type": "\\intertext",
+    "named": false
+  },
+  {
     "type": "\\item",
     "named": false
   },
@@ -7257,6 +7367,10 @@
     "named": false
   },
   {
+    "type": "\\text",
+    "named": false
+  },
+  {
     "type": "\\textcite",
     "named": false
   },
@@ -7335,6 +7449,10 @@
   {
     "type": "placeholder",
     "named": true
+  },
+  {
+    "type": "shortintertext",
+    "named": false
   },
   {
     "type": "source_code",

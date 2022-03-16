@@ -183,6 +183,10 @@
           {
             "type": "SYMBOL",
             "name": "math_set"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "text_mode"
           }
         ]
       }
@@ -4711,6 +4715,40 @@
           "content": {
             "type": "SYMBOL",
             "name": "curly_group_path_list"
+          }
+        }
+      ]
+    },
+    "text_mode": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\text"
+              },
+              {
+                "type": "STRING",
+                "value": "\\intertext"
+              },
+              {
+                "type": "STRING",
+                "value": "shortintertext"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "content",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group"
           }
         }
       ]
