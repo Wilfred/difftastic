@@ -73,6 +73,9 @@ c9b74f137aada068b0a317c09966e705  -
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 10f583899eee701776e2b25d96e78b56  -
 
+sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
+7b7f8b78e7b9544473b1a5c55abc3372  -
+
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 4a9847a91e32ec6afdc2f0b01e28d2d6  -
 

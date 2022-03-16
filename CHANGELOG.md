@@ -10,6 +10,9 @@ incorrect diffs.
 Fixed an issue where lines were not aligned correctly after correcting
 sliders.
 
+Fixed an issue the outermost delimiter in lists was sometimes
+incorrectly marked as unchanged, producing non-optimal diffs.
+
 ### Display
 
 Fixed an issue where some lines in a hunk were not displayed.
