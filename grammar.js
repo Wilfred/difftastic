@@ -49,7 +49,9 @@ module.exports = grammar({
         [$._primary_expression, $.type_cast_expression],
         [$._yul_expression, $.yul_path],
         [$._yul_expression, $.yul_assignment],
-        [$.pragma_value, $._solidity]
+        [$.pragma_value, $._solidity],
+        [$.variable_declaration_tuple, $.tuple_expression],
+        [$._decimal_number, $._hex_number],
     ],
 
     rules: {
@@ -438,8 +440,9 @@ module.exports = grammar({
         )),
 
         // -- [ Statements ] --
-        block_statement: $ => seq('{', repeat($._statement), "}"),
-        variable_declaration_statement: $ => prec(3,seq(
+        _unchecked: $ => "unchecked",
+        block_statement: $ => seq(optional($._unchecked), '{', repeat($._statement), "}"),
+        variable_declaration_statement: $ => prec(1,seq(
                 choice(
                     seq($.variable_declaration, optional(seq('=', $._expression))),
                     seq($.variable_declaration_tuple, '=', $._expression),
@@ -476,7 +479,7 @@ module.exports = grammar({
         variable_declaration_tuple: $ => prec(3, choice(
             seq(
                 '(',
-                commaSep($.variable_declaration),
+                commaSep(optional($.variable_declaration)),
                 ')'
             ),
             seq('var',
@@ -939,10 +942,11 @@ module.exports = grammar({
         string_literal: $ => prec.left(repeat1($.string)),
         number_literal: $ => seq(choice($._decimal_number, $._hex_number), optional($.number_unit)),
         _decimal_number: $ =>  choice(
-            /\d+(\.\d+)?([eE](-)?\d+)?/,
-            /\.\d+([eE](-)?\d+)?/,
+            /(\d|_)+(\.(\d|_)+)?([eE](-)?(\d|_)+)?/,
+            /\.(\d|_)+([eE](-)?(\d|_)+)?/,
         ),
-        _hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
+        _hex_number: $ => prec(10, /0[xX]([a-fA-F0-9][a-fA-F0-9]?_?)+/),
+        // _hex_number: $ => seq(/0[xX]/, optional(optionalDashSeparation($._hex_digit))),
         _hex_digit: $ => /([a-fA-F0-9][a-fA-F0-9])/,
         number_unit: $ => choice(
             'wei','szabo', 'finney', 'gwei', 'ether', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'years'
