@@ -258,33 +258,4 @@ in
         (identifier)
         (identifier)))
     (identifier)))
-
-================================================================================
-let missing value (last)
-================================================================================
-
-let
-  a = "foo";
-  b = 42;
-  typing =
-in
-  a + b
-
---------------------------------------------------------------------------------
-
-(source_expression
-  (let
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (ERROR
-      (attrpath
-        (attr_identifier)))
-    (binary
-      (identifier)
-      (identifier))))
+    
