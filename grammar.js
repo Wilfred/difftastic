@@ -49,7 +49,6 @@ module.exports = grammar({
     _expression: $ => $._expr_function,
 
     // Keywords go before identifiers to let them take precedence when both are expected.
-    // Test `let missing value (last)` would fail without this.
     // Workaround before https://github.com/tree-sitter/tree-sitter/pull/246
     keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
 
