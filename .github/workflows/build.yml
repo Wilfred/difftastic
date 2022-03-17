@@ -17,15 +17,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: '12'
+          node-version: '16'
 
       - name: Display Node versions
         run: |
           node --version
           npm --version
-      
+
       - name: Install dependencies
         run: npm install
+
+      - name: Check generated parser is checked in
+        run: npm run generate && git diff --exit-code src
 
       - name: Test corpus
         run: npm test
