@@ -45,6 +45,15 @@ module.exports = grammar({
 
     conflicts: $ => [
         [$._primary_expression, $.type_name],
+        [$.member_expression, $.type_name],
+        [$.member_expression, $.type_name],
+        [$.identifier, $.type_name],
+        
+        [$._user_defined_type, $.member_expression],
+        [$._user_defined_type, $._primary_expression],
+        [$._user_defined_type_repeat, $.member_expression],
+        [$._user_defined_type_repeat, $._primary_expression],
+
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
         [$._yul_expression, $.yul_path],
@@ -774,7 +783,7 @@ module.exports = grammar({
             ),
         )),
 
-        member_expression: $ => prec(PREC.MEMBER, seq(
+        member_expression: $ => prec(14, seq(
             field('object', choice(
                 $._expression,
                 $.identifier,
@@ -837,7 +846,7 @@ module.exports = grammar({
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
 
-        type_name: $ => prec(0, choice(
+        type_name: $ => prec(14, choice(
             $.primitive_type,
             $._user_defined_type,
             $._mapping,
@@ -877,12 +886,14 @@ module.exports = grammar({
         ),
 
         // TODO: make visible type
-        _user_defined_type: $ => prec.left(PREC. USER_TYPE, seq(
+        _user_defined_type: $ => prec.right(14, seq(
             $.identifier,
-            repeat(seq(
-                '.',
-                $.identifier,
-            ))
+            optional($._user_defined_type_repeat),
+        )),
+
+        _user_defined_type_repeat: $ => prec(14, seq(
+            '.',
+            $._user_defined_type,
         )),
 
         _mapping: $ => seq(
