@@ -275,6 +275,24 @@ u.v.${w}."x${y}z"
             (interpolation (identifier))
             (string (interpolation (identifier))))))
 
+
+
+====================
+hasAttr operator
+====================
+
+a ? ${b}.c."d"
+
+---
+
+(source_expression
+    (has_attr
+        (identifier)
+        (attrpath
+            (interpolation (identifier))
+            (attr_identifier)
+            (string))))
+
 ====================
 application
 ====================

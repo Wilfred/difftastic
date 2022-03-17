@@ -97,9 +97,18 @@ module.exports = grammar({
     if: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
 
     _expr_op: $ => choice(
+      $.has_attr,
       $.unary,
       $.binary,
       $._expr_app
+    ),
+
+    has_attr: $ => prec(PREC['?'],
+      seq(
+        field('expression', $._expr_op),
+        field('operator', '?'),
+        field('attrpath', $.attrpath)
+      )
     ),
 
     unary: $ => choice(
@@ -125,7 +134,6 @@ module.exports = grammar({
         ['>=', PREC.geq],
         ['&&', PREC.and],
         ['||', PREC.or],
-        ['?', PREC['?']],
         ['+', PREC['+']],
         ['-', PREC['-']],
         ['*', PREC['*']],

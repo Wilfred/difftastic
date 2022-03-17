@@ -535,6 +535,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "has_attr"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unary"
         },
         {
@@ -546,6 +550,39 @@
           "name": "_expr_app"
         }
       ]
+    },
+    "has_attr": {
+      "type": "PREC",
+      "value": 11,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expr_op"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "?"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "attrpath",
+            "content": {
+              "type": "SYMBOL",
+              "name": "attrpath"
+            }
+          }
+        ]
+      }
     },
     "unary": {
       "type": "CHOICE",
@@ -856,39 +893,6 @@
                 "content": {
                   "type": "STRING",
                   "value": "||"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "right",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_expr_op"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 11,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "left",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_expr_op"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "STRING",
-                  "value": "?"
                 }
               },
               {

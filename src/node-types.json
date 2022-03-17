@@ -28,6 +28,10 @@
         "named": true
       },
       {
+        "type": "has_attr",
+        "named": true
+      },
+      {
         "type": "hpath",
         "named": true
       },
@@ -272,6 +276,10 @@
             "named": true
           },
           {
+            "type": "has_attr",
+            "named": true
+          },
+          {
             "type": "hpath",
             "named": true
           },
@@ -474,6 +482,10 @@
             "named": true
           },
           {
+            "type": "has_attr",
+            "named": true
+          },
+          {
             "type": "hpath",
             "named": true
           },
@@ -592,10 +604,6 @@
             "named": false
           },
           {
-            "type": "?",
-            "named": false
-          },
-          {
             "type": "||",
             "named": false
           }
@@ -619,6 +627,10 @@
           },
           {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "has_attr",
             "named": true
           },
           {
@@ -792,6 +804,10 @@
             "named": true
           },
           {
+            "type": "has_attr",
+            "named": true
+          },
+          {
             "type": "hpath",
             "named": true
           },
@@ -878,6 +894,114 @@
           {
             "type": "identifier",
             "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "has_attr",
+    "named": true,
+    "fields": {
+      "attrpath": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "attrpath",
+            "named": true
+          }
+        ]
+      },
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "app",
+            "named": true
+          },
+          {
+            "type": "attrset",
+            "named": true
+          },
+          {
+            "type": "binary",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "has_attr",
+            "named": true
+          },
+          {
+            "type": "hpath",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "indented_string",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let_attrset",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "path",
+            "named": true
+          },
+          {
+            "type": "rec_attrset",
+            "named": true
+          },
+          {
+            "type": "select",
+            "named": true
+          },
+          {
+            "type": "spath",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary",
+            "named": true
+          },
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "?",
+            "named": false
           }
         ]
       }
@@ -1044,6 +1168,10 @@
           },
           {
             "type": "function",
+            "named": true
+          },
+          {
+            "type": "has_attr",
             "named": true
           },
           {
@@ -1458,6 +1586,10 @@
             "named": true
           },
           {
+            "type": "has_attr",
+            "named": true
+          },
+          {
             "type": "hpath",
             "named": true
           },
@@ -1561,6 +1693,10 @@
           },
           {
             "type": "function",
+            "named": true
+          },
+          {
+            "type": "has_attr",
             "named": true
           },
           {
