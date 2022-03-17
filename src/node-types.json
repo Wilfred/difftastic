@@ -841,6 +841,10 @@
           "named": true
         },
         {
+          "type": "statement_block",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
