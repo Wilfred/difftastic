@@ -14,7 +14,7 @@ use std::{
 pub struct LineNumber(pub usize);
 
 impl LineNumber {
-    pub fn one_indexed(&self) -> usize {
+    pub fn one_indexed(self) -> usize {
         self.0 + 1
     }
 }

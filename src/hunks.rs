@@ -60,7 +60,7 @@ impl Hunk {
             deduped_lines.push((
                 if lhs_is_dupe { None } else { lhs_line },
                 if rhs_is_dupe { None } else { rhs_line },
-            ))
+            ));
         }
 
         Hunk {

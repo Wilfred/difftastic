@@ -432,7 +432,7 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
-    set_unique_id(roots, next_id)
+    set_unique_id(roots, next_id);
 }
 
 fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
