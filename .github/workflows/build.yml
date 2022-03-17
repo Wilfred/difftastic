@@ -28,7 +28,7 @@ jobs:
         run: npm install
 
       - name: Check generated parser is checked in
-        run: npm run generate && (git diff-files --quiet || (git diff && false))
+        run: npm run generate && (git diff-files --quiet src || (git diff src && false))
 
       - name: Test corpus
         run: npm test
