@@ -1008,6 +1008,25 @@
     }
   },
   {
+    "type": "hpath",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "path_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if",
     "named": true,
     "fields": {
@@ -1356,6 +1375,25 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "path_fragment",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1926,10 +1964,6 @@
     "named": true
   },
   {
-    "type": "hpath",
-    "named": true
-  },
-  {
     "type": "identifier",
     "named": true
   },
@@ -1958,7 +1992,7 @@
     "named": false
   },
   {
-    "type": "path",
+    "type": "path_fragment",
     "named": true
   },
   {

@@ -3,6 +3,8 @@
 enum TokenType {
   STRING_FRAGMENT,
   INDENTED_STRING_FRAGMENT,
+  PATH_START,
+  PATH_FRAGMENT,
 };
 
 static void advance(TSLexer *lexer) {
@@ -76,6 +78,63 @@ static bool scan_indented_string_fragment(TSLexer *lexer) {
   }
 }
 
+static bool is_path_char(char c) {
+  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-' || c == '+' || c == '_' || c == '.' || c == '/';
+}
+
+static bool scan_path_start(TSLexer *lexer) {
+  lexer->result_symbol = PATH_START;
+
+  bool have_sep = false;
+  bool have_after_sep = false;
+  char c = lexer->lookahead;
+
+  // consume any leading whitespace
+  // TODO: this should probably emit some hidden whitespace token,
+  // otherwise I think the token extents will be messed up.
+  // maybe ask the devs what they think.
+  while (c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+    advance(lexer);
+    c = lexer->lookahead;
+  }
+
+  while (true) {
+    lexer->mark_end(lexer);
+    c = lexer->lookahead;
+
+    if (c == '/') {
+      have_sep = true;
+    } else if (is_path_char(c)) {
+      if (have_sep) {
+        have_after_sep = true;
+      }
+    } else if (c == '$') {
+      // starting a interpolation,
+      // so we have a valid token as long as we've seen a separator.
+      // example: a/${x}
+      return have_sep;
+    } else {
+      // we have a valid token if we've consumed anything after a separator.
+      // example: a/b
+      return have_after_sep;
+    }
+
+    advance(lexer);
+  }
+}
+
+static bool scan_path_fragment(TSLexer *lexer) {
+  lexer->result_symbol = PATH_FRAGMENT;
+
+  for (bool has_content = false;; has_content = true) {
+    lexer->mark_end(lexer);
+    if (!is_path_char(lexer->lookahead)) {
+      return has_content;
+    }
+    advance(lexer);
+  }
+}
+
 void *tree_sitter_nix_external_scanner_create() {
   return NULL;
 }
@@ -88,12 +147,22 @@ bool tree_sitter_nix_external_scanner_scan(void *payload, TSLexer *lexer,
   // We should not consume any content as string fragment during error recovery, or we'll break
   // more valid grammar below.
   // The test 'attrset typing field following string' covers this.
-  if (valid_symbols[STRING_FRAGMENT] && valid_symbols[INDENTED_STRING_FRAGMENT]) {
+  if (valid_symbols[STRING_FRAGMENT] && valid_symbols[INDENTED_STRING_FRAGMENT] && valid_symbols[PATH_START] && valid_symbols[PATH_FRAGMENT] ) {
     return false;
   } else if (valid_symbols[STRING_FRAGMENT]) {
     return scan_string_fragment(lexer);
   } else if (valid_symbols[INDENTED_STRING_FRAGMENT]) {
     return scan_indented_string_fragment(lexer);
+  } else if (valid_symbols[PATH_FRAGMENT]) {
+    // we want this above path_start, because wherever there's ambiguity we want want to parse another fragment
+    // instead of starting a new path.
+    // example:
+    //   a/b${c}d/e${f}
+    // if we swap the precedence, we'd effectively parse the above as the following function application:
+    //   (a/b${c}) (d/e${f})
+    return scan_path_fragment(lexer);
+  } else if (valid_symbols[PATH_START]) {
+    return scan_path_start(lexer);
   }
 
   return false;

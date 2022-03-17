@@ -31,12 +31,78 @@
       "value": "(([1-9][0-9]*\\.[0-9]*)|(0?\\.[0-9]+))([Ee][+-]?[0-9]+)?"
     },
     "path": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "path_start"
+          },
+          "named": true,
+          "value": "path_fragment"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "path_fragment"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "path_interpolation"
+                },
+                "named": true,
+                "value": "interpolation"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "hpath_start": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9\\._\\-\\+]*(\\/[a-zA-Z0-9\\._\\-\\+]+)+\\/?"
+      "value": "\\~\\/[a-zA-Z0-9\\._\\-\\+\\/]+"
     },
     "hpath": {
-      "type": "PATTERN",
-      "value": "\\~(\\/[a-zA-Z0-9\\._\\-\\+]+)+\\/?"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "hpath_start"
+          },
+          "named": true,
+          "value": "path_fragment"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "path_fragment"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "path_interpolation"
+                },
+                "named": true,
+                "value": "interpolation"
+              }
+            ]
+          }
+        }
+      ]
     },
     "spath": {
       "type": "PATTERN",
@@ -1736,6 +1802,30 @@
         }
       }
     },
+    "path_interpolation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "${"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "expression",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "interpolation": {
       "type": "SEQ",
       "members": [
@@ -1830,7 +1920,16 @@
       "name": "comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "path_start",
+      "identifier"
+    ],
+    [
+      "path_fragment",
+      "identifier"
+    ]
+  ],
   "precedences": [],
   "externals": [
     {
@@ -1840,6 +1939,14 @@
     {
       "type": "SYMBOL",
       "name": "_indented_string_fragment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "path_start"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "path_fragment"
     }
   ],
   "inline": [],

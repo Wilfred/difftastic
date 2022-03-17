@@ -309,6 +309,141 @@ a 1 2.0
         (float)))
 
 ====================
+path test
+====================
+
+a/c${x}c
+
+---
+
+(source_expression
+    (path
+        (path_fragment)
+        (interpolation
+            (identifier))
+        (path_fragment)))
+
+
+====================
+path1
+====================
+
+x/a${x}a.a${123}
+
+---
+
+(source_expression
+    (path
+        (path_fragment)
+        (interpolation
+            (identifier))
+        (path_fragment)
+        (interpolation
+            (integer))))
+
+====================
+path2
+====================
+
+x/a${x}a/a${123}
+
+---
+
+(source_expression
+    (path
+        (path_fragment)
+        (interpolation
+            (identifier))
+        (path_fragment)
+        (interpolation
+            (integer))))
+
+
+====================
+path3
+====================
+
+/abc
+
+---
+
+(source_expression
+    (path
+        (path_fragment)))
+
+====================
+path4
+====================
+
+-123/abc
+
+---
+
+(source_expression
+    (path
+        (path_fragment)))
+
+====================
+path5
+====================
+
+dir/${name}.${extension}
+
+---
+
+(source_expression
+    (path
+        (path_fragment)
+        (interpolation
+            (identifier))
+        (path_fragment)
+        (interpolation
+            (identifier))))
+
+====================
+hpath1
+====================
+
+~/.
+
+---
+
+(source_expression
+    (hpath
+        (path_fragment)))
+
+
+====================
+hpath2
+====================
+
+~/a${x}a/a${123}
+
+---
+
+(source_expression
+    (hpath
+        (path_fragment)
+        (interpolation
+            (identifier))
+        (path_fragment)
+        (interpolation
+            (integer))))
+
+====================
+division not mistaken for paths
+====================
+
+a/ b
+
+---
+
+(source_expression
+    (binary
+        (identifier)
+        (identifier)))
+
+====================
 operators
 ====================
 

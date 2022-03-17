@@ -37,11 +37,15 @@ module.exports = grammar({
   externals: $ => [
     $._string_fragment,
     $._indented_string_fragment,
+    $.path_start,
+    $.path_fragment,
   ],
 
   word: $ => $.keyword,
 
   conflicts: $ => [
+    [$.path_start, $.identifier],
+    [$.path_fragment, $.identifier],
   ],
 
   rules: {
@@ -56,8 +60,28 @@ module.exports = grammar({
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
     integer: $ => /[0-9]+/,
     float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/,
-    path: $ => /[a-zA-Z0-9\._\-\+]*(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
-    hpath: $ => /\~(\/[a-zA-Z0-9\._\-\+]+)+\/?/,
+
+    path: $=>  seq(
+      alias($.path_start, $.path_fragment),
+      repeat(
+        choice(
+          ($.path_fragment),
+          alias($.path_interpolation, $.interpolation),
+        )
+      ),
+    ),
+
+    hpath_start: $ => /\~\/[a-zA-Z0-9\._\-\+\/]+/,
+    hpath: $=>  seq(
+      alias($.hpath_start, $.path_fragment),
+      repeat(
+        choice(
+          ($.path_fragment),
+          alias($.path_interpolation, $.interpolation),
+        )
+      ),
+    ),
+
     spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
     uri: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
 
@@ -243,6 +267,7 @@ module.exports = grammar({
       $.interpolation,
     ))),
 
+    path_interpolation: $ => seq(token.immediate('${'), field('expression', $._expression), '}'),
     interpolation: $ => seq('${', field('expression', $._expression), '}'),
 
     list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
