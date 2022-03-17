@@ -77,3 +77,42 @@ type Numeric = Float @pg.numeric(precision: 5, scale: 2)
     )
   )
 )
+
+============================
+Composite Types Declaration
+============================
+
+type Photo {
+  height Int    @default(200)
+  url    String
+}
+
+---
+
+(program
+  (type_declaration
+    (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (number)
+            )
+          )
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+      )
+    )
+  )
+)
