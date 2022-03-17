@@ -8,11 +8,13 @@ comments
 This is also a comment.
 */
 
+/*This as well, even with two asterisks.**/
+
 "This is a string."
 
 ---
 
-(source_expression (comment) (comment) (string))
+(source_expression (comment) (comment) (comment) (string))
 
 ====================
 identifier
