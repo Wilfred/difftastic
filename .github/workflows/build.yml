@@ -23,9 +23,12 @@ jobs:
         run: |
           node --version
           npm --version
-      
+
       - name: Install dependencies
         run: npm install
+
+      - name: Check generated parser is checked in
+        run: npm run generate && (git diff-files --quiet || (git diff && false))
 
       - name: Test corpus
         run: npm test
