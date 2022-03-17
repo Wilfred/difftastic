@@ -4,6 +4,7 @@
   "description": "Tree Sitter grammar for Nix",
   "main": "bindings/node",
   "scripts": {
+    "generate": "tree-sitter generate",
     "test": "tree-sitter test"
   },
   "repository": {
