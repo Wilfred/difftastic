@@ -48,8 +48,8 @@ fn merge_novel<'a>(
     for (kind, lhs_lines, rhs_lines) in lines {
         match kind {
             TextChangeKind::Novel => {
-                lhs_novel.extend(lhs_lines.iter().cloned());
-                rhs_novel.extend(rhs_lines.iter().cloned());
+                lhs_novel.extend(lhs_lines.iter().copied());
+                rhs_novel.extend(rhs_lines.iter().copied());
             }
             TextChangeKind::Unchanged => {
                 if !lhs_novel.is_empty() || !rhs_novel.is_empty() {

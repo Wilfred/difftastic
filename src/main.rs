@@ -40,7 +40,7 @@ use mimalloc::MiMalloc;
 
 /// The global allocator used by difftastic.
 ///
-/// Diffing allocates a large amount of memory, and MiMalloc performs
+/// Diffing allocates a large amount of memory, and `MiMalloc` performs
 /// better.
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
@@ -416,9 +416,9 @@ fn print_diff_result(
                     style::header(&summary.path, 1, 1, "binary", use_color, background)
                 );
                 if changed {
-                    println!("Binary contents changed.")
+                    println!("Binary contents changed.");
                 } else {
-                    println!("No changes.")
+                    println!("No changes.");
                 }
             }
         }
@@ -428,7 +428,7 @@ fn print_diff_result(
                 "{}",
                 style::header(&summary.path, 1, 1, "binary", use_color, background)
             );
-            println!("Binary contents changed.")
+            println!("Binary contents changed.");
         }
     }
 }

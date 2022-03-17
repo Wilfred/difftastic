@@ -311,7 +311,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "OCaml",
                 language,
-                atom_nodes: OCAML_ATOM_NODES.iter().cloned().collect(),
+                atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
                 highlight_query: ts::Query::new(
                     language,
@@ -325,7 +325,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "OCaml Interface",
                 language,
-                atom_nodes: OCAML_ATOM_NODES.iter().cloned().collect(),
+                atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
                 highlight_query: ts::Query::new(
                     language,

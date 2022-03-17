@@ -145,7 +145,7 @@ pub fn split_and_apply(
         }
 
         styled_parts.push(res);
-        part_start += byte_len(&part)
+        part_start += byte_len(&part);
     }
 
     styled_parts
@@ -263,7 +263,7 @@ pub fn color_positions(
                         AtomKind::Keyword | AtomKind::Type => {
                             style = style.bold();
                         }
-                        _ => {}
+                        AtomKind::Normal => {}
                     }
                 }
             }
