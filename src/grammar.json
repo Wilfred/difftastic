@@ -1920,16 +1920,7 @@
       "name": "comment"
     }
   ],
-  "conflicts": [
-    [
-      "path_start",
-      "identifier"
-    ],
-    [
-      "path_fragment",
-      "identifier"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [
     {

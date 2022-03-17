@@ -44,8 +44,6 @@ module.exports = grammar({
   word: $ => $.keyword,
 
   conflicts: $ => [
-    [$.path_start, $.identifier],
-    [$.path_fragment, $.identifier],
   ],
 
   rules: {
