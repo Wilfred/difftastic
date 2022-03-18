@@ -52,8 +52,11 @@ module.exports = grammar({
 
     type_declaration: $ => prec(PREC.MEMBER, seq(
       'type',
-      repeat1(
-        $._expression,
+      choice(
+        seq($.identifier, $.statement_block),
+        repeat1(
+          $._expression,
+        ),
       ),
     )),
 
@@ -227,7 +230,6 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $._constructable_expression,
-
       $.assignment_expression,
       $.call_expression,
       $.binary_expression,

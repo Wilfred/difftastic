@@ -25,10 +25,3 @@ jobs:
           npm test
         env:
           CI: true
-      - name: publish new version
-        run: |
-          npx semantic-release@15
-        env:
-          CI: true
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
