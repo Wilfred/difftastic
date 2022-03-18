@@ -281,8 +281,6 @@ pub enum Edge {
     // rather doing LHS and RHS separately.
     EnterNovelDelimiterLHS { contiguous: bool },
     EnterNovelDelimiterRHS { contiguous: bool },
-    NovelTreeLHS { num_descendants: u32 },
-    NovelTreeRHS { num_descendants: u32 },
     ExitDelimiterLHS,
     ExitDelimiterRHS,
     ExitDelimiterBoth,
@@ -327,18 +325,9 @@ impl Edge {
                     350
                 }
             }
-
-            // For large trees, it's better to mark the whole tree as
-            // novel rather than marking 90% of the children as
-            // novel. This stops us matching up completely unrelated trees.
-            NovelTreeLHS { num_descendants } | NovelTreeRHS { num_descendants } => {
-                300 + (*num_descendants as u64 - 10) * NovelAtomLHS { contiguous: false }.cost()
-            }
         }
     }
 }
-
-const NOVEL_TREE_THRESHOLD: u32 = 20;
 
 /// Calculate all the neighbours from `v` and write them to `buf`.
 pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
@@ -528,11 +517,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 i += 1;
             }
             // Step into this partially/fully novel list.
-            Syntax::List {
-                children,
-                num_descendants,
-                ..
-            } => {
+            Syntax::List { children, .. } => {
                 let lhs_next = children.get(0).copied();
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
@@ -551,23 +536,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     },
                 ));
                 i += 1;
-
-                if *num_descendants > NOVEL_TREE_THRESHOLD && lhs_syntax.parent().is_none() {
-                    buf[i] = Some((
-                        NovelTreeLHS {
-                            num_descendants: *num_descendants,
-                        },
-                        Vertex {
-                            lhs_syntax: lhs_syntax.next_sibling(),
-                            rhs_syntax: v.rhs_syntax,
-                            parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: v.can_pop_either,
-                        },
-                    ));
-                    i += 1;
-                }
             }
         }
     }
@@ -592,11 +560,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 i += 1;
             }
             // Step into this partially/fully novel list.
-            Syntax::List {
-                children,
-                num_descendants,
-                ..
-            } => {
+            Syntax::List { children, .. } => {
                 let rhs_next = children.get(0).copied();
 
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
@@ -615,23 +579,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     },
                 ));
                 i += 1;
-
-                if *num_descendants > NOVEL_TREE_THRESHOLD && rhs_syntax.parent().is_none() {
-                    buf[i] = Some((
-                        NovelTreeRHS {
-                            num_descendants: *num_descendants,
-                        },
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_syntax.next_sibling(),
-                            parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: v.can_pop_either,
-                        },
-                    ));
-                    i += 1;
-                }
             }
         }
     }
@@ -681,14 +628,6 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 rhs.set_change(ChangeKind::Novel);
-            }
-            NovelTreeLHS { .. } => {
-                let lhs = v.lhs_syntax.unwrap();
-                lhs.set_change_deep(ChangeKind::Novel);
-            }
-            NovelTreeRHS { .. } => {
-                let rhs = v.rhs_syntax.unwrap();
-                rhs.set_change_deep(ChangeKind::Novel);
             }
         }
     }
