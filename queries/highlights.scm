@@ -32,7 +32,7 @@
   (spath_expression)
 ] @string.special.path
 
-(uri_expression) @string.special.uri_expression
+(uri_expression) @string.special.uri
 
 [
   (integer_expression)

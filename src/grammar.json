@@ -1569,7 +1569,7 @@
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "indented_escape_sequence"
+                  "name": "_indented_escape_sequence"
                 },
                 "named": true,
                 "value": "escape_sequence"
@@ -1583,7 +1583,7 @@
         }
       ]
     },
-    "indented_escape_sequence": {
+    "_indented_escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
