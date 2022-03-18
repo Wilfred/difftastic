@@ -1,5 +1,7 @@
 ## 0.24 (unreleased)
 
+Added support for Dart.
+
 ## 0.23 (released 17th March 2022)
 
 ### Diffing
