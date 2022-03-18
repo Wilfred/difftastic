@@ -15,7 +15,8 @@ pub fn mark_unchanged<'a>(
 
 #[derive(Debug)]
 enum ChangeState {
-    Unchanged,
+    UnchangedDelimiter,
+    UnchangedNode,
     PossiblyChanged,
 }
 
@@ -37,7 +38,16 @@ fn split_unchanged<'a>(
         split_unchanged_toplevel(lhs_nodes, rhs_nodes, size_threshold)
     {
         match cs {
-            ChangeState::Unchanged => {
+            ChangeState::UnchangedDelimiter => {
+                assert_eq!(lhs_section_nodes.len(), rhs_section_nodes.len());
+                for (lhs_section_node, rhs_section_node) in
+                    lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
+                {
+                    lhs_section_node.set_change(ChangeKind::Unchanged(rhs_section_node));
+                    rhs_section_node.set_change(ChangeKind::Unchanged(lhs_section_node));
+                }
+            }
+            ChangeState::UnchangedNode => {
                 assert_eq!(lhs_section_nodes.len(), rhs_section_nodes.len());
                 for (lhs_section_node, rhs_section_node) in
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
@@ -109,6 +119,11 @@ fn split_unchanged_toplevel<'a>(
                                     size_threshold,
                                 );
                                 if split_children.len() > 1 {
+                                    res.push((
+                                        ChangeState::UnchangedDelimiter,
+                                        section_lhs_nodes,
+                                        section_rhs_nodes,
+                                    ));
                                     // Managed to further split.
                                     res.append(&mut split_children);
                                 } else {
@@ -134,7 +149,7 @@ fn split_unchanged_toplevel<'a>(
                         section_rhs_nodes = vec![];
                     }
 
-                    res.push((ChangeState::Unchanged, vec![lhs_node], vec![rhs_node]));
+                    res.push((ChangeState::UnchangedNode, vec![lhs_node], vec![rhs_node]));
                 }
             }
             myers_diff::DiffResult::Left(lhs) => {
@@ -147,11 +162,37 @@ fn split_unchanged_toplevel<'a>(
     }
 
     if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-        res.push((
-            ChangeState::PossiblyChanged,
-            section_lhs_nodes,
-            section_rhs_nodes,
-        ));
+        // TODO: there's a lot of duplication with the loop above.
+        match as_singleton_list_children(&section_lhs_nodes, &section_rhs_nodes) {
+            Some((lhs_children, rhs_children)) => {
+                let mut split_children =
+                    split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
+                if split_children.len() > 1 {
+                    res.push((
+                        ChangeState::UnchangedDelimiter,
+                        section_lhs_nodes,
+                        section_rhs_nodes,
+                    ));
+                    // Managed to further split.
+                    res.append(&mut split_children);
+                } else {
+                    // Did not split further. Keep the outer list, so we can use
+                    // its delimiter when doing the tree diff.
+                    res.push((
+                        ChangeState::PossiblyChanged,
+                        section_lhs_nodes,
+                        section_rhs_nodes,
+                    ));
+                }
+            }
+            None => {
+                res.push((
+                    ChangeState::PossiblyChanged,
+                    section_lhs_nodes,
+                    section_rhs_nodes,
+                ));
+            }
+        }
     }
 
     res
@@ -503,6 +544,33 @@ mod tests {
                 (vec![lhs_nodes[0]], vec![rhs_nodes[0]]),
                 (vec![lhs_nodes[3]], vec![rhs_nodes[3]])
             ]
+        );
+    }
+
+    #[test]
+    fn test_split_unchanged_outer_delimiter() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(
+            &arena,
+            "(novel-lhs-before (1 2 3 4 5 6 7 8 9 10) novel-lhs-after)",
+            &config,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "(novel-rhs-before (1 2 3 4 5 6 7 8 9 10) novel-rhs-after)",
+            &config,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        dbg!(&res);
+        assert_eq!(res.len(), 2);
+
+        assert_eq!(
+            lhs_nodes[0].change(),
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
     }
 }
