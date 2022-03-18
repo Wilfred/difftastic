@@ -9,7 +9,8 @@
   "in"
   "rec"
   "with" 
-  "assert" 
+  "assert"
+  "or"
 ] @keyword
 
 ((identifier) @variable.builtin
@@ -73,6 +74,7 @@
   ";"
   "."
   ","
+  "="
 ] @punctuation.delimiter
 
 [
