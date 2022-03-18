@@ -431,7 +431,7 @@ hpath2
             (integer))))
 
 ====================
-division not mistaken for paths
+division not mistaken for paths (1)
 ====================
 
 a/ b
@@ -442,6 +442,26 @@ a/ b
     (binary
         (identifier)
         (identifier)))
+
+====================
+path craziness - see https://github.com/NixOS/nix/pull/5066#issuecomment-1071918251
+====================
+
+a.${foo}/b.${bar}
+
+---
+
+(source_expression
+    (app
+        (select
+            (identifier)
+            (attrpath
+            (interpolation
+                (identifier))))
+        (path
+            (path_fragment)
+            (interpolation
+                (identifier)))))
 
 ====================
 operators
