@@ -50,6 +50,7 @@ extern "C" {
     fn tree_sitter_cpp() -> ts::Language;
     fn tree_sitter_commonlisp() -> ts::Language;
     fn tree_sitter_css() -> ts::Language;
+    fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
@@ -186,6 +187,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/css.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Dart => {
+            let language = unsafe { tree_sitter_dart() };
+            TreeSitterConfig {
+                name: "CSS",
+                language,
+                atom_nodes: HashSet::new(),
+                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/dart.scm"),
                 )
                 .unwrap(),
             }
