@@ -13,6 +13,7 @@ pub fn mark_unchanged<'a>(
     split_unchanged(&lhs_nodes, &rhs_nodes)
 }
 
+#[derive(Debug)]
 enum ChangeState {
     Unchanged,
     PossiblyChanged,
