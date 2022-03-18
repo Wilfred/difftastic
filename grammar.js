@@ -124,6 +124,12 @@ module.exports = grammar({
       $._expr_app
     ),
 
+    // I choose to *not* have this among the binary operators because
+    // this is the sole exception that takes an attrpath (instead of expression)
+    // as its right operand.
+    // My gut feeling is that this is:
+    //   1) better in theory, and
+    //   2) will be easier to work with in practice.
     has_attr: $ => prec(PREC['?'],
       seq(
         field('expression', $._expr_op),
