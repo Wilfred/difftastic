@@ -91,9 +91,12 @@ Robustness. Difftastic regularly has releases that fix crashes.
 
 ## Non-goals
 
-Patch files. If you want to create a patch that you can later apply,
-use `diff`. Difftastic ignores whitespace, so its output is
-lossy. (AST patching is also a hard problem.)
+Patching. Difftastic output is intended for human consumption, and it
+does not generate patches that you can apply later. Use `diff` if you
+need a patch.
+
+Merging. AST merging is a hard problem that difftastic does not
+address.
 
 ## License
 
