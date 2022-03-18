@@ -7,10 +7,8 @@
 // This tends to trigger on larger tuples of simple types, and naming
 // them would probably be worse for readability.
 #![allow(clippy::type_complexity)]
-
 // == "" is often clearer when dealing with strings.
 #![allow(clippy::comparison_to_empty)]
-
 // It's common to have pairs foo_lhs and foo_rhs, leading to double
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
