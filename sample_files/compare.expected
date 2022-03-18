@@ -8,7 +8,7 @@ sample_files/clojure_before.clj sample_files/clojure_after.clj
 8316bcd959ce706ac07011f6dc31c93a  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-898ffdafebc08cdf4e9fe43cb3619e6c  -
+d899ce2b86f03851fa02823a1ff9aa3f  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 5f8518317cbaa2920c9d8c86d060c84f  -
@@ -29,13 +29,13 @@ sample_files/hack_before.php sample_files/hack_after.php
 dee893339d9e746eabc3983eb7f37fe5  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
-744fda002baf0eff349942c58ce51ea5  -
+a2a8efc24e1262d09889e10bd14a77c1  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
 3c3dc4e230c748f62df050053a72163f  -
 
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
-a68a53ebaaa2651408540d23cd2dbe9a  -
+236758836c0fa82f0f0ed6b864e995d3  -
 
 sample_files/if_before.py sample_files/if_after.py
 49405c8bf3315d3d2a0d62aa9f0c326b  -
@@ -44,28 +44,28 @@ sample_files/java_before.java sample_files/java_after.java
 a6f23f8daf1334596df49da999d1b7b3  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
-6c7dca37aa14c7ab07ce072d1e8766f2  -
+12a609bbacf57cdae4bb9a812b966fa0  -
 
 sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
-58208dbd2347671a5eb068d775a5f4f9  -
+eba8ce51d3045e57b75dac86d71fc1b4  -
 
 sample_files/json_before.json sample_files/json_after.json
 559447b4a48066c2918502c4b0450f50  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-5584ecaed7f41540d646afe39df31156  -
+e6333610ce3060df999a3199013a2fda  -
 
 sample_files/load_before.js sample_files/load_after.js
-bf8527f91baff9a5f56380784b2a438e  -
+ff099ac983e75c3cac59a086d63c8dd6  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
-d182f73a8729211cc41e297aeab8f7a9  -
+25118f4e0b2d5be687abed4ff3106d3d  -
 
 sample_files/multibyte_before.py sample_files/multibyte_after.py
 8a5e31775d5e788e9158bd4a36e03254  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-791901de922abc7f24e5b9068706417d  -
+c36f2f545abee17589e2c18693ad5793  -
 
 sample_files/nesting_before.el sample_files/nesting_after.el
 c9b74f137aada068b0a317c09966e705  -
@@ -92,7 +92,7 @@ sample_files/slider_before.rs sample_files/slider_after.rs
 ab11d8dfc684921d85f49d3ec4dfeec4  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-1f6176a6518e16eb8dfe32d7d81c63d9  -
+f2f30bc8d13a61227a78b6c9dd5c4683  -
 
 sample_files/small_before.js sample_files/small_after.js
 ee97a525a74be6dd18e959395d02265b  -

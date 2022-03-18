@@ -15,6 +15,9 @@ incorrectly marked as unchanged, producing non-optimal diffs.
 
 ### Display
 
+Display now prefers to align blank lines in the display, producing
+significantly better results in many cases.
+
 Fixed an issue where some lines in a hunk were not displayed.
 
 ## 0.22 (released 10th March 2022)

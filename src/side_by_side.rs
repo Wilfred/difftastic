@@ -349,7 +349,7 @@ pub fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps);
+    let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
 
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
