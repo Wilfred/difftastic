@@ -35,9 +35,9 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._string_fragment,
+    $.string_fragment,
     $._indented_string_fragment,
-    $.path_start,
+    $._path_start,
     $.path_fragment,
   ],
 
@@ -47,54 +47,55 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_expression: $ => field('expression', $._expression),
-    _expression: $ => $._expr_function,
+    source_code: $ => optional(field('expression', $._expression)),
+    _expression: $ => $._expr_function_expression,
 
     // Keywords go before identifiers to let them take precedence when both are expected.
     // Workaround before https://github.com/tree-sitter/tree-sitter/pull/246
     keyword: $ => /if|then|else|let|inherit|in|rec|with|assert/,
-
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_\'\-]*/,
-    integer: $ => /[0-9]+/,
-    float: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/,
 
-    path: $=>  seq(
-      alias($.path_start, $.path_fragment),
+    variable_expression: $ => field('name', $.identifier),
+    integer_expression: $ => /[0-9]+/,
+    float_expression: $ => /(([1-9][0-9]*\.[0-9]*)|(0?\.[0-9]+))([Ee][+-]?[0-9]+)?/,
+
+    path_expression: $=>  seq(
+      alias($._path_start, $.path_fragment),
       repeat(
         choice(
-          ($.path_fragment),
-          alias($.path_interpolation, $.interpolation),
+          $.path_fragment,
+          alias($._immediate_interpolation, $.interpolation),
         )
       ),
     ),
 
-    hpath_start: $ => /\~\/[a-zA-Z0-9\._\-\+\/]+/,
-    hpath: $=>  seq(
-      alias($.hpath_start, $.path_fragment),
+    _hpath_start: $ => /\~\/[a-zA-Z0-9\._\-\+\/]+/,
+    hpath_expression: $=>  seq(
+      alias($._hpath_start, $.path_fragment),
       repeat(
         choice(
-          ($.path_fragment),
-          alias($.path_interpolation, $.interpolation),
+          $.path_fragment,
+          alias($._immediate_interpolation, $.interpolation),
         )
       ),
     ),
 
-    spath: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
-    uri: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
+    spath_expression: $ => /<[a-zA-Z0-9\._\-\+]+(\/[a-zA-Z0-9\._\-\+]+)*>/,
+    uri_expression: $ => /[a-zA-Z][a-zA-Z0-9\+\-\.]*:[a-zA-Z0-9%\/\?:@\&=\+\$,\-_\.\!\~\*\']+/,
 
-    _expr_function: $ => choice(
-      $.function,
-      $.assert,
-      $.with,
-      $.let,
+    _expr_function_expression: $ => choice(
+      $.function_expression,
+      $.assert_expression,
+      $.with_expression,
+      $.let_expression,
       $._expr_if
     ),
 
-    function: $ => choice(
-      seq(field('universal', $.identifier), ':', field('body', $._expr_function)),
-      seq(field('formals', $.formals), ":", field('body', $._expr_function)),
-      seq(field('formals', $.formals), '@', field('universal', $.identifier), ':', field('body', $._expr_function)),
-      seq(field('universal', $.identifier), '@', field('formals', $.formals), ':', field('body', $._expr_function)),
+    function_expression: $ => choice(
+      seq(field('universal', $.identifier), ':', field('body', $._expr_function_expression)),
+      seq(field('formals', $.formals), ":", field('body', $._expr_function_expression)),
+      seq(field('formals', $.formals), '@', field('universal', $.identifier), ':', field('body', $._expr_function_expression)),
+      seq(field('universal', $.identifier), '@', field('formals', $.formals), ':', field('body', $._expr_function_expression)),
     ),
 
     formals: $ => choice(
@@ -106,22 +107,22 @@ module.exports = grammar({
     formal: $ => seq(field("name", $.identifier), optional(seq('?', field('default', $._expression)))),
     ellipses: $ => '...',
 
-    assert: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function)),
-    with: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function)),
-    let: $ => seq('let', optional($._binds), 'in', field('body', $._expr_function)),
+    assert_expression: $ => seq('assert', field('condition', $._expression), ';', field('body', $._expr_function_expression)),
+    with_expression: $ => seq('with', field('environment', $._expression), ';', field('body', $._expr_function_expression)),
+    let_expression: $ => seq('let', optional($.binding_set), 'in', field('body', $._expr_function_expression)),
 
     _expr_if: $ => choice(
-      $.if,
+      $.if_expression,
       $._expr_op
     ),
 
-    if: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
+    if_expression: $ => seq('if', field('condition', $._expression), 'then', field('consequence', $._expression), 'else', field('alternative', $._expression)),
 
     _expr_op: $ => choice(
-      $.has_attr,
-      $.unary,
-      $.binary,
-      $._expr_app
+      $.has_attr_expression,
+      $.unary_expression,
+      $.binary_expression,
+      $._expr_apply_expression
     ),
 
     // I choose to *not* have this among the binary operators because
@@ -130,7 +131,7 @@ module.exports = grammar({
     // My gut feeling is that this is:
     //   1) better in theory, and
     //   2) will be easier to work with in practice.
-    has_attr: $ => prec(PREC['?'],
+    has_attr_expression: $ => prec(PREC['?'],
       seq(
         field('expression', $._expr_op),
         field('operator', '?'),
@@ -138,7 +139,7 @@ module.exports = grammar({
       )
     ),
 
-    unary: $ => choice(
+    unary_expression: $ => choice(
       ...[
         ['!', PREC.not],
         ['-', PREC.negate],
@@ -150,7 +151,7 @@ module.exports = grammar({
       )
     ),
 
-    binary: $ => choice(
+    binary_expression: $ => choice(
       // left assoc.
       ...[
         ['==', PREC.eq],
@@ -184,50 +185,50 @@ module.exports = grammar({
       )))
     ),
 
-    _expr_app: $ => choice(
-      $.app,
-      $._expr_select
+    _expr_apply_expression: $ => choice(
+      $.apply_expression,
+      $._expr_select_expression
     ),
 
-    app: $ => seq(field('function', $._expr_app), field('argument', $._expr_select)),
+    apply_expression: $ => seq(field('function', $._expr_apply_expression), field('argument', $._expr_select_expression)),
 
-    _expr_select: $ => choice(
-      $.select,
+    _expr_select_expression: $ => choice(
+      $.select_expression,
       $._expr_simple
     ),
 
-    select: $ => choice(
+    select_expression: $ => choice(
       seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath)),
-      seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath), 'or', field('default', $._expr_select)),
+      seq(field('expression', $._expr_simple), '.', field('attrpath', $.attrpath), 'or', field('default', $._expr_select_expression)),
     ),
 
     _expr_simple: $ => choice(
-      $.identifier,
-      $.integer,
-      $.float,
-      $.string,
-      $.indented_string,
-      $.path,
-      $.hpath,
-      $.spath,
-      $.uri,
-      $.parenthesized,
-      $.attrset,
-      $.let_attrset,
-      $.rec_attrset,
-      $.list
+      $.variable_expression,
+      $.integer_expression,
+      $.float_expression,
+      $.string_expression,
+      $.indented_string_expression,
+      $.path_expression,
+      $.hpath_expression,
+      $.spath_expression,
+      $.uri_expression,
+      $.parenthesized_expression,
+      $.attrset_expression,
+      $.let_attrset_expression,
+      $.rec_attrset_expression,
+      $.list_expression
     ),
 
-    parenthesized: $ => seq('(', field('expression', $._expression), ')'),
+    parenthesized_expression: $ => seq('(', field('expression', $._expression), ')'),
 
-    attrset: $ => seq('{', optional($._binds), '}'),
-    let_attrset: $ => seq('let', '{', optional($._binds), '}'),
-    rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
+    attrset_expression: $ => seq('{', optional($.binding_set), '}'),
+    let_attrset_expression: $ => seq('let', '{', optional($.binding_set), '}'),
+    rec_attrset_expression: $ => seq('rec', '{', optional($.binding_set), '}'),
 
-    string: $ => seq(
+    string_expression: $ => seq(
       '"',
       repeat(choice(
-        $._string_fragment,
+        $.string_fragment,
         $.interpolation,
         $.escape_sequence
       )),
@@ -235,45 +236,39 @@ module.exports = grammar({
     ),
     escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
-    indented_string: $ => seq(
+    indented_string_expression: $ => seq(
       "''",
       repeat(choice(
-        $._indented_string_fragment,
+        alias($._indented_string_fragment, $.string_fragment),
         $.interpolation,
-        alias($.indented_escape_sequence, $.escape_sequence),
+        alias($._indented_escape_sequence, $.escape_sequence),
       )),
       "''"
     ),
-    indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
+    _indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
-    _binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
-    bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
-    inherit: $ => seq('inherit', field('attrs', $.attrs_inherited), ';'),
+    binding_set: $ => repeat1(field('binding', choice($.binding, $.inherit, $.inherit_from))),
+    binding: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
+    inherit: $ => seq('inherit', field('attrs', $.inherited_attrs), ';'),
     inherit_from: $ =>
-      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.attrs_inherited_from), ';'),
+      seq('inherit', '(', field('expression', $._expression), ')', field('attrs', $.inherited_attrs), ';'),
 
     attrpath: $ => sep1(field('attr', choice(
-      alias($.identifier, $.attr_identifier),
-      $.string,
+      $.identifier,
+      $.string_expression,
       $.interpolation,
     )), "."),
 
-    attrs_inherited: $ => repeat1(field('attr', choice(
+    inherited_attrs: $ => repeat1(field('attr', choice(
       $.identifier,
-      $.string,
+      $.string_expression,
       $.interpolation,
     ))),
 
-    attrs_inherited_from: $ => repeat1(field('attr', choice(
-      alias($.identifier, $.attr_identifier),
-      $.string,
-      $.interpolation,
-    ))),
-
-    path_interpolation: $ => seq(token.immediate('${'), field('expression', $._expression), '}'),
+    _immediate_interpolation: $ => seq(token.immediate('${'), field('expression', $._expression), '}'),
     interpolation: $ => seq('${', field('expression', $._expression), '}'),
 
-    list: $ => seq('[', repeat(field('element', $._expr_select)), ']'),
+    list_expression: $ => seq('[', repeat(field('element', $._expr_select_expression)), ']'),
 
     comment: $ => token(choice(
       seq('#', /.*/),

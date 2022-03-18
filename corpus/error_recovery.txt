@@ -12,28 +12,29 @@ attrset typing field
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (attrset
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (ERROR
-        (identifier))
-      (attrset))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))))
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
 
 ================================================================================
 attrset typing field following string
@@ -47,22 +48,23 @@ attrset typing field following string
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (attrset
+(source_code
+  (attrset_expression
     (ERROR
       (identifier))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier)
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier)
-        (attr_identifier))
-      (string))))
+    (binding_set
+      (binding
+        (attrpath
+          (identifier)
+          (identifier)
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier)
+          (identifier)
+          (identifier))
+        (string_expression (string_fragment))))))
 
 ================================================================================
 attrset typing attrpath
@@ -71,36 +73,37 @@ attrset typing attrpath
 {
   a = "foo";
   b = 42;
-  typing.path
+  typing.path_expression
   c = {};
   d = x: x;
 }
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (attrset
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (bind
-      (attrpath
-        (attr_identifier)
-        (attr_identifier))
-      (ERROR
-        (identifier))
-      (attrset))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))))
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier)
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
 
 ================================================================================
 attrset missing value
@@ -116,29 +119,30 @@ attrset missing value
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (attrset
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (app
-        (identifier)
-        (ERROR)
-        (attrset)))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))))
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (apply_expression
+          (variable_expression (identifier))
+          (ERROR)
+          (attrset_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
 
 ================================================================================
 bind typing parenthesis
@@ -154,32 +158,33 @@ bind typing parenthesis
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (attrset
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (integer)))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (ERROR
-        (function
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
           (identifier)
-          (identifier)))
-      (attrset))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))))
+          (integer_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (function_expression
+            (identifier)
+            (variable_expression (identifier))))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
 
 ================================================================================
 let typing field
@@ -195,29 +200,30 @@ in {}
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (let
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (ERROR
-        (identifier))
-      (attrset))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))
-    (attrset)))
+(source_code
+  (let_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))
+    (attrset_expression)))
 
 ================================================================================
 let missing value
@@ -234,28 +240,29 @@ in
 
 --------------------------------------------------------------------------------
 
-(source_expression
-  (let
-    (bind
-      (attrpath
-        (attr_identifier))
-      (string))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (integer))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (app
-        (identifier)
-        (ERROR)
-        (attrset)))
-    (bind
-      (attrpath
-        (attr_identifier))
-      (function
-        (identifier)
-        (identifier)))
-    (identifier)))
+(source_code
+  (let_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (apply_expression
+          (variable_expression (identifier))
+          (ERROR)
+          (attrset_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))
+    (variable_expression (identifier))))
     

@@ -22,21 +22,21 @@
  (#is-not? local))
 
 [
-  (string)
-  (indented_string)
+  (string_expression)
+  (indented_string_expression)
 ] @string
 
 [
-  (path)
-  (hpath)
-  (spath)
+  (path_expression)
+  (hpath_expression)
+  (spath_expression)
 ] @string.special.path
 
-(uri) @string.special.uri
+(uri_expression) @string.special.uri_expression
 
 [
-  (integer)
-  (float)
+  (integer_expression)
+  (float_expression)
 ] @number
 
 (interpolation
@@ -45,7 +45,7 @@
 
 (escape_sequence) @escape
 
-(function
+(function_expression
   universal: (identifier) @variable.parameter
 )
 
@@ -53,22 +53,30 @@
   name: (identifier) @variable.parameter
   "?"? @punctuation.delimiter)
 
-(app
+(select_expression
+  attrpath: (attrpath (identifier)) @property)
+
+(apply_expression
   function: [
-    (identifier) @function
-    (select
+    (variable_expression (identifier)) @function
+    (select_expression
       attrpath: (attrpath
-        attr: (attr_identifier) @function .))])
+        attr: (identifier) @function .))])
 
-
-(unary
+(unary_expression
   operator: _ @operator)
 
-(binary
+(binary_expression
   operator: _ @operator)
 
-(attr_identifier) @property
-(inherit attrs: (attrs_inherited (identifier) @property) )
+(variable_expression (identifier) @variable)
+
+(binding
+  attrpath: (attrpath (identifier)) @property)
+
+(identifier) @property
+
+(inherit_from attrs: (inherited_attrs attr: (identifier) @property) )
 
 [
   ";"
