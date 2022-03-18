@@ -11,6 +11,10 @@ static void advance(TSLexer *lexer) {
   lexer->advance(lexer, false);
 }
 
+static void skip(TSLexer *lexer) {
+  lexer->advance(lexer, true);
+}
+
 // Here we only parse literal fragment inside a string.
 // Delimiter, interpolation and escape sequence are handled by the parser and we simply stop at them.
 //
@@ -89,12 +93,13 @@ static bool scan_path_start(TSLexer *lexer) {
   bool have_after_sep = false;
   char c = lexer->lookahead;
 
-  // consume any leading whitespace
-  // TODO: this should probably emit some hidden whitespace token,
-  // otherwise I think the token extents will be messed up.
-  // maybe ask the devs what they think.
+  // unlike string_fragments which which are preceded by initial token (i.e. '"')
+  // and thus will have all leading external whitespace consumed,
+  // we have no such luxury with the path_start token.
+  //
+  // so we must skip over any leading whitespace here.
   while (c == ' ' || c == '\n' || c == '\r' || c == '\t') {
-    advance(lexer);
+    skip(lexer);
     c = lexer->lookahead;
   }
 
@@ -153,8 +158,18 @@ bool tree_sitter_nix_external_scanner_scan(void *payload, TSLexer *lexer,
     return scan_string_fragment(lexer);
   } else if (valid_symbols[INDENTED_STRING_FRAGMENT]) {
     return scan_indented_string_fragment(lexer);
-  } else if (valid_symbols[PATH_FRAGMENT]) {
-    // we want this above path_start, because wherever there's ambiguity we want want to parse another fragment
+  } else if (valid_symbols[PATH_FRAGMENT] && is_path_char(lexer->lookahead)) {
+    // path_fragments should be scanned as immediate tokens, with no preceding extras.
+    // so we assert that the very first token is a path character,
+    // and otherwise we fall through to the case below.
+    // example:
+    //   a/b${c} d/e${f}
+    //          ^--- note that scanning for the path_fragment will start here.
+    //               this *should* be parsed as a function application.
+    //               so we want to fall through to the path_start case below,
+    //               which will skip the whitespace and correctly scan the following path_start.
+    //
+    // also, we want this above path_start, because wherever there's ambiguity we want to parse another fragment
     // instead of starting a new path.
     // example:
     //   a/b${c}d/e${f}

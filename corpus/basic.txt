@@ -401,6 +401,26 @@ dir/${name}.${extension}
             (identifier))))
 
 ====================
+path6
+====================
+
+
+a/b${c} d/e${f}
+
+---
+
+(source_expression
+    (app
+        (path
+            (path_fragment)
+            (interpolation
+            (identifier)))
+        (path
+            (path_fragment)
+            (interpolation
+            (identifier)))))
+
+====================
 hpath1
 ====================
 
