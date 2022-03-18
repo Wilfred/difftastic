@@ -14,19 +14,19 @@
 ;;
 ;; see: https://github.com/tree-sitter/tree-sitter/issues/918
 
-;(function
+;(function_expression
 ;  universal: (identifier)? @local.definition
 ;  formals: (formals (formal name: (identifier) @local.definition)*)
 ;  universal: (identifier)? @local.definition
 ;  ) @local.scope
 ;
-;(rec_attrset
-;  bind: (bind
+;(rec_attrset_expression
+;  bind: (binding
 ;    attrpath: (attrpath . (attr_identifier) @local.definition)) 
 ;) @local.scope
 ;
-;(let
-;  bind: (bind
+;(let_expression
+;  bind: (binding
 ;    attrpath: (attrpath . (attr_identifier) @local.definition)) 
 ;) @local.scope
 ;

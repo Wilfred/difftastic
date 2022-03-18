@@ -1,4 +1,12 @@
 ====================
+empty source
+====================
+
+---
+
+(source_code)
+
+====================
 comments
 ====================
 
@@ -14,7 +22,7 @@ This is also a comment.
 
 ---
 
-(source_expression (comment) (comment) (comment) (string))
+(source_code (comment) (comment) (comment) (string_expression (string_fragment)))
 
 ====================
 identifier
@@ -24,27 +32,27 @@ abc
 
 ---
 
-(source_expression (identifier))
+(source_code (variable_expression (identifier)))
 
 ====================
-integer
+integer_expression
 ====================
 
 123
 
 ---
 
-(source_expression (integer))
+(source_code (integer_expression))
 
 ====================
-float
+float_expression
 ====================
 
 123.456
 
 ---
 
-(source_expression (float))
+(source_code (float_expression))
 
 ====================
 uri
@@ -54,7 +62,7 @@ http://foobar.com:80?baz=quux&blarg=etc
 
 ---
 
-(source_expression (uri))
+(source_code (uri_expression))
 
 ====================
 list (empty)
@@ -64,7 +72,7 @@ list (empty)
 
 ---
 
-(source_expression (list))
+(source_code (list_expression))
 
 ====================
 list
@@ -74,7 +82,7 @@ list
 
 ---
 
-(source_expression (list (identifier) (integer) (float)))
+(source_code (list_expression (variable_expression (identifier)) (integer_expression) (float_expression)))
 
 ====================
 if
@@ -84,7 +92,7 @@ if a then b else c
 
 ---
 
-(source_expression (if (identifier) (identifier) (identifier)))
+(source_code (if_expression (variable_expression (identifier)) (variable_expression (identifier)) (variable_expression (identifier))))
 
 ====================
 assert
@@ -94,7 +102,7 @@ assert a; b
 
 ---
 
-(source_expression (assert (identifier) (identifier)))
+(source_code (assert_expression (variable_expression (identifier)) (variable_expression (identifier))))
 
 ====================
 with
@@ -104,7 +112,7 @@ with a; b
 
 ---
 
-(source_expression (with (identifier) (identifier)))
+(source_code (with_expression (variable_expression (identifier)) (variable_expression (identifier))))
 
 ====================
 let (empty)
@@ -114,25 +122,26 @@ let in a
 
 ---
 
-(source_expression (let (identifier)))
+(source_code (let_expression (variable_expression (identifier))))
 
 ====================
-let (bind)
+let (binding)
 ====================
 
 let a = b; in c
 
 ---
 
-(source_expression
-    (let
-        (bind
-            (attrpath (attr_identifier))
-            (identifier))
-        (identifier)))
+(source_code
+    (let_expression
+        (binding_set
+            (binding
+                (attrpath (identifier))
+                (variable_expression (identifier))))
+        (variable_expression (identifier))))
 
 ====================
-let (bind, comments)
+let (binding, comments)
 ====================
 
 let
@@ -146,14 +155,15 @@ let
 
 ---
 
-(source_expression
-    (let
+(source_code
+    (let_expression
         (comment)
-        (bind (attrpath (attr_identifier)) (identifier))
+        (binding_set
+            (binding (attrpath (identifier)) (variable_expression (identifier)))
+            (comment)
+            (binding (attrpath (identifier)) (variable_expression (identifier))))
         (comment)
-        (bind (attrpath (attr_identifier)) (identifier))
-        (comment)
-        (identifier)))
+        (variable_expression (identifier))))
 
 ====================
 let (inherit)
@@ -163,11 +173,13 @@ let inherit a; in c
 
 ---
 
-(source_expression
-    (let
-        (inherit
-            (attrs_inherited (identifier)))
-        (identifier)))
+(source_code
+    (let_expression
+        (binding_set
+            (inherit
+                (inherited_attrs
+                    (identifier))))
+        (variable_expression (identifier))))
 
 ====================
 let (inherit from)
@@ -177,42 +189,44 @@ let inherit (a) b "c" ${d}; in 123
 
 ---
 
-(source_expression
-    (let
-        (inherit_from
-            (identifier)
-            (attrs_inherited_from (attr_identifier) (string) (interpolation (identifier))))
-        (integer)))
+(source_code
+    (let_expression
+        (binding_set
+            (inherit_from
+                (variable_expression (identifier))
+                (inherited_attrs
+                    (identifier) (string_expression (string_fragment)) (interpolation (variable_expression (identifier))))))
+        (integer_expression)))
 
 ====================
-function
+function_expression
 ====================
 
 a: b
 
 ---
 
-(source_expression (function (identifier) (identifier)))
+(source_code (function_expression (identifier) (variable_expression (identifier))))
 
 ====================
-function (with formals)
+function_expression (with_expression formals)
 ====================
 
 a@{ /*1*/ b, /*2*/ c ? 123, /*3*/ ... }: 1.234
 
 ---
 
-(source_expression
-    (function
+(source_code
+    (function_expression
         (identifier)
         (formals
             (comment)
             (formal (identifier))
             (comment)
-            (formal (identifier) (integer))
+            (formal (identifier) (integer_expression))
             (comment)
             (ellipses))
-        (float)))
+        (float_expression)))
 
 ====================
 rec. attrset (empty)
@@ -222,7 +236,7 @@ rec { }
 
 ---
 
-(source_expression (rec_attrset))
+(source_code (rec_attrset_expression))
 
 ====================
 let attrset (empty)
@@ -232,7 +246,7 @@ let { }
 
 ---
 
-(source_expression (let_attrset))
+(source_code (let_attrset_expression))
 
 ====================
 attrset (empty)
@@ -242,7 +256,7 @@ attrset (empty)
 
 ---
 
-(source_expression (attrset))
+(source_code (attrset_expression))
 
 ====================
 attr set
@@ -252,28 +266,32 @@ attr set
 
 ---
 
-(source_expression
-    (attrset
-        (bind (attrpath (attr_identifier)) (integer))
-        (bind (attrpath (interpolation (identifier))) (string))
-        (bind (attrpath (string)) (float))
-        (bind (attrpath (attr_identifier) (attr_identifier) (attr_identifier)) (spath))))
+(source_code
+    (attrset_expression
+        (binding_set
+            (binding (attrpath (identifier)) (integer_expression))
+            (binding (attrpath (interpolation (variable_expression (identifier)))) (string_expression (string_fragment)))
+            (binding (attrpath (string_expression (string_fragment))) (float_expression))
+            (binding (attrpath (identifier) (identifier) (identifier)) (spath_expression)))))
 
 ====================
-select
+select_expression
 ====================
 
 u.v.${w}."x${y}z"
 
 ---
 
-(source_expression
-    (select
-        (identifier)
+(source_code
+    (select_expression
+        (variable_expression (identifier))
         (attrpath
-            (attr_identifier)
-            (interpolation (identifier))
-            (string (interpolation (identifier))))))
+            (identifier)
+            (interpolation (variable_expression (identifier)))
+            (string_expression
+                (string_fragment)
+                (interpolation (variable_expression (identifier)))
+                (string_fragment)))))
 
 
 
@@ -285,123 +303,123 @@ a ? ${b}.c."d"
 
 ---
 
-(source_expression
-    (has_attr
-        (identifier)
+(source_code
+    (has_attr_expression
+        (variable_expression (identifier))
         (attrpath
-            (interpolation (identifier))
-            (attr_identifier)
-            (string))))
+            (interpolation (variable_expression (identifier)))
+            (identifier)
+            (string_expression (string_fragment)))))
 
 ====================
-application
+apply_expressionlication
 ====================
 
 a 1 2.0
 
 ---
 
-(source_expression
-    (app
-        (app
-            (identifier)
-            (integer))
-        (float)))
+(source_code
+    (apply_expression
+        (apply_expression
+            (variable_expression (identifier))
+            (integer_expression))
+        (float_expression)))
 
 ====================
-path test
+path_expression test
 ====================
 
 a/c${x}c
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)
         (interpolation
-            (identifier))
+            (variable_expression (identifier)))
         (path_fragment)))
 
 
 ====================
-path1
+path_expression1
 ====================
 
 x/a${x}a.a${123}
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)
         (interpolation
-            (identifier))
+            (variable_expression (identifier)))
         (path_fragment)
         (interpolation
-            (integer))))
+            (integer_expression))))
 
 ====================
-path2
+path_expression2
 ====================
 
 x/a${x}a/a${123}
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)
         (interpolation
-            (identifier))
+            (variable_expression (identifier)))
         (path_fragment)
         (interpolation
-            (integer))))
+            (integer_expression))))
 
 
 ====================
-path3
+path_expression3
 ====================
 
 /abc
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)))
 
 ====================
-path4
+path_expression4
 ====================
 
 -123/abc
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)))
 
 ====================
-path5
+path_expression5
 ====================
 
 dir/${name}.${extension}
 
 ---
 
-(source_expression
-    (path
+(source_code
+    (path_expression
         (path_fragment)
         (interpolation
-            (identifier))
+            (variable_expression (identifier)))
         (path_fragment)
         (interpolation
-            (identifier))))
+            (variable_expression (identifier)))))
 
 ====================
-path6
+path_expression6
 ====================
 
 
@@ -409,79 +427,79 @@ a/b${c} d/e${f}
 
 ---
 
-(source_expression
-    (app
-        (path
+(source_code
+    (apply_expression
+        (path_expression
             (path_fragment)
             (interpolation
-            (identifier)))
-        (path
+            (variable_expression (identifier))))
+        (path_expression
             (path_fragment)
             (interpolation
-            (identifier)))))
+            (variable_expression (identifier))))))
 
 ====================
-hpath1
+hpath_expression1
 ====================
 
 ~/.
 
 ---
 
-(source_expression
-    (hpath
+(source_code
+    (hpath_expression
         (path_fragment)))
 
 
 ====================
-hpath2
+hpath_expression2
 ====================
 
 ~/a${x}a/a${123}
 
 ---
 
-(source_expression
-    (hpath
+(source_code
+    (hpath_expression
         (path_fragment)
         (interpolation
-            (identifier))
+            (variable_expression (identifier)))
         (path_fragment)
         (interpolation
-            (integer))))
+            (integer_expression))))
 
 ====================
-division not mistaken for paths (1)
+division not mistaken for path_expressions (1)
 ====================
 
 a/ b
 
 ---
 
-(source_expression
-    (binary
-        (identifier)
-        (identifier)))
+(source_code
+    (binary_expression
+        (variable_expression (identifier))
+        (variable_expression (identifier))))
 
 ====================
-path craziness - see https://github.com/NixOS/nix/pull/5066#issuecomment-1071918251
+path_expression craziness - see https://github.com/NixOS/nix/pull/5066#issuecomment-1071918251
 ====================
 
 a.${foo}/b.${bar}
 
 ---
 
-(source_expression
-    (app
-        (select
-            (identifier)
+(source_code
+    (apply_expression
+        (select_expression
+            (variable_expression (identifier))
             (attrpath
             (interpolation
-                (identifier))))
-        (path
+                (variable_expression (identifier)))))
+        (path_expression
             (path_fragment)
             (interpolation
-                (identifier)))))
+                (variable_expression (identifier))))))
 
 ====================
 operators
@@ -491,12 +509,12 @@ square 2 + -pi - 42.0
 
 ---
 
-(source_expression
-    (binary
-        (binary
-            (app (identifier) (integer))
-            (unary (identifier)))
-        (float)))
+(source_code
+    (binary_expression
+        (binary_expression
+            (apply_expression (variable_expression (identifier)) (integer_expression))
+            (unary_expression (variable_expression (identifier))))
+        (float_expression)))
 
 ====================
 parens
@@ -506,5 +524,5 @@ parens
 
 ---
 
-(source_expression
-    (parenthesized (integer)))
+(source_code
+    (parenthesized_expression (integer_expression)))
