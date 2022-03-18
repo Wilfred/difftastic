@@ -363,7 +363,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mark_unchanged_toplevel_at_start() {
+    fn test_split_unchanged_toplevel_at_start() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -391,7 +391,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mark_unchanged_toplevel_at_end() {
+    fn test_split_unchanged_toplevel_at_end() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -418,7 +418,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mark_preserves_outer_delimiters() {
+    fn test_split_preserves_outer_delimiters() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -444,7 +444,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mark_unchanged_middle() {
+    fn test_split_unchanged_middle() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
@@ -480,7 +480,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mark_unchanged_multiple() {
+    fn test_split_unchanged_multiple() {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
