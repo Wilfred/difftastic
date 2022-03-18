@@ -19,10 +19,16 @@ pub const MAX_PADDING: usize = 3;
 pub fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let matched_lines = all_matched_lines(lhs_mps, rhs_mps);
 
-    compact_gaps(&ensure_contiguous(&matched_lines))
+    compact_gaps(&ensure_contiguous(&match_preceding_blanks(
+        &matched_lines,
+        lhs_lines,
+        rhs_lines,
+    )))
 }
 
 fn all_matched_lines(
@@ -115,6 +121,126 @@ fn merge_in_opposite_lines(
     while let Some(novel_opposite_line) = novel_opposite_lines.get(i) {
         res.push((None, Some(*novel_opposite_line)));
         i += 1;
+    }
+
+    res
+}
+
+/// If the lines immediately before `current` are blank on both sides,
+/// return the line numbers of those blank lines.
+fn match_blanks_between(
+    current: (LineNumber, LineNumber),
+    prev: (LineNumber, LineNumber),
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let (mut current_lhs, mut current_rhs) = current;
+    if current_lhs.0 == 0 || current_rhs.0 == 0 {
+        return vec![];
+    }
+
+    current_lhs = (current_lhs.0 - 1).into();
+    current_rhs = (current_rhs.0 - 1).into();
+
+    let mut res = vec![];
+    while current_lhs > prev.0 && current_rhs > prev.1 {
+        if lhs_lines[current_lhs.0] == "" && rhs_lines[current_rhs.0] == "" {
+            res.push((Some(current_lhs), Some(current_rhs)));
+
+            current_lhs = (current_lhs.0 - 1).into();
+            current_rhs = (current_rhs.0 - 1).into();
+        } else {
+            break;
+        }
+    }
+
+    res.reverse();
+    res
+}
+
+fn match_blanks_before(
+    current: (LineNumber, LineNumber),
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let (mut current_lhs, mut current_rhs) = current;
+    if current_lhs.0 == 0 || current_rhs.0 == 0 {
+        return vec![];
+    }
+
+    current_lhs = (current_lhs.0 - 1).into();
+    current_rhs = (current_rhs.0 - 1).into();
+
+    let mut res = vec![];
+    loop {
+        if lhs_lines[current_lhs.0] == "" && rhs_lines[current_rhs.0] == "" {
+            res.push((Some(current_lhs), Some(current_rhs)));
+
+            if current_lhs.0 == 0 || current_rhs.0 == 0 {
+                break;
+            }
+
+            current_lhs = (current_lhs.0 - 1).into();
+            current_rhs = (current_rhs.0 - 1).into();
+        } else {
+            break;
+        }
+    }
+
+    res.reverse();
+    res
+}
+
+/// For every line number pair, if there are blank lines preceding the
+/// pair, add those blank lines to the vec.
+///
+/// This substantially improves alignment, leading to more readable
+/// diffs.
+///
+/// We don't need to match blank lines following each pair. After
+/// matching up all the matching lines, we just display the remaining
+/// lines side-by-side regardless of content (see
+/// `ensure_contiguous`). If there are blank lines immediately
+/// following the pair, they will get aligned by this.
+fn match_preceding_blanks(
+    line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut prev_lhs = None;
+    let mut prev_rhs = None;
+
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    for (lhs_line_num, rhs_line_num) in line_nums {
+        match (lhs_line_num, rhs_line_num, prev_lhs, prev_rhs) {
+            (Some(lhs_line_num), Some(rhs_line_num), None, None) => {
+                // The first pair.
+                res.append(&mut match_blanks_before(
+                    (*lhs_line_num, *rhs_line_num),
+                    lhs_lines,
+                    rhs_lines,
+                ));
+            }
+            (Some(lhs_line_num), Some(rhs_line_num), Some(prev_lhs), Some(prev_rhs)) => {
+                // Later pairs.
+                res.append(&mut match_blanks_between(
+                    (*lhs_line_num, *rhs_line_num),
+                    (prev_lhs, prev_rhs),
+                    lhs_lines,
+                    rhs_lines,
+                ));
+            }
+            _ => {}
+        }
+
+        res.push((*lhs_line_num, *rhs_line_num));
+
+        if lhs_line_num.is_some() {
+            prev_lhs = *lhs_line_num;
+        }
+        if rhs_line_num.is_some() {
+            prev_rhs = *rhs_line_num;
+        }
     }
 
     res
@@ -720,5 +846,66 @@ mod tests {
                 (Some(1.into()), Some(1.into())),
             ]
         )
+    }
+
+    #[test]
+    fn test_match_preceding_blanks() {
+        let lhs_lines = vec!["x", "", "", "y"];
+        let rhs_lines = vec!["x", "extra", "", "", "y"];
+
+        let res = match_preceding_blanks(
+            &[
+                (Some(0.into()), Some(0.into())),
+                (Some(3.into()), Some(4.into())),
+            ],
+            &lhs_lines,
+            &rhs_lines,
+        );
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(2.into())),
+                (Some(2.into()), Some(3.into())),
+                (Some(3.into()), Some(4.into())),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_match_preceding_blanks_first_pair() {
+        let lhs_lines = vec!["", "", "y"];
+        let rhs_lines = vec!["extra", "", "", "y"];
+
+        let res =
+            match_preceding_blanks(&[(Some(2.into()), Some(3.into()))], &lhs_lines, &rhs_lines);
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(1.into())),
+                (Some(1.into()), Some(2.into())),
+                (Some(2.into()), Some(3.into())),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_match_blanks_between() {
+        let lhs_lines = vec!["x", "", "", "y"];
+        let rhs_lines = vec!["x", "extra", "", "", "y"];
+
+        let res = match_blanks_between(
+            (3.into(), 4.into()),
+            (0.into(), 0.into()),
+            &lhs_lines,
+            &rhs_lines,
+        );
+        assert_eq!(
+            res,
+            vec![
+                (Some(1.into()), Some(2.into())),
+                (Some(2.into()), Some(3.into()))
+            ]
+        );
     }
 }
