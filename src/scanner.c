@@ -1,5 +1,7 @@
 #include <tree_sitter/parser.h>
 
+#define LOOKAHEAD_TYPE __typeof__(((TSLexer *)0)->lookahead)
+
 enum TokenType {
   STRING_FRAGMENT,
   INDENTED_STRING_FRAGMENT,
@@ -82,7 +84,7 @@ static bool scan_indented_string_fragment(TSLexer *lexer) {
   }
 }
 
-static bool is_path_char(char c) {
+static bool is_path_char(LOOKAHEAD_TYPE c) {
   return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '-' || c == '+' || c == '_' || c == '.' || c == '/';
 }
 
@@ -91,7 +93,7 @@ static bool scan_path_start(TSLexer *lexer) {
 
   bool have_sep = false;
   bool have_after_sep = false;
-  char c = lexer->lookahead;
+  LOOKAHEAD_TYPE c = lexer->lookahead;
 
   // unlike string_fragments which which are preceded by initial token (i.e. '"')
   // and thus will have all leading external whitespace consumed,
