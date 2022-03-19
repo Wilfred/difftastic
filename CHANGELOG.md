@@ -1,6 +1,13 @@
 ## 0.24 (unreleased)
 
+### Parsing
+
 Added support for Dart.
+
+### Diffing
+
+Fixed crash where the 'shrink unchanged' logic would not set the
+change state on the outer list.
 
 ## 0.23 (released 17th March 2022)
 
