@@ -1,0 +1,74 @@
+====
+comment
+====
+
+// This is a comment
+/* This is also a comment */
+/* this comment /* // /** ends here: */
+
+---
+
+(program (comment) (comment) (comment))
+
+======================
+comments and literals
+======================
+
+123;
+// comment
+
+---
+
+(program
+  (expression_statement (decimal_integer_literal))
+  (comment))
+
+======================
+documentation comment
+======================
+
+///  * [defaultSchedulingStrategy], the default [SchedulingStrategy] for [SchedulerBinding.schedulingStrategy].
+
+---
+(program (documentation_comment))
+
+
+======================
+documentation comment 1
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+  * with [: /// :].
+  */
+
+---
+
+
+======================
+documentation comment 2
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+
+  */
+
+---
+
+======================
+documentation comment 3
+======================
+
+/*
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in /* var ...  */ var or starts
+
+  */
+
+---
