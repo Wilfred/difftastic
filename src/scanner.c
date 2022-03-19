@@ -47,7 +47,7 @@
   (vec)->data[(vec)->len++] = (el);
 
 #define VEC_POP(vec) (vec)->len--;
-  
+
 #define VEC_NEW { .len = 0, .cap = 0, .data = NULL }
 
 #define VEC_BACK(vec) ((vec)->data[(vec)->len - 1])
@@ -237,6 +237,7 @@ void debug_state(State *state) {
   debug_valid(state->symbols);
   DEBUG_PRINTF(", indents = ");
   debug_indents(state->indents);
+  DEBUG_PRINTF("\n");
 }
 #endif
 
@@ -284,7 +285,7 @@ static void MARK(char *marked_by, bool needs_free, State *state) {
  */
 static bool varid_start_char(const uint32_t c) { return c == '_' || iswlower(c); }
 
-static bool varid_char(const uint32_t c) { 
+static bool varid_char(const uint32_t c) {
   switch (c) {
     case '_':
     case '\'':
@@ -384,7 +385,7 @@ static bool token_end(uint32_t c) {
  * Require that the argument string follows the current position and is followed by whitespace.
  * See `seq`
  */
-static bool token(const char *restrict s, State *state) { 
+static bool token(const char *restrict s, State *state) {
   return seq(s, state) && token_end(PEEK);
 }
 
@@ -665,7 +666,7 @@ static void push(uint16_t ind, State *state) {
  */
 static void pop(State *state) {
   if (indent_exists(state)) {
-    DEBUG_PRINTF("pop");
+    DEBUG_PRINTF("pop\n");
     VEC_POP(state->indents);
   }
 }
@@ -1026,7 +1027,7 @@ static Result inline_comment(State *state) {
   for (;;) {
     switch (PEEK) {
       NEWLINE_CASES:
-      case 0: 
+      case 0:
         goto inline_comment_after_skip;
       default:
         S_ADVANCE;
@@ -1418,7 +1419,6 @@ static Result newline(uint32_t indent, State *state) {
   SHORT_SCANNER;
   res = comment(state);
   SHORT_SCANNER;
-  MARK("newline", false, state);
   res = newline_token(indent, state);
   SHORT_SCANNER;
   return newline_indent(indent, state);
@@ -1511,7 +1511,7 @@ static void debug_lookahead(State *state) {
     if (isws(PEEK) || PEEK == 0) break;
     else {
       if (first) DEBUG_PRINTF("next: ");
-      DEBUG_PRINTF("%c", PEEK);
+      DEBUG_PRINTF("%c\n", PEEK);
       S_ADVANCE;
       first = false;
     }
@@ -1543,9 +1543,9 @@ static bool eval(Result (*chk)(State *state), State *state) {
     // TODO(414owen) can names[] fail?
     DEBUG_PRINTF("result: %s, ", sym_names[result.sym]);
     if (state->marked == -1) {
-      DEBUG_PRINTF("%d", column(state));
+      DEBUG_PRINTF("%d\n", column(state));
     } else {
-      DEBUG_PRINTF("%s@%d", state->marked_by, state->marked);
+      DEBUG_PRINTF("%s@%d\n", state->marked_by, state->marked);
     }
 #endif
     state->lexer->result_symbol = result.sym;
@@ -1571,9 +1571,9 @@ void *tree_sitter_haskell_external_scanner_create() {
  */
 bool tree_sitter_haskell_external_scanner_scan(void *indents_v, TSLexer *lexer, const bool *syms) {
   indent_vec *indents = (indent_vec*) indents_v;
-  State state = { 
-    .lexer = lexer, 
-    .symbols = syms, 
+  State state = {
+    .lexer = lexer,
+    .symbols = syms,
     .indents = indents
   };
 #ifdef DEBUG
@@ -1614,7 +1614,7 @@ void tree_sitter_haskell_external_scanner_deserialize(void *indents_v, char *buf
 /**
  * Destroy the state.
  */
-void tree_sitter_haskell_external_scanner_destroy(void *indents_v) { 
+void tree_sitter_haskell_external_scanner_destroy(void *indents_v) {
   indent_vec *indents = (indent_vec*) indents_v;
   VEC_FREE(indents);
 }

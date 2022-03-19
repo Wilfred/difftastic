@@ -4031,33 +4031,29 @@
       ]
     },
     "exp_lambda_case": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "\\"
-          },
-          {
-            "type": "STRING",
-            "value": "case"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "alts"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\"
+        },
+        {
+          "type": "STRING",
+          "value": "case"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "alts"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "rec": {
       "type": "SEQ",
@@ -8973,6 +8969,10 @@
       "value": "\\n"
     },
     {
+      "type": "PATTERN",
+      "value": "\\r"
+    },
+    {
       "type": "SYMBOL",
       "name": "cpp"
     },
@@ -9071,6 +9071,9 @@
     [
       "_type_or_implicit",
       "_context_constraints"
+    ],
+    [
+      "exp_lambda_case"
     ]
   ],
   "precedences": [
