@@ -1,0 +1,8 @@
+name: tree_sitter_dart_tester
+
+dependencies:
+  path: any 
+
+dev_dependencies:
+  derry: any
+  dshell: any
