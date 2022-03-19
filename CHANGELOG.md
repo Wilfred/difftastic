@@ -1,6 +1,4 @@
-## 0.24 (unreleased)
-
-### Diffing
+## 0.23.1 (unreleased)
 
 Fixed crash where the 'shrink unchanged' logic would not set the
 change state on the outer list.
