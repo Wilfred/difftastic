@@ -1,0 +1,57 @@
+{
+  "name": "tree-sitter-dart",
+  "version": "1.0.0",
+  "description": "Dart grammar attempt for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "dart"
+  ],
+  "author": "Benjamin Sobel",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.14.2"
+  },
+  "devDependencies": {
+    "node-gyp": "^7.1.2",
+    "npm-watch": "^0.7.0",
+    "tree-sitter-cli": "^0.19.2"
+  },
+  "watch": {
+    "test": {
+      "patterns": [
+        "corpus"
+      ],
+      "extensions": "dart",
+      "quiet": true
+    },
+    "build-test": {
+      "patterns": [
+        "./"
+      ],
+      "extensions": [
+        "js",
+        "scm",
+        "txt"
+      ],
+      "quiet": true
+    }
+  },
+  "scripts": {
+    "build_init": "tree-sitter generate && node-gyp configure && node-gyp build",
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test",
+    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test",
+    "watch-test": "npm-watch test",
+    "watch-grammar": "npm-watch build-test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.dart",
+      "file-types": [
+        "dart"
+      ]
+    }
+  ]
+}
