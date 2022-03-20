@@ -350,6 +350,93 @@ enum Side {
     RHS,
 }
 
+/// Given a sequence of novel MatchedPos values in a section between
+/// two unchanged MatchedPos values, return them in an order suited
+/// for displaying.
+///
+/// ```text
+/// unchanged-before novel-1
+/// novel-2
+/// novel-3
+/// novel-4 unchanged-after
+/// ```
+///
+/// We need novel-1 to occur before novel-2/3, and novel-2/3 to occur
+/// before novel-4, so we can safely interleave LHS and RHS whilst
+/// still being monotonically increasing.
+fn novel_section_in_order(
+    lhs_novel_mps: &[&MatchedPos],
+    rhs_novel_mps: &[&MatchedPos],
+    lhs_prev_matched_line: Option<LineNumber>,
+    rhs_prev_matched_line: Option<LineNumber>,
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+) -> Vec<(Side, MatchedPos)> {
+    let mut res: Vec<(Side, MatchedPos)> = vec![];
+
+    let mut lhs_iter = lhs_novel_mps.iter().peekable();
+    let mut rhs_iter = rhs_novel_mps.iter().peekable();
+
+    // Novel MatchedPos values that occur on the same line as the
+    // previous unchanged MatchedPos must occur first.
+    while let Some(lhs_mp) = lhs_iter.peek() {
+        let same_line_as_prev = if let Some(lhs_prev_matched_line) = lhs_prev_matched_line {
+            lhs_mp.pos.line == lhs_prev_matched_line
+        } else {
+            false
+        };
+        if same_line_as_prev {
+            res.push((Side::LHS, (**lhs_mp).clone()));
+            lhs_iter.next();
+        } else {
+            break;
+        }
+    }
+    while let Some(rhs_mp) = rhs_iter.peek() {
+        let same_line_as_prev = if let Some(rhs_prev_matched_line) = rhs_prev_matched_line {
+            rhs_mp.pos.line == rhs_prev_matched_line
+        } else {
+            false
+        };
+        if same_line_as_prev {
+            res.push((Side::RHS, (**rhs_mp).clone()));
+            rhs_iter.next();
+        } else {
+            break;
+        }
+    }
+
+    // Next, we want novel MatchedPos values that occur on lines
+    // without any unchanged MatchedPos values.
+    while let Some(lhs_mp) = lhs_iter.peek() {
+        if !opposite_to_lhs.contains_key(&lhs_mp.pos.line) {
+            res.push((Side::LHS, (**lhs_mp).clone()));
+            lhs_iter.next();
+        } else {
+            break;
+        }
+    }
+    while let Some(rhs_mp) = rhs_iter.peek() {
+        if !opposite_to_rhs.contains_key(&rhs_mp.pos.line) {
+            res.push((Side::RHS, (**rhs_mp).clone()));
+            rhs_iter.next();
+        } else {
+            break;
+        }
+    }
+
+    // Finally, the remainder of the novel MatchedPos values will be
+    // on the same line as the following unchanged MatchedPos value.
+    for lhs_mp in lhs_iter {
+        res.push((Side::LHS, (*lhs_mp).clone()));
+    }
+    for rhs_mp in rhs_iter {
+        res.push((Side::RHS, (*rhs_mp).clone()));
+    }
+
+    res
+}
+
 /// Return a vec of novel MatchedPos values in an order suited for
 /// displaying.
 ///
@@ -359,6 +446,8 @@ enum Side {
 fn sorted_novel_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Side, MatchedPos)> {
     let mut lhs_mps: Vec<MatchedPos> = lhs_mps.to_vec();
     lhs_mps.sort_unstable_by_key(|mp| mp.pos);
@@ -366,77 +455,61 @@ fn sorted_novel_positions(
     let mut rhs_mps: Vec<MatchedPos> = rhs_mps.to_vec();
     rhs_mps.sort_unstable_by_key(|mp| mp.pos);
 
-    let mut lhs_prev_opposite = None;
-    let mut rhs_prev_opposite = None;
-
     let mut res: Vec<(Side, MatchedPos)> = vec![];
-    let mut lhs_i = 0;
-    let mut rhs_i = 0;
-    while let (Some(lhs_mp), Some(rhs_mp)) = (lhs_mps.get(lhs_i), rhs_mps.get(rhs_i)) {
-        match (
-            lhs_mp.kind.first_opposite_span(),
-            rhs_mp.kind.first_opposite_span(),
-        ) {
-            (Some(lhs_opposite_span), _) => {
-                // This is an unchanged position, so just update the
-                // opposite position.
-                lhs_prev_opposite = Some(lhs_opposite_span);
-                lhs_i += 1;
+
+    let mut lhs_prev_matched_line = None;
+    let mut rhs_prev_matched_line = None;
+    let mut lhs_section = vec![];
+    let mut rhs_section = vec![];
+
+    let mut lhs_iter = lhs_mps.iter().peekable();
+    let mut rhs_iter = rhs_mps.iter().peekable();
+    loop {
+        match (lhs_iter.peek(), rhs_iter.peek()) {
+            (Some(lhs_mp), Some(rhs_mp))
+                if !lhs_mp.kind.is_change() && !rhs_mp.kind.is_change() =>
+            {
+                res.append(&mut novel_section_in_order(
+                    &lhs_section,
+                    &rhs_section,
+                    lhs_prev_matched_line,
+                    rhs_prev_matched_line,
+                    opposite_to_lhs,
+                    opposite_to_rhs,
+                ));
+                lhs_section = vec![];
+                rhs_section = vec![];
+
+                lhs_prev_matched_line = Some(lhs_mp.pos.line);
+                rhs_prev_matched_line = Some(rhs_mp.pos.line);
+                lhs_iter.next();
+                rhs_iter.next();
             }
-            (_, Some(rhs_opposite_span)) => {
-                // This is an unchanged position, so just update the
-                // opposite position.
-                rhs_prev_opposite = Some(rhs_opposite_span);
-                rhs_i += 1;
+            (Some(lhs_mp), _) if lhs_mp.kind.is_change() => {
+                lhs_section.push(lhs_mp);
+                lhs_iter.next();
+            }
+            (_, Some(rhs_mp)) if rhs_mp.kind.is_change() => {
+                rhs_section.push(rhs_mp);
+                rhs_iter.next();
             }
             (None, None) => {
-                assert!(lhs_mp.kind.is_change());
-                assert!(rhs_mp.kind.is_change());
-
-                match (lhs_prev_opposite, rhs_prev_opposite) {
-                    (None, _) => {
-                        // If we see a novel LHS position and we don't
-                        // have a previous matched position, put it
-                        // first.
-                        res.push((Side::LHS, lhs_mp.clone()));
-                        lhs_i += 1;
-                    }
-                    (_, None) => {
-                        // If we see a novel RHS position and we don't
-                        // have a previous matched position,
-                        // arbitrarily put it after novel LHS
-                        // positions. This prevents incorrect
-                        // interleaving.
-                        res.push((Side::RHS, rhs_mp.clone()));
-                        rhs_i += 1;
-                    }
-                    (Some(lhs_prev_opposite), Some(_)) => {
-                        // Both sides are novel. Take the side with the earlier opposite position.
-                        if lhs_prev_opposite < rhs_mp.pos {
-                            res.push((Side::LHS, lhs_mp.clone()));
-                            lhs_i += 1;
-                        } else {
-                            res.push((Side::RHS, rhs_mp.clone()));
-                            rhs_i += 1;
-                        }
-                    }
-                }
+                break;
+            }
+            _ => {
+                unreachable!("Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos");
             }
         }
     }
 
-    while let Some(lhs_mp) = lhs_mps.get(lhs_i) {
-        if lhs_mp.kind.is_change() {
-            res.push((Side::LHS, lhs_mp.clone()));
-        }
-        lhs_i += 1;
-    }
-    while let Some(rhs_mp) = rhs_mps.get(rhs_i) {
-        if rhs_mp.kind.is_change() {
-            res.push((Side::RHS, rhs_mp.clone()));
-        }
-        rhs_i += 1;
-    }
+    res.append(&mut novel_section_in_order(
+        &lhs_section,
+        &rhs_section,
+        lhs_prev_matched_line,
+        rhs_prev_matched_line,
+        opposite_to_lhs,
+        opposite_to_rhs,
+    ));
 
     res
 }
@@ -471,7 +544,7 @@ fn matched_novel_lines(
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
     let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    for (side, mp) in sorted_novel_positions(lhs_mps, rhs_mps) {
+    for (side, mp) in sorted_novel_positions(lhs_mps, rhs_mps, &opposite_to_lhs, &opposite_to_rhs) {
         let self_line = mp.pos.line;
 
         match side {
@@ -629,8 +702,8 @@ mod tests {
             },
         };
 
-        let lhs_mps = vec![novel_mp.clone(), matched_mp];
-        let res = sorted_novel_positions(&lhs_mps, &[]);
+        let lhs_mps = vec![novel_mp.clone(), matched_mp.clone()];
+        let res = sorted_novel_positions(&lhs_mps, &[matched_mp], &HashMap::new(), &HashMap::new());
 
         assert_eq!(res, vec![(Side::LHS, novel_mp)]);
     }

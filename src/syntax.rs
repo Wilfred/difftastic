@@ -571,15 +571,7 @@ pub enum MatchKind {
 }
 
 impl MatchKind {
-    pub fn first_opposite_span(&self) -> Option<SingleLineSpan> {
-        match self {
-            MatchKind::UnchangedToken { opposite_pos, .. } => opposite_pos.first().copied(),
-            MatchKind::NovelLinePart { opposite_pos, .. } => opposite_pos.first().copied(),
-            MatchKind::Novel { .. } => None,
-            MatchKind::NovelWord { .. } => None,
-        }
-    }
-
+    // TODO: is_novel would be a better name here.
     pub fn is_change(&self) -> bool {
         matches!(
             self,
