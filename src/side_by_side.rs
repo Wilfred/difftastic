@@ -216,12 +216,12 @@ pub fn lines_with_novel(
 ) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
     let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
         .iter()
-        .filter(|mp| mp.kind.is_change())
+        .filter(|mp| mp.kind.is_novel())
         .map(|mp| mp.pos.line)
         .collect();
     let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
         .iter()
-        .filter(|mp| mp.kind.is_change())
+        .filter(|mp| mp.kind.is_novel())
         .map(|mp| mp.pos.line)
         .collect();
 
