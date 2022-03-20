@@ -1,5 +1,11 @@
 ## 0.24 (unreleased)
 
+### Display
+
+Fixed an issue where hunks would be missing lines. This occurred in
+certain circumstances when a line contained both changed and unchanged
+parts.
+
 ### Parsing
 
 Added support for Dart.
