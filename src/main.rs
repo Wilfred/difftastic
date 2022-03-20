@@ -139,6 +139,17 @@ fn main() {
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
 
+            if lhs_path == rhs_path {
+                eprintln!(
+                    "warning: You've specified the same {} twice.\n",
+                    if lhs_path.is_dir() {
+                        "directory"
+                    } else {
+                        "file"
+                    }
+                );
+            }
+
             if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in
                     diff_directories(lhs_path, rhs_path, missing_as_empty, node_limit, byte_limit)
