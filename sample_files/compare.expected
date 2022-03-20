@@ -19,6 +19,9 @@ b5e718eb8328f8df8aff0eddf4e46d1a  -
 sample_files/css_before.css sample_files/css_after.css
 a110f9a9ab8586f2f307df3cc9997ead  -
 
+sample_files/dart_before.dart sample_files/dart_after.dart
+aeed85d8cb8905197268309894a2945e  -
+
 sample_files/elisp_before.el sample_files/elisp_after.el
 c2871ec588ad8dd1e8c482efc4662f42  -
 

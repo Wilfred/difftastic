@@ -10,6 +10,7 @@ tool that understands syntax. It supports the following languages:
 * Clojure
 * Common Lisp
 * CSS
+* Dart
 * Elixir
 * Emacs Lisp
 * Go
