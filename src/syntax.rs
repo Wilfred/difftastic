@@ -814,14 +814,13 @@ pub fn zip_pad_shorter<Tx: Clone, Ty: Clone>(
 ) -> Vec<(Option<Tx>, Option<Ty>)> {
     let mut res = vec![];
 
-    let mut i = 0;
+    let mut lhs_iter = lhs.iter();
+    let mut rhs_iter = rhs.iter();
     loop {
-        match (lhs.get(i), rhs.get(i)) {
+        match (lhs_iter.next(), rhs_iter.next()) {
             (None, None) => break,
             (x, y) => res.push((x.cloned(), y.cloned())),
         }
-
-        i += 1;
     }
 
     res
@@ -840,18 +839,16 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
     };
 
     let mut res = vec![];
-
-    let mut i = 0;
+    let mut lhs_iter = lhs.iter();
+    let mut rhs_iter = rhs.iter();
     loop {
-        match (lhs.get(i), rhs.get(i)) {
+        match (lhs_iter.next(), rhs_iter.next()) {
             (None, None) => break,
             (x, y) => res.push((
                 x.cloned().unwrap_or_else(|| lhs_last.clone()),
                 y.cloned().unwrap_or_else(|| rhs_last.clone()),
             )),
         }
-
-        i += 1;
     }
 
     res
