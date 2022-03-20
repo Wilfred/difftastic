@@ -10,6 +10,10 @@ parts.
 
 Added support for Dart.
 
+### Command Line Interface
+
+Difftastic will now warn if both arguments point to the same file.
+
 ## 0.23.1 (released 19th March 2022)
 
 Fixed crash where the 'shrink unchanged' logic would not set the
