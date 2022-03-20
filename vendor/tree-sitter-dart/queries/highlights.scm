@@ -118,8 +118,10 @@
 ; distinguish method call from variable access
 (unconditional_assignable_selector
   (identifier) @property)
-(assignable_selector
-  (identifier) @property)
+
+;; https://github.com/UserNobody14/tree-sitter-dart/issues/24
+;; (assignable_selector
+;;   (identifier) @property)
 
 ; assignments
 (assignment_expression
