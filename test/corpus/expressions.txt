@@ -11,6 +11,8 @@ function(x, y) return(y)
 
 function(x, ...) f(...)
 
+function(arg1, arg2 = 2) {}
+
 ----
 
 (program
@@ -21,10 +23,22 @@ function(x, ...) f(...)
     (brace_list (identifier)))
   (function_definition
     (formal_parameters (identifier) (identifier))
-    (call (identifier) (arguments (identifier))))
+    (call
+     function: (identifier)
+     arguments: (arguments (identifier))))
   (function_definition
     (formal_parameters (identifier) (dots))
-    (call (identifier) (arguments (dots)))))
+    (call 
+      function: (identifier)
+      arguments: (arguments
+        (dots))))
+  (function_definition
+    (formal_parameters
+      (identifier)
+      (default_parameter
+        name: (identifier)
+        value: (float)))
+    (brace_list)))
 
 =======================
 Lambda Function
@@ -54,8 +68,8 @@ c <- \(fun, ...) fun(...)
       (call
         function: (identifier)
         arguments: (arguments
-          value: (identifier)
-          value: (identifier)))))
+          (identifier)
+          (identifier)))))
 
   (left_assignment
    name: (identifier)
@@ -65,7 +79,7 @@ c <- \(fun, ...) fun(...)
        (dots))
      (call
        function: (identifier)
-       arguments: (arguments value: (dots)))))
+       arguments: (arguments (dots)))))
 
   (pipe
     left: (pipe
@@ -77,8 +91,9 @@ c <- \(fun, ...) fun(...)
           (lambda_function
             (formal_parameters
               (identifier)
-              (identifier)
-              (float))
+              (default_parameter
+                name: (identifier)
+                value: (float)))
             (binary
              left: (identifier)
              right: (identifier))))))
@@ -90,14 +105,15 @@ c <- \(fun, ...) fun(...)
          (call
            function: (identifier)
            arguments: (arguments
-             value: (identifier)))))))
+             (identifier)))))))
 
     (call
       function: (brace_list
         (lambda_function
          (formal_parameters
-          (identifier)
-          (float))
+          (default_parameter
+            name: (identifier)
+            value: (float)))
          (binary
           left: (identifier)
           right: (float)))))
@@ -172,8 +188,8 @@ foo(-a, bar)
   (call
     function: (identifier)
     arguments: (arguments
-      value: (unary operand: (identifier))
-      value: (identifier))))
+      (unary operand: (identifier))
+      (identifier))))
 
 ===========
 Binary minus
@@ -205,7 +221,7 @@ val <- foo %>% bar(1) %>% baz()
     right: (binary left: (identifier) right: (identifier)))
 
   (left_assignment
-    name: (subset (identifier) (arguments value: (float)))
+    name: (subset (identifier) (arguments (float)))
     value: (binary left: (identifier) right: (identifier)))
 
   (binary
@@ -214,7 +230,7 @@ val <- foo %>% bar(1) %>% baz()
       right: (call
         function: (identifier)
         arguments: (arguments
-          value: (identifier))))
+          (identifier))))
     right: (identifier))
 
   (left_assignment
@@ -226,7 +242,7 @@ val <- foo %>% bar(1) %>% baz()
         right: (call
           function: (identifier)
           arguments: (arguments
-            value: (float))))
+            (float))))
       operator: (special)
       right: (call
         function: (identifier)))))
@@ -358,13 +374,13 @@ if (a.b) {
 (program
   (if
     condition: (identifier)
-    consequence: (call function: (identifier) arguments: (arguments value: (identifier))))
+    consequence: (call function: (identifier) arguments: (arguments (identifier))))
   (if
     condition: (identifier)
     consequence: (brace_list
       (call
        function: (identifier)
-       arguments: (arguments value: (identifier)))
+       arguments: (arguments (identifier)))
       (identifier))))
 
 ============================================
@@ -482,12 +498,15 @@ switch(foo,
   (switch
    value: (identifier)
    body: (arguments
-     name: (identifier)
-     value: (float)
-     name: (string)
-     value: (float)
-     name: (identifier)
-     value: (float))))
+    (default_argument
+      name: (identifier)
+      value: (float))
+    (default_argument
+      name: (string)
+      value: (float))
+    (default_argument
+      name: (identifier))
+    (float))))
 
 ======
 Dollar
@@ -534,7 +553,7 @@ foo::bar(1)
     function: (namespace_get
      namespace: (identifier)
      function: (identifier))
-    arguments: (arguments value: (float))))
+    arguments: (arguments (float))))
 
 ============================================
 Namespace get internal
@@ -553,7 +572,7 @@ foo:::bar(1)
     function: (namespace_get_internal
      namespace: (identifier)
      function: (identifier))
-    arguments: (arguments value: (float))))
+    arguments: (arguments (float))))
 
 ==========
 Assignment
@@ -597,10 +616,10 @@ y(1) -> x
 
   (left_assignment
    name: (identifier)
-   value: (call function: (identifier) arguments: (arguments value: (float))))
+   value: (call function: (identifier) arguments: (arguments (float))))
 
   (right_assignment
-   value: (call function: (identifier) arguments: (arguments value: (float)))
+   value: (call function: (identifier) arguments: (arguments (float)))
    name: (identifier)))
 
 =====
@@ -633,48 +652,58 @@ f(,y=)
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier)))
+    arguments: (arguments (identifier)))
 
   (call
    function: (identifier)
    arguments: (arguments
-     value: (binary
+     (binary
        left: (float)
        right: (float))))
 
   (call
    function: (identifier)
    arguments: (arguments
-     value: (binary
+     (binary
        left: (float)
        right: (float))))
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier)))
+    arguments: (arguments (identifier)))
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier) value: (identifier)))
+    arguments: (arguments (identifier) (identifier)))
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier) name: (identifier) value: (float)))
+    arguments: (arguments 
+      (identifier)
+      (default_argument
+        name: (identifier)
+        value: (float))))
 
   (call
     function: (identifier)
-    arguments: (arguments name: (identifier) value: (binary left: (float) right: (float))))
+    arguments: (arguments
+      (default_argument
+        name: (identifier)
+        value: (binary left: (float) right: (float)))))
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier) name: (identifier)))
+    arguments: (arguments 
+      (identifier)
+      (default_argument
+        name: (identifier))))
 
   (call
     function: (identifier)
-    arguments: (arguments value:
+    arguments: (arguments
       (call
        function: (identifier)
-       arguments: (arguments value: (identifier) value: (identifier)))))
+       arguments: (arguments (identifier) (identifier)))))
 
   (call
     function: (identifier)
@@ -682,27 +711,35 @@ f(,y=)
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier)))
+    arguments: (arguments (identifier)))
 
   (call
     function: (identifier)
-    arguments: (arguments value: (identifier)))
+    arguments: (arguments (identifier)))
 
   (call
     function: (identifier)
-    arguments: (arguments name: (identifier)))
+    arguments: (arguments
+      (default_argument
+        name: (identifier))))
 
   (call
     function: (identifier)
-    arguments: (arguments name: (string)))
+    arguments: (arguments
+      (default_argument
+        name: (string))))
 
   (call
     function: (identifier)
-    arguments: (arguments name: (dots)))
+    arguments: (arguments
+      (default_argument
+        name: (dots))))
 
   (call
     function: (identifier)
-    arguments: (arguments name: (identifier))))
+    arguments: (arguments
+      (default_argument
+        name: (identifier)))))
 
 ======
 Braces

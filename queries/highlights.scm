@@ -17,6 +17,7 @@
 (identifier) @variable
 
 (formal_parameters (identifier) @parameter)
+(formal_parameters (default_parameter (identifier) @parameter))
 
 ; Operators
 [
@@ -59,6 +60,8 @@
   (special)
 ] @operator
 
+(lambda_function "\\" @operator)
+
 [
  "("
  ")"
@@ -71,8 +74,10 @@
 (dollar "$" @operator)
 
 (subset2
-  "[[" @punctuation.bracket
-  "]]" @punctuation.bracket)
+ [
+  "[["
+  "]]"
+ ] @punctuation.bracket)
 
 [
  "in"
@@ -91,6 +96,7 @@
 [
   "if"
   "else"
+  "switch"
 ] @conditional
 
 [
@@ -107,11 +113,8 @@
 "function" @keyword.function
 
 (call function: (identifier) @function)
-(call arguments:
- (arguments
-  name: (identifier) @parameter ))
+(default_argument name: (identifier) @parameter)
 
-(lambda_function "\\" @operator)
 
 (namespace_get function: (identifier) @method)
 (namespace_get_internal function: (identifier) @method)

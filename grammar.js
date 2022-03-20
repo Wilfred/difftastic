@@ -103,9 +103,15 @@ module.exports = grammar({
       ')'
     ),
 
+    default_parameter: $ => seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $._expression)
+    ),
+
     _formal_parameter: $ => choice(
         $.identifier,
-        seq(choice($.identifier, $.string, $.dots), '=', $._expression),
+        $.default_parameter,
         $.dots
     ),
 
@@ -120,13 +126,16 @@ module.exports = grammar({
       ','
     )),
 
+    default_argument: $ => prec.right(seq(
+      field('name', choice($.identifier, $.string, $.dots)),
+      '=',
+      field('value', optional($._expression))
+    )),
+
     _argument: $ => prec.left(choice(
-      field('value', $._expression),
-      seq(
-        field('name', choice($.identifier, $.string, $.dots)),
-        '=',
-        field('value', optional($._expression))
-    ))),
+      $._expression,
+      $.default_argument
+    )),
 
     call: $ => prec(PREC.CALL, seq(
       field('function', $._expression),
