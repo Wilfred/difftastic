@@ -1,0 +1,673 @@
+===============
+local variable
+===============
+
+class A {
+  int b() {
+    int c = 5;
+  }
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature (function_signature
+         (type_identifier)
+         name: (identifier)
+         (formal_parameter_list))
+        )
+        (function_body (block
+          (local_variable_declaration (initialized_variable_definition
+          (type_identifier)
+              name: (identifier)
+              value: (decimal_integer_literal))))))))
+
+===============================
+single type import declaration
+===============================
+
+import 'package:dektor/catalog.dart';
+
+---
+
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
+
+===========================
+type_import_on_declaraction
+===========================
+
+import 'package:dektor/catalog.dart';
+
+---
+
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
+
+=================================
+single static import declaration
+=================================
+
+import 'package:dektor/catalog.dart';
+
+---
+
+(program (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))))
+
+===================================
+static import on demand declaration
+===================================
+
+import 'package:dektor/catalog.dart';
+
+---
+
+(program (import_or_export (library_import (import_specification  (configurable_uri (uri (string_literal)))))))
+
+=================
+class declaration
+=================
+
+class Point {
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+      (class_body)))
+
+=====================================================================
+class declaration involving public, private, abstract and superclass
+=====================================================================
+
+class Point {
+}
+
+class Point {
+}
+
+abstract class ColoredPoint extends Point {
+}
+
+---
+
+(program
+  (class_definition  (identifier) (class_body))
+  (class_definition  (identifier) (class_body))
+  (class_definition (identifier) (superclass (type_identifier)) (class_body)))
+
+==================================
+class declaration with implements
+==================================
+
+ class Dog implements ISpeak {
+}
+
+---
+
+(program
+  (class_definition
+     (identifier)
+     (interfaces (type_identifier)) (class_body)))
+
+============================
+class declaration with body
+============================
+
+class Point {
+  var x;
+  var s = 'g';
+
+  void bar() {
+    x = 2;
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (declaration
+        (inferred_type)
+        (initialized_identifier_list (initialized_identifier (identifier))))
+       (declaration
+        (inferred_type)
+        (initialized_identifier_list
+        (initialized_identifier
+                (identifier)
+                (string_literal))))
+      (method_signature (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list)))
+        (function_body
+        (block
+          (expression_statement
+            (assignment_expression (assignable_expression (identifier)) (decimal_integer_literal))))))))
+
+===================
+method declaration
+===================
+
+class Beyonce {
+  void calculateAnswer(double wingSpan, int numberOfEngines,
+                       double length, double grossTons) {
+      //do the calculation here
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))))
+        )
+        (function_body
+        (block (comment))))))
+
+========================
+constructor declaration
+========================
+
+class Point {
+  int x, y;
+  Point(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  Point.json() {
+    this(0, 0);
+  }
+  Point.json(this.x, this.y);
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (declaration
+        (type_identifier)
+        (initialized_identifier_list
+        (initialized_identifier (identifier))
+        (initialized_identifier (identifier))
+        )
+        )
+      (method_signature (constructor_signature
+        name: (identifier)
+        parameters: (formal_parameter_list
+          (formal_parameter
+             (type_identifier)
+            name: (identifier))
+          (formal_parameter
+             (type_identifier)
+            name: (identifier)))))
+        (function_body
+          (block (expression_statement (assignment_expression
+            left: (assignable_expression
+                    (this)
+                        (unconditional_assignable_selector (identifier))
+             )
+            right: (identifier))
+            )
+          (expression_statement (assignment_expression
+              left: (assignable_expression
+                      (this)
+                          (unconditional_assignable_selector (identifier))
+               )
+              right: (identifier))
+          )
+            ))
+      (method_signature (constructor_signature
+        name: (identifier)
+        name: (identifier)
+        parameters: (formal_parameter_list)))
+        (function_body
+            (block
+                (expression_statement
+                      (this)
+                      (selector
+                            (argument_part
+                                    (arguments
+                                        (argument (decimal_integer_literal))
+                                        (argument (decimal_integer_literal))
+                                    )
+                            )
+                      )
+
+                )
+            )
+         )
+      (declaration
+          (constructor_signature
+            name: (identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list
+                (formal_parameter (constructor_param (this) (identifier)))
+                (formal_parameter (constructor_param (this) (identifier)))
+            )
+          )
+      )
+    )
+  )
+)
+
+======================
+object instantiation
+======================
+
+class Point {
+  double Foo() {
+    new BufferedWriter();
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature (function_signature
+        (type_identifier)
+        (identifier)
+        (formal_parameter_list))
+        )
+        (function_body (block
+          (expression_statement
+            (new_expression
+              (type_identifier)
+              (arguments)))
+          )))))
+
+=====================
+variable declaration
+=====================
+
+class JayZ {
+  void Beyonce() {
+    int blue_ivy_carter;
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list)))
+        (function_body
+        (block
+          (local_variable_declaration (initialized_variable_definition
+             (type_identifier)
+              (identifier))))))))
+
+=================
+enum declaration
+=================
+
+enum HandSign {
+   SCISSOR, PAPER, STONE
+}
+
+---
+
+(program
+  (enum_declaration
+    name: (identifier)
+    body: (enum_body
+      (enum_constant name: (identifier))
+      (enum_constant name: (identifier))
+      (enum_constant name: (identifier)))))
+
+
+=================
+variable inferred type declaration
+=================
+var x = 0;
+
+---
+
+(program (inferred_type)
+  (initialized_identifier_list (initialized_identifier (identifier) (decimal_integer_literal))))
+
+
+=================
+top level annotated declaration
+=================
+
+@annotation
+final y = 0;
+
+---
+
+(program 
+  (marker_annotation (identifier)) 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
+
+
+=================
+static final top level declaration
+=================
+
+final y = 1.0;
+final double y1 = 1.0;
+const z = "100";
+const String z1 = "100";
+
+---
+
+(program 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (decimal_floating_point_literal))) 
+  (final_builtin)
+  (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (decimal_floating_point_literal))) 
+  (const_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (const_builtin)
+  (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
+
+
+=================
+identifier with dollar signs
+=================
+
+final $y$ = 0;
+
+---
+
+(program 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (decimal_integer_literal))))
+
+
+=================
+typedefs
+=================
+
+typedef CreateCallback = void Function(String);
+typedef void EndCallback(String endValue);
+typedef Future<String> Handler(String method, Map<String, String> parameters);
+typedef MyFunction<T> = T Function();
+typedef DismissMethod = Future<void> Function(WidgetTester tester, Finder finder, {@required AxisDirection gestureDirection});
+
+
+---
+
+(program 
+  (type_alias (type_identifier) 
+    (function_type 
+      (void_type) 
+      (parameter_type_list (normal_parameter_type (type_identifier))))) 
+  (type_alias 
+    (void_type) 
+    (type_identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (identifier))))
+  (type_alias
+    (type_identifier) (type_arguments (type_identifier)) 
+    (type_identifier) 
+    (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) 
+  (type_alias 
+    (type_identifier) (type_parameters (type_parameter (type_identifier))) 
+    (function_type (type_identifier) (parameter_type_list))) 
+  (type_alias 
+    (type_identifier) 
+    (function_type (type_identifier) (type_arguments (void_type)) 
+      (parameter_type_list (normal_parameter_type (typed_identifier (type_identifier) (identifier))) (normal_parameter_type (typed_identifier (type_identifier) (identifier))) 
+      (optional_parameter_types (named_parameter_types (typed_identifier (marker_annotation (identifier)) (type_identifier) (identifier))))))))
+
+=================
+script tag
+=================
+
+#! /usr/bin/env dshell
+
+import 'package:dshell/dshell.dart';
+
+---
+
+(program 
+  (script_tag) 
+  (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))))
+
+
+================================================================
+non final and final declarations
+================================================================
+
+List<String> animations = ['1', '2', '3', '4', 'Default'];
+final String assetFile = "assets/myasset.flr";
+class MyClass {
+  
+}
+
+---
+
+(program 
+  (type_identifier) (type_arguments (type_identifier)) 
+  (initialized_identifier_list (initialized_identifier (identifier) (list_literal (string_literal) (string_literal) (string_literal) (string_literal) (string_literal)))) 
+  (final_builtin)
+  (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (class_definition (identifier) (class_body)))
+
+==================================
+Nullable Function Parameter
+==================================
+
+void callback(Future<void> Function(String?) handler) {
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) 
+    (formal_parameter_list
+        (formal_parameter
+            (function_type
+                (type_identifier)
+                            (type_arguments (void_type))
+                            (parameter_type_list (normal_parameter_type (type_identifier)))) (identifier))))
+      (function_body (block)))
+
+==================================
+Type with Library Prefix
+==================================
+
+const my.MyType newMyType = my.MyType();
+
+---
+
+ (program
+    (const_builtin)
+    (type_identifier) (type_identifier)
+            (static_final_declaration_list
+                (static_final_declaration
+                        (identifier)
+                        (identifier) (selector
+                                        (unconditional_assignable_selector (identifier))
+                                     )
+                        (selector (argument_part (arguments)))
+                )
+            )
+ )
+
+==================================
+Type with Library Prefix Plus
+==================================
+
+const my.MyType newMyType;
+const my.MyType newMytype;
+
+---
+
+(program
+    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
+    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
+)
+
+==================================
+Type with Library Prefix Plus Final
+==================================
+
+final my.MyType newMyType = my.MyType();
+final my.MyType newMytype;
+
+if (blah) {
+    const my.myType newMyType = ggg;
+    const mytype = 2;
+}
+
+---
+
+(program
+     (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier) (identifier) (selector
+        (unconditional_assignable_selector (identifier))) (selector (argument_part (arguments)))))
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
+    (if_statement (parenthesized_expression (identifier))
+        (block
+            (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier) (identifier)))
+            (local_variable_declaration (initialized_variable_definition (const_builtin) (identifier) (decimal_integer_literal)))
+        )
+    )
+)
+
+
+==================================
+Null function argument
+==================================
+
+void _invoke(void callback()?, Zone? zone) {
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) 
+    (formal_parameter_list 
+      (formal_parameter (void_type) (identifier) (formal_parameter_list)) 
+      (formal_parameter (type_identifier) (identifier)))) 
+    (function_body (block)))
+
+
+==================================
+Get and set methods (not keyword)
+==================================
+
+// Interesting issue of conflict between dart grammar itself and actual value of elements?
+
+String get(String hello) => 'A string $hello';
+class MyClass {
+  void set(String name, Object value) {}
+}
+
+---
+
+(program
+    (comment)
+    (function_signature (type_identifier) (identifier) (formal_parameter_list (formal_parameter (type_identifier) (identifier))))
+    (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+
+    (class_definition (identifier)
+        (class_body
+            (method_signature
+                (function_signature (void_type) (identifier)
+                    (formal_parameter_list (formal_parameter (type_identifier) (identifier)) (formal_parameter (type_identifier) (identifier)))))
+            (function_body (block)))))
+
+
+==================================
+Get and set methods (functional?)
+==================================
+
+String get myGetterName => 'A string hello';
+class MyClass {
+  void set myValue(String name, Object value) {}
+}
+
+---
+    (program
+        (getter_signature (type_identifier) (identifier))
+        (function_body (string_literal))
+
+        (class_definition (identifier)
+            (class_body
+                (method_signature
+                    (setter_signature (void_type) (identifier)
+                        (formal_parameter_list (formal_parameter (type_identifier) (identifier))
+                            (formal_parameter (type_identifier) (identifier)))))
+                (function_body (block)))))
+
+======================================
+Get and set identifiers
+======================================
+class Tree {
+  Set toSet() {
+    Set set = Set();
+    set._count = _count;
+    set._root = _root;
+    return set;
+  }
+}
+
+---
+
+
+==================================
+void types
+==================================
+
+class MyClass {
+  void mySet(String name, Object value) {}
+}
+
+---
+
+    (program
+        (class_definition (identifier)
+            (class_body
+                (method_signature
+                    (function_signature (void_type) (identifier)
+                        (formal_parameter_list (formal_parameter (type_identifier) (identifier))
+                            (formal_parameter (type_identifier) (identifier)))))
+                (function_body (block)))))
+
+
+==================================
+external factories
+==================================
+
+class LinkedHashMap {
+  external factory LinkedHashMap();
+
+
+  external factory LinkedHashMap.identity();
+}
+
+---
+
+(program 
+  (class_definition (identifier) 
+    (class_body 
+      (declaration (factory_constructor_signature (identifier) (formal_parameter_list))) 
+      (declaration (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))))))

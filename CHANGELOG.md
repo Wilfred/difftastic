@@ -1,5 +1,9 @@
 ## 0.24 (unreleased)
 
+### Parsing
+
+Added support for Dart.
+
 ## 0.23.1 (released 19th March 2022)
 
 Fixed crash where the 'shrink unchanged' logic would not set the
