@@ -194,9 +194,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Dart => {
             let language = unsafe { tree_sitter_dart() };
             TreeSitterConfig {
-                name: "CSS",
+                name: "Dart",
                 language,
-                atom_nodes: HashSet::new(),
+                atom_nodes: (vec!["string_literal"]).into_iter().collect(),
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
                 highlight_query: ts::Query::new(
                     language,

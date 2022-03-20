@@ -183,6 +183,7 @@ fn from_extension(extension: &OsStr, src: &str) -> Option<Language> {
         "lisp" | "lsp" | "asd" => Some(CommonLisp),
         "cs" => Some(CSharp),
         "css" => Some(Css),
+        "dart" => Some(Dart),
         "el" => Some(EmacsLisp),
         "ex" | "exs" => Some(Elixir),
         "go" => Some(Go),
