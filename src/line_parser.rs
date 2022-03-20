@@ -257,7 +257,7 @@ mod tests {
         let positions = change_positions("foo", "foo");
 
         assert_eq!(positions.len(), 1);
-        assert!(!positions[0].kind.is_change());
+        assert!(!positions[0].kind.is_novel());
     }
 
     #[test]
@@ -266,7 +266,7 @@ mod tests {
         // be treated as a change. We're doing a line-based diff and
         // the lines are different.
         let positions = change_positions("foo", " foo");
-        assert!(positions[0].kind.is_change());
+        assert!(positions[0].kind.is_novel());
     }
 
     #[test]
@@ -274,7 +274,7 @@ mod tests {
         let positions = change_positions("foo\n", "foo\n");
 
         assert_eq!(positions.len(), 1);
-        assert!(!positions[0].kind.is_change());
+        assert!(!positions[0].kind.is_novel());
     }
 
     #[test]
@@ -282,7 +282,7 @@ mod tests {
         let positions = change_positions("foo\n", "");
 
         assert_eq!(positions.len(), 1);
-        assert!(positions[0].kind.is_change());
+        assert!(positions[0].kind.is_novel());
     }
 
     #[test]
@@ -290,6 +290,6 @@ mod tests {
         let positions = change_positions("foo", "");
 
         assert_eq!(positions.len(), 1);
-        assert!(positions[0].kind.is_change());
+        assert!(positions[0].kind.is_novel());
     }
 }

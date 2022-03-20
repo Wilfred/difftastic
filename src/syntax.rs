@@ -571,8 +571,7 @@ pub enum MatchKind {
 }
 
 impl MatchKind {
-    // TODO: is_novel would be a better name here.
-    pub fn is_change(&self) -> bool {
+    pub fn is_novel(&self) -> bool {
         matches!(
             self,
             MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }

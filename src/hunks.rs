@@ -467,7 +467,7 @@ fn sorted_novel_positions(
     loop {
         match (lhs_iter.peek(), rhs_iter.peek()) {
             (Some(lhs_mp), Some(rhs_mp))
-                if !lhs_mp.kind.is_change() && !rhs_mp.kind.is_change() =>
+                if !lhs_mp.kind.is_novel() && !rhs_mp.kind.is_novel() =>
             {
                 res.append(&mut novel_section_in_order(
                     &lhs_section,
@@ -485,11 +485,11 @@ fn sorted_novel_positions(
                 lhs_iter.next();
                 rhs_iter.next();
             }
-            (Some(lhs_mp), _) if lhs_mp.kind.is_change() => {
+            (Some(lhs_mp), _) if lhs_mp.kind.is_novel() => {
                 lhs_section.push(lhs_mp);
                 lhs_iter.next();
             }
-            (_, Some(rhs_mp)) if rhs_mp.kind.is_change() => {
+            (_, Some(rhs_mp)) if rhs_mp.kind.is_novel() => {
                 rhs_section.push(rhs_mp);
                 rhs_iter.next();
             }
