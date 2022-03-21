@@ -22,13 +22,97 @@ pub fn all_matched_lines_filled(
     lhs_lines: &[&str],
     rhs_lines: &[&str],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let matched_lines = all_matched_lines(lhs_mps, rhs_mps);
+    let matched_lines = add_ends(&all_matched_lines(lhs_mps, rhs_mps), lhs_lines, rhs_lines);
 
     compact_gaps(&ensure_contiguous(&match_preceding_blanks(
         &matched_lines,
         lhs_lines,
         rhs_lines,
     )))
+}
+
+/// Extend `matched_lines` to include the leading and trailing lines
+/// in the file.
+///
+/// If the leading or trailing lines are blank, we won't have any
+/// MatchedPos values corresponding with those lines.
+fn add_ends(
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut lhs_min = None;
+    let mut rhs_min = None;
+    for (lhs_line, rhs_line) in matched_lines {
+        if lhs_min.is_none() && lhs_line.is_some() {
+            lhs_min = *lhs_line;
+        }
+        if rhs_min.is_none() && rhs_line.is_some() {
+            rhs_min = *rhs_line;
+        }
+
+        if lhs_min.is_some() && rhs_min.is_some() {
+            break;
+        }
+    }
+
+    let mut lhs_max = None;
+    let mut rhs_max = None;
+    for (lhs_line, rhs_line) in matched_lines.iter().rev() {
+        if lhs_max.is_none() && lhs_line.is_some() {
+            lhs_max = *lhs_line;
+        }
+        if rhs_max.is_none() && rhs_line.is_some() {
+            rhs_max = *rhs_line;
+        }
+
+        if lhs_max.is_some() && rhs_max.is_some() {
+            break;
+        }
+    }
+
+    let mut res = vec![];
+
+    if let (Some(lhs_min), Some(rhs_min)) = (lhs_min, rhs_min) {
+        let mut lhs_line: LineNumber = 0.into();
+        let mut rhs_line: LineNumber = 0.into();
+        while lhs_line < lhs_min && rhs_line < rhs_min {
+            res.push((Some(lhs_line), Some(rhs_line)));
+            lhs_line = (lhs_line.0 + 1).into();
+            rhs_line = (rhs_line.0 + 1).into();
+        }
+        while lhs_line < lhs_min {
+            res.push((Some(lhs_line), None));
+            lhs_line = (lhs_line.0 + 1).into();
+        }
+        while rhs_line < rhs_min {
+            res.push((None, Some(rhs_line)));
+            rhs_line = (rhs_line.0 + 1).into();
+        }
+    }
+
+    res.extend_from_slice(matched_lines);
+
+    if let (Some(lhs_max), Some(rhs_max)) = (lhs_max, rhs_max) {
+        let mut lhs_line: LineNumber = (lhs_max.0 + 1).into();
+        let mut rhs_line: LineNumber = (rhs_max.0 + 1).into();
+
+        while lhs_line.0 < lhs_lines.len() && rhs_line.0 < rhs_lines.len() {
+            res.push((Some(lhs_line), Some(rhs_line)));
+            lhs_line = (lhs_line.0 + 1).into();
+            rhs_line = (rhs_line.0 + 1).into();
+        }
+        while lhs_line.0 < lhs_lines.len() {
+            res.push((Some(lhs_line), None));
+            lhs_line = (lhs_line.0 + 1).into();
+        }
+        while rhs_line.0 < rhs_lines.len() {
+            res.push((None, Some(rhs_line)));
+            rhs_line = (rhs_line.0 + 1).into();
+        }
+    }
+
+    res
 }
 
 fn all_matched_lines(
@@ -905,6 +989,45 @@ mod tests {
             vec![
                 (Some(1.into()), Some(2.into())),
                 (Some(2.into()), Some(3.into()))
+            ]
+        );
+    }
+
+    #[test]
+    fn test_matched_lines_blank_at_ends() {
+        let lhs_lines = vec!["", "foo", ""];
+        let rhs_lines = vec!["", "foo", ""];
+
+        let matched_pos = SingleLineSpan {
+            line: 1.into(),
+            start_col: 2,
+            end_col: 3,
+        };
+        let lhs_mps = [MatchedPos {
+            kind: MatchKind::UnchangedToken {
+                highlight: TokenKind::Delimiter,
+                self_pos: vec![matched_pos],
+                opposite_pos: vec![matched_pos],
+            },
+            pos: matched_pos,
+        }];
+        let rhs_mps = [MatchedPos {
+            kind: MatchKind::UnchangedToken {
+                highlight: TokenKind::Delimiter,
+                self_pos: vec![matched_pos],
+                opposite_pos: vec![matched_pos],
+            },
+            pos: matched_pos,
+        }];
+
+        let res = all_matched_lines_filled(&lhs_mps, &rhs_mps, &lhs_lines, &rhs_lines);
+
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+                (Some(2.into()), Some(2.into()))
             ]
         );
     }

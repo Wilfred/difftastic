@@ -130,12 +130,42 @@ fn diff_slice_by_hash<'a, T: Eq + Hash>(
         .collect::<Vec<_>>()
 }
 
+fn split_unchanged_ends<'a>(
+    lhs_lines: &[&'a str],
+    rhs_lines: &[&'a str],
+) -> (Vec<&'a str>, Vec<&'a str>) {
+    let mut lhs_lines = lhs_lines;
+    let mut rhs_lines = rhs_lines;
+
+    while let (Some(lhs_line), Some(rhs_line)) = (lhs_lines.first(), rhs_lines.first()) {
+        if lhs_line == rhs_line {
+            lhs_lines = &lhs_lines[1..];
+            rhs_lines = &rhs_lines[1..];
+        } else {
+            break;
+        }
+    }
+
+    while let (Some(lhs_line), Some(rhs_line)) = (lhs_lines.last(), rhs_lines.last()) {
+        if lhs_line == rhs_line {
+            lhs_lines = &lhs_lines[..lhs_lines.len() - 1];
+            rhs_lines = &rhs_lines[..rhs_lines.len() - 1];
+        } else {
+            break;
+        }
+    }
+
+    (Vec::from(lhs_lines), Vec::from(rhs_lines))
+}
+
 fn changed_parts<'a>(
     src: &'a str,
     opposite_src: &'a str,
 ) -> Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> {
     let src_lines = split_lines_keep_newline(src);
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
+
+    let (src_lines, opposite_src_lines) = split_unchanged_ends(&src_lines, &opposite_src_lines);
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
     for diff_res in diff_slice_by_hash(&src_lines, &opposite_src_lines) {
