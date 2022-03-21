@@ -6,6 +6,9 @@ Fixed an issue where hunks would be missing lines. This occurred in
 certain circumstances when a line contained both changed and unchanged
 parts.
 
+Fixed an issue where lines containing only whitespace would be
+highlighted in purple.
+
 ### Parsing
 
 Added support for Dart.
