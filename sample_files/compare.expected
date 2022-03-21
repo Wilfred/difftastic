@@ -1,5 +1,5 @@
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
-ffb31b7f11712d0e28a7f874bb7756c6  -
+8cdee5b915c20cb561d53148be0d1e2c  -
 
 sample_files/change_outer_before.el sample_files/change_outer_after.el
 1e144818ad54091b05e58e2c617add8f  -
@@ -14,7 +14,7 @@ sample_files/context_before.rs sample_files/context_after.rs
 5f8518317cbaa2920c9d8c86d060c84f  -
 
 sample_files/contiguous_before.js sample_files/contiguous_after.js
-b5e718eb8328f8df8aff0eddf4e46d1a  -
+2efffebe782b66dbf458375d763bf88d  -
 
 sample_files/css_before.css sample_files/css_after.css
 a110f9a9ab8586f2f307df3cc9997ead  -
@@ -74,7 +74,7 @@ sample_files/nesting_before.el sample_files/nesting_after.el
 c9b74f137aada068b0a317c09966e705  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
-10f583899eee701776e2b25d96e78b56  -
+cbab85e13fa5c630a2425870931e183d  -
 
 sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
 7b7f8b78e7b9544473b1a5c55abc3372  -
