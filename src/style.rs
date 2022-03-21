@@ -83,7 +83,7 @@ pub fn split_and_apply(
     use_color: bool,
     styles: &[(SingleLineSpan, Style)],
 ) -> Vec<String> {
-    if styles.is_empty() && !line.is_empty() {
+    if styles.is_empty() && !line.trim().is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
         return split_string_by_codepoint(line, max_len)
             .into_iter()
