@@ -466,9 +466,7 @@ fn sorted_novel_positions(
     let mut rhs_iter = rhs_mps.iter().peekable();
     loop {
         match (lhs_iter.peek(), rhs_iter.peek()) {
-            (Some(lhs_mp), Some(rhs_mp))
-                if !lhs_mp.kind.is_novel() && !rhs_mp.kind.is_novel() =>
-            {
+            (Some(lhs_mp), Some(rhs_mp)) if !lhs_mp.kind.is_novel() && !rhs_mp.kind.is_novel() => {
                 res.append(&mut novel_section_in_order(
                     &lhs_section,
                     &rhs_section,
