@@ -20,6 +20,9 @@ Added support for Dart.
 
 Difftastic will now warn if both arguments point to the same file.
 
+When diffing directories, diff results are printed incrementally
+rather than waiting for the results of all files before printing.
+
 ## 0.23.1 (released 19th March 2022)
 
 Fixed crash where the 'shrink unchanged' logic would not set the
