@@ -332,39 +332,38 @@ fn diff_file_content(
 }
 
 /// Given two directories that contain the files, compare them
-/// pairwise.
+/// pairwise. Returns an iterator, so we can print results
+/// incrementally.
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
-fn diff_directories(
-    lhs_dir: &Path,
-    rhs_dir: &Path,
+fn diff_directories<'a>(
+    lhs_dir: &'a Path,
+    rhs_dir: &'a Path,
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
-) -> Vec<DiffResult> {
-    let mut res = vec![];
-    for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
-        let lhs_path = entry.path();
-        if lhs_path.is_dir() {
-            continue;
-        }
+) -> impl Iterator<Item = DiffResult> + 'a {
+    WalkDir::new(lhs_dir)
+        .into_iter()
+        .filter_map(Result::ok)
+        .map(|entry| entry.into_path())
+        .filter(|lhs_path| !lhs_path.is_dir())
+        .map(move |lhs_path| {
+            info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
 
-        info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
+            let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
+            let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
-        let rhs_path = Path::new(rhs_dir).join(rel_path);
-
-        res.push(diff_file(
-            &rel_path.to_string_lossy(),
-            lhs_path,
-            &rhs_path,
-            missing_as_empty,
-            node_limit,
-            byte_limit,
-        ));
-    }
-    res
+            diff_file(
+                &rel_path.to_string_lossy(),
+                &lhs_path,
+                &rhs_path,
+                missing_as_empty,
+                node_limit,
+                byte_limit,
+            )
+        })
 }
 
 // TODO: factor out a DiffOptions struct.
