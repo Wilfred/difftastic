@@ -37,6 +37,7 @@
   "protocol"
   "extension"
   "indirect"
+  "some"
 ] @keyword
 
 [
