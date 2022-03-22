@@ -845,11 +845,12 @@ module.exports = grammar({
     interpreted_string_literal: $ => seq(
       '"',
       repeat(choice(
-        token.immediate(prec(1, /[^"\n\\]+/)),
+        $._interpreted_string_literal_basic_content,
         $.escape_sequence
       )),
       '"'
     ),
+    _interpreted_string_literal_basic_content: $ => token.immediate(prec(1, /[^"\n\\]+/)),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',
