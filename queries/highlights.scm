@@ -3,7 +3,6 @@
 
 ; Identifiers
 (attribute) @variable
-(simple_identifier) @variable
 (type_identifier) @type
 (self_expression) @variable.builtin
 
