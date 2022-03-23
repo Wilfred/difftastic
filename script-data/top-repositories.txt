@@ -19,7 +19,7 @@ shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
 SnapKit SnapKit/SnapKit 5.0.1
 SwiftLint realm/SwiftLint 0.46.4 0 2
 SwiftLint realm/SwiftLint 0.46.4 1 2
-ClashX yichengchen/clashX 1.91.0
+ClashX yichengchen/clashX 1.91.1
 Carthage Carthage/Carthage 0.38.0
 Rectangle rxhanson/Rectangle v0.53
 PromiseKit mxcl/PromiseKit 6.17.0
@@ -39,5 +39,5 @@ MessageKit MessageKit/MessageKit 3.7.0
 KeychainAccess kishikawakatsumi/KeychainAccess v4.2.2
 Nuke kean/Nuke 10.7.1
 Swinject Swinject/Swinject 2.8.1
-GRDB groue/GRDB.swift v5.21.0 0 2
-GRDB groue/GRDB.swift v5.21.0 1 2
+GRDB groue/GRDB.swift v5.22.0 0 2
+GRDB groue/GRDB.swift v5.22.0 1 2
