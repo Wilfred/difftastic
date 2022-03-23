@@ -1,5 +1,11 @@
 ## 0.24 (unreleased)
 
+### Diffing
+
+Reduced the default value of DFT_NODE_LIMIT from 100,000 to
+30,000. This fixes cases where files near the limit would use too much
+memory and not terminate.
+
 ### Display
 
 Fixed an issue where hunks would be missing lines. This occurred in

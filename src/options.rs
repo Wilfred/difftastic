@@ -6,7 +6,7 @@ use const_format::formatcp;
 
 use crate::style::BackgroundColor;
 
-pub const DEFAULT_NODE_LIMIT: u32 = 100_000;
+pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");

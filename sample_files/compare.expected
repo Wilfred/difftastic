@@ -62,7 +62,7 @@ sample_files/load_before.js sample_files/load_after.js
 c5a352313dfb4ae1818190f144c4874b  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
-25118f4e0b2d5be687abed4ff3106d3d  -
+4c0613c6038eaea73e10a91e7a86e916  -
 
 sample_files/multibyte_before.py sample_files/multibyte_after.py
 8a5e31775d5e788e9158bd4a36e03254  -
