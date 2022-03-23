@@ -1,10 +1,10 @@
 [package]
 name = "tree-sitter-devicetree"
 description = "devicetree grammar for the tree-sitter parsing library"
-version = "0.0.1"
+version = "0.4.0"
 keywords = ["incremental", "parsing", "devicetree"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-javascript"
+repository = "https://github.com/joelspadin/tree-sitter-devicetree"
 edition = "2018"
 license = "MIT"
 
@@ -20,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.17"
+tree-sitter = ">= 0.19, < 0.21"
 
 [build-dependencies]
 cc = "1.0"
