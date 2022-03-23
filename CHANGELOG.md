@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.0
+
+-   Updated to tree-sitter v0.20.6
+
 ## v0.4.0
 
 -   Updated to tree-sitter v0.19.4
