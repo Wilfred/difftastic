@@ -2,6 +2,7 @@
 
 (defn example
   [x]
+  "Does stuff."
   (-> {:more (inc x)
        :less (dec x)}
       (assoc :twice (+ x x))))
