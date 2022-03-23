@@ -5,7 +5,7 @@ sample_files/change_outer_before.el sample_files/change_outer_after.el
 1e144818ad54091b05e58e2c617add8f  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
-8316bcd959ce706ac07011f6dc31c93a  -
+792e31e6c057b10d4a2e27932c20c33b  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
 d899ce2b86f03851fa02823a1ff9aa3f  -

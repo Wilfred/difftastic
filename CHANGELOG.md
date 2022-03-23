@@ -12,6 +12,8 @@ would be excluded from context.
 Fixed an issue where lines containing only whitespace would be
 highlighted in purple.
 
+Improved Clojure syntax highlighting.
+
 ### Parsing
 
 Added support for Dart.
