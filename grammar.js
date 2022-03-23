@@ -214,7 +214,7 @@ module.exports = grammar({
       field('name', $._field_identifier),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
-      field('body', optional($.block))
+      field('body', $.block)
     )),
 
     type_parameter_list: $ => seq(
