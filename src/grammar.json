@@ -4389,15 +4389,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\n\\\\]+"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_interpreted_string_literal_basic_content"
               },
               {
                 "type": "SYMBOL",
@@ -4411,6 +4404,17 @@
           "value": "\""
         }
       ]
+    },
+    "_interpreted_string_literal_basic_content": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\"\\n\\\\]+"
+        }
+      }
     },
     "escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
