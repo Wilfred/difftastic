@@ -101,6 +101,7 @@ for var value in values where value.isExcellent() {
     (integer_literal)
     (simple_identifier))
   (for_statement
+    (binding_pattern_kind)
     (non_binding_pattern
       (simple_identifier))
     (simple_identifier)
@@ -137,6 +138,7 @@ outerLoop: for outerObject in dataArray {
 
 (source_file
   (for_statement
+    (binding_pattern_kind)
     (non_binding_pattern
       (non_binding_pattern
         (simple_identifier))
@@ -144,6 +146,7 @@ outerLoop: for outerObject in dataArray {
         (type_identifier)))
     (simple_identifier))
   (for_statement
+    (binding_pattern_kind)
     (non_binding_pattern
       (non_binding_pattern
         (simple_identifier))
@@ -287,6 +290,7 @@ case let .isExecutable(path?):
     (simple_identifier)
     (switch_entry
       (switch_pattern
+        (binding_pattern_kind)
         (non_binding_pattern
           (simple_identifier)
           (wildcard_pattern)
@@ -317,6 +321,7 @@ case let .isExecutable(path?):
     (switch_entry
       (switch_pattern
         (simple_identifier)
+        (binding_pattern_kind)
         (non_binding_pattern
           (simple_identifier)))
       (statements
@@ -327,6 +332,7 @@ case let .isExecutable(path?):
               (simple_identifier))))))
     (switch_entry
       (switch_pattern
+        (binding_pattern_kind)
         (non_binding_pattern
           (simple_identifier)
           (simple_identifier)))
@@ -397,6 +403,7 @@ do {
       (catch_keyword)
       (binding_pattern
         (binding_pattern
+          (binding_pattern_kind)
           (non_binding_pattern
             (simple_identifier)))
         (user_type
@@ -411,6 +418,7 @@ do {
       (catch_keyword)
       (binding_pattern
         (binding_pattern
+          (binding_pattern_kind)
           (non_binding_pattern
             (simple_identifier)))
         (user_type
@@ -426,6 +434,7 @@ do {
     (catch_block
       (catch_keyword)
       (binding_pattern
+        (binding_pattern_kind)
         (non_binding_pattern
           (user_type
             (type_identifier))
@@ -438,6 +447,7 @@ do {
           (type_identifier))
         (simple_identifier)
         (simple_identifier)
+        (binding_pattern_kind)
         (non_binding_pattern
           (simple_identifier))))
     (catch_block
@@ -724,6 +734,7 @@ guard case justIdentifier = bound else { }
     (binding_pattern
       (simple_identifier)
       (simple_identifier)
+      (binding_pattern_kind)
       (non_binding_pattern
         (simple_identifier)))
     (call_expression
@@ -783,6 +794,7 @@ guard case let size: Int = variable.size else {
 (source_file
   (guard_statement
     (binding_pattern
+      (binding_pattern_kind)
       (non_binding_pattern
         (simple_identifier)))
     (type_annotation

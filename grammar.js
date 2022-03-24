@@ -1629,6 +1629,7 @@ module.exports = grammar({
         optional($.type_annotation)
       ),
     wildcard_pattern: ($) => "_",
+    binding_pattern_kind: ($) => choice("var", "let"),
     value_binding_pattern: ($) =>
       prec.left(
         choice(
@@ -1785,8 +1786,8 @@ function generate_pattern_matching_rule(
     generate_type_casting_pattern($, allows_binding),
   ];
   var binding_pattern_prefix = allows_case_keyword
-    ? seq(optional("case"), choice("var", "let"))
-    : choice("var", "let");
+    ? seq(optional("case"), $.binding_pattern_kind)
+    : $.binding_pattern_kind;
   var binding_pattern_if_allowed = allows_binding
     ? [
         seq(
