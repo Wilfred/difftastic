@@ -13,6 +13,10 @@
           {
             "type": "SYMBOL",
             "name": "_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression_seq"
           }
         ]
       }
@@ -5733,6 +5737,9 @@
     ],
     [
       "case_subjects"
+    ],
+    [
+      "source_file"
     ]
   ],
   "precedences": [],
