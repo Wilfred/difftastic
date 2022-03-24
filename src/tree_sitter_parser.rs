@@ -200,7 +200,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Dart",
                 language,
-                atom_nodes: (vec!["string_literal"]).into_iter().collect(),
+                atom_nodes: (vec!["string_literal", "script_tag"]).into_iter().collect(),
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
                 highlight_query: ts::Query::new(
                     language,
