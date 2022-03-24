@@ -18,6 +18,9 @@ would be excluded from context.
 Fixed an issue where lines containing only whitespace would be
 highlighted in purple.
 
+Fixed an issue with changed multiline strings where blank lines were
+not highlighted.
+
 Improved Clojure syntax highlighting.
 
 ### Parsing
