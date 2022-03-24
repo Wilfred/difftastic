@@ -1,11 +1,11 @@
-=====================
+================================================================================
 Imports
-=====================
+================================================================================
 
 import a
 import a/b
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import
@@ -13,18 +13,16 @@ import a/b
   (import
     module: (module)))
 
-====================
+================================================================================
 Unqualified imports
-====================
+================================================================================
 
 import a.{b}
 import a/b.{c, d}
 import a/b.{c as d, e}
 import a/b.{c, D as E}
 
-import a/.{b, d}
-
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import
@@ -54,26 +52,18 @@ import a/.{b, d}
         name: (identifier))
       (unqualified_import
         name: (type_identifier)
-        alias: (type_identifier))))
-  (import
-    module: (module))
-  (ERROR
-    (UNEXPECTED ',')
-    (UNEXPECTED 'd')))
+        alias: (type_identifier)))))
 
-================
+================================================================================
 Aliased imports
-================
+================================================================================
 
 import a/b.{c as d} as e
 import animal/cat as kitty
 import animal.{Cat as Kitty} as a
 import animal.{}
 
-import animal/cat as Kitty
-import animal.{Cat as kitty}
-
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import
@@ -95,14 +85,4 @@ import animal.{Cat as kitty}
     alias: (identifier))
   (import
     module: (module)
-    imports: (unqualified_imports))
-  (import
-    module: (module))
-  (ERROR)
-  (import
-    module: (module)
-    imports: (unqualified_imports
-      (unqualified_import
-        name: (type_identifier))
-      (ERROR
-        (UNEXPECTED 'k')))))
+    imports: (unqualified_imports)))
