@@ -1,0 +1,6 @@
+let x =
+  "
+foo
+
+novel
+"

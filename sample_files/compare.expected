@@ -67,6 +67,9 @@ sample_files/modules_before.ml sample_files/modules_after.ml
 sample_files/multibyte_before.py sample_files/multibyte_after.py
 8a5e31775d5e788e9158bd4a36e03254  -
 
+sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
+368850e1e2c9ba6c8bf0b025839769c5  -
+
 sample_files/nest_before.rs sample_files/nest_after.rs
 c36f2f545abee17589e2c18693ad5793  -
 

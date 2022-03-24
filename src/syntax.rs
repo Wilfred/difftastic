@@ -737,8 +737,8 @@ impl MatchedPos {
             // Don't create a MatchedPos for empty positions. This
             // occurs when we have lists with empty open/close
             // delimiter positions, such as the top-level list of syntax items.
-            if line_pos.start_col == line_pos.end_col {
-                continue;
+            if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
+                break;
             }
 
             res.push(Self {
