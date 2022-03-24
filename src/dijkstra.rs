@@ -104,6 +104,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     route
 }
 
+/// What is the total number of AST nodes?
 fn node_count(root: Option<&Syntax>) -> u32 {
     let mut node = root;
     let mut count = 0;
@@ -122,11 +123,25 @@ fn node_count(root: Option<&Syntax>) -> u32 {
     count
 }
 
+/// How many top-level AST nodes do we have?
+fn tree_count(root: Option<&Syntax>) -> u32 {
+    let mut node = root;
+    let mut count = 0;
+    while let Some(current_node) = node {
+        count += 1;
+        node = current_node.next_sibling();
+    }
+
+    count
+}
+
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
     info!(
-        "LHS nodes: {}, RHS nodes: {}",
+        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         node_count(lhs_syntax),
-        node_count(rhs_syntax)
+        tree_count(lhs_syntax),
+        node_count(rhs_syntax),
+        tree_count(rhs_syntax),
     );
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
