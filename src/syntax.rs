@@ -48,8 +48,10 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
+    /// The previous node with the same parent as this one.
+    previous_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The next node with the same parent as this one.
-    pub next_sibling: Cell<Option<&'a Syntax<'a>>>,
+    next_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The syntax node that occurs before this one, in a depth-first
     /// tree traversal.
     pub prev: Cell<Option<&'a Syntax<'a>>>,
@@ -76,6 +78,7 @@ pub struct SyntaxInfo<'a> {
 impl<'a> SyntaxInfo<'a> {
     pub fn new() -> Self {
         Self {
+            previous_sibling: Cell::new(None),
             next_sibling: Cell::new(None),
             prev: Cell::new(None),
             parent: Cell::new(None),
@@ -424,6 +427,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
 }
 
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
+    set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
     set_prev_is_contiguous(roots);
@@ -442,6 +446,21 @@ fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
             .expect("Should not have more than u32::MAX nodes");
         if let List { children, .. } = node {
             set_unique_id(children, next_id);
+        }
+    }
+}
+
+fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
+    for (i, node) in nodes.iter().enumerate() {
+        if i == 0 {
+            continue;
+        }
+
+        let sibling = nodes.get(i - 1).copied();
+        node.info().previous_sibling.set(sibling);
+
+        if let List { children, .. } = node {
+            set_prev_sibling(children);
         }
     }
 }
