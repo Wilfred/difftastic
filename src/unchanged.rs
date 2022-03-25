@@ -65,6 +65,46 @@ fn split_unchanged<'a>(
     res
 }
 
+fn split_unchanged_singleton_list<'a>(
+    lhs_nodes: &[&'a Syntax<'a>],
+    rhs_nodes: &[&'a Syntax<'a>],
+    size_threshold: u32,
+) -> Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
+    let mut res: Vec<(ChangeState, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> = vec![];
+    match as_singleton_list_children(lhs_nodes, rhs_nodes) {
+        Some((lhs_children, rhs_children)) => {
+            let mut split_children =
+                split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
+            if split_children.len() > 1 {
+                res.push((
+                    ChangeState::UnchangedDelimiter,
+                    lhs_nodes.to_vec(),
+                    rhs_nodes.to_vec(),
+                ));
+                // Managed to further split.
+                res.append(&mut split_children);
+            } else {
+                // Did not split further. Keep the outer list, so we can use
+                // its delimiter when doing the tree diff.
+                res.push((
+                    ChangeState::PossiblyChanged,
+                    lhs_nodes.to_vec(),
+                    rhs_nodes.to_vec(),
+                ));
+            }
+        }
+        None => {
+            res.push((
+                ChangeState::PossiblyChanged,
+                lhs_nodes.to_vec(),
+                rhs_nodes.to_vec(),
+            ));
+        }
+    }
+
+    res
+}
+
 /// Mark top-level nodes as unchanged if they have exactly the same
 /// content on both sides.
 fn split_unchanged_toplevel<'a>(
@@ -111,40 +151,11 @@ fn split_unchanged_toplevel<'a>(
                     section_rhs_nodes.push(rhs_node);
                 } else {
                     if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-                        match as_singleton_list_children(&section_lhs_nodes, &section_rhs_nodes) {
-                            Some((lhs_children, rhs_children)) => {
-                                let mut split_children = split_unchanged_toplevel(
-                                    &lhs_children,
-                                    &rhs_children,
-                                    size_threshold,
-                                );
-                                if split_children.len() > 1 {
-                                    res.push((
-                                        ChangeState::UnchangedDelimiter,
-                                        section_lhs_nodes,
-                                        section_rhs_nodes,
-                                    ));
-                                    // Managed to further split.
-                                    res.append(&mut split_children);
-                                } else {
-                                    // Did not split further. Keep the outer list, so we can use
-                                    // its delimiter when doing the tree diff.
-                                    res.push((
-                                        ChangeState::PossiblyChanged,
-                                        section_lhs_nodes,
-                                        section_rhs_nodes,
-                                    ));
-                                }
-                            }
-                            None => {
-                                res.push((
-                                    ChangeState::PossiblyChanged,
-                                    section_lhs_nodes,
-                                    section_rhs_nodes,
-                                ));
-                            }
-                        }
-
+                        res.extend(split_unchanged_singleton_list(
+                            &section_lhs_nodes,
+                            &section_rhs_nodes,
+                            size_threshold,
+                        ));
                         section_lhs_nodes = vec![];
                         section_rhs_nodes = vec![];
                     }
@@ -162,37 +173,11 @@ fn split_unchanged_toplevel<'a>(
     }
 
     if !section_lhs_nodes.is_empty() || !section_rhs_nodes.is_empty() {
-        // TODO: there's a lot of duplication with the loop above.
-        match as_singleton_list_children(&section_lhs_nodes, &section_rhs_nodes) {
-            Some((lhs_children, rhs_children)) => {
-                let mut split_children =
-                    split_unchanged_toplevel(&lhs_children, &rhs_children, size_threshold);
-                if split_children.len() > 1 {
-                    res.push((
-                        ChangeState::UnchangedDelimiter,
-                        section_lhs_nodes,
-                        section_rhs_nodes,
-                    ));
-                    // Managed to further split.
-                    res.append(&mut split_children);
-                } else {
-                    // Did not split further. Keep the outer list, so we can use
-                    // its delimiter when doing the tree diff.
-                    res.push((
-                        ChangeState::PossiblyChanged,
-                        section_lhs_nodes,
-                        section_rhs_nodes,
-                    ));
-                }
-            }
-            None => {
-                res.push((
-                    ChangeState::PossiblyChanged,
-                    section_lhs_nodes,
-                    section_rhs_nodes,
-                ));
-            }
-        }
+        res.extend(split_unchanged_singleton_list(
+            &section_lhs_nodes,
+            &section_rhs_nodes,
+            size_threshold,
+        ));
     }
 
     res
