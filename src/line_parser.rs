@@ -273,7 +273,6 @@ mod tests {
     fn test_no_changes_trailing_newlines() {
         let positions = change_positions("foo\n", "foo\n");
 
-        dbg!(&positions);
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_novel());
     }
