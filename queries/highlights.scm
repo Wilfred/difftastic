@@ -28,6 +28,7 @@
 (type_parameter (type_identifier) @parameter)
 (inheritance_constraint (identifier (simple_identifier) @parameter))
 (equality_constraint (identifier (simple_identifier) @parameter))
+(non_binding_pattern bound_identifier: (simple_identifier)) @variable
 
 [
   "typealias"
