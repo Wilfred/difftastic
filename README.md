@@ -11,44 +11,28 @@ their syntax.
 
 See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 
-## Demo 1: Wrapping Expressions
+## Basic Example
 
-Difftastic understands expression nesting. If you wrap an expression
-in an if statement, difftastic understands that the inner values are
-unchanged.
+![Screenshot of difftastic and JS](img/js.png)
 
-![Elisp screenshot](img/elisp.png)
+In this JavaScript example, we can see:
 
-Compare this with git's default diff. It is confused by indentation
-changes, and doesn't know which closing parenthesis has been added.
+(1) Difftastic understands nesting. It highlights the matching `{` and
+`}`, but understands that `foo()` hasn't changed despite the leading
+whitespace.
 
-![Elisp comparison screenshot](img/elisp_comparison.png)
+(2) Difftastic understands which lines should be aligned. It's aligned
+`bar()` on the left with `bar(1)` on the right, despite their changes.
 
-## Demo 2: Reflowing Code
+(3) Difftastic understands that line-wrapping isn't
+meaningful. `"eric"` is now on a new line, but it hasn't changed.
 
-Difftastic is robust to code formatting changes. If you change how
-many items appear on a single line, difftastic will only show you
-items which have changed.
+## One Minute Demo
 
-![Rust screenshot](img/rust.png)
+[![asciicast](https://asciinema.org/a/480875.svg)](https://asciinema.org/a/480875)
 
-In git's default diff, it's harder to see that `iter` and the curly
-braces are unchanged. It's also harder to see the affected line numbers.
-
-![Rust comparison screenshot](img/rust_comparison.png)
-
-<!--
-To regenerate these screenshots:
-
-$ git clone git@github.com:magnars/dash.el.git
-$ cd dash.el
-$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 72675567c68f002d828945badbb07fe963d24b5d
-
-$ git clone git@github.com:rust-itertools/itertools.git
-$ cd itertools
-$ DFT_WIDTH=100 GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c3a214d
-
--->
+This one minute screencast demonstrates difftastic usage with both
+standalone files and git.
 
 ## Languages
 
