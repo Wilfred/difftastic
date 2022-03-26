@@ -1801,7 +1801,7 @@ function generate_pattern_matching_rule(
     : generate_case_pattern($, allows_binding);
   var expression_pattern = allows_expressions
     ? $._expression
-    : $.simple_identifier;
+    : field("bound_identifier", $.simple_identifier);
   var all_patterns = always_allowed_patterns
     .concat(binding_pattern_if_allowed)
     .concat(case_pattern)
