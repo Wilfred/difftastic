@@ -39,5 +39,5 @@ MessageKit MessageKit/MessageKit 3.7.0
 KeychainAccess kishikawakatsumi/KeychainAccess v4.2.2
 Nuke kean/Nuke 10.7.1
 Swinject Swinject/Swinject 2.8.1
-GRDB groue/GRDB.swift v5.22.0 0 2
-GRDB groue/GRDB.swift v5.22.0 1 2
+GRDB groue/GRDB.swift v5.22.1 0 2
+GRDB groue/GRDB.swift v5.22.1 1 2
