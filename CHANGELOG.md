@@ -4,7 +4,7 @@
 
 Difftastic no longer shows "1/1" when a file only has a single hunk.
 
-Improved Scala syntax highlighting.
+Improved Clojure and Scala syntax highlighting.
 
 When a file is entirely unchanged, difftastic now shows "no changes"
 even if it successfully parsed. Previously it would only show "no
