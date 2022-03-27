@@ -41,7 +41,7 @@ sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 e98b3bad1d2db81284f11d3936078ece  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
-ff7c743ea9a423405682871e80149462  -
+9c7319f61833e46a0a8cb6c01cc997c9  -
 
 sample_files/if_before.py sample_files/if_after.py
 e633761742973b2ef3b2ed078cedbdf2  -
