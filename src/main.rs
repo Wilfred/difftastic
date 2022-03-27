@@ -395,7 +395,7 @@ fn print_diff_result(
                         "{}",
                         style::header(&summary.path, 1, 1, &lang_name, use_color, background)
                     );
-                    if lang_name == "Text" {
+                    if lang_name == "Text" || summary.lhs_src == summary.rhs_src {
                         // TODO: there are other Text names now, so
                         // they will hit the second case incorrectly.
                         println!("No changes.\n");

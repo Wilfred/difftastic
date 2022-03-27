@@ -1,6 +1,6 @@
 use crate::syntax::MatchedPos;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum FileContent {
     Text(String),
     Binary(Vec<u8>),
