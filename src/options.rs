@@ -42,8 +42,8 @@ fn app() -> clap::App<'static> {
                 .takes_value(true)
                 .value_name("PATH")
                 .long_help(
-                    "[DEBUG] Parse a single file with tree-sitter and display the difftastic syntax tree.",
-                ),
+                    "Parse a single file with tree-sitter and display the difftastic syntax tree.",
+                ).help_heading("DEBUG OPTIONS"),
         )
         .arg(
             Arg::new("dump-ts")
@@ -51,8 +51,8 @@ fn app() -> clap::App<'static> {
                 .takes_value(true)
                 .value_name("PATH")
                 .long_help(
-                    "[DEBUG] Parse a single file with tree-sitter and display the tree-sitter parse tree.",
-                ),
+                    "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
+                ).help_heading("DEBUG OPTIONS"),
         )
         .arg(
             Arg::new("width")
