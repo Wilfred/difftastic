@@ -1,5 +1,9 @@
 ## 0.25 (unreleased)
 
+### Display
+
+Difftastic no longer shows "1/1" when a file only has a single hunk.
+
 ## 0.24 (release 26th March 2022)
 
 ### Diffing

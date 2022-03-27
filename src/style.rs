@@ -328,10 +328,13 @@ pub fn header(
     } else {
         file_name.to_string()
     };
-    format!(
-        "{} --- {}/{} --- {}",
-        file_name_pretty, hunk_num, hunk_total, language_name
-    )
+    let divider = if hunk_total == 1 {
+        "".to_owned()
+    } else {
+        format!("{}/{} --- ", hunk_num, hunk_total)
+    };
+
+    format!("{} --- {}{}", file_name_pretty, divider, language_name)
 }
 
 #[cfg(test)]
