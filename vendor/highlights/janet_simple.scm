@@ -1,0 +1,1 @@
+../tree-sitter-janet-simple/queries/highlights.scm
