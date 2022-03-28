@@ -118,7 +118,7 @@ struct Scanner {
   static bool is_escapable_sequence(TSLexer *lexer) {
     // Note: remember to also update the escape_sequence rule in the
     // main grammar whenever changing this method
-    auto letter = lexer->lookahead;
+    int32_t letter = lexer->lookahead;
 
     if (letter == 'n' ||
         letter == 'r' ||
