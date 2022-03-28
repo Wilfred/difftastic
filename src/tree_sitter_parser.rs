@@ -686,7 +686,7 @@ fn all_syntaxes_from_cursor<'a>(
     let mut result: Vec<&Syntax> = vec![];
 
     loop {
-        result.push(syntax_from_cursor(
+        result.extend(syntax_from_cursor(
             arena, src, nl_pos, cursor, config, highlights,
         ));
 
@@ -707,7 +707,7 @@ fn syntax_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-) -> &'a Syntax<'a> {
+) -> Vec<&'a Syntax<'a>> {
     let node = cursor.node();
 
     if node.is_error() {
@@ -726,7 +726,9 @@ fn syntax_from_cursor<'a>(
         // of whether they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
     } else if node.child_count() > 0 {
-        list_from_cursor(arena, src, nl_pos, cursor, config, highlights)
+        vec![list_from_cursor(
+            arena, src, nl_pos, cursor, config, highlights,
+        )]
     } else {
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
     }
@@ -783,21 +785,21 @@ fn list_from_cursor<'a>(
     loop {
         let node = cursor.node();
         if node_i < i {
-            before_delim.push(syntax_from_cursor(
+            before_delim.extend(syntax_from_cursor(
                 arena, src, nl_pos, cursor, config, highlights,
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i < j {
-            between_delim.push(syntax_from_cursor(
+            between_delim.extend(syntax_from_cursor(
                 arena, src, nl_pos, cursor, config, highlights,
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i > j {
-            after_delim.push(syntax_from_cursor(
+            after_delim.extend(syntax_from_cursor(
                 arena, src, nl_pos, cursor, config, highlights,
             ));
         }
@@ -850,7 +852,7 @@ fn atom_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
     highlights: &HighlightedNodeIds,
-) -> &'a Syntax<'a> {
+) -> Vec<&'a Syntax<'a>> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
     let mut content = &src[node.start_byte()..node.end_byte()];
@@ -876,7 +878,7 @@ fn atom_from_cursor<'a>(
         AtomKind::Normal
     };
 
-    Syntax::new_atom(arena, position, content, highlight)
+    vec![Syntax::new_atom(arena, position, content, highlight)]
 }
 
 #[cfg(test)]
