@@ -62,7 +62,7 @@ Difftastic supports the following languages:
 * TypeScript (and TSX)
 
 If a file has an unrecognised extension, difftastic uses a
-line-oriented diff.
+textual diff with word highlighting.
 
 ## Known Issues
 
