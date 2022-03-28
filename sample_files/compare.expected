@@ -85,6 +85,9 @@ sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
 73130b8572a4f17fa6cf828f74e226ce  -
 
+sample_files/preprocesor_before.h sample_files/preprocesor_after.h
+3e4331cb935cbe735a79ebc43786cd3a  -
+
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 4a9847a91e32ec6afdc2f0b01e28d2d6  -
 
