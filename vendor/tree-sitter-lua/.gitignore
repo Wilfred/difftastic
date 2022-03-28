@@ -1,0 +1,15 @@
+# dependencies
+/node_modules
+
+# testing
+/parser.exp
+/parser.lib
+/parser.obj
+/scanner.obj
+
+# production
+/build
+
+# misc
+.DS_Store
+*.log
