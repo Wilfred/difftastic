@@ -1432,16 +1432,16 @@ module.exports = grammar({
         sep1(
           seq(
             field("name", $.simple_identifier),
-            optional(
-              choice(
-                field("data_contents", $.enum_type_parameters),
-                seq($._equal_sign, field("raw_value", $._expression))
-              )
-            )
+            optional($._enum_entry_suffix)
           ),
           ","
         ),
         optional(";")
+      ),
+    _enum_entry_suffix: ($) =>
+      choice(
+        field("data_contents", $.enum_type_parameters),
+        seq($._equal_sign, field("raw_value", $._expression))
       ),
     enum_type_parameters: ($) =>
       seq(
