@@ -763,30 +763,21 @@ module.exports = grammar({
 
     literal_value: $ => seq(
       '{',
-      optional(seq(
-        choice($.element, $.keyed_element),
-        repeat(seq(',', choice($.element, $.keyed_element))),
-        optional(',')
-      )),
+      optional(
+	seq(
+	  commaSep(choice($.literal_element, $.keyed_element)),
+          optional(','))),
       '}'
     ),
 
-    keyed_element: $ => seq(
-      choice(
-        seq($._expression, ':'),
-        seq($.literal_value, ':'),
-        prec(1, seq($._field_identifier, ':'))
-      ),
-      choice(
-        $._expression,
-        $.literal_value
-      )
-    ),
+    literal_element: $ => choice($._expression, $.literal_value),
 
-    element: $ => choice(
-      $._expression,
-      $.literal_value
-    ),
+    // In T{k: v}, the key k may be:
+    // - any expression (when T is a map, slice or array),
+    // - a field identifier (when T is a struct), or
+    // - a literal_element (when T is an array).
+    // The first two cases cannot be distinguished without type information.
+    keyed_element: $ => seq($.literal_element, ':', $.literal_element),
 
     func_literal: $ => seq(
       'func',
