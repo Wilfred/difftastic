@@ -130,6 +130,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-lua",
+            src_dir: "vendor/tree-sitter-lua-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-ocaml",
             src_dir: "vendor/tree-sitter-ocaml-src/ocaml/src",
             extra_files: vec!["scanner.cc"],
