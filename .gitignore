@@ -10,3 +10,4 @@ examples/ruby_spec
 *.dylib
 *.so
 *.o
+bindings/c/*.h
