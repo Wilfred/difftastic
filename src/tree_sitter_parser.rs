@@ -857,6 +857,14 @@ fn atom_from_cursor<'a>(
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
     let mut content = &src[node.start_byte()..node.end_byte()];
 
+    // The C and C++ grammars have a '\n' node with the
+    // preprocessor. This isn't useful for difftastic, because it's
+    // not visible, but leads us to highlight unchanged lines that
+    // happen to have preceding newline node.
+    if node.kind() == "\n" {
+        return vec![];
+    }
+
     // JSX trims whitespace at the beginning and end of text nodes.
     // TODO: match the exact trimming behaviour used in React.
     //
