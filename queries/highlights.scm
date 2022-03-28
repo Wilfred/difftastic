@@ -14,6 +14,8 @@
 
 (kwd_lit) @constant
 
+(comment) @comment
+
 ;; Treat quasiquotation as operators for the purpose of highlighting.
 
 [
