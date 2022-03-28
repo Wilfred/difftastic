@@ -98,15 +98,15 @@
     "named": true,
     "subtypes": [
       {
-        "type": "_expression",
-        "named": true
-      },
-      {
         "type": "assignment_statement",
         "named": true
       },
       {
         "type": "dec_statement",
+        "named": true
+      },
+      {
+        "type": "expression_statement",
         "named": true
       },
       {
@@ -837,6 +837,21 @@
     "fields": {},
     "children": {
       "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expression_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
       "required": true,
       "types": [
         {

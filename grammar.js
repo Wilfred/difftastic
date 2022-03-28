@@ -464,13 +464,15 @@ module.exports = grammar({
     empty_statement: $ => ';',
 
     _simple_statement: $ => choice(
-      $._expression,
+      $.expression_statement, 
       $.send_statement,
       $.inc_statement,
       $.dec_statement,
       $.assignment_statement,
       $.short_var_declaration
     ),
+
+    expression_statement: $ => $._expression,
 
     send_statement: $ => seq(
       field('channel', $._expression),

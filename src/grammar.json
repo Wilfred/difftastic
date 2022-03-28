@@ -2210,7 +2210,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "expression_statement"
         },
         {
           "type": "SYMBOL",
@@ -2233,6 +2233,10 @@
           "name": "short_var_declaration"
         }
       ]
+    },
+    "expression_statement": {
+      "type": "SYMBOL",
+      "name": "_expression"
     },
     "send_statement": {
       "type": "SEQ",
