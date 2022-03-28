@@ -823,25 +823,6 @@
     "fields": {}
   },
   {
-    "type": "element",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "literal_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "empty_statement",
     "named": true,
     "fields": {}
@@ -1496,15 +1477,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "field_identifier",
-          "named": true
-        },
-        {
-          "type": "literal_value",
+          "type": "literal_element",
           "named": true
         }
       ]
@@ -1537,6 +1510,25 @@
     }
   },
   {
+    "type": "literal_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "literal_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal_value",
     "named": true,
     "fields": {},
@@ -1545,11 +1537,11 @@
       "required": false,
       "types": [
         {
-          "type": "element",
+          "type": "keyed_element",
           "named": true
         },
         {
-          "type": "keyed_element",
+          "type": "literal_element",
           "named": true
         }
       ]

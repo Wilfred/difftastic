@@ -1,6 +1,6 @@
-============================================
+================================================================================
 Int literals
-============================================
+================================================================================
 
 package main
 
@@ -18,26 +18,60 @@ const (
   i11 = 170_141183_460469_231731_687303_715884_105727
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
+  (package_clause
+    (package_identifier))
   (const_declaration
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))
-    (const_spec (identifier) (expression_list (int_literal)))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (int_literal)))))
 
-============================================
+================================================================================
 Float literals
-============================================
+================================================================================
 
 package main
 
@@ -60,31 +94,80 @@ const (
   f16 = 0X_1FFFP-16
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
+  (package_clause
+    (package_identifier))
   (const_declaration
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))
-    (const_spec (identifier) (expression_list (float_literal)))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (float_literal)))))
 
-============================================
+================================================================================
 Rune literals
-============================================
+================================================================================
 
 package main
 
@@ -97,21 +180,40 @@ const (
   c = '\U01234567'
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
+  (package_clause
+    (package_identifier))
   (const_declaration
-    (const_spec (identifier) (expression_list (rune_literal)))
-    (const_spec (identifier) (expression_list (rune_literal)))
-    (const_spec (identifier) (expression_list (rune_literal)))
-    (const_spec (identifier) (expression_list (rune_literal)))
-    (const_spec (identifier) (expression_list (rune_literal)))
-    (const_spec (identifier) (expression_list (rune_literal)))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (rune_literal)))))
 
-============================================
+================================================================================
 Imaginary literals
-============================================
+================================================================================
 
 package main
 
@@ -130,27 +232,64 @@ const (
   l = 0x1p-2i
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
+  (package_clause
+    (package_identifier))
   (const_declaration
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))
-    (const_spec (identifier) (expression_list (imaginary_literal)))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (imaginary_literal)))))
 
-============================================
+================================================================================
 String literals
-============================================
+================================================================================
 
 package main
 
@@ -160,18 +299,30 @@ const (
   c = "\x0c"
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
+  (package_clause
+    (package_identifier))
   (const_declaration
-    (const_spec (identifier) (expression_list (interpreted_string_literal)))
-    (const_spec (identifier) (expression_list (interpreted_string_literal (escape_sequence))))
-    (const_spec (identifier) (expression_list (interpreted_string_literal (escape_sequence))))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (interpreted_string_literal)))
+    (const_spec
+      (identifier)
+      (expression_list
+        (interpreted_string_literal
+          (escape_sequence))))
+    (const_spec
+      (identifier)
+      (expression_list
+        (interpreted_string_literal
+          (escape_sequence))))))
 
-============================================
+================================================================================
 Slice literals
-============================================
+================================================================================
 
 package main
 
@@ -184,53 +335,73 @@ const s3 = []string{
   "hello",
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (slice_type (type_identifier))
-      (literal_value)))))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (slice_type (type_identifier))
-      (literal_value
-        (element (interpreted_string_literal)))))))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (slice_type (type_identifier))
-      (literal_value
-        (element (interpreted_string_literal))
-        (element (interpreted_string_literal))))))))
+  (package_clause
+    (package_identifier))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (slice_type
+            (type_identifier))
+          (literal_value)))))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (slice_type
+            (type_identifier))
+          (literal_value
+            (literal_element
+              (interpreted_string_literal)))))))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (slice_type
+            (type_identifier))
+          (literal_value
+            (literal_element
+              (interpreted_string_literal))
+            (literal_element
+              (interpreted_string_literal))))))))
 
-============================================
+================================================================================
 Array literals with implicit length
-============================================
+================================================================================
 
 package main
 
 const a1 = [...]int{1, 2, 3}
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (implicit_length_array_type (type_identifier))
-      (literal_value
-        (element (int_literal))
-        (element (int_literal))
-        (element (int_literal))))))))
+  (package_clause
+    (package_identifier))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (implicit_length_array_type
+            (type_identifier))
+          (literal_value
+            (literal_element
+              (int_literal))
+            (literal_element
+              (int_literal))
+            (literal_element
+              (int_literal))))))))
 
-============================================
+================================================================================
 Map literals
-============================================
+================================================================================
 
 package main
 
@@ -239,21 +410,34 @@ const s = map[string]string{
   "bye": "goodbye",
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (map_type (type_identifier) (type_identifier))
-      (literal_value
-        (keyed_element (interpreted_string_literal) (interpreted_string_literal))
-        (keyed_element (interpreted_string_literal) (interpreted_string_literal))))))))
+  (package_clause
+    (package_identifier))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (map_type
+            (type_identifier)
+            (type_identifier))
+          (literal_value
+            (keyed_element
+              (literal_element
+                (interpreted_string_literal))
+              (literal_element
+                (interpreted_string_literal)))
+            (keyed_element
+              (literal_element
+                (interpreted_string_literal))
+              (literal_element
+                (interpreted_string_literal)))))))))
 
-============================================
+================================================================================
 Struct literals
-============================================
+================================================================================
 
 package main
 
@@ -268,42 +452,71 @@ const s3 = time.Time{}
 
 const g1 = Foo[float64, Bar[int]] { }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (type_identifier)
-      (literal_value
-        (keyed_element (field_identifier) (interpreted_string_literal))
-        (keyed_element (field_identifier) (interpreted_string_literal)))))))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (struct_type (field_declaration_list
-        (field_declaration (field_identifier) (type_identifier))))
-      (literal_value
-        (keyed_element (field_identifier) (int_literal)))))))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (qualified_type (package_identifier) (type_identifier))
-      (literal_value)))))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list (composite_literal
-      (generic_type
-        (type_identifier)
-        (type_arguments (type_identifier)
-          (generic_type (type_identifier)
-            (type_arguments (type_identifier)))))
-      (literal_value))))))
+  (package_clause
+    (package_identifier))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (type_identifier)
+          (literal_value
+            (keyed_element
+              (literal_element
+                (identifier))
+              (literal_element
+                (interpreted_string_literal)))
+            (keyed_element
+              (literal_element
+                (identifier))
+              (literal_element
+                (interpreted_string_literal))))))))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (struct_type
+            (field_declaration_list
+              (field_declaration
+                (field_identifier)
+                (type_identifier))))
+          (literal_value
+            (keyed_element
+              (literal_element
+                (identifier))
+              (literal_element
+                (int_literal))))))))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (qualified_type
+            (package_identifier)
+            (type_identifier))
+          (literal_value)))))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (composite_literal
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))))
+          (literal_value))))))
 
-============================================
+================================================================================
 Function literals
-============================================
+================================================================================
 
 package main
 
@@ -311,18 +524,27 @@ const s1 = func(s string) (int, int) {
   return 1, 2
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (package_clause (package_identifier))
-  (const_declaration (const_spec
-    (identifier)
-    (expression_list
-      (func_literal
-        (parameter_list
-          (parameter_declaration (identifier) (type_identifier)))
-        (parameter_list
-          (parameter_declaration (type_identifier))
-          (parameter_declaration (type_identifier)))
-        (block
-          (return_statement (expression_list (int_literal) (int_literal)))))))))
+  (package_clause
+    (package_identifier))
+  (const_declaration
+    (const_spec
+      (identifier)
+      (expression_list
+        (func_literal
+          (parameter_list
+            (parameter_declaration
+              (identifier)
+              (type_identifier)))
+          (parameter_list
+            (parameter_declaration
+              (type_identifier))
+            (parameter_declaration
+              (type_identifier)))
+          (block
+            (return_statement
+              (expression_list
+                (int_literal)
+                (int_literal)))))))))
