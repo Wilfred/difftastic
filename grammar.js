@@ -1117,14 +1117,9 @@ module.exports = grammar({
         )
       ),
     availability_condition: ($) =>
-      seq(
-        "#available",
-        "(",
-        sep1(choice($._availability_argument, "*"), ","),
-        ")"
-      ),
+      seq("#available", "(", sep1($._availability_argument, ","), ")"),
     _availability_argument: ($) =>
-      seq($.identifier, sep1($.integer_literal, ".")),
+      choice(seq($.identifier, sep1($.integer_literal, ".")), "*"),
     ////////////////////////////////
     // Declarations - https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
     ////////////////////////////////
