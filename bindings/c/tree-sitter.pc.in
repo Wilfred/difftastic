@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
+additionallibs=@ADDITIONALLIBS@
+
+Name: tree-sitter-@PARSERNAME@
+Description: A tree-sitter grammar for the @PARSERNAME@ programming language.
+URL: @PARSERREPOURL@
+Version: @VERSION@
+Libs: -L${libdir} ${additionallibs} -ltree-sitter-@PARSERNAME@
+Cflags: -I${includedir}
