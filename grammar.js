@@ -469,10 +469,12 @@ module.exports = grammar({
       prec.right(
         PRECS.range,
         seq(
-          choice($._open_ended_range_operator, $._three_dot_operator),
+          $._range_operator,
           prec.right(PRECS.range_suffix, field("end", $._expression))
         )
       ),
+    _range_operator: ($) =>
+      choice($._open_ended_range_operator, $._three_dot_operator),
     open_end_range_expression: ($) =>
       prec.right(
         PRECS.range,
@@ -538,10 +540,7 @@ module.exports = grammar({
         PRECS.range,
         seq(
           field("start", $._expression),
-          field(
-            "op",
-            choice($._open_ended_range_operator, $._three_dot_operator)
-          ),
+          field("op", $._range_operator),
           field("end", $._expression)
         )
       ),
