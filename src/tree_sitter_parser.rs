@@ -277,7 +277,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         JanetSimple => {
             let language = unsafe { tree_sitter_janet_simple() };
             TreeSitterConfig {
-                name: "Janet Simple",
+                name: "Janet",
                 language,
                 atom_nodes: (vec![]).into_iter().collect(),
                 delimiter_tokens: (vec![
