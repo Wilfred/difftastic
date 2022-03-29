@@ -280,10 +280,16 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 name: "Janet Simple",
                 language,
                 atom_nodes: (vec![]).into_iter().collect(),
-                delimiter_tokens: (vec![("@{", "}"), ("@(", ")"), ("@[", "]"),
-                                        ("{", "}"), ("(", ")"), ("[", "]")])
-                    .into_iter()
-                    .collect(),
+                delimiter_tokens: (vec![
+                    ("@{", "}"),
+                    ("@(", ")"),
+                    ("@[", "]"),
+                    ("{", "}"),
+                    ("(", ")"),
+                    ("[", "]"),
+                ])
+                .into_iter()
+                .collect(),
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/janet_simple.scm"),
