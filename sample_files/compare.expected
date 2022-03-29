@@ -46,6 +46,9 @@ sample_files/identical_before.scala sample_files/identical_after.scala
 sample_files/if_before.py sample_files/if_after.py
 e633761742973b2ef3b2ed078cedbdf2  -
 
+sample_files/janet_before.janet sample_files/janet_after.janet
+677604a16ef62f6b6252d76d76e86265  -
+
 sample_files/java_before.java sample_files/java_after.java
 7fda19b66481b0658fc476b2a0e2657b  -
 
