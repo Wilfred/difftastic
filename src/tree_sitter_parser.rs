@@ -633,9 +633,18 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
 
         if node.child_count() == 0 {
             let node_src = &src[node.start_byte()..node.end_byte()];
-            println!("{}{:#?} {:?}", "  ".repeat(depth), node, node_src);
+            println!(
+                "{}{} {:?}",
+                "  ".repeat(depth),
+                format!("{:?}", node).replace('\n', "\\n"),
+                node_src
+            );
         } else {
-            println!("{}{:#?}", "  ".repeat(depth), node);
+            println!(
+                "{}{}",
+                "  ".repeat(depth),
+                format!("{:?}", node).replace('\n', "\\n"),
+            );
         }
 
         if cursor.goto_first_child() {
