@@ -26,10 +26,10 @@ sample_files/elisp_before.el sample_files/elisp_after.el
 c2871ec588ad8dd1e8c482efc4662f42  -
 
 sample_files/elisp_contiguous_before.el sample_files/elisp_contiguous_after.el
-00363be1cea003199f04a6be027ba31e  -
+72dc665d91380bbb13304ea42a1abc2c  -
 
 sample_files/gleam_before.gleam sample_files/gleam_after.gleam
-8e3238b7c255992065027e8a04407afa  -
+5ac19432a126e78db56ee505698fd1eb  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 7a1c891d291954eb435fec05112a98e6  -
