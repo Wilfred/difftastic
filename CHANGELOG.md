@@ -1,5 +1,9 @@
 ## 0.26 (unreleased)
 
+### Parsing
+
+Added Gleam support
+
 ## 0.25 (released 31st March 2022)
 
 ### Display
