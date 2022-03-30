@@ -60,6 +60,7 @@ extern "C" {
     fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
+    fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
     fn tree_sitter_php() -> ts::Language;
@@ -362,6 +363,22 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/lua.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Nix => {
+            let language = unsafe { tree_sitter_nix() };
+            TreeSitterConfig {
+                name: "Nix",
+                language,
+                atom_nodes: vec!["string_expression", "indented_string_expression"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]")].into_iter().collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/nix.scm"),
                 )
                 .unwrap(),
             }

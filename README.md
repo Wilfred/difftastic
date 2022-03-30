@@ -55,6 +55,7 @@ Difftastic supports the following languages:
 * JavaScript (and JSX)
 * JSON
 * Lua
+* Nix
 * OCaml
 * PHP
 * Python
