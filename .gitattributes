@@ -1,1 +1,2 @@
-/src/** linguist-vendored=true
+src/** linguist-generated
+test/** linguist-documentation
