@@ -1,0 +1,25 @@
+[package]
+name = "tree-sitter-janet-simple"
+description = "janet grammar for the tree-sitter parsing library"
+version = "0.0.3"
+keywords = ["incremental", "parsing", "janet"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/sogaiu/tree-sitter-janet-simple"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.19.3"
+
+[build-dependencies]
+cc = "1.0"

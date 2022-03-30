@@ -15,6 +15,7 @@ syntactic changes".
 Fixed an issue in C and C++ where blank lines were highlighted after
 novel preprocessor lines.
 
+Added support for Janet.
 Added support for Lua.
 
 ## 0.24 (release 26th March 2022)
