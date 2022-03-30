@@ -55,6 +55,7 @@ extern "C" {
     fn tree_sitter_elixir() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
+    fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
@@ -269,6 +270,29 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/haskell.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        JanetSimple => {
+            let language = unsafe { tree_sitter_janet_simple() };
+            TreeSitterConfig {
+                name: "Janet",
+                language,
+                atom_nodes: (vec![]).into_iter().collect(),
+                delimiter_tokens: (vec![
+                    ("@{", "}"),
+                    ("@(", ")"),
+                    ("@[", "]"),
+                    ("{", "}"),
+                    ("(", ")"),
+                    ("[", "]"),
+                ])
+                .into_iter()
+                .collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/janet_simple.scm"),
                 )
                 .unwrap(),
             }
