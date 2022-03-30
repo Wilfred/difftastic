@@ -1,0 +1,5 @@
+node_modules
+target
+build
+*.wasm
+log.html
