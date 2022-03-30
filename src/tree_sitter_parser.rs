@@ -53,6 +53,7 @@ extern "C" {
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
+    fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
@@ -237,6 +238,22 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/elixir.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Gleam => {
+            let language = unsafe { tree_sitter_gleam() };
+            TreeSitterConfig {
+                name: "Gleam",
+                language,
+                atom_nodes: (vec!["string"]).into_iter().collect(),
+                delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")])
+                    .into_iter()
+                    .collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/gleam.scm"),
                 )
                 .unwrap(),
             }
