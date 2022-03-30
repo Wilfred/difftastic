@@ -16,6 +16,7 @@ tool that understands syntax. It supports the following languages:
 * Go
 * Hack
 * Haskell
+* Janet
 * Java
 * JavaScript (and JSX)
 * JSON

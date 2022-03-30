@@ -39,7 +39,7 @@ walkdir = "2.3.2"
 term_size = "0.3.2"
 const_format = "0.2.22"
 owo-colors = "3.2.0"
-rpds = "0.11.0"
+rpds = "0.10.0"
 wu-diff = "0.1.2"
 
 [dev-dependencies]
