@@ -50,6 +50,7 @@ Difftastic supports the following languages:
 * Emacs Lisp
 * Go
 * Haskell
+* Janet
 * Java
 * JavaScript (and JSX)
 * JSON
