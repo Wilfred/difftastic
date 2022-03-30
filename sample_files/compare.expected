@@ -67,6 +67,9 @@ f0befdc2c221d021a03acd6c0e662e37  -
 sample_files/load_before.js sample_files/load_after.js
 c5a352313dfb4ae1818190f144c4874b  -
 
+sample_files/lua_before.lua sample_files/lua_after.lua
+2899a7fcb6bd0edf247a2773a7443992  -
+
 sample_files/modules_before.ml sample_files/modules_after.ml
 4c0613c6038eaea73e10a91e7a86e916  -
 
