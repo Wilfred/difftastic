@@ -1,0 +1,5 @@
+---
+foo: [foobar]
+hello:
+  - world
+  - other
