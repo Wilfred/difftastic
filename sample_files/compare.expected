@@ -85,6 +85,9 @@ sample_files/nest_before.rs sample_files/nest_after.rs
 sample_files/nesting_before.el sample_files/nesting_after.el
 6af3112dad0de540b4104655119970e8  -
 
+sample_files/nix_before.nix sample_files/nix_after.nix
+2f8e64ce28f4067210e9f12f10cb4579  -
+
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 2e415fe09d7cee050f8143a8d8c209bd  -
 
