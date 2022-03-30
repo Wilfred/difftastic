@@ -9,7 +9,9 @@
 Difftastic is an experimental diff tool that compares files based on
 their syntax.
 
-See [the manual](http://difftastic.wilfred.me.uk/) to get started.
+**For installation instructions, see [Getting
+Started](https://difftastic.wilfred.me.uk/getting_started.html)** in
+[the manual](http://difftastic.wilfred.me.uk/).
 
 ## Basic Example
 
