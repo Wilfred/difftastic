@@ -48,6 +48,7 @@ Difftastic supports the following languages:
 * Dart
 * Elixir
 * Emacs Lisp
+* Gleam
 * Go
 * Haskell
 * Java

@@ -10,6 +10,8 @@ When a file is entirely unchanged, difftastic now shows "no changes"
 even if it successfully parsed. Previously it would only show "no
 syntactic changes".
 
+Added gleam.
+
 ### Parsing
 
 Fixed an issue in C and C++ where blank lines were highlighted after

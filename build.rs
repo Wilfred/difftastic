@@ -174,6 +174,11 @@ fn main() {
             src_dir: "vendor/tree-sitter-typescript-src/typescript/src",
             extra_files: vec!["scanner.c"],
         },
+        TreeSitterParser {
+            name: "tree-sitter-gleam",
+            src_dir: "vendor/tree-sitter-gleam-src",
+            extra_files: vec![],
+        },
     ];
 
     // Only rerun if relevant files in the vendor/ directory change.
