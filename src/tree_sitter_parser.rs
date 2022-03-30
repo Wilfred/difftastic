@@ -542,7 +542,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 name: "YAML",
                 language,
                 atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
-                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
+                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
                 highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
