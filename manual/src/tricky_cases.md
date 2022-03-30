@@ -256,7 +256,7 @@ with lots of NOVEL words about
 lots of stuff."""
 ```
 
-It would be correct to higlight the entire string literal as being
+It would be correct to highlight the entire string literal as being
 removed and replaced with a new string literal. However, this makes it
 hard to see what's actually changed.
 
