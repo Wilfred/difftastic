@@ -1,0 +1,268 @@
+================================================================================
+attrset typing field
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
+
+================================================================================
+attrset typing field following string
+================================================================================
+
+{
+  typing
+  inputs.nixpkgs.url = "github:nixos/nixpkgs";
+  inputs.nixpkgs-21-05.url = "github:nixos/nixpkgs/nixos-21.05";
+}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (attrset_expression
+    (ERROR
+      (identifier))
+    (binding_set
+      (binding
+        (attrpath
+          (identifier)
+          (identifier)
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier)
+          (identifier)
+          (identifier))
+        (string_expression (string_fragment))))))
+
+================================================================================
+attrset typing attrpath
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing.path_expression
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier)
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
+
+================================================================================
+attrset missing value
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing =
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (apply_expression
+          (variable_expression (identifier))
+          (ERROR)
+          (attrset_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
+
+================================================================================
+bind typing parenthesis
+================================================================================
+
+{
+  a = "foo";
+  b = a: 42;
+  typing = (a:
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (attrset_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (integer_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (function_expression
+            (identifier)
+            (variable_expression (identifier))))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))))
+
+================================================================================
+let typing field
+================================================================================
+
+let
+  a = "foo";
+  b = 42;
+  typing
+  c = {};
+  d = x: x;
+in {}
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (let_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (ERROR
+          (identifier))
+        (attrset_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))
+    (attrset_expression)))
+
+================================================================================
+let missing value
+================================================================================
+
+let
+  a = "foo";
+  b = 42;
+  typing =
+  c = {};
+  d = x: x;
+in
+  a
+
+--------------------------------------------------------------------------------
+
+(source_code
+  (let_expression
+    (binding_set
+      (binding
+        (attrpath
+          (identifier))
+        (string_expression (string_fragment)))
+      (binding
+        (attrpath
+          (identifier))
+        (integer_expression))
+      (binding
+        (attrpath
+          (identifier))
+        (apply_expression
+          (variable_expression (identifier))
+          (ERROR)
+          (attrset_expression)))
+      (binding
+        (attrpath
+          (identifier))
+        (function_expression
+          (identifier)
+          (variable_expression (identifier)))))
+    (variable_expression (identifier))))
+    
