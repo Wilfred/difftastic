@@ -254,7 +254,7 @@ mod tests {
     fn test_guess_by_emacs_mode_second_line() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "!#/bin/bash\n; -*- mode: Lisp; -*-"),
+            guess(path, "#!/bin/bash\n; -*- mode: Lisp; -*-"),
             Some(CommonLisp)
         );
     }
