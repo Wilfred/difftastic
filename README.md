@@ -65,6 +65,7 @@ Difftastic supports the following languages:
 * Rust
 * Scala
 * TypeScript (and TSX)
+* YAML
 
 If a file has an unrecognised extension, difftastic uses a
 textual diff with word highlighting.
