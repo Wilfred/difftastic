@@ -10,10 +10,21 @@ When a file is entirely unchanged, difftastic now shows "no changes"
 even if it successfully parsed. Previously it would only show "no
 syntactic changes".
 
+Fixed an issue where some colors were shown when `--color never` was
+specified.
+
+Fixed a crash when a text file ended with a multibyte character.
+
+Fixed side-by-side display when source files contained CRLF.
+
 ### Parsing
 
 Fixed an issue in C and C++ where blank lines were highlighted after
 novel preprocessor lines.
+
+Fixed an issue with parsing `[` and `]` in Java.
+
+Fixed an issue with parsing interpolated strings in PHP.
 
 Added support for Janet, Lua and Nix.
 
