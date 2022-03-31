@@ -21,7 +21,8 @@ Discard List
 (source
   (dis_expr
     (list_lit
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (num_lit)
       (num_lit))))
 
@@ -54,15 +55,20 @@ Discard Multiple
 
 (source
   (list_lit
-    (sym_lit)
+    (sym_lit
+      (sym_name))
     (vec_lit
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (num_lit)
       (dis_expr
         (dis_expr
-          (sym_lit))
+          (sym_lit
+            (sym_name)))
         (num_lit)))
     (list_lit
-      (sym_lit)
-      (sym_lit)
+      (sym_lit
+        (sym_name))
+      (sym_lit
+        (sym_name))
       (num_lit))))

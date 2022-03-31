@@ -8,7 +8,8 @@ Var Quoting a Symbol
 
 (source
   (var_quoting_lit
-    (sym_lit)))
+    (sym_lit
+      (sym_name))))
 
 ================================================================================
 Var Quoting with Reader Conditional
@@ -22,8 +23,11 @@ Var Quoting with Reader Conditional
   (var_quoting_lit
     (read_cond_lit
       (kwd_lit)
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (kwd_lit)
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (kwd_lit)
-      (sym_lit))))
+      (sym_lit
+        (sym_name)))))

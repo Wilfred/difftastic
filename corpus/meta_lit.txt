@@ -9,7 +9,8 @@ Symbol Metadata
 (source
   (vec_lit
     (meta_lit
-      (sym_lit))))
+      (sym_lit
+        (sym_name)))))
 
 ================================================================================
 Keyword Metadata

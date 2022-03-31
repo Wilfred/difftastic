@@ -8,7 +8,8 @@ Inf
 
 (source
   (sym_val_lit
-    (sym_lit)))
+    (sym_lit
+      (sym_name))))
 
 ================================================================================
 -Inf
@@ -20,7 +21,8 @@ Inf
 
 (source
   (sym_val_lit
-    (sym_lit)))
+    (sym_lit
+      (sym_name))))
 
 ================================================================================
 NaN
@@ -32,4 +34,5 @@ NaN
 
 (source
   (sym_val_lit
-    (sym_lit)))
+    (sym_lit
+      (sym_name))))

@@ -40,7 +40,8 @@ Deeper Map
       (str_lit))
     (kwd_lit)
     (map_lit
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (map_lit
         (kwd_lit)
         (str_lit)))))

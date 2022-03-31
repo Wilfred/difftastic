@@ -279,7 +279,10 @@ module.exports = grammar({
 
     sym_lit: $ =>
       seq(repeat($._metadata_lit),
-          SYMBOL),
+          $.sym_name),
+
+    sym_name: $ =>
+      SYMBOL,
 
     _metadata_lit: $ =>
       seq(choice(field('meta', $.meta_lit),
@@ -350,6 +353,7 @@ module.exports = grammar({
           field('marker', "#"),
           $._bare_list_lit),
 
+    // XXX: likely has similar issue as sym_lit
     regex_lit: $ =>
       seq(field('marker', "#"),
           STRING),

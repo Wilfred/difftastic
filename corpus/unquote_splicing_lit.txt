@@ -9,10 +9,12 @@ Unquote Splicing into List
 (source
   (syn_quoting_lit
     (list_lit
-      (sym_lit)
+      (sym_lit
+        (sym_name))
       (unquote_splicing_lit
         (list_lit
-          (sym_lit)
+          (sym_lit
+            (sym_name))
           (num_lit)
           (num_lit))))))
 
@@ -30,7 +32,8 @@ Unquote Splicing into Vector
       (kwd_lit)
       (unquote_splicing_lit
         (list_lit
-          (sym_lit)
+          (sym_lit
+            (sym_name))
           (kwd_lit)
           (kwd_lit))))))
 
@@ -48,7 +51,8 @@ Unquote Splicing into Set
       (kwd_lit)
       (unquote_splicing_lit
         (list_lit
-          (sym_lit)
+          (sym_lit
+            (sym_name))
           (kwd_lit)
           (kwd_lit))))))
 
@@ -65,11 +69,13 @@ Unquote Splicing into Map
     (map_lit
       (unquote_splicing_lit
         (list_lit
-          (sym_lit)
+          (sym_lit
+            (sym_name))
           (kwd_lit)
           (num_lit)))
       (unquote_splicing_lit
         (list_lit
-          (sym_lit)
+          (sym_lit
+            (sym_name))
           (kwd_lit)
           (num_lit))))))
