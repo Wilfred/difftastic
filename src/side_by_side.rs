@@ -37,6 +37,7 @@ fn format_missing_line_num(
     prev_num: LineNumber,
     source_dims: &SourceDimensions,
     is_lhs: bool,
+    use_color: bool,
 ) -> String {
     let column_width = if is_lhs {
         source_dims.lhs_line_nums_width
@@ -54,13 +55,18 @@ fn format_missing_line_num(
         return "".into();
     }
 
+    let mut style = Style::new();
+    if use_color {
+        style = style.dimmed();
+    }
+
     let num_digits = format!("{}", prev_num.one_indexed()).len();
     format!(
         "{:>width$} ",
         (if after_end { " " } else { "." }).repeat(num_digits),
         width = column_width - 1
     )
-    .dimmed()
+    .style(style)
     .to_string()
 }
 
@@ -133,6 +139,7 @@ fn display_line_nums(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             true,
+            use_color,
         ),
     };
     let display_rhs_line_num: String = match rhs_line_num {
@@ -152,6 +159,7 @@ fn display_line_nums(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             false,
+            use_color,
         ),
     };
 
@@ -469,6 +477,7 @@ pub fn print(
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             true,
+                            use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
@@ -489,6 +498,7 @@ pub fn print(
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             false,
+                            use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
@@ -551,8 +561,12 @@ mod tests {
         );
 
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, true),
+            format_missing_line_num(0.into(), &source_dims, true, true),
             ". ".dimmed().to_string()
+        );
+        assert_eq!(
+            format_missing_line_num(0.into(), &source_dims, true, false),
+            ". ".to_string()
         );
     }
 
@@ -569,8 +583,12 @@ mod tests {
         );
 
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, true),
+            format_missing_line_num(1.into(), &source_dims, true, true),
             "  ".dimmed().to_string()
+        );
+        assert_eq!(
+            format_missing_line_num(1.into(), &source_dims, true, false),
+            "  ".to_string()
         );
     }
 
