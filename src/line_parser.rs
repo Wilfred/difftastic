@@ -156,6 +156,14 @@ fn changed_parts<'a>(
     merge_novel(&res)
 }
 
+fn line_len_in_bytes(line: &str) -> usize {
+    if line.ends_with('\n') {
+        line.len() - 1
+    } else {
+        line.len()
+    }
+}
+
 // TODO: Prefer src/opposite_src nomenclature as this function is called from both sides.
 pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
     // TODO: If either side is "", don't split each line by words
@@ -171,8 +179,10 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
         match kind {
             TextChangeKind::Unchanged => {
                 for (lhs_line, rhs_line) in lhs_lines.iter().zip(rhs_lines) {
-                    let lhs_pos = lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_line.len() - 1);
-                    let rhs_pos = rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_line.len() - 1);
+                    let lhs_pos =
+                        lhs_nlp.from_offsets(lhs_offset, lhs_offset + line_len_in_bytes(lhs_line));
+                    let rhs_pos =
+                        rhs_nlp.from_offsets(rhs_offset, rhs_offset + line_len_in_bytes(rhs_line));
 
                     res.push(MatchedPos {
                         kind: MatchKind::UnchangedToken {
@@ -242,6 +252,8 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
 #[cfg(test)]
 mod tests {
+    use crate::positions::SingleLineSpan;
+
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -258,6 +270,14 @@ mod tests {
 
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_novel());
+        assert_eq!(
+            positions[0].pos,
+            SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 3
+            }
+        );
     }
 
     #[test]
@@ -275,6 +295,14 @@ mod tests {
 
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_novel());
+        assert_eq!(
+            positions[0].pos,
+            SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 3
+            }
+        );
     }
 
     #[test]
