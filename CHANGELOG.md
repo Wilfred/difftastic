@@ -13,6 +13,8 @@ syntactic changes".
 Fixed an issue where some colors were shown when `--color never` was
 specified.
 
+Fixed a crash when a text file ended with a multibyte character.
+
 ### Parsing
 
 Fixed an issue in C and C++ where blank lines were highlighted after
