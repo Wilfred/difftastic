@@ -305,7 +305,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 name: "Java",
                 language,
                 atom_nodes: (vec![]).into_iter().collect(),
-                delimiter_tokens: (vec![("(", ")"), ("{", "}")]),
+                delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/java.scm"),

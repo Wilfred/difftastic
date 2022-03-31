@@ -20,6 +20,8 @@ Fixed a crash when a text file ended with a multibyte character.
 Fixed an issue in C and C++ where blank lines were highlighted after
 novel preprocessor lines.
 
+Fixed an issue with parsing `[` and `]` in Java.
+
 Added support for Janet, Lua and Nix.
 
 ## 0.24 (release 26th March 2022)
