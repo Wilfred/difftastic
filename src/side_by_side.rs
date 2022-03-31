@@ -17,12 +17,20 @@ use crate::{
 
 const SPACER: &str = " ";
 
-/// Split `s` by newlines. Always returns a non-empty vec.
+/// Split `s` on \n or \r\n. Always returns a non-empty vec.
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
 fn split_on_newlines(s: &str) -> Vec<&str> {
-    s.split('\n').collect()
+    s.split('\n')
+        .map(|l| {
+            if let Some(l) = l.strip_suffix('\r') {
+                l
+            } else {
+                l
+            }
+        })
+        .collect()
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
@@ -619,6 +627,11 @@ mod tests {
     #[test]
     fn test_split_line_with_newline() {
         assert_eq!(split_on_newlines("foo\nbar"), vec!["foo", "bar"]);
+    }
+
+    #[test]
+    fn test_split_line_with_crlf() {
+        assert_eq!(split_on_newlines("foo\r\nbar"), vec!["foo", "bar"]);
     }
 
     #[test]

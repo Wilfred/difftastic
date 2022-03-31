@@ -15,6 +15,8 @@ specified.
 
 Fixed a crash when a text file ended with a multibyte character.
 
+Fixed side-by-side display when source files contained CRLF.
+
 ### Parsing
 
 Fixed an issue in C and C++ where blank lines were highlighted after
