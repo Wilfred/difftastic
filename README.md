@@ -10,8 +10,8 @@ Difftastic is an experimental diff tool that compares files based on
 their syntax.
 
 **For installation instructions, see [Getting
-Started](https://difftastic.wilfred.me.uk/getting_started.html)** in
-[the manual](http://difftastic.wilfred.me.uk/).
+Started](https://difftastic.wilfred.me.uk/getting_started.html) in
+[the manual](http://difftastic.wilfred.me.uk/).**
 
 ## Basic Example
 
@@ -38,34 +38,8 @@ standalone files and git.
 
 ## Languages
 
-Difftastic supports the following languages:
-
-* Bash
-* C
-* C++
-* C#
-* Clojure
-* Common Lisp
-* CSS
-* Dart
-* Elixir
-* Emacs Lisp
-* Go
-* Haskell
-* Janet
-* Java
-* JavaScript (and JSX)
-* JSON
-* Lua
-* Nix
-* OCaml
-* PHP
-* Python
-* Ruby
-* Rust
-* Scala
-* TypeScript (and TSX)
-* Zig
+Difftastic supports over 20 programming languages, see [the
+manual](https://difftastic.wilfred.me.uk/) for the full list.
 
 If a file has an unrecognised extension, difftastic uses a
 textual diff with word highlighting.
