@@ -31,42 +31,6 @@ Difftastic uses the following tree-sitter parsers:
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                                             |
 
 
-These parsers are included as git subtrees in `vendor/`.
-
-Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies. Git subtrees
-allow difftastic to track the latest version of these parsers.
-
-## Adding a new parser
-
-If you've found a reasonably complete parser implementation for your
-target language, add it to `vendor/`.
-
-```
-$ git subtree add --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-```
-
-Cargo does not allow packages to include subdirectories that contain a
-`Cargo.toml`. Add a symlink to the `src/` parser subdirectory.
-
-```
-$ cd vendor
-$ ln -s tree-sitter-java/src tree-sitter-java-src
-```
-
-You can now add the parser to build by including the directory in
-`build.rs`. You will also need to update `guess_language.rs` to
-configure the file extensions, and `tree_sitter_parser.rs` to
-configure atoms and delimiters.
-
-To add syntax highlighting to the package, you'll also need a symlink
-to the `highlights.scm`, if available.
-
-```
-$ cd vendor/highlights
-$ ln -s ../tree-sitter-java/queries/highlights.scm java.scm
-```
-
 ## Updating a parser
 
 To update a parser, pull commits from the upstream git repository. For
