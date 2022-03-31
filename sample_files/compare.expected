@@ -127,3 +127,6 @@ d5bc09cc5298b5216e5989a31238be0b  -
 sample_files/typing_before.ml sample_files/typing_after.ml
 22eec08aa24c88b330061de913dfce7d  -
 
+sample_files/zig_before.zig sample_files/zig_after.zig
+94ce16f479dc3867a923053a2592a894  -
+
