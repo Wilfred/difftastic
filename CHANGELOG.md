@@ -1,4 +1,6 @@
-## 0.25 (unreleased)
+## 0.26 (unreleased)
+
+## 0.25 (released 31st March 2022)
 
 ### Display
 
@@ -28,7 +30,7 @@ Fixed an issue with parsing interpolated strings in PHP.
 
 Added support for Janet, Lua and Nix.
 
-## 0.24 (release 26th March 2022)
+## 0.24 (released 26th March 2022)
 
 ### Diffing
 
