@@ -70,6 +70,7 @@ extern "C" {
     fn tree_sitter_scala() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_zig() -> ts::Language;
 }
 
 // TODO: begin/end and object/end.
@@ -531,6 +532,24 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                         include_str!("../vendor/highlights/javascript.scm"),
                         include_str!("../vendor/highlights/typescript.scm"),
                     ),
+                )
+                .unwrap(),
+            }
+        }
+        Zig => {
+            let language = unsafe { tree_sitter_zig() };
+            TreeSitterConfig {
+                name: "Zig",
+                language,
+                atom_nodes: (vec!["STRINGLITERALSINGLE"])
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: (vec![("{", "}"), ("[", "]"), ("(", ")")])
+                    .into_iter()
+                    .collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/zig.scm"),
                 )
                 .unwrap(),
             }
