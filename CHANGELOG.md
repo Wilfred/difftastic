@@ -24,6 +24,8 @@ novel preprocessor lines.
 
 Fixed an issue with parsing `[` and `]` in Java.
 
+Fixed an issue with parsing interpolated strings in PHP.
+
 Added support for Janet, Lua and Nix.
 
 ## 0.24 (release 26th March 2022)

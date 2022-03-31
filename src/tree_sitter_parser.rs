@@ -412,7 +412,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "PHP",
                 language,
-                atom_nodes: vec!["string"].into_iter().collect(),
+                atom_nodes: vec!["string", "encapsed_string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
