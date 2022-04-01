@@ -60,6 +60,11 @@ Patching. Difftastic output is intended for human consumption, and it
 does not generate patches that you can apply later. Use `diff` if you
 need a patch.
 
+(Patch files are also line-oriented, which is too limited for
+difftastic. Difftastic might find additions and removals on the same
+line, and it tracks the relationship between line numbers in the old
+and new file.)
+
 Merging. AST merging is a hard problem that difftastic does not
 address.
 
