@@ -1,0 +1,1 @@
+../tree-sitter-elvish/queries/highlights.scm

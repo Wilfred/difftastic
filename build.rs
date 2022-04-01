@@ -108,14 +108,19 @@ fn main() {
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
-            name: "tree-sitter-gleam",
-            src_dir: "vendor/tree-sitter-gleam-src",
-            extra_files: vec![],
-        },
-        TreeSitterParser {
             name: "tree-sitter-elm",
             src_dir: "vendor/tree-sitter-elm-src",
             extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-elvish",
+            src_dir: "vendor/tree-sitter-elvish-src",
+            extra_files: vec![],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-gleam",
+            src_dir: "vendor/tree-sitter-gleam-src",
+            extra_files: vec![],
         },
         TreeSitterParser {
             name: "tree-sitter-go",
