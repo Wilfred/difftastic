@@ -9,7 +9,7 @@ tree-sitter-scheme should work on a superset of Scheme.
 The standards are expected to support:
 
 * [x] R5RS
-* [ ] R6RS
+* [x] R6RS
 * [ ] Implementation related extensions
 
 ## TODO

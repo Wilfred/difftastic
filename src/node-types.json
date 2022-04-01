@@ -52,10 +52,6 @@
           "named": true
         },
         {
-          "type": "quote",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -110,19 +106,11 @@
           "named": true
         },
         {
-          "type": "if_test",
-          "named": true
-        },
-        {
           "type": "list",
           "named": true
         },
         {
           "type": "number",
-          "named": true
-        },
-        {
-          "type": "quote",
           "named": true
         },
         {
@@ -134,54 +122,7 @@
           "named": true
         },
         {
-          "type": "vector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "if_test",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "byte_vector",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "if_expr",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "quote",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbol",
+          "type": "test",
           "named": true
         },
         {
@@ -221,10 +162,6 @@
         },
         {
           "type": "number",
-          "named": true
-        },
-        {
-          "type": "quote",
           "named": true
         },
         {
@@ -290,10 +227,6 @@
           "named": true
         },
         {
-          "type": "quote",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -309,12 +242,27 @@
     }
   },
   {
-    "type": "quote",
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "test",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "boolean",
@@ -341,10 +289,6 @@
           "named": true
         },
         {
-          "type": "quote",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -354,21 +298,6 @@
         },
         {
           "type": "vector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "string",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
           "named": true
         }
       ]
@@ -404,10 +333,6 @@
         },
         {
           "type": "number",
-          "named": true
-        },
-        {
-          "type": "quote",
           "named": true
         },
         {

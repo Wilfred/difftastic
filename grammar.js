@@ -126,11 +126,10 @@ module.exports = grammar({
 
 
     _abbreviation: $ => choice(seq($._abbreviation_prefix, $._datum)),
-    _abbreviation_prefix: _ => choice("`", ",", ",@", "#'", "#`", "#,", "#,@"),
+    _abbreviation_prefix: _ => choice("'", "`", ",", ",@", "#'", "#`", "#,", "#,@"),
 
     _special_form: $ =>
       choice(
-        $.quote,
         $.if_expr,
         $.vector,
         $.byte_vector),
@@ -154,9 +153,9 @@ module.exports = grammar({
 
     if_expr: $ =>
       choice(
-        par(seq("if", $.if_test, $._datum, optional($._datum)))),
+        par(seq("if", $.test, $._datum, optional($._datum)))),
 
-    if_test: $ => $._datum,
+    test: $ => $._datum,
 
     _parameters: $ => par(optional($.parameters)),
 
@@ -202,8 +201,8 @@ function number_base(n) {
 
   const exponent = choice("e", "s", "f", "d", "l");
   const suffix = optional(choice(
-    seq(exponent, sign, repeat1(digits)),
-    seq("|", repeat1(digits)),
+    seq(exponent, sign, repeat1(digitsn[10])),
+    seq("|", repeat1(digitsn[10])),
   ));
   const uinteger = seq(repeat1(digits), repeat("#"));
   const decimal10 = choice(
@@ -219,7 +218,13 @@ function number_base(n) {
     16: "",
   };
 
-  const ureal = choice(uinteger, seq(uinteger, "/", uinteger), decimal[n]);
+  const ureal =
+    seq(
+      choice(
+        uinteger,
+        seq(uinteger, "/", uinteger),
+        decimal[n]),
+      suffix);
   const imag = choice("i", seq(ureal, "i"), "inf.0i", "nan.0i");
   const real = choice(seq(sign, ureal), "+nan.0", "-nan.0", "+inf.0", "-inf.0");
   const complex = choice(
