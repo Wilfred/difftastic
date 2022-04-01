@@ -125,7 +125,7 @@ Sliders are a common problem in text based diffs, where lines are
 matched in a confusing way.
 
 They typically look like this. The diff has to arbitrarily choose a
-delimiter, and it chooses the wrong one.
+line containing delimiter, and it chooses the wrong one.
 
 ```
 + }
