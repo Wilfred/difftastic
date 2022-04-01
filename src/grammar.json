@@ -5169,6 +5169,101 @@
             "value": "..."
           },
           {
+            "type": "STRING",
+            "value": "+"
+          },
+          {
+            "type": "STRING",
+            "value": "-"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "->"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[a-zA-Z!$%&*/:<=>?^_~]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Co}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Mn}|\\p{Nl}|\\p{No}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Pc}|\\p{Pd}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Sc}|\\p{Sk}|\\p{Sm}|\\p{So}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\u3400-\\u4DBF]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\u4E00-\\u9FFF]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\uAC00-\\uD7A3]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\uE000-\\uF8FF]"
+                        },
+                        {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": "\\x"
+                            },
+                            {
+                              "type": "PATTERN",
+                              "value": "[0-9a-fA-F]+"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": ";"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[0-9.@+-]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\p{Mc}|\\p{Me}|\\p{Nd}"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -5177,6 +5272,42 @@
                   {
                     "type": "PATTERN",
                     "value": "[a-zA-Z!$%&*/:<=>?^_~]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\p{Co}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\p{Mn}|\\p{Nl}|\\p{No}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\p{Pc}|\\p{Pd}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\p{Sc}|\\p{Sk}|\\p{Sm}|\\p{So}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[\\u3400-\\u4DBF]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[\\u4E00-\\u9FFF]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[\\uAC00-\\uD7A3]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[\\uE000-\\uF8FF]"
                   },
                   {
                     "type": "SEQ",
@@ -5210,6 +5341,42 @@
                           "value": "[a-zA-Z!$%&*/:<=>?^_~]"
                         },
                         {
+                          "type": "PATTERN",
+                          "value": "\\p{Co}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Mn}|\\p{Nl}|\\p{No}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Pc}|\\p{Pd}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\p{Sc}|\\p{Sk}|\\p{Sm}|\\p{So}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\u3400-\\u4DBF]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\u4E00-\\u9FFF]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\uAC00-\\uD7A3]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[\\uE000-\\uF8FF]"
+                        },
+                        {
                           "type": "SEQ",
                           "members": [
                             {
@@ -5231,15 +5398,15 @@
                     {
                       "type": "PATTERN",
                       "value": "[0-9.@+-]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\p{Mc}|\\p{Me}|\\p{Nd}"
                     }
                   ]
                 }
               }
             ]
-          },
-          {
-            "type": "PATTERN",
-            "value": "[.@+-]"
           }
         ]
       }
@@ -6407,7 +6574,7 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "[\\r\\n\\t\\f\\v \\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]"
+      "value": "[\\r\\n\\t\\f\\v ]|\\p{Zs}|\\p{Zl}|\\p{Zp}"
     },
     {
       "type": "SYMBOL",

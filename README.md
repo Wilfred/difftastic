@@ -14,7 +14,6 @@ The standards are expected to support:
 
 ## TODO
 
-* Unicode symbol
 * Better tests
 * Queries
 

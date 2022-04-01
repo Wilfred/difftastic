@@ -3,10 +3,7 @@ module.exports = grammar({
 
   extras: $ => [
     // Unicode whitespace
-    // In Javascript, /\s/ equivalent to this long regex.
-    // But we can't just use /\s/ since tree-sitter doesn't
-    // use JS's regex engine.
-    /[\r\n\t\f\v \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/,
+    /[\r\n\t\f\v ]|\p{Zs}|\p{Zl}|\p{Zp}/,
     $.comment,
     $.directive,
   ],
@@ -70,15 +67,46 @@ module.exports = grammar({
           number_base(16))),
 
     symbol: _ => {
-      const first_char = choice(/[a-zA-Z!$%&*/:<=>?^_~]/, seq("\\x", /[0-9a-fA-F]+/, ";"));
+      const first_char =
+        choice(
+          /[a-zA-Z!$%&*/:<=>?^_~]/,
+          /\p{Co}/,
+          /\p{Ll}|\p{Lm}|\p{Lo}|\p{Lu}/,
+          /\p{Mn}|\p{Nl}|\p{No}/,
+          /\p{Pc}|\p{Pd}/,
+          /\p{Sc}|\p{Sk}|\p{Sm}|\p{So}/,
+
+          // codepoint range but tree-sitter doesn't support.
+          // See https://unicode.org/Public/14.0.0/ucd/UnicodeData.txt
+          // and search "first>".
+          //
+          // The codepoint range should not exceed \u{FFFF} because
+          // tree-sitter doesn't support it.
+          //
+          // See Also https://github.com/tree-sitter/tree-sitter/issues/1432
+
+          /[\u3400-\u4DBF]/, // Lo: CJK Ideograph Extension A
+          /[\u4E00-\u9FFF]/, // Lo: CJK Ideograph
+          /[\uAC00-\uD7A3]/, // Lo: Hangul Syllable
+          /[\uE000-\uF8FF]/, // Co: Private Use
+
+          seq("\\x", /[0-9a-fA-F]+/, ";"));
+
+      const subsequent =
+        choice(
+          first_char,
+          /[0-9.@+-]/,
+          /\p{Mc}|\p{Me}|\p{Nd}/);
+
       return token(
         choice(
           "...",
+          "+",
+          "-",
+          seq("->", repeat(subsequent)),
           seq(
             first_char,
-            repeat(choice(first_char, /[0-9.@+-]/))),
-          /[.@+-]/,
-        ));
+            repeat(subsequent))));
     },
 
     // simple datum }}}

@@ -24,7 +24,7 @@ numbers
 -1
 #d1
 #b010101011
-#o8
+#o7
 -i
 -1i
 1-2i
@@ -34,7 +34,6 @@ numbers
 
 ---
 (program
-  (number)
   (number)
   (number)
   (number)
@@ -94,9 +93,12 @@ set!
 hello
 ar!$->2
 ->
+variable
+变量
 
 ---
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
@@ -140,6 +142,7 @@ abc"
 directive
 ===
 #!r6rs
+
 ---
 (program
   (directive
