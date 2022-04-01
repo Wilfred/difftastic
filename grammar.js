@@ -1,3 +1,6 @@
+const INTRA_WHITERPACE = /[ \n\t\p{Zs}]/;
+const LINE_ENDING = /\n|\r|(\r\n)|(\r\u85)|\u2028|\u85|/;
+
 module.exports = grammar({
   name: "scheme",
 
@@ -16,6 +19,7 @@ module.exports = grammar({
         token(seq(";", /.*/)),
         // unrolled version of /#\|.*?\|#/s
         seq("#|", /[^|]*\|+([^#][^|]*\|+)*/, "#"),
+        seq("#!", /[^!]*!+([^#][^!]*!+)*/, "#"), // guile shebang
         seq("#;", $._datum)),
     directive: $ =>
       seq("#!", $.symbol),
@@ -55,6 +59,7 @@ module.exports = grammar({
       token.immediate(
         choice(
           seq("\\", /["\\abfnrtv]/),
+          seq("\\", repeat(INTRA_WHITERPACE), /[\n]/, repeat(INTRA_WHITERPACE)),
           seq("\\x", /[0-9a-fA-F]+/, ";"),
           seq("\\", /./))),
 
@@ -69,7 +74,7 @@ module.exports = grammar({
     symbol: _ => {
       const first_char =
         choice(
-          /[a-zA-Z!$%&*/:<=>?^_~]/,
+          /[a-zA-Z!$%&*/:<=>?^_~.@]/,
           /\p{Co}/,
           /\p{Ll}|\p{Lm}|\p{Lo}|\p{Lu}/,
           /\p{Mn}|\p{Nl}|\p{No}/,
@@ -90,6 +95,7 @@ module.exports = grammar({
           /[\uAC00-\uD7A3]/, // Lo: Hangul Syllable
           /[\uE000-\uF8FF]/, // Co: Private Use
 
+          "#:",
           seq("\\x", /[0-9a-fA-F]+/, ";"));
 
       const subsequent =

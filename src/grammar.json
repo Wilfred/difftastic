@@ -62,6 +62,23 @@
           "members": [
             {
               "type": "STRING",
+              "value": "#!"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^!]*!+([^#][^!]*!+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "#"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
               "value": "#;"
             },
             {
@@ -255,6 +272,33 @@
               {
                 "type": "PATTERN",
                 "value": "[\"\\\\abfnrtv]"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[ \\n\\t\\p{Zs}]"
+                }
+              },
+              {
+                "type": "PATTERN",
+                "value": "[\\n]"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[ \\n\\t\\p{Zs}]"
+                }
               }
             ]
           },
@@ -6853,7 +6897,7 @@
                       "members": [
                         {
                           "type": "PATTERN",
-                          "value": "[a-zA-Z!$%&*/:<=>?^_~]"
+                          "value": "[a-zA-Z!$%&*/:<=>?^_~.@]"
                         },
                         {
                           "type": "PATTERN",
@@ -6890,6 +6934,10 @@
                         {
                           "type": "PATTERN",
                           "value": "[\\uE000-\\uF8FF]"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "#:"
                         },
                         {
                           "type": "SEQ",
@@ -6931,7 +6979,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[a-zA-Z!$%&*/:<=>?^_~]"
+                    "value": "[a-zA-Z!$%&*/:<=>?^_~.@]"
                   },
                   {
                     "type": "PATTERN",
@@ -6970,6 +7018,10 @@
                     "value": "[\\uE000-\\uF8FF]"
                   },
                   {
+                    "type": "STRING",
+                    "value": "#:"
+                  },
+                  {
                     "type": "SEQ",
                     "members": [
                       {
@@ -6998,7 +7050,7 @@
                       "members": [
                         {
                           "type": "PATTERN",
-                          "value": "[a-zA-Z!$%&*/:<=>?^_~]"
+                          "value": "[a-zA-Z!$%&*/:<=>?^_~.@]"
                         },
                         {
                           "type": "PATTERN",
@@ -7035,6 +7087,10 @@
                         {
                           "type": "PATTERN",
                           "value": "[\\uE000-\\uF8FF]"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "#:"
                         },
                         {
                           "type": "SEQ",
