@@ -1,0 +1,30 @@
+name: Build/test
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [maxos-latest, ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: npm test
+
+  guile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: git clone https://git.sv.gnu.org/git/guile.git guile --depth 1 --branch v3.0.8
+      - run: npx tree-sitter parse guile/**/*.{scm,ss,sls} -q
+
