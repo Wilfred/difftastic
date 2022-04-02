@@ -1,5 +1,9 @@
 const INTRA_WHITERPACE = /[ \n\t\p{Zs}]/;
-const LINE_ENDING = /\n|\r|(\r\n)|(\r\u85)|\u2028|\u85|/;
+const LINE_ENDING = /\n|\r|(\r\n)|(\r\u{85})|\u2028|\u{85}|/;
+
+const PREC = {
+  symbol: -1,
+};
 
 module.exports = grammar({
   name: "scheme",
@@ -19,7 +23,6 @@ module.exports = grammar({
         token(seq(";", /.*/)),
         // unrolled version of /#\|.*?\|#/s
         seq("#|", /[^|]*\|+([^#][^|]*\|+)*/, "#"),
-        seq("#!", /[^!]*!+([^#][^!]*!+)*/, "#"), // guile shebang
         seq("#;", $._datum)),
     directive: $ =>
       seq("#!", $.symbol),
@@ -59,7 +62,7 @@ module.exports = grammar({
       token.immediate(
         choice(
           seq("\\", /["\\abfnrtv]/),
-          seq("\\", repeat(INTRA_WHITERPACE), /[\n]/, repeat(INTRA_WHITERPACE)),
+          seq("\\", repeat(INTRA_WHITERPACE), LINE_ENDING, repeat(INTRA_WHITERPACE)),
           seq("\\x", /[0-9a-fA-F]+/, ";"),
           seq("\\", /./))),
 
@@ -74,12 +77,13 @@ module.exports = grammar({
     symbol: _ => {
       const first_char =
         choice(
-          /[a-zA-Z!$%&*/:<=>?^_~.@]/,
+          /[a-zA-Z!$%&*/:<=>?^_~]/,
           /\p{Co}/,
           /\p{Ll}|\p{Lm}|\p{Lo}|\p{Lu}/,
           /\p{Mn}|\p{Nl}|\p{No}/,
           /\p{Pc}|\p{Pd}/,
           /\p{Sc}|\p{Sk}|\p{Sm}|\p{So}/,
+          /\p{Po}/,
 
           // codepoint range but tree-sitter doesn't support.
           // See https://unicode.org/Public/14.0.0/ucd/UnicodeData.txt
@@ -95,7 +99,6 @@ module.exports = grammar({
           /[\uAC00-\uD7A3]/, // Lo: Hangul Syllable
           /[\uE000-\uF8FF]/, // Co: Private Use
 
-          "#:",
           seq("\\x", /[0-9a-fA-F]+/, ";"));
 
       const subsequent =
@@ -104,7 +107,7 @@ module.exports = grammar({
           /[0-9.@+-]/,
           /\p{Mc}|\p{Me}|\p{Nd}/);
 
-      return token(
+      return token(prec(PREC.symbol,
         choice(
           "...",
           "+",
@@ -112,7 +115,7 @@ module.exports = grammar({
           seq("->", repeat(subsequent)),
           seq(
             first_char,
-            repeat(subsequent))));
+            repeat(subsequent)))));
     },
 
     // simple datum }}}
@@ -127,7 +130,7 @@ module.exports = grammar({
     list: $ =>
       choice(
         par(repeat($._datum)),
-        par(seq(repeat1($._datum), ".", $._datum)),
+        par(seq(repeat1($._datum), /\\./, $._datum)),
         $._abbreviation),
 
 
