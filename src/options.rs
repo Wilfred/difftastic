@@ -65,7 +65,7 @@ fn app() -> clap::App<'static> {
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline", ])
+                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "unified"])
                 .value_name("MODE")
                 .help("Display mode for showing results. Overrides $DFT_DISPLAY if present.")
         )
@@ -129,6 +129,7 @@ pub enum DisplayMode {
     Inline,
     SideBySide,
     SideBySideShowBoth,
+    Unified,
 }
 
 pub enum Mode {
@@ -255,6 +256,7 @@ pub fn parse_args() -> Mode {
         "side-by-side" => DisplayMode::SideBySide,
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
+        "unified" => DisplayMode::Unified,
         _ => {
             // The CLI validates values, but environment variables can
             // be any string.

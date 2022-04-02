@@ -1,4 +1,4 @@
-//! Inline, or "unified" diff display.
+//! Inline diff display, always showing results in a single column.
 
 use crate::{
     context::{calculate_after_context, calculate_before_context, opposite_positions},
