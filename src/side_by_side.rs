@@ -10,6 +10,7 @@ use crate::{
     context::all_matched_lines_filled,
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
+    options::DisplayMode,
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -302,6 +303,7 @@ pub fn print(
     hunks: &[Hunk],
     display_width: usize,
     use_color: bool,
+    display_mode: DisplayMode,
     background: BackgroundColor,
     display_path: &str,
     lang_name: &str,
@@ -413,7 +415,8 @@ pub fn print(
                 prev_rhs_line_num,
             );
 
-            if no_lhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
+            let show_both = matches!(display_mode, DisplayMode::SideBySideShowBoth);
+            if no_lhs_changes && !show_both {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.0];
@@ -433,7 +436,7 @@ pub fn print(
                         println!("{}{}", display_rhs_line_num, display_rhs_line_num);
                     }
                 }
-            } else if no_rhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
+            } else if no_rhs_changes && !show_both {
                 match lhs_line_num {
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.0];
@@ -686,6 +689,7 @@ mod tests {
             &hunks,
             80,
             true,
+            DisplayMode::SideBySide,
             BackgroundColor::Dark,
             "foo.el",
             "Emacs Lisp",
