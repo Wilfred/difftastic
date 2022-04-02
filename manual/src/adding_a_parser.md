@@ -103,7 +103,7 @@ language.
 There may also file names or shebangs associated with your
 language. [GitHub's linguist
 definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
-is a useful source of common file extension.
+is a useful source of common file extensions.
 
 ## Syntax highlighting (Optional)
 
