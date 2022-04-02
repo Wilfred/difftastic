@@ -62,7 +62,10 @@ pub fn guess(path: &Path, src: &str) -> Option<Language> {
     }
 
     match path.extension() {
-        Some(extension) => from_extension(extension, src),
+        Some(extension) => match from_extension(extension) {
+            Some(Language::Php) if src.starts_with("<?hh") => None,
+            language => language,
+        },
         None => None,
     }
 }
@@ -169,7 +172,7 @@ fn from_name(path: &Path) -> Option<Language> {
     }
 }
 
-fn from_extension(extension: &OsStr, src: &str) -> Option<Language> {
+fn from_extension(extension: &OsStr) -> Option<Language> {
     match extension.to_string_lossy().borrow() {
         "sh" | "bash" | "bats" | "cgi" | "command" | "env" | "fcgi" | "ksh" | "sh.in" | "tmux"
         | "tool" | "zsh" => Some(Bash),
@@ -201,7 +204,7 @@ fn from_extension(extension: &OsStr, src: &str) -> Option<Language> {
         "nix" => Some(Nix),
         "ml" => Some(OCaml),
         "mli" => Some(OCamlInterface),
-        "php" if !src.starts_with("<?hh") => Some(Php),
+        "php" => Some(Php),
         "py" | "py3" | "pyi" | "bzl" => Some(Python),
         "rb" | "builder" | "spec" | "rake" => Some(Ruby),
         "rs" => Some(Rust),
