@@ -50,7 +50,7 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use options::{should_use_color, Mode};
+use options::{should_use_color, DisplayMode, Mode};
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use style::BackgroundColor;
@@ -126,6 +126,7 @@ fn main() {
             byte_limit,
             print_unchanged,
             missing_as_empty,
+            display_mode,
             background_color,
             color_output,
             display_width,
@@ -157,6 +158,7 @@ fn main() {
                     print_diff_result(
                         display_width,
                         use_color,
+                        display_mode,
                         background_color,
                         print_unchanged,
                         &diff_result,
@@ -174,6 +176,7 @@ fn main() {
                 print_diff_result(
                     display_width,
                     use_color,
+                    display_mode,
                     background_color,
                     print_unchanged,
                     &diff_result,
@@ -370,6 +373,7 @@ fn diff_directories<'a>(
 fn print_diff_result(
     display_width: usize,
     use_color: bool,
+    display_mode: DisplayMode,
     background: BackgroundColor,
     print_unchanged: bool,
     summary: &DiffResult,
@@ -406,31 +410,35 @@ fn print_diff_result(
                 return;
             }
 
-            if env::var("INLINE").is_ok() {
-                inline::print(
-                    lhs_src,
-                    rhs_src,
-                    &summary.lhs_positions,
-                    &summary.rhs_positions,
-                    &hunks,
-                    &summary.path,
-                    &lang_name,
-                    use_color,
-                    background,
-                );
-            } else {
-                side_by_side::print(
-                    &hunks,
-                    display_width,
-                    use_color,
-                    background,
-                    &summary.path,
-                    &lang_name,
-                    lhs_src,
-                    rhs_src,
-                    &summary.lhs_positions,
-                    &summary.rhs_positions,
-                );
+            match display_mode {
+                DisplayMode::Inline => {
+                    inline::print(
+                        lhs_src,
+                        rhs_src,
+                        &summary.lhs_positions,
+                        &summary.rhs_positions,
+                        &hunks,
+                        &summary.path,
+                        &lang_name,
+                        use_color,
+                        background,
+                    );
+                }
+                DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
+                    side_by_side::print(
+                        &hunks,
+                        display_width,
+                        use_color,
+                        display_mode,
+                        background,
+                        &summary.path,
+                        &lang_name,
+                        lhs_src,
+                        rhs_src,
+                        &summary.lhs_positions,
+                        &summary.rhs_positions,
+                    );
+                }
             }
         }
         (FileContent::Binary(lhs_bytes), FileContent::Binary(rhs_bytes)) => {

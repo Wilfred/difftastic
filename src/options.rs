@@ -1,4 +1,4 @@
-use std::env;
+use std::{borrow::Borrow, env};
 
 use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
@@ -64,6 +64,12 @@ fn app() -> clap::App<'static> {
                 .required(false),
         )
         .arg(
+            Arg::new("display").long("display")
+                .possible_values(["side-by-side", "side-by-side-show-both", "inline", ])
+                .value_name("MODE")
+                .help("Display mode for showing results. Overrides $DFT_DISPLAY if present.")
+        )
+        .arg(
             Arg::new("color").long("color")
                 .possible_values(["always", "auto", "never"])
                 .value_name("WHEN")
@@ -111,12 +117,20 @@ fn app() -> clap::App<'static> {
         .setting(AppSettings::ArgRequiredElseHelp)
 }
 
+#[derive(Debug, Copy, Clone)]
+pub enum DisplayMode {
+    Inline,
+    SideBySide,
+    SideBySideShowBoth,
+}
+
 pub enum Mode {
     Diff {
         node_limit: u32,
         byte_limit: usize,
         print_unchanged: bool,
         missing_as_empty: bool,
+        display_mode: DisplayMode,
         background_color: BackgroundColor,
         color_output: ColorOutput,
         display_width: usize,
@@ -205,6 +219,22 @@ pub fn parse_args() -> Mode {
         env_width.unwrap_or_else(detect_display_width)
     };
 
+    let display_mode_str = if let Some(display_mode_str) = matches.value_of("display") {
+        display_mode_str.to_owned()
+    } else {
+        env::var("DFT_DISPLAY").unwrap_or_else(|_| "".to_owned())
+    };
+    let display_mode = match display_mode_str.borrow() {
+        "side-by-side" => DisplayMode::SideBySide,
+        "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
+        "inline" => DisplayMode::Inline,
+        _ => {
+            // The CLI validates values, but environment variables can
+            // be any string.
+            DisplayMode::SideBySide
+        }
+    };
+
     let color_output = if let Some(color_when) = matches.value_of("color") {
         if color_when == "always" {
             ColorOutput::Always
@@ -274,6 +304,7 @@ pub fn parse_args() -> Mode {
         byte_limit,
         print_unchanged,
         missing_as_empty,
+        display_mode,
         background_color,
         color_output,
         display_width,

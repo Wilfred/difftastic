@@ -1,5 +1,11 @@
 ## 0.26 (unreleased)
 
+### Command Line Interface
+
+Added the `--display` option to switch between `side-by-side`,
+`side-by-side-show-both`, and `inline` display modes. This replaces
+the `INLINE` and `DFT_SHOW_BOTH` environment variables.
+
 ## 0.25 (released 31st March 2022)
 
 ### Display
