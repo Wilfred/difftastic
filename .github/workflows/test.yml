@@ -36,7 +36,8 @@ jobs:
         with:
           node-version: 14
       - run: npm install
-      - run: Download sicp code
+      - name: Download sicp code
+      - run: |
         mkdir -p sicp && cd sicp
         curl https://mitpress.mit.edu/sites/default/files/sicp/code/allcode.tar.gz -O
         tar xvf allcode.tar.gz
