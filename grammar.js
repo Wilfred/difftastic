@@ -136,43 +136,12 @@ module.exports = grammar({
 
     _special_form: $ =>
       choice(
-        $.if_expr,
         $.vector,
         $.byte_vector),
-
-    quote: $ =>
-      choice(
-        seq(
-          "'",
-          $._datum),
-        par(seq("quote", $._datum))),
 
     vector: $ => seq("#(", repeat($._datum), ")"),
 
     byte_vector: $ => seq("#vu8(", repeat($.number), ")"),
-
-    define: $ =>
-      par(
-        choice(
-          seq("define", $._datum, optional($._datum)),
-          seq("define", par(seq($._datum, optional($.parameters))), repeat($._datum)))),
-
-    if_expr: $ =>
-      choice(
-        par(seq("if", $.test, $._datum, optional($._datum)))),
-
-    test: $ => $._datum,
-
-    _parameters: $ => par(optional($.parameters)),
-
-    parameters: $ =>
-      choice(
-        seq(
-          repeat($.symbol),
-          ".",
-          $.symbol),
-        repeat1($.symbol)),
-
     // compound datum }}}
   },
 });

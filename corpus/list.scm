@@ -16,12 +16,12 @@ list
     (symbol)
     (symbol)
     (number))
-  (if_expr
-    (test
-      (list
-        (symbol)
-        (number)
-        (number)))
+  (list
+    (symbol)
+    (list
+      (symbol)
+      (number)
+      (number))
     (number)
     (number))
   (vector
@@ -57,12 +57,12 @@ Procedure
     (list
       (symbol)
       (symbol))
-    (if_expr
-      (test
-        (list
-          (symbol)
-          (symbol)
-          (number)))
+    (list
+      (symbol)
+      (list
+        (symbol)
+        (symbol)
+        (number))
       (number)
       (list
         (symbol)

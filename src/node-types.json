@@ -40,10 +40,6 @@
           "named": true
         },
         {
-          "type": "if_expr",
-          "named": true
-        },
-        {
           "type": "list",
           "named": true
         },
@@ -82,57 +78,6 @@
     }
   },
   {
-    "type": "if_expr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "byte_vector",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "if_expr",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "test",
-          "named": true
-        },
-        {
-          "type": "vector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -153,10 +98,6 @@
           "named": true
         },
         {
-          "type": "if_expr",
-          "named": true
-        },
-        {
           "type": "list",
           "named": true
         },
@@ -174,21 +115,6 @@
         },
         {
           "type": "vector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "symbol",
           "named": true
         }
       ]
@@ -212,10 +138,6 @@
         },
         {
           "type": "character",
-          "named": true
-        },
-        {
-          "type": "if_expr",
           "named": true
         },
         {
@@ -257,53 +179,6 @@
     }
   },
   {
-    "type": "test",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "byte_vector",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "if_expr",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "vector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "vector",
     "named": true,
     "fields": {},
@@ -321,10 +196,6 @@
         },
         {
           "type": "character",
-          "named": true
-        },
-        {
-          "type": "if_expr",
           "named": true
         },
         {
@@ -451,24 +322,12 @@
     "named": true
   },
   {
-    "type": "define",
-    "named": false
-  },
-  {
     "type": "escape_sequence",
     "named": true
   },
   {
-    "type": "if",
-    "named": false
-  },
-  {
     "type": "number",
     "named": true
-  },
-  {
-    "type": "quote",
-    "named": false
   },
   {
     "type": "symbol",
