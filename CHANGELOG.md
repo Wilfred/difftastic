@@ -6,6 +6,10 @@ Added the `--display` option to switch between `side-by-side`,
 `side-by-side-show-both`, and `inline` display modes. This replaces
 the `INLINE` and `DFT_SHOW_BOTH` environment variables.
 
+Added the `--language` option to enable overriding language
+detection. When specified, language detection is disabled, and the
+input file is assumed to have the extension specified.
+
 ## 0.25 (released 31st March 2022)
 
 ### Display
