@@ -26,5 +26,5 @@ jobs:
           node-version: 14
       - run: npm install
       - run: git clone https://git.sv.gnu.org/git/guile.git guile --depth 1 --branch v3.0.8
-      - run: npx tree-sitter parse guile/**/*.{scm,ss,sls} -q
+      - run: npx tree-sitter parse guile/**/*.{scm,ss,sls} -qt
 
