@@ -4,7 +4,7 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
 use const_format::formatcp;
 
-use crate::style::BackgroundColor;
+use crate::{guess_language, style::BackgroundColor};
 
 pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
@@ -90,6 +90,13 @@ fn app() -> clap::App<'static> {
                 .help("Treat paths that don't exist as equivalent to an empty file.")
         )
         .arg(
+            Arg::new("language").long("language")
+                .value_name("EXT")
+                .allow_invalid_utf8(true)
+                .help("Override language detection. Inputs are assumed to have this file extension. When diffing directories, applies to all files.")
+                // TODO: support DFT_LANGUAGE for consistency
+        )
+        .arg(
             Arg::new("node-limit").long("node-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
@@ -135,14 +142,17 @@ pub enum Mode {
         color_output: ColorOutput,
         display_width: usize,
         display_path: String,
+        language_override: Option<guess_language::Language>,
         lhs_path: String,
         rhs_path: String,
     },
     DumpTreeSitter {
         path: String,
+        language_override: Option<guess_language::Language>,
     },
     DumpSyntax {
         path: String,
+        language_override: Option<guess_language::Language>,
     },
 }
 
@@ -150,15 +160,32 @@ pub enum Mode {
 pub fn parse_args() -> Mode {
     let matches = app().get_matches();
 
+    let language_override = match matches.value_of_os("language") {
+        Some(lang_str) => {
+            if let Some(lang) = guess_language::from_extension(lang_str) {
+                Some(lang)
+            } else {
+                eprintln!(
+                    "No language is associated with extension: {}",
+                    lang_str.to_string_lossy()
+                );
+                None
+            }
+        }
+        None => None,
+    };
+
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
             path: path.to_string(),
+            language_override,
         };
     }
 
     if let Some(path) = matches.value_of("dump-ts") {
         return Mode::DumpTreeSitter {
             path: path.to_string(),
+            language_override,
         };
     }
 
@@ -309,6 +336,7 @@ pub fn parse_args() -> Mode {
         color_output,
         display_width,
         display_path,
+        language_override,
         lhs_path,
         rhs_path,
     }

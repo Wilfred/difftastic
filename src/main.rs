@@ -88,11 +88,16 @@ fn main() {
     reset_sigpipe();
 
     match options::parse_args() {
-        Mode::DumpTreeSitter { path } => {
+        Mode::DumpTreeSitter {
+            path,
+            language_override,
+        } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
-            match guess(path, &src) {
+
+            let language = language_override.or_else(|| guess(path, &src));
+            match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let tree = tsp::parse_to_tree(&src, &ts_lang);
@@ -103,12 +108,16 @@ fn main() {
                 }
             }
         }
-        Mode::DumpSyntax { path } => {
+        Mode::DumpSyntax {
+            path,
+            language_override,
+        } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            match guess(path, &src) {
+            let language = language_override.or_else(|| guess(path, &src));
+            match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
@@ -131,6 +140,7 @@ fn main() {
             color_output,
             display_width,
             display_path,
+            language_override,
             lhs_path,
             rhs_path,
             ..
@@ -152,9 +162,14 @@ fn main() {
             }
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
-                for diff_result in
-                    diff_directories(lhs_path, rhs_path, missing_as_empty, node_limit, byte_limit)
-                {
+                for diff_result in diff_directories(
+                    lhs_path,
+                    rhs_path,
+                    missing_as_empty,
+                    node_limit,
+                    byte_limit,
+                    language_override,
+                ) {
                     print_diff_result(
                         display_width,
                         use_color,
@@ -172,6 +187,7 @@ fn main() {
                     missing_as_empty,
                     node_limit,
                     byte_limit,
+                    language_override,
                 );
                 print_diff_result(
                     display_width,
@@ -194,9 +210,17 @@ fn diff_file(
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
+    language_override: Option<guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
-    diff_file_content(display_path, &lhs_bytes, &rhs_bytes, node_limit, byte_limit)
+    diff_file_content(
+        display_path,
+        &lhs_bytes,
+        &rhs_bytes,
+        node_limit,
+        byte_limit,
+        language_override,
+    )
 }
 
 fn diff_file_content(
@@ -205,6 +229,7 @@ fn diff_file_content(
     rhs_bytes: &[u8],
     node_limit: u32,
     byte_limit: usize,
+    language_override: Option<guess_language::Language>,
 ) -> DiffResult {
     if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
@@ -246,7 +271,9 @@ fn diff_file_content(
     } else {
         &rhs_src
     };
-    let ts_lang = guess(path, guess_src).map(tsp::from_language);
+    let ts_lang = language_override
+        .or_else(|| guess(path, guess_src))
+        .map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
         // If the two files are completely identical, return early
@@ -346,6 +373,7 @@ fn diff_directories<'a>(
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
+    language_override: Option<guess_language::Language>,
 ) -> impl Iterator<Item = DiffResult> + 'a {
     WalkDir::new(lhs_dir)
         .into_iter()
@@ -365,6 +393,7 @@ fn diff_directories<'a>(
                 missing_as_empty,
                 node_limit,
                 byte_limit,
+                language_override,
             )
         })
 }
@@ -503,6 +532,7 @@ mod tests {
             s.as_bytes(),
             DEFAULT_NODE_LIMIT,
             DEFAULT_BYTE_LIMIT,
+            None,
         );
 
         assert_eq!(res.lhs_positions, vec![]);

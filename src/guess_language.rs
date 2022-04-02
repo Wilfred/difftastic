@@ -172,7 +172,7 @@ fn from_name(path: &Path) -> Option<Language> {
     }
 }
 
-fn from_extension(extension: &OsStr) -> Option<Language> {
+pub fn from_extension(extension: &OsStr) -> Option<Language> {
     match extension.to_string_lossy().borrow() {
         "sh" | "bash" | "bats" | "cgi" | "command" | "env" | "fcgi" | "ksh" | "sh.in" | "tmux"
         | "tool" | "zsh" => Some(Bash),
