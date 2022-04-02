@@ -15,11 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - if: matrix.os == 'windows-latest' && matrix.compiler == 'clang++'
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "11.0"
-
       - if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
         uses: egor-tensin/setup-mingw@v2
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0 - not yet released
+
+housekeeping:
+* bump tree-sitter dependency to 0.20.6
+* regenerate parser
+* fix clang+windows CI job
+
 ## 0.6.0 - 2021-09-20
 
 feature:

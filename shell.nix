@@ -13,7 +13,7 @@ in
     ];
     shellHook = ''
 PATH=./node_modules/.bin:$PATH
-command -v tree-sitter >/dev/null 2>&1 || npm install tree-sitter-cli@0.19.5
+command -v tree-sitter >/dev/null 2>&1 || npm install tree-sitter-cli@0.20.6
     '';
   }
 
