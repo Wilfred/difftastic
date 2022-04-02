@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Rust
-        run: rustup toolchain install nightly --component llvm-tools-preview
+        run: rustup toolchain install nightly-2022-03-30 --component llvm-tools-preview
       - name: Install cargo-llvm-cov
         run: curl -LsSf https://github.com/taiki-e/cargo-llvm-cov/releases/latest/download/cargo-llvm-cov-x86_64-unknown-linux-gnu.tar.gz | tar xzf - -C ~/.cargo/bin
       - name: Generate code coverage
