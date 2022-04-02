@@ -118,8 +118,7 @@ const AMPERSAND = "&",
   dec_int = seq(dec, repeat(dec_)),
   hex_int = seq(hex, repeat(hex_)),
   unescaped_string_fragment = token.immediate(prec(1, /[^"\\\{\}]+/)),
-  unescaped_char_fragment = token.immediate(prec(1, /[^'\\]/)),
-  line_string = token(seq("\\\\", /[^\n]*/));
+  unescaped_char_fragment = token.immediate(prec(1, /[^'\\]/));
 
 module.exports = grammar({
   name: "zig",
@@ -843,9 +842,9 @@ module.exports = grammar({
         '"'
       ),
 
-    LINESTRING: (_) => repeat1(line_string),
+    LINESTRING: (_) => seq("\\\\", /[^\n]*/),
 
-    _STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, $.LINESTRING),
+    _STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, repeat1($.LINESTRING)),
 
     Variable: ($) => field("variable", $.IDENTIFIER),
 
