@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [maxos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -16,6 +16,16 @@ jobs:
           node-version: 14
       - run: npm install
       - run: npm test
+
+  test_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: npm run-script test-windows
 
   guile:
     runs-on: ubuntu-latest
