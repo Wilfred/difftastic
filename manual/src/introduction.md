@@ -27,6 +27,7 @@ tool that understands syntax. It supports the following languages:
 * Rust
 * Scala
 * TypeScript (and TSX)
+* Zig
 
 When it works, it's *fantastic*.
 
