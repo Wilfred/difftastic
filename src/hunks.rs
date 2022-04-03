@@ -8,6 +8,7 @@ const MAX_DISTANCE: usize = 4;
 use std::collections::{HashMap, HashSet};
 
 use crate::{
+    constants::Side,
     context::{add_context, opposite_positions, MAX_PADDING},
     lines::LineNumber,
     side_by_side::lines_with_novel,
@@ -344,12 +345,6 @@ fn lines_to_hunks(
     hunks
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum Side {
-    LHS,
-    RHS,
-}
-
 /// Given a sequence of novel MatchedPos values in a section between
 /// two unchanged MatchedPos values, return them in an order suited
 /// for displaying.
@@ -386,7 +381,7 @@ fn novel_section_in_order(
             false
         };
         if same_line_as_prev {
-            res.push((Side::LHS, (**lhs_mp).clone()));
+            res.push((Side::Left, (**lhs_mp).clone()));
             lhs_iter.next();
         } else {
             break;
@@ -399,7 +394,7 @@ fn novel_section_in_order(
             false
         };
         if same_line_as_prev {
-            res.push((Side::RHS, (**rhs_mp).clone()));
+            res.push((Side::Right, (**rhs_mp).clone()));
             rhs_iter.next();
         } else {
             break;
@@ -410,7 +405,7 @@ fn novel_section_in_order(
     // without any unchanged MatchedPos values.
     while let Some(lhs_mp) = lhs_iter.peek() {
         if !opposite_to_lhs.contains_key(&lhs_mp.pos.line) {
-            res.push((Side::LHS, (**lhs_mp).clone()));
+            res.push((Side::Left, (**lhs_mp).clone()));
             lhs_iter.next();
         } else {
             break;
@@ -418,7 +413,7 @@ fn novel_section_in_order(
     }
     while let Some(rhs_mp) = rhs_iter.peek() {
         if !opposite_to_rhs.contains_key(&rhs_mp.pos.line) {
-            res.push((Side::RHS, (**rhs_mp).clone()));
+            res.push((Side::Right, (**rhs_mp).clone()));
             rhs_iter.next();
         } else {
             break;
@@ -428,10 +423,10 @@ fn novel_section_in_order(
     // Finally, the remainder of the novel MatchedPos values will be
     // on the same line as the following unchanged MatchedPos value.
     for lhs_mp in lhs_iter {
-        res.push((Side::LHS, (*lhs_mp).clone()));
+        res.push((Side::Left, (*lhs_mp).clone()));
     }
     for rhs_mp in rhs_iter {
-        res.push((Side::RHS, (*rhs_mp).clone()));
+        res.push((Side::Right, (*rhs_mp).clone()));
     }
 
     res
@@ -546,7 +541,7 @@ fn matched_novel_lines(
         let self_line = mp.pos.line;
 
         match side {
-            Side::LHS => {
+            Side::Left => {
                 let should_append = if let Some(highest_lhs) = highest_lhs {
                     self_line > highest_lhs
                 } else {
@@ -560,7 +555,7 @@ fn matched_novel_lines(
                     highest_lhs = Some(self_line);
                 }
             }
-            Side::RHS => {
+            Side::Right => {
                 let should_append = if let Some(highest_rhs) = highest_rhs {
                     self_line > highest_rhs
                 } else {
@@ -703,7 +698,7 @@ mod tests {
         let lhs_mps = vec![novel_mp.clone(), matched_mp.clone()];
         let res = sorted_novel_positions(&lhs_mps, &[matched_mp], &HashMap::new(), &HashMap::new());
 
-        assert_eq!(res, vec![(Side::LHS, novel_mp)]);
+        assert_eq!(res, vec![(Side::Left, novel_mp)]);
     }
 
     #[test]
