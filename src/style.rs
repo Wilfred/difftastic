@@ -1,6 +1,7 @@
 //! Apply colours and styling to strings.
 
 use crate::{
+    constants::Side,
     lines::{byte_len, codepoint_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
@@ -54,7 +55,7 @@ fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
 /// ```
 /// split_string_by_codepoint("fooba", 3) // vec!["foo", "ba "]
 /// ```
-fn split_string_by_codepoint(s: &str, max_len: usize) -> Vec<String> {
+fn split_string_by_codepoint(s: &str, max_len: usize, pad_last: bool) -> Vec<String> {
     let mut res = vec![];
     let mut s = s;
 
@@ -64,7 +65,11 @@ fn split_string_by_codepoint(s: &str, max_len: usize) -> Vec<String> {
     }
 
     if res.is_empty() || !s.is_empty() {
-        res.push(format!("{:width$}", s, width = max_len));
+        if pad_last {
+            res.push(format!("{:width$}", s, width = max_len));
+        } else {
+            res.push(s.to_string());
+        }
     }
 
     res
@@ -82,10 +87,11 @@ pub fn split_and_apply(
     max_len: usize,
     use_color: bool,
     styles: &[(SingleLineSpan, Style)],
+    side: Side,
 ) -> Vec<String> {
     if styles.is_empty() && !line.trim().is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
-        return split_string_by_codepoint(line, max_len)
+        return split_string_by_codepoint(line, max_len, matches!(side, Side::Left))
             .into_iter()
             .map(|part| {
                 if use_color {
@@ -100,7 +106,7 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for part in split_string_by_codepoint(line, max_len) {
+    for part in split_string_by_codepoint(line, max_len, matches!(side, Side::Left)) {
         let mut res = String::with_capacity(part.len());
         let mut prev_style_end = 0;
         for (span, style) in styles {
@@ -354,17 +360,31 @@ mod tests {
 
     #[test]
     fn split_string_simple() {
-        assert_eq!(split_string_by_codepoint("fooba", 3), vec!["foo", "ba "]);
+        assert_eq!(
+            split_string_by_codepoint("fooba", 3, true),
+            vec!["foo", "ba "]
+        );
+    }
+
+    #[test]
+    fn split_string_simple_no_pad() {
+        assert_eq!(
+            split_string_by_codepoint("fooba", 3, false),
+            vec!["foo", "ba"]
+        );
     }
 
     #[test]
     fn split_string_unicode() {
-        assert_eq!(split_string_by_codepoint("ab📦def", 3), vec!["ab📦", "def"]);
+        assert_eq!(
+            split_string_by_codepoint("ab📦def", 3, true),
+            vec!["ab📦", "def"]
+        );
     }
 
     #[test]
     fn test_split_and_apply_missing() {
-        let res = split_and_apply("foo", 3, true, &[]);
+        let res = split_and_apply("foo", 3, true, &[], Side::Left);
         assert_eq!(res, vec![highlight_missing_style_bug("foo")])
     }
 
@@ -382,6 +402,7 @@ mod tests {
                 },
                 Style::new(),
             )],
+            Side::Left,
         );
         assert_eq!(res, vec!["foo"])
     }
@@ -400,6 +421,7 @@ mod tests {
                 },
                 Style::new(),
             )],
+            Side::Left,
         );
         assert_eq!(res, vec!["foobar"])
     }
@@ -428,6 +450,7 @@ mod tests {
                     Style::new(),
                 ),
             ],
+            Side::Left,
         );
         assert_eq!(res, vec!["foo", "bar"])
     }
@@ -446,6 +469,7 @@ mod tests {
                 },
                 Style::new(),
             )],
+            Side::Left,
         );
         assert_eq!(res, vec!["foobar", "      "])
     }
