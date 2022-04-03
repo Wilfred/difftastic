@@ -49,7 +49,6 @@ impl TreeSitterParser {
             }
             cpp_build.compile(&format!("{}-cpp", self.name));
         }
-
     }
 }
 
