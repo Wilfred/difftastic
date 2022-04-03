@@ -4,7 +4,6 @@
 
 Scheme grammar for tree-sitter.
 
-
 ## Status
 
 tree-sitter-scheme should work on a superset of Scheme.
@@ -13,11 +12,11 @@ The standards are expected to support:
 
 * [x] R5RS
 * [x] R6RS
-* [ ] Implementation related extensions
+* [ ] Implementation specific extensions
 
 ## TODO
 
-* Better tests
+* More tests
 * Queries
 
 ## Reference
