@@ -13,6 +13,7 @@
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
 
+mod constants;
 mod context;
 mod dijkstra;
 mod files;
