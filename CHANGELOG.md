@@ -1,5 +1,9 @@
 ## 0.26 (unreleased)
 
+### Parsing
+
+Added Gleam support.
+
 ### Command Line Interface
 
 Added the `--display` option to switch between `side-by-side`,
