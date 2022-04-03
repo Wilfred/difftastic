@@ -13,6 +13,7 @@ tool that understands syntax. It supports the following languages:
 * Dart
 * Elixir
 * Emacs Lisp
+* Gleam
 * Go
 * Haskell
 * Janet
