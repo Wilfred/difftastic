@@ -1,0 +1,98 @@
+==============================
+Value definition
+==============================
+
+let x = y
+let ( + ) = x
+let rec x = y and y = x
+let x, y = y, x
+let x : 'a . 'a t = y
+let f ~x ~l:y ~(x : t) ?(l = y) ?l:((x, y) : t = xy) = x
+let f (type t) x : t = x
+let+ x = a and+ y = b
+let%ext x
+let* x and* y
+
+---
+
+(compilation_unit
+  (value_definition
+    (let_binding (value_name) (value_path (value_name))))
+  (value_definition
+    (let_binding
+      (parenthesized_operator (infix_operator))
+      (value_path (value_name))))
+  (value_definition
+    (let_binding (value_name) (value_path (value_name)))
+    (let_binding (value_name) (value_path (value_name))))
+  (value_definition
+    (let_binding
+      (tuple_pattern (value_name) (value_name))
+      (product_expression (value_path (value_name)) (value_path (value_name)))))
+  (value_definition
+    (let_binding
+      (value_name)
+      (polymorphic_type
+        (type_variable)
+        (constructed_type (type_variable) (type_constructor_path (type_constructor))))
+      (value_path (value_name))))
+  (value_definition
+    (let_binding
+      (value_name)
+      (parameter (value_pattern))
+      (parameter (label_name) (value_pattern))
+      (parameter (value_pattern) (type_constructor_path (type_constructor)))
+      (parameter (value_pattern) (value_path (value_name)))
+      (parameter
+        (label_name)
+        (parenthesized_pattern
+          (tuple_pattern (value_pattern) (value_pattern)))
+        (type_constructor_path (type_constructor))
+        (value_path (value_name)))
+      (value_path (value_name))))
+  (value_definition
+    (let_binding
+      (value_name)
+      (abstract_type (type_constructor))
+      (parameter (value_pattern))
+      (type_constructor_path (type_constructor))
+      (value_path (value_name))))
+  (value_definition
+    (let_operator)
+    (let_binding (value_name) (value_path (value_name)))
+    (and_operator)
+    (let_binding (value_name) (value_path (value_name))))
+  (value_definition (attribute_id) (let_binding (value_name)))
+  (value_definition
+    (let_operator)
+    (let_binding (value_name))
+    (and_operator)
+    (let_binding (value_name))))
+
+==============================
+Include
+==============================
+
+include M
+include M.M
+include M.M.M
+include M(M)
+
+---
+
+(compilation_unit
+  (include_module (module_path (module_name)))
+  (include_module
+    (module_path
+      (module_path (module_name))
+      (module_name)))
+  (include_module
+    (module_path
+      (module_path
+        (module_path (module_name))
+        (module_name))
+      (module_name)))
+  (include_module
+    (module_application
+      (module_path (module_name))
+      (parenthesized_module_expression (module_path (module_name))))))

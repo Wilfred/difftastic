@@ -1,6 +1,7 @@
 //! Manipulate lines of text and groups of lines.
 
 use crate::positions::SingleLineSpan;
+use serde::{Deserialize, Serialize};
 use std::{
     cmp::{max, Ordering},
     fmt,
@@ -10,7 +11,7 @@ use std::{
 /// other numerical data.
 ///
 /// Zero-indexed internally.
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber(pub usize);
 
 impl LineNumber {

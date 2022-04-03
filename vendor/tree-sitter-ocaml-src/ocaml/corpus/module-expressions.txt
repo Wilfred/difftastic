@@ -1,0 +1,146 @@
+==========================
+Module paths
+==========================
+
+module M = M
+module M = M.M
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path
+        (module_path (module_name))
+        (module_name)))))
+
+============================
+Structures
+============================
+
+module M = struct
+  let x = x
+end
+module M = struct ;; end
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (structure
+        (value_definition
+          (let_binding
+            (value_name)
+            (value_path (value_name)))))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (structure))))
+
+============================
+Module applications
+============================
+
+module M = M (M)
+module M = M (M) (M)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_application
+        (module_path (module_name))
+        (parenthesized_module_expression (module_path (module_name))))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_application
+        (module_application
+          (module_path (module_name))
+          (parenthesized_module_expression (module_path (module_name))))
+        (parenthesized_module_expression (module_path (module_name)))))))
+
+==========================
+Typed module expressions
+==========================
+
+module M = (M : T)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (typed_module_expression
+        (module_path (module_name))
+        (module_type_path (module_type_name))))))
+
+=========================
+Packed modules
+==========================
+
+module M = (val m)
+module M = (val m : T)
+module M = M (val m)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (packed_module (value_path (value_name)))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (packed_module
+        (value_path (value_name))
+        (module_type_path (module_type_name)))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_application
+        (module_path (module_name))
+        (packed_module (value_path (value_name)))))))
+
+=========================
+Functors
+==========================
+
+module M = functor (M : T) -> M
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (functor
+        (module_parameter
+          (module_name)
+          (module_type_path (module_type_name)))
+        (module_path (module_name))))))
+
+==============================
+Parenthesized module expressions
+==============================
+
+module M = (M)
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)
+      (parenthesized_module_expression (module_path (module_name))))))

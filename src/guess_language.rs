@@ -50,7 +50,7 @@ pub enum Language {
     Zig,
 }
 
-use Language::*;
+pub use Language::*;
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
     if let Some(lang) = from_emacs_mode_header(src) {

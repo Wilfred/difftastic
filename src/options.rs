@@ -4,19 +4,14 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
 use const_format::formatcp;
 
-use crate::{guess_language, style::BackgroundColor};
+use difftastic::option_types::*;
+
+use difftastic::{guess_language, style::BackgroundColor};
 
 pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
-
-#[derive(Debug)]
-pub enum ColorOutput {
-    Always,
-    Auto,
-    Never,
-}
 
 fn app() -> clap::App<'static> {
     App::new("Difftastic")
@@ -122,38 +117,6 @@ fn app() -> clap::App<'static> {
                 .allow_invalid_utf8(true),
         )
         .setting(AppSettings::ArgRequiredElseHelp)
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum DisplayMode {
-    Inline,
-    SideBySide,
-    SideBySideShowBoth,
-}
-
-pub enum Mode {
-    Diff {
-        node_limit: u32,
-        byte_limit: usize,
-        print_unchanged: bool,
-        missing_as_empty: bool,
-        display_mode: DisplayMode,
-        background_color: BackgroundColor,
-        color_output: ColorOutput,
-        display_width: usize,
-        display_path: String,
-        language_override: Option<guess_language::Language>,
-        lhs_path: String,
-        rhs_path: String,
-    },
-    DumpTreeSitter {
-        path: String,
-        language_override: Option<guess_language::Language>,
-    },
-    DumpSyntax {
-        path: String,
-        language_override: Option<guess_language::Language>,
-    },
 }
 
 /// Parse CLI arguments passed to the binary.
