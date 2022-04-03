@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added Gleam support.
+Added Gleam and Zig support.
 
 ### Command Line Interface
 
