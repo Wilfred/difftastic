@@ -1,5 +1,11 @@
 ## 0.26 (unreleased)
 
+### Display
+
+The side-by-side display no longer pads the right column to fill the
+terminal. This improves display when the terminal is slightly shrunk,
+or when wide characters (e.g. emoji) are used.
+
 ### Parsing
 
 Added Gleam and Zig support.

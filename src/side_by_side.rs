@@ -7,6 +7,7 @@ use std::{
 };
 
 use crate::{
+    constants::Side,
     context::all_matched_lines_filled,
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
@@ -460,6 +461,7 @@ pub fn print(
                         source_dims.lhs_content_width,
                         use_color,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
+                        Side::Left,
                     ),
                     None => vec![" ".repeat(source_dims.lhs_content_width)],
                 };
@@ -469,6 +471,7 @@ pub fn print(
                         source_dims.rhs_content_width,
                         use_color,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
+                        Side::Right,
                     ),
                     None => vec!["".into()],
                 };
