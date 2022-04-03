@@ -7123,6 +7123,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "abbreviation"
+        },
+        {
+          "type": "SYMBOL",
           "name": "list"
         }
       ]
@@ -7298,14 +7302,10 @@
               ]
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_abbreviation"
         }
       ]
     },
-    "_abbreviation": {
+    "abbreviation": {
       "type": "CHOICE",
       "members": [
         {

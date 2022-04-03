@@ -1,5 +1,52 @@
 [
   {
+    "type": "abbreviation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "abbreviation",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "byte_vector",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean",
     "named": true,
     "fields": {}
@@ -27,6 +74,10 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "abbreviation",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -86,6 +137,10 @@
       "required": false,
       "types": [
         {
+          "type": "abbreviation",
+          "named": true
+        },
+        {
           "type": "boolean",
           "named": true
         },
@@ -128,6 +183,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "abbreviation",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -186,6 +245,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "abbreviation",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true

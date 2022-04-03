@@ -14,5 +14,11 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.6"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.scheme",
+      "file-types": ["scm", "ss", "rkt"]
+    }
+  ]
 }

@@ -125,16 +125,16 @@ module.exports = grammar({
     _compound_datum: $ =>
       choice(
         $._special_form,
+        $.abbreviation,
         $.list),
 
     list: $ =>
       choice(
         par(repeat($._datum)),
-        par(seq(repeat1($._datum), /\\./, $._datum)),
-        $._abbreviation),
+        par(seq(repeat1($._datum), /\\./, $._datum))),
 
 
-    _abbreviation: $ => choice(seq($._abbreviation_prefix, $._datum)),
+    abbreviation: $ => choice(seq($._abbreviation_prefix, $._datum)),
     _abbreviation_prefix: _ => choice("'", "`", ",", ",@", "#'", "#`", "#,", "#,@"),
 
     _special_form: $ =>
