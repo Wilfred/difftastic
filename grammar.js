@@ -443,6 +443,8 @@ module.exports = grammar({
         choice(
           alias($.identifier, $.hash_key_symbol),
           alias($.constant, $.hash_key_symbol),
+          alias($.identifier_suffix, $.hash_key_symbol),
+          alias($.constant_suffix, $.hash_key_symbol),
           $.string
         )
       ),
@@ -695,7 +697,7 @@ module.exports = grammar({
     _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
       choice('.', '&.'),
-      field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
+      field('method', choice($.identifier, $.operator, $.constant, $._fid, $.argument_list))
     )),
 
     command_call: $ => seq(
@@ -704,6 +706,7 @@ module.exports = grammar({
         $._chained_command_call,
         field('method', choice(
           $._variable,
+          $._fid,
           $.scope_resolution
         )),
       ),
@@ -713,7 +716,7 @@ module.exports = grammar({
     command_call_with_block: $ => {
       const receiver = choice(
         $._call,
-        field('method', choice($._variable, $.scope_resolution))
+        field('method', choice($._variable, $._fid, $.scope_resolution))
       )
       const arguments = field('arguments', alias($.command_argument_list, $.argument_list))
       const block = field('block', $.block)
@@ -727,14 +730,14 @@ module.exports = grammar({
     _chained_command_call: $ => seq(
       field('receiver', alias($.command_call_with_block, $.call)),
       choice('.', '&.'),
-      field('method', choice($.identifier, $.operator, $.constant, $.argument_list))
+      field('method', choice($.identifier, $._fid, $.operator, $.constant, $.argument_list))
     ),
 
     call: $ => {
       const receiver = choice(
         $._call,
         field('method', choice(
-          $._variable,
+          $._variable, $._fid,
           $.scope_resolution
         ))
       )
@@ -940,8 +943,11 @@ module.exports = grammar({
 
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
 
+    _fid: $ => choice(alias($.identifier_suffix, $.identifier), alias($.constant_suffix, $.constant)),
+    _fid_call: $ => prec.right(field('method', $._fid)),
     _lhs: $ => prec.left(choice(
       $._variable,
+      alias($._fid_call, $.call),
       $.true,
       $.false,
       $.nil,
@@ -966,6 +972,7 @@ module.exports = grammar({
 
     _method_name: $ => choice(
       $.identifier,
+      $._fid,
       $.constant,
       $.setter,
       $.simple_symbol,
@@ -1014,8 +1021,10 @@ module.exports = grammar({
     false: $ => token(choice('false', 'FALSE')),
     nil: $ => token(choice('nil', 'NIL')),
 
-    constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /(\?|\!)?/)),
-    identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /(\?|\!)?/)),
+    constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS)),
+    constant_suffix: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?!]/)),
+    identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS)),
+    identifier_suffix: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /[?!]/)),
     instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
     class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
 
@@ -1129,7 +1138,9 @@ module.exports = grammar({
         field('key', choice(
           $.hash_key_symbol,
           alias($.identifier, $.hash_key_symbol),
-          alias($.constant, $.hash_key_symbol)
+          alias($.constant, $.hash_key_symbol),
+          alias($.identifier_suffix, $.hash_key_symbol),
+          alias($.constant_suffix, $.hash_key_symbol),
         )),
         token.immediate(':'),
         field('value', optional($._arg))

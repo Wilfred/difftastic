@@ -572,6 +572,12 @@ foo
 foo()
 print "hello"
 print("hello")
+exit!
+exit!()
+include?
+include?("hello")
+include? "hello"
+
 
 ---
 
@@ -580,6 +586,19 @@ print("hello")
   (call
     method: (identifier)
     arguments: (argument_list))
+  (call
+    method: (identifier)
+    arguments: (argument_list (string (string_content))))
+  (call
+    method: (identifier)
+    arguments: (argument_list (string (string_content))))
+  (call
+    method: (identifier))
+  (call
+    method: (identifier)
+    arguments: (argument_list))
+  (call
+    method: (identifier))
   (call
     method: (identifier)
     arguments: (argument_list (string (string_content))))

@@ -718,7 +718,7 @@ heredoc content
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
-  (if (identifier) (then
+  (if (call (identifier)) (then
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))))
