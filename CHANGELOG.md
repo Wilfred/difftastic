@@ -6,6 +6,9 @@ The side-by-side display no longer pads the right column to fill the
 terminal. This improves display when the terminal is slightly shrunk,
 or when wide characters (e.g. emoji) are used.
 
+Improved syntax highlighting for boolean constants and character
+literals.
+
 ### Parsing
 
 Added Gleam, YAML and Zig support.
