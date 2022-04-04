@@ -1,5 +1,5 @@
 ---
 foo: [foobar]
 hello:
-  - world
+  - "world"
   - other
