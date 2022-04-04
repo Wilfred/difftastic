@@ -1179,10 +1179,6 @@
           {
             "type": "operator",
             "named": true
-          },
-          {
-            "type": "scope_resolution",
-            "named": true
           }
         ]
       },
@@ -2869,10 +2865,6 @@
         "types": [
           {
             "type": "constant",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           }
         ]
