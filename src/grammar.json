@@ -3431,6 +3431,15 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_unary_minus_pow"
+          },
+          "named": true,
+          "value": "unary"
+        },
+        {
           "type": "SYMBOL",
           "name": "_primary"
         },
@@ -3459,6 +3468,75 @@
           "name": "unary"
         }
       ]
+    },
+    "_unary_minus_pow": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_unary_minus_num"
+            },
+            "named": false,
+            "value": "-"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "operand",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_pow"
+            },
+            "named": true,
+            "value": "binary"
+          }
+        }
+      ]
+    },
+    "_pow": {
+      "type": "PREC_RIGHT",
+      "value": 80,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_simple_numeric"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_binary_star_star"
+              },
+              "named": false,
+              "value": "**"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_arg"
+            }
+          }
+        ]
+      }
     },
     "_primary": {
       "type": "CHOICE",
@@ -5998,7 +6076,7 @@
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_unary_minus"
+                    "name": "_unary_minus_num"
                   },
                   "named": false,
                   "value": "-"
@@ -7750,6 +7828,10 @@
     {
       "type": "SYMBOL",
       "name": "_unary_minus"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_unary_minus_num"
     },
     {
       "type": "SYMBOL",

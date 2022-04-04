@@ -896,6 +896,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "_simple_numeric",
+            "named": true
           }
         ]
       },
