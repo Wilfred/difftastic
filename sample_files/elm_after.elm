@@ -1,4 +1,9 @@
-module Main exposing (blue, list, x, y)
+module Main exposing
+    ( blue
+    , list
+    , x
+    , y
+    )
 
 
 list : List Int
