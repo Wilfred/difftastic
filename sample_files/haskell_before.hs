@@ -1,5 +1,8 @@
 
 foo x = x + 1
 
+bar _ = 'c'
+
 -- | Hello world
-bar y = y + 1
+isOne 1 = True
+isOne _ = False

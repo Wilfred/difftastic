@@ -621,6 +621,9 @@ fn tree_highlights(
     if let Some(idx) = config.highlight_query.capture_index_for_name("constant") {
         keyword_ish_capture_ids.push(idx);
     }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("boolean") {
+        keyword_ish_capture_ids.push(idx);
+    }
     if let Some(idx) = config
         .highlight_query
         .capture_index_for_name("constant.builtin")
@@ -630,6 +633,9 @@ fn tree_highlights(
 
     let mut string_capture_ids = vec![];
     if let Some(idx) = config.highlight_query.capture_index_for_name("string") {
+        string_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("character") {
         string_capture_ids.push(idx);
     }
 
