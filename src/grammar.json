@@ -2325,6 +2325,24 @@
                 "value": "hash_key_symbol"
               },
               {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "identifier_suffix"
+                },
+                "named": true,
+                "value": "hash_key_symbol"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "constant_suffix"
+                },
+                "named": true,
+                "value": "hash_key_symbol"
+              },
+              {
                 "type": "SYMBOL",
                 "name": "string"
               }
@@ -3757,6 +3775,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "_fid"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "argument_list"
                 }
               ]
@@ -3788,6 +3810,10 @@
                   {
                     "type": "SYMBOL",
                     "name": "_variable"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_fid"
                   },
                   {
                     "type": "SYMBOL",
@@ -3835,6 +3861,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_fid"
                       },
                       {
                         "type": "SYMBOL",
@@ -3896,6 +3926,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_fid"
                       },
                       {
                         "type": "SYMBOL",
@@ -3981,6 +4015,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "_fid"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "operator"
               },
               {
@@ -4021,6 +4059,10 @@
                       },
                       {
                         "type": "SYMBOL",
+                        "name": "_fid"
+                      },
+                      {
+                        "type": "SYMBOL",
                         "name": "scope_resolution"
                       }
                     ]
@@ -4057,6 +4099,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_fid"
                       },
                       {
                         "type": "SYMBOL",
@@ -4113,6 +4159,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_fid"
                       },
                       {
                         "type": "SYMBOL",
@@ -4175,6 +4225,10 @@
                         },
                         {
                           "type": "SYMBOL",
+                          "name": "_fid"
+                        },
+                        {
+                          "type": "SYMBOL",
                           "name": "scope_resolution"
                         }
                       ]
@@ -4215,6 +4269,10 @@
                         {
                           "type": "SYMBOL",
                           "name": "_variable"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_fid"
                         },
                         {
                           "type": "SYMBOL",
@@ -6064,6 +6122,41 @@
         ]
       }
     },
+    "_fid": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier_suffix"
+          },
+          "named": true,
+          "value": "identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "constant_suffix"
+          },
+          "named": true,
+          "value": "constant"
+        }
+      ]
+    },
+    "_fid_call": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "FIELD",
+        "name": "method",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_fid"
+        }
+      }
+    },
     "_lhs": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -6073,6 +6166,15 @@
           {
             "type": "SYMBOL",
             "name": "_variable"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_fid_call"
+            },
+            "named": true,
+            "value": "call"
           },
           {
             "type": "SYMBOL",
@@ -6262,6 +6364,10 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_fid"
         },
         {
           "type": "SYMBOL",
@@ -6549,10 +6655,26 @@
           {
             "type": "PATTERN",
             "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+          }
+        ]
+      }
+    },
+    "constant_suffix": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[A-Z]"
           },
           {
             "type": "PATTERN",
-            "value": "(\\?|\\!)?"
+            "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[?!]"
           }
         ]
       }
@@ -6569,10 +6691,26 @@
           {
             "type": "PATTERN",
             "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+          }
+        ]
+      }
+    },
+    "identifier_suffix": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^\\x00-\\x1F\\sA-Z0-9:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]"
           },
           {
             "type": "PATTERN",
-            "value": "(\\?|\\!)?"
+            "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[?!]"
           }
         ]
       }
@@ -7273,6 +7411,24 @@
                       "content": {
                         "type": "SYMBOL",
                         "name": "constant"
+                      },
+                      "named": true,
+                      "value": "hash_key_symbol"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "identifier_suffix"
+                      },
+                      "named": true,
+                      "value": "hash_key_symbol"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "constant_suffix"
                       },
                       "named": true,
                       "value": "hash_key_symbol"
