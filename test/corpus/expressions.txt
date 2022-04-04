@@ -571,6 +571,76 @@ a ** b
 
 (program (binary (identifier) (identifier)))
 
+====
+minus, call, exponential
+====
+
+a - 1
+a-1
+a -1
+a- 1
+(-1.foo)
+
+a - b
+a-b
+a -b
+a- b
+(-b.foo)
+
+-2**10
+-x**10
+
+---
+
+(program
+  (binary
+    left: (identifier)
+    right: (integer))
+  (binary
+    left: (identifier)
+    right: (integer))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (unary
+        operand: (integer))))
+  (binary
+    left: (identifier)
+    right: (integer))
+  (parenthesized_statements
+    (call
+      receiver: (unary
+        operand: (integer))
+      method: (identifier)))
+  (binary
+    left: (identifier)
+    right: (identifier))
+  (binary
+    left: (identifier)
+    right: (identifier))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (unary
+        operand: (identifier))))
+  (binary
+    left: (identifier)
+    right: (identifier))
+  (parenthesized_statements
+    (unary
+      operand: (call
+        receiver: (identifier)
+        method: (identifier))))
+  (unary
+    operand: (binary
+      left: (integer)
+      right: (integer)))
+  (unary
+    operand: (binary
+      left: (identifier)
+      right: (integer))))
+
+
 ==========
 complement
 ==========

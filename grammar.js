@@ -57,6 +57,7 @@ module.exports = grammar({
     $._block_ampersand,
     $._splat_star,
     $._unary_minus,
+    $._unary_minus_num,
     $._binary_minus,
     $._binary_star,
     $._singleton_class_left_angle_left_langle,
@@ -631,14 +632,18 @@ module.exports = grammar({
     ),
 
     _arg: $ => choice(
+      alias($._unary_minus_pow, $.unary),
       $._primary,
       $.assignment,
       $.operator_assignment,
       $.conditional,
       $.range,
       $.binary,
-      $.unary
+      $.unary,
     ),
+
+    _unary_minus_pow: $ => seq(field('operator', alias($._unary_minus_num, '-')), field('operand', alias($._pow, $.binary))),
+    _pow: $ => prec.right(PREC.EXPONENTIAL, seq(field('left', $._simple_numeric), field('operator', alias($._binary_star_star, '**')), field('right', $._arg, $.binary))),
 
     _primary: $ => choice(
       $.parenthesized_statements,
@@ -922,7 +927,7 @@ module.exports = grammar({
     )),
 
     unary_literal: $ => prec.right(PREC.UNARY_MINUS, seq(
-      field('operator', choice(alias($._unary_minus, '-'), '+')),
+      field('operator', choice(alias($._unary_minus_num, '-'), '+')),
       field('operand', $._simple_numeric)
     )),
 

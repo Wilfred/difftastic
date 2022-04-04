@@ -32,6 +32,7 @@ enum TokenType {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   UNARY_MINUS,
+  UNARY_MINUS_NUM,
   BINARY_MINUS,
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
@@ -846,10 +847,13 @@ struct Scanner {
         break;
 
       case '-':
-        if (valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) {
+        if (valid_symbols[UNARY_MINUS] || valid_symbols[UNARY_MINUS_NUM] || valid_symbols[BINARY_MINUS]) {
           advance(lexer);
           if (lexer->lookahead != '=' && lexer->lookahead != '>') {
-            if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[UNARY_MINUS_NUM] && (!valid_symbols[BINARY_MINUS] || has_leading_whitespace) && iswdigit(lexer->lookahead)) {
+              lexer->result_symbol = UNARY_MINUS_NUM;
+              return true;
+            } else if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = UNARY_MINUS;
             } else if (valid_symbols[BINARY_MINUS]) {
               lexer->result_symbol = BINARY_MINUS;
