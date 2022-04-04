@@ -1,0 +1,28 @@
+================================================================================
+Multiple field accessors
+================================================================================
+
+func model =
+    model.field.second.third
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (field_access_expr
+      (field_access_expr
+        (field_access_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (dot)
+          (lower_case_identifier))
+        (dot)
+        (lower_case_identifier))
+      (dot)
+      (lower_case_identifier))))

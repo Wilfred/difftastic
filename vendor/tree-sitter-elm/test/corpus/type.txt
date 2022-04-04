@@ -1,0 +1,143 @@
+================================================================================
+Type statement
+================================================================================
+
+type Msg
+    = Increment
+
+type Msg
+    = Increment
+    | Decrement
+
+type Msg
+    = Increment
+    | Decrement
+    | NoOp
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))))
+
+================================================================================
+Type statement with payload
+================================================================================
+
+type Problem
+    = ContentProblem ValidationProblem
+    | GenericProblem String
+    | MetaProblem String
+
+
+type ValidationProblem
+    = WithScreen ScreenId ScreenProblem
+    | RequiresAtLeastOneScreen
+    | ScreenListProblem ScreenList.ValidationProblem
+
+
+type ScreenProblem
+    = WithElement Int ElementProblem
+    | ScreenIsEmpty
+    | ScreenIsUnreachable
+
+
+type ElementProblem
+    = InvalidElement String
+    | InvalidScreenTarget
+    | InvalidScreenTargetCausesCycle
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)
+          (dot)
+          (upper_case_identifier)))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))))
