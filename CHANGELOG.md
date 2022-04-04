@@ -8,7 +8,7 @@ or when wide characters (e.g. emoji) are used.
 
 ### Parsing
 
-Added Gleam and Zig support.
+Added Gleam, YAML and Zig support.
 
 ### Command Line Interface
 
