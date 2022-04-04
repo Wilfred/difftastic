@@ -2,7 +2,7 @@
 scope resolution
 ================
 
-Foo::bar
+Foo::Bar
 ::Bar
 
 puts ::Foo::Bar
@@ -12,7 +12,7 @@ puts ::Foo::Bar
 (program
   (scope_resolution
     scope: (constant)
-    name: (identifier))
+    name: (constant))
   (scope_resolution
     name: (constant))
   (call
@@ -768,6 +768,24 @@ foo.[]()
     receiver: (identifier)
     method: (operator)
     arguments: (argument_list)))
+
+===============================
+method call with :: operator
+===============================
+
+foo::bar
+::Foo::bar
+Foo::Bar::baz
+
+---
+
+(program
+  (call (identifier) (identifier))
+  (call (scope_resolution (constant)) (identifier))
+  (call (scope_resolution (constant) (constant)) (identifier))
+)
+
+
 
 ===============================
 method call with safe navigation operator
