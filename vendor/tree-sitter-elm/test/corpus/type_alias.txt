@@ -1,0 +1,63 @@
+================================================================================
+Type alias number
+================================================================================
+
+type alias Number =
+    Int
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_alias_declaration
+    (type)
+    (alias)
+    (upper_case_identifier)
+    (eq)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))))))
+
+================================================================================
+Type alias
+================================================================================
+
+type alias ListItem =
+    { name : String
+    , value : Int
+    , itemType : ListItemType
+    }
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_alias_declaration
+    (type)
+    (alias)
+    (upper_case_identifier)
+    (eq)
+    (type_expression
+      (record_type
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))
+        (field_type
+          (lower_case_identifier)
+          (colon)
+          (type_expression
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier)))))))))

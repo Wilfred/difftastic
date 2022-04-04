@@ -1,0 +1,237 @@
+================================================================================
+module statement exposing all
+================================================================================
+
+module Main exposing (..)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (double_dot))))
+
+================================================================================
+module statement sub dir exposing all
+================================================================================
+
+module Page.View exposing (..)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (double_dot))))
+
+================================================================================
+module statement exposing single function
+================================================================================
+
+module Main exposing (view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+module statement exposing multiple functions
+================================================================================
+
+module Main exposing (main, update, view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+module statement exposing type with all constructors and functions
+================================================================================
+
+module Main exposing (Msg(..), main, update, view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (double_dot)))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+module statement exposing type with no constructors and functions
+================================================================================
+
+module Main exposing (Msg, main, update, view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+module statement exposing type with all constructors and functions
+================================================================================
+
+module Main exposing (Msg(..), main, update, view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (double_dot)))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+module statement exposing type with one constructors and functions - not valid in elm 0.19 - should error
+================================================================================
+
+module Main exposing (Msg(One), main, update, view)
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (ERROR
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+effect module statement exposing
+================================================================================
+
+effect module Task where { command = MyCmd } exposing
+  ( Task
+  , succeed, fail
+  , map, map2, map3, map4, map5
+  , sequence
+  , andThen
+  , onError, mapError
+  , perform, attempt
+  )
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (effect)
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (where)
+    (record_expr
+      (field
+        (lower_case_identifier)
+        (eq)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier)))))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))

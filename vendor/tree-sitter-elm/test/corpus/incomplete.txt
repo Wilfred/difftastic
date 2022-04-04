@@ -1,0 +1,124 @@
+================================================================================
+Incomplete function call
+================================================================================
+
+view model =
+    div []
+        [ Html.
+        ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr)
+      (list_expr
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier)))
+        (ERROR
+          (dot))))))
+
+================================================================================
+Incomplete model access
+================================================================================
+view model =
+    div []
+        [ model.
+        ]
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr)
+      (list_expr
+        (field_access_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (dot)
+          (MISSING lower_case_identifier))))))
+
+================================================================================
+Incomplete model access
+================================================================================
+view model =
+    div []
+        [ model.
+        ]
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr)
+      (list_expr
+        (field_access_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (dot)
+          (MISSING lower_case_identifier))))))
+
+================================================================================
+Incomplete import
+================================================================================
+import Foo as
+import App exposing (Page(..))
+defaultPage = Home
+
+--------------------------------------------------------------------------------
+
+(file
+  (ERROR
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (as))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (double_dot)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (value_expr
+      (upper_case_qid
+        (upper_case_identifier)))))
