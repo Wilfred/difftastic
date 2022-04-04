@@ -1,0 +1,1049 @@
+================================================================================
+Single line let
+================================================================================
+
+i = let x = 320 in x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with block comment on last line (should be indentation sensitive - unindented)
+================================================================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+    {-- test --}
+    in
+    title
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (block_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with line comment on last line
+================================================================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+    -- test
+    in
+    title
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (line_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with line comment on last line, indented
+================================================================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+        -- test
+    in
+    title
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (line_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Single line let with in changing line
+================================================================================
+
+i = let f = (\a b c d -> a + b + c + d) in
+            f
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (parenthesized_expr
+          (anonymous_function_expr
+            (backslash)
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (arrow)
+            (bin_op_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with case
+================================================================================
+
+routeToString : Route -> String
+routeToString page =
+    let
+        pieces =
+            case page of
+                Home ->
+                    []
+
+                Root ->
+                    []
+    in
+    "#/" ++ String.join "/" pieces
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (list_expr))
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (list_expr))))
+      (bin_op_expr
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote))
+        (operator
+          (operator_identifier))
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (string_constant_expr
+            (open_quote)
+            (regular_string_part)
+            (close_quote))
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+let with two variables
+================================================================================
+
+isUpper =
+  let
+    five =
+      5
+
+    six =
+      6
+  in
+    abcd
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+let with two variables separated by unindented comment
+================================================================================
+
+isUpper =
+  let
+    five =
+      5
+
+  -- comment
+
+    six =
+      6
+  in
+    abcd
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (line_comment)
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+let with two variables and case
+================================================================================
+
+init session =
+    let
+        feedTab =
+            case Session.cred session of
+                Just cred ->
+                    YourFeed cred
+
+                Nothing ->
+                    GlobalFeed
+
+        loadTags =
+            Http.toTask Tag.list
+    in
+    abcd
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (case_of_expr
+          (case)
+          (function_call_expr
+            (value_expr
+              (value_qid
+                (upper_case_identifier)
+                (dot)
+                (lower_case_identifier)))
+            (value_expr
+              (value_qid
+                (lower_case_identifier))))
+          (of)
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))
+                (lower_pattern
+                  (lower_case_identifier))))
+            (arrow)
+            (function_call_expr
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier)))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (value_expr
+              (upper_case_qid
+                (upper_case_identifier))))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with type annotation
+================================================================================
+
+i : Int
+i =
+    let
+        x : Int
+        x = 320
+    in
+        x
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (type_annotation
+        (lower_case_identifier)
+        (colon)
+        (type_expression
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier)))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with block comment on last line (should be indentation sensitive - indented)
+================================================================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+            {-- test --}
+    in
+    title
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (block_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let in same line in in next
+================================================================================
+
+testLet =
+    let color = "x"
+    in
+    color
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let in same line as name and multiple declarations
+================================================================================
+
+viewHorizontal =
+    let viewConfig =
+          Decrement
+
+        at x =
+          Increment
+    in
+    update
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier)
+          (lower_pattern
+            (lower_case_identifier)))
+        (eq)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with unit in body
+================================================================================
+
+view =
+    let
+        styles =
+            "x"
+    in
+    div
+        (
+        )
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (unit_expr)))))
+
+================================================================================
+Nested let with function and list in body
+================================================================================
+
+
+main =
+    let
+        arcLengths =
+            List.map
+                    (\n ->
+                        let
+                            fraction =
+                                toFloat n
+                                    / toFloat numSegments
+                        in
+                        fraction * overallArcLength
+                    )
+
+    in
+    toHtml
+        []
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (parenthesized_expr
+            (anonymous_function_expr
+              (backslash)
+              (pattern
+                (lower_pattern
+                  (lower_case_identifier)))
+              (arrow)
+              (let_in_expr
+                (value_declaration
+                  (function_declaration_left
+                    (lower_case_identifier))
+                  (eq)
+                  (bin_op_expr
+                    (function_call_expr
+                      (value_expr
+                        (value_qid
+                          (lower_case_identifier)))
+                      (value_expr
+                        (value_qid
+                          (lower_case_identifier))))
+                    (operator
+                      (operator_identifier))
+                    (function_call_expr
+                      (value_expr
+                        (value_qid
+                          (lower_case_identifier)))
+                      (value_expr
+                        (value_qid
+                          (lower_case_identifier))))))
+                (bin_op_expr
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (operator
+                    (operator_identifier))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))))))))
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (list_expr)))))
+
+================================================================================
+Let with comment after in
+================================================================================
+
+pyramidMesh =
+    let
+        frontLeft =
+            10
+
+    in
+    -- Comment
+    frontLeft
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (line_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with annotation
+================================================================================
+
+displayEmoji : Color
+displayEmoji =
+    let native = 10
+    in
+      20
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (number_constant_expr
+        (number_literal)))))
+
+================================================================================
+Let with annotation 2
+================================================================================
+
+test : Int
+test =
+  let finish = y
+      next = x
+  in
+  x
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with trailing spaces
+================================================================================
+
+init maybeSavedGame =
+    let
+        toolUseBuilder1 =
+            Dict.empty
+
+        game1 =
+            Game.makeGame "Spaceship"
+
+    in
+    game
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (value_expr
+          (value_qid
+            (upper_case_identifier)
+            (dot)
+            (lower_case_identifier))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (string_constant_expr
+            (open_quote)
+            (regular_string_part)
+            (close_quote))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let one line destructoring
+================================================================================
+
+base col =
+  let
+    { toTop, toBottom, toLeft, toRight } = distances col
+    tx = (toRight - toLeft) / 2
+  in
+    tx
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (bin_op_expr
+          (parenthesized_expr
+            (bin_op_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with block comment
+================================================================================
+
+oops =
+    let
+        x =
+            1
+        {- evil comment -}
+    in
+    x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (block_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with line comment
+================================================================================
+
+oops =
+    let
+        x =
+            1
+        -- evil comment
+    in
+    x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (line_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Let with line comment at start
+================================================================================
+
+oops =
+    let
+        -- evil comment
+        x =
+            1
+    in
+    x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (line_comment)
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))

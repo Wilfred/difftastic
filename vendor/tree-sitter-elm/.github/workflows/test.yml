@@ -1,0 +1,60 @@
+name: Test OSX, Windows and Linux
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  node:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        node-version: [12, 14]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Npm install
+        run: |
+          npm i
+      - name: Unit tests
+        run: |
+          npx tree-sitter test
+      - name: Test examples
+        run: |
+          if [ "$RUNNER_OS" != "Windows" ]; then
+              script/parse-examples
+          fi
+        shell: bash
+
+  rust:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: lint
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+      - name: test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test

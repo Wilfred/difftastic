@@ -1,0 +1,193 @@
+================================================================================
+Annotation for func returning multiple
+================================================================================
+main : Program Value Model Msg
+main =
+    Api.application Viewer.decoder
+        { init = init
+        , onUrlChange = ChangedUrl
+        , onUrlRequest = ClickedLink
+        , subscriptions = subscriptions
+        , update = update
+        , view = view
+}
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier)))
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier)))
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier))))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (record_expr
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+Annotation for func with parameters returning tuple
+================================================================================
+init : Maybe Viewer -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init maybeViewer url navKey =
+    changeRouteTo (Route.fromUrl url)
+        (Redirect (Session.fromViewer navKey maybeViewer))
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier))))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)
+          (dot)
+          (upper_case_identifier)))
+      (arrow)
+      (tuple_type
+        (type_expression
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier))))
+        (type_expression
+          (type_ref
+            (upper_case_qid
+              (upper_case_identifier))
+            (type_ref
+              (upper_case_qid
+                (upper_case_identifier))))))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (parenthesized_expr
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (parenthesized_expr
+        (function_call_expr
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier)))
+          (parenthesized_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (upper_case_identifier)
+                  (dot)
+                  (lower_case_identifier)))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier))))))))))
+
+================================================================================
+Annotation with trailing whitespace
+================================================================================
+test : Int
+test =
+    1
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal))))

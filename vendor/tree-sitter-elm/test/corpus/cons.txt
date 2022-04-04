@@ -1,0 +1,154 @@
+================================================================================
+Pattern match cons
+================================================================================
+
+test listList =
+    case listList of
+        [ a, b ] :: _ ->
+            let
+                product : Float
+                product =
+                    a + b
+            in
+            product
+
+        _ ->
+            0
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (cons_pattern
+            (list_pattern
+              (pattern
+                (lower_pattern
+                  (lower_case_identifier)))
+              (pattern
+                (lower_pattern
+                  (lower_case_identifier))))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (let_in_expr
+          (type_annotation
+            (lower_case_identifier)
+            (colon)
+            (type_expression
+              (type_ref
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (value_declaration
+            (function_declaration_left
+              (lower_case_identifier))
+            (eq)
+            (bin_op_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (case_of_branch
+        (pattern
+          (anything_pattern
+            (underscore)))
+        (arrow)
+        (number_constant_expr
+          (number_literal))))))
+
+
+================================================================================
+Pattern match multiple cons
+================================================================================
+
+test listList =
+    case listList of
+        a :: b :: _ ->
+            let
+                product : Float
+                product =
+                    a + b
+            in
+            product
+
+        _ ->
+            0
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (cons_pattern
+            (lower_pattern
+              (lower_case_identifier))
+            (cons_pattern
+              (lower_pattern
+                (lower_case_identifier))
+              (anything_pattern
+                (underscore)))))
+        (arrow)
+        (let_in_expr
+          (type_annotation
+            (lower_case_identifier)
+            (colon)
+            (type_expression
+              (type_ref
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (value_declaration
+            (function_declaration_left
+              (lower_case_identifier))
+            (eq)
+            (bin_op_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (case_of_branch
+        (pattern
+          (anything_pattern
+            (underscore)))
+        (arrow)
+        (number_constant_expr
+          (number_literal))))))

@@ -1,0 +1,102 @@
+================================================================================
+Function containing an anonymous function
+================================================================================
+func =
+  (\_ -> get h w)
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (parenthesized_expr
+      (anonymous_function_expr
+        (backslash)
+        (pattern
+          (anything_pattern
+            (underscore)))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+Function containing an anonymous function that's called
+================================================================================
+f6 = (\a -> a) 1
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (parenthesized_expr
+        (anonymous_function_expr
+          (backslash)
+          (pattern
+            (lower_pattern
+              (lower_case_identifier)))
+          (arrow)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (number_constant_expr
+        (number_literal)))))
+
+================================================================================
+Function containing an anonymous function without braces
+================================================================================
+f6 = \a -> a
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (anonymous_function_expr
+      (backslash)
+      (pattern
+        (lower_pattern
+          (lower_case_identifier)))
+      (arrow)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Function containing a pipe into an anonymous function without braces
+================================================================================
+f1 =
+    1 |> \a -> a
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (bin_op_expr
+      (number_constant_expr
+        (number_literal))
+      (operator
+        (operator_identifier))
+      (anonymous_function_expr
+        (backslash)
+        (pattern
+          (lower_pattern
+            (lower_case_identifier)))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))))))
