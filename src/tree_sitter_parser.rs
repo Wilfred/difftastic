@@ -72,6 +72,7 @@ extern "C" {
     fn tree_sitter_scala() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
+    fn tree_sitter_yaml() -> ts::Language;
     fn tree_sitter_zig() -> ts::Language;
 }
 
@@ -552,6 +553,16 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+            }
+        }
+        Yaml => {
+            let language = unsafe { tree_sitter_yaml() };
+            TreeSitterConfig {
+                name: "YAML",
+                language,
+                atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
+                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         Zig => {

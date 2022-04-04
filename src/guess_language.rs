@@ -48,6 +48,7 @@ pub enum Language {
     Scala,
     Tsx,
     TypeScript,
+    Yaml,
     Zig,
 }
 
@@ -117,6 +118,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "sh" => Some(Bash),
             "tuareg" => Some(OCaml),
             "typescript" => Some(TypeScript),
+            "yaml" => Some(Yaml),
             "zig" => Some(Zig),
             _ => None,
         };
@@ -219,6 +221,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         "scala" | "sbt" | "sc" => Some(Scala),
         "ts" => Some(TypeScript),
         "tsx" => Some(Tsx),
+        "yaml" | "yml" => Some(Yaml),
         "zig" => Some(Zig),
         _ => None,
     }
