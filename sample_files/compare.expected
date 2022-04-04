@@ -136,3 +136,6 @@ ceba89e4ffc8406454d337638c7d45e6  -
 sample_files/zig_before.zig sample_files/zig_after.zig
 fb12532adf98607fc20836b4a6ccd6d8  -
 
+sample_files/yaml_before.yaml sample_files/yaml_after.yaml
+248e288a193fe8f7b28c11bc7b5a9296  -
+
