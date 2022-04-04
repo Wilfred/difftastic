@@ -1,0 +1,263 @@
+================================================================================
+Import statements
+================================================================================
+
+import Browser
+import Html.Events
+import Html.Events.Test
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))))
+
+================================================================================
+Import statements with exposing
+================================================================================
+
+import Html.Events exposing (onClick)
+import Html.Events exposing (..)
+import Html.Events exposing (onClick, onDoubleClick)
+import Html exposing (Html, button, div, text)
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (double_dot)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+Import statements prefixed with module and docs
+================================================================================
+
+module Asset exposing (Image, defaultAvatar, error, loading, src)
+
+{-| Assets, such as images, videos, and audio. (We only have images for now.)
+
+We should never expose asset URLs directly; this module should be in charge of
+all of them. One source of truth!
+
+-}
+
+import Html exposing (Attribute, Html)
+import Html.Attributes as Attr
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))))
+  (block_comment)
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_type
+        (upper_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (as_clause
+      (as)
+      (upper_case_identifier))))
+
+================================================================================
+Import statements with as clause
+================================================================================
+
+import Dict.Any as AnyDict exposing (AnyDict)
+import Remedy.ScreenId as ScreenId exposing (ScreenId)
+import Remedy.ScreenList as ScreenList
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (as_clause
+      (as)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (as_clause
+      (as)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (as_clause
+      (as)
+      (upper_case_identifier))))
+
+================================================================================
+Import statements with operator statement
+================================================================================
+
+import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (as_clause
+      (as)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_operator
+        (operator_identifier))
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier)))))
+
+================================================================================
+Import statements with type trying to expose all constructors
+================================================================================
+
+import Element exposing (DeviceClass(..))
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (double_dot))))))
+
+================================================================================
+Import statements with type trying to expose single constructor - should fail
+================================================================================
+
+import Element exposing (DeviceClass(Phone))
+
+--------------------------------------------------------------------------------
+
+(file
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (ERROR
+        (upper_case_identifier)))))

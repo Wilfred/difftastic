@@ -1,0 +1,396 @@
+================================================================================
+Case without branches followed by newline
+================================================================================
+
+-- Works in v4.5.0
+update msg =
+    case msg of
+
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of)))
+
+================================================================================
+Case without branches directly on file end without comment before update - Hangs in v4.5.0
+================================================================================
+
+update msg =
+    case msg of
+--------------------------------------------------------------------------------
+
+(file
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of)))
+
+================================================================================
+Case without branches directly on file end with comment before update
+================================================================================
+
+-- Works in v4.5.0
+update msg =
+    case msg of
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of)))
+
+================================================================================
+Case without branches leading with one line comment at file end
+================================================================================
+
+-- Hangs in v4.5.0
+update msg =
+    -- one line comment
+    case msg of
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (line_comment)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of)))
+
+================================================================================
+Case without branches leading with one line comment + newline
+================================================================================
+
+-- Works in v4.5.0
+update msg =
+    -- one line comment
+    case msg of
+
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (line_comment)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of)))
+
+================================================================================
+Case without branches followed by new line + space + comment
+================================================================================
+
+-- Hangs in v4.5.0
+update msg =
+    case msg of
+ -- Need to use a comment with leading space, because testsuite is removing trailing spaces
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of))
+  (line_comment))
+
+================================================================================
+Case without branches followed by new line + without space + last line comment
+================================================================================
+
+-- Works in v4.5.0
+update msg =
+    case msg of
+        -- With the comment in the last line, now you can have as much
+        -- spaces as you want!
+-- Workaround: Add an one line comment without leading space at the end of file
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (ERROR
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))
+    (of))
+  (line_comment)
+  (line_comment)
+  (line_comment))
+
+================================================================================
+Case followed by comment: not fully indented
+================================================================================
+
+update msg =
+    case msg of
+        Ok _ ->
+            "Ok!"
+
+        Err _ ->
+            "Error!"
+
+-- This comment is not part of the case block
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))))
+  (line_comment))
+
+================================================================================
+Case followed by comment: indented as sibling
+================================================================================
+
+update msg =
+    case msg of
+        Ok _ ->
+            "Ok!"
+
+        Err _ ->
+            "Error!"
+
+    -- This comment is parsed as a top-level comment.
+    -- elm-format too will format it to a toplevel comment.
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))))
+  (line_comment)
+  (line_comment))
+
+================================================================================
+Case followed by comment: indented inside case
+================================================================================
+
+-- Correct in v4.5.0
+update msg =
+    case msg of
+        Ok _ ->
+            "Ok!"
+
+        Err _ ->
+            "Error!"
+
+        -- This comment is parsed as a top-level comment.
+        -- elm-format too will format it to a toplevel comment.
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))))
+  (line_comment)
+  (line_comment))
+
+================================================================================
+Case followed by comment: indented inside case branch
+================================================================================
+
+update msg =
+    case msg of
+        Ok _ ->
+            "Ok!"
+
+        Err _ ->
+            "Error!"
+
+            -- This comment is parsed as a top-level comment.
+            -- elm-format too will format it to a toplevel comment.
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (anything_pattern
+              (underscore))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (regular_string_part)
+          (close_quote)))))
+  (line_comment)
+  (line_comment))
