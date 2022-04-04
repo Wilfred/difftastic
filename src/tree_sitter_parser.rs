@@ -560,9 +560,19 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "YAML",
                 language,
-                atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
+                atom_nodes: (vec![
+                    "string_scalar",
+                    "double_quote_scalar",
+                    "single_quote_scalar",
+                ])
+                .into_iter()
+                .collect(),
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
-                highlight_query: ts::Query::new(language, "").unwrap(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/yaml.scm"),
+                )
+                .unwrap(),
             }
         }
         Zig => {
