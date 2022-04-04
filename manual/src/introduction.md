@@ -20,6 +20,7 @@ tool that understands syntax. It supports the following languages:
 * Java
 * JavaScript (and JSX)
 * JSON
+* Lua
 * Nix
 * OCaml
 * PHP
@@ -28,6 +29,7 @@ tool that understands syntax. It supports the following languages:
 * Rust
 * Scala
 * TypeScript (and TSX)
+* YAML
 * Zig
 
 When it works, it's *fantastic*.
