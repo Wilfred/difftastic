@@ -26,7 +26,7 @@ jobs:
           node-version: 14
       - run: npm install
       - run: git clone https://git.sv.gnu.org/git/guile.git guile --depth 1 --branch v3.0.8
-      - run: npx tree-sitter parse guile/**/*.{scm,ss,sls} -qt
+      - run: npx tree-sitter parse $(find ../guile -type f -not -path "*/module/language/elisp/*" -name "*.scm" -o -name "*.ss") -q
 
   sicp:
     runs-on: ubuntu-latest
@@ -41,5 +41,5 @@ jobs:
           mkdir -p sicp && cd sicp
           curl https://mitpress.mit.edu/sites/default/files/sicp/code/allcode.tar.gz -O
           tar xvf allcode.tar.gz
-      - run: npx tree-sitter parse sicp/**/*.{scm,ss,sls} -qt
+      - run: npx tree-sitter parse sicp/*.scm -qt
 
