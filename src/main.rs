@@ -272,16 +272,15 @@ fn diff_file_content(
     } else {
         &rhs_src
     };
-    let ts_lang = language_override
-        .or_else(|| guess(path, guess_src))
-        .map(tsp::from_language);
+    let language = language_override.or_else(|| guess(path, guess_src));
+    let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
             path: display_path.into(),
-            language: ts_lang.map(|l| l.name.into()),
+            language: lang_config.map(|l| l.name.into()),
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
@@ -289,7 +288,7 @@ fn diff_file_content(
         };
     }
 
-    let (lang_name, lhs_positions, rhs_positions) = match ts_lang {
+    let (lang_name, lhs_positions, rhs_positions) = match lang_config {
         _ if lhs_bytes.len() > byte_limit || rhs_bytes.len() > byte_limit => {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
@@ -336,8 +335,9 @@ fn diff_file_content(
                         rhs_section_nodes.get(0).copied(),
                     );
 
-                    fix_all_sliders(&lhs_section_nodes);
-                    fix_all_sliders(&rhs_section_nodes);
+                    let language = language.unwrap();
+                    fix_all_sliders(language, &lhs_section_nodes);
+                    fix_all_sliders(language, &rhs_section_nodes);
                 }
 
                 let lhs_positions = syntax::change_positions(&lhs);
