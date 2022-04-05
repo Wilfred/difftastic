@@ -70,6 +70,14 @@ examples/hhvm/hphp/hack/test/autocomplete/not_shape_key_string.php
 ...
 ```
 
+**`bin/test-dir-quiet`**
+
+A quieter version of `bin/test-dir` that only outputs failing files.
+
+## Contributing
+
+If you're interested in contributing, please see the [guide](.github/CONTRIBUTING.md).
+
 ## Note
 
 npm doesn't allow packages with the word "hack" in their registry which is why the repo
