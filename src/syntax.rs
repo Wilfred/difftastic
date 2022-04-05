@@ -54,7 +54,7 @@ pub struct SyntaxInfo<'a> {
     next_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The syntax node that occurs before this one, in a depth-first
     /// tree traversal.
-    pub prev: Cell<Option<&'a Syntax<'a>>>,
+    prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// Does the previous syntax node occur on the same line as the
