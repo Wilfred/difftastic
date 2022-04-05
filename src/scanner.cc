@@ -807,7 +807,10 @@ struct Scanner {
             if (valid_symbols[HASH_SPLAT_STAR_STAR] || valid_symbols[BINARY_STAR_STAR]) {
               advance(lexer);
               if (lexer->lookahead == '=') return false;
-              if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
+              if (valid_symbols[BINARY_STAR_STAR] && !has_leading_whitespace) {
+                lexer->result_symbol = BINARY_STAR_STAR;
+                return true;
+              } else if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
                 lexer->result_symbol = HASH_SPLAT_STAR_STAR;
                 return true;
               } else if (valid_symbols[BINARY_STAR_STAR]) {
@@ -823,7 +826,10 @@ struct Scanner {
               return false;
             }
           } else {
-            if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[BINARY_STAR] && !has_leading_whitespace) {
+              lexer->result_symbol = BINARY_STAR;
+              return true;
+            } else if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = SPLAT_STAR;
               return true;
             } else if (valid_symbols[BINARY_STAR]) {

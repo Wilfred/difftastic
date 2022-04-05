@@ -501,10 +501,27 @@ multiplicative
 ==============
 
 a * b
+a*b
+a *b
+a* b
 
 ---
 
-(program (binary (identifier) (identifier)))
+(program
+  (binary
+    left: (identifier)
+    right: (identifier))
+  (binary
+    left: (identifier)
+    right: (identifier))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (splat_argument
+        (identifier))))
+  (binary
+    left: (identifier)
+    right: (identifier)))
 
 ==============
 binary operations
