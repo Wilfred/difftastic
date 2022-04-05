@@ -778,6 +778,10 @@
             "named": true
           },
           {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
             "type": "right_assignment_list",
             "named": true
           },
@@ -2496,6 +2500,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           }
         ]

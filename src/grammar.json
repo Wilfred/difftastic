@@ -413,6 +413,35 @@
         ]
       }
     },
+    "rescue_modifier_expression": {
+      "type": "PREC",
+      "value": 16,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "rescue"
+          },
+          {
+            "type": "FIELD",
+            "name": "handler",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_arg"
+            }
+          }
+        ]
+      }
+    },
     "_body_expr": {
       "type": "SEQ",
       "members": [
@@ -4811,6 +4840,24 @@
         ]
       }
     },
+    "_arg_rhs": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arg"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "rescue_modifier_arg"
+          },
+          "named": true,
+          "value": "rescue_modifier"
+        }
+      ]
+    },
     "assignment": {
       "type": "PREC_RIGHT",
       "value": 15,
@@ -4849,7 +4896,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "_arg"
+                      "name": "_arg_rhs"
                     },
                     {
                       "type": "SYMBOL",
@@ -4871,41 +4918,50 @@
       "type": "PREC_RIGHT",
       "value": 15,
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "left",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_lhs"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "left_assignment_list"
-                    }
-                  ]
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_lhs"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "left_assignment_list"
                 }
-              },
-              {
-                "type": "STRING",
-                "value": "="
-              },
-              {
-                "type": "FIELD",
-                "name": "right",
-                "content": {
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "SYMBOL",
                   "name": "_expression"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "rescue_modifier_expression"
+                  },
+                  "named": true,
+                  "value": "rescue_modifier"
                 }
-              }
-            ]
+              ]
+            }
           }
         ]
       }
@@ -4990,7 +5046,7 @@
             "name": "right",
             "content": {
               "type": "SYMBOL",
-              "name": "_arg"
+              "name": "_arg_rhs"
             }
           }
         ]
@@ -5075,8 +5131,22 @@
             "type": "FIELD",
             "name": "right",
             "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "rescue_modifier_expression"
+                  },
+                  "named": true,
+                  "value": "rescue_modifier"
+                }
+              ]
             }
           }
         ]
@@ -7862,7 +7932,9 @@
       "name": "_element_reference_bracket"
     }
   ],
-  "inline": [],
+  "inline": [
+    "_arg_rhs"
+  ],
   "supertypes": [
     "_statement",
     "_arg",

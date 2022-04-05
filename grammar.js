@@ -33,7 +33,7 @@ const ALPHA_CHAR = /[^\x00-\x1F\s0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
 
 module.exports = grammar({
   name: 'ruby',
-
+  inline: $ => [$._arg_rhs],
   externals: $ => [
     $._line_break,
 
@@ -171,6 +171,14 @@ module.exports = grammar({
     rescue_modifier_arg: $ => prec(PREC.RESCUE,
       seq(
         field('body', $._arg),
+        'rescue',
+        field('handler', $._arg)
+      )
+    ),
+
+    rescue_modifier_expression: $ => prec(PREC.RESCUE,
+      seq(
+        field('body', $._expression),
         'rescue',
         field('handler', $._arg)
       )
@@ -815,36 +823,37 @@ module.exports = grammar({
       '}'
     )),
 
+    _arg_rhs: $ => choice($._arg, alias($.rescue_modifier_arg, $.rescue_modifier)),
     assignment: $ => prec.right(PREC.ASSIGN, choice(
       seq(
         field('left', choice($._lhs, $.left_assignment_list)),
         '=',
         field('right', choice(
-          $._arg,
+          $._arg_rhs,
           $.splat_argument,
           $.right_assignment_list
         ))
       )
     )),
 
-    command_assignment: $ => prec.right(PREC.ASSIGN, choice(
+    command_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
         field('left', choice($._lhs, $.left_assignment_list)),
         '=',
-        field('right', $._expression)
+        field('right', choice($._expression, alias($.rescue_modifier_expression, $.rescue_modifier)))
       )
-    )),
+    ),
 
     operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       field('left', $._lhs),
       field('operator', choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^=')),
-      field('right', $._arg)
+      field('right', $._arg_rhs)
     )),
 
     command_operator_assignment: $ => prec.right(PREC.ASSIGN, seq(
       field('left', $._lhs),
       field('operator', choice('+=', '-=', '*=', '**=', '/=', '||=', '|=', '&&=', '&=', '%=', '>>=', '<<=', '^=')),
-      field('right', $._expression)
+      field('right', choice($._expression, alias($.rescue_modifier_expression, $.rescue_modifier)))
     )),
 
     conditional: $ => prec.right(PREC.CONDITIONAL, seq(
