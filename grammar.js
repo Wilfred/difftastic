@@ -63,8 +63,7 @@ module.exports = grammar({
         choice(
           seq("\\", /["\\abfnrtv]/),
           seq("\\", repeat(INTRA_WHITERPACE), LINE_ENDING, repeat(INTRA_WHITERPACE)),
-          seq("\\x", /[0-9a-fA-F]+/, ";"),
-          seq("\\", /./))),
+          seq("\\x", /[0-9a-fA-F]+/, ";"))),
 
     number: _ =>
       token(
