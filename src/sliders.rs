@@ -59,16 +59,12 @@ fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
     }
 }
 
-fn novel_regions_after_unchanged(nodes: &[&Syntax]) -> Vec<(usize, usize)> {
+fn novel_regions_after_unchanged<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<(usize, usize)> {
     let mut regions: Vec<Vec<usize>> = vec![];
     let mut region: Option<Vec<usize>> = None;
 
     for (i, node) in nodes.iter().enumerate() {
-        let change = node
-            .info()
-            .change
-            .get()
-            .expect("Node changes should be set");
+        let change = node.change().expect("Node changes should be set");
 
         match change {
             Unchanged(_) => {
@@ -108,16 +104,12 @@ fn novel_regions_after_unchanged(nodes: &[&Syntax]) -> Vec<(usize, usize)> {
         .collect()
 }
 
-fn novel_regions_before_unchanged(nodes: &[&Syntax]) -> Vec<(usize, usize)> {
+fn novel_regions_before_unchanged<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<(usize, usize)> {
     let mut regions: Vec<Vec<usize>> = vec![];
     let mut region: Option<Vec<usize>> = None;
 
     for (i, node) in nodes.iter().enumerate() {
-        let change = node
-            .info()
-            .change
-            .get()
-            .expect("Node changes should be set");
+        let change = node.change().expect("Node changes should be set");
 
         match change {
             Unchanged(_) => {
@@ -214,9 +206,7 @@ fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
         }
 
         let opposite = match before_start_node
-            .info()
-            .change
-            .get()
+            .change()
             .expect("Node changes should be set")
         {
             Unchanged(n) => n,
@@ -261,9 +251,7 @@ fn slide_to_next_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
         }
 
         let opposite = match after_last_node
-            .info()
-            .change
-            .get()
+            .change()
             .expect("Node changes should be set")
         {
             Unchanged(n) => n,
