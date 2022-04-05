@@ -30,15 +30,40 @@
 //! (B in this example).
 
 use crate::{
+    guess_language,
     positions::SingleLineSpan,
     syntax::{ChangeKind::*, Syntax},
 };
 use Syntax::*;
 
-pub fn fix_all_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
+pub fn fix_all_sliders<'a>(language: guess_language::Language, nodes: &[&'a Syntax<'a>]) {
     // TODO: fix sliders that require more than two steps.
     fix_all_sliders_one_step(nodes);
     fix_all_sliders_one_step(nodes);
+
+    if !prefer_outer_delimiter(language) {
+        fix_all_nested_sliders(nodes);
+    }
+}
+
+/// Should nester slider correction prefer the inner or outer
+/// delimiter?
+fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
+    use guess_language::Language::*;
+    match language {
+        // For Lisp family languages, we get the best result with the
+        // outer delimiter.
+        EmacsLisp | Clojure | CommonLisp | JanetSimple => true,
+        // JSON is like Lisp: the outer delimiter in an array object
+        // is the most relevant.
+        Json => true,
+        // For everything else, prefer the inner delimiter. These
+        // languages have syntax like `foo(bar)` or `foo[bar]` where
+        // the inner delimiter is more relevant.
+        Bash | C | CPlusPlus | CSharp | Css | Dart | Elixir | Elm | Gleam | Go | Haskell | Java
+        | JavaScript | Jsx | Lua | Nix | OCaml | OCamlInterface | Php | Python | Ruby | Rust
+        | Scala | Tsx | TypeScript | Yaml | Zig => false,
+    }
 }
 
 fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>]) {
@@ -48,6 +73,98 @@ fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>]) {
         }
     }
     fix_sliders(nodes);
+}
+
+/// Correct sliders in middle insertions.
+///
+/// Consider the code:
+///
+/// ```text
+/// // Before
+/// old1(old2);
+/// // After
+/// old1(new1(old2));
+/// ```
+///
+/// Tree diffing has two possible solution here. Either we've added
+/// `new1(...)` or we've added `(new1...)`. Both are valid.
+///
+/// For C-like languages, the first case matches human intuition much
+/// better. Fix the slider to make the inner delimiter novel.
+fn fix_all_nested_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
+    for node in nodes {
+        fix_nested_slider(node);
+    }
+}
+
+fn fix_nested_slider<'a>(node: &'a Syntax<'a>) {
+    if let List { children, .. } = node {
+        match node
+            .change()
+            .expect("Changes should be set before slider correction")
+        {
+            Unchanged(_) => {
+                for child in children {
+                    fix_nested_slider(child);
+                }
+            }
+            ReplacedComment(_, _) => {}
+            Novel => {
+                let mut found_unchanged = vec![];
+                for child in children {
+                    unchanged_descendants(child, &mut found_unchanged);
+                }
+
+                if let [List { .. }] = found_unchanged[..] {
+                    push_unchanged_to_ancestor(node, found_unchanged[0]);
+                }
+            }
+        }
+    }
+}
+
+fn unchanged_descendants<'a>(node: &'a Syntax<'a>, found: &mut Vec<&'a Syntax<'a>>) {
+    if found.len() > 1 {
+        return;
+    }
+
+    match node.change().unwrap() {
+        Unchanged(_) => {
+            found.push(node);
+        }
+        Novel | ReplacedComment(_, _) => {
+            if let List { children, .. } = node {
+                for child in children {
+                    unchanged_descendants(child, found);
+                }
+            }
+        }
+    }
+}
+
+fn push_unchanged_to_ancestor<'a>(root: &'a Syntax<'a>, inner: &'a Syntax<'a>) {
+    let inner_change = inner.change().expect("Node changes should be set");
+
+    let delimiters_match = match (root, inner) {
+        (
+            List {
+                open_content: root_open,
+                close_content: root_close,
+                ..
+            },
+            List {
+                open_content: inner_open,
+                close_content: inner_close,
+                ..
+            },
+        ) => root_open == inner_open && root_close == inner_close,
+        _ => false,
+    };
+
+    if delimiters_match {
+        root.set_change(inner_change);
+        inner.set_change(Novel);
+    }
 }
 
 fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>]) {

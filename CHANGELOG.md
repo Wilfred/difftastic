@@ -23,6 +23,11 @@ Added the `--language` option to enable overriding language
 detection. When specified, language detection is disabled, and the
 input file is assumed to have the extension specified.
 
+### Diffing
+
+Improved diff results for nested sequences `foo(bar(baz()))` in C-like
+languages.
+
 ## 0.25 (released 31st March 2022)
 
 ### Display

@@ -85,6 +85,9 @@ sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
 sample_files/nest_before.rs sample_files/nest_after.rs
 a5f34e778d04fc5732c17162e0b16f2d  -
 
+sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
+3a901b805dd8b541c43edb96c7e4e148  -
+
 sample_files/nesting_before.el sample_files/nesting_after.el
 16639761819b53b9216a9031ae94455c  -
 
