@@ -1930,6 +1930,14 @@ $var->test as nonnull->test2;
 Selection with keyword
 ==========================
 
+$this->type();
+
+$this->newtype();
+
+$this->shape();
+
+$this->tuple;
+
 $this->clone();
 
 $this->print();
@@ -1938,9 +1946,50 @@ $this->new();
 
 $this->clone()->new()->print()->$item;
 
+$this->bool();
+$this->float();
+$this->int();
+$this->string();
+$this->arraykey();
+$this->void();
+$this->nonnull();
+$this->null();
+$this->mixed();
+$this->dynamic();
+$this->noreturn();
+
+$this->array();
+$this->varray();
+$this->darray();
+$this->vect();
+$this->dict();
+$this->keyset();
+
 ---
 
 (script
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (selection_expression
+      (variable)
+      (identifier)))
   (expression_statement
     (call_expression
       function: (selection_expression
@@ -1974,7 +2023,110 @@ $this->clone()->new()->print()->$item;
             (arguments))
           (identifier))
         (arguments))
-      (variable))))
+      (variable)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (qualified_identifier
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments))))
 
 ==========================
 Shape

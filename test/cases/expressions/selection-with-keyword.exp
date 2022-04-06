@@ -19,6 +19,28 @@
       (arguments)))
   (expression_statement
     (selection_expression
+      (variable)
+      (identifier)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (selection_expression
       (call_expression
         function: (selection_expression
           (call_expression
@@ -32,4 +54,107 @@
             (arguments))
           (identifier))
         (arguments))
-      (variable))))
+      (variable)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (qualified_identifier
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments))))

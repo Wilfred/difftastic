@@ -4370,11 +4370,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "super",
@@ -4398,10 +4398,6 @@
   },
   {
     "type": "try",
-    "named": false
-  },
-  {
-    "type": "tupe",
     "named": false
   },
   {
