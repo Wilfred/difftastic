@@ -621,6 +621,7 @@ Const keyword
 
 const type = 1;
 const newtype = 1;
+const namespace = 1;
 
 // 🤦
 const int int = 1;
@@ -871,6 +872,10 @@ const int yield = 1;
 
 (script
   (comment)
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
   (const_declaration
     (const_declarator
       name: (identifier)

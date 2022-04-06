@@ -60,17 +60,16 @@ const rules = {
       'clone',
       'new',
       'print',
+      'namespace',
       $._primitive_type,
       $._collection_type,
     ),
 
   qualified_identifier: $ =>
     choice(
-      seq(opt($.identifier), rep1(seq($._backslash, $.identifier))),
+      seq(opt(choice($.identifier, 'namespace')), rep1(seq('\\', $.identifier))),
       $.identifier,
     ),
-
-  _backslash: $ => '\\',
 
   scoped_identifier: $ =>
     seq(
@@ -257,7 +256,7 @@ const rules = {
     ),
 
   _namespace_identifier: $ =>
-    choice(seq($.qualified_identifier, opt($._backslash)), $._backslash),
+    choice(seq($.qualified_identifier, opt('\\')), '\\'),
 
   if_statement: $ =>
     prec.right(
@@ -1196,6 +1195,7 @@ module.exports = grammar({
     [$.type_specifier],
     [$.shape_type_specifier, $.shape],
     [$.qualified_identifier],
+    [$.qualified_identifier, $.use_type],
     [$.list_expression],
   ],
 });

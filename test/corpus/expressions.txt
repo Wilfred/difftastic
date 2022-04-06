@@ -1405,6 +1405,62 @@ list(,$b,,,$e,) = tuple('a','b','c','d','e','f');
         (string)))))
 
 ==========================
+Namespace keyword
+==========================
+
+function func1(namespace\a\b $arg): namespace\a\b {}
+function func2(a\namespace\b $arg): a\namespace\b {}
+namespace\a\b();
+a\namespace\b();
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        name: (variable)))
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)
+        (identifier)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)
+            (identifier)))
+        name: (variable)))
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier)))
+    body: (compound_statement))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      (arguments))))
+
+==========================
 New
 ==========================
 
@@ -1944,6 +2000,8 @@ $this->print();
 
 $this->new();
 
+$this->namespace();
+
 $this->clone()->new()->print()->$item;
 
 $this->bool();
@@ -1990,6 +2048,12 @@ $this->keyset();
     (selection_expression
       (variable)
       (identifier)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
   (expression_statement
     (call_expression
       function: (selection_expression

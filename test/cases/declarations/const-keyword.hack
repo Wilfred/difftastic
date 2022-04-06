@@ -2,6 +2,7 @@
 
 const type = 1;
 const newtype = 1;
+const namespace = 1;
 
 // 🤦
 const int int = 1;

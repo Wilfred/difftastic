@@ -82,6 +82,10 @@
           "value": "print"
         },
         {
+          "type": "STRING",
+          "value": "namespace"
+        },
+        {
           "type": "SYMBOL",
           "name": "_primitive_type"
         },
@@ -101,8 +105,17 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "identifier"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "namespace"
+                    }
+                  ]
                 },
                 {
                   "type": "BLANK"
@@ -115,8 +128,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_backslash"
+                    "type": "STRING",
+                    "value": "\\"
                   },
                   {
                     "type": "SYMBOL",
@@ -132,10 +145,6 @@
           "name": "identifier"
         }
       ]
-    },
-    "_backslash": {
-      "type": "STRING",
-      "value": "\\"
     },
     "scoped_identifier": {
       "type": "SEQ",
@@ -1147,8 +1156,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_backslash"
+                  "type": "STRING",
+                  "value": "\\"
                 },
                 {
                   "type": "BLANK"
@@ -1158,8 +1167,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_backslash"
+          "type": "STRING",
+          "value": "\\"
         }
       ]
     },
@@ -8233,6 +8242,10 @@
     ],
     [
       "qualified_identifier"
+    ],
+    [
+      "qualified_identifier",
+      "use_type"
     ],
     [
       "list_expression"
