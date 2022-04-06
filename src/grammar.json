@@ -5412,7 +5412,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": 30,
+          "value": 35,
           "content": {
             "type": "SEQ",
             "members": [

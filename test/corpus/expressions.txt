@@ -405,6 +405,27 @@ a && b
 
 (program (binary (identifier) (identifier)))
 
+===========
+boolean and/or
+===========
+
+a || b && c
+a && b || c
+
+---
+
+(program
+  (binary
+    left: (identifier)
+    right: (binary
+      left: (identifier)
+      right: (identifier)))
+  (binary
+    left: (binary
+      left: (identifier)
+      right: (identifier))
+    right: (identifier)))
+
 ==========
 relational
 ==========
