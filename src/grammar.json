@@ -2147,8 +2147,16 @@
           "value": "("
         },
         {
+          "type": "STRING",
+          "value": "function"
+        },
+        {
           "type": "PATTERN",
-          "value": "function\\s*\\("
+          "value": "\\s*"
+        },
+        {
+          "type": "STRING",
+          "value": "("
         },
         {
           "type": "CHOICE",
