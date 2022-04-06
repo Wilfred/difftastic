@@ -265,6 +265,24 @@ let _ = ##"Hello, so-called "world"!"##
       (raw_str_end_part))))
 
 ================================================================================
+Doesn't hang for incomplete raw strings (issue #146)
+================================================================================
+
+let _ = #"Foo"
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (ERROR
+      (UNEXPECTED '"'))
+    (line_string_literal
+      (line_str_text))))
+
+================================================================================
 Raw strings with interpolation
 ================================================================================
 
