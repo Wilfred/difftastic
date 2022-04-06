@@ -729,10 +729,10 @@ foo.(1, 2)
 (program
   (call
     receiver: (element_reference object: (identifier) (identifier))
-    method: (argument_list))
+    arguments: (argument_list))
   (call
     receiver: (identifier)
-    method: (argument_list (integer) (integer))))
+    arguments: (argument_list (integer) (integer))))
 
 ===============================
 implicit call with block
@@ -748,11 +748,11 @@ end
 (program
   (call
     receiver: (identifier)
-    method: (argument_list)
+    arguments: (argument_list)
     block: (block))
   (call
     receiver: (identifier)
-    method: (argument_list (pair key: (hash_key_symbol) value: (identifier)))
+    arguments: (argument_list (pair key: (hash_key_symbol) value: (identifier)))
     block: (do_block (identifier))))
 
 ===============================
