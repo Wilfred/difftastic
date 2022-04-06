@@ -208,7 +208,7 @@ module.exports = grammar({
     block_parameters: $ => seq(
       '|',
       seq(commaSep($._formal_parameter), optional(',')),
-      optional(seq(';', sep1($.identifier, ','))), // Block shadow args e.g. {|; a, b| ...}
+      optional(seq(';', sep1(field('locals', $.identifier), ','))), // Block shadow args e.g. {|; a, b| ...}
       '|'
     ),
 
