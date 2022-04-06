@@ -360,6 +360,10 @@
         "named": true
       },
       {
+        "type": "call",
+        "named": true
+      },
+      {
         "type": "case",
         "named": true
       },
@@ -1166,19 +1170,33 @@
       },
       "method": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_variable",
             "named": true
           },
           {
-            "type": "argument_list",
-            "named": true
-          },
-          {
             "type": "operator",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "&.",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "::",
+            "named": false
           }
         ]
       },
@@ -1188,10 +1206,6 @@
         "types": [
           {
             "type": "_primary",
-            "named": true
-          },
-          {
-            "type": "call",
             "named": true
           }
         ]

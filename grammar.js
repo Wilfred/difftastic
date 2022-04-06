@@ -643,6 +643,8 @@ module.exports = grammar({
     _primary: $ => choice(
       $.parenthesized_statements,
       $._lhs,
+      alias($._fid_call, $.call),
+      $.call,
       $.array,
       $.string_array,
       $.symbol_array,
@@ -696,8 +698,8 @@ module.exports = grammar({
 
     _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
-      choice('.', '&.', token.immediate('::')),
-      field('method', choice($.identifier, $.operator, $.constant, $._fid, $.argument_list))
+      field('operator', choice('.', '&.', token.immediate('::'))),
+      field('method', choice($.identifier, $.operator, $.constant, $._fid)),
     )),
 
     command_call: $ => seq(
@@ -728,8 +730,8 @@ module.exports = grammar({
 
     _chained_command_call: $ => seq(
       field('receiver', alias($.command_call_with_block, $.call)),
-      choice('.', '&.', token.immediate('::')),
-      field('method', choice($.identifier, $._fid, $.operator, $.constant, $.argument_list))
+      field('operator', choice('.', '&.', token.immediate('::'))),
+      field('method', choice($.identifier, $._fid, $.operator, $.constant)),
     ),
 
     call: $ => {
@@ -739,13 +741,26 @@ module.exports = grammar({
           $._variable, $._fid
         ))
       )
+
       const arguments = field('arguments', $.argument_list)
+      const receiver_arguments =
+        seq(
+          choice(
+            receiver,
+            prec.left(PREC.CALL, seq(
+              field('receiver', $._primary),
+              field('operator', choice('.', '&.', token.immediate('::')))
+            ))
+          ),
+          arguments
+        )
+
       const block = field('block', $.block)
       const doBlock = field('block', $.do_block)
       return choice(
-        seq(receiver, arguments),
-        seq(receiver, prec(PREC.CURLY_BLOCK, seq(arguments, block))),
-        seq(receiver, prec(PREC.DO_BLOCK, seq(arguments, doBlock))),
+        receiver_arguments,
+        prec(PREC.CURLY_BLOCK, seq(receiver_arguments, block)),
+        prec(PREC.DO_BLOCK, seq(receiver_arguments, doBlock)),
         prec(PREC.CURLY_BLOCK, seq(receiver, block)),
         prec(PREC.DO_BLOCK, seq(receiver, doBlock))
       )
@@ -945,14 +960,12 @@ module.exports = grammar({
     _fid_call: $ => prec.right(field('method', $._fid)),
     _lhs: $ => prec.left(choice(
       $._variable,
-      alias($._fid_call, $.call),
       $.true,
       $.false,
       $.nil,
       $.scope_resolution,
       $.element_reference,
       alias($._call, $.call),
-      $.call
     )),
 
     _variable: $ => prec.right(choice(
