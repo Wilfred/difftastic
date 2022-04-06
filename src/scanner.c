@@ -512,7 +512,7 @@ static bool eat_raw_str_part(
         uint8_t last_char = '\0';
         lexer->mark_end(lexer); // We always want to parse thru the start of the string so far
         // Advance through anything that isn't a hash symbol, because we want to count those.
-        while (lexer->lookahead != '#') {
+        while (lexer->lookahead != '#' && lexer->lookahead != '\0') {
             last_char = lexer->lookahead;
             advance(lexer);
             if (last_char != '\\') {
