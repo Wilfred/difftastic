@@ -611,8 +611,12 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "identifier"
+                      "type": "FIELD",
+                      "name": "locals",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      }
                     },
                     {
                       "type": "REPEAT",
@@ -624,8 +628,12 @@
                             "value": ","
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "identifier"
+                            "type": "FIELD",
+                            "name": "locals",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "identifier"
+                            }
                           }
                         ]
                       }
