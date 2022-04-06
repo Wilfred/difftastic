@@ -452,7 +452,9 @@ const rules = {
     seq(
       rep($._type_modifier),
       '(',
-      /function\s*\(/,
+      'function',
+      /\s*/,
+      '(',
       opt(com(opt($.inout_modifier), $._type, opt($.variadic_modifier), ',')),
       ')',
       ':',
