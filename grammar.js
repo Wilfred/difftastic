@@ -880,7 +880,7 @@ module.exports = grammar({
         [prec.left, PREC.AND, 'and'],
         [prec.left, PREC.OR, 'or'],
         [prec.left, PREC.BOOLEAN_OR, '||'],
-        [prec.left, PREC.BOOLEAN_OR, '&&'],
+        [prec.left, PREC.BOOLEAN_AND, '&&'],
         [prec.left, PREC.SHIFT, choice('<<', '>>')],
         [prec.left, PREC.COMPARISON, choice('<', '<=', '>', '>=')],
         [prec.left, PREC.BITWISE_AND, '&'],
