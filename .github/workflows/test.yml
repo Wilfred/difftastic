@@ -1,4 +1,4 @@
-name: Test OSX, Windows and Linux
+name: Test Linux
 
 on:
   push:
@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        node-version: [12, 14]
+        os: [ubuntu-latest]
+        node-version: [14, 16]
 
     steps:
       - uses: actions/checkout@v2
@@ -32,9 +32,7 @@ jobs:
           npx tree-sitter test
       - name: Test examples
         run: |
-          if [ "$RUNNER_OS" != "Windows" ]; then
-              script/parse-examples
-          fi
+          script/parse-examples
         shell: bash
 
   rust:
@@ -43,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
