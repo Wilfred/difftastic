@@ -48,7 +48,9 @@ module.exports = grammar({
         [$.member_expression, $.type_name],
         [$.member_expression, $.type_name],
         [$.identifier, $.type_name],
+        [$.identifier, $._user_defined_type],
         
+        [$._user_defined_type, $.member_expression, $._primary_expression],
         [$._user_defined_type, $.member_expression],
         [$._user_defined_type, $._primary_expression],
         [$._user_defined_type_repeat, $.member_expression],
@@ -783,7 +785,7 @@ module.exports = grammar({
             ),
         )),
 
-        member_expression: $ => prec(14, seq(
+        member_expression: $ => prec(PREC.MEMBER, seq(
             field('object', choice(
                 $._expression,
                 $.identifier,
@@ -792,7 +794,7 @@ module.exports = grammar({
             field('property', alias($.identifier, $.property_identifier))
         )),
 
-        array_access: $ => prec.right(14,seq(
+        array_access: $ => prec.right(PREC.MEMBER, seq(
             field('base', $._expression),
             '[',
             field('index', $._expression),
@@ -846,13 +848,13 @@ module.exports = grammar({
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
 
-        type_name: $ => prec(14, choice(
+        type_name: $ => choice(
             $.primitive_type,
             $._user_defined_type,
             $._mapping,
             $._array_type,
             $._function_type,
-        )),
+        ),
 
         _array_type: $ => prec(1, seq($.type_name, '[', optional($._expression), ']')),
 
@@ -886,15 +888,15 @@ module.exports = grammar({
         ),
 
         // TODO: make visible type
-        _user_defined_type: $ => prec.right(14, seq(
+        _user_defined_type: $ => prec.right(PREC.MEMBER, seq(
             $.identifier,
             optional($._user_defined_type_repeat),
         )),
 
-        _user_defined_type_repeat: $ => prec(14, seq(
+        _user_defined_type_repeat: $ => seq(
             '.',
             $._user_defined_type,
-        )),
+        ),
 
         _mapping: $ => seq(
             'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
