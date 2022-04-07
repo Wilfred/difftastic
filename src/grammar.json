@@ -185,6 +185,10 @@
             "value": "#\\vtab"
           },
           {
+            "type": "STRING",
+            "value": "#\\nul"
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -521,29 +525,8 @@
                                         "type": "SEQ",
                                         "members": [
                                           {
-                                            "type": "CHOICE",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "e"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "s"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "f"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "d"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "l"
-                                              }
-                                            ]
+                                            "type": "PATTERN",
+                                            "value": "[eEsSfFdDlL]"
                                           },
                                           {
                                             "type": "CHOICE",
@@ -720,29 +703,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -920,29 +882,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -1124,29 +1065,8 @@
                                                 "type": "SEQ",
                                                 "members": [
                                                   {
-                                                    "type": "CHOICE",
-                                                    "members": [
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "e"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "s"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "f"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "d"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "l"
-                                                      }
-                                                    ]
+                                                    "type": "PATTERN",
+                                                    "value": "[eEsSfFdDlL]"
                                                   },
                                                   {
                                                     "type": "CHOICE",
@@ -1321,29 +1241,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -1624,29 +1523,8 @@
                                         "type": "SEQ",
                                         "members": [
                                           {
-                                            "type": "CHOICE",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "e"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "s"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "f"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "d"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "l"
-                                              }
-                                            ]
+                                            "type": "PATTERN",
+                                            "value": "[eEsSfFdDlL]"
                                           },
                                           {
                                             "type": "CHOICE",
@@ -1823,29 +1701,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -2023,29 +1880,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -2227,29 +2063,8 @@
                                                 "type": "SEQ",
                                                 "members": [
                                                   {
-                                                    "type": "CHOICE",
-                                                    "members": [
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "e"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "s"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "f"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "d"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "l"
-                                                      }
-                                                    ]
+                                                    "type": "PATTERN",
+                                                    "value": "[eEsSfFdDlL]"
                                                   },
                                                   {
                                                     "type": "CHOICE",
@@ -2424,29 +2239,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -2754,29 +2548,8 @@
                                                     "type": "SEQ",
                                                     "members": [
                                                       {
-                                                        "type": "CHOICE",
-                                                        "members": [
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "e"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "s"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "f"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "d"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "l"
-                                                          }
-                                                        ]
+                                                        "type": "PATTERN",
+                                                        "value": "[eEsSfFdDlL]"
                                                       },
                                                       {
                                                         "type": "CHOICE",
@@ -2855,29 +2628,8 @@
                                                     "type": "SEQ",
                                                     "members": [
                                                       {
-                                                        "type": "CHOICE",
-                                                        "members": [
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "e"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "s"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "f"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "d"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "l"
-                                                          }
-                                                        ]
+                                                        "type": "PATTERN",
+                                                        "value": "[eEsSfFdDlL]"
                                                       },
                                                       {
                                                         "type": "CHOICE",
@@ -2963,29 +2715,8 @@
                                                     "type": "SEQ",
                                                     "members": [
                                                       {
-                                                        "type": "CHOICE",
-                                                        "members": [
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "e"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "s"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "f"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "d"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "l"
-                                                          }
-                                                        ]
+                                                        "type": "PATTERN",
+                                                        "value": "[eEsSfFdDlL]"
                                                       },
                                                       {
                                                         "type": "CHOICE",
@@ -3071,29 +2802,8 @@
                                                     "type": "SEQ",
                                                     "members": [
                                                       {
-                                                        "type": "CHOICE",
-                                                        "members": [
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "e"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "s"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "f"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "d"
-                                                          },
-                                                          {
-                                                            "type": "STRING",
-                                                            "value": "l"
-                                                          }
-                                                        ]
+                                                        "type": "PATTERN",
+                                                        "value": "[eEsSfFdDlL]"
                                                       },
                                                       {
                                                         "type": "CHOICE",
@@ -3155,29 +2865,8 @@
                                         "type": "SEQ",
                                         "members": [
                                           {
-                                            "type": "CHOICE",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "e"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "s"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "f"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "d"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "l"
-                                              }
-                                            ]
+                                            "type": "PATTERN",
+                                            "value": "[eEsSfFdDlL]"
                                           },
                                           {
                                             "type": "CHOICE",
@@ -3373,29 +3062,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -3474,29 +3142,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -3582,29 +3229,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -3690,29 +3316,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -3774,29 +3379,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -3993,29 +3577,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -4094,29 +3657,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -4202,29 +3744,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -4310,29 +3831,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -4394,29 +3894,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -4617,29 +4096,8 @@
                                                             "type": "SEQ",
                                                             "members": [
                                                               {
-                                                                "type": "CHOICE",
-                                                                "members": [
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "e"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "s"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "f"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "d"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "l"
-                                                                  }
-                                                                ]
+                                                                "type": "PATTERN",
+                                                                "value": "[eEsSfFdDlL]"
                                                               },
                                                               {
                                                                 "type": "CHOICE",
@@ -4718,29 +4176,8 @@
                                                             "type": "SEQ",
                                                             "members": [
                                                               {
-                                                                "type": "CHOICE",
-                                                                "members": [
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "e"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "s"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "f"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "d"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "l"
-                                                                  }
-                                                                ]
+                                                                "type": "PATTERN",
+                                                                "value": "[eEsSfFdDlL]"
                                                               },
                                                               {
                                                                 "type": "CHOICE",
@@ -4826,29 +4263,8 @@
                                                             "type": "SEQ",
                                                             "members": [
                                                               {
-                                                                "type": "CHOICE",
-                                                                "members": [
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "e"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "s"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "f"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "d"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "l"
-                                                                  }
-                                                                ]
+                                                                "type": "PATTERN",
+                                                                "value": "[eEsSfFdDlL]"
                                                               },
                                                               {
                                                                 "type": "CHOICE",
@@ -4934,29 +4350,8 @@
                                                             "type": "SEQ",
                                                             "members": [
                                                               {
-                                                                "type": "CHOICE",
-                                                                "members": [
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "e"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "s"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "f"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "d"
-                                                                  },
-                                                                  {
-                                                                    "type": "STRING",
-                                                                    "value": "l"
-                                                                  }
-                                                                ]
+                                                                "type": "PATTERN",
+                                                                "value": "[eEsSfFdDlL]"
                                                               },
                                                               {
                                                                 "type": "CHOICE",
@@ -5018,29 +4413,8 @@
                                                 "type": "SEQ",
                                                 "members": [
                                                   {
-                                                    "type": "CHOICE",
-                                                    "members": [
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "e"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "s"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "f"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "d"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "l"
-                                                      }
-                                                    ]
+                                                    "type": "PATTERN",
+                                                    "value": "[eEsSfFdDlL]"
                                                   },
                                                   {
                                                     "type": "CHOICE",
@@ -5234,29 +4608,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -5335,29 +4688,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -5443,29 +4775,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -5551,29 +4862,8 @@
                                                         "type": "SEQ",
                                                         "members": [
                                                           {
-                                                            "type": "CHOICE",
-                                                            "members": [
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "e"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "s"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "f"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "d"
-                                                              },
-                                                              {
-                                                                "type": "STRING",
-                                                                "value": "l"
-                                                              }
-                                                            ]
+                                                            "type": "PATTERN",
+                                                            "value": "[eEsSfFdDlL]"
                                                           },
                                                           {
                                                             "type": "CHOICE",
@@ -5635,29 +4925,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -5938,29 +5207,8 @@
                                         "type": "SEQ",
                                         "members": [
                                           {
-                                            "type": "CHOICE",
-                                            "members": [
-                                              {
-                                                "type": "STRING",
-                                                "value": "e"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "s"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "f"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "d"
-                                              },
-                                              {
-                                                "type": "STRING",
-                                                "value": "l"
-                                              }
-                                            ]
+                                            "type": "PATTERN",
+                                            "value": "[eEsSfFdDlL]"
                                           },
                                           {
                                             "type": "CHOICE",
@@ -6137,29 +5385,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -6337,29 +5564,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -6541,29 +5747,8 @@
                                                 "type": "SEQ",
                                                 "members": [
                                                   {
-                                                    "type": "CHOICE",
-                                                    "members": [
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "e"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "s"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "f"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "d"
-                                                      },
-                                                      {
-                                                        "type": "STRING",
-                                                        "value": "l"
-                                                      }
-                                                    ]
+                                                    "type": "PATTERN",
+                                                    "value": "[eEsSfFdDlL]"
                                                   },
                                                   {
                                                     "type": "CHOICE",
@@ -6738,29 +5923,8 @@
                                             "type": "SEQ",
                                             "members": [
                                               {
-                                                "type": "CHOICE",
-                                                "members": [
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "e"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "s"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "f"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "d"
-                                                  },
-                                                  {
-                                                    "type": "STRING",
-                                                    "value": "l"
-                                                  }
-                                                ]
+                                                "type": "PATTERN",
+                                                "value": "[eEsSfFdDlL]"
                                               },
                                               {
                                                 "type": "CHOICE",
@@ -6878,7 +6042,7 @@
                           },
                           {
                             "type": "PATTERN",
-                            "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                            "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lt}|\\p{Lu}"
                           },
                           {
                             "type": "PATTERN",
@@ -6960,7 +6124,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                      "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lt}|\\p{Lu}"
                     },
                     {
                       "type": "PATTERN",
@@ -7031,7 +6195,7 @@
                           },
                           {
                             "type": "PATTERN",
-                            "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lu}"
+                            "value": "\\p{Ll}|\\p{Lm}|\\p{Lo}|\\p{Lt}|\\p{Lu}"
                           },
                           {
                             "type": "PATTERN",

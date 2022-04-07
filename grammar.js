@@ -47,6 +47,7 @@ module.exports = grammar({
           "#\\delete", "#\\esc",
           "#\\linefeed", "#\\page",
           "#\\return", "#\\space", "#\\tab", "#\\vtab",
+          "#\\nul",
           seq("#\\x", /[0-9a-fA-F]+/),
           /#\\./)),
 
@@ -74,11 +75,11 @@ module.exports = grammar({
           number_base(16))),
 
     symbol: _ => {
-      const first_char =
+      const initial =
         choice(
           /[a-zA-Z!$%&*/:<=>?^_~]/,
           /\p{Co}/,
-          /\p{Ll}|\p{Lm}|\p{Lo}|\p{Lu}/,
+          /\p{Ll}|\p{Lm}|\p{Lo}|\p{Lt}|\p{Lu}/,
           /\p{Mn}|\p{Nl}|\p{No}/,
           /\p{Pc}|\p{Pd}/,
           /\p{Sc}|\p{Sk}|\p{Sm}|\p{So}/,
@@ -102,7 +103,7 @@ module.exports = grammar({
 
       const subsequent =
         choice(
-          first_char,
+          initial,
           /[0-9.@+-]/,
           /\p{Mc}|\p{Me}|\p{Nd}/);
 
@@ -113,7 +114,7 @@ module.exports = grammar({
           "-",
           seq("->", repeat(subsequent)),
           seq(
-            first_char,
+            initial,
             repeat(subsequent)))));
     },
 
@@ -176,7 +177,7 @@ function number_base(n) {
   const sign = optional(/[+-]/);
   const digits = digitsn[n];
 
-  const exponent = choice("e", "s", "f", "d", "l");
+  const exponent = /[eEsSfFdDlL]/;
   const suffix = optional(choice(
     seq(exponent, sign, repeat1(digitsn[10])),
     seq("|", repeat1(digitsn[10])),
