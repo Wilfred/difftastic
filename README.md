@@ -68,6 +68,28 @@ and new file.)
 Merging. AST merging is a hard problem that difftastic does not
 address.
 
+## FAQ
+
+### Isn't this basically `--word-diff --ignore-all-space`?
+
+Word diffing [can't do
+this](https://twitter.com/_wilfredh/status/1510139929971421191/photo/1).
+
+Difftastic parses your code. It understands when whitespace matters,
+such as string literals or in languages like Python. It understands
+that `x-1` is three tokens in JS but one token in Lisp.
+
+### Can I use difftastic with git?
+
+You can! The difftastic manual [includes instructions for git
+usage](https://difftastic.wilfred.me.uk/git.html). You can also use it
+[with mercurial](https://difftastic.wilfred.me.uk/mercurial.html).
+
+### Does difftastic integrate with my favourite tool?
+
+Probably not. Difftastic is young. Consider writing a plugin for your
+favourite tool, and I will link it in the README!
+
 ## License
 
 Difftastic is open source under the MIT license, see LICENSE for more
