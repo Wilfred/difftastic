@@ -2719,6 +2719,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "subshell"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_beginning"
+        },
+        {
+          "type": "SYMBOL",
           "name": "regex"
         },
         {

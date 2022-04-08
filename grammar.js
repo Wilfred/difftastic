@@ -509,6 +509,8 @@ module.exports = grammar({
     _pattern_literal: $ => choice(
       $._literal,
       $.string,
+      $.subshell,
+      $.heredoc_beginning,
       $.regex,
       $.string_array,
       $.symbol_array,
