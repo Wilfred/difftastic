@@ -489,8 +489,8 @@ fn sorted_novel_positions(
             (None, None) => {
                 break;
             }
-            _ => {
-                unreachable!("Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos");
+            (lhs_mp, rhs_mp) => {
+                unreachable!("Should be impossible: every LHS Unchanged MatchedPos should have a corresponding RHS Unchanged MatchedPos\n  {:?}\n  {:?}", lhs_mp, rhs_mp);
             }
         }
     }
