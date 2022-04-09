@@ -18,6 +18,8 @@ literals.
 
 Added Gleam, YAML and Zig support.
 
+Improved Clojure parsing with `^Metadata`.
+
 ### Command Line Interface
 
 Added the `--display` option to switch between `side-by-side`,
