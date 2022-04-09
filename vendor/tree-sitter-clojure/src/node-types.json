@@ -2020,7 +2020,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "comment",
@@ -2028,6 +2028,10 @@
         },
         {
           "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "sym_name",
           "named": true
         }
       ]
@@ -3119,6 +3123,10 @@
   },
   {
     "type": "num_lit",
+    "named": true
+  },
+  {
+    "type": "sym_name",
     "named": true
   },
   {

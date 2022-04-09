@@ -10,8 +10,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "nan": "2.14.2",
-    "web-tree-sitter": "0.19.1"
+    "nan": "2.14.2"
   },
   "devDependencies": {
     "tree-sitter-cli": "0.19.3"
