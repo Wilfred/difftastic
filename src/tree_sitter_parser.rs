@@ -73,6 +73,7 @@ extern "C" {
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
+    fn tree_sitter_swift() -> ts::Language;
     fn tree_sitter_toml() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
@@ -574,6 +575,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/scala.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Swift => {
+            let language = unsafe { tree_sitter_swift() };
+            TreeSitterConfig {
+                name: "Swift",
+                language,
+                atom_nodes: ["_string_literal"].into(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/swift.scm"),
                 )
                 .unwrap(),
             }
