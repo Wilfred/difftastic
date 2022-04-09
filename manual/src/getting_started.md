@@ -27,6 +27,11 @@ part of Rust).
 $ cargo install difftastic
 ```
 
+Difftastic uses the `cc` crate for building C/C++ dependencies. This
+allows you to use environment variables `CC` and `CXX` to control the
+compiler used (see [the cc
+docs](https://github.com/alexcrichton/cc-rs#external-configuration-via-environment-variables)).
+
 See [contributing](./contributing.md) for instructions on debug
 builds.
 
