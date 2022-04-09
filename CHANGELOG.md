@@ -1,5 +1,10 @@
 ## 0.26 (unreleased)
 
+### Build
+
+Fixed an issue where C++ libraries were built before before the C
+libraries that they depended on.
+
 ### Display
 
 The side-by-side display no longer pads the right column to fill the
