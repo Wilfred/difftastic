@@ -73,6 +73,9 @@ sample_files/load_before.js sample_files/load_after.js
 sample_files/lua_before.lua sample_files/lua_after.lua
 c3d81271c060bd97dd246c1c5ea6a138  -
 
+sample_files/metadata_before.clj sample_files/metadata_after.clj
+d7f1a811417c5681fb11ff3380ad8bb3  -
+
 sample_files/modules_before.ml sample_files/modules_after.ml
 cefee5d83c8374470cd741a062d77ada  -
 
