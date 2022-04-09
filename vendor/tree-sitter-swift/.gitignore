@@ -1,6 +1,8 @@
 node_modules
 /src/*
 !/src/scanner.c
+!/src/parser.c
+!/src/tree_sitter
 *.swp
 /build
 /test
