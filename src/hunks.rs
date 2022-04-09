@@ -454,8 +454,8 @@ fn sorted_novel_positions(
 
     let mut lhs_prev_matched_line = None;
     let mut rhs_prev_matched_line = None;
-    let mut lhs_section = vec![];
-    let mut rhs_section = vec![];
+    let mut lhs_novel_section = vec![];
+    let mut rhs_novel_section = vec![];
 
     let mut lhs_iter = lhs_mps.iter().peekable();
     let mut rhs_iter = rhs_mps.iter().peekable();
@@ -463,15 +463,15 @@ fn sorted_novel_positions(
         match (lhs_iter.peek(), rhs_iter.peek()) {
             (Some(lhs_mp), Some(rhs_mp)) if !lhs_mp.kind.is_novel() && !rhs_mp.kind.is_novel() => {
                 res.append(&mut novel_section_in_order(
-                    &lhs_section,
-                    &rhs_section,
+                    &lhs_novel_section,
+                    &rhs_novel_section,
                     lhs_prev_matched_line,
                     rhs_prev_matched_line,
                     opposite_to_lhs,
                     opposite_to_rhs,
                 ));
-                lhs_section = vec![];
-                rhs_section = vec![];
+                lhs_novel_section = vec![];
+                rhs_novel_section = vec![];
 
                 lhs_prev_matched_line = Some(lhs_mp.pos.line);
                 rhs_prev_matched_line = Some(rhs_mp.pos.line);
@@ -479,11 +479,11 @@ fn sorted_novel_positions(
                 rhs_iter.next();
             }
             (Some(lhs_mp), _) if lhs_mp.kind.is_novel() => {
-                lhs_section.push(lhs_mp);
+                lhs_novel_section.push(lhs_mp);
                 lhs_iter.next();
             }
             (_, Some(rhs_mp)) if rhs_mp.kind.is_novel() => {
-                rhs_section.push(rhs_mp);
+                rhs_novel_section.push(rhs_mp);
                 rhs_iter.next();
             }
             (None, None) => {
@@ -496,8 +496,8 @@ fn sorted_novel_positions(
     }
 
     res.append(&mut novel_section_in_order(
-        &lhs_section,
-        &rhs_section,
+        &lhs_novel_section,
+        &rhs_novel_section,
         lhs_prev_matched_line,
         rhs_prev_matched_line,
         opposite_to_lhs,
