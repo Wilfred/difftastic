@@ -498,7 +498,7 @@ mod tests {
         lhs[1].set_change(Novel);
         lhs[2].set_change(Novel);
 
-        fix_all_sliders(&lhs);
+        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs);
         assert_eq!(lhs[0].change(), Some(Novel));
         assert_eq!(lhs[1].change(), Some(Novel));
         assert_eq!(lhs[2].change(), Some(Unchanged(rhs[0])));
@@ -546,7 +546,7 @@ mod tests {
         lhs[1].set_change(Novel);
         lhs[2].set_change(Unchanged(rhs[0]));
 
-        fix_all_sliders(&lhs);
+        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs);
         assert_eq!(rhs[0].change(), Some(Unchanged(lhs[0])));
         assert_eq!(lhs[0].change(), Some(Unchanged(rhs[0])));
         assert_eq!(lhs[1].change(), Some(Novel));
@@ -567,7 +567,7 @@ mod tests {
         rhs[3].set_change(Novel);
         rhs[4].set_change(Novel);
 
-        fix_all_sliders(&rhs);
+        fix_all_sliders(guess_language::Language::EmacsLisp, &rhs);
         assert_eq!(rhs[0].change(), Some(Novel));
         assert_eq!(rhs[1].change(), Some(Novel));
         assert_eq!(rhs[2].change(), Some(Novel));
