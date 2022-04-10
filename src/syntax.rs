@@ -703,7 +703,7 @@ impl MatchedPos {
         pos: &[SingleLineSpan],
         is_close: bool,
     ) -> Vec<Self> {
-        let kind = match ck {
+        match ck {
             ReplacedComment(this, opposite) => {
                 let this_content = match this {
                     List { .. } => unreachable!(),
@@ -716,13 +716,13 @@ impl MatchedPos {
                     } => (content, position),
                 };
 
-                return split_comment_words(
+                split_comment_words(
                     this_content,
                     // TODO: handle the whole pos here.
                     pos[0],
                     opposite_content,
                     opposite_pos[0],
-                );
+                )
             }
             Unchanged(opposite) => {
                 let opposite_pos = match opposite {
@@ -740,33 +740,60 @@ impl MatchedPos {
                     Atom { position, .. } => position.clone(),
                 };
 
-                MatchKind::UnchangedToken {
+                let opposite_pos_len = opposite_pos.len();
+                let kind = MatchKind::UnchangedToken {
                     highlight,
                     self_pos: pos.to_vec(),
                     opposite_pos,
+                };
+
+                // Create a MatchedPos for every line that `pos` covers.
+                let mut res = vec![];
+                for (i, line_pos) in pos.iter().enumerate() {
+                    // Don't create a MatchedPos for empty positions
+                    // at the start. We will want empty positions on
+                    // multiline atoms elsewhere, as a multline string
+                    // literal may include empty lines.
+                    if i == 0 && line_pos.start_col == line_pos.end_col {
+                        continue;
+                    }
+
+                    res.push(Self {
+                        kind: kind.clone(),
+                        pos: *line_pos,
+                    });
+
+                    // Ensure we have the same number of unchanged
+                    // MatchedPos on the LHS and RHS. This allows us
+                    // to consider unchanged MatchedPos values
+                    // pairwise.
+                    if res.len() == opposite_pos_len {
+                        break;
+                    }
                 }
+                res
             }
-            Novel => MatchKind::Novel { highlight },
-        };
+            Novel => {
+                let kind = MatchKind::Novel { highlight };
+                // Create a MatchedPos for every line that `pos` covers.
+                let mut res = vec![];
+                for line_pos in pos {
+                    // Don't create a MatchedPos for empty positions. This
+                    // occurs when we have lists with empty open/close
+                    // delimiter positions, such as the top-level list of syntax items.
+                    if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
+                        continue;
+                    }
 
-        // Create a MatchedPos for every line that `pos` covers.
-        // TODO: what about opposite pos?
-        let mut res = vec![];
-        for line_pos in pos {
-            // Don't create a MatchedPos for empty positions. This
-            // occurs when we have lists with empty open/close
-            // delimiter positions, such as the top-level list of syntax items.
-            if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
-                break;
+                    res.push(Self {
+                        kind: kind.clone(),
+                        pos: *line_pos,
+                    });
+                }
+
+                res
             }
-
-            res.push(Self {
-                kind: kind.clone(),
-                pos: *line_pos,
-            });
         }
-
-        res
     }
 }
 

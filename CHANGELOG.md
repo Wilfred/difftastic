@@ -4,6 +4,10 @@
 
 Fixed Zig parsing of `@foo` identifiers.
 
+### Display
+
+Fixed a crash when inserting newlines in JSX literals.
+
 ## 0.26 (released 9th April 2022)
 
 ### Build
