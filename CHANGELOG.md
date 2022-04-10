@@ -1,5 +1,9 @@
 ## 0.27 (unreleased)
 
+### Parsing
+
+Fixed Zig parsing of `@foo` identifiers.
+
 ## 0.26 (released 9th April 2022)
 
 ### Build

@@ -580,7 +580,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Zig",
                 language,
-                atom_nodes: (vec!["STRINGLITERALSINGLE"]).into_iter().collect(),
+                atom_nodes: vec!["STRINGLITERALSINGLE", "BUILTINIDENTIFIER"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: (vec![("{", "}"), ("[", "]"), ("(", ")")])
                     .into_iter()
                     .collect(),
