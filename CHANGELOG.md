@@ -1,3 +1,10 @@
+## 0.26.2 (unreleased)
+
+### Build
+
+Fixed compilation error on Windows due to GCC extension usage in the
+tree-sitter-nix library.
+
 ## 0.26.1 (released 10th April 2022)
 
 ### Build
