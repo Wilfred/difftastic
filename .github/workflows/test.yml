@@ -4,8 +4,22 @@ name: Continuous integration
 
 jobs:
   check:
-    name: Check
+    name: Check Linux
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.56.0
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+  check:
+    name: Check macOS
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
