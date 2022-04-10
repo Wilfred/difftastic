@@ -1,4 +1,9 @@
-## 0.27 (unreleased)
+## 0.26.1 (released 10th April 2022)
+
+### Build
+
+This version of difftastic is also available as a GitHub release with
+precompiled binaries available.
 
 ### Parsing
 
