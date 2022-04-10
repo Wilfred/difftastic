@@ -61,7 +61,7 @@ jobs:
         run: diff sample_files/compare.result sample_files/compare.expected
 
   package:
-    name: Build releasable package
+    name: Check Linux Packaging
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
