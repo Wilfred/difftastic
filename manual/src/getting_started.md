@@ -1,8 +1,12 @@
 # Getting Started
 
-## Installing a prebuilt package
+## Installing a binary
 
-Prebuilt packages are available on the following platforms.
+Difftastic [provides GitHub
+releases](https://github.com/Wilfred/difftastic/releases) with
+prebuilt binaries.
+
+Packages are also available on the following platforms.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/difftastic.svg)](https://repology.org/project/difftastic/versions)
 
