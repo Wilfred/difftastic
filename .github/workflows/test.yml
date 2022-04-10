@@ -3,7 +3,7 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
-  check:
+  check_linux:
     name: Check Linux
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +17,7 @@ jobs:
         with:
           command: check
 
-  check:
+  check_mac:
     name: Check macOS
     runs-on: macos-latest
     steps:
