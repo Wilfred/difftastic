@@ -1,4 +1,13 @@
-## 0.26.2 (unreleased)
+## 0.27 (unreleased)
+
+## 0.26.3 (released 10th April 2022)
+
+### Release
+
+Difftastic now uses GitHub releases with precompiled binaries for
+Linux, macOS and Windows.
+
+## 0.26.2 (released 10th April 2022)
 
 ### Build
 
