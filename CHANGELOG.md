@@ -1,4 +1,6 @@
-## 0.26 (unreleased)
+## 0.27 (unreleased)
+
+## 0.26 (released 9th April 2022)
 
 ### Build
 
