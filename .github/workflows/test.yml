@@ -3,8 +3,8 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
-  check_linux:
-    name: Check Linux
+  test_linux:
+    name: Test Linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,10 +15,10 @@ jobs:
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          command: check
+          command: test
 
-  check_mac:
-    name: Check macOS
+  test_mac:
+    name: Test macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,11 +29,11 @@ jobs:
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          command: check
+          command: test
 
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
+  test_windows:
+    name: Test Windows
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
