@@ -1033,7 +1033,7 @@ module.exports = grammar({
           /=e[^n]/,
           /=en[^d]/
         )),
-        /=end/
+        /=end.*/
       )
     ))),
 

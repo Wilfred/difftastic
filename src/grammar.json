@@ -6820,7 +6820,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "=end"
+                  "value": "=end.*"
                 }
               ]
             }
