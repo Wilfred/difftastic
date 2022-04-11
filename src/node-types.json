@@ -556,6 +556,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "pycode_environment",
           "named": true
         },
@@ -857,6 +861,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -1569,6 +1577,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -1789,6 +1801,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -2065,6 +2081,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -2330,6 +2350,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -2618,6 +2642,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -3221,6 +3249,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -3776,6 +3808,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -4023,6 +4059,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "pycode_environment",
           "named": true
         },
@@ -4213,6 +4253,84 @@
     }
   },
   {
+    "type": "paired_delimiter_definition",
+    "named": true,
+    "fields": {
+      "argc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group_argc",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\DeclarePairedDelimiter",
+            "named": false
+          },
+          {
+            "type": "\\DeclarePairedDelimiterX",
+            "named": false
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_command_name",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          },
+          {
+            "type": "curly_group_impl",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "paragraph",
     "named": true,
     "fields": {
@@ -4387,6 +4505,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -4615,6 +4737,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -4894,6 +5020,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -5098,6 +5228,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -5337,6 +5471,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "pycode_environment",
           "named": true
         },
@@ -5546,6 +5684,10 @@
         },
         {
           "type": "package_include",
+          "named": true
+        },
+        {
+          "type": "paired_delimiter_definition",
           "named": true
         },
         {
@@ -5773,6 +5915,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -5969,6 +6115,10 @@
           },
           {
             "type": "package_include",
+            "named": true
+          },
+          {
+            "type": "paired_delimiter_definition",
             "named": true
           },
           {
@@ -6278,6 +6428,10 @@
           "named": true
         },
         {
+          "type": "paired_delimiter_definition",
+          "named": true
+        },
+        {
           "type": "svg_include",
           "named": true
         },
@@ -6564,6 +6718,14 @@
   },
   {
     "type": "\\DeclareMathOperator*",
+    "named": false
+  },
+  {
+    "type": "\\DeclarePairedDelimiter",
+    "named": false
+  },
+  {
+    "type": "\\DeclarePairedDelimiterX",
     "named": false
   },
   {

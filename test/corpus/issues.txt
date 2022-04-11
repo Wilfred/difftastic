@@ -496,3 +496,34 @@ Let
       (curly_group_text
         (text
           (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #36) | Paired delimiter
+================================================================================
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\DeclarePairedDelimiterX{\abs}[1]\lvert\rvert{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_impl
+      (generic_command
+        (command_name)))
+    (curly_group_impl
+      (generic_command
+        (command_name))))
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (command_name)
+    (command_name)
+    (curly_group
+      (text
+        (placeholder)))))

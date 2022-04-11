@@ -564,6 +564,7 @@ module.exports = grammar({
         $.new_command_definition,
         $.old_command_definition,
         $.let_command_definition,
+        $.paired_delimiter_definition,
         $.environment_definition,
         $.glossary_entry_definition,
         $.glossary_entry_reference,
@@ -828,6 +829,21 @@ module.exports = grammar({
         field('declaration', $.command_name),
         optional('='),
         field('implementation', $.command_name)
+      ),
+
+    paired_delimiter_definition: $ =>
+      prec.right(
+        seq(
+          field(
+            'command',
+            choice('\\DeclarePairedDelimiter', '\\DeclarePairedDelimiterX')
+          ),
+          field('declaration', $.curly_group_command_name),
+          field('argc', optional($.brack_group_argc)),
+          field('left', choice($.curly_group_impl, $.command_name)),
+          field('right', choice($.curly_group_impl, $.command_name)),
+          field('body', optional($.curly_group))
+        )
       ),
 
     environment_definition: $ =>

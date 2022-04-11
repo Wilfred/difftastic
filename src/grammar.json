@@ -2739,6 +2739,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "paired_delimiter_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "environment_definition"
         },
         {
@@ -3864,6 +3868,106 @@
           }
         }
       ]
+    },
+    "paired_delimiter_definition": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "command",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\DeclarePairedDelimiter"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\DeclarePairedDelimiterX"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "declaration",
+            "content": {
+              "type": "SYMBOL",
+              "name": "curly_group_command_name"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "argc",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "brack_group_argc"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "curly_group_impl"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "command_name"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "curly_group_impl"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "command_name"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "curly_group"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "environment_definition": {
       "type": "SEQ",
