@@ -969,7 +969,15 @@ module.exports = grammar({
     theorem_definition: $ =>
       prec.right(
         seq(
-          field('command', choice('\\newtheorem', '\\declaretheorem')),
+          field(
+            'command',
+            choice(
+              '\\newtheorem',
+              '\\newtheorem*',
+              '\\declaretheorem',
+              '\\declaretheorem*'
+            )
+          ),
           optional(field('options', $.brack_group_key_value)),
           field('name', $.curly_group_text),
           optional(

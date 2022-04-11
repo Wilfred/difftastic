@@ -4446,7 +4446,15 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "\\newtheorem*"
+                },
+                {
+                  "type": "STRING",
                   "value": "\\declaretheorem"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\declaretheorem*"
                 }
               ]
             }

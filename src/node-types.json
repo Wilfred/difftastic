@@ -6056,7 +6056,15 @@
             "named": false
           },
           {
+            "type": "\\declaretheorem*",
+            "named": false
+          },
+          {
             "type": "\\newtheorem",
+            "named": false
+          },
+          {
+            "type": "\\newtheorem*",
             "named": false
           }
         ]
@@ -6983,6 +6991,10 @@
     "named": false
   },
   {
+    "type": "\\declaretheorem*",
+    "named": false
+  },
+  {
     "type": "\\def",
     "named": false
   },
@@ -7240,6 +7252,10 @@
   },
   {
     "type": "\\newtheorem",
+    "named": false
+  },
+  {
+    "type": "\\newtheorem*",
     "named": false
   },
   {
