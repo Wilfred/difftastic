@@ -684,12 +684,11 @@ end
           (integer))))))
 
 =====================================
-stab clause / edge cases / empty right-hand-sides
+stab clause / edge cases / empty right-hand-side
 =====================================
 
 fun do
   x ->
-  y ->
 end
 
 ---
@@ -700,10 +699,8 @@ end
     (do_block
       (stab_clause
         (arguments
-          (identifier)))
-      (stab_clause
-        (arguments
-          (identifier))))))
+          (identifier))
+        (body)))))
 
 =====================================
 pattern matching
