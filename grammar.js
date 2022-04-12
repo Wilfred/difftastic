@@ -159,16 +159,6 @@ module.exports = grammar({
     //   * stab arguments item in `arg1, left when right ->`
     [$.binary_operator, $._stab_clause_arguments_without_parentheses],
 
-    // Given `( -> • \n`, the newline could be either:
-    //   * stab clause without a body
-    //   * stab clause with a body
-    [$._stab_clause_without_body, $._stab_clause_with_body],
-
-    // Given `( -> • /`, `/` token could be either:
-    //   * stab clause with a body
-    //   * -> as an operator followed by `/`
-    [$._stab_clause_with_body, $.operator_identifier],
-
     // Given `((arg1, arg2 • ,`, `arg3` expression can be either:
     //   * stab parenthesised arguments item in `((arg1, arg2, arg3) ->)`
     //   * stab non-parenthesised arguments item in `((arg1, arg2, arg3 ->))`
@@ -739,20 +729,13 @@ module.exports = grammar({
       ),
 
     stab_clause: ($) =>
-      choice($._stab_clause_with_body, $._stab_clause_without_body),
-
-    _stab_clause_with_body: ($) =>
-      seq(
-        optional(field("left", $._stab_clause_left)),
-        field("operator", "->"),
-        field("right", $.body)
-      ),
-
-    _stab_clause_without_body: ($) =>
-      seq(
-        optional(field("left", $._stab_clause_left)),
-        field("operator", "->"),
-        optional($._terminator)
+      // Right precedence, because we want to consume body if any
+      prec.right(
+        seq(
+          optional(field("left", $._stab_clause_left)),
+          field("operator", "->"),
+          optional(field("right", $.body))
+        )
       ),
 
     _stab_clause_left: ($) =>
@@ -834,10 +817,13 @@ module.exports = grammar({
       ),
 
     body: ($) =>
-      seq(
-        optional($._terminator),
-        sep1($._expression, $._terminator),
-        optional($._terminator)
+      choice(
+        $._terminator,
+        seq(
+          optional($._terminator),
+          sep1($._expression, $._terminator),
+          optional($._terminator)
+        )
       ),
 
     anonymous_function: ($) =>
