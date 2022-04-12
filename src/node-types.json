@@ -1377,6 +1377,29 @@
     }
   },
   {
+    "type": "complex",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "rational",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "conditional",
     "named": true,
     "fields": {
@@ -3800,10 +3823,6 @@
     "named": true
   },
   {
-    "type": "complex",
-    "named": true
-  },
-  {
     "type": "constant",
     "named": true
   },
@@ -3880,6 +3899,10 @@
     "named": true
   },
   {
+    "type": "i",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -3945,6 +3968,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "ri",
     "named": false
   },
   {
