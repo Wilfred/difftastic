@@ -1038,10 +1038,13 @@ module.exports = grammar({
     ))),
 
     integer: $ => /0[bB][01](_?[01])*|0[oO]?[0-7](_?[0-7])*|(0[dD])?\d(_?\d)*|0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,
-
+    _int_or_float: $ => choice($.integer, $.float),
     float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
-    complex: $ => /(\d+)?(\+|-)?(\d+)i/,
-    rational: $ => seq(choice($.integer, $.float), 'r'),
+    complex: $ => choice(
+      seq($._int_or_float, token.immediate('i')),
+      seq(alias($._int_or_float, $.rational), token.immediate('ri')),
+    ),
+    rational: $ => seq($._int_or_float, token.immediate('r')),
     super: $ => 'super',
     self: $ => 'self',
     true: $ => token(choice('true', 'TRUE')),
