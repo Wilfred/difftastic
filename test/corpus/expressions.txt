@@ -198,9 +198,9 @@ NIL = "nil"
 (program
   (assignment (identifier) (identifier))
   (assignment (identifier) (splat_argument (identifier)))
-  (assignment (false) (string (string_content)))
-  (assignment (true) (string (string_content)))
-  (assignment (nil) (string (string_content))))
+  (assignment (constant) (string (string_content)))
+  (assignment (constant) (string (string_content)))
+  (assignment (constant) (string (string_content))))
 
 =====================
 multiple assignment

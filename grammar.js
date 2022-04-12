@@ -1047,9 +1047,9 @@ module.exports = grammar({
     rational: $ => seq($._int_or_float, token.immediate('r')),
     super: $ => 'super',
     self: $ => 'self',
-    true: $ => token(choice('true', 'TRUE')),
-    false: $ => token(choice('false', 'FALSE')),
-    nil: $ => token(choice('nil', 'NIL')),
+    true: $ => 'true',
+    false: $ => 'false',
+    nil: $ => 'nil',
 
     constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS)),
     constant_suffix: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?!]/)),
