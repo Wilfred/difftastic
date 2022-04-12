@@ -1,14 +1,7 @@
 /examples/* linguist-vendored
 
 # Explicitly list files in src so scanner.cc and scanner.c are not included.
-/src/tree_sitter/* linguist-vendored
-/src/binding.cc linguist-vendored
-/src/grammar.json linguist-vendored
-/src/node-types.json linguist-vendored
-/src/parser.c linguist-vendored
-
-/src/tree_sitter/* binary
-/src/binding.cc binary
-/src/grammar.json binary
-/src/node-types.json binary
-/src/parser.c binary
+/src/tree_sitter/* -diff linguist-vendored
+/src/grammar.json -diff linguist-generated
+/src/node-types.json -diff linguist-generated
+/src/parser.c -diff linguist-generated
