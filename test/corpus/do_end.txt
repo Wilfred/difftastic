@@ -684,6 +684,28 @@ end
           (integer))))))
 
 =====================================
+stab clause / edge cases / empty right-hand-sides
+=====================================
+
+fun do
+  x ->
+  y ->
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (identifier)))
+      (stab_clause
+        (arguments
+          (identifier))))))
+
+=====================================
 pattern matching
 =====================================
 
