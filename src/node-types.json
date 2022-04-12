@@ -2460,6 +2460,11 @@
     }
   },
   {
+    "type": "nil",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "operator",
     "named": true,
     "fields": {}
@@ -3933,10 +3938,6 @@
   {
     "type": "next",
     "named": false
-  },
-  {
-    "type": "nil",
-    "named": true
   },
   {
     "type": "nil",

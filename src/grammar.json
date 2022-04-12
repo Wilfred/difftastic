@@ -6916,52 +6916,16 @@
       "value": "self"
     },
     "true": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "true"
-          },
-          {
-            "type": "STRING",
-            "value": "TRUE"
-          }
-        ]
-      }
+      "type": "STRING",
+      "value": "true"
     },
     "false": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "false"
-          },
-          {
-            "type": "STRING",
-            "value": "FALSE"
-          }
-        ]
-      }
+      "type": "STRING",
+      "value": "false"
     },
     "nil": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "nil"
-          },
-          {
-            "type": "STRING",
-            "value": "NIL"
-          }
-        ]
-      }
+      "type": "STRING",
+      "value": "nil"
     },
     "constant": {
       "type": "TOKEN",
