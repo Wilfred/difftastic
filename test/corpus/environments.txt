@@ -213,3 +213,36 @@ Minted environment
       (curly_group_text
         (text
           (word))))))
+
+================================================================================
+Math environment
+================================================================================
+
+\begin{equation*}
+  e^{i \pi} + 1 = 0
+\end{equation*}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (text
+      (word))
+    (curly_group
+      (text
+        (word)
+        (generic_command
+          (command_name))))
+    (text
+      (operator)
+      (word))
+    (text
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))

@@ -468,7 +468,7 @@ Let
 (source_file
   (text
     (word))
-  (generic_environment
+  (math_environment
     (begin
       (curly_group_text
         (text

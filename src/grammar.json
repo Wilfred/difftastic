@@ -146,6 +146,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "math_environment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_content"
         }
       ]
@@ -2759,6 +2763,225 @@
             "content": {
               "type": "STRING",
               "value": "pycode"
+            },
+            "named": true,
+            "value": "word"
+          }
+        }
+      ]
+    },
+    "math_environment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "begin",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_environment_begin"
+            },
+            "named": true,
+            "value": "begin"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_flat_content"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "end",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_environment_end"
+            },
+            "named": true,
+            "value": "end"
+          }
+        }
+      ]
+    },
+    "_math_environment_begin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\begin"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": []
+        }
+      ]
+    },
+    "_math_environment_end": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\end"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        }
+      ]
+    },
+    "_math_environment_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "text",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_environment_name"
+            },
+            "named": true,
+            "value": "text"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_math_environment_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "word",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "displaymath"
+                },
+                {
+                  "type": "STRING",
+                  "value": "displaymath*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "equation"
+                },
+                {
+                  "type": "STRING",
+                  "value": "equation*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "multline"
+                },
+                {
+                  "type": "STRING",
+                  "value": "multline*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "eqnarray"
+                },
+                {
+                  "type": "STRING",
+                  "value": "eqnarray*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "align"
+                },
+                {
+                  "type": "STRING",
+                  "value": "align*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "array"
+                },
+                {
+                  "type": "STRING",
+                  "value": "array*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "split"
+                },
+                {
+                  "type": "STRING",
+                  "value": "split*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "alignat"
+                },
+                {
+                  "type": "STRING",
+                  "value": "alignat*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "gather"
+                },
+                {
+                  "type": "STRING",
+                  "value": "gather*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "flalign"
+                },
+                {
+                  "type": "STRING",
+                  "value": "flalign*"
+                }
+              ]
             },
             "named": true,
             "value": "word"

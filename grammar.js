@@ -82,6 +82,7 @@ module.exports = grammar({
         $.minted_environment,
         $.pycode_environment,
         $.generic_environment,
+        $.math_environment,
         $._text_content
       ),
 
@@ -500,6 +501,34 @@ module.exports = grammar({
       name: 'pycode',
       content: $ =>
         field('code', alias($._trivia_raw_env_pycode, $.source_code)),
+      options: undefined,
+    }),
+
+    ...specialEnvironment({
+      rule: 'math_environment',
+      name: choice(
+        'displaymath',
+        'displaymath*',
+        'equation',
+        'equation*',
+        'multline',
+        'multline*',
+        'eqnarray',
+        'eqnarray*',
+        'align',
+        'align*',
+        'array',
+        'array*',
+        'split',
+        'split*',
+        'alignat',
+        'alignat*',
+        'gather',
+        'gather*',
+        'flalign',
+        'flalign*'
+      ),
+      content: $ => repeat($._flat_content),
       options: undefined,
     }),
 
