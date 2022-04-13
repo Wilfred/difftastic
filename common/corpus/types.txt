@@ -338,11 +338,22 @@ Type-only Export
 =======================================
 
 export type { UserType }
+export type { UserType } from "./User.js";
+export type { A, B, C as D } from 'mymodule';
 
 ---
 
 (program
-  (export_statement (export_clause (export_specifier (identifier)))))
+  (export_statement (export_clause (export_specifier (identifier))))
+  (export_statement
+    (export_clause (export_specifier (identifier)))
+    (string (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier (identifier))
+      (export_specifier (identifier))
+      (export_specifier (identifier) (identifier)))
+    (string (string_fragment))))
 
 =======================================
 Flow Export Types
