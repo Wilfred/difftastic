@@ -4075,8 +4075,21 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\newenvironment"
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\newenvironment"
+              },
+              {
+                "type": "STRING",
+                "value": "\\renewenvironment"
+              }
+            ]
+          }
         },
         {
           "type": "FIELD",

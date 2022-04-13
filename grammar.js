@@ -867,7 +867,7 @@ module.exports = grammar({
 
     environment_definition: $ =>
       seq(
-        '\\newenvironment',
+        field('command', choice('\\newenvironment', '\\renewenvironment')),
         field('name', $.curly_group_text),
         field('argc', optional($.brack_group_argc)),
         field('begin', $.curly_group_impl),

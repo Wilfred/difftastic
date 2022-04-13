@@ -2678,6 +2678,20 @@
           }
         ]
       },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\newenvironment",
+            "named": false
+          },
+          {
+            "type": "\\renewenvironment",
+            "named": false
+          }
+        ]
+      },
       "end": {
         "multiple": false,
         "required": true,
@@ -7924,6 +7938,10 @@
   },
   {
     "type": "\\renewcommand*",
+    "named": false
+  },
+  {
+    "type": "\\renewenvironment",
     "named": false
   },
   {
