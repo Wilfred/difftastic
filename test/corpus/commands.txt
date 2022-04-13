@@ -150,3 +150,24 @@ Command definition with default arg
     (curly_group
       (text
         (placeholder)))))
+
+================================================================================
+Author command
+================================================================================
+
+\author{John Doe \and Foo Bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (author_declaration
+    (curly_group_author_list
+      (author
+        (text
+          (word)
+          (word)))
+      (command_name)
+      (author
+        (text
+          (word)
+          (word))))))

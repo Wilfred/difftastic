@@ -314,6 +314,16 @@ module.exports = grammar({
 
     curly_group_impl: $ => seq('{', repeat($._text_content), '}'),
 
+    curly_group_author_list: $ =>
+      seq(
+        '{',
+        sepBy(
+          alias(repeat1($._text_content), $.author),
+          alias('\\and', $.command_name)
+        ),
+        '}'
+      ),
+
     brack_group: $ =>
       seq(
         '[',
@@ -545,6 +555,8 @@ module.exports = grammar({
 
     _command: $ =>
       choice(
+        $.title_declaration,
+        $.author_declaration,
         $.package_include,
         $.class_include,
         $.latex_include,
@@ -587,6 +599,10 @@ module.exports = grammar({
       ),
 
     command_name: $ => /\\([^\r\n]|[@a-zA-Z:_]+\*?)?/,
+
+    title_declaration: $ => seq('\\title', $.curly_group),
+
+    author_declaration: $ => seq('\\author', $.curly_group_author_list),
 
     package_include: $ =>
       seq(

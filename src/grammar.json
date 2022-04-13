@@ -1393,6 +1393,73 @@
         }
       ]
     },
+    "curly_group_author_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_text_content"
+                    }
+                  },
+                  "named": true,
+                  "value": "author"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "STRING",
+                          "value": "\\and"
+                        },
+                        "named": true,
+                        "value": "command_name"
+                      },
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "REPEAT1",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "_text_content"
+                          }
+                        },
+                        "named": true,
+                        "value": "author"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "brack_group": {
       "type": "SEQ",
       "members": [
@@ -2663,6 +2730,14 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "title_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "author_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "package_include"
         },
         {
@@ -2827,6 +2902,32 @@
     "command_name": {
       "type": "PATTERN",
       "value": "\\\\([^\\r\\n]|[@a-zA-Z:_]+\\*?)?"
+    },
+    "title_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\title"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "curly_group"
+        }
+      ]
+    },
+    "author_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\author"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "curly_group_author_list"
+        }
+      ]
     },
     "package_include": {
       "type": "SEQ",
