@@ -907,6 +907,16 @@
             "named": true
           }
         ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -4642,6 +4652,16 @@
             "named": true
           }
         ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -4875,6 +4895,16 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
             "named": true
           }
         ]
@@ -5167,6 +5197,16 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
             "named": true
           }
         ]
@@ -5637,6 +5677,16 @@
             "named": true
           }
         ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -5858,6 +5908,16 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
             "named": true
           }
         ]
@@ -6094,6 +6154,16 @@
         "types": [
           {
             "type": "curly_group",
+            "named": true
+          }
+        ]
+      },
+      "toc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
             "named": true
           }
         ]

@@ -527,3 +527,43 @@ tree-sitter-latex (Issue #36) | Paired delimiter
     (curly_group
       (text
         (placeholder)))))
+
+================================================================================
+tree-sitter-latex (Issue #39) | Section with ToC entry
+================================================================================
+
+\section[Foo 1]{Bar 1}
+
+Qux 1
+
+\subsection[Foo 2]{Bar 2}
+
+Qux 2
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (section
+    (brack_group
+      (text
+        (word)
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (word)))
+    (text
+      (word)
+      (word))
+    (subsection
+      (brack_group
+        (text
+          (word)
+          (word)))
+      (curly_group
+        (text
+          (word)
+          (word)))
+      (text
+        (word)
+        (word)))))

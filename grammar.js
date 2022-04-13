@@ -84,6 +84,9 @@ module.exports = grammar({
         )
       ),
 
+    _section_part: $ =>
+      seq(field('toc', optional($.brack_group)), field('text', $.curly_group)),
+
     _part_declaration: $ =>
       prec.right(
         seq(
@@ -91,7 +94,7 @@ module.exports = grammar({
             'command',
             choice('\\part', '\\part*', '\\addpart', '\\addpart*')
           ),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -124,7 +127,7 @@ module.exports = grammar({
             'command',
             choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*')
           ),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -156,7 +159,7 @@ module.exports = grammar({
             'command',
             choice('\\section', '\\section*', '\\addsec', '\\addsec*')
           ),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -184,7 +187,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', choice('\\subsection', '\\subsection*')),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -211,7 +214,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', choice('\\subsubsection', '\\subsubsection*')),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -237,7 +240,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', choice('\\paragraph', '\\paragraph*')),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
@@ -257,7 +260,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', choice('\\subparagraph', '\\subparagraph*')),
-          field('text', optional($.curly_group))
+          optional($._section_part)
         )
       ),
 
