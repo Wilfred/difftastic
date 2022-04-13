@@ -433,16 +433,27 @@
   {
     "type": "author_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "curly_group_author_list",
-          "named": true
-        }
-      ]
+    "fields": {
+      "authors": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group_author_list",
+            "named": true
+          }
+        ]
+      },
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\author",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -6727,16 +6738,37 @@
   {
     "type": "title_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "curly_group",
-          "named": true
-        }
-      ]
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\\title",
+            "named": false
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "brack_group",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

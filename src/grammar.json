@@ -2908,12 +2908,36 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\title"
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\title"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "curly_group"
+          "type": "FIELD",
+          "name": "options",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "brack_group"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "text",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group"
+          }
         }
       ]
     },
@@ -2921,12 +2945,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\author"
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\author"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "curly_group_author_list"
+          "type": "FIELD",
+          "name": "authors",
+          "content": {
+            "type": "SYMBOL",
+            "name": "curly_group_author_list"
+          }
         }
       ]
     },

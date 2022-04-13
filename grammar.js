@@ -603,9 +603,18 @@ module.exports = grammar({
 
     command_name: $ => /\\([^\r\n]|[@a-zA-Z:_]+\*?)?/,
 
-    title_declaration: $ => seq('\\title', $.curly_group),
+    title_declaration: $ =>
+      seq(
+        field('command', '\\title'),
+        field('options', optional($.brack_group)),
+        field('text', $.curly_group)
+      ),
 
-    author_declaration: $ => seq('\\author', $.curly_group_author_list),
+    author_declaration: $ =>
+      seq(
+        field('command', '\\author'),
+        field('authors', $.curly_group_author_list)
+      ),
 
     package_include: $ =>
       seq(
