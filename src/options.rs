@@ -59,7 +59,8 @@ fn app() -> clap::App<'static> {
                 .long("width")
                 .takes_value(true)
                 .value_name("COLUMNS")
-                .long_help("Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.")
+                .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
+                .env("DFT_WIDTH")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
@@ -67,7 +68,8 @@ fn app() -> clap::App<'static> {
             Arg::new("display").long("display")
                 .possible_values(["side-by-side", "side-by-side-show-both", "inline", ])
                 .value_name("MODE")
-                .help("Display mode for showing results. Overrides $DFT_DISPLAY if present.")
+                .env("DFT_DISPLAY")
+                .help("Display mode for showing results.")
         )
         .arg(
             Arg::new("color").long("color")
@@ -78,8 +80,9 @@ fn app() -> clap::App<'static> {
         .arg(
             Arg::new("background").long("background")
                 .value_name("BACKGROUND")
+                .env("DFT_BACKGROUND")
                 .possible_values(["dark", "light"])
-                .help("Set the background brightness. Overrides $DFT_BACKGROUND if present. Difftastic will prefer brighter colours on dark backgrounds.")
+                .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
@@ -100,8 +103,9 @@ fn app() -> clap::App<'static> {
             Arg::new("node-limit").long("node-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
-                .help(concat!("Use a text diff if the number of syntax nodes exceeds this number. Overrides $DFT_NODE_LIMIT if present."))
+                .help(concat!("Use a text diff if the number of syntax nodes exceeds this number."))
                 .default_value(formatcp!("{}", DEFAULT_NODE_LIMIT))
+                .env("DFT_NODE_LIMIT")
                 .validator(|s| s.parse::<u32>())
                 .required(false),
         )
@@ -109,8 +113,9 @@ fn app() -> clap::App<'static> {
             Arg::new("byte-limit").long("byte-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
-                .help(concat!("Use a text diff if either input file exceeds this size. Overrides $DFT_BYTE_LIMIT if present."))
+                .help(concat!("Use a text diff if either input file exceeds this size."))
                 .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
+                .env("DFT_BYTE_LIMIT")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
@@ -238,28 +243,20 @@ pub fn parse_args() -> Mode {
             .parse::<usize>()
             .expect("Already validated by clap")
     } else {
-        let env_width = if let Ok(env_width) = env::var("DFT_WIDTH") {
-            env_width.parse::<usize>().ok()
-        } else {
-            None
-        };
-        env_width.unwrap_or_else(detect_display_width)
+        detect_display_width()
     };
 
-    let display_mode_str = if let Some(display_mode_str) = matches.value_of("display") {
-        display_mode_str.to_owned()
-    } else {
-        env::var("DFT_DISPLAY").unwrap_or_else(|_| "".to_owned())
-    };
-    let display_mode = match display_mode_str.borrow() {
-        "side-by-side" => DisplayMode::SideBySide,
-        "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
-        "inline" => DisplayMode::Inline,
-        _ => {
-            // The CLI validates values, but environment variables can
-            // be any string.
-            DisplayMode::SideBySide
+    let display_mode = if let Some(display_mode_str) = matches.value_of("display") {
+        match display_mode_str.borrow() {
+            "side-by-side" => DisplayMode::SideBySide,
+            "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
+            "inline" => DisplayMode::Inline,
+            _ => {
+                unreachable!("clap has already validated display")
+            }
         }
+    } else {
+        DisplayMode::SideBySide
     };
 
     let color_output = if let Some(color_when) = matches.value_of("color") {
@@ -281,47 +278,20 @@ pub fn parse_args() -> Mode {
             BackgroundColor::Dark
         }
     } else {
-        if let Ok(background) = env::var("DFT_BACKGROUND") {
-            if background == "light" {
-                BackgroundColor::Light
-            } else {
-                BackgroundColor::Dark
-            }
-        } else {
-            BackgroundColor::Dark
-        }
+        BackgroundColor::Dark
     };
 
-    let node_limit: u32 = if matches.occurrences_of("node-limit") == 0 {
-        if let Ok(env_width) = env::var("DFT_NODE_LIMIT") {
-            env_width.parse::<u32>().ok().unwrap_or(DEFAULT_NODE_LIMIT)
-        } else {
-            DEFAULT_NODE_LIMIT
-        }
-    } else {
-        matches
-            .value_of("node-limit")
-            .expect("Always present as we've given clap a default")
-            .parse::<u32>()
-            .expect("Value already validated by clap")
-    };
+    let node_limit = matches
+        .value_of("node-limit")
+        .expect("Always present as we've given clap a default")
+        .parse::<u32>()
+        .expect("Value already validated by clap");
 
-    let byte_limit: usize = if matches.occurrences_of("byte-limit") == 0 {
-        if let Ok(env_width) = env::var("DFT_BYTE_LIMIT") {
-            env_width
-                .parse::<usize>()
-                .ok()
-                .unwrap_or(DEFAULT_BYTE_LIMIT)
-        } else {
-            DEFAULT_BYTE_LIMIT
-        }
-    } else {
-        matches
-            .value_of("byte-limit")
-            .expect("Always present as we've given clap a default")
-            .parse::<usize>()
-            .expect("Value already validated by clap")
-    };
+    let byte_limit = matches
+        .value_of("byte-limit")
+        .expect("Always present as we've given clap a default")
+        .parse::<usize>()
+        .expect("Value already validated by clap");
 
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");

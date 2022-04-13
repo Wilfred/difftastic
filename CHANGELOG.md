@@ -1,5 +1,11 @@
 ## 0.27 (unreleased)
 
+### Command Line Interface
+
+Difftastic now validates environment variables the same way as
+arguments. `DFT_DISPLAY=no-such-mode` will now error rather than
+silently using the default display mode.
+
 ## 0.26.3 (released 10th April 2022)
 
 ### Release
