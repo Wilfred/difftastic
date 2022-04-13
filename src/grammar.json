@@ -2052,7 +2052,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_begin_comment"
+              "name": "_comment_environment_begin"
             },
             "named": true,
             "value": "begin"
@@ -2078,7 +2078,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_end_comment"
+              "name": "_comment_environment_end"
             },
             "named": true,
             "value": "end"
@@ -2086,7 +2086,7 @@
         }
       ]
     },
-    "_trivia_begin_comment": {
+    "_comment_environment_begin": {
       "type": "SEQ",
       "members": [
         {
@@ -2104,15 +2104,19 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_comment"
+              "name": "_comment_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
           }
+        },
+        {
+          "type": "SEQ",
+          "members": []
         }
       ]
     },
-    "_trivia_end_comment": {
+    "_comment_environment_end": {
       "type": "SEQ",
       "members": [
         {
@@ -2130,7 +2134,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_comment"
+              "name": "_comment_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
@@ -2138,7 +2142,7 @@
         }
       ]
     },
-    "_trivia_curly_group_comment": {
+    "_comment_environment_group": {
       "type": "SEQ",
       "members": [
         {
@@ -2152,7 +2156,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_text_comment"
+              "name": "_comment_environment_name"
             },
             "named": true,
             "value": "text"
@@ -2164,7 +2168,7 @@
         }
       ]
     },
-    "_trivia_text_comment": {
+    "_comment_environment_name": {
       "type": "SEQ",
       "members": [
         {
@@ -2192,7 +2196,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_begin_verbatim"
+              "name": "_verbatim_environment_begin"
             },
             "named": true,
             "value": "begin"
@@ -2218,7 +2222,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_end_verbatim"
+              "name": "_verbatim_environment_end"
             },
             "named": true,
             "value": "end"
@@ -2226,7 +2230,7 @@
         }
       ]
     },
-    "_trivia_begin_verbatim": {
+    "_verbatim_environment_begin": {
       "type": "SEQ",
       "members": [
         {
@@ -2244,15 +2248,19 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_verbatim"
+              "name": "_verbatim_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
           }
+        },
+        {
+          "type": "SEQ",
+          "members": []
         }
       ]
     },
-    "_trivia_end_verbatim": {
+    "_verbatim_environment_end": {
       "type": "SEQ",
       "members": [
         {
@@ -2270,7 +2278,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_verbatim"
+              "name": "_verbatim_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
@@ -2278,7 +2286,7 @@
         }
       ]
     },
-    "_trivia_curly_group_verbatim": {
+    "_verbatim_environment_group": {
       "type": "SEQ",
       "members": [
         {
@@ -2292,7 +2300,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_text_verbatim"
+              "name": "_verbatim_environment_name"
             },
             "named": true,
             "value": "text"
@@ -2304,7 +2312,7 @@
         }
       ]
     },
-    "_trivia_text_verbatim": {
+    "_verbatim_environment_name": {
       "type": "SEQ",
       "members": [
         {
@@ -2332,7 +2340,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_begin_listing"
+              "name": "_listing_environment_begin"
             },
             "named": true,
             "value": "begin"
@@ -2358,7 +2366,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_end_listing"
+              "name": "_listing_environment_end"
             },
             "named": true,
             "value": "end"
@@ -2366,7 +2374,7 @@
         }
       ]
     },
-    "_trivia_begin_listing": {
+    "_listing_environment_begin": {
       "type": "SEQ",
       "members": [
         {
@@ -2384,15 +2392,19 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_listing"
+              "name": "_listing_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
           }
+        },
+        {
+          "type": "SEQ",
+          "members": []
         }
       ]
     },
-    "_trivia_end_listing": {
+    "_listing_environment_end": {
       "type": "SEQ",
       "members": [
         {
@@ -2410,7 +2422,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_listing"
+              "name": "_listing_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
@@ -2418,7 +2430,7 @@
         }
       ]
     },
-    "_trivia_curly_group_listing": {
+    "_listing_environment_group": {
       "type": "SEQ",
       "members": [
         {
@@ -2432,7 +2444,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_text_listing"
+              "name": "_listing_environment_name"
             },
             "named": true,
             "value": "text"
@@ -2444,7 +2456,7 @@
         }
       ]
     },
-    "_trivia_text_listing": {
+    "_listing_environment_name": {
       "type": "SEQ",
       "members": [
         {
@@ -2472,7 +2484,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_begin_minted"
+              "name": "_minted_environment_begin"
             },
             "named": true,
             "value": "begin"
@@ -2498,7 +2510,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_end_minted"
+              "name": "_minted_environment_end"
             },
             "named": true,
             "value": "end"
@@ -2506,7 +2518,7 @@
         }
       ]
     },
-    "_trivia_begin_minted": {
+    "_minted_environment_begin": {
       "type": "SEQ",
       "members": [
         {
@@ -2524,7 +2536,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_minted"
+              "name": "_minted_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
@@ -2540,7 +2552,7 @@
         }
       ]
     },
-    "_trivia_end_minted": {
+    "_minted_environment_end": {
       "type": "SEQ",
       "members": [
         {
@@ -2558,7 +2570,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_curly_group_minted"
+              "name": "_minted_environment_group"
             },
             "named": true,
             "value": "curly_group_text"
@@ -2566,7 +2578,7 @@
         }
       ]
     },
-    "_trivia_curly_group_minted": {
+    "_minted_environment_group": {
       "type": "SEQ",
       "members": [
         {
@@ -2580,7 +2592,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_text_minted"
+              "name": "_minted_environment_name"
             },
             "named": true,
             "value": "text"
@@ -2592,7 +2604,7 @@
         }
       ]
     },
-    "_trivia_text_minted": {
+    "_minted_environment_name": {
       "type": "SEQ",
       "members": [
         {
@@ -2620,7 +2632,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_begin_pycode"
+              "name": "_pycode_environment_begin"
             },
             "named": true,
             "value": "begin"
@@ -2646,7 +2658,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_trivia_end_pycode"
+              "name": "_pycode_environment_end"
             },
             "named": true,
             "value": "end"
@@ -2654,43 +2666,63 @@
         }
       ]
     },
-    "_trivia_begin_pycode": {
+    "_pycode_environment_begin": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\begin"
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\begin"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_curly_group_pycode"
-          },
-          "named": true,
-          "value": "curly_group_text"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_pycode_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": []
         }
       ]
     },
-    "_trivia_end_pycode": {
+    "_pycode_environment_end": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\end"
+          "type": "FIELD",
+          "name": "command",
+          "content": {
+            "type": "STRING",
+            "value": "\\end"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_curly_group_pycode"
-          },
-          "named": true,
-          "value": "curly_group_text"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_pycode_environment_group"
+            },
+            "named": true,
+            "value": "curly_group_text"
+          }
         }
       ]
     },
-    "_trivia_curly_group_pycode": {
+    "_pycode_environment_group": {
       "type": "SEQ",
       "members": [
         {
@@ -2698,13 +2730,17 @@
           "value": "{"
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "text",
           "content": {
-            "type": "SYMBOL",
-            "name": "_trivia_text_pycode"
-          },
-          "named": true,
-          "value": "text"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_pycode_environment_name"
+            },
+            "named": true,
+            "value": "text"
+          }
         },
         {
           "type": "STRING",
@@ -2712,17 +2748,21 @@
         }
       ]
     },
-    "_trivia_text_pycode": {
+    "_pycode_environment_name": {
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "word",
           "content": {
-            "type": "STRING",
-            "value": "pycode"
-          },
-          "named": true,
-          "value": "word"
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "pycode"
+            },
+            "named": true,
+            "value": "word"
+          }
         }
       ]
     },

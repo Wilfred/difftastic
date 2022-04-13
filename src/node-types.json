@@ -462,7 +462,7 @@
     "fields": {
       "command": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "\\begin",
@@ -482,7 +482,7 @@
       },
       "name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "curly_group_text",
@@ -500,16 +500,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "curly_group_text",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2146,7 +2136,7 @@
     "fields": {
       "text": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "text",
@@ -2154,16 +2144,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "text",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2415,7 +2395,7 @@
     "fields": {
       "command": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "\\end",
@@ -2425,7 +2405,7 @@
       },
       "name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "curly_group_text",
@@ -2433,16 +2413,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "curly_group_text",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -6439,7 +6409,7 @@
     "fields": {
       "word": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "acronym_definition",
@@ -6591,16 +6561,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
     }
   },
   {

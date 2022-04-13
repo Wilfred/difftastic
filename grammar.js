@@ -5,6 +5,38 @@ const sepBy1 = (rule, sep) => seq(rule, repeat(seq(sep, rule)));
 
 const sepBy = (rule, sep) => optional(sepBy1(rule, sep));
 
+const specialEnvironment = ({ rule, name, content, options }) => {
+  const beginRule = `_${rule}_begin`;
+  const endRule = `_${rule}_end`;
+  const groupRule = `_${rule}_group`;
+  const nameRule = `_${rule}_name`;
+  return {
+    [rule]: $ =>
+      seq(
+        field('begin', alias($[beginRule], $.begin)),
+        content($),
+        field('end', alias($[endRule], $.end))
+      ),
+
+    [beginRule]: $ =>
+      seq(
+        field('command', '\\begin'),
+        field('name', alias($[groupRule], $.curly_group_text)),
+        options ? options($) : seq()
+      ),
+
+    [endRule]: $ =>
+      seq(
+        field('command', '\\end'),
+        field('name', alias($[groupRule], $.curly_group_text))
+      ),
+
+    [groupRule]: $ => seq('{', field('text', alias($[nameRule], $.text)), '}'),
+
+    [nameRule]: $ => seq(field('word', alias(name, $.word))),
+  };
+};
+
 module.exports = grammar({
   name: 'latex',
   extras: $ => [$._whitespace, $.line_comment],
@@ -429,130 +461,47 @@ module.exports = grammar({
         field('end', $.end)
       ),
 
-    //--- Comment environment
+    //--- Trivia environments
 
-    comment_environment: $ =>
-      seq(
-        field('begin', alias($._trivia_begin_comment, $.begin)),
+    ...specialEnvironment({
+      rule: 'comment_environment',
+      name: 'comment',
+      content: $ =>
         field('comment', alias($._trivia_raw_env_comment, $.comment)),
-        field('end', alias($._trivia_end_comment, $.end))
-      ),
+      options: undefined,
+    }),
 
-    _trivia_begin_comment: $ =>
-      seq(
-        field('command', '\\begin'),
-        field('name', alias($._trivia_curly_group_comment, $.curly_group_text))
-      ),
-
-    _trivia_end_comment: $ =>
-      seq(
-        field('command', '\\end'),
-        field('name', alias($._trivia_curly_group_comment, $.curly_group_text))
-      ),
-
-    _trivia_curly_group_comment: $ =>
-      seq('{', field('text', alias($._trivia_text_comment, $.text)), '}'),
-
-    _trivia_text_comment: $ => seq(field('word', alias('comment', $.word))),
-
-    //--- Verbatim environment
-
-    verbatim_environment: $ =>
-      seq(
-        field('begin', alias($._trivia_begin_verbatim, $.begin)),
+    ...specialEnvironment({
+      rule: 'verbatim_environment',
+      name: 'verbatim',
+      content: $ =>
         field('verbatim', alias($._trivia_raw_env_verbatim, $.comment)),
-        field('end', alias($._trivia_end_verbatim, $.end))
-      ),
+      options: undefined,
+    }),
 
-    _trivia_begin_verbatim: $ =>
-      seq(
-        field('command', '\\begin'),
-        field('name', alias($._trivia_curly_group_verbatim, $.curly_group_text))
-      ),
-
-    _trivia_end_verbatim: $ =>
-      seq(
-        field('command', '\\end'),
-        field('name', alias($._trivia_curly_group_verbatim, $.curly_group_text))
-      ),
-
-    _trivia_curly_group_verbatim: $ =>
-      seq('{', field('text', alias($._trivia_text_verbatim, $.text)), '}'),
-
-    _trivia_text_verbatim: $ => seq(field('word', alias('verbatim', $.word))),
-
-    //--- Listing environment
-
-    listing_environment: $ =>
-      seq(
-        field('begin', alias($._trivia_begin_listing, $.begin)),
+    ...specialEnvironment({
+      rule: 'listing_environment',
+      name: 'lstlisting',
+      content: $ =>
         field('code', alias($._trivia_raw_env_listing, $.source_code)),
-        field('end', alias($._trivia_end_listing, $.end))
-      ),
+      options: undefined,
+    }),
 
-    _trivia_begin_listing: $ =>
-      seq(
-        field('command', '\\begin'),
-        field('name', alias($._trivia_curly_group_listing, $.curly_group_text))
-      ),
-
-    _trivia_end_listing: $ =>
-      seq(
-        field('command', '\\end'),
-        field('name', alias($._trivia_curly_group_listing, $.curly_group_text))
-      ),
-
-    _trivia_curly_group_listing: $ =>
-      seq('{', field('text', alias($._trivia_text_listing, $.text)), '}'),
-
-    _trivia_text_listing: $ => seq(field('word', alias('lstlisting', $.word))),
-
-    //--- Minted environment
-
-    minted_environment: $ =>
-      seq(
-        field('begin', alias($._trivia_begin_minted, $.begin)),
+    ...specialEnvironment({
+      rule: 'minted_environment',
+      name: 'minted',
+      content: $ =>
         field('code', alias($._trivia_raw_env_minted, $.source_code)),
-        field('end', alias($._trivia_end_minted, $.end))
-      ),
+      options: $ => field('language', $.curly_group_text),
+    }),
 
-    _trivia_begin_minted: $ =>
-      seq(
-        field('command', '\\begin'),
-        field('name', alias($._trivia_curly_group_minted, $.curly_group_text)),
-        field('language', $.curly_group_text)
-      ),
-
-    _trivia_end_minted: $ =>
-      seq(
-        field('command', '\\end'),
-        field('name', alias($._trivia_curly_group_minted, $.curly_group_text))
-      ),
-
-    _trivia_curly_group_minted: $ =>
-      seq('{', field('text', alias($._trivia_text_minted, $.text)), '}'),
-
-    _trivia_text_minted: $ => seq(field('word', alias('minted', $.word))),
-
-    //--- Pycode environment
-
-    pycode_environment: $ =>
-      seq(
-        field('begin', alias($._trivia_begin_pycode, $.begin)),
+    ...specialEnvironment({
+      rule: 'pycode_environment',
+      name: 'pycode',
+      content: $ =>
         field('code', alias($._trivia_raw_env_pycode, $.source_code)),
-        field('end', alias($._trivia_end_pycode, $.end))
-      ),
-
-    _trivia_begin_pycode: $ =>
-      seq('\\begin', alias($._trivia_curly_group_pycode, $.curly_group_text)),
-
-    _trivia_end_pycode: $ =>
-      seq('\\end', alias($._trivia_curly_group_pycode, $.curly_group_text)),
-
-    _trivia_curly_group_pycode: $ =>
-      seq('{', alias($._trivia_text_pycode, $.text), '}'),
-
-    _trivia_text_pycode: $ => seq(alias('pycode', $.word)),
+      options: undefined,
+    }),
 
     //--- Command
 
