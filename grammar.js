@@ -136,6 +136,8 @@ const rules = {
       $.trait_declaration,
       $.alias_declaration,
       $.enum_declaration,
+      $.abstract_enum_class_declaration,
+      $.enum_class_declaration,
       $.namespace_declaration,
       $.const_declaration,
     ),
@@ -963,8 +965,48 @@ const rules = {
       rep($.enumerator),
       '}',
     ),
+  /**
+   * Abstract enum classes have their own oddities. In particular they
+   * can contain abstract members.
+   */
+  abstract_enum_class_declaration: $ =>
+    seq(
+      opt($.attribute_modifier),
+      'abstract',
+      'enum',
+      'class',
+      field('name', $.identifier),
+      ':',
+      opt($.extends_clause),
+      field('type', $._type),
+      '{',
+      rep(choice(
+        $.typed_enumerator,
+        seq('abstract', $._type, $.identifier, ';'),
+      )),
+      '}',
+    ),
+  /**
+   * Enum classes require their own rule, as they contain somewhat different
+   * syntax from enums. In particular cannot contain the `as` keyword.
+   */
+  enum_class_declaration: $ =>
+    seq(
+      opt($.attribute_modifier),
+      'enum',
+      'class',
+      field('name', $.identifier),
+      ':',
+      field('type', $._type),
+      opt($.extends_clause),
+      '{',
+      rep($.typed_enumerator),
+      '}',
+    ),
 
   enumerator: $ => seq($.identifier, '=', $._expression, ';'),
+
+  typed_enumerator: $ => seq($._type, $.enumerator),
 
   namespace_declaration: $ =>
     prec.right(

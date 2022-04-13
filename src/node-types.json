@@ -4,6 +4,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "abstract_enum_class_declaration",
+        "named": true
+      },
+      {
         "type": "alias_declaration",
         "named": true
       },
@@ -13,6 +17,10 @@
       },
       {
         "type": "const_declaration",
+        "named": true
+      },
+      {
+        "type": "enum_class_declaration",
         "named": true
       },
       {
@@ -320,6 +328,63 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "abstract_enum_class_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        },
+        {
+          "type": "attribute_modifier",
+          "named": true
+        },
+        {
+          "type": "extends_clause",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "typed_enumerator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "abstract_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "alias_declaration",
@@ -1237,6 +1302,50 @@
     "type": "empty_statement",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "enum_class_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_modifier",
+          "named": true
+        },
+        {
+          "type": "extends_clause",
+          "named": true
+        },
+        {
+          "type": "typed_enumerator",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "enum_declaration",
@@ -3257,6 +3366,25 @@
     }
   },
   {
+    "type": "typed_enumerator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        },
+        {
+          "type": "enumerator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "unset_statement",
     "named": true,
     "fields": {},
@@ -4065,8 +4193,8 @@
     "named": false
   },
   {
-    "type": "abstract_modifier",
-    "named": true
+    "type": "abstract",
+    "named": false
   },
   {
     "type": "array",

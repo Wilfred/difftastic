@@ -9,6 +9,8 @@ source bin/require_sed
 #
 # [0] https://tree-sitter.github.io/tree-sitter/creating-parsers#:~:text=Return%20statements
 
+export LC_ALL="C" # Necessary for sorting in a consistent fashion
+
 for cases_path in test/cases/*; do
   corpus_name=$(basename $cases_path)
   corpus_path="test/corpus/$corpus_name.txt"
