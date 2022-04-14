@@ -10,6 +10,17 @@ Packages are also available on the following platforms.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/difftastic.svg)](https://repology.org/project/difftastic/versions)
 
+
+## Installing via homebrew (on macOS or Linux)
+
+Difftastic can be installed with [Homebrew on MacOS](https://brew.sh/) or [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux).
+
+
+```
+$ brew install difftastic
+```
+
+
 ## Installing from source
 
 ### Build Requirements
