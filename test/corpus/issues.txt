@@ -498,7 +498,7 @@ Let
           (word))))))
 
 ================================================================================
-tree-sitter-latex (Issue #36) | Paired delimiter
+tree-sitter-latex (Issue #36) | Paired delimiter #1
 ================================================================================
 
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
@@ -527,6 +527,21 @@ tree-sitter-latex (Issue #36) | Paired delimiter
     (curly_group
       (text
         (placeholder)))))
+
+================================================================================
+tree-sitter-latex (Issue #36) | Paired delimiter #2
+================================================================================
+
+\DeclarePairedDelimiter{\foo}{(}{)}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_impl)
+    (curly_group_impl)))
 
 ================================================================================
 tree-sitter-latex (Issue #39) | Section with ToC entry

@@ -348,7 +348,12 @@ module.exports = grammar({
     curly_group_glob_pattern: $ =>
       seq('{', field('pattern', $.glob_pattern), '}'),
 
-    curly_group_impl: $ => seq('{', repeat($._text_content), '}'),
+    curly_group_impl: $ =>
+      seq(
+        '{',
+        repeat(choice($._text_content, '(', ')', '[', ']', ',', '=')),
+        '}'
+      ),
 
     curly_group_author_list: $ =>
       seq(
