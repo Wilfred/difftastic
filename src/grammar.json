@@ -5931,6 +5931,15 @@
                       "value": "-"
                     },
                     {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_binary_minus"
+                      },
+                      "named": false,
+                      "value": "-"
+                    },
+                    {
                       "type": "STRING",
                       "value": "+"
                     }
