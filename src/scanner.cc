@@ -850,7 +850,7 @@ struct Scanner {
         if (valid_symbols[UNARY_MINUS] || valid_symbols[UNARY_MINUS_NUM] || valid_symbols[BINARY_MINUS]) {
           advance(lexer);
           if (lexer->lookahead != '=' && lexer->lookahead != '>') {
-            if (valid_symbols[UNARY_MINUS_NUM] && (!valid_symbols[BINARY_MINUS] || has_leading_whitespace) && iswdigit(lexer->lookahead)) {
+            if (valid_symbols[UNARY_MINUS_NUM] && (!valid_symbols[BINARY_STAR] || has_leading_whitespace) && iswdigit(lexer->lookahead)) {
               lexer->result_symbol = UNARY_MINUS_NUM;
               return true;
             } else if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {

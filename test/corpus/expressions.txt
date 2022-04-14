@@ -593,7 +593,7 @@ a ** b
 (program (binary (identifier) (identifier)))
 
 ====
-minus, call, exponential
+minus, call, exponential, range
 ====
 
 a - 1
@@ -610,6 +610,11 @@ a- b
 
 -2**10
 -x**10
+
+1..-1
+1 .. -1
+1.. -1
+1 ..-1
 
 ---
 
@@ -659,8 +664,23 @@ a- b
   (unary
     operand: (binary
       left: (identifier)
-      right: (integer))))
-
+      right: (integer)))
+  (range
+    begin: (integer)
+    end: (unary
+      operand: (integer)))
+  (range
+    begin: (integer)
+    end: (unary
+      operand: (integer)))
+  (range
+    begin: (integer)
+    end: (unary
+      operand: (integer)))
+  (range
+    begin: (integer)
+    end: (unary
+      operand: (integer))))
 
 ==========
 complement

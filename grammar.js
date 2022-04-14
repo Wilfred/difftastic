@@ -910,7 +910,7 @@ module.exports = grammar({
       const operators = [
         [prec, PREC.DEFINED, 'defined?'],
         [prec.right, PREC.NOT, 'not'],
-        [prec.right, PREC.UNARY_MINUS, choice(alias($._unary_minus, '-'), '+')],
+        [prec.right, PREC.UNARY_MINUS, choice(alias($._unary_minus, '-'), alias($._binary_minus, '-'), '+')],
         [prec.right, PREC.COMPLEMENT, choice('!', '~')]
       ];
       return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(
