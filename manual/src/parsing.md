@@ -12,16 +12,17 @@ the parse tree that tree-sitter produces using the `--dump-ts`
 flag.
 
 ```
-$ difft --dump-ts sample_files/before.js
-{Node program (0, 0) - (7, 0)}
-  {Node comment (0, 0) - (0, 8)}
-  {Node expression_statement (1, 0) - (1, 6)}
-    {Node call_expression (1, 0) - (1, 5)}
-      {Node identifier (1, 0) - (1, 3)}
-      {Node arguments (1, 3) - (1, 5)}
-        {Node ( (1, 3) - (1, 4)}
-        {Node ) (1, 4) - (1, 5)}
-        ...
+$ difft --dump-ts sample_files/javascript_simple_before.js | head
+program (0, 0) - (7, 0)
+  comment (0, 0) - (0, 8) "// hello"
+  expression_statement (1, 0) - (1, 6)
+    call_expression (1, 0) - (1, 5)
+      identifier (1, 0) - (1, 3) "foo"
+      arguments (1, 3) - (1, 5)
+        ( (1, 3) - (1, 4) "("
+        ) (1, 4) - (1, 5) ")"
+    ; (1, 5) - (1, 6) ";"
+  expression_statement (2, 0) - (2, 6)
 ```
 
 ## Simplified Syntax
@@ -71,12 +72,12 @@ as nodes.
 ```
 $ echo '[1]' > example.js
 $ difft --dump-ts example.js
-{Node program (0, 0) - (1, 0)}
-  {Node expression_statement (0, 0) - (0, 3)}
-    {Node array (0, 0) - (0, 3)}
-      {Node [ (0, 0) - (0, 1)}
-      {Node number (0, 1) - (0, 2)}
-      {Node ] (0, 2) - (0, 3)}
+program (0, 0) - (1, 0)
+  expression_statement (0, 0) - (0, 3)
+    array (0, 0) - (0, 3)
+      [ (0, 0) - (0, 1) "["
+      number (0, 1) - (0, 2) "1"
+      ] (0, 2) - (0, 3) "]"
 ```
 
 `tree_sitter_parser.rs` uses `open_delimiter_tokens` to ensure that
