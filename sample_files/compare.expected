@@ -112,6 +112,9 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 sample_files/scala_before.scala sample_files/scala_after.scala
 b276168d30704b4242fc82dc1f8382d8  -
 
+sample_files/Session_before.kt sample_files/Session_after.kt
+46994b58bb24200f82866951013f03ce  -
+
 sample_files/simple_before.js sample_files/simple_after.js
 4fa7016f884e76dddba4cab12cab8c61  -
 
