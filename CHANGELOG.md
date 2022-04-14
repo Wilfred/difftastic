@@ -4,6 +4,10 @@
 
 Added support for Kotlin.
 
+### Display
+
+Improved syntax highlighting for keywords.
+
 ### Command Line Interface
 
 Difftastic now validates environment variables the same way as
