@@ -633,10 +633,24 @@ fn tree_highlights(
     config: &TreeSitterConfig,
 ) -> HighlightedNodeIds {
     let mut keyword_ish_capture_ids = vec![];
+    // TODO: Use config.highlight_query.capture_names() to find all
+    // the keyword.foo captures.
     if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
         keyword_ish_capture_ids.push(idx);
     }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.function") {
+        keyword_ish_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.operator") {
+        keyword_ish_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.return") {
+        keyword_ish_capture_ids.push(idx);
+    }
     if let Some(idx) = config.highlight_query.capture_index_for_name("operator") {
+        keyword_ish_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("repeat") {
         keyword_ish_capture_ids.push(idx);
     }
     if let Some(idx) = config.highlight_query.capture_index_for_name("constant") {
