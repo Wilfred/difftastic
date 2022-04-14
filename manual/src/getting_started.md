@@ -13,7 +13,7 @@ Packages are also available on the following platforms.
 
 ## Installing via homebrew (on macOS or Linux)
 
-Difftastic can be installed with [Homebrew on MacOS](https://brew.sh/) or [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux).
+Difftastic can be installed with [Homebrew](https://formulae.brew.sh/formula/difftastic) on macOS or Linux.
 
 
 ```
