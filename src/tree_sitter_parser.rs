@@ -61,6 +61,7 @@ extern "C" {
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
+    fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
@@ -377,6 +378,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../vendor/highlights/json.scm"),
                 )
                 .unwrap(),
+            }
+        }
+        Kotlin => {
+            let language = unsafe { tree_sitter_kotlin() };
+            TreeSitterConfig {
+                name: "Kotlin",
+                language,
+                atom_nodes: vec!["line_string_literal", "character_literal"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]"), ("<", ">")]
+                    .into_iter()
+                    .collect(),
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         Lua => {

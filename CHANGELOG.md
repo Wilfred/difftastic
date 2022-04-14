@@ -1,5 +1,9 @@
 ## 0.27 (unreleased)
 
+### Parsing
+
+Added support for Kotlin.
+
 ### Command Line Interface
 
 Difftastic now validates environment variables the same way as

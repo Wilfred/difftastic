@@ -20,6 +20,7 @@ tool that understands syntax. It supports the following languages:
 * Java
 * JavaScript (and JSX)
 * JSON
+* Kotlin
 * Lua
 * Nix
 * OCaml
