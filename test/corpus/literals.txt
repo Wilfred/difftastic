@@ -111,15 +111,24 @@ command string literals
 ==============================
 
 `pwd`
+m`pwd`
 `cd $dir`
 `echo \`cmd\``
+```
+echo "\033[31mred\033[m"
+```
 
 ---
 
 (source_file
   (command_literal)
+  (prefixed_command_literal
+    prefix: (identifier))
   (command_literal (string_interpolation (identifier)))
-  (command_literal (escape_sequence) (escape_sequence)))
+  (command_literal (escape_sequence) (escape_sequence))
+  (command_literal
+   (escape_sequence)
+   (escape_sequence)))
 
 
 ==============================

@@ -61,8 +61,7 @@ static void push(Stack *stack, char c, bool triple) {
 
 static Delimiter pop(Stack *stack) {
   if (stack->len == 0) exit(1);
-  Delimiter d = stack->arr[stack->len--];
-  return d;
+  return stack->arr[stack->len--];
 }
 
 static unsigned serialize_stack(Stack *stack, char *buffer) {
@@ -76,9 +75,6 @@ static void deserialize_stack(Stack *stack, const char *buffer, unsigned len) {
     memcpy(stack->arr, buffer, len);
     stack->len = len;
   } else {
-    Delimiter *arr = malloc(TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
-    if (arr == NULL) exit(1);
-    stack->arr = arr;
     stack->len = 0;
   }
 }
