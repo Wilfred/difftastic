@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for Kotlin.
+Added support for Kotlin and TOML.
 
 Fixed an issue with YAML and `|` block strings.
 
