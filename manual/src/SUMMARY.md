@@ -7,6 +7,7 @@
   - [Mercurial](./mercurial.md)
 - [Parsing](./parsing.md)
   - [Upstream Parsers](./upstream_parsers.md)
+  - [Vendoring](./parser_vendoring.md)
   - [Adding A Parser](./adding_a_parser.md)
 - [Diffing](./diffing.md)
   - [Tricky Cases](./tricky_cases.md)

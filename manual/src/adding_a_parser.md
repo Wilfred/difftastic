@@ -10,10 +10,6 @@ parsers](https://tree-sitter.github.io/tree-sitter/#available-parsers).
 
 ## Add the source code
 
-Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies. Difftastic uses
-git subtrees (not git submodules) to track parsers.
-
 Once you've found a parser, add it as a git subtree to
 `vendor/`. We'll use
 [tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json) as
