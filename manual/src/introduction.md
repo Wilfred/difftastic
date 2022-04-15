@@ -29,6 +29,7 @@ tool that understands syntax. It supports the following languages:
 * Ruby
 * Rust
 * Scala
+* TOML
 * TypeScript (and TSX)
 * YAML
 * Zig
