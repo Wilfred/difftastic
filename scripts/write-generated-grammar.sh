@@ -17,7 +17,7 @@ git reset HEAD@{1}
 # Now generate the grammar and validate that it works. Hopefully no one ever creates a tag to a
 # commit with a non-working grammar, but the `npm test` protects us against that ever happening.
 npm install
-npm test
+npm run test-ci
 
 # Commit specific generated files, attributing the changes to the primary maintainer of this
 # grammar. Notably, we do not commit the `.o` files generated during the build, just the source.
