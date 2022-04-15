@@ -639,13 +639,22 @@ fn tree_highlights(
     if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
         keyword_ish_capture_ids.push(idx);
     }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.function") {
+    if let Some(idx) = config
+        .highlight_query
+        .capture_index_for_name("keyword.function")
+    {
         keyword_ish_capture_ids.push(idx);
     }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.operator") {
+    if let Some(idx) = config
+        .highlight_query
+        .capture_index_for_name("keyword.operator")
+    {
         keyword_ish_capture_ids.push(idx);
     }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword.return") {
+    if let Some(idx) = config
+        .highlight_query
+        .capture_index_for_name("keyword.return")
+    {
         keyword_ish_capture_ids.push(idx);
     }
     if let Some(idx) = config.highlight_query.capture_index_for_name("operator") {
