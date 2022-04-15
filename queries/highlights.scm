@@ -61,6 +61,7 @@
 ] @keyword
 
 [
+  "AND"
   "AS"
   "CREATE"
   "CREATE_DOMAIN"
@@ -77,10 +78,14 @@
   "INNER"
   "INSERT"
   "INTO"
+  "IN"
   "JOIN"
   "LANGUAGE"
   "LEFT"
+  "LOCAL"
+  "NOT"
   "ON"
+  "OR"
   "ORDER_BY"
   "OUTER"
   "PRIMARY_KEY"
@@ -88,9 +93,8 @@
   "RETURNS"
   "SCHEMA"
   "SELECT"
-  "SET"
-  "LOCAL"
   "SESSION"
+  "SET"
   "TABLE"
   "TO"
   "UNIQUE"
