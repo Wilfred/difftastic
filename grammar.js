@@ -379,7 +379,8 @@ module.exports = grammar({
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
-    identifier: $ => /[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*/,
+    identifier: $ => /[a-zA-Z0-9_]+/,
+    dotted_name: $ => sep1($.identifier, "."),
     string: $ =>
       choice(
         seq("'", field("content", /[^']*/), "'"),
@@ -428,7 +429,7 @@ module.exports = grammar({
         $.FALSE,
         $.NULL,
         $.asterisk_expression,
-        $.identifier,
+        $.dotted_name,
         $.number,
         $.comparison_operator,
         $.in_expression,

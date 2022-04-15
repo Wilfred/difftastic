@@ -39,10 +39,13 @@ SELECT a, b FROM table1;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier))
+        (dotted_name
+          (identifier))))
     (from_clause
-      (identifier))))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 SELECT statement with SELECT subexpression
@@ -76,13 +79,16 @@ SELECT a, b AS c FROM table1 AS t;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
+        (dotted_name
+          (identifier))
         (alias
-          (identifier)
+          (dotted_name
+            (identifier))
           (identifier))))
     (from_clause
       (alias
-        (identifier)
+        (dotted_name
+          (identifier))
         (identifier)))))
 
 ================================================================================
@@ -99,16 +105,21 @@ GROUP BY lower(a), b;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier))
+        (dotted_name
+          (identifier))))
     (from_clause
-      (identifier))
+      (dotted_name
+        (identifier)))
     (group_by_clause
       (group_by_clause_body
         (function_call
           (identifier)
-          (identifier))
-        (identifier)))))
+          (dotted_name
+            (identifier)))
+        (dotted_name
+          (identifier))))))
 
 ================================================================================
 SELECT statement with order by
@@ -124,16 +135,21 @@ ORDER BY lower(a), b;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier))
+        (dotted_name
+          (identifier))))
     (from_clause
-      (identifier))
+      (dotted_name
+        (identifier)))
     (order_by_clause
       (order_by_clause_body
         (function_call
           (identifier)
-          (identifier))
-        (identifier)))))
+          (dotted_name
+            (identifier)))
+        (dotted_name
+          (identifier))))))
 
 ================================================================================
 SELECT statement FROM multiple tables
@@ -147,11 +163,15 @@ SELECT a, b FROM table1, table2;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier))
+        (dotted_name
+          (identifier))))
     (from_clause
-      (identifier)
-      (identifier))))
+      (dotted_name
+        (identifier))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 SELECT statement with numbers
@@ -254,8 +274,10 @@ SELECT a, b;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))))
+        (dotted_name
+          (identifier))
+        (dotted_name
+          (identifier))))))
 
 ================================================================================
 SELECT statement with comparison expression
@@ -286,20 +308,23 @@ SELECT a IS TRUE, b IS NOT NULL, c IS FALSE;
     (select_clause
       (select_clause_body
         (is_expression
-          (identifier)
+          (dotted_name
+            (identifier))
           (TRUE))
         (is_expression
-          (identifier)
+          (dotted_name
+            (identifier))
           (NULL))
         (is_expression
-          (identifier)
+          (dotted_name
+            (identifier))
           (FALSE))))))
 
 ================================================================================
 SELECT field
 ================================================================================
 
-SELECT a.b;
+SELECT foo.bar FROM a;
 
 --------------------------------------------------------------------------------
 
@@ -307,6 +332,11 @@ SELECT a.b;
   (select_statement
     (select_clause
       (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (from_clause
+      (dotted_name
         (identifier)))))
 
 ================================================================================
@@ -342,8 +372,10 @@ SELECT foo(bar, baz) < 10;
         (comparison_operator
           (function_call
             (identifier)
-            (identifier)
-            (identifier))
+            (dotted_name
+              (identifier))
+            (dotted_name
+              (identifier)))
           (number))))))
 
 ================================================================================
@@ -383,8 +415,11 @@ SELECT TRUE AND foo(1) OR FALSE AND NOT a = b.c;
             (FALSE)
             (boolean_expression
               (comparison_operator
-                (identifier)
-                (identifier)))))))))
+                (dotted_name
+                  (identifier))
+                (dotted_name
+                  (identifier)
+                  (identifier))))))))))
 
 ================================================================================
 SELECT parenthesized expression
@@ -584,8 +619,10 @@ CREATE INDEX test_idx ON table(col1, col2);
     (identifier)
     (identifier)
     (index_table_parameters
-      (identifier)
-      (identifier))))
+      (dotted_name
+        (identifier))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 CREATE UNIQUE INDEX
@@ -601,8 +638,10 @@ CREATE UNIQUE INDEX test_idx ON table(col1, col2);
     (identifier)
     (identifier)
     (index_table_parameters
-      (identifier)
-      (identifier))))
+      (dotted_name
+        (identifier))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 CREATE INDEX with function
@@ -619,8 +658,10 @@ CREATE INDEX test_idx ON table(lower(col1), col2);
     (index_table_parameters
       (function_call
         (identifier)
-        (identifier))
-      (identifier))))
+        (dotted_name
+          (identifier)))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 CREATE INDEX where clause
@@ -635,10 +676,12 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 IS NOT NULL;
     (identifier)
     (identifier)
     (index_table_parameters
-      (identifier))
+      (dotted_name
+        (identifier)))
     (where_clause
       (is_expression
-        (identifier)
+        (dotted_name
+          (identifier))
         (NULL)))))
 
 ================================================================================
@@ -654,10 +697,12 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 <> 1
     (identifier)
     (identifier)
     (index_table_parameters
-      (identifier))
+      (dotted_name
+        (identifier)))
     (where_clause
       (comparison_operator
-        (identifier)
+        (dotted_name
+          (identifier))
         (number)))))
 
 ================================================================================
@@ -673,7 +718,8 @@ CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
     (identifier)
     (identifier)
     (index_table_parameters
-      (identifier)
+      (dotted_name
+        (identifier))
       (function_call
         (identifier)
         (field_access
@@ -695,7 +741,8 @@ CREATE INDEX foo_idx ON table1 USING gist (col2);
     (using_clause
       (identifier))
     (index_table_parameters
-      (identifier))))
+      (dotted_name
+        (identifier)))))
 
 ================================================================================
 CREATE INDEX with order
@@ -711,7 +758,8 @@ CREATE INDEX foo_idx ON table1 (col2 DESC);
     (identifier)
     (index_table_parameters
       (ordered_expression
-        (identifier)))))
+        (dotted_name
+          (identifier))))))
 
 ================================================================================
 CREATE TABLE
@@ -917,7 +965,8 @@ CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
         (type)
         (check_constraint
           (in_expression
-            (identifier)
+            (dotted_name
+              (identifier))
             (tuple
               (number)
               (number))))))))
@@ -1096,8 +1145,10 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
         (type))
       (check
         (comparison_operator
-          (identifier)
-          (identifier))))))
+          (dotted_name
+            (identifier))
+          (dotted_name
+            (identifier)))))))
 
 ================================================================================
 CREATE TABLE with foreign key constraint with columns specified
@@ -1240,12 +1291,15 @@ CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
       (select_statement
         (select_clause
           (select_clause_body
-            (identifier)))
+            (dotted_name
+              (identifier))))
         (from_clause
-          (identifier))
+          (dotted_name
+            (identifier)))
         (where_clause
           (comparison_operator
-            (identifier)
+            (dotted_name
+              (identifier))
             (argument_reference)))))
     (language)))
 
@@ -1271,12 +1325,15 @@ CREATE FUNCTION add(text) RETURNS SETOF int
       (select_statement
         (select_clause
           (select_clause_body
-            (identifier)))
+            (dotted_name
+              (identifier))))
         (from_clause
-          (identifier))
+          (dotted_name
+            (identifier)))
         (where_clause
           (comparison_operator
-            (identifier)
+            (dotted_name
+              (identifier))
             (argument_reference)))))
     (language)))
 
@@ -1305,12 +1362,15 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
       (select_statement
         (select_clause
           (select_clause_body
-            (identifier)))
+            (dotted_name
+              (identifier))))
         (from_clause
-          (identifier))
+          (dotted_name
+            (identifier)))
         (where_clause
           (comparison_operator
-            (identifier)
+            (dotted_name
+              (identifier))
             (argument_reference)))))
     (language)))
 
@@ -1427,8 +1487,10 @@ create function add(integer) returns integer language sql as 'select a, b';
       (select_statement
         (select_clause
           (select_clause_body
-            (identifier)
-            (identifier)))))))
+            (dotted_name
+              (identifier))
+            (dotted_name
+              (identifier))))))))
 
 ================================================================================
 CREATE SCHEMA schema
@@ -1472,7 +1534,8 @@ SET SESSION search_path = 'test';
 (source_file
   (set_statement
     (identifier)
-    (identifier))
+    (dotted_name
+      (identifier)))
   (set_statement
     (identifier)
     (string))
@@ -1503,14 +1566,16 @@ SELECT COUNT(a.*) FROM Customers;
       (select_clause_body
         (asterisk_expression)))
     (from_clause
-      (identifier)))
+      (dotted_name
+        (identifier))))
   (select_statement
     (select_clause
       (select_clause_body
         (asterisk_expression
           (identifier))))
     (from_clause
-      (identifier)))
+      (dotted_name
+        (identifier))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -1518,7 +1583,8 @@ SELECT COUNT(a.*) FROM Customers;
           (identifier)
           (asterisk_expression))))
     (from_clause
-      (identifier)))
+      (dotted_name
+        (identifier))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -1527,4 +1593,5 @@ SELECT COUNT(a.*) FROM Customers;
           (asterisk_expression
             (identifier)))))
     (from_clause
-      (identifier))))
+      (dotted_name
+        (identifier)))))

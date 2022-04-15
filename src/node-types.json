@@ -59,6 +59,10 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -144,6 +148,10 @@
         },
         {
           "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -249,6 +257,10 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
@@ -347,15 +359,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -430,15 +442,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -513,15 +525,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -596,15 +608,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -676,6 +688,10 @@
         },
         {
           "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -793,15 +809,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1261,15 +1277,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1344,15 +1360,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1377,6 +1393,21 @@
         },
         {
           "type": "type_cast",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dotted_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1469,15 +1500,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1579,15 +1610,15 @@
             "named": true
           },
           {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
             "type": "field_access",
             "named": true
           },
           {
             "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           },
           {
@@ -1726,15 +1757,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1809,15 +1840,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -1896,15 +1927,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2006,15 +2037,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2086,6 +2117,10 @@
         },
         {
           "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2289,15 +2324,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2387,15 +2422,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2575,15 +2610,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2750,6 +2785,10 @@
         },
         {
           "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2931,15 +2970,15 @@
             "named": true
           },
           {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
             "type": "field_access",
             "named": true
           },
           {
             "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           },
           {
@@ -3027,6 +3066,10 @@
         },
         {
           "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -3187,15 +3230,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -3270,15 +3313,15 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "field_access",
           "named": true
         },
         {
           "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
