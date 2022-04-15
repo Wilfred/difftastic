@@ -350,7 +350,7 @@ module.exports = grammar({
       ),
     comparison_operator: $ =>
       prec.left(
-        1,
+        6,
         seq(
           $._expression,
           field("operator", choice("<", "<=", "<>", "=", ">", ">=")),
