@@ -365,7 +365,7 @@ SELECT foo();
 SELECT comparison expression boolean
 ================================================================================
 
-SELECT TRUE AND foo(1) OR FALSE AND NOT a = b;
+SELECT TRUE AND foo(1) OR FALSE AND NOT a = b.c;
 
 --------------------------------------------------------------------------------
 
@@ -1485,3 +1485,46 @@ SET SESSION search_path = 'test';
   (set_statement
     (identifier)
     (string)))
+
+================================================================================
+SELECT asterisk expressions
+================================================================================
+
+SELECT * FROM Customers;
+SELECT a.* FROM Customers;
+SELECT COUNT(*) FROM Customers;
+SELECT COUNT(a.*) FROM Customers;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression
+          (identifier))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (asterisk_expression))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (asterisk_expression
+            (identifier)))))
+    (from_clause
+      (identifier))))
