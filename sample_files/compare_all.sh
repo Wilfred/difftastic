@@ -30,3 +30,11 @@ for before_f in sample_files/*before.*; do
     echo "$difft_out"
     echo
 done | tee sample_files/compare.result
+
+echo "==> Result"
+if cmp sample_files/compare.result sample_files/compare.expected >/dev/null 2>&1; then
+    echo "No changes."
+else
+    echo "Output changed. If this was expected, update with:"
+    echo "  cp sample_files/compare.result sample_files/compare.expected"
+fi
