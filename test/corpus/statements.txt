@@ -365,7 +365,7 @@ SELECT foo();
 SELECT comparison expression boolean
 ================================================================================
 
-SELECT TRUE AND foo(1) OR FALSE;
+SELECT TRUE AND foo(1) OR FALSE AND NOT a;
 
 --------------------------------------------------------------------------------
 
@@ -379,7 +379,10 @@ SELECT TRUE AND foo(1) OR FALSE;
             (function_call
               (identifier)
               (number)))
-          (FALSE))))))
+          (boolean_expression
+            (FALSE)
+            (boolean_expression
+              (identifier))))))))
 
 ================================================================================
 SELECT parenthesized expression
