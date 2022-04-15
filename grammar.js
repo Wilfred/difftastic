@@ -825,6 +825,7 @@ grammar({
         /[uU][0-9a-fA-F]{1,6}/, // unicode codepoints
         /x[0-9a-fA-F]{2}/,
         /["'`$\\abfnrtv]/,
+        /[0-7]{1,3}/,
       )),
     )),
 
@@ -859,7 +860,6 @@ grammar({
     prefixed_command_literal: $ => seq(
       field('prefix', $.identifier),
       $._immediate_command_start,
-      $._command_start,
       repeat(choice($._string_content_no_interp, $.escape_sequence)),
       $._command_end,
     ),
