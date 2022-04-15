@@ -152,6 +152,31 @@ string literals
   (expression_statement (string_literal))
   (expression_statement (string_literal)))
 
+===============
+text block
+===============
+
+"""
+""";
+"""
+Closing token
+at the same line""";
+"""   
+Spaces after
+opening token""";
+"""   
+Closing token
+at new line
+""";
+
+---
+
+(program
+  (expression_statement (text_block))
+  (expression_statement (text_block))
+  (expression_statement (text_block))
+  (expression_statement (text_block)))
+
 =============
 null literals
 =============
