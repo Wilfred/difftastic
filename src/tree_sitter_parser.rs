@@ -553,14 +553,12 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .unwrap(),
             }
         }
-        TypeScript => {
-            let language = unsafe { tree_sitter_typescript() };
+        Tsx => {
+            let language = unsafe { tree_sitter_tsx() };
             TreeSitterConfig {
-                name: "TypeScript",
+                name: "TypeScript TSX",
                 language,
-                atom_nodes: vec!["string", "template_string", "regex"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     language,
@@ -572,12 +570,14 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .unwrap(),
             }
         }
-        Tsx => {
-            let language = unsafe { tree_sitter_tsx() };
+        TypeScript => {
+            let language = unsafe { tree_sitter_typescript() };
             TreeSitterConfig {
-                name: "TypeScript TSX",
+                name: "TypeScript",
                 language,
-                atom_nodes: vec!["string", "template_string"].into_iter().collect(),
+                atom_nodes: vec!["string", "template_string", "regex"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     language,
