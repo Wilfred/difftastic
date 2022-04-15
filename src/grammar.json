@@ -3151,7 +3151,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_]+[.a-zA-Z0-9_]*"
+      "value": "[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*"
     },
     "string": {
       "type": "CHOICE",
@@ -3441,6 +3441,36 @@
         ]
       }
     },
+    "asterisk_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        }
+      ]
+    },
     "argument_reference": {
       "type": "SEQ",
       "members": [
@@ -3480,6 +3510,10 @@
         {
           "type": "SYMBOL",
           "name": "NULL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "asterisk_expression"
         },
         {
           "type": "SYMBOL",

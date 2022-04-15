@@ -43,6 +43,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -124,6 +128,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -225,6 +233,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -276,6 +288,21 @@
     }
   },
   {
+    "type": "asterisk_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {},
@@ -301,6 +328,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -383,6 +414,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -459,6 +494,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -541,6 +580,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -617,6 +660,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -727,6 +774,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -1194,6 +1245,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1270,6 +1325,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -1394,6 +1453,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1497,6 +1560,10 @@
           },
           {
             "type": "array_element_access",
+            "named": true
+          },
+          {
+            "type": "asterisk_expression",
             "named": true
           },
           {
@@ -1643,6 +1710,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1719,6 +1790,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -1802,6 +1877,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -1907,6 +1986,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1987,6 +2070,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -2186,6 +2273,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2277,6 +2368,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -2464,6 +2559,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2635,6 +2734,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -2812,6 +2915,10 @@
             "named": true
           },
           {
+            "type": "asterisk_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -2904,6 +3011,10 @@
         },
         {
           "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
           "named": true
         },
         {
@@ -3060,6 +3171,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3139,6 +3254,10 @@
           "named": true
         },
         {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3210,6 +3329,10 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": "+",
     "named": false
   },
@@ -3219,6 +3342,10 @@
   },
   {
     "type": "->>",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
