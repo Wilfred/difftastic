@@ -38,7 +38,7 @@ radix-heap = "0.4.2"
 walkdir = "2.3.2"
 term_size = "0.3.2"
 const_format = "0.2.22"
-owo-colors = "3.2.0"
+owo-colors = "3.3.0"
 rpds = "0.10.0"
 wu-diff = "0.1.2"
 
