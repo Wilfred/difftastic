@@ -11,7 +11,7 @@ function fixture() {
   echo $name $path
 
   if [ ! -d $path ]; then
-    git clone $url $path
+    git clone --depth=1 $url $path
   fi
 
   (

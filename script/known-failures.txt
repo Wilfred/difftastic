@@ -27,7 +27,6 @@ examples/Flux.jl/src/zeros.jl
 examples/Gadfly.jl/test/testscripts/issue1125.jl
 examples/Gadfly.jl/test/testscripts/timeseries_month.jl
 examples/Gadfly.jl/test/testscripts/contour.jl
-examples/Gadfly.jl/test/testscripts/issue177.jl
 examples/Gadfly.jl/test/testscripts/gridstack_empty_args.jl
 examples/Gadfly.jl/test/testscripts/unitful_basic.jl
 examples/Gadfly.jl/test/testscripts/timeseries_day.jl
@@ -76,7 +75,6 @@ examples/Gadfly.jl/src/misc.jl
 examples/Gadfly.jl/src/color_misc.jl
 examples/Gadfly.jl/src/guide.jl
 examples/Gadfly.jl/src/theme.jl
-examples/Gadfly.jl/src/shapes.jl
 examples/Mocha.jl/tools/image-classifier.jl
 examples/Mocha.jl/test/layers/power.jl
 examples/Mocha.jl/test/layers/softmax.jl
@@ -86,7 +84,6 @@ examples/Mocha.jl/test/layers/tied-inner-product.jl
 examples/Mocha.jl/test/layers/crop.jl
 examples/Mocha.jl/test/layers/reshape.jl
 examples/Mocha.jl/test/layers/channel-pooling.jl
-examples/Mocha.jl/test/layers/hdf5-data.jl
 examples/Mocha.jl/test/layers/argmax.jl
 examples/Mocha.jl/test/layers/pooling.jl
 examples/Mocha.jl/test/layers/random-mask.jl
@@ -94,7 +91,6 @@ examples/Mocha.jl/test/layers/element-wise.jl
 examples/Mocha.jl/test/layers/gaussian-kl-loss.jl
 examples/Mocha.jl/test/layers/index2onehot.jl
 examples/Mocha.jl/test/layers/concat.jl
-examples/Mocha.jl/test/layers/softmax-loss.jl
 examples/Mocha.jl/test/layers/convolution.jl
 examples/Mocha.jl/test/utils/ref-count.jl
 examples/Mocha.jl/examples/mnist/mnist-demo.jl
@@ -102,9 +98,7 @@ examples/Mocha.jl/examples/mnist/mnist-VAE.jl
 examples/Mocha.jl/examples/test-wasserstein.jl
 examples/Mocha.jl/examples/cifar10/convert.jl
 examples/Mocha.jl/benchmarks/parallel-loop/parallel-pool-module.jl
-examples/Mocha.jl/benchmarks/hdf5-read.jl
 examples/Mocha.jl/src/parameter.jl
-examples/Mocha.jl/src/layers.jl
 examples/Mocha.jl/src/constraints.jl
 examples/Mocha.jl/src/layers/accuracy.jl
 examples/Mocha.jl/src/layers/dropout.jl
@@ -165,7 +159,6 @@ examples/Mocha.jl/src/solvers/nesterov.jl
 examples/Mocha.jl/src/utils/ref-count.jl
 examples/Mocha.jl/src/utils/blas.jl
 examples/Mocha.jl/src/utils/io.jl
-examples/Mocha.jl/src/utils/graphviz.jl
 examples/Mocha.jl/src/macros.jl
 examples/Mocha.jl/src/net.jl
 examples/Mocha.jl/src/coffee-break.jl
