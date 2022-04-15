@@ -306,7 +306,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .unwrap(),
             }
         }
-        JanetSimple => {
+        Janet => {
             let language = unsafe { tree_sitter_janet_simple() };
             TreeSitterConfig {
                 name: "Janet",
