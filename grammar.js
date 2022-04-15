@@ -379,7 +379,7 @@ module.exports = grammar({
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
-    identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
+    identifier: $ => /[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*/,
     string: $ =>
       choice(
         seq("'", field("content", /[^']*/), "'"),
@@ -417,6 +417,7 @@ module.exports = grammar({
           seq($._expression, "+", $._expression),
         ),
       ),
+    asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
@@ -426,6 +427,7 @@ module.exports = grammar({
         $.TRUE,
         $.FALSE,
         $.NULL,
+        $.asterisk_expression,
         $.identifier,
         $.number,
         $.comparison_operator,
