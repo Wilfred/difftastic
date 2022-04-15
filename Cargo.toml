@@ -46,8 +46,8 @@ wu-diff = "0.1.2"
 pretty_assertions = "1.0.0"
 
 [build-dependencies]
-cc = "1.0.72"
-rayon = "1.5.1"
+cc = "1.0.73"
+rayon = "1.5.2"
 
 [profile.release]
 # Release builds don't have debug symbols by default. We explicitly
