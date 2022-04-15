@@ -371,6 +371,7 @@ module.exports = grammar({
     distinct_from: $ => prec.left(seq(kw("DISTINCT FROM"), $._expression)),
     boolean_expression: $ =>
       choice(
+        prec.left(5, seq(kw("NOT"), $._expression)),
         prec.left(4, seq($._expression, kw("AND"), $._expression)),
         prec.left(3, seq($._expression, kw("OR"), $._expression)),
       ),
