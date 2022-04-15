@@ -50,6 +50,11 @@
 ] @punctuation.bracket
 
 [
+  ";"
+  "."
+] @punctuation.delimiter
+
+[
   (type)
   (array_type)
 ] @type

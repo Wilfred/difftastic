@@ -3151,7 +3151,32 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*"
+      "value": "[a-zA-Z0-9_]+"
+    },
+    "dotted_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
+          }
+        }
+      ]
     },
     "string": {
       "type": "CHOICE",
@@ -3517,7 +3542,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "dotted_name"
         },
         {
           "type": "SYMBOL",

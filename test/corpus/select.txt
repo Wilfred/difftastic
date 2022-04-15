@@ -19,59 +19,96 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (from_clause
       (alias
-        (identifier)
+        (dotted_name
+          (identifier))
         (identifier)))
     (join_clause
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
-    (join_clause
-      (join_type)
-      (identifier)
-      (comparison_operator
-        (identifier)
-        (identifier)))
-    (join_clause
-      (join_type)
-      (identifier)
-      (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 SELECT element from array
