@@ -146,7 +146,7 @@ sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 c4151c5a44b11e04fd11c2594597ed33  -
 
 sample_files/yaml_before.yaml sample_files/yaml_after.yaml
-1ae5db1355627f3ca607d76c3e6eed9a  -
+c6b4ca92476b2abcf8ec53eab9115e67  -
 
 sample_files/zig_before.zig sample_files/zig_after.zig
 fe7f694c4223c83ecadbbf96f791ccad  -
