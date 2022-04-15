@@ -458,6 +458,7 @@ const rules = {
       '(',
       opt(com(opt($.inout_modifier), $._type, opt($.variadic_modifier), ',')),
       ')',
+      opt($.capability_list),
       ':',
       field('return_type', $._type),
       ')',
@@ -701,7 +702,11 @@ const rules = {
       choice(
         // Make a single-parameter lambda node look like any other lambda node.
         alias($._single_parameter_parameters, $.parameters),
-        seq($.parameters, opt(seq(':', field('return_type', $._type)))),
+        seq(
+          $.parameters,
+          opt($.capability_list),
+          opt(seq(':', field('return_type', $._type)))
+        ),
       ),
       '==>',
       field('body', choice($._expression, $.compound_statement)),
@@ -769,8 +774,24 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       $.parameters,
+      opt($.capability_list),
       opt(seq(':', opt($.attribute_modifier), field('return_type', $._type))),
       opt($.where_clause),
+    ),
+
+  capability_list: $ => seq('[', opt(com($.capability)), ']'),
+
+  capability: $ =>
+    choice(
+      seq(
+        $.identifier,
+        opt($.type_parameters),
+      ),
+      $.scoped_identifier,
+      seq(
+        'ctx',
+        $.variable
+      ),
     ),
 
   parameters: $ =>
@@ -1144,6 +1165,7 @@ const rules = {
       opt($.async_modifier),
       'function',
       $.parameters,
+      opt($.capability_list),
       opt(seq(':', field('return_type', $._type))),
       opt(alias($._anonymous_function_use_clause, $.use_clause)),
       field('body', $.compound_statement),

@@ -92,6 +92,24 @@ $f4 = function($p1): int use ($p2, $p3) {};
         body: (compound_statement)))))
 
 ==========================
+Anonymous function with capabilities
+==========================
+
+function()[C]: void {};
+
+---
+
+(script
+  (expression_statement
+    (anonymous_function_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (type_specifier)
+      (compound_statement))))
+
+==========================
 As
 ==========================
 
@@ -1301,6 +1319,31 @@ Lambda attribute
           (parameter
             name: (variable)))
         body: (compound_statement)))))
+
+==========================
+Lambda with capabilities
+==========================
+
+()[] ==> {};
+()[io] ==> {echo "output"; };
+
+---
+
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list)
+      (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (compound_statement
+        (echo_statement
+          (string))))))
 
 ==========================
 Lambda with lambda arg
