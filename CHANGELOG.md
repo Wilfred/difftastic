@@ -4,6 +4,8 @@
 
 Added support for Kotlin.
 
+Fixed an issue with YAML and `|` block strings.
+
 ### Display
 
 Improved syntax highlighting for keywords.

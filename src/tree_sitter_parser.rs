@@ -579,11 +579,12 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "YAML",
                 language,
-                atom_nodes: (vec![
+                atom_nodes: vec![
                     "string_scalar",
                     "double_quote_scalar",
                     "single_quote_scalar",
-                ])
+                    "block_scalar",
+                ]
                 .into_iter()
                 .collect(),
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
