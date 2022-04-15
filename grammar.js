@@ -88,8 +88,16 @@ grammar({
 
   externals: $ => [
     $.block_comment,
-    $.triple_string,
     $._immediate_paren,
+
+    $._string_start,
+    $._command_start,
+    $._immediate_string_start,
+    $._immediate_command_start,
+    $._string_end,
+    $._command_end,
+    $._string_content,
+    $._string_content_no_interp,
   ],
 
   conflicts: $ => [
@@ -110,7 +118,7 @@ grammar({
 
   extras: $ => [
     /\s/,
-    $.comment,
+    $.line_comment,
     $.block_comment,
   ],
 
@@ -161,7 +169,7 @@ grammar({
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
       optional($.subtype_clause),
-      alias(/[1-9][0-9]*/, $.number),
+      alias(numeral('0-9'), $.integer_literal),
       'end'
     ),
 
@@ -404,17 +412,13 @@ grammar({
       $.range_expression,
       $.quote_expression,
       $.interpolation_expression,
-      $.number,
       $._primary_expression,
+      $._literal,
     ),
 
     _primary_expression: $ => choice(
       $.identifier,
       $.operator,
-      $.string,
-      $.command_string,
-      $.character,
-      $.triple_string,
       $.array_expression,
       $.array_comprehension_expression,
       $.matrix_expression,
@@ -445,7 +449,10 @@ grammar({
     )),
 
     subscript_expression: $ => seq(
-      $._primary_expression,
+      choice(
+        $._primary_expression,
+        $._literal,
+      ),
       token.immediate('['),
       sep(',', $._expression),
       optional(','),
@@ -714,7 +721,10 @@ grammar({
     )),
 
     coefficient_expression: $ => prec(PREC.call, seq(
-      $.number,
+      choice(
+        alias(numeral('0-9'), $.integer_literal),
+        $.float_literal,
+      ),
       choice(
         $.parenthesized_expression,
         $.identifier
@@ -767,48 +777,100 @@ grammar({
 
       // First char: ASCII letter, Greek letter, Extended Latin letter, or ∇
       // Remaining characters: not delimiter, not operator
-      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^"'\\s\\.\\-\\[\\]${operatorCharacters}]*`)
+      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^"'\`\\s\\.\\-\\[\\]${operatorCharacters}]*`)
     },
 
-    number: $ => {
-      const decimal = /[0-9][0-9_]*/;
-      const hexadecimal = /[0-9a-fA-F][0-9a-fA-F_]*/;
-      return token(seq(
-        choice(
-          seq(/0[xX]/, hexadecimal),
-          seq(decimal, optional('.'), optional(decimal)),
-          seq('.', decimal)
-        ),
-        optional(/[eE][+-]?\d+/)
-      ))
-    },
+    // Literals
 
-    string: $ => seq(
-      choice(
-        '"',
-        seq(
-          field('prefix', $.identifier),
-          token.immediate('"')
-        )
-      ),
-      optional(token.immediate(repeat1(choice(
-        /[^"\\\n]/,
-        /\\./
-      )))),
-      token.immediate('"'),
+    _literal: $ => choice(
+      $.integer_literal,
+      $.float_literal,
+      $.character_literal,
+      $.string_literal,
+      $.command_literal,
+      $.prefixed_string_literal,
+      $.prefixed_command_literal,
     ),
 
-    command_string: $ => token(seq(
-      '`',
-      repeat(choice(/[^`\\\n]/, /\\./)),
-      '`'
+    integer_literal: $ => choice(
+      token(seq('0b', numeral('01'))),
+      token(seq('0o', numeral('0-7'))),
+      token(seq('0x', numeral('0-9a-fA-F'))),
+      numeral('0-9'),
+    ),
+
+    float_literal: $ => {
+      const dec = numeral('0-9');
+      const hex = numeral('0-9a-fA-F');
+      const float = seq(
+        choice(
+          seq(dec, optional('.'), optional(dec)),
+          seq('.', dec),
+        ),
+        optional(/[eEf][+-]?\d+/), // the exponent doesn't allow underscores
+      )
+      const hex_float = seq(
+        choice(
+          seq('0x', hex, optional('.'), optional(hex)),
+          seq('0x.', hex),
+        ),
+        /p[+-]?\d+/, // hex floats must always have an exponent
+      )
+      return token(choice(float, hex_float))
+    },
+
+    escape_sequence: $ => token(seq(
+      '\\',
+      token.immediate(choice(
+        /[uU][0-9a-fA-F]{1,6}/, // unicode codepoints
+        /x[0-9a-fA-F]{2}/,
+        /["'`$\\abfnrtv]/,
+      )),
     )),
 
-    character: $ => token(seq(
+    character_literal: $ => seq(
       "'",
-      choice(/\\./, /[^'\\]/),
+      choice(
+        $.escape_sequence,
+        /[^'\\]/,
+      ),
       "'",
-    )),
+    ),
+
+    string_literal: $ => seq(
+      $._string_start,
+      repeat(choice($._string_content, $.string_interpolation, $.escape_sequence)),
+      $._string_end,
+    ),
+
+    command_literal: $ => seq(
+      $._command_start,
+      repeat(choice($._string_content, $.string_interpolation, $.escape_sequence)),
+      $._command_end,
+    ),
+
+    prefixed_string_literal: $ => seq(
+      field('prefix', $.identifier),
+      $._immediate_string_start,
+      repeat(choice($._string_content_no_interp, $.escape_sequence)),
+      $._string_end,
+    ),
+
+    prefixed_command_literal: $ => seq(
+      field('prefix', $.identifier),
+      $._immediate_command_start,
+      $._command_start,
+      repeat(choice($._string_content_no_interp, $.escape_sequence)),
+      $._command_end,
+    ),
+
+    string_interpolation: $ => seq(
+      '$',
+      choice(
+        $.identifier,
+        seq('(', $._expression, ')'),
+      ),
+    ),
 
     _power_operator: $ => token(addDots(POWER_OPERATORS)),
 
@@ -826,7 +888,7 @@ grammar({
 
     _terminator: $ => choice('\n', ';'),
 
-    comment: $ => token(seq('#', /.*/))
+    line_comment: $ => token(seq('#', /.*/))
   }
 });
 
@@ -841,4 +903,8 @@ function sep1(separator, rule) {
 function addDots(operatorString) {
   const operators = operatorString.trim().split(/\s+/)
   return seq(optional('.'), choice(...operators))
+}
+
+function numeral(range) {
+  return RegExp(`[${range}]|([${range}][${range}_]*[${range}])`)
 }

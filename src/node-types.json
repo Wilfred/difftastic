@@ -62,7 +62,7 @@
         "named": true
       },
       {
-        "type": "character",
+        "type": "character_literal",
         "named": true
       },
       {
@@ -70,7 +70,7 @@
         "named": true
       },
       {
-        "type": "command_string",
+        "type": "command_literal",
         "named": true
       },
       {
@@ -79,6 +79,10 @@
       },
       {
         "type": "field_expression",
+        "named": true
+      },
+      {
+        "type": "float_literal",
         "named": true
       },
       {
@@ -94,6 +98,10 @@
         "named": true
       },
       {
+        "type": "integer_literal",
+        "named": true
+      },
+      {
         "type": "interpolation_expression",
         "named": true
       },
@@ -103,10 +111,6 @@
       },
       {
         "type": "matrix_expression",
-        "named": true
-      },
-      {
-        "type": "number",
         "named": true
       },
       {
@@ -126,6 +130,14 @@
         "named": true
       },
       {
+        "type": "prefixed_command_literal",
+        "named": true
+      },
+      {
+        "type": "prefixed_string_literal",
+        "named": true
+      },
+      {
         "type": "quote_expression",
         "named": true
       },
@@ -138,7 +150,7 @@
         "named": true
       },
       {
-        "type": "string",
+        "type": "string_literal",
         "named": true
       },
       {
@@ -147,10 +159,6 @@
       },
       {
         "type": "ternary_expression",
-        "named": true
-      },
-      {
-        "type": "triple_string",
         "named": true
       },
       {
@@ -396,14 +404,6 @@
           "named": true
         },
         {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "command_string",
-          "named": true
-        },
-        {
           "type": "do_clause",
           "named": true
         },
@@ -436,15 +436,7 @@
           "named": true
         },
         {
-          "type": "string",
-          "named": true
-        },
-        {
           "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "triple_string",
           "named": true
         },
         {
@@ -483,14 +475,6 @@
           "named": true
         },
         {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "command_string",
-          "named": true
-        },
-        {
           "type": "do_clause",
           "named": true
         },
@@ -523,15 +507,7 @@
           "named": true
         },
         {
-          "type": "string",
-          "named": true
-        },
-        {
           "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "triple_string",
           "named": true
         },
         {
@@ -565,6 +541,21 @@
     }
   },
   {
+    "type": "character_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "coefficient_expression",
     "named": true,
     "fields": {},
@@ -573,15 +564,38 @@
       "required": true,
       "types": [
         {
+          "type": "float_literal",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "number",
+          "type": "integer_literal",
           "named": true
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "command_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_interpolation",
           "named": true
         }
       ]
@@ -771,14 +785,6 @@
           "named": true
         },
         {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "command_string",
-          "named": true
-        },
-        {
           "type": "field_expression",
           "named": true
         },
@@ -803,15 +809,7 @@
           "named": true
         },
         {
-          "type": "string",
-          "named": true
-        },
-        {
           "type": "subscript_expression",
-          "named": true
-        },
-        {
-          "type": "triple_string",
           "named": true
         },
         {
@@ -1086,6 +1084,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "integer_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "interpolation_expression",
@@ -1472,6 +1475,58 @@
     }
   },
   {
+    "type": "prefixed_command_literal",
+    "named": true,
+    "fields": {
+      "prefix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prefixed_string_literal",
+    "named": true,
+    "fields": {
+      "prefix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "primitive_definition",
     "named": true,
     "fields": {
@@ -1501,7 +1556,7 @@
       "required": true,
       "types": [
         {
-          "type": "number",
+          "type": "integer_literal",
           "named": true
         },
         {
@@ -1679,19 +1734,37 @@
     }
   },
   {
-    "type": "string",
+    "type": "string_interpolation",
     "named": true,
-    "fields": {
-      "prefix": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_interpolation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1978,10 +2051,6 @@
     "named": false
   },
   {
-    "type": "\"",
-    "named": false
-  },
-  {
     "type": "$",
     "named": false
   },
@@ -2098,18 +2167,6 @@
     "named": false
   },
   {
-    "type": "character",
-    "named": true
-  },
-  {
-    "type": "command_string",
-    "named": true
-  },
-  {
-    "type": "comment",
-    "named": true
-  },
-  {
     "type": "const",
     "named": false
   },
@@ -2134,12 +2191,20 @@
     "named": false
   },
   {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
     "type": "export",
     "named": false
   },
   {
     "type": "finally",
     "named": false
+  },
+  {
+    "type": "float_literal",
+    "named": true
   },
   {
     "type": "for",
@@ -2174,6 +2239,10 @@
     "named": false
   },
   {
+    "type": "line_comment",
+    "named": true
+  },
+  {
     "type": "macro",
     "named": false
   },
@@ -2184,10 +2253,6 @@
   {
     "type": "mutable",
     "named": false
-  },
-  {
-    "type": "number",
-    "named": true
   },
   {
     "type": "primitive",
@@ -2204,10 +2269,6 @@
   {
     "type": "struct",
     "named": false
-  },
-  {
-    "type": "triple_string",
-    "named": true
   },
   {
     "type": "try",
