@@ -1247,6 +1247,74 @@
     }
   },
   {
+    "type": "context_const_declaration",
+    "named": true,
+    "fields": {
+      "as": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "capability_list",
+            "named": true
+          }
+        ]
+      },
+      "context": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "capability_list",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "super": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "capability_list",
+            "named": true
+          },
+          {
+            "type": "super",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "abstract_modifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "continue_statement",
     "named": true,
     "fields": {},
@@ -2089,6 +2157,10 @@
       "types": [
         {
           "type": "const_declaration",
+          "named": true
+        },
+        {
+          "type": "context_const_declaration",
           "named": true
         },
         {
@@ -4396,11 +4468,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "for",
