@@ -1,4 +1,4 @@
-# Getting Started
+# Installation
 
 ## Installing a binary
 

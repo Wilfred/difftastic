@@ -1,7 +1,7 @@
 # Summary
 
 - [Introduction](./introduction.md)
-- [Getting Started](./getting_started.md)
+- [Installation](./installation.md)
 - [Usage](./usage.md)
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
