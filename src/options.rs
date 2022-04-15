@@ -1,7 +1,7 @@
 use std::{borrow::Borrow, env};
 
 use atty::Stream;
-use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
+use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
 
 use crate::{guess_language, style::BackgroundColor};
@@ -18,8 +18,8 @@ pub enum ColorOutput {
     Never,
 }
 
-fn app() -> clap::App<'static> {
-    App::new("Difftastic")
+fn app() -> clap::Command<'static> {
+    Command::new("Difftastic")
         .override_usage(USAGE)
         .version(crate_version!())
         .about(crate_description!())
@@ -126,7 +126,7 @@ fn app() -> clap::App<'static> {
                 .hide(true)
                 .allow_invalid_utf8(true),
         )
-        .setting(AppSettings::ArgRequiredElseHelp)
+        .arg_required_else_help(true)
 }
 
 #[derive(Debug, Copy, Clone)]
