@@ -1,0 +1,15 @@
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list)
+      (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (compound_statement
+        (echo_statement
+          (string))))))

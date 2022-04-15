@@ -1912,6 +1912,110 @@ const int yield = 1;
       value: (integer))))
 
 ==========================
+Context function types
+==========================
+
+function has_fn_args(
+  (function (): void) $no_list,
+  (function ()[io, rand]: void) $list,
+  (function ()[]: void) $empty_list,
+)[ctx $list]: void {}
+
+
+---
+
+  (script
+    (function_declaration
+      (identifier)
+      (parameters
+        (parameter
+          (function_type_specifier
+            (type_specifier))
+          (variable))
+        (parameter
+          (function_type_specifier
+            (capability_list
+              (capability
+                (identifier))
+              (capability
+                (identifier)))
+            (type_specifier))
+          (variable))
+        (parameter
+          (function_type_specifier
+            (capability_list)
+            (type_specifier))
+          (variable)))
+      (capability_list
+        (capability
+          (variable)))
+      (type_specifier)
+      (compound_statement)))
+
+==========================
+Contexts
+==========================
+
+function no_listed_contexts(): void {}
+function empty_context()[]: void {}
+function one_context()[C]: void {}
+function many_context()[C1, C2, Cn]: void {}
+function throws_foo_exception()[throws<FooException>]: void {
+  throw new FooException();
+}
+
+---
+
+(script
+  (function_declaration
+    (identifier)
+    (parameters)
+    (type_specifier)
+    (compound_statement))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (capability_list)
+    (type_specifier)
+    (compound_statement))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (capability_list
+      (capability
+        (identifier)))
+    (type_specifier)
+    (compound_statement))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (capability_list
+      (capability
+        (identifier))
+      (capability
+        (identifier))
+      (capability
+        (identifier)))
+    (type_specifier)
+    (compound_statement))
+  (function_declaration
+    (identifier)
+    (parameters)
+    (capability_list
+      (capability
+        (identifier)
+        (type_parameters
+          (type_parameter
+            (identifier)))))
+    (type_specifier)
+    (compound_statement
+      (throw_statement
+        (new_expression
+          (qualified_identifier
+            (identifier))
+          (arguments))))))
+
+==========================
 Empty function
 ==========================
 

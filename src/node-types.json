@@ -462,6 +462,10 @@
           "named": true
         },
         {
+          "type": "capability_list",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
@@ -924,6 +928,48 @@
         },
         {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capability",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "scoped_identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capability_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "capability",
           "named": true
         }
       ]
@@ -1735,6 +1781,10 @@
           "named": true
         },
         {
+          "type": "capability_list",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
@@ -1770,6 +1820,10 @@
       "types": [
         {
           "type": "_type",
+          "named": true
+        },
+        {
+          "type": "capability_list",
           "named": true
         },
         {
@@ -2000,6 +2054,10 @@
           "named": true
         },
         {
+          "type": "capability_list",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         }
@@ -2121,6 +2179,10 @@
         },
         {
           "type": "attribute_modifier",
+          "named": true
+        },
+        {
+          "type": "capability_list",
           "named": true
         },
         {
@@ -4277,6 +4339,10 @@
     "named": true
   },
   {
+    "type": "ctx",
+    "named": false
+  },
+  {
     "type": "darray",
     "named": false
   },
@@ -4502,11 +4568,11 @@
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "super",
