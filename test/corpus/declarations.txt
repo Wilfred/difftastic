@@ -411,6 +411,62 @@ abstract class C {
           name: (identifier))))))
 
 ==========================
+Class const ctx
+==========================
+
+abstract class WithConstant {
+  abstract const ctx CAnotherOne as [io];
+  abstract const ctx COne super [defaults];
+  abstract const ctx CMany super [defaults] as [io, rand];
+  const ctx C = [defaults];
+  const ctx CWithBound super [defaults] = [io];
+}
+
+---
+
+  (script
+    (class_declaration
+      (abstract_modifier)
+      (identifier)
+      (member_declarations
+        (context_const_declaration
+          (abstract_modifier)
+          (identifier)
+          (capability_list
+            (capability
+              (identifier))))
+        (context_const_declaration
+          (abstract_modifier)
+          (identifier)
+          (capability_list
+            (capability
+              (identifier))))
+        (context_const_declaration
+          (abstract_modifier)
+          (identifier)
+          (capability_list
+            (capability
+              (identifier)))
+          (capability_list
+            (capability
+              (identifier))
+            (capability
+              (identifier))))
+        (context_const_declaration
+          (identifier)
+          (capability_list
+            (capability
+              (identifier))))
+        (context_const_declaration
+          (identifier)
+          (capability_list
+            (capability
+              (identifier)))
+          (capability_list
+            (capability
+              (identifier)))))))
+
+==========================
 Class parameter visibility
 ==========================
 
@@ -1960,7 +2016,7 @@ function no_listed_contexts(): void {}
 function empty_context()[]: void {}
 function one_context()[C]: void {}
 function many_context()[C1, C2, Cn]: void {}
-function throws_foo_exception()[throws<FooException>]: void {
+function throws_foo_exception()[policied<Foo>]: void {
   throw new FooException();
 }
 

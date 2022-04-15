@@ -856,6 +856,7 @@ const rules = {
           $.method_declaration,
           $.property_declaration,
           $.type_const_declaration,
+          $.context_const_declaration,
           $.trait_use_clause,
           $.require_implements_clause,
           $.require_extends_clause,
@@ -947,6 +948,18 @@ const rules = {
       opt($.type_parameters),
       field('as', opt(seq('as', $._type))),
       field('type', opt(seq('=', $._type))),
+      ';',
+    ),
+
+  context_const_declaration: $ =>
+    seq(
+      opt($.abstract_modifier),
+      'const',
+      'ctx',
+      field('name', $.identifier),
+      field('super', opt(seq('super', $.capability_list))),
+      field('as', opt(seq('as', $.capability_list))),
+      field('context', opt(seq('=', $.capability_list))),
       ';',
     ),
 
@@ -1256,6 +1269,7 @@ module.exports = grammar({
     [$._expression, $.type_specifier],
     [$._expression, $.field_initializer],
     [$.scoped_identifier, $._type_constant],
+    [$.context_const_declaration,$._member_modifier],
     [$.type_specifier],
     [$.shape_type_specifier, $.shape],
     [$.qualified_identifier],
