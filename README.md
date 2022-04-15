@@ -76,7 +76,7 @@ Word diffing [can't do
 this](https://twitter.com/_wilfredh/status/1510139929971421191/photo/1).
 
 Difftastic parses your code. It understands when whitespace matters,
-such as string literals or in languages like Python. It understands
+such as inside string literals or languages like Python. It understands
 that `x-1` is three tokens in JS but one token in Lisp.
 
 ### Can I use difftastic with git?
