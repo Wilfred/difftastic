@@ -184,7 +184,7 @@ module.exports = grammar({
       ),
     create_table_column_parameter: $ =>
       seq(
-        field("name", $.identifier),
+        field("name", $._identifier),
         field("type", $._type),
         repeat(
           choice(
@@ -195,9 +195,16 @@ module.exports = grammar({
             $.unique_constraint,
             $.null_constraint,
             $.named_constraint,
+            $.direction_constraint,
+            $.auto_increment_constraint,
+            $.time_zone_constraint,
           ),
         ),
       ),
+    auto_increment_constraint: _ => kw("AUTO_INCREMENT"),
+    direction_constraint: _ => choice(kw("ASC"), kw("DESC")),
+    time_zone_constraint: _ =>
+      seq(choice(kw("WITH"), kw("WITHOUT")), kw("TIME ZONE")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     column_default: $ =>
       seq(
@@ -237,12 +244,17 @@ module.exports = grammar({
         $.references_constraint,
       ),
     table_constraint_unique: $ =>
-      seq(kw("UNIQUE"), "(", commaSep1($.identifier), ")"),
+      seq(kw("UNIQUE"), "(", commaSep1($._identifier), ")"),
     table_constraint_primary_key: $ =>
-      seq(kw("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
+      seq(kw("PRIMARY KEY"), "(", commaSep1($._identifier), ")"),
     primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
-      seq(kw("CREATE TABLE"), $.identifier, $.create_table_parameters),
+      seq(
+        kw("CREATE TABLE"),
+        optional(kw("IF NOT EXISTS")),
+        $._identifier,
+        $.create_table_parameters,
+      ),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
@@ -283,7 +295,7 @@ module.exports = grammar({
       seq(
         optional($.join_type),
         kw("JOIN"),
-        $.identifier,
+        $._identifier,
         kw("ON"),
         $._expression,
       ),
@@ -299,7 +311,7 @@ module.exports = grammar({
 
     // INSERT
     insert_statement: $ =>
-      seq(kw("INSERT"), kw("INTO"), $.identifier, $.values_clause),
+      seq(kw("INSERT"), kw("INTO"), $._identifier, $.values_clause),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
@@ -315,7 +327,7 @@ module.exports = grammar({
     references_constraint: $ =>
       seq(
         kw("REFERENCES"),
-        $.identifier, // table_name
+        $._identifier,
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
         optional(
@@ -380,7 +392,16 @@ module.exports = grammar({
     FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
     identifier: $ => /[a-zA-Z0-9_]+/,
-    dotted_name: $ => sep1($.identifier, "."),
+    dotted_name: $ => prec.left(1, sep2($.identifier, ".")),
+    _unquoted_identifier: $ =>
+      prec.left(2, choice($.identifier, $.dotted_name)),
+    _quoted_identifier: $ =>
+      choice(
+        seq("`", $._unquoted_identifier, "`"), // MySQL style quoting
+        seq('"', $._unquoted_identifier, '"'), // ANSI QUOTES
+      ),
+    _identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
+    type: $ => seq($._identifier, optional(seq("(", $.number, ")"))),
     string: $ =>
       choice(
         seq("'", field("content", /[^']*/), "'"),
@@ -389,12 +410,11 @@ module.exports = grammar({
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
       seq($._expression, field("order", choice(kw("ASC"), kw("DESC")))),
-    _type_alias: $ => alias($.identifier, $.type),
     array_type: $ => seq($._type, "[", "]"),
-    _type: $ => choice($._type_alias, $.array_type),
+    _type: $ => choice($.type, $.array_type),
     type_cast: $ =>
       seq(
-        // TODO: should be moved to basic expression or somethign
+        // TODO: should be moved to basic expression or something
         choice(
           $._parenthesized_expression,
           $.string,
@@ -429,7 +449,7 @@ module.exports = grammar({
         $.FALSE,
         $.NULL,
         $.asterisk_expression,
-        $.dotted_name,
+        $._identifier,
         $.number,
         $.comparison_operator,
         $.in_expression,
@@ -451,4 +471,8 @@ function commaSep1(rule) {
 
 function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
+}
+
+function sep2(rule, separator) {
+  return seq(rule, repeat1(seq(separator, rule)));
 }

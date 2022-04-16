@@ -2,7 +2,7 @@
 SELECT statement with joins
 ================================================================================
 
-SELECT t.a, t.b
+SELECT a, t.a, t.b
 FROM table1 AS t
 JOIN t1 ON (t.a = t1.a)
 INNER JOIN t2 ON (t.a = t2.a)
@@ -19,6 +19,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
   (select_statement
     (select_clause
       (select_clause_body
+        (identifier)
         (dotted_name
           (identifier)
           (identifier))
@@ -27,8 +28,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
           (identifier))))
     (from_clause
       (alias
-        (dotted_name
-          (identifier))
+        (identifier)
         (identifier)))
     (join_clause
       (identifier)
