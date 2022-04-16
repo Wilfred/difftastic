@@ -44,6 +44,10 @@
         "named": true
       },
       {
+        "type": "text_block",
+        "named": true
+      },
+      {
         "type": "true",
         "named": true
       }
@@ -4087,6 +4091,10 @@
   {
     "type": "synchronized",
     "named": false
+  },
+  {
+    "type": "text_block",
+    "named": true
   },
   {
     "type": "this",

@@ -54,6 +54,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "text_block"
+        },
+        {
+          "type": "SYMBOL",
           "name": "null_literal"
         }
       ]
@@ -1091,6 +1095,55 @@
               {
                 "type": "STRING",
                 "value": "\""
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "text_block": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\"\"\""
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\s*\\n"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\\\\"]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\(.)"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": "\"\"\""
               }
             ]
           }
