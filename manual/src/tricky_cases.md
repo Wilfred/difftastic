@@ -15,6 +15,8 @@ x
 (x)
 ```
 
+Desired result: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
+
 This is tricky because `x` has changed its depth in the tree, but `x`
 itself is unchanged.
 
@@ -46,6 +48,8 @@ than the `x`.
 (x y)
 ```
 
+Desired output: <code>(x <span style="background-color: PaleGreen">y</span>)</code>
+
 In this case, we want to highlight `y`. Highlighting the delimiters
 could make `x` look changed.
 
@@ -71,9 +75,11 @@ This should be highlighted similar to the expanding delimiter case.
 (foo (novel) (bar))
 ```
 
-We want to highlight `(novel)`. It is easy to end up with
-`( +novel+ ) +(+ bar +)+`, where a later pair of delimiters are
-chosen.
+Desired result: <code>(foo <span style="background-color:PaleGreen">(novel)</span> (bar)</code>
+
+It is easy to end up with
+<code>(foo (<span style="background-color:PaleGreen">novel</span>) <span style="background-color:PaleGreen">(</span>bar<span style="background-color:PaleGreen">)</span>)</code>,
+where a later pair of delimiters are chosen.
 
 ## Rewrapping Large Nodes
 
@@ -103,17 +109,21 @@ minimal diff.
 (y x)
 ```
 
+Desired result: <code>(<span style="background-color: PaleGreen">y</span> <span style="background-color: PaleGreen">x</span>)</code>
+
 We want to highlight the list contents and not the delimiters.
 
 ## Middle Insertions
 
 ```
 // Before
-foo(bar(123));
+foo(bar(123))
 
 // After
-foo(extra(bar(123)));
+foo(extra(bar(123)))
 ```
+
+Desired result: <code>foo(<span style="background-color: PaleGreen">extra(</span>bar(123)<span style="background-color: PaleGreen">)</span>)</code>
 
 We want to consider both `foo` and `bar` to be unchanged. This case is
 challenging for diffing algorithms that do a bottom-up then top-down
