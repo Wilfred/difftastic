@@ -17,6 +17,9 @@ $ difft sample_files/dir_before/ sample_files/dir_after/
 Difftastic will recursively walk the two directories, diffing files
 with the same name.
 
+The `--skip-unchanged` option is useful when diffing directories that
+contain many unchanged files.
+
 ## Language Detection
 
 Difftastic guesses the language used based on the file extension, file
