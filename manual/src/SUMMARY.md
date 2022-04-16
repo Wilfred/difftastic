@@ -6,7 +6,7 @@
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
 - [Parsing](./parsing.md)
-  - [Upstream Parsers](./upstream_parsers.md)
+  - [Languages Supported](./languages_supported.md)
   - [Vendoring](./parser_vendoring.md)
   - [Adding A Parser](./adding_a_parser.md)
 - [Diffing](./diffing.md)
