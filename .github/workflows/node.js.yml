@@ -26,4 +26,14 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npx prettier --check .
+    - run: npm run gen
+    - name: Verify generated code
+      if: runner.os == 'Linux'
+      run: |
+        if ! git diff --quiet --ignore-submodules -- src/
+        then
+          echo >&2 "Generated files in src/ differ, please run 'npm run gen' to update generated code"
+          git diff-index --name-status -r --ignore-submodules HEAD src/ >&2
+          exit 1
+        fi
     - run: npm test
