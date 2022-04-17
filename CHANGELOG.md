@@ -6,7 +6,8 @@ Added support for Kotlin and TOML.
 
 Fixed an issue with YAML and `|` block strings.
 
-Updated to the latest upstream C++, C#, Elixir and Go parsers.
+Updated to the latest upstream C++, C#, Elixir, Go and Haskell
+parsers.
 
 ### Diffing
 
@@ -21,6 +22,12 @@ Improved syntax highlighting for keywords.
 Difftastic now validates environment variables the same way as
 arguments. `DFT_DISPLAY=no-such-mode` will now error rather than
 silently using the default display mode.
+
+### Build
+
+The upstream Haskell parser has been ported from C++14 to pure C. This
+should allow difftastic to build on platforms with older C++
+compilers.
 
 ## 0.26.3 (released 10th April 2022)
 

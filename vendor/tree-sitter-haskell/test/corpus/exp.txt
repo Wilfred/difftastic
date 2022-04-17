@@ -1218,3 +1218,20 @@ a = [group using a, group by a using a, by, a by, a by a, using, a using, a usin
     (comma)
     (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_name (variable)))))
   )
+
+================================================================================
+exp: brace layout after lambda case
+================================================================================
+
+a = \case { a -> a }
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_lambda_case
+   (alts
+    (alt
+     (pat_name (variable))
+     (exp_name (variable)))))))

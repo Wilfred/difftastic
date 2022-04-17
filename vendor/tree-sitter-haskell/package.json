@@ -15,11 +15,13 @@
     "node-gyp": "^7.1.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.4"
+    "tree-sitter-cli": "^0.19.4",
+    "web-tree-sitter": "^0.19.4"
   },
   "scripts": {
     "test": "tree-sitter test",
-    "examples": "script/parse-examples"
+    "examples": "script/parse-examples",
+    "examples-wasm": "script/parse-examples wasm"
   },
   "tree-sitter": [
     {

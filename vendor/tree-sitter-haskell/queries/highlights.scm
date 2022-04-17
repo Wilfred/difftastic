@@ -97,19 +97,26 @@
   "do"
   "mdo"
   "rec"
+  "infix"
+  "infixl"
+  "infixr"
 ] @keyword
 
 
 ;; ----------------------------------------------------------------------------
 ;; Functions and variables
 
-(signature name: (variable) @type)
-(function name: (variable) @function)
-
 (variable) @variable
 "_" @variable.special
 
+(signature name: (variable) @type)
+(function
+  name: (variable) @function
+  patterns: (patterns))
+
 (exp_infix (variable) @operator)  ; consider infix functions as operators
+
+(exp_apply . (exp_name (variable) @function))
 
 ("@" @namespace)  ; "as" pattern operator, e.g. x@Constructor
 
