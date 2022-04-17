@@ -21,7 +21,7 @@ let tree;
     "sienna",
   ];
 
-  const scriptURL = document.currentScript.getAttribute("src");
+  const scriptURL = document.getElementById("playground-script").src;
 
   const codeInput = document.getElementById("code-input");
   const loggingCheckbox = document.getElementById("logging-checkbox");
@@ -82,7 +82,7 @@ let tree;
   playgroundContainer.style.visibility = "visible";
 
   async function loadLanguage() {
-    const query = new URL(document.currentScript.src).search;
+    const query = new URL(scriptURL).search;
     const url = `tree-sitter-sql.wasm${query}`;
     const language = await TreeSitter.Language.load(url);
     tree = null;
@@ -423,11 +423,25 @@ let tree;
     return COLORS_BY_INDEX[id % COLORS_BY_INDEX.length];
   }
 
+  function storageGetItem(lookupKey) {
+    try {
+      return localStorage.getItem(lookupKey);
+    } catch {
+      return null;
+    }
+  }
+
+  function storageSetItem(lookupKey, value) {
+    try {
+      return localStorage.setIem(lookupKey, value);
+    } catch {}
+  }
+
   function loadState() {
-    const language = localStorage.getItem("language");
-    const sourceCode = localStorage.getItem("sourceCode");
-    const query = localStorage.getItem("query");
-    const queryEnabled = localStorage.getItem("queryEnabled");
+    const language = storageGetItem("language");
+    const sourceCode = storageGetItem("sourceCode");
+    const query = storageGetItem("query");
+    const queryEnabled = storageGetItem("queryEnabled");
     if (language != null && sourceCode != null && query != null) {
       queryInput.value = query;
       codeInput.value = sourceCode;
@@ -436,13 +450,13 @@ let tree;
   }
 
   function saveState() {
-    localStorage.setItem("sourceCode", codeEditor.getValue());
+    storageSetItem("sourceCode", codeEditor.getValue());
     saveQueryState();
   }
 
   function saveQueryState() {
-    localStorage.setItem("queryEnabled", queryCheckbox.checked);
-    localStorage.setItem("query", queryEditor.getValue());
+    storageSetItem("queryEnabled", queryCheckbox.checked);
+    storageSetItem("query", queryEditor.getValue());
   }
 
   function debounce(func, wait, immediate) {
