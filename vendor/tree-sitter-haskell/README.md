@@ -1,10 +1,8 @@
 # tree-sitter-haskell
 
-[![Test the grammar](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml)
+[![CI](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml)
 
 Haskell grammar for [tree-sitter].
-
-**Note** This grammar needs at least tree-sitter `0.19.4` and C++-14.
 
 # References
 
@@ -21,56 +19,12 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.haskell = {
   install_info = {
     url = "~/path/to/tree-sitter-haskell",
-    files = {"src/parser.c", "src/scanner.cc"}
+    files = {"src/parser.c", "src/scanner.c"}
   }
 }
 EOF
 ```
 
-Depending on what compilers are installed in your system, it may be necessary to force `nvim-treesitter` to use a
-specific one to satisfy the C++-14 requirement (see
-[this issue](https://github.com/tree-sitter/tree-sitter-haskell/issues/34) for more info):
-
-```vim
-lua require'nvim-treesitter.install'.compilers = { "clang" }
-" or
-lua require'nvim-treesitter.install'.compilers = { "clang++" }
-```
-
-or
-
-```vim
-lua require'nvim-treesitter.install'.compilers = { "gcc" }
-```
-
-## Building on MacOS
-
-If you get loads of C++ errors when building the parser, a workaround might be to install GCC with `homebrew`, in
-addition to selecting `gcc` as the compiler used by tree-sitter, as described for Neovim in the previous section.
-
-First, run this command in a terminal:
-
-```shell
-$ brew install gcc
-```
-
-This may not be enough, since `clang` might still be used by default.
-You can find out whether the `gcc` executable is linked to something else with:
-
-```shell
-$ ls -l $(which gcc)
-```
-
-If this doesn't point to something like `gcc-11`, you can remove it (if it is a symlink) and/or link the real `gcc-N`
-binary to a `bin` directory that's at the head of your `$PATH`, something like:
-
-```shell
-ln -sf /opt/homebrew/bin/gcc-11 /usr/local/bin/gcc
-```
-or this for earlier versions of homebrew.
-```shell
-ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
-```
 
 # Supported Language Extensions
 
@@ -230,3 +184,47 @@ This is checked heuristically, probably unreliably.
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 [ref]: https://www.haskell.org/onlinereport/haskell2010/haskellch10.html
 [ext]: https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/table.html
+
+# Testing
+
+**Requires**: `tree-sitter(-cli)`
+
+## Run test corpus
+
+These are stored in `./tests/corpus/`
+
+```
+$ tree-sitter test
+```
+
+## Test parsing an example codebase
+
+**Requires**: `bc`  
+This will print the percentage of the codebase parsed, and the time taken
+
+```
+$ ./script/parse-examples             # this clones all repos
+$ ./script/parse-example <example>    # where <example> is a project under ./examples/
+```
+
+## Enable scanner debug output
+
+To get an extra-verbose scanner, unoptimized, with debug symbols:
+
+```
+$ CFLAGS='-DDEBUG' make debug.so
+$ cp debug.so $HOME/.cache/tree-sitter/lib/haskell.so    # So `tree-sitter-cli` uses our binary
+$ tree-sitter test
+$ ./script/parse-example <example>
+```
+
+If you want to debug the scanner with `gdb`, you can
+`b tree_sitter_haskell_external_scanner_scan` with `tree-sitter test`.
+
+## Create visual graph of parser steps
+
+**Requires**: `graphviz`
+
+```
+$ tree-sitter parse -D test/Basic.hs    # Produces log.html
+```

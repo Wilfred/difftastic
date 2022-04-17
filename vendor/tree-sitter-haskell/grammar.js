@@ -20,6 +20,7 @@ module.exports = grammar({
   extras: $ => [
     /\p{Zs}/,
     /\n/,
+    /\r/,
     $.cpp,
     $.comment,
     $.pragma,
@@ -201,6 +202,8 @@ module.exports = grammar({
      * Implicit parameters have slightly weird restrictions.
      */
     [$._type_or_implicit, $._context_constraints],
+
+    [$.exp_lambda_case],
   ],
 
   word: $ => $._varid,

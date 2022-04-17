@@ -47,7 +47,7 @@ module.exports = {
     )
   ),
 
-  via: $ => seq('via', $._atype),
+  via: $ => seq('via', $._type),
 
   deriving_strategy: _ => choice('stock', 'newtype', 'anyclass'),
 
