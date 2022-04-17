@@ -6,6 +6,8 @@ Added support for Kotlin and TOML.
 
 Fixed an issue with YAML and `|` block strings.
 
+Updated to the latest upstream C++ parser.
+
 ### Diffing
 
 Improved performance in large files when changes are clustered together.

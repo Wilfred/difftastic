@@ -4,7 +4,21 @@ const PREC = Object.assign(C.PREC, {
   LAMBDA: 18,
   NEW: C.PREC.CALL + 1,
   STRUCTURED_BINDING: -1,
+  THREE_WAY: C.PREC.RELATIONAL + 1,
 })
+
+const FOLD_OPERATORS = [
+  '+', '-', '*', '/', '%',
+  '^', '&', '|',
+  '=', '<', '>',
+  '<<', '>>',
+  '+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=',
+  '>>=', '<<=',
+  '==', '!=', '<=', '>=',
+  '&&', '||',
+  ',',
+  '.*', '->*',
+]
 
 module.exports = grammar(C, {
   name: 'cpp',
@@ -31,6 +45,7 @@ module.exports = grammar(C, {
     [$._declaration_modifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._declaration_modifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._binary_fold_operator, $._fold_operator],
   ]),
 
   inline: ($, original) => original.concat([
@@ -41,6 +56,7 @@ module.exports = grammar(C, {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
+      $.concept_definition,
       $.namespace_alias_definition,
       $.using_declaration,
       $.alias_declaration,
@@ -54,6 +70,18 @@ module.exports = grammar(C, {
 
     // Types
 
+    placeholder_type_specifier: $ => seq(
+      field('constraint', optional($._type_specifier)),
+      choice($.auto, alias($.decltype_auto, $.decltype))
+    ),
+
+    auto: $ => 'auto',
+    decltype_auto: $ => seq(
+      'decltype',
+      '(',
+      $.auto,
+      ')'
+    ),
     decltype: $ => seq(
       'decltype',
       '(',
@@ -69,8 +97,8 @@ module.exports = grammar(C, {
       $.sized_type_specifier,
       $.primitive_type,
       $.template_type,
-      $.auto,
       $.dependent_type,
+      $.placeholder_type_specifier,
       $.decltype,
       prec.right(choice(
         alias($.qualified_type_identifier, $.qualified_identifier),
@@ -81,8 +109,12 @@ module.exports = grammar(C, {
     type_qualifier: ($, original) => choice(
       original,
       'mutable',
-      'constexpr'
+      'constexpr',
+      'constinit',
+      'consteval',
     ),
+
+    type_descriptor: ($, original) => prec.right(original),
 
     // When used in a trailing return type, these specifiers can now occur immediately before
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
@@ -199,24 +231,24 @@ module.exports = grammar(C, {
       'thread_local',
     ),
 
-    auto: $ => 'auto',
-
-    dependent_type: $ => prec.dynamic(-1, seq(
+    dependent_type: $ => prec.dynamic(-1, prec.right(seq(
       'typename',
       $._type_specifier
-    )),
+    ))),
 
     // Declarations
 
     template_declaration: $ => seq(
       'template',
       field('parameters', $.template_parameter_list),
+      optional($.requires_clause),
       choice(
         $._empty_declaration,
         $.alias_declaration,
         $.declaration,
         $.template_declaration,
         $.function_definition,
+        $.concept_definition,
         alias($.constructor_or_destructor_declaration, $.declaration),
         alias($.constructor_or_destructor_definition, $.function_definition),
         alias($.operator_cast_declaration, $.declaration),
@@ -491,8 +523,9 @@ module.exports = grammar(C, {
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
-        $.trailing_return_type
-      ))
+      )),
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
     function_field_declarator: ($, original) => prec.dynamic(1, seq(
@@ -503,8 +536,9 @@ module.exports = grammar(C, {
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
-        $.trailing_return_type
-      ))
+      )),
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
     abstract_function_declarator: ($, original) => prec.right(seq(
@@ -513,17 +547,13 @@ module.exports = grammar(C, {
         $.type_qualifier,
         $.ref_qualifier,
         $.noexcept,
-        $.throw_specifier
+        $.throw_specifier,
       )),
-      optional($.trailing_return_type)
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
-    trailing_return_type: $ => prec.right(seq(
-      '->',
-      optional($.type_qualifier),
-      $._type_specifier,
-      optional($._abstract_declarator)
-    )),
+    trailing_return_type: $ => seq('->', $.type_descriptor),
 
     noexcept: $ => prec.right(seq(
       'noexcept',
@@ -632,6 +662,14 @@ module.exports = grammar(C, {
         ))
       )),
       ')',
+      ';'
+    ),
+
+    concept_definition: $ => seq(
+      'concept',
+      field('name', $.identifier),
+      '=',
+      $._expression,
       ';'
     ),
 
@@ -755,6 +793,8 @@ module.exports = grammar(C, {
     _expression: ($, original) => choice(
       original,
       $.co_await_expression,
+      $.requires_expression,
+      $.requires_clause,
       $.template_function,
       $.qualified_identifier,
       $.new_expression,
@@ -764,7 +804,8 @@ module.exports = grammar(C, {
       $.nullptr,
       $.this,
       $.raw_string_literal,
-      $.user_defined_literal
+      $.user_defined_literal,
+      $.fold_expression
     ),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
@@ -826,8 +867,79 @@ module.exports = grammar(C, {
       )
     ),
 
+    type_requirement: $ => seq('typename', $._class_name),
+
+    compound_requirement: $ => seq(
+      '{', $._expression, '}',
+      optional('noexcept'),
+      optional($.trailing_return_type),
+      ';'
+    ),
+
+    _requirement: $ => choice(
+      alias($.expression_statement, $.simple_requirement),
+      $.type_requirement,
+      $.compound_requirement
+    ),
+
+    requirement_seq: $ => seq('{', repeat($._requirement), '}'),
+
+    constraint_conjunction: $ => prec.left(PREC.LOGICAL_AND, seq(
+      field('left', $._requirement_clause_constraint),
+      field('operator', '&&'),
+      field('right', $._requirement_clause_constraint))
+    ),
+
+    constraint_disjunction: $ => prec.left(PREC.LOGICAL_OR, seq(
+      field('left', $._requirement_clause_constraint),
+      field('operator', '||'),
+      field('right', $._requirement_clause_constraint))
+    ),
+
+    _requirement_clause_constraint: $ => choice(
+      // Primary expressions"
+      $.true,
+      $.false,
+      $._class_name,
+      $.fold_expression,
+      $.lambda_expression,
+      $.requires_expression,
+
+      // Parenthesized expressions
+      seq('(', $._expression, ')'),
+
+      // conjunction or disjunction of the above
+      $.constraint_conjunction,
+      $.constraint_disjunction,
+    ),
+
+    requires_clause: $ => seq(
+      'requires',
+      field('constraint', $._requirement_clause_constraint)
+    ),
+
+    requires_parameter_list: $ => seq(
+      '(',
+      commaSep(choice(
+        $.parameter_declaration,
+        $.optional_parameter_declaration,
+        $.variadic_parameter_declaration,
+      )),
+      ')'
+    ),
+
+    requires_expression: $ => seq(
+      'requires',
+      field('parameters', optional(alias($.requires_parameter_list, $.parameter_list))),
+      field('requirements', $.requirement_seq)
+    ),
+
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
+      optional(seq(
+        field('template_parameters', $.template_parameter_list),
+        optional(field('constraint', $.requires_clause)),
+      )),
       optional(field('declarator', $.abstract_function_declarator)),
       field('body', $.compound_statement)
     ),
@@ -847,6 +959,35 @@ module.exports = grammar(C, {
 
     lambda_default_capture: $ => choice('=', '&'),
 
+    _fold_operator: $ => choice(...FOLD_OPERATORS),
+    _binary_fold_operator: $ => choice(...FOLD_OPERATORS.map(operator => seq(field('operator', operator), '...', operator))),
+
+    _unary_left_fold: $ => seq(
+      field('left', '...'),
+      field('operator', $._fold_operator),
+      field('right', $._expression)
+    ),
+    _unary_right_fold: $ => seq(
+      field('left', $._expression),
+      field('operator', $._fold_operator),
+      field('right', '...')
+    ),
+    _binary_fold: $ => seq(
+      field('left', $._expression),
+      $._binary_fold_operator,
+      field('right', $._expression)
+    ),
+
+    fold_expression: $ => seq(
+      '(',
+      choice(
+        $._unary_right_fold,
+        $._unary_left_fold,
+        $._binary_fold
+      ),
+      ')'
+    ),
+
     parameter_pack_expansion: $ => prec(-1, seq(
       field('pattern', $._expression),
       '...'
@@ -857,7 +998,7 @@ module.exports = grammar(C, {
       '...'
     ),
 
-    sizeof_expression: ($, original) => choice(
+    sizeof_expression: ($, original) => prec.right(PREC.SIZEOF, choice(
       original,
       seq(
         'sizeof', '...',
@@ -865,6 +1006,15 @@ module.exports = grammar(C, {
         field('value', $.identifier),
         ')'
       ),
+    )),
+
+    binary_expression: ($, original) => choice(
+      original,
+      prec.left(PREC.THREE_WAY, seq(
+        field('left', $._expression),
+        field('operator', '<=>'),
+        field('right', $._expression)
+      ))
     ),
 
     argument_list: $ => seq(
@@ -951,6 +1101,7 @@ module.exports = grammar(C, {
         '+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=',
         '<<', '>>', '>>=', '<<=',
         '==', '!=', '<=', '>=',
+        '<=>',
         '&&', '||',
         '++', '--',
         ',',

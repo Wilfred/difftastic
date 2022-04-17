@@ -38,30 +38,36 @@
 
 ; Keywords
 
-"catch" @keyword
-"class" @keyword
-"co_await" @keyword
-"co_return" @keyword
-"co_yield" @keyword
-"constexpr" @keyword
-"delete" @keyword
-"explicit" @keyword
-"final" @keyword
-"friend" @keyword
-"mutable" @keyword
-"namespace" @keyword
-"noexcept" @keyword
-"new" @keyword
-"override" @keyword
-"private" @keyword
-"protected" @keyword
-"public" @keyword
-"template" @keyword
-"throw" @keyword
-"try" @keyword
-"typename" @keyword
-"using" @keyword
-"virtual" @keyword
+[
+ "catch"
+ "class"
+ "co_await"
+ "co_return"
+ "co_yield"
+ "constexpr"
+ "constinit"
+ "consteval"
+ "delete"
+ "explicit"
+ "final"
+ "friend"
+ "mutable"
+ "namespace"
+ "noexcept"
+ "new"
+ "override"
+ "private"
+ "protected"
+ "public"
+ "template"
+ "throw"
+ "try"
+ "typename"
+ "using"
+ "virtual"
+ "concept"
+ "requires"
+] @keyword
 
 ; Strings
 
