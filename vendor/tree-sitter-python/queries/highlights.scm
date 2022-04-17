@@ -121,4 +121,6 @@
   "while"
   "with"
   "yield"
+  "match"
+  "case"
 ] @keyword
