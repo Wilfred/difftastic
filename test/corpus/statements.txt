@@ -240,7 +240,8 @@ SELECT ''::JSONB;
       (select_clause_body
         (type_cast
           (string)
-          (type))))))
+          (type
+            (identifier)))))))
 
 ================================================================================
 SELECT statement with columns
@@ -299,7 +300,7 @@ SELECT a IS TRUE, b IS NOT NULL, c IS FALSE;
 SELECT field
 ================================================================================
 
-SELECT a.b;
+SELECT foo.bar FROM a;
 
 --------------------------------------------------------------------------------
 
@@ -307,7 +308,11 @@ SELECT a.b;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)))))
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (from_clause
+      (identifier))))
 
 ================================================================================
 SELECT statement with comparison expression and is expression
@@ -384,7 +389,9 @@ SELECT TRUE AND foo(1) OR FALSE AND NOT a = b.c;
             (boolean_expression
               (comparison_operator
                 (identifier)
-                (identifier)))))))))
+                (dotted_name
+                  (identifier)
+                  (identifier))))))))))
 
 ================================================================================
 SELECT parenthesized expression
@@ -496,10 +503,12 @@ CREATE TYPE xest AS (data TEXT, val INT);
     (parameters
       (parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (parameter
         (identifier)
-        (type)))))
+        (type
+          (identifier))))))
 
 ================================================================================
 CREATE DOMAIN
@@ -524,7 +533,8 @@ CREATE DOMAIN test AS text;
 (source_file
   (create_domain_statement
     (identifier)
-    (type)))
+    (type
+      (identifier))))
 
 ================================================================================
 CREATE DOMAIN with array type
@@ -538,7 +548,8 @@ CREATE DOMAIN test_arr AS text[];
   (create_domain_statement
     (identifier)
     (array_type
-      (type))))
+      (type
+        (identifier)))))
 
 ================================================================================
 CREATE DOMAIN type with constraint
@@ -551,7 +562,8 @@ CREATE DOMAIN test AS text NOT NULL;
 (source_file
   (create_domain_statement
     (identifier)
-    (type)
+    (type
+      (identifier))
     (null_constraint
       (NULL))))
 
@@ -567,7 +579,8 @@ CREATE DOMAIN test AS text[] NOT NULL;
   (create_domain_statement
     (identifier)
     (array_type
-      (type))
+      (type
+        (identifier)))
     (null_constraint
       (NULL))))
 
@@ -727,10 +740,52 @@ CREATE TABLE my_table (col1 INT, col2 INT)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type)))))
+        (type
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with timestamp
+================================================================================
+
+CREATE TABLE public.my_table (
+    col1 INT PRIMARY KEY,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (dotted_name
+      (identifier)
+      (identifier))
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier))
+        (primary_key_constraint))
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (time_zone_constraint)
+        (null_constraint
+          (NULL)))
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (time_zone_constraint)
+        (null_constraint
+          (NULL))))))
 
 ================================================================================
 CREATE TABLE with not null constraint
@@ -746,7 +801,8 @@ CREATE TABLE my_table (col1 INT NOT NULL)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (null_constraint
           (NULL))))))
 
@@ -764,7 +820,8 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (column_default
           (function_call
             (identifier)))))))
@@ -783,7 +840,8 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (column_default
           (string))))))
 
@@ -801,7 +859,8 @@ CREATE TABLE my_table (col1 INT PRIMARY KEY)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (primary_key_constraint)))))
 
 ================================================================================
@@ -818,7 +877,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (references_constraint
           (identifier))))))
 
@@ -836,7 +896,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (references_constraint
           (identifier)
           (identifier))))))
@@ -855,7 +916,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (references_constraint
           (identifier)
           (identifier)
@@ -863,7 +925,7 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
           (on_update_action))))))
 
 ================================================================================
-CREATE TABLE with unqiue constraint
+CREATE TABLE with unique constraint
 ================================================================================
 
 CREATE TABLE my_table (col1 INT UNIQUE)
@@ -876,7 +938,8 @@ CREATE TABLE my_table (col1 INT UNIQUE)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (unique_constraint)))))
 
 ================================================================================
@@ -893,7 +956,8 @@ CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (column_default
           (function_call
             (identifier)))
@@ -914,7 +978,8 @@ CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (check_constraint
           (in_expression
             (identifier)
@@ -940,10 +1005,12 @@ CREATE TABLE my_table (
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (foreign_key
         (identifier)
         (identifier)
@@ -964,7 +1031,8 @@ CREATE TABLE foo(col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DEL
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (null_constraint
           (NULL))
         (references_constraint
@@ -987,13 +1055,45 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (unique
         (identifier)
         (identifier)))))
+
+================================================================================
+CREATE TABLE with direction
+================================================================================
+
+CREATE TABLE foo(
+  id BIGINT NOT NULL PRIMARY KEY,
+	date DATE DEFAULT NULL ASC
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))
+        (primary_key_constraint))
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier))
+        (column_default
+          (identifier))
+        (direction_constraint)))))
 
 ================================================================================
 Comment
@@ -1033,7 +1133,8 @@ CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type)
+        (type
+          (identifier))
         (named_constraint
           (identifier))))))
 
@@ -1051,10 +1152,12 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (primary_key
         (identifier)
         (identifier)))))
@@ -1074,7 +1177,8 @@ CREATE TABLE foo(col1 INT[])
       (create_table_column_parameter
         (identifier)
         (array_type
-          (type))))))
+          (type
+            (identifier)))))))
 
 ================================================================================
 CREATE TABLE with check constraint
@@ -1090,10 +1194,12 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (check
         (comparison_operator
           (identifier)
@@ -1117,10 +1223,12 @@ CREATE TABLE my_table (
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (create_table_column_parameter
         (identifier)
-        (type))
+        (type
+          (identifier)))
       (foreign_key
         (identifier)
         (identifier)
@@ -1144,10 +1252,13 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type))
+        (type
+          (identifier)))
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (function_body
       (select_statement
         (select_clause
@@ -1172,10 +1283,13 @@ CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type))
+        (type
+          (identifier)))
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (function_body
       (select_statement
         (select_clause
@@ -1200,8 +1314,10 @@ CREATE FUNCTION foo(int) RETURNS integer
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (function_body
       (select_statement
         (select_clause
@@ -1228,14 +1344,19 @@ CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type))
+        (type
+          (identifier)))
       (create_function_parameter
-        (type))
+        (type
+          (identifier)))
       (create_function_parameter
-        (type))
+        (type
+          (identifier)))
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (function_body
       (select_statement
         (select_clause
@@ -1264,9 +1385,11 @@ CREATE FUNCTION add(text) RETURNS SETOF int
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
+        (type
+          (identifier))))
     (setof
-      (type))
+      (type
+        (identifier)))
     (function_body
       (select_statement
         (select_clause
@@ -1295,10 +1418,12 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
+        (type
+          (identifier))))
     (setof
       (constrained_type
-        (type)
+        (type
+          (identifier))
         (null_constraint
           (NULL))))
     (function_body
@@ -1327,8 +1452,10 @@ CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (language)
     (function_body
       (select_statement
@@ -1349,8 +1476,10 @@ CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (optimizer_hint)
     (language)
     (function_body
@@ -1373,10 +1502,12 @@ CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'se
     (create_function_parameters
       (create_function_parameter
         (constrained_type
-          (type)
+          (type
+            (identifier))
           (null_constraint
             (NULL)))))
-    (type)
+    (type
+      (identifier))
     (optimizer_hint)
     (language)
     (function_body
@@ -1398,8 +1529,10 @@ create function add(integer) returns integer language sql as 'select $1';
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (language)
     (function_body
       (select_statement
@@ -1420,8 +1553,10 @@ create function add(integer) returns integer language sql as 'select a, b';
     (identifier)
     (create_function_parameters
       (create_function_parameter
-        (type)))
-    (type)
+        (type
+          (identifier))))
+    (type
+      (identifier))
     (language)
     (function_body
       (select_statement

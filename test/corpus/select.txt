@@ -2,7 +2,7 @@
 SELECT statement with joins
 ================================================================================
 
-SELECT t.a, t.b
+SELECT a, t.a, t.b
 FROM table1 AS t
 JOIN t1 ON (t.a = t1.a)
 INNER JOIN t2 ON (t.a = t2.a)
@@ -20,7 +20,12 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (select_clause
       (select_clause_body
         (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (from_clause
       (alias
         (identifier)
@@ -28,50 +33,82 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
     (join_clause
       (join_type)
       (identifier)
       (comparison_operator
-        (identifier)
-        (identifier)))))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 SELECT element from array
