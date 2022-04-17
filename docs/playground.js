@@ -31,6 +31,7 @@ let tree;
   );
   const playgroundContainer = document.getElementById("playground-container");
   const queryCheckbox = document.getElementById("query-checkbox");
+  const createIssueBtn = document.getElementById("create-issue-btn");
   const queryContainer = document.getElementById("query-container");
   const queryInput = document.getElementById("query-input");
   const updateTimeSpan = document.getElementById("update-time");
@@ -75,7 +76,7 @@ let tree;
   loggingCheckbox.addEventListener("change", handleLoggingChange);
   queryCheckbox.addEventListener("change", handleQueryEnableChange);
   outputContainer.addEventListener("click", handleTreeClick);
-
+  createIssueBtn.addEventListener("click", handleCreateIssue);
   handleQueryEnableChange();
   await loadLanguage();
 
@@ -346,6 +347,25 @@ let tree;
         );
       }
     }
+  }
+
+  function handleCreateIssue() {
+    const queryText = codeEditor.getValue();
+    const outputText = outputContainer.innerText;
+    const title = `Error parsing SQL`;
+    const body = `Error when parsing the following SQL:
+\`\`\`
+${queryText}
+\`\`\`
+Error:
+\`\`\`
+${outputText}
+\`\`\``;
+    const queryParams = `title=${encodeURIComponent(
+      title,
+    )}&body=${encodeURIComponent(body)}`;
+    const url = `https://github.com/m-novikov/tree-sitter-sql/issues/new?${queryParams}`;
+    window.open(url);
   }
 
   function handleTreeClick(event) {
