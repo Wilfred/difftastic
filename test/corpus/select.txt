@@ -125,3 +125,32 @@ SELECT a[0];
         (array_element_access
           (identifier)
           (number))))))
+
+================================================================================
+SELECT with aliases
+================================================================================
+
+SELECT a as b, c d, e
+FROM table1 AS t, table2 t2, table3
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (alias
+          (identifier)
+          (identifier))
+        (alias
+          (identifier)
+          (identifier))
+        (identifier)))
+    (from_clause
+      (alias
+        (identifier)
+        (identifier))
+      (alias
+        (identifier)
+        (identifier))
+      (identifier))))
