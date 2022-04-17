@@ -274,7 +274,8 @@ module.exports = grammar({
     order_by_clause_body: $ => commaSep1($._expression),
     order_by_clause: $ => seq(kw("ORDER BY"), $.order_by_clause_body),
     where_clause: $ => seq(kw("WHERE"), $._expression),
-    _aliased_expression: $ => seq($._expression, kw("AS"), $.identifier),
+    _aliased_expression: $ =>
+      seq($._expression, optional(kw("AS")), $.identifier),
     _aliasable_expression: $ =>
       choice($._expression, alias($._aliased_expression, $.alias)),
     select_clause_body: $ => commaSep1($._aliasable_expression),
