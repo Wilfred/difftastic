@@ -1,4 +1,15 @@
 =====================================
+empty
+=====================================
+
+""
+
+---
+
+(source
+  (string))
+
+=====================================
 single line
 =====================================
 
@@ -169,6 +180,47 @@ this is #{
         (interpolation
           (integer))
         (quoted_content)))
+    (quoted_content)))
+
+=====================================
+heredoc / delimiter in the middle
+=====================================
+
+"""
+hey """
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)))
+
+=====================================
+heredoc / escaped newline (ignored)
+=====================================
+
+"""
+hey \
+"""
+
+  """
+  hey \
+  """
+
+"""
+hey \
+there
+"""
+
+---
+
+(source
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
     (quoted_content)))
 
 =====================================

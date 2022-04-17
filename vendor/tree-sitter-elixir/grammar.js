@@ -16,6 +16,7 @@ const PREC = {
   XOR_OP: 140,
   TERNARY_OP: 150,
   CONCAT_OPS: 160,
+  RANGE_OP: 160,
   ADD_OPS: 170,
   MULT_OPS: 180,
   POWER_OP: 190,
@@ -33,13 +34,13 @@ const COMP_OPS = ["==", "!=", "=~", "===", "!=="];
 const REL_OPS = ["<", ">", "<=", ">="];
 const ARROW_OPS = ["|>", "<<<", ">>>", "<<~", "~>>", "<~", "~>", "<~>", "<|>"];
 const IN_OPS = ["in", "not in"];
-const CONCAT_OPS = ["++", "--", "+++", "---", "..", "<>"];
+const CONCAT_OPS = ["++", "--", "+++", "---", "<>"];
 const ADD_OPS = ["+", "-"];
 const MULT_OPS = ["*", "/"];
 const UNARY_OPS = ["+", "-", "!", "^", "~~~", "not"];
 
 const ALL_OPS = [
-  ["->", "when", "::", "|", "=>", "&", "=", "^^^", "//", "**", ".", "@"],
+  ["->", "when", "::", "|", "=>", "&", "=", "^^^", "//", "..", "**", ".", "@"],
   IN_MATCH_OPS,
   OR_OPS,
   AND_OPS,
@@ -213,6 +214,7 @@ module.exports = grammar({
         $.tuple,
         $.bitstring,
         $.map,
+        $._nullary_operator,
         $.unary_operator,
         $.binary_operator,
         $.dot,
@@ -426,6 +428,11 @@ module.exports = grammar({
         )
       ),
 
+    _nullary_operator: ($) =>
+      // Nullary operators don't have any child nodes, so we reuse the
+      // operator_identifier node
+      alias(prec(PREC.RANGE_OP, ".."), $.operator_identifier),
+
     unary_operator: ($) =>
       choice(
         unaryOp($, prec, PREC.CAPTURE_OP, "&", $._capture_expression),
@@ -480,6 +487,7 @@ module.exports = grammar({
         binaryOp($, prec.left, PREC.XOR_OP, "^^^"),
         binaryOp($, prec.right, PREC.TERNARY_OP, "//"),
         binaryOp($, prec.right, PREC.CONCAT_OPS, choice(...CONCAT_OPS)),
+        binaryOp($, prec.right, PREC.RANGE_OP, ".."),
         binaryOp($, prec.left, PREC.ADD_OPS, choice(...ADD_OPS)),
         binaryOp($, prec.left, PREC.MULT_OPS, choice(...MULT_OPS)),
         binaryOp($, prec.left, PREC.POWER_OP, "**"),
@@ -524,6 +532,10 @@ module.exports = grammar({
         alias($._not_in, "not in"),
         "^^",
         ...CONCAT_OPS,
+        // The range operator has both a binary and a nullary version.
+        // The nullary version is already parsed as operator_identifier,
+        // so it covers this case
+        // ".."
         ...MULT_OPS,
         "**",
         "->",
@@ -805,10 +817,13 @@ module.exports = grammar({
       ),
 
     body: ($) =>
-      seq(
-        optional($._terminator),
-        sep1($._expression, $._terminator),
-        optional($._terminator)
+      choice(
+        $._terminator,
+        seq(
+          optional($._terminator),
+          sep1($._expression, $._terminator),
+          optional($._terminator)
+        )
       ),
 
     anonymous_function: ($) =>
@@ -876,11 +891,11 @@ function defineQuoted(start, end, name) {
     [`_quoted_i_${name}`]: ($) =>
       seq(
         field("quoted_start", start),
+        optional(alias($[`_quoted_content_i_${name}`], $.quoted_content)),
         repeat(
-          choice(
-            alias($[`_quoted_content_i_${name}`], $.quoted_content),
-            $.interpolation,
-            $.escape_sequence
+          seq(
+            choice($.interpolation, $.escape_sequence),
+            optional(alias($[`_quoted_content_i_${name}`], $.quoted_content))
           )
         ),
         field("quoted_end", end)
@@ -889,11 +904,12 @@ function defineQuoted(start, end, name) {
     [`_quoted_${name}`]: ($) =>
       seq(
         field("quoted_start", start),
+        optional(alias($[`_quoted_content_${name}`], $.quoted_content)),
         repeat(
-          choice(
-            alias($[`_quoted_content_${name}`], $.quoted_content),
-            // The end delimiter may always be escaped
-            $.escape_sequence
+          seq(
+            // The end delimiter may be escaped in non-interpolating strings too
+            $.escape_sequence,
+            optional(alias($[`_quoted_content_${name}`], $.quoted_content))
           )
         ),
         field("quoted_end", end)

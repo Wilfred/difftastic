@@ -174,7 +174,22 @@ int8_t find_quoted_token_info(const bool* valid_symbols) {
 bool scan_quoted_content(TSLexer* lexer, const QuotedContentInfo& info) {
   lexer->result_symbol = info.token_type;
 
+  bool is_heredoc = (info.delimiter_length == 3);
+
   for (bool has_content = false; true; has_content = true) {
+    bool newline = false;
+
+    if (is_newline(lexer->lookahead)) {
+      advance(lexer);
+
+      has_content = true;
+      newline = true;
+
+      while (is_whitespace(lexer->lookahead)) {
+        advance(lexer);
+      }
+    }
+
     lexer->mark_end(lexer);
 
     if (lexer->lookahead == info.end_delimiter) {
@@ -189,7 +204,7 @@ bool scan_quoted_content(TSLexer* lexer, const QuotedContentInfo& info) {
         }
       }
 
-      if (length == info.delimiter_length) {
+      if (length == info.delimiter_length && (!is_heredoc || newline)) {
         return has_content;
       }
     } else {
@@ -199,16 +214,18 @@ bool scan_quoted_content(TSLexer* lexer, const QuotedContentInfo& info) {
           return has_content;
         }
       } else if (lexer->lookahead == '\\') {
-        if (info.supports_interpol) {
+        advance(lexer);
+        if (is_heredoc && lexer->lookahead == '\n') {
+          // We need to know about the newline to correctly recognise
+          // heredoc end delimiter, so we intentionally ignore escaping
+        } else if (info.supports_interpol || lexer->lookahead == info.end_delimiter) {
           return has_content;
-        } else {
-          advance(lexer);
-          if (lexer->lookahead == info.end_delimiter) {
-            return has_content;
-          }
         }
       } else if (lexer->lookahead == '\0') {
-        return false;
+        // If we reached the end of the file, this means there is no
+        // end delimiter, so the syntax is invalid. In that case we
+        // want to treat all the scanned content as quoted content.
+        return has_content;
       } else {
         advance(lexer);
       }
