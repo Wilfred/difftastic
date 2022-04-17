@@ -48,6 +48,10 @@
         "named": true
       },
       {
+        "type": "iota",
+        "named": true
+      },
+      {
         "type": "nil",
         "named": true
       },
@@ -133,6 +137,10 @@
       },
       {
         "type": "function_type",
+        "named": true
+      },
+      {
+        "type": "generic_type",
         "named": true
       },
       {
@@ -551,6 +559,16 @@
             "named": true
           }
         ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -620,6 +638,10 @@
         "types": [
           {
             "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
             "named": true
           },
           {
@@ -706,6 +728,36 @@
     }
   },
   {
+    "type": "constraint_elem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constraint_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constraint_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "continue_statement",
     "named": true,
     "fields": {},
@@ -769,25 +821,6 @@
     "type": "dot",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "element",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "literal_value",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "empty_statement",
@@ -888,10 +921,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "field_identifier",
             "named": true
@@ -1104,6 +1133,16 @@
             "named": true
           }
         ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameter_list",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -1131,6 +1170,32 @@
           },
           {
             "type": "parameter_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_type",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]
@@ -1351,11 +1416,38 @@
     "named": true,
     "fields": {},
     "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_elem",
+          "named": true
+        },
+        {
+          "type": "interface_type_name",
+          "named": true
+        },
+        {
+          "type": "method_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface_type_name",
+    "named": true,
+    "fields": {},
+    "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "method_spec_list",
+          "type": "qualified_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -1385,15 +1477,7 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "field_identifier",
-          "named": true
-        },
-        {
-          "type": "literal_value",
+          "type": "literal_element",
           "named": true
         }
       ]
@@ -1426,6 +1510,25 @@
     }
   },
   {
+    "type": "literal_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "literal_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal_value",
     "named": true,
     "fields": {},
@@ -1434,11 +1537,11 @@
       "required": false,
       "types": [
         {
-          "type": "element",
+          "type": "keyed_element",
           "named": true
         },
         {
-          "type": "keyed_element",
+          "type": "literal_element",
           "named": true
         }
       ]
@@ -1476,7 +1579,7 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "block",
@@ -1571,29 +1674,6 @@
     }
   },
   {
-    "type": "method_spec_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "method_spec",
-          "named": true
-        },
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "package_clause",
     "named": true,
     "fields": {},
@@ -1616,10 +1696,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "identifier",
             "named": true
@@ -2027,6 +2103,21 @@
     }
   },
   {
+    "type": "type_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_assertion_expression",
     "named": true,
     "fields": {
@@ -2128,6 +2219,21 @@
     }
   },
   {
+    "type": "type_parameter_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_spec",
     "named": true,
     "fields": {
@@ -2147,6 +2253,16 @@
         "types": [
           {
             "type": "_type",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameter_list",
             "named": true
           }
         ]
@@ -2626,6 +2742,10 @@
     "named": false
   },
   {
+    "type": "iota",
+    "named": true
+  },
+  {
     "type": "label_name",
     "named": true
   },
@@ -2707,6 +2827,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

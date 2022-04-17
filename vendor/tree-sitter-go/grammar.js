@@ -82,6 +82,12 @@ module.exports = grammar({
   conflicts: $ => [
     [$._simple_type, $._expression],
     [$.qualified_type, $._expression],
+    [$.generic_type, $._expression],
+    [$.generic_type, $._simple_type],
+    [$.parameter_declaration, $.type_arguments],
+    [$.parameter_declaration, $._simple_type, $._expression],
+    [$.parameter_declaration, $.generic_type, $._expression],
+    [$.parameter_declaration, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
     [$.parameter_declaration, $._simple_type],
@@ -97,6 +103,8 @@ module.exports = grammar({
 
   rules: {
     source_file: $ => repeat(choice(
+      // Unlike a Go compiler, we accept statements at top-level to enable
+      // parsing of partial code snippets in documentation (see #63).
       seq($._statement, terminator),
       seq($._top_level_declaration, optional(terminator)),
     )),
@@ -194,6 +202,7 @@ module.exports = grammar({
     function_declaration: $ => prec.right(1, seq(
       'func',
       field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
       field('body', optional($.block))
@@ -205,8 +214,15 @@ module.exports = grammar({
       field('name', $._field_identifier),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
-      field('body', optional($.block))
+      field('body', $.block)
     )),
+
+    type_parameter_list: $ => seq(
+      '[',
+      commaSep1($.parameter_declaration),
+      optional(','),
+      ']'
+    ),
 
     parameter_list: $ => seq(
       '(',
@@ -218,7 +234,7 @@ module.exports = grammar({
     ),
 
     parameter_declaration: $ => seq(
-      field('name', commaSep($.identifier)),
+      commaSep(field('name', $.identifier)),
       field('type', $._type)
     ),
 
@@ -249,6 +265,7 @@ module.exports = grammar({
 
     type_spec: $ => seq(
       field('name', $._type_identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('type', $._type)
     ),
 
@@ -265,6 +282,7 @@ module.exports = grammar({
 
     _simple_type: $ => choice(
       prec.dynamic(-1, $._type_identifier),
+      $.generic_type,
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -275,6 +293,18 @@ module.exports = grammar({
       $.channel_type,
       $.function_type
     ),
+
+    generic_type: $ => seq(
+      field('type', $._type_identifier),
+      field('type_arguments', $.type_arguments),
+    ),
+
+    type_arguments: $ => prec.dynamic(2, seq(
+      '[',
+       commaSep1($._type),
+       optional(','),
+      ']'
+    )),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
 
@@ -316,7 +346,7 @@ module.exports = grammar({
     field_declaration: $ => seq(
       choice(
         seq(
-          field('name', commaSep1($._field_identifier)),
+          commaSep1(field('name', $._field_identifier)),
           field('type', $._type)
         ),
         seq(
@@ -332,18 +362,30 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      $.method_spec_list
-    ),
-
-    method_spec_list: $ => seq(
       '{',
       optional(seq(
-        choice($._type_identifier, $.qualified_type, $.method_spec),
-        repeat(seq(terminator, choice($._type_identifier, $.qualified_type, $.method_spec))),
+        $._interface_body,
+        repeat(seq(terminator, $._interface_body)),
         optional(terminator)
       )),
       '}'
     ),
+
+    _interface_body: $ => choice(
+       $.method_spec, $.interface_type_name, $.constraint_elem
+    ),
+
+    interface_type_name: $ => choice($._type_identifier, $.qualified_type),
+
+    constraint_elem: $ => seq(
+      $.constraint_term,
+      repeat(seq('|', $.constraint_term))
+    ),
+
+    constraint_term: $ => prec(-1, seq(
+      optional('~'),
+      $._type_identifier,
+    )),
 
     method_spec: $ => seq(
       field('name', $._field_identifier),
@@ -611,6 +653,7 @@ module.exports = grammar({
       $.nil,
       $.true,
       $.false,
+      $.iota,
       $.parenthesized_expression
     ),
 
@@ -627,6 +670,7 @@ module.exports = grammar({
       ),
       seq(
         field('function', $._expression),
+        field('type_arguments', optional($.type_arguments)),
         field('arguments', $.argument_list)
       )
     )),
@@ -711,6 +755,7 @@ module.exports = grammar({
         $.implicit_length_array_type,
         $.struct_type,
         $._type_identifier,
+        $.generic_type,
         $.qualified_type
       )),
       field('body', $.literal_value)
@@ -718,30 +763,21 @@ module.exports = grammar({
 
     literal_value: $ => seq(
       '{',
-      optional(seq(
-        choice($.element, $.keyed_element),
-        repeat(seq(',', choice($.element, $.keyed_element))),
-        optional(',')
-      )),
+      optional(
+	seq(
+	  commaSep(choice($.literal_element, $.keyed_element)),
+          optional(','))),
       '}'
     ),
 
-    keyed_element: $ => seq(
-      choice(
-        seq($._expression, ':'),
-        seq($.literal_value, ':'),
-        prec(1, seq($._field_identifier, ':'))
-      ),
-      choice(
-        $._expression,
-        $.literal_value
-      )
-    ),
+    literal_element: $ => choice($._expression, $.literal_value),
 
-    element: $ => choice(
-      $._expression,
-      $.literal_value
-    ),
+    // In T{k: v}, the key k may be:
+    // - any expression (when T is a map, slice or array),
+    // - a field identifier (when T is a struct), or
+    // - a literal_element (when T is an array).
+    // The first two cases cannot be distinguished without type information.
+    keyed_element: $ => seq($.literal_element, ':', $.literal_element),
 
     func_literal: $ => seq(
       'func',
@@ -802,11 +838,12 @@ module.exports = grammar({
     interpreted_string_literal: $ => seq(
       '"',
       repeat(choice(
-        token.immediate(prec(1, /[^"\n\\]+/)),
+        $._interpreted_string_literal_basic_content,
         $.escape_sequence
       )),
       '"'
     ),
+    _interpreted_string_literal_basic_content: $ => token.immediate(prec(1, /[^"\n\\]+/)),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',
@@ -846,6 +883,7 @@ module.exports = grammar({
     nil: $ => 'nil',
     true: $ => 'true',
     false: $ => 'false',
+    iota: $ => 'iota',
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
