@@ -37,6 +37,25 @@ record struct F {
         (accessor_list (accessor_declaration) (accessor_declaration))))))
 
 =====================================
+Record class with optional `class` specification
+=====================================
+
+record class F {
+  int Age { get; init; }
+}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
+
+=====================================
 Record with a type parameter struct constraint
 =====================================
 
