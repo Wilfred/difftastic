@@ -786,7 +786,7 @@ class Test {
         int a = switch (i) {
             case 0, 1 -> 6;
             case 2 -> 7;
-            default -> { 
+            default -> {
                 int result = 8;
                 yield result;
             }
@@ -873,7 +873,7 @@ class Test {
             type: (integral_type)
             name: (identifier)))
         body: (block
-          (comment)
+          (line_comment)
           (local_variable_declaration
             type: (integral_type)
             declarator: (variable_declarator
@@ -895,7 +895,7 @@ class Test {
                       (switch_label)
                       (expression_statement
                         (decimal_integer_literal)))))))))))))
-                        
+
 ==================================
 type arguments
 ==================================
@@ -913,7 +913,7 @@ class Box <T> {
     (identifier)
       (type_parameters
         (type_parameter
-          (identifier)))
+          (type_identifier)))
     (class_body
       (field_declaration
         (modifiers)
@@ -930,7 +930,7 @@ class Box <T> {
           (expression_statement (assignment_expression
             (identifier)
               (identifier)))))
-      (comment))))
+      (line_comment))))
 
 ==================================
 wildcard
@@ -974,7 +974,7 @@ class someClass <T> {
     (identifier)
     (type_parameters
       (type_parameter
-        (identifier)))
+        (type_identifier)))
       (class_body
         (method_declaration
           (modifiers)
@@ -1000,7 +1000,7 @@ class someClass <T> {
           (modifiers)
           (type_parameters
             (type_parameter
-              (identifier)))
+              (type_identifier)))
           (void_type)
             (identifier)
             (formal_parameters

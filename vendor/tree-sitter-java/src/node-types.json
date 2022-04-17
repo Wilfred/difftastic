@@ -44,6 +44,10 @@
         "named": true
       },
       {
+        "type": "text_block",
+        "named": true
+      },
+      {
         "type": "true",
         "named": true
       }
@@ -107,6 +111,20 @@
       },
       {
         "type": "array_type",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "block_comment",
+        "named": true
+      },
+      {
+        "type": "line_comment",
         "named": true
       }
     ]
@@ -187,6 +205,32 @@
       },
       {
         "type": "update_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "module_directive",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "exports_module_directive",
+        "named": true
+      },
+      {
+        "type": "opens_module_directive",
+        "named": true
+      },
+      {
+        "type": "provides_module_directive",
+        "named": true
+      },
+      {
+        "type": "requires_module_directive",
+        "named": true
+      },
+      {
+        "type": "uses_module_directive",
         "named": true
       }
     ]
@@ -1703,6 +1747,40 @@
     }
   },
   {
+    "type": "exports_module_directive",
+    "named": true,
+    "fields": {
+      "modules": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      },
+      "package": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "expression_statement",
     "named": true,
     "fields": {},
@@ -2546,29 +2624,6 @@
     }
   },
   {
-    "type": "module_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "requires_modifier",
-          "named": true
-        },
-        {
-          "type": "scoped_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "object_creation_expression",
     "named": true,
     "fields": {
@@ -2616,6 +2671,40 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "opens_module_directive",
+    "named": true,
+    "fields": {
+      "modules": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      },
+      "package": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2670,6 +2759,54 @@
       "types": [
         {
           "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "provides_module_directive",
+    "named": true,
+    "fields": {
+      "provided": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      },
+      "provider": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "scoped_identifier",
           "named": true
         }
       ]
@@ -2756,6 +2893,36 @@
     "type": "requires_modifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "requires_module_directive",
+    "named": true,
+    "fields": {
+      "modifiers": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "requires_modifier",
+            "named": true
+          }
+        ]
+      },
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "resource",
@@ -3295,15 +3462,15 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "marker_annotation",
           "named": true
         },
         {
           "type": "type_bound",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -3375,6 +3542,26 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "uses_module_directive",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3678,6 +3865,10 @@
     "named": true
   },
   {
+    "type": "block_comment",
+    "named": true
+  },
+  {
     "type": "boolean_type",
     "named": true
   },
@@ -3708,10 +3899,6 @@
   {
     "type": "class",
     "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
   },
   {
     "type": "continue",
@@ -3810,6 +3997,10 @@
     "named": false
   },
   {
+    "type": "line_comment",
+    "named": true
+  },
+  {
     "type": "long",
     "named": false
   },
@@ -3900,6 +4091,10 @@
   {
     "type": "synchronized",
     "named": false
+  },
+  {
+    "type": "text_block",
+    "named": true
   },
   {
     "type": "this",
