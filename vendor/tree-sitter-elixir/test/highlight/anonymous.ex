@@ -41,6 +41,12 @@ fn x, y, z ->
   end
 end
 
+fn ->
+# <- keyword
+#   ^ operator
+end
+# <- keyword
+
 &Set.put(&1, &2)
 # <- operator
 # ^ module
