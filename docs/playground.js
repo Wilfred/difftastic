@@ -82,7 +82,7 @@ let tree;
   playgroundContainer.style.visibility = "visible";
 
   async function loadLanguage() {
-    const url = `tree-sitter-sql.wasm`;
+    const url = `tree-sitter-sql.wasm?ver=0.1.0`;
     const language = await TreeSitter.Language.load(url);
     tree = null;
     parser.setLanguage(language);
