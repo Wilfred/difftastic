@@ -24,6 +24,10 @@
         "named": true
       },
       {
+        "type": "match_statement",
+        "named": true
+      },
+      {
         "type": "try_statement",
         "named": true
       },
@@ -108,6 +112,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "as_pattern",
+        "named": true
+      },
+      {
         "type": "await",
         "named": true
       },
@@ -158,7 +166,15 @@
         "named": true
       },
       {
+        "type": "keyword_separator",
+        "named": true
+      },
+      {
         "type": "list_splat_pattern",
+        "named": true
+      },
+      {
+        "type": "positional_separator",
         "named": true
       },
       {
@@ -355,6 +371,32 @@
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "as_pattern",
+    "named": true,
+    "fields": {
+      "alias": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "as_pattern_target",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -752,6 +794,65 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "case_clause",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "guard": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "if_clause",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "case_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1641,6 +1742,11 @@
     }
   },
   {
+    "type": "keyword_separator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "lambda",
     "named": true,
     "fields": {
@@ -1774,7 +1880,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
@@ -1789,6 +1895,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "match_statement",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "case_clause",
+            "named": true
+          }
+        ]
+      },
+      "subject": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1973,6 +2105,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "positional_separator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "print_statement",
@@ -2444,16 +2581,6 @@
     "type": "with_item",
     "named": true,
     "fields": {
-      "alias": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "pattern",
-            "named": true
-          }
-        ]
-      },
       "value": {
         "multiple": false,
         "required": true,
@@ -2712,6 +2839,10 @@
     "named": false
   },
   {
+    "type": "case",
+    "named": false
+  },
+  {
     "type": "class",
     "named": false
   },
@@ -2805,6 +2936,10 @@
   },
   {
     "type": "lambda",
+    "named": false
+  },
+  {
+    "type": "match",
     "named": false
   },
   {
