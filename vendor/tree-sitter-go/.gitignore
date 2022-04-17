@@ -6,3 +6,10 @@ package-lock.json
 examples/go
 examples/moby
 target
+
+*.a
+*.dylib
+*.so
+*.o
+bindings/c/*.h
+bindings/c/tree-sitter-*.pc
