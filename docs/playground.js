@@ -82,7 +82,8 @@ let tree;
   playgroundContainer.style.visibility = "visible";
 
   async function loadLanguage() {
-    const url = `tree-sitter-sql.wasm?ver=0.1.0`;
+    const query = new URL(document.currentScript.src).search;
+    const url = `tree-sitter-sql.wasm${query}`;
     const language = await TreeSitter.Language.load(url);
     tree = null;
     parser.setLanguage(language);
@@ -430,13 +431,11 @@ let tree;
     if (language != null && sourceCode != null && query != null) {
       queryInput.value = query;
       codeInput.value = sourceCode;
-      languageSelect.value = language;
       queryCheckbox.checked = queryEnabled === "true";
     }
   }
 
   function saveState() {
-    localStorage.setItem("language", languageSelect.value);
     localStorage.setItem("sourceCode", codeEditor.getValue());
     saveQueryState();
   }
