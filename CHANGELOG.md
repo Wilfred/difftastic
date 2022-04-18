@@ -17,6 +17,8 @@ Improved performance in large files when changes are clustered together.
 
 Improved syntax highlighting for keywords.
 
+Tabs are now rendered with eight spaces.
+
 ### Command Line Interface
 
 Difftastic now validates environment variables the same way as

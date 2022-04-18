@@ -246,10 +246,10 @@ fn diff_file_content(
     // TODO: don't replace tab characters inside string literals.
     let mut lhs_src = String::from_utf8_lossy(lhs_bytes)
         .to_string()
-        .replace('\t', "    ");
+        .replace('\t', "        ");
     let mut rhs_src = String::from_utf8_lossy(rhs_bytes)
         .to_string()
-        .replace('\t', "    ");
+        .replace('\t', "        ");
 
     // Ignore the trailing newline, if present.
     // TODO: highlight if this has changes (#144).
