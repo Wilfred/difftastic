@@ -240,13 +240,21 @@ module.exports = grammar({
       '$', '(', repeat($._tokens), ')', optional(/[^+*?]+/), choice('+', '*', '?')
     ),
 
+    non_special_punctuation: $ => choice(
+      // https://doc.rust-lang.org/reference/tokens.html#punctuation
+      "+", "-", "*", "/", "%", "^", "!", "&", "|", "&&", "||", "<<",
+      ">>", "+=", "-=", "*=", "/=", "%=", "^=", "&=", "|=", "<<=",
+      ">>=", "=", "==", "!=", ">", "<", ">=", "<=", "@", "_", ".",
+      "..", "...", "..=", ",", ";", ":", "::", "->", "=>", "#", "?",
+    ),
+
     // Matches non-delimiter tokens common to both macro invocations and
     // definitions. This is everything except $ and metavariables (which begin
     // with $).
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
-      /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
+      $.non_special_punctuation,
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
