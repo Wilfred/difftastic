@@ -273,8 +273,14 @@ module.exports = function defineGrammar(dialect) {
 
       export_statement: ($, previous) => choice(
         previous,
-        seq('export', 'type', $.export_clause),
-        seq('export', '=', $.identifier, $._semicolon),
+        seq(
+          'export',
+          'type',
+          $.export_clause,
+          optional($._from_clause),
+          $._semicolon
+        ),
+        seq('export', '=', $.expression, $._semicolon),
         seq('export', 'as', 'namespace', $.identifier, $._semicolon),
       ),
 
@@ -479,6 +485,8 @@ module.exports = function defineGrammar(dialect) {
 
       _module: $ => prec.right(seq(
         field('name', choice($.string, $.identifier, $.nested_identifier)),
+        // On .d.ts files "declare module foo" desugars to "declare module foo {}",
+        // hence why it is optional here
         field('body', optional($.statement_block))
       )),
 
@@ -587,8 +595,6 @@ module.exports = function defineGrammar(dialect) {
 
       _type: $ => choice(
         $._primary_type,
-        $.union_type,
-        $.intersection_type,
         $.function_type,
         $.readonly_type,
         $.constructor_type,
@@ -642,12 +648,14 @@ module.exports = function defineGrammar(dialect) {
         $.literal_type,
         $.lookup_type,
         $.conditional_type,
-        $.template_literal_type
+        $.template_literal_type,
+        $.intersection_type,
+        $.union_type
       ),
 
-      template_type: $ => seq('${',choice($._primary_type, $.infer_type),'}'),
+      template_type: $ => seq('${', choice($._primary_type, $.infer_type), '}'),
 
-      template_literal_type: $ =>     seq(
+      template_literal_type: $ => seq(
         '`',
         repeat(choice(
           $._template_chars,
