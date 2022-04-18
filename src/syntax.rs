@@ -305,7 +305,16 @@ impl<'a> Syntax<'a> {
                 close_content,
                 ..
             } => format!("{} ... {}", open_content, close_content),
-            Atom { content, .. } => content.into(),
+            Atom {
+                content, position, ..
+            } => {
+                let line = position
+                    .first()
+                    .map(|p| format!("{}", p.line.one_indexed()))
+                    .unwrap_or_else(|| "?".to_owned());
+
+                format!("{} line:{}", content, line)
+            }
         }
     }
 
