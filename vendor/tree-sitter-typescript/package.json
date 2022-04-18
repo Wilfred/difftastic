@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-typescript",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "description": "Typescript grammar for tree-sitter",
   "keywords": [
     "parser",
@@ -18,7 +18,7 @@
   },
   "main": "./bindings/node",
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0",
+    "tree-sitter-cli": "^0.20.6",
     "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#fdeb68a"
   },
   "scripts": {
