@@ -1,4 +1,4 @@
-Alamofire Alamofire/Alamofire 5.6.0
+Alamofire Alamofire/Alamofire 5.6.1
 iina iina/iina v1.2.0
 Charts danielgindi/Charts v4.0.2
 lottie-ios airbnb/lottie-ios 3.3.0
