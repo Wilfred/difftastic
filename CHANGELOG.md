@@ -15,7 +15,7 @@ Improved performance in large files when changes are clustered together.
 
 ### Display
 
-Improved syntax highlighting for keywords.
+Improved syntax highlighting.
 
 Tabs are now rendered with eight spaces.
 
