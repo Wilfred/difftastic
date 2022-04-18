@@ -125,6 +125,7 @@ fn accumulate(self) -> Machine<{State::Accumulate}> {}
           macro: (identifier)
           (token_tree
             (string_literal)
+            (non_special_punctuation)
             (identifier))))))
   (function_item
     name: (identifier)
@@ -1046,27 +1047,39 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
     (call_expression
       function: (identifier)
       arguments: (arguments
-        (attribute_item (attr_item
-          (identifier)
-          arguments: (token_tree (identifier) (identifier))))
+        (attribute_item
+          (attr_item
+            (identifier)
+            arguments: (token_tree
+              (non_special_punctuation)
+              (identifier)
+              (identifier)
+              (non_special_punctuation))))
         (identifier)
         (identifier))))
   (expression_statement
     (call_expression
       function: (identifier)
       arguments: (arguments
-        (attribute_item (attr_item
-          (identifier)
-          arguments: (token_tree
+        (attribute_item
+          (attr_item
             (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (token_tree)
-            (token_tree))))
+            arguments: (token_tree
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (non_special_punctuation)
+              (non_special_punctuation)
+              (non_special_punctuation)
+              (token_tree)
+              (non_special_punctuation)
+              (token_tree)
+              (non_special_punctuation)
+              (non_special_punctuation))))
         (identifier)))))
 
 ================================================================================
@@ -1090,36 +1103,59 @@ pub enum Error {
 (source_file
   (line_comment)
   (use_declaration
-    (scoped_identifier (identifier) (identifier)))
+    (scoped_identifier
+      (identifier)
+      (identifier)))
   (attribute_item
-    (meta_item (identifier)
+    (meta_item
+      (identifier)
       (meta_arguments
-        (meta_item (identifier))
-        (meta_item (identifier)))))
+        (meta_item
+          (identifier))
+        (meta_item
+          (identifier)))))
   (enum_item
     (visibility_modifier)
     (type_identifier)
     (enum_variant_list
-      (attribute_item (attr_item
+      (attribute_item
+        (attr_item
+          (identifier)
+          (token_tree
+            (string_literal)
+            (non_special_punctuation)
+            (identifier)
+            (token_tree
+              (non_special_punctuation)
+              (integer_literal)))))
+      (enum_variant
         (identifier)
-        (token_tree
-          (string_literal)
+        (ordered_field_declaration_list
+          (type_identifier)))
+      (attribute_item
+        (attr_item
           (identifier)
-          (token_tree (integer_literal)))))
-      (enum_variant (identifier)
-        (ordered_field_declaration_list (type_identifier)))
-      (attribute_item (attr_item
+          (token_tree
+            (string_literal)
+            (non_special_punctuation)
+            (non_special_punctuation)
+            (identifier)
+            (non_special_punctuation)
+            (identifier)
+            (non_special_punctuation)
+            (non_special_punctuation)
+            (identifier)
+            (non_special_punctuation)
+            (identifier))))
+      (enum_variant
         (identifier)
-        (token_tree
-          (string_literal)
-          (identifier)
-          (identifier)
-          (identifier)
-          (identifier))))
-      (enum_variant (identifier)
         (field_declaration_list
-          (field_declaration (field_identifier) (primitive_type))
-          (field_declaration (field_identifier) (type_identifier)))))))
+          (field_declaration
+            (field_identifier)
+            (primitive_type))
+          (field_declaration
+            (field_identifier)
+            (type_identifier)))))))
 
 ================================================================================
 Attributes and Expressions

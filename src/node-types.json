@@ -2891,6 +2891,11 @@
     }
   },
   {
+    "type": "non_special_punctuation",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "optional_type_parameter",
     "named": true,
     "fields": {
@@ -3754,6 +3759,10 @@
           "named": true
         },
         {
+          "type": "non_special_punctuation",
+          "named": true
+        },
+        {
           "type": "primitive_type",
           "named": true
         },
@@ -3802,6 +3811,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "non_special_punctuation",
           "named": true
         },
         {
@@ -3860,6 +3873,10 @@
           "named": true
         },
         {
+          "type": "non_special_punctuation",
+          "named": true
+        },
+        {
           "type": "primitive_type",
           "named": true
         },
@@ -3908,6 +3925,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "non_special_punctuation",
           "named": true
         },
         {
