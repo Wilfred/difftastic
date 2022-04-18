@@ -132,6 +132,12 @@ more pattern matching
 case expr 
   in 5
   in ^foo
+  in ^$foo
+  in ^@foo
+  in ^@@foo
+  in ^(1+1)
+  in ^(foo)
+  in ^(Foo::Bar)
   in var
   in "string"
   in %w(foo bar)
@@ -158,6 +164,12 @@ end
    (case_match (identifier)
      (in_clause (integer))
      (in_clause (variable_reference_pattern (identifier)))
+     (in_clause (variable_reference_pattern (global_variable)))
+     (in_clause (variable_reference_pattern (instance_variable)))
+     (in_clause (variable_reference_pattern (class_variable)))
+     (in_clause (expression_reference_pattern (binary (integer) (integer))))
+     (in_clause (expression_reference_pattern (identifier)))
+     (in_clause (expression_reference_pattern (scope_resolution (constant) (constant))))
      (in_clause (identifier))
      (in_clause (string (string_content)))
      (in_clause (string_array (bare_string (string_content)) (bare_string (string_content))))
