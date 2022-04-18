@@ -118,7 +118,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "class_variable",
+        "type": "_nonlocal_variable",
         "named": true
       },
       {
@@ -130,15 +130,7 @@
         "named": true
       },
       {
-        "type": "global_variable",
-        "named": true
-      },
-      {
         "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "instance_variable",
         "named": true
       },
       {
@@ -151,6 +143,24 @@
       },
       {
         "type": "simple_symbol",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_nonlocal_variable",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "class_variable",
+        "named": true
+      },
+      {
+        "type": "global_variable",
+        "named": true
+      },
+      {
+        "type": "instance_variable",
         "named": true
       }
     ]
@@ -201,6 +211,10 @@
       },
       {
         "type": "array_pattern",
+        "named": true
+      },
+      {
+        "type": "expression_reference_pattern",
         "named": true
       },
       {
@@ -544,7 +558,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "class_variable",
+        "type": "_nonlocal_variable",
         "named": true
       },
       {
@@ -552,15 +566,7 @@
         "named": true
       },
       {
-        "type": "global_variable",
-        "named": true
-      },
-      {
         "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "instance_variable",
         "named": true
       },
       {
@@ -1043,7 +1049,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_arg",
@@ -1058,7 +1064,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -1703,6 +1709,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "expression_reference_pattern",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2516,7 +2538,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_arg",
@@ -3351,6 +3373,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "_nonlocal_variable",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
