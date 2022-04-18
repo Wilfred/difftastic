@@ -648,74 +648,51 @@ fn tree_highlights(
     src: &str,
     config: &TreeSitterConfig,
 ) -> HighlightedNodeIds {
-    let mut keyword_ish_capture_ids = vec![];
-    // TODO: Use config.highlight_query.capture_names() to find all
-    // the keyword.foo captures.
-    if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config
-        .highlight_query
-        .capture_index_for_name("keyword.function")
-    {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config
-        .highlight_query
-        .capture_index_for_name("keyword.operator")
-    {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config
-        .highlight_query
-        .capture_index_for_name("keyword.return")
-    {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("operator") {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("repeat") {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("constant") {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("boolean") {
-        keyword_ish_capture_ids.push(idx);
-    }
-    if let Some(idx) = config
-        .highlight_query
-        .capture_index_for_name("constant.builtin")
-    {
-        keyword_ish_capture_ids.push(idx);
-    }
-
+    let mut keyword_ish_capture_ids: Vec<u32> = vec![];
     let mut string_capture_ids = vec![];
-    if let Some(idx) = config.highlight_query.capture_index_for_name("string") {
-        string_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("character") {
-        string_capture_ids.push(idx);
-    }
-
     let mut type_capture_ids = vec![];
-    if let Some(idx) = config.highlight_query.capture_index_for_name("type") {
-        type_capture_ids.push(idx);
-    }
-    if let Some(idx) = config
-        .highlight_query
-        .capture_index_for_name("type.builtin")
-    {
-        type_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("label") {
+
+    // Query names are often written with namespacing, so
+    // highlights.scm might contain @constant or the more specific
+    // @constant.builtin.
+    //
+    // We support e.g. arbitrary @constant.foo so we get the benefit
+    // of all the relevant highlighting queries.
+    let cn = config.highlight_query.capture_names();
+    for (idx, name) in cn.iter().enumerate() {
+        if name == "type"
+            || name.starts_with("type.")
+            || name.starts_with("storage.type.")
+            || name.starts_with("keyword.type.")
+            || name == "tag"
+        {
+            // TODO: this doesn't capture (type_ref) in Elm as that
+            // applies to the parent node.
+            type_capture_ids.push(idx as u32);
+        } else if name == "keyword"
+            || name.starts_with("keyword.")
+            || name == "constant"
+            || name.starts_with("constant.")
+            || name == "operator"
+            || name == "repeat"
+            || name == "boolean"
+        {
+            keyword_ish_capture_ids.push(idx as u32);
+        }
+
+        if name == "string"
+            || name.starts_with("string.")
+            || name == "character"
+            || name.starts_with("character.")
+        {
+            string_capture_ids.push(idx as u32);
+        }
+
         // Rust uses 'label' for lifetimes, and highglighting
         // lifetimes consistently with types seems reasonable.
-        type_capture_ids.push(idx);
-    }
-    if let Some(idx) = config.highlight_query.capture_index_for_name("tag") {
-        type_capture_ids.push(idx);
+        if name == "label" {
+            type_capture_ids.push(idx as u32);
+        }
     }
 
     let mut qc = ts::QueryCursor::new();
