@@ -7,7 +7,7 @@ Added support for Kotlin and TOML.
 Fixed an issue with YAML and `|` block strings.
 
 Updated to the latest upstream C++, C#, Elixir, Go, Haskell, Java,
-Python, Ruby and TypeScript parsers.
+Python, Ruby, Rust and TypeScript parsers.
 
 ### Diffing
 
