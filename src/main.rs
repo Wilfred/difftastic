@@ -85,7 +85,7 @@ fn reset_sigpipe() {
 
 /// The entrypoint.
 fn main() {
-    pretty_env_logger::init();
+    pretty_env_logger::init_timed();
     reset_sigpipe();
 
     match options::parse_args() {
