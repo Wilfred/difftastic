@@ -901,7 +901,7 @@ fn syntax_from_cursor<'a>(
         let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         let content = &src[node.start_byte()..node.end_byte()];
 
-        warn!(
+        debug!(
             "Tree-sitter syntax error at {:?}: {}",
             position.get(0),
             content

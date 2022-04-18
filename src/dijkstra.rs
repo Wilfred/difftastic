@@ -55,7 +55,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
         }
     };
 
-    info!(
+    debug!(
         "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
         predecessors.len(),
         std::mem::size_of::<Vertex>(),
@@ -74,13 +74,13 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     }
     route.reverse();
 
-    info!("Found a path of {} with cost {}.", route.len(), cost);
+    debug!("Found a path of {} with cost {}.", route.len(), cost);
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
     } else {
         5
     };
-    info!(
+    debug!(
         "Initial {} items on path: {:#?}",
         print_length,
         route
