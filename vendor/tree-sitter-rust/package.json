@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-rust",
-  "version": "0.19.1",
+  "version": "0.20.1",
   "description": "Rust grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -17,7 +17,7 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.1"
+    "tree-sitter-cli": "^0.20.0"
   },
   "scripts": {
     "generate": "tree-sitter generate",

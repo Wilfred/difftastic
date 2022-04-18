@@ -1,6 +1,6 @@
-============================================
+================================================================================
 Integer literals
-============================================
+================================================================================
 
 0;
 0___0;
@@ -14,24 +14,35 @@ Integer literals
 0b1111_1111_1001_0000_i32;
 1u128;
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal)
-  (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal))
+  (expression_statement
+    (integer_literal)))
 
-============================================
+================================================================================
 Floating-point literals
-============================================
+================================================================================
 
 123.123;
 2.;
@@ -40,19 +51,25 @@ Floating-point literals
 0.1f32;
 12E+99_f64;
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (float_literal)
-  (float_literal)
-  (float_literal)
-  (float_literal)
-  (float_literal)
-  (float_literal))
+  (expression_statement
+    (float_literal))
+  (expression_statement
+    (float_literal))
+  (expression_statement
+    (float_literal))
+  (expression_statement
+    (float_literal))
+  (expression_statement
+    (float_literal))
+  (expression_statement
+    (float_literal)))
 
-============================================
+================================================================================
 String literals
-============================================
+================================================================================
 
 "";
 "abc";
@@ -64,52 +81,75 @@ b"foo\nbar";
 "foo\x42\x43bar";
 "foo \x42  \x43 bar";
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (string_literal)
-  (string_literal)
-  (string_literal (escape_sequence))
-  (string_literal (escape_sequence))
-  (string_literal (escape_sequence) (escape_sequence))
-  (string_literal)
-  (string_literal (escape_sequence) (escape_sequence))
-  (string_literal (escape_sequence) (escape_sequence)))
+  (expression_statement
+    (string_literal))
+  (expression_statement
+    (string_literal))
+  (expression_statement
+    (string_literal
+      (escape_sequence)))
+  (expression_statement
+    (string_literal
+      (escape_sequence)))
+  (expression_statement
+    (string_literal
+      (escape_sequence)
+      (escape_sequence)))
+  (expression_statement
+    (string_literal))
+  (expression_statement
+    (string_literal
+      (escape_sequence)
+      (escape_sequence)))
+  (expression_statement
+    (string_literal
+      (escape_sequence)
+      (escape_sequence))))
 
-============================================
+================================================================================
 Raw string literals
-============================================
+================================================================================
 
 r#"abc"#; r##"ok"##;
 r##"foo #"# bar"##;
 r###"foo ##"## bar"###;
 r######"foo ##### bar"######;
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (raw_string_literal)
-  (raw_string_literal)
-  (raw_string_literal)
-  (raw_string_literal)
-  (raw_string_literal))
+  (expression_statement
+    (raw_string_literal))
+  (expression_statement
+    (raw_string_literal))
+  (expression_statement
+    (raw_string_literal))
+  (expression_statement
+    (raw_string_literal))
+  (expression_statement
+    (raw_string_literal)))
 
-============================================
+================================================================================
 Raw byte string literals
-============================================
+================================================================================
 
 br#"abc"#;
 br##"abc"##;
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (raw_string_literal)
-  (raw_string_literal))
+  (expression_statement
+    (raw_string_literal))
+  (expression_statement
+    (raw_string_literal)))
 
-============================================
+================================================================================
 Character literals
-============================================
+================================================================================
 
 'a';
 '\'';
@@ -119,24 +159,35 @@ b'x';
 '\xff';
 '\\';
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal))
+  (expression_statement
+    (char_literal)))
 
-============================================
+================================================================================
 Boolean literals
-============================================
+================================================================================
 
 true;
 false;
 
----
+--------------------------------------------------------------------------------
 
-(source_file (boolean_literal) (boolean_literal))
+(source_file
+  (expression_statement
+    (boolean_literal))
+  (expression_statement
+    (boolean_literal)))
