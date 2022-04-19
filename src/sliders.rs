@@ -46,9 +46,7 @@ pub fn fix_all_sliders<'a>(
     fix_all_sliders_one_step(nodes, change_map);
     fix_all_sliders_one_step(nodes, change_map);
 
-    if !prefer_outer_delimiter(language) {
-        fix_all_nested_sliders(nodes, change_map);
-    }
+    fix_all_nested_sliders(language, nodes, change_map);
 }
 
 /// Should nester slider correction prefer the inner or outer
@@ -98,13 +96,57 @@ fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut Chang
 ///
 /// For C-like languages, the first case matches human intuition much
 /// better. Fix the slider to make the inner delimiter novel.
-fn fix_all_nested_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
+fn fix_all_nested_sliders<'a>(
+    language: guess_language::Language,
+    nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
+) {
+    let prefer_outer = prefer_outer_delimiter(language);
     for node in nodes {
-        fix_nested_slider(node, change_map);
+        if prefer_outer {
+            fix_nested_slider_prefer_outer(node, change_map);
+        } else {
+            fix_nested_slider_prefer_inner(node, change_map);
+        }
     }
 }
 
-fn fix_nested_slider<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
+/// When we see code of the form `(old-1 (novel (old-2)))`, prefer
+/// treating the outer delimiter as novel, so `(novel ...)` in this
+/// example.
+fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
+    if let List { children, .. } = node {
+        match change_map
+            .get(node)
+            .expect("Changes should be set before slider correction")
+        {
+            Unchanged(_) => {
+                // All children should be novel except one descendant.
+                let mut found_unchanged = vec![];
+                unchanged_descendants_ignore_delim(children, &mut found_unchanged, change_map);
+
+                if let [unchanged] = found_unchanged[..] {
+                    if matches!(unchanged, List { .. })
+                        && matches!(change_map.get(unchanged), Some(Novel))
+                    {
+                        push_unchanged_to_descendant(node, unchanged, change_map);
+                    }
+                }
+            }
+            ReplacedComment(_, _) => {}
+            Novel => {
+                for child in children {
+                    fix_nested_slider_prefer_outer(child, change_map);
+                }
+            }
+        }
+    }
+}
+
+/// When we see code of the form `old1(novel(old2()))`, prefer
+/// treating the inner delimiter as novel, so `novel(...)` in this
+/// example.
+fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
     if let List { children, .. } = node {
         match change_map
             .get(node)
@@ -112,15 +154,13 @@ fn fix_nested_slider<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
         {
             Unchanged(_) => {
                 for child in children {
-                    fix_nested_slider(child, change_map);
+                    fix_nested_slider_prefer_inner(child, change_map);
                 }
             }
             ReplacedComment(_, _) => {}
             Novel => {
                 let mut found_unchanged = vec![];
-                for child in children {
-                    unchanged_descendants(child, &mut found_unchanged, change_map);
-                }
+                unchanged_descendants(children, &mut found_unchanged, change_map);
 
                 if let [List { .. }] = found_unchanged[..] {
                     push_unchanged_to_ancestor(node, found_unchanged[0], change_map);
@@ -130,29 +170,113 @@ fn fix_nested_slider<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
     }
 }
 
+/// Find the unchanged descendants of `nodes`.
 fn unchanged_descendants<'a>(
-    node: &'a Syntax<'a>,
+    nodes: &[&'a Syntax<'a>],
     found: &mut Vec<&'a Syntax<'a>>,
     change_map: &ChangeMap<'a>,
 ) {
+    // We're only interested if there is exactly one unchanged
+    // descendant, so return early if we find 2 or more.
     if found.len() > 1 {
         return;
     }
 
-    match change_map.get(node).unwrap() {
-        Unchanged(_) => {
-            found.push(node);
-        }
-        Novel | ReplacedComment(_, _) => {
-            if let List { children, .. } = node {
-                for child in children {
-                    unchanged_descendants(child, found, change_map);
+    for node in nodes {
+        match change_map.get(node).unwrap() {
+            Unchanged(_) => {
+                found.push(node);
+            }
+            Novel | ReplacedComment(_, _) => {
+                if let List { children, .. } = node {
+                    unchanged_descendants(children, found, change_map);
                 }
             }
         }
     }
 }
 
+/// Find the descendants of `nodes` that are unchanged, but ignore the
+/// delimiter on list nodes.
+fn unchanged_descendants_ignore_delim<'a>(
+    nodes: &[&'a Syntax<'a>],
+    found: &mut Vec<&'a Syntax<'a>>,
+    change_map: &ChangeMap<'a>,
+) {
+    // We're only interested if there is exactly one unchanged
+    // descendant, so return early if we find 2 or more.
+    if found.len() > 1 {
+        return;
+    }
+
+    for node in nodes {
+        let is_unchanged = matches!(change_map.get(node), Some(Unchanged(_)));
+
+        match node {
+            Atom { .. } => {
+                if is_unchanged {
+                    found.push(node);
+                } else {
+                    // No problem
+                }
+            }
+            List { children, .. } => {
+                let all_children_unchanged = true;
+
+                if is_unchanged {
+                    // Outer list is unchanged, not what we wanted.
+                    found.push(node);
+                } else {
+                    // Is changed.
+                    if all_children_unchanged {
+                        // What we're looking for.
+                        found.push(node);
+                    } else {
+                        unchanged_descendants_ignore_delim(children, found, change_map);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Given a nested list where the root delimiters are unchanged but
+/// the inner list's delimiters are novel, mark the inner list as
+/// unchanged instead.
+fn push_unchanged_to_descendant<'a>(
+    root: &'a Syntax<'a>,
+    inner: &'a Syntax<'a>,
+    change_map: &mut ChangeMap<'a>,
+) {
+    let root_change = change_map
+        .get(root)
+        .expect("Changes should be set before slider correction");
+
+    let delimiters_match = match (root, inner) {
+        (
+            List {
+                open_content: root_open,
+                close_content: root_close,
+                ..
+            },
+            List {
+                open_content: inner_open,
+                close_content: inner_close,
+                ..
+            },
+        ) => root_open == inner_open && root_close == inner_close,
+        _ => false,
+    };
+
+    if delimiters_match {
+        change_map.insert(root, Novel);
+        change_map.insert(inner, root_change);
+    }
+}
+
+/// Given a nested list where the root delimiters are novel but
+/// the inner list's delimiters are unchanged, mark the root list as
+/// unchanged instead.
 fn push_unchanged_to_ancestor<'a>(
     root: &'a Syntax<'a>,
     inner: &'a Syntax<'a>,

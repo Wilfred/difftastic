@@ -9,6 +9,10 @@ Improved handling of comments and regexp literals in Perl.
 
 Added Elvish support.
 
+### Diffing
+
+Improved delimiter heuristics in lisp-like languages.
+
 ### Display
 
 Difftastic now displays information about file renames. Previously, it
