@@ -36,18 +36,20 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                 }
 
                 neighbours(&current, &mut neighbour_buf);
-                for (edge, next) in neighbour_buf.iter().flatten() {
-                    let distance_to_next = distance + edge.cost();
-                    let found_shorter_route = match predecessors.get(next) {
-                        Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
-                        _ => true,
-                    };
+                for neighbour in &mut neighbour_buf {
+                    if let Some((edge, next)) = neighbour.take() {
+                        let distance_to_next = distance + edge.cost();
+                        let found_shorter_route = match predecessors.get(&next) {
+                            Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
+                            _ => true,
+                        };
 
-                    if found_shorter_route {
-                        predecessors
-                            .insert(next.clone(), (distance_to_next, current.clone(), *edge));
+                        if found_shorter_route {
+                            predecessors
+                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
 
-                        heap.push(Reverse(distance_to_next), next.clone());
+                            heap.push(Reverse(distance_to_next), next);
+                        }
                     }
                 }
             }
