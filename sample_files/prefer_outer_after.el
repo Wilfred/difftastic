@@ -1,0 +1,6 @@
+(defun deadgrep--find-file (path)
+  (let* ((initial-buffers (buffer-list))
+         (buf (find-file-noselect path)))
+    (unless (-contains-p initial-buffers buf)
+      (setq opened t))
+    (cons buf opened)))

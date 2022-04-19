@@ -115,6 +115,9 @@ sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
 sample_files/perl_before.pl sample_files/perl_after.pl
 ae10c90122289e0f4298c1b962a74c2e  -
 
+sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
+891b9b2f6bbf13bab97eb0d10397f306  -
+
 sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 3e4331cb935cbe735a79ebc43786cd3a  -
 
