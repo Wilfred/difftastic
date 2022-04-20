@@ -165,7 +165,7 @@ pub trait MaxLine {
 
 impl<S: AsRef<str>> MaxLine for S {
     fn max_line(&self) -> LineNumber {
-        (max(1, self.as_ref().split('\n').count()) - 1).into()
+        (max(1, self.as_ref().trim_end().split('\n').count()) - 1).into()
     }
 }
 
@@ -239,7 +239,13 @@ mod tests {
     #[test]
     fn str_max_line_trailing_newline() {
         let line: String = "foo\nbar\n".into();
-        assert_eq!(line.max_line().0, 2);
+        assert_eq!(line.max_line().0, 1);
+    }
+
+    #[test]
+    fn str_max_line_extra_trailing_newline() {
+        let line: String = "foo\nbar\n\n".into();
+        assert_eq!(line.max_line().0, 1);
     }
 
     #[test]
