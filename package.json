@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-prisma",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Prisma Grammar with Tree Sitter",
   "keywords": [
     "tree-sitter",

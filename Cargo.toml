@@ -1,10 +1,10 @@
 [package]
 name = "tree-sitter-prisma-io"
 description = "prisma grammar for the tree-sitter parsing library"
-version = "1.2.0"
+version = "1.2.1"
 keywords = ["incremental", "parsing", "prisma"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-prisma"
+repository = "https://github.com/victorhqc/tree-sitter-prisma.git"
 edition = "2018"
 license = "MIT"
 
