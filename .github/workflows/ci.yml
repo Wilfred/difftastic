@@ -21,7 +21,7 @@ jobs:
       - run: npm install
       - run: npm test
   test_windows:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
