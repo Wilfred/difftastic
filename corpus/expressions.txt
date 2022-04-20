@@ -70,6 +70,34 @@ a
     (simple_identifier)))
 
 ================================================================================
+Conjunction with call sites
+================================================================================
+
+a && b()
+
+a
+    && c.b()
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (conjunction_expression
+    (simple_identifier)
+    (call_expression
+          (simple_identifier)
+          (call_suffix
+            (value_arguments))))
+  (conjunction_expression
+    (simple_identifier)
+    (call_expression
+          (navigation_expression
+            (simple_identifier)
+            (navigation_suffix
+              (simple_identifier)))
+          (call_suffix
+            (value_arguments)))))
+
+================================================================================
 Bitwise operations
 ================================================================================
 

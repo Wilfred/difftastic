@@ -686,6 +686,31 @@ else if bar {
       (simple_identifier))))
 
 ================================================================================
+If try
+================================================================================
+
+    if try limit == nil && singleResult && !expectsSingleResult {
+        return a
+    }
+
+--------------------------------------------------------------------------------
+
+(source_file
+      (if_statement
+        (conjunction_expression
+          (try_expression
+            (equality_expression
+              (simple_identifier)))
+          (conjunction_expression
+            (simple_identifier)
+            (prefix_expression
+              (bang)
+              (simple_identifier))))
+        (statements
+          (control_transfer_statement
+            (simple_identifier)))))
+
+================================================================================
 Guard statements
 ================================================================================
 
