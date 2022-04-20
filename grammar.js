@@ -53,7 +53,7 @@ const PRECS = {
   try: -2,
   call_suffix: -2,
   range_suffix: -2,
-  ternary_suffix: -2,
+  ternary_binary_suffix: -2,
   await: -2,
   assignment: -3,
   comment: -3,
@@ -123,7 +123,7 @@ module.exports = grammar({
     // a ? b : c () could be calling c(), or it could be calling a function that's produced by the result of
     // `(a ? b : c)`. We have a small hack to force it to be the former of these by intentionally introducing a
     // conflict.
-    [$.call_suffix, $.expr_hack_at_ternary_call_suffix],
+    [$.call_suffix, $.expr_hack_at_ternary_binary_call_suffix],
     // try {expression} is a bit magic and applies quite broadly: `try foo()` and `try foo { }` show that this is right
     // associative, and `try foo ? bar() : baz` even more so. But it doesn't always win: something like
     // `if try foo { } ...` should award its braces to the `if`. In order to make this actually happen, we need to parse
@@ -593,7 +593,16 @@ module.exports = grammar({
         seq(
           field("lhs", $._expression),
           field("op", $._conjunction_operator),
-          field("rhs", $._expression)
+          prec.left(
+            PRECS.ternary_binary_suffix,
+            field(
+              "rhs",
+              choice(
+                $._expression,
+                alias($.expr_hack_at_ternary_binary_call, $.call_expression)
+              )
+            )
+          )
         )
       ),
     disjunction_expression: ($) =>
@@ -688,6 +697,7 @@ module.exports = grammar({
               // left associativity for the direct calls, which is technically wrong but is the only way to resolve the
               // ambiguity of `if foo { ... }` in the correct direction.
               prec.right(-2, $._expression),
+              prec.left(0, $._binary_expression),
               prec.left(0, $.call_expression),
               // Similarly special case the ternary expression, where `try` may come earlier than it is actually needed.
               // When the parser just encounters some identifier after a `try`, it should prefer the `call_expression` (so
@@ -726,23 +736,23 @@ module.exports = grammar({
           field("if_true", $._expression),
           ":",
           prec.left(
-            PRECS.ternary_suffix,
+            PRECS.ternary_binary_suffix,
             field(
               "if_false",
               choice(
                 $._expression,
-                alias($.expr_hack_at_ternary_call, $.call_expression)
+                alias($.expr_hack_at_ternary_binary_call, $.call_expression)
               )
             )
           )
         )
       ),
-    expr_hack_at_ternary_call: ($) =>
+    expr_hack_at_ternary_binary_call: ($) =>
       seq(
         $._expression,
-        alias($.expr_hack_at_ternary_call_suffix, $.call_suffix)
+        alias($.expr_hack_at_ternary_binary_call_suffix, $.call_suffix)
       ),
-    expr_hack_at_ternary_call_suffix: ($) =>
+    expr_hack_at_ternary_binary_call_suffix: ($) =>
       prec(PRECS.call_suffix, $.value_arguments),
     call_expression: ($) => prec(PRECS.call, seq($._expression, $.call_suffix)),
     _primary_expression: ($) =>
