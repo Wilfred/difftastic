@@ -33,7 +33,7 @@ firefox-ios mozilla-mobile/firefox-ios v39.0 2 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 3 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 4 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 5 6
-AudioKit AudioKit/AudioKit 5.3.3
+AudioKit AudioKit/AudioKit 5.4.0
 Starscream daltoniam/Starscream 4.0.4
 MessageKit MessageKit/MessageKit 3.7.0
 KeychainAccess kishikawakatsumi/KeychainAccess v4.2.2
