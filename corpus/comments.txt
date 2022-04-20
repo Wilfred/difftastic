@@ -1,23 +1,25 @@
-==================
+================================================================================
 Comments
-==================
+================================================================================
 
 1 + 2
 // 1 + 2
 /* Hello world */
 /** I am a doc comment */
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (additive_expression (integer_literal) (integer_literal))
-    (comment)
-    (multiline_comment)
-    (multiline_comment))
+  (additive_expression
+    (integer_literal)
+    (integer_literal))
+  (comment)
+  (multiline_comment)
+  (multiline_comment))
 
-==================
+================================================================================
 Nested Comments
-==================
+================================================================================
 
 /*
   This is how comments work: //
@@ -48,19 +50,22 @@ func doesExist() { }
   ****/
 ****/
 
----
-(source_file
-    (multiline_comment)
-    (multiline_comment)
-    (comment)
-    (multiline_comment)
-    (function_declaration (simple_identifier) (function_body))
-    (multiline_comment)
-    (multiline_comment))
+--------------------------------------------------------------------------------
 
-==================
+(source_file
+  (multiline_comment)
+  (multiline_comment)
+  (comment)
+  (multiline_comment)
+  (function_declaration
+    (simple_identifier)
+    (function_body))
+  (multiline_comment)
+  (multiline_comment))
+
+================================================================================
 Almost nested comments
-==================
+================================================================================
 
 /*
     This is allowed in a comment but does not nest: /
@@ -75,8 +80,24 @@ Almost nested comments
 */
 
 
----
+--------------------------------------------------------------------------------
+
 (source_file
-    (multiline_comment)
-    (multiline_comment)
-    (multiline_comment))
+  (multiline_comment)
+  (multiline_comment)
+  (multiline_comment))
+
+================================================================================
+Single line comment at the end of a non-empty file
+================================================================================
+
+class SwiftExamples {
+}
+// Some comment
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body))
+  (comment))

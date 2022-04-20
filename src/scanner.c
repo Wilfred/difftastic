@@ -421,7 +421,7 @@ static enum ParseDirective eat_whitespace(
                 // and eventually had a well-formed comment or an EOF. Thus, if we're currently looking at a `/`, it's
                 // the second one of those and it means we have a single-line comment.
                 has_seen_single_comment = true;
-                while (lexer->lookahead != '\n') {
+                while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
                     lexer->advance(lexer, true);
                 }
             } else if (iswspace(lexer->lookahead)) {
