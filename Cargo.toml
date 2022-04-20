@@ -1,5 +1,5 @@
 [package]
-name = "tree-sitter-prisma"
+name = "tree-sitter-prisma-io"
 description = "prisma grammar for the tree-sitter parsing library"
 version = "1.0.1"
 keywords = ["incremental", "parsing", "prisma"]
