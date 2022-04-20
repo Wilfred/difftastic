@@ -3598,7 +3598,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_fid_call"
+            "name": "_function_identifier_call"
           },
           "named": true,
           "value": "call"
@@ -3913,7 +3913,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_fid"
+                  "name": "_function_identifier"
                 }
               ]
             }
@@ -3947,7 +3947,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_fid"
+                    "name": "_function_identifier"
                   }
                 ]
               }
@@ -3994,7 +3994,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_fid"
+                        "name": "_function_identifier"
                       }
                     ]
                   }
@@ -4055,7 +4055,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_fid"
+                        "name": "_function_identifier"
                       }
                     ]
                   }
@@ -4148,7 +4148,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_fid"
+                "name": "_function_identifier"
               },
               {
                 "type": "SYMBOL",
@@ -4191,7 +4191,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_fid"
+                            "name": "_function_identifier"
                           }
                         ]
                       }
@@ -4282,7 +4282,7 @@
                                 },
                                 {
                                   "type": "SYMBOL",
-                                  "name": "_fid"
+                                  "name": "_function_identifier"
                                 }
                               ]
                             }
@@ -4384,7 +4384,7 @@
                                 },
                                 {
                                   "type": "SYMBOL",
-                                  "name": "_fid"
+                                  "name": "_function_identifier"
                                 }
                               ]
                             }
@@ -4480,7 +4480,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "_fid"
+                          "name": "_function_identifier"
                         }
                       ]
                     }
@@ -4523,7 +4523,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "_fid"
+                          "name": "_function_identifier"
                         }
                       ]
                     }
@@ -6419,7 +6419,7 @@
         ]
       }
     },
-    "_fid": {
+    "_function_identifier": {
       "type": "CHOICE",
       "members": [
         {
@@ -6442,7 +6442,7 @@
         }
       ]
     },
-    "_fid_call": {
+    "_function_identifier_call": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -6450,7 +6450,7 @@
         "name": "method",
         "content": {
           "type": "SYMBOL",
-          "name": "_fid"
+          "name": "_function_identifier"
         }
       }
     },
@@ -6651,7 +6651,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_fid"
+          "name": "_function_identifier"
         },
         {
           "type": "SYMBOL",
