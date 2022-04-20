@@ -32,6 +32,7 @@ enum TokenType {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   UNARY_MINUS,
+  UNARY_MINUS_NUM,
   BINARY_MINUS,
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
@@ -807,7 +808,10 @@ struct Scanner {
             if (valid_symbols[HASH_SPLAT_STAR_STAR] || valid_symbols[BINARY_STAR_STAR]) {
               advance(lexer);
               if (lexer->lookahead == '=') return false;
-              if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
+              if (valid_symbols[BINARY_STAR_STAR] && !has_leading_whitespace) {
+                lexer->result_symbol = BINARY_STAR_STAR;
+                return true;
+              } else if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
                 lexer->result_symbol = HASH_SPLAT_STAR_STAR;
                 return true;
               } else if (valid_symbols[BINARY_STAR_STAR]) {
@@ -823,7 +827,10 @@ struct Scanner {
               return false;
             }
           } else {
-            if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[BINARY_STAR] && !has_leading_whitespace) {
+              lexer->result_symbol = BINARY_STAR;
+              return true;
+            } else if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = SPLAT_STAR;
               return true;
             } else if (valid_symbols[BINARY_STAR]) {
@@ -840,10 +847,13 @@ struct Scanner {
         break;
 
       case '-':
-        if (valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) {
+        if (valid_symbols[UNARY_MINUS] || valid_symbols[UNARY_MINUS_NUM] || valid_symbols[BINARY_MINUS]) {
           advance(lexer);
           if (lexer->lookahead != '=' && lexer->lookahead != '>') {
-            if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[UNARY_MINUS_NUM] && (!valid_symbols[BINARY_STAR] || has_leading_whitespace) && iswdigit(lexer->lookahead)) {
+              lexer->result_symbol = UNARY_MINUS_NUM;
+              return true;
+            } else if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = UNARY_MINUS;
             } else if (valid_symbols[BINARY_MINUS]) {
               lexer->result_symbol = BINARY_MINUS;

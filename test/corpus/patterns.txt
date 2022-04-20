@@ -312,3 +312,32 @@ end
   (in_clause (hash_pattern (constant) (keyword_pattern (hash_key_symbol) (integer)) (hash_splat_nil)))
   )
 )
+
+=====================
+pattern matching with fancy string literals
+=====================
+
+case expr 
+  in "string";
+  in `ls`;
+  in <<"DOC" then end
+some text
+DOC
+
+---
+
+(program
+  (case_match
+    value: (identifier)
+    clauses: (in_clause
+      pattern: (string
+        (string_content)))
+    clauses: (in_clause
+      pattern: (subshell
+        (string_content)))
+    clauses: (in_clause
+      pattern: (heredoc_beginning)
+      body: (then)))
+  (heredoc_body
+    (heredoc_content)
+    (heredoc_end)))
