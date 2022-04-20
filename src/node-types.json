@@ -268,6 +268,10 @@
         "named": true
       },
       {
+        "type": "heredoc_beginning",
+        "named": true
+      },
+      {
         "type": "lambda",
         "named": true
       },
@@ -297,6 +301,10 @@
       },
       {
         "type": "string_array",
+        "named": true
+      },
+      {
+        "type": "subshell",
         "named": true
       },
       {
@@ -357,6 +365,10 @@
       },
       {
         "type": "break",
+        "named": true
+      },
+      {
+        "type": "call",
         "named": true
       },
       {
@@ -774,6 +786,10 @@
             "named": true
           },
           {
+            "type": "rescue_modifier",
+            "named": true
+          },
+          {
             "type": "right_assignment_list",
             "named": true
           },
@@ -891,6 +907,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "_simple_numeric",
             "named": true
           }
         ]
@@ -1077,7 +1097,18 @@
   {
     "type": "block_parameters",
     "named": true,
-    "fields": {},
+    "fields": {
+      "locals": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1166,23 +1197,33 @@
       },
       "method": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_variable",
             "named": true
           },
           {
-            "type": "argument_list",
-            "named": true
-          },
-          {
             "type": "operator",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "&.",
+            "named": false
           },
           {
-            "type": "scope_resolution",
-            "named": true
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "::",
+            "named": false
           }
         ]
       },
@@ -1192,10 +1233,6 @@
         "types": [
           {
             "type": "_primary",
-            "named": true
-          },
-          {
-            "type": "call",
             "named": true
           }
         ]
@@ -1334,6 +1371,29 @@
         },
         {
           "type": "rescue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "complex",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "rational",
           "named": true
         }
       ]
@@ -2400,6 +2460,11 @@
     }
   },
   {
+    "type": "nil",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "operator",
     "named": true,
     "fields": {}
@@ -2482,6 +2547,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "rescue_modifier",
             "named": true
           }
         ]
@@ -2869,10 +2938,6 @@
         "types": [
           {
             "type": "constant",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           }
         ]
@@ -3763,10 +3828,6 @@
     "named": true
   },
   {
-    "type": "complex",
-    "named": true
-  },
-  {
     "type": "constant",
     "named": true
   },
@@ -3843,6 +3904,10 @@
     "named": true
   },
   {
+    "type": "i",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -3876,10 +3941,6 @@
   },
   {
     "type": "nil",
-    "named": true
-  },
-  {
-    "type": "nil",
     "named": false
   },
   {
@@ -3908,6 +3969,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "ri",
     "named": false
   },
   {
