@@ -1,6 +1,6 @@
 # tree-sitter-scheme
 
-[![Build/test](https://github.com/6cdh/tree-sitter-scheme/actions/workflows/test.yml/badge.svg)](https://github.com/6cdh/tree-sitter-scheme/actions/workflows/test.yml)
+[![Build/test](https://github.com/6cdh/tree-sitter-scheme/workflows/Build/test/badge.svg)](https://github.com/6cdh/tree-sitter-scheme/actions/workflows/test.yml)
 
 Scheme grammar for tree-sitter.
 
