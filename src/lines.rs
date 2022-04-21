@@ -1,10 +1,8 @@
 //! Manipulate lines of text and groups of lines.
 
 use crate::positions::SingleLineSpan;
-use std::{
-    cmp::{max, Ordering},
-    fmt,
-};
+use std::ops::Sub;
+use std::{cmp::Ordering, fmt};
 
 /// A distinct number type for line numbers, to prevent confusion with
 /// other numerical data.
@@ -165,7 +163,12 @@ pub trait MaxLine {
 
 impl<S: AsRef<str>> MaxLine for S {
     fn max_line(&self) -> LineNumber {
-        (max(1, self.as_ref().trim_end().split('\n').count()) - 1).into()
+        self.as_ref()
+            .trim_end() // Remove extra trailing whitespaces.
+            .split('\n') // Split by `\n` to calculate lines.
+            .count()
+            .sub(1) // Sub 1 to make zero-indexed LineNumber
+            .into()
     }
 }
 
