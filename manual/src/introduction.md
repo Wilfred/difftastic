@@ -6,7 +6,7 @@ Difftastic is a diff tool that understands syntax. It supports [over
 Difftastic is open source software (MIT license) and [available on
 GitHub](https://github.com/wilfred/difftastic).
 
-This manual tracks the bleeding edge version of difftastic. The
+This copy of the manual describes version DFT_VERSION_HERE. The
 [changelog](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)
 records which features and bug fixes are in each version.
 
