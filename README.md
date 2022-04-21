@@ -13,6 +13,7 @@ The standards are expected to support:
 * [x] R5RS
 * [x] R6RS
 * [ ] Implementation specific extensions
+  * [ ] Chez Scheme ([#1](https://github.com/6cdh/tree-sitter-scheme/issues/1))
 
 ## TODO
 
