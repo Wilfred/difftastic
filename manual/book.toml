@@ -15,3 +15,6 @@ git-repository-url = "https://github.com/wilfred/difftastic"
 
 [output.html.playground]
 copyable = false
+
+[preprocessor.replace-version-placeholder]
+command = "./replace_version_placeholder.sh"
