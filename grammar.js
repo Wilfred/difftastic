@@ -33,7 +33,7 @@ const ALPHA_CHAR = /[^\x00-\x1F\s0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
 
 module.exports = grammar({
   name: 'ruby',
-  inline: $ => [$._arg_rhs],
+  inline: $ => [$._arg_rhs, $._call_operator],
   externals: $ => [
     $._line_break,
 
@@ -79,6 +79,7 @@ module.exports = grammar({
   supertypes: $ => [
     $._statement,
     $._arg,
+    $._call_operator,
     $._method_name,
     $._expression,
     $._variable,
@@ -711,9 +712,10 @@ module.exports = grammar({
       field('name', $.constant)
     )),
 
+    _call_operator: $ => choice('.', '&.', token.immediate('::')),
     _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
-      field('operator', choice('.', '&.', token.immediate('::'))),
+      field('operator', $._call_operator),
       field('method', choice($.identifier, $.operator, $.constant, $._function_identifier)),
     )),
 
@@ -745,7 +747,7 @@ module.exports = grammar({
 
     _chained_command_call: $ => seq(
       field('receiver', alias($.command_call_with_block, $.call)),
-      field('operator', choice('.', '&.', token.immediate('::'))),
+      field('operator', $._call_operator),
       field('method', choice($.identifier, $._function_identifier, $.operator, $.constant)),
     ),
 
@@ -764,7 +766,7 @@ module.exports = grammar({
             receiver,
             prec.left(PREC.CALL, seq(
               field('receiver', $._primary),
-              field('operator', choice('.', '&.', token.immediate('::')))
+              field('operator', $._call_operator)
             ))
           ),
           arguments
