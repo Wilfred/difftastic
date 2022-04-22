@@ -39,7 +39,10 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-ignored-qualifiers")
                 // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
                 // should be removed after fixed.
-                .flag_if_supported("-Wno-return-type");
+                .flag_if_supported("-Wno-return-type")
+                // Workaround for: https://github.com/MichaHoffmann/tree-sitter-hcl/issues/18
+                // should be removed after fixed.
+                .flag_if_supported("-Wno-missing-field-initializers");
 
             if cfg!(windows) {
                 cpp_build.flag("/std:c++14");
@@ -126,6 +129,11 @@ fn main() {
             name: "tree-sitter-haskell",
             src_dir: "vendor/tree-sitter-haskell-src",
             extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-hcl",
+            src_dir: "vendor/tree-sitter-hcl-src",
+            extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
             name: "tree-sitter-janet-simple",
