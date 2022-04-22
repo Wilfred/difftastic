@@ -67,6 +67,7 @@ extern "C" {
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
     fn tree_sitter_php() -> ts::Language;
+    fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_python() -> ts::Language;
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
@@ -471,6 +472,18 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../vendor/highlights/php.scm"),
                 )
                 .unwrap(),
+            }
+        }
+        Perl => {
+            let language = unsafe { tree_sitter_perl() };
+            TreeSitterConfig {
+                name: "Perl",
+                language,
+                atom_nodes: vec!["string_single_quoted", "string_double_quoted"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         Python => {

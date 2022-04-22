@@ -36,7 +36,10 @@ impl TreeSitterParser {
                 .cpp(true)
                 .flag_if_supported("-Wno-implicit-fallthrough")
                 .flag_if_supported("-Wno-unused-parameter")
-                .flag_if_supported("-Wno-ignored-qualifiers");
+                .flag_if_supported("-Wno-ignored-qualifiers")
+                // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
+                // should be removed after fixed.
+                .flag_if_supported("-Wno-return-type");
 
             if cfg!(windows) {
                 cpp_build.flag("/std:c++14");
@@ -172,6 +175,11 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-php",
             src_dir: "vendor/tree-sitter-php-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-perl",
+            src_dir: "vendor/tree-sitter-perl-src",
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
