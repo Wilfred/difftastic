@@ -1,5 +1,9 @@
 ## 0.28 (unreleased)
 
+### Display
+
+Fixed crash in inline mode.
+
 ## 0.27 (released 18th April 2022)
 
 ### Parsing
