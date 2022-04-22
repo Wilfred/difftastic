@@ -322,7 +322,11 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ("%{~", "~}"),
                     ("${", "}"),
                 ],
-                highlight_query: ts::Query::new(language, "").unwrap(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/hcl.scm"),
+                )
+                .unwrap(),
             }
         }
         Janet => {
