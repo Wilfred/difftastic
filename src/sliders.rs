@@ -56,7 +56,7 @@ fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
         EmacsLisp | Clojure | CommonLisp | Janet => true,
         // JSON and TOML are like Lisp: the outer delimiter in an array object
         // is the most relevant.
-        Json | Toml => true,
+        Json | Toml | Hcl => true,
         // For everything else, prefer the inner delimiter. These
         // languages have syntax like `foo(bar)` or `foo[bar]` where
         // the inner delimiter is more relevant.
