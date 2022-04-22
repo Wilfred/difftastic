@@ -19,4 +19,4 @@ jobs:
         uses: egor-tensin/setup-mingw@v2
 
       - name: build
-        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.cc
+        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.cc -Werror
