@@ -17,8 +17,21 @@ use constant {
   YEAR  => 5,
   WDAY  => 6,
   YDAY  => 7,
-  ISDST => 8,
+  ISDST => 10,
 };
+
+my $setting = {
+  open => 1,
+  close => 2,
+  run => 3,
+  awesome => 'yes',
+};
+my %final;
+foreach my $key (woof()) {
+  $final{IRONMAN}{$key} = $setting->{$key};
+
+  print Dumper \%final;
+}
 
 use constant WEEKDAYS => qw(
   Sunday Monday Tuesday Wednesday Thursday Friday Saturday
