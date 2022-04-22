@@ -1,0 +1,109 @@
+================================================================================
+get attr
+================================================================================
+
+foo = bar.baz
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (get_attr
+          (identifier))))))
+
+================================================================================
+get index
+================================================================================
+
+foo = bar[1]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (index
+          (new_index
+            (expression
+              (literal_value
+                (numeric_lit)))))))))
+
+================================================================================
+attr splat
+================================================================================
+
+foo = bar.*.foo
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (splat
+          (attr_splat
+            (get_attr
+              (identifier))))))))
+
+================================================================================
+full splat
+================================================================================
+
+foo = bar[*].foo
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (splat
+          (full_splat
+            (get_attr
+              (identifier))))))))
+
+================================================================================
+full splat repeated
+================================================================================
+
+foo = bar[*][*].a.b.c[d]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (splat
+          (full_splat))
+        (splat
+          (full_splat
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (index
+              (new_index
+                (expression
+                  (variable_expr
+                    (identifier)))))))))))
