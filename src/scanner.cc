@@ -96,7 +96,7 @@ public:
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context() && lexer->lookahead == '"') {
-      Context ctx = { QUOTED_TEMPLATE };
+      Context ctx = { QUOTED_TEMPLATE, "" };
       context_stack.push_back(ctx);
       return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
     }
@@ -114,7 +114,7 @@ public:
     ) {
       advance(lexer);
       if (lexer->lookahead == '{') {
-        Context ctx = { TEMPLATE_INTERPOLATION };
+        Context ctx = { TEMPLATE_INTERPOLATION, "" };
         context_stack.push_back(ctx);
         return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_START);
       }
@@ -142,7 +142,7 @@ public:
     ) {
       advance(lexer);
       if (lexer->lookahead == '{') {
-        Context ctx = { TEMPLATE_DIRECTIVE };
+        Context ctx = { TEMPLATE_DIRECTIVE, "" };
         context_stack.push_back(ctx);
         return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_START);
       }
