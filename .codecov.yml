@@ -10,3 +10,5 @@ coverage:
       default:
         informational: true
 
+# Don't leave comments on PRs
+comment: false
