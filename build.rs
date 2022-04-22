@@ -39,10 +39,7 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-ignored-qualifiers")
                 // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
                 // should be removed after fixed.
-                .flag_if_supported("-Wno-return-type")
-                // Workaround for: https://github.com/MichaHoffmann/tree-sitter-hcl/issues/18
-                // should be removed after fixed.
-                .flag_if_supported("-Wno-missing-field-initializers");
+                .flag_if_supported("-Wno-return-type");
 
             if cfg!(windows) {
                 cpp_build.flag("/std:c++14");
