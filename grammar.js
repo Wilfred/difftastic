@@ -69,8 +69,7 @@ module.exports = grammar({
 
     _root_content: $ => choice($._section, $._flat_content),
 
-    _flat_content: $ =>
-      prec.right(choice($._text_with_env_content, '(', ')', '[', ']')),
+    _flat_content: $ => prec.right(choice($._text_with_env_content, '[', ']')),
 
     _text_with_env_content: $ =>
       choice(
@@ -97,7 +96,9 @@ module.exports = grammar({
           $.displayed_equation,
           $.inline_formula,
           $.math_set,
-          $.text_mode
+          $.text_mode,
+          '(',
+          ')'
         )
       ),
 
@@ -349,11 +350,7 @@ module.exports = grammar({
       seq('{', field('pattern', $.glob_pattern), '}'),
 
     curly_group_impl: $ =>
-      seq(
-        '{',
-        repeat(choice($._text_content, '(', ')', '[', ']', ',', '=')),
-        '}'
-      ),
+      seq('{', repeat(choice($._text_content, '[', ']', ',', '=')), '}'),
 
     curly_group_author_list: $ =>
       seq(
@@ -366,11 +363,7 @@ module.exports = grammar({
       ),
 
     brack_group: $ =>
-      seq(
-        '[',
-        repeat(choice($._text_with_env_content, $.brack_group, '(', ')')),
-        ']'
-      ),
+      seq('[', repeat(choice($._text_with_env_content, $.brack_group)), ']'),
 
     brack_group_text: $ => seq('[', field('text', $.text), ']'),
 
@@ -378,13 +371,6 @@ module.exports = grammar({
 
     brack_group_key_value: $ =>
       seq('[', sepBy(field('pair', $.key_value_pair), ','), ']'),
-
-    mixed_group: $ =>
-      seq(
-        choice('[', '('),
-        repeat(choice($._text_with_env_content, $.mixed_group)),
-        choice(']', ')')
-      ),
 
     //--- Text
 
@@ -428,7 +414,7 @@ module.exports = grammar({
     key_value_pair: $ =>
       seq(field('key', $.text), optional(seq('=', field('value', $.value)))),
 
-    value: $ => repeat1(choice($._text_content, $.brack_group, '(', ')')),
+    value: $ => repeat1(choice($._text_content, $.brack_group)),
 
     //--- Math
 
@@ -580,7 +566,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', $.command_name),
-          repeat(field('arg', choice($.curly_group, $.mixed_group)))
+          repeat(field('arg', choice($.curly_group, $.brack_group)))
         )
       ),
 

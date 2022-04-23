@@ -28,7 +28,7 @@ Command with one curly argument
         (word)))))
 
 ================================================================================
-Command with one curly argument and one mixed argument
+Command with one curly argument and one brack argument
 ================================================================================
 
 \foo{bar}[baz]
@@ -41,25 +41,9 @@ Command with one curly argument and one mixed argument
     (curly_group
       (text
         (word)))
-    (mixed_group
+    (brack_group
       (text
         (word)))))
-
-================================================================================
-Command with nested paren argument
-================================================================================
-
-\foo([bar])
-
---------------------------------------------------------------------------------
-
-(source_file
-  (generic_command
-    (command_name)
-    (mixed_group
-      (mixed_group
-        (text
-          (word))))))
 
 ================================================================================
 Command with incomplete argument
