@@ -3855,6 +3855,26 @@
         ]
       }
     },
+    "_call_operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "STRING",
+          "value": "&."
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "::"
+          }
+        }
+      ]
+    },
     "_call": {
       "type": "PREC_LEFT",
       "value": 56,
@@ -3873,24 +3893,8 @@
             "type": "FIELD",
             "name": "operator",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "."
-                },
-                {
-                  "type": "STRING",
-                  "value": "&."
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "::"
-                  }
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_call_operator"
             }
           },
           {
@@ -4116,24 +4120,8 @@
           "type": "FIELD",
           "name": "operator",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "STRING",
-                "value": "&."
-              },
-              {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "STRING",
-                  "value": "::"
-                }
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_call_operator"
           }
         },
         {
@@ -4216,24 +4204,8 @@
                         "type": "FIELD",
                         "name": "operator",
                         "content": {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": "."
-                            },
-                            {
-                              "type": "STRING",
-                              "value": "&."
-                            },
-                            {
-                              "type": "IMMEDIATE_TOKEN",
-                              "content": {
-                                "type": "STRING",
-                                "value": "::"
-                              }
-                            }
-                          ]
+                          "type": "SYMBOL",
+                          "name": "_call_operator"
                         }
                       }
                     ]
@@ -4307,24 +4279,8 @@
                               "type": "FIELD",
                               "name": "operator",
                               "content": {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "."
-                                  },
-                                  {
-                                    "type": "STRING",
-                                    "value": "&."
-                                  },
-                                  {
-                                    "type": "IMMEDIATE_TOKEN",
-                                    "content": {
-                                      "type": "STRING",
-                                      "value": "::"
-                                    }
-                                  }
-                                ]
+                                "type": "SYMBOL",
+                                "name": "_call_operator"
                               }
                             }
                           ]
@@ -4409,24 +4365,8 @@
                               "type": "FIELD",
                               "name": "operator",
                               "content": {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "."
-                                  },
-                                  {
-                                    "type": "STRING",
-                                    "value": "&."
-                                  },
-                                  {
-                                    "type": "IMMEDIATE_TOKEN",
-                                    "content": {
-                                      "type": "STRING",
-                                      "value": "::"
-                                    }
-                                  }
-                                ]
+                                "type": "SYMBOL",
+                                "name": "_call_operator"
                               }
                             }
                           ]
@@ -7967,11 +7907,13 @@
     }
   ],
   "inline": [
-    "_arg_rhs"
+    "_arg_rhs",
+    "_call_operator"
   ],
   "supertypes": [
     "_statement",
     "_arg",
+    "_call_operator",
     "_method_name",
     "_expression",
     "_variable",
