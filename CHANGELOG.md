@@ -1,5 +1,9 @@
 ## 0.28 (unreleased)
 
+### Parsing
+
+Added support for Perl.
+
 ### Display
 
 Fixed crash in inline mode.

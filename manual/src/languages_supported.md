@@ -23,6 +23,7 @@ Difftastic supports the following programming languages.
 | Lua             | [nvim-treesitter/tree-sitter-lua](https://github.com/nvim-treesitter/tree-sitter-lua)                                                                          |
 | Nix             | [cstrahan/tree-sitter-nix](https://github.com/cstrahan/tree-sitter-nix)                                                                                        |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                                                                              |
+| Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)                                                                                |
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)                                                                                  |
 | Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)                                                                            |
 | Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)                                                                                |
