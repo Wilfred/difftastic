@@ -1008,7 +1008,9 @@ __auto_type copy = (typeof(self.message))[self.message copy];
           keyword: (identifier)
           type: (type_identifier)
           declarator: (abstract_pointer_declarator)
-          type: (attribute_specifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
           name: (identifier)))
       body: (compound_statement)))
   (type_definition

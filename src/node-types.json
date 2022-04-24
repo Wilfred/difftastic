@@ -634,7 +634,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "argument_list",
@@ -3933,11 +3933,6 @@
     }
   },
   {
-    "type": "method_attribute_specifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "method_declaration",
     "named": true,
     "fields": {
@@ -6413,7 +6408,7 @@
   },
   {
     "type": "string_literal",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -7718,22 +7713,6 @@
     "named": false
   },
   {
-    "type": "CF_RETURNS_NOT_RETAINED",
-    "named": false
-  },
-  {
-    "type": "CF_RETURNS_RETAINED",
-    "named": false
-  },
-  {
-    "type": "CG_EXTERN",
-    "named": false
-  },
-  {
-    "type": "CG_INLINE",
-    "named": false
-  },
-  {
     "type": "Class",
     "named": true
   },
@@ -7748,18 +7727,6 @@
   {
     "type": "DISPATCH_QUEUE_REFERENCE_TYPE",
     "named": true
-  },
-  {
-    "type": "FOUNDATION_EXPORT",
-    "named": false
-  },
-  {
-    "type": "FOUNDATION_EXTERN",
-    "named": false
-  },
-  {
-    "type": "FOUNDATION_STATIC_INLINE",
-    "named": false
   },
   {
     "type": "IBInspectable",
@@ -7806,14 +7773,6 @@
     "named": false
   },
   {
-    "type": "NS_DESIGNATED_INITIALIZER",
-    "named": false
-  },
-  {
-    "type": "NS_DIRECT",
-    "named": false
-  },
-  {
     "type": "NS_ENUM",
     "named": false
   },
@@ -7838,10 +7797,6 @@
     "named": false
   },
   {
-    "type": "NS_INLINE",
-    "named": false
-  },
-  {
     "type": "NS_NOESCAPE",
     "named": false
   },
@@ -7855,14 +7810,6 @@
   },
   {
     "type": "NS_REFINED_FOR_SWIFT",
-    "named": false
-  },
-  {
-    "type": "NS_REQUIRES_NIL_TERMINATION",
-    "named": false
-  },
-  {
-    "type": "NS_REQUIRES_SUPER",
     "named": false
   },
   {
@@ -7891,10 +7838,6 @@
   },
   {
     "type": "U'",
-    "named": false
-  },
-  {
-    "type": "UIKIT_EXTERN",
     "named": false
   },
   {
@@ -7963,10 +7906,6 @@
   },
   {
     "type": "__attribute__",
-    "named": false
-  },
-  {
-    "type": "__attribute__((unused))",
     "named": false
   },
   {
@@ -8111,11 +8050,11 @@
   },
   {
     "type": "auto",
-    "named": false
+    "named": true
   },
   {
     "type": "auto",
-    "named": true
+    "named": false
   },
   {
     "type": "break",
@@ -8252,6 +8191,10 @@
   {
     "type": "macosx",
     "named": false
+  },
+  {
+    "type": "method_attribute_specifier",
+    "named": true
   },
   {
     "type": "module_string",

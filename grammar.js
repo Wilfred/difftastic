@@ -264,13 +264,7 @@ module.exports = grammar(C, {
 
     storage_class_specifier: ($, superclass) => choice(
       superclass,
-      'FOUNDATION_EXPORT',
-      'FOUNDATION_EXTERN',
-      'FOUNDATION_STATIC_INLINE',
-      'NS_INLINE',
-      'UIKIT_EXTERN',
-      'CG_EXTERN',
-      'CG_INLINE',
+      /FOUNDATION_EXPORT|FOUNDATION_EXTERN|FOUNDATION_STATIC_INLINE|NS_INLINE|UIKIT_EXTERN|CG_EXTERN|CG_INLINE/
     ),
 
     property_declaration: $ => seq(
@@ -319,7 +313,6 @@ module.exports = grammar(C, {
     class_interface_attribute_sepcifier: $ => token.immediate(/IB_DESIGNABLE|NS_ROOT_CLASS/),
 
     attribute_specifier: ($, superclass) => prec.dynamic(1, prec.left(choice(
-      '__attribute__((unused))',
       seq(
         choice('__attribute', '__attribute__'),
         '(',
@@ -331,14 +324,7 @@ module.exports = grammar(C, {
       $.availability_attribute_specifier,
     ))),
 
-    method_attribute_specifier: $ => choice(
-      'NS_DESIGNATED_INITIALIZER',
-      'NS_REQUIRES_SUPER',
-      'CF_RETURNS_RETAINED',
-      'CF_RETURNS_NOT_RETAINED',
-      'NS_REQUIRES_NIL_TERMINATION',
-      'NS_DIRECT'
-    ),
+    method_attribute_specifier: $ => token.immediate(/NS_DESIGNATED_INITIALIZER|NS_REQUIRES_SUPER|CF_RETURNS_RETAINED|CF_RETURNS_NOT_RETAINED|NS_REQUIRES_NIL_TERMINATION|NS_DIRECT/),
     
     method_variadic_arguments_attribute_specifier: $=> seq(
       choice('NS_FORMAT_FUNCTION', 'CF_FORMAT_FUNCTION'),

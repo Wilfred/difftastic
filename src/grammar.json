@@ -2049,10 +2049,6 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "__attribute__((unused))"
-            },
-            {
               "type": "SEQ",
               "members": [
                 {
@@ -3110,32 +3106,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "FOUNDATION_EXPORT"
-        },
-        {
-          "type": "STRING",
-          "value": "FOUNDATION_EXTERN"
-        },
-        {
-          "type": "STRING",
-          "value": "FOUNDATION_STATIC_INLINE"
-        },
-        {
-          "type": "STRING",
-          "value": "NS_INLINE"
-        },
-        {
-          "type": "STRING",
-          "value": "UIKIT_EXTERN"
-        },
-        {
-          "type": "STRING",
-          "value": "CG_EXTERN"
-        },
-        {
-          "type": "STRING",
-          "value": "CG_INLINE"
+          "type": "PATTERN",
+          "value": "FOUNDATION_EXPORT|FOUNDATION_EXTERN|FOUNDATION_STATIC_INLINE|NS_INLINE|UIKIT_EXTERN|CG_EXTERN|CG_INLINE"
         }
       ]
     },
@@ -8478,33 +8450,11 @@
       }
     },
     "method_attribute_specifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "NS_DESIGNATED_INITIALIZER"
-        },
-        {
-          "type": "STRING",
-          "value": "NS_REQUIRES_SUPER"
-        },
-        {
-          "type": "STRING",
-          "value": "CF_RETURNS_RETAINED"
-        },
-        {
-          "type": "STRING",
-          "value": "CF_RETURNS_NOT_RETAINED"
-        },
-        {
-          "type": "STRING",
-          "value": "NS_REQUIRES_NIL_TERMINATION"
-        },
-        {
-          "type": "STRING",
-          "value": "NS_DIRECT"
-        }
-      ]
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "NS_DESIGNATED_INITIALIZER|NS_REQUIRES_SUPER|CF_RETURNS_RETAINED|CF_RETURNS_NOT_RETAINED|NS_REQUIRES_NIL_TERMINATION|NS_DIRECT"
+      }
     },
     "method_variadic_arguments_attribute_specifier": {
       "type": "SEQ",

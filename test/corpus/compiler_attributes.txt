@@ -893,7 +893,9 @@ LLVM Attributes: __unused
           keyword: (identifier)
           type: (type_identifier)
           declarator: (abstract_pointer_declarator)
-          type: (attribute_specifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
           name: (identifier)))
       body: (compound_statement))
     (method_definition
@@ -903,6 +905,8 @@ LLVM Attributes: __unused
         (keyword_declarator
           keyword: (identifier)
           type: (primitive_type)
-          type: (attribute_specifier)
+          type: (attribute_specifier
+            (argument_list
+              (identifier)))
           name: (identifier)))
       body: (compound_statement))))
