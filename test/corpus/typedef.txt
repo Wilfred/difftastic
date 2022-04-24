@@ -21,7 +21,7 @@ typedef SEL _Nonnull nonnull_SEL;
       class_name: (id)
       type_reference: (protocol_qualifiers
         name: (identifier)))
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     type: (generic_type_specifier
       class_name: (type_identifier)
@@ -31,7 +31,7 @@ typedef SEL _Nonnull nonnull_SEL;
           declarator: (abstract_pointer_declarator))
         (type_descriptor
           type: (id))))
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     type: (generic_type_specifier
       class_name: (type_identifier)
@@ -42,15 +42,15 @@ typedef SEL _Nonnull nonnull_SEL;
         (type_descriptor
           type: (type_identifier)
           declarator: (abstract_pointer_declarator))))
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     type: (id)
     (type_qualifier)
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     type: (SEL)
     (type_qualifier)
-    attributes: (identifier)))
+    declarator: (type_identifier)))
 
 ================================================================================
 Typedef: attributes
@@ -104,7 +104,7 @@ typedef __attribute__((__ext_vector_type__(2))) float vector_float2;
           arguments: (argument_list
             (string_literal)))))
     type: (type_identifier)
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     (attribute_specifier
       (argument_list
@@ -113,7 +113,7 @@ typedef __attribute__((__ext_vector_type__(2))) float vector_float2;
           arguments: (argument_list
             (number_literal)))))
     type: (primitive_type)
-    attributes: (identifier)))
+    declarator: (type_identifier)))
 
 ================================================================================
 Typedef: struct
@@ -140,7 +140,7 @@ typedef struct __attribute__((objc_boxable)) _NSRange {
         (field_declaration
           type: (type_identifier)
           declarator: (field_identifier))))
-    attributes: (identifier)))
+    declarator: (type_identifier)))
 
 ================================================================================
 Typedef: struct
@@ -210,7 +210,7 @@ typedef struct {
           (field_declaration
             type: (type_identifier)
             declarator: (field_identifier))))
-      attributes: (identifier))))
+      declarator: (type_identifier))))
 
 ================================================================================
 Typedef: block
@@ -249,7 +249,7 @@ typedef void (^JSONObjectBlock)(id json, JSONModelError *err) DEPRECATED_ATTRIBU
           type: (type_identifier)
           declarator: (pointer_declarator
             declarator: (identifier)))))
-    (attribute_specifier
+    attributes: (attribute_specifier
       (availability_attribute_specifier
         (platform_version
           platform: (platform)
@@ -275,7 +275,7 @@ typedef void (^JSONObjectBlock)(id json, JSONModelError *err) DEPRECATED_ATTRIBU
           type: (type_identifier)
           declarator: (pointer_declarator
             declarator: (identifier)))))
-    (attribute_specifier
+    attributes: (attribute_specifier
       (availability_attribute_specifier))))
 
 ================================================================================
@@ -312,6 +312,114 @@ typedef void (*mtl_failedMethodCallback)(Class, Method);
           type: (Class))
         (parameter_declaration
           type: (type_identifier))))))
+
+================================================================================
+Typedef: enum
+================================================================================
+
+enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+typedef enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+} UITableViewCellStyle;
+
+typedef enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+typedef NSInteger UITableViewCellStyle;
+
+
+// enum attr-spec-seq(optional) identifier(optional) { enumerator-list }   
+enum week{Mon, Tue, Wed}; // type specifier
+enum week day; // declaration, "day" is the declarator
+
+// Every declaration of an enum or a typedef is a definition.
+enum week{Mon, Tue, Wed}day; // declaring an enum variable
+                             // "week{Mon, Tue, Wed}" is the type specifier
+                             // "day" is the declarator
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (enum_specifier
+    body: (enumerator_list
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))))
+  (type_definition
+    type: (enum_specifier
+      body: (enumerator_list
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))))
+    declarator: (type_identifier))
+  (type_definition
+    type: (enum_specifier
+      body: (enumerator_list
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))))
+    declarator: (MISSING type_identifier))
+  (type_definition
+    type: (type_identifier)
+    declarator: (type_identifier))
+  (comment)
+  (enum_specifier
+    name: (type_identifier)
+    body: (enumerator_list
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))))
+  (comment)
+  (declaration
+    type: (enum_specifier
+      name: (type_identifier))
+    declarator: (identifier))
+  (comment)
+  (comment)
+  (declaration
+    type: (enum_specifier
+      name: (type_identifier)
+      body: (enumerator_list
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))))
+    declarator: (identifier))
+  (comment)
+  (comment)
+  (comment))
 
 ================================================================================
 Typedef: NS_ENUM
@@ -356,11 +464,11 @@ typedef enum AvatarStyle : NSUInteger {
 
 (translation_unit
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)))
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list
@@ -378,7 +486,7 @@ typedef enum AvatarStyle : NSUInteger {
         (enumerator
           name: (identifier)))))
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list
@@ -394,7 +502,7 @@ typedef enum AvatarStyle : NSUInteger {
           value: (number_literal))
         (enumerator
           name: (identifier))))
-    attributes: (identifier))
+    declarator: (type_identifier))
   (type_definition
     type: (enum_specifier
       name: (type_identifier)
@@ -405,7 +513,7 @@ typedef enum AvatarStyle : NSUInteger {
           value: (number_literal))
         (enumerator
           name: (identifier))))
-    attributes: (identifier)))
+    declarator: (type_identifier)))
 
 ================================================================================
 Typedef: NS_ENUM without typedef
@@ -420,7 +528,7 @@ NS_ENUM(NSInteger)
 --------------------------------------------------------------------------------
 
 (translation_unit
-  (enum_specifier
+  (ns_enum_specifier
     type: (type_identifier)
     body: (enumerator_list
       (enumerator
@@ -446,7 +554,7 @@ typedef NS_ENUM(NSInteger, TTCameraDetectionType) {
 
 (translation_unit
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list
@@ -498,7 +606,7 @@ typedef NS_ENUM(NSInteger, SVProgressHUDStyle) {
 
 (translation_unit
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list
@@ -534,7 +642,7 @@ typedef NS_OPTIONS(NSUInteger, ActionType) {
 
 (translation_unit
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list

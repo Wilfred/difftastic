@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, RLMSyncStopPolicy);
       declarator: (identifier)
       (swift_name_attribute_sepcifier)))
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)))
   (class_forward_declaration
@@ -75,7 +75,7 @@ typedef void (^JSONObjectBlock)(id json, JSONModelError *err) DEPRECATED_ATTRIBU
           type: (type_identifier)
           declarator: (pointer_declarator
             declarator: (identifier)))))
-    (attribute_specifier
+    attributes: (attribute_specifier
       (availability_attribute_specifier))))
 
 ================================================================================
@@ -209,7 +209,7 @@ typedef void (^AFURLSessionTaskDidFinishCollectingMetricsBlock)(NSURLSession *se
           type: (type_identifier)
           declarator: (pointer_declarator
             declarator: (identifier)))))
-    (attribute_specifier
+    attributes: (attribute_specifier
       (availability_attribute_specifier
         (platform_version
           platform: (platform)
@@ -354,7 +354,7 @@ typedef NS_ENUM(NSInteger, SVProgressHUDStyle) {
 
 (translation_unit
   (type_definition
-    type: (enum_specifier
+    type: (ns_enum_specifier
       type: (type_identifier)
       name: (type_identifier)
       body: (enumerator_list
@@ -1021,7 +1021,7 @@ __auto_type copy = (typeof(self.message))[self.message copy];
           arguments: (argument_list
             (string_literal)))))
     type: (type_identifier)
-    attributes: (identifier))
+    declarator: (type_identifier))
   (declaration
     type: (auto)
     declarator: (init_declarator
@@ -1371,7 +1371,7 @@ NS_ENUM(NSInteger)
 --------------------------------------------------------------------------------
 
 (translation_unit
-  (enum_specifier
+  (ns_enum_specifier
     type: (type_identifier)
     body: (enumerator_list
       (enumerator

@@ -1296,6 +1296,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "optional",
           "named": true
         },
@@ -1585,6 +1589,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "optional",
           "named": true
         },
@@ -1851,6 +1859,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "preproc_def",
           "named": true
         },
@@ -2036,6 +2048,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },
@@ -2183,6 +2199,10 @@
         },
         {
           "type": "module_import",
+          "named": true
+        },
+        {
+          "type": "ns_enum_specifier",
           "named": true
         },
         {
@@ -2408,77 +2428,7 @@
             "named": true
           },
           {
-            "type": "primitive_type",
-            "named": true
-          },
-          {
-            "type": "sized_type_specifier",
-            "named": true
-          },
-          {
-            "type": "struct_specifier",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "typeof_specifier",
-            "named": true
-          },
-          {
-            "type": "union_specifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "BOOL",
-            "named": true
-          },
-          {
-            "type": "Class",
-            "named": true
-          },
-          {
-            "type": "IMP",
-            "named": true
-          },
-          {
-            "type": "SEL",
-            "named": true
-          },
-          {
-            "type": "atomic_specifier",
-            "named": true
-          },
-          {
-            "type": "auto",
-            "named": true
-          },
-          {
-            "type": "enum_specifier",
-            "named": true
-          },
-          {
-            "type": "generic_type_specifier",
-            "named": true
-          },
-          {
-            "type": "id",
-            "named": true
-          },
-          {
-            "type": "instancetype",
-            "named": true
-          },
-          {
-            "type": "macro_type_specifier",
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -2643,6 +2593,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -2866,6 +2820,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "nullable",
             "named": true
           },
@@ -2959,6 +2917,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -3174,6 +3136,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },
@@ -3341,6 +3307,10 @@
         },
         {
           "type": "macro_type_specifier",
+          "named": true
+        },
+        {
+          "type": "ns_enum_specifier",
           "named": true
         },
         {
@@ -3694,6 +3664,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "nullable",
             "named": true
           },
@@ -3891,6 +3865,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },
@@ -4031,6 +4009,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "nullable",
             "named": true
           },
@@ -4150,6 +4132,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -4303,6 +4289,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "nullable",
             "named": true
           },
@@ -4422,6 +4412,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -4561,6 +4555,110 @@
     "fields": {}
   },
   {
+    "type": "ns_enum_specifier",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "enumerator_list",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "BOOL",
+            "named": true
+          },
+          {
+            "type": "Class",
+            "named": true
+          },
+          {
+            "type": "IMP",
+            "named": true
+          },
+          {
+            "type": "SEL",
+            "named": true
+          },
+          {
+            "type": "atomic_specifier",
+            "named": true
+          },
+          {
+            "type": "auto",
+            "named": true
+          },
+          {
+            "type": "enum_specifier",
+            "named": true
+          },
+          {
+            "type": "generic_type_specifier",
+            "named": true
+          },
+          {
+            "type": "id",
+            "named": true
+          },
+          {
+            "type": "instancetype",
+            "named": true
+          },
+          {
+            "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "sized_type_specifier",
+            "named": true
+          },
+          {
+            "type": "struct_specifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "typeof_specifier",
+            "named": true
+          },
+          {
+            "type": "union_specifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "number_expression",
     "named": true,
     "fields": {}
@@ -4644,6 +4742,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -5123,6 +5225,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "preproc_call",
           "named": true
         },
@@ -5287,6 +5393,10 @@
         },
         {
           "type": "module_import",
+          "named": true
+        },
+        {
+          "type": "ns_enum_specifier",
           "named": true
         },
         {
@@ -5574,6 +5684,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "preproc_call",
           "named": true
         },
@@ -5763,6 +5877,10 @@
         },
         {
           "type": "module_import",
+          "named": true
+        },
+        {
+          "type": "ns_enum_specifier",
           "named": true
         },
         {
@@ -6049,6 +6167,10 @@
             "named": true
           },
           {
+            "type": "ns_enum_specifier",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },
@@ -6171,6 +6293,10 @@
         },
         {
           "type": "method_declaration",
+          "named": true
+        },
+        {
+          "type": "ns_enum_specifier",
           "named": true
         },
         {
@@ -6405,7 +6531,7 @@
   },
   {
     "type": "string_literal",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -6633,6 +6759,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -6872,6 +7002,10 @@
           "named": true
         },
         {
+          "type": "ns_enum_specifier",
+          "named": true
+        },
+        {
           "type": "preproc_def",
           "named": true
         },
@@ -7001,6 +7135,10 @@
         "required": false,
         "types": [
           {
+            "type": "attribute_specifier",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -7062,6 +7200,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -7170,6 +7312,10 @@
           },
           {
             "type": "macro_type_specifier",
+            "named": true
+          },
+          {
+            "type": "ns_enum_specifier",
             "named": true
           },
           {
@@ -8239,11 +8385,11 @@
   },
   {
     "type": "number_literal",
-    "named": true
+    "named": false
   },
   {
     "type": "number_literal",
-    "named": false
+    "named": true
   },
   {
     "type": "oneway",

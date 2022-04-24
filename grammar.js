@@ -19,8 +19,10 @@ module.exports = grammar(C, {
     [$.struct_specifier],
     [$.union_specifier],
     [$.enum_specifier],
+    [$.ns_enum_specifier],
     [$.function_declarator],
     [$.type_descriptor],
+    [$.type_definition], // field attributes
     [$.superclass_reference],
     [$._expression, $.macro_type_specifier],
     [$._expression, $.generic_type_specifier],
@@ -144,7 +146,7 @@ module.exports = grammar(C, {
         seq($._name, optional($.parameterized_class_type_arguments), optional($.protocol_qualifiers)),
         $.generics_type_reference
       ),
-      '(', optional(field('category', $.identifier)),')',
+      '(', field('category', optional($.identifier)),')',
       optional($.protocol_qualifiers),
       optional($._instance_variables),
       optional($._interface_declaration),
@@ -532,13 +534,25 @@ module.exports = grammar(C, {
       optional($.attribute_specifier),
       optional($.swift_name_attribute_sepcifier),
       'typedef',
-      optional($.attribute_specifier),
-      repeat($.type_qualifier),
-      field('type', $._type_specifier),
-      optional($.attribute_specifier),
-      repeat($.type_qualifier),
-      optional(field('declarator', $._type_declarator)), // NS_ENUM optional
-      optional(choice(field('attributes', $.identifier), $.attribute_specifier)),
+      choice(
+        seq(
+          optional($.attribute_specifier),
+          repeat($.type_qualifier),
+          field('type', $._type_specifier),
+          optional($.attribute_specifier),
+          repeat($.type_qualifier),
+          field('declarator', $._type_declarator),
+          ), 
+        seq(
+          optional($.attribute_specifier),
+          repeat($.type_qualifier),
+          field('type', $.ns_enum_specifier),
+          optional($.attribute_specifier),
+          repeat($.type_qualifier),
+          field('declarator', optional($._type_declarator)), // NS_ENUM optional
+        )
+      ),
+      field('attributes', optional(choice($.identifier, $.attribute_specifier))),
       ';'
     )),
     
@@ -552,26 +566,25 @@ module.exports = grammar(C, {
       $.block_abstract_declarator,
     ),
 
-    enum_specifier: ($, superclass) => choice(
-      seq(
-        'enum',
-        choice(
-          seq(
-            field('name', optional($._type_identifier)),
-            field('superclass', optional(seq(':', $._type_specifier))),
-            field('body', optional($.enumerator_list))
+    enum_specifier: ($, superclass) => seq(
+      'enum',
+      choice(
+        seq(
+          field('name', optional($._type_identifier)),
+          field('superclass', optional(seq(':', $._type_specifier))),
+          field('body', optional($.enumerator_list))
           ),
-          field('body', $.enumerator_list)
-        )
-      ),
-      seq(
-        choice('NS_ENUM', 'NS_ERROR_ENUM', 'NS_OPTIONS'),
-        '(',
-        field('type', $._type_specifier),
-        optional(seq(',', field('name', $._type_identifier))),
-        ')',
-        field('body', optional($.enumerator_list)),
+        field('body', $.enumerator_list)
       )
+    ),
+
+    ns_enum_specifier: ($, superclass) => seq(
+      choice('NS_ENUM', 'NS_ERROR_ENUM', 'NS_OPTIONS'),
+      '(',
+      field('type', $._type_specifier),
+      optional(seq(',', field('name', $._type_identifier))),
+      ')',
+      field('body', optional($.enumerator_list)),
     ),
 
     enumerator: ($, superclass) => seq(
@@ -589,6 +602,7 @@ module.exports = grammar(C, {
       $.BOOL,
       $.auto,
       $.instancetype,
+      $.ns_enum_specifier,
       $.typeof_specifier,
       $.atomic_specifier,
       $.generic_type_specifier,
@@ -881,7 +895,7 @@ module.exports = grammar(C, {
     keyword_argument_list: $ => repeat1($.keyword_argument),
 
     keyword_argument: $ => seq(
-      optional(field('keyword', $.identifier)),
+      field('keyword', optional($.identifier)),
       ':',
       field('argument', choice(
         $._expression,
