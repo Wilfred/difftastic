@@ -4,8 +4,8 @@
 use std::{cmp::Reverse, env};
 
 use crate::{
-    graph::{mark_route, neighbours, Edge, Vertex},
-    syntax::Syntax,
+    graph::{mark_route, neighbours, Edge, Vertex, change_kinds},
+    syntax::{ChangeKind, Syntax},
 };
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
@@ -135,6 +135,23 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
     }
 
     count
+}
+
+pub fn syntax_changed<'a>(
+    lhs_syntax: Option<&'a Syntax<'a>>,
+    rhs_syntax: Option<&'a Syntax<'a>>,
+) -> FxHashMap<&'a Syntax<'a>, ChangeKind<'a>> {
+    info!(
+        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
+        node_count(lhs_syntax),
+        tree_count(lhs_syntax),
+        node_count(rhs_syntax),
+        tree_count(rhs_syntax),
+    );
+
+    let start = Vertex::new(lhs_syntax, rhs_syntax);
+    let route = shortest_path(start);
+    change_kinds(&route)
 }
 
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
