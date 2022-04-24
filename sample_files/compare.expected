@@ -40,6 +40,9 @@ b8c51005df7e1eaaeaf738a4353ac88f  -
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 9c668c79e56f1e1cecf1c02759c195a9  -
 
+sample_files/hcl_before.hcl sample_files/hcl_after.hcl
+f8a18b1f0b50c1a1736e13306cf3db52  -
+
 sample_files/helpful_before.el sample_files/helpful_after.el
 bce74573e003cc6b729a63a4bc34c4af  -
 

@@ -57,6 +57,7 @@ extern "C" {
     fn tree_sitter_elm() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
+    fn tree_sitter_hcl() -> ts::Language;
     fn tree_sitter_janet_simple() -> ts::Language;
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
@@ -303,6 +304,27 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/haskell.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Hcl => {
+            let language = unsafe { tree_sitter_hcl() };
+            TreeSitterConfig {
+                name: "Hcl",
+                language,
+                atom_nodes: vec!["string_lit", "heredoc_template"].into_iter().collect(),
+                delimiter_tokens: vec![
+                    ("[", "]"),
+                    ("(", ")"),
+                    ("{", "}"),
+                    ("%{", "}"),
+                    ("%{~", "~}"),
+                    ("${", "}"),
+                ],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/hcl.scm"),
                 )
                 .unwrap(),
             }
