@@ -1,3 +1,5 @@
+use std::num::NonZeroU32;
+
 use rustc_hash::FxHashMap;
 
 use crate::syntax::Syntax;
@@ -11,7 +13,7 @@ pub enum ChangeKind<'a> {
 
 #[derive(Debug)]
 pub struct ChangeMap<'a> {
-    changes: FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+    changes: FxHashMap<NonZeroU32, ChangeKind<'a>>,
 }
 
 impl<'a> Default for ChangeMap<'a> {
@@ -24,11 +26,11 @@ impl<'a> Default for ChangeMap<'a> {
 
 impl<'a> ChangeMap<'a> {
     pub fn insert(&mut self, node: &'a Syntax<'a>, ck: ChangeKind<'a>) {
-        self.changes.insert(node, ck);
+        self.changes.insert(node.id(), ck);
     }
 
     pub fn get(&self, node: &Syntax<'a>) -> Option<ChangeKind<'a>> {
-        self.changes.get(node).copied()
+        self.changes.get(&node.id()).copied()
     }
 }
 
