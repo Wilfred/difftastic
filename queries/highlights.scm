@@ -50,8 +50,6 @@
   "@throw"
   "@selector"
   "@encode"
-  "@available"
-  "__builtin_available"
   (private)
   (public)
   (protected)
@@ -61,11 +59,9 @@
   "NS_ENUM"
   "NS_ERROR_ENUM"
   "NS_OPTIONS"
+  "NS_SWIFT_NAME"
   (type_qualifier)
   (storage_class_specifier)
-  (attribute_specifier)
-  (class_interface_attribute_sepcifier)
-  (method_variadic_arguments_attribute_specifier)
   "NS_NOESCAPE"
   "const"
   "default"
@@ -358,6 +354,12 @@ declarator: (identifier) @property
   "_unaligned"
   "__unaligned"
   "__declspec"
+  "__unused"
+  "__builtin_available"
+  "@available"
+  (attribute_specifier)
+  (class_interface_attribute_sepcifier)
+  (method_variadic_arguments_attribute_specifier)
 ] @attribute
 
 (attribute_specifier) @attribute

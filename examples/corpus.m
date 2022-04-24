@@ -1343,6 +1343,39 @@ typedef id (*NSNumberAllocImp)(id receiver, SEL selector);
 typedef void (*mtl_failedMethodCallback)(Class, Method);
 
 
+enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+typedef enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+} UITableViewCellStyle;
+
+typedef enum {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+typedef NSInteger UITableViewCellStyle;
+
+
+// enum attr-spec-seq(optional) identifier(optional) { enumerator-list }   
+enum week{Mon, Tue, Wed}; // type specifier
+enum week day; // declaration, "day" is the declarator
+
+// Every declaration of an enum or a typedef is a definition.
+enum week{Mon, Tue, Wed}day; // declaring an enum variable
+                             // "week{Mon, Tue, Wed}" is the type specifier
+                             // "day" is the declarator
+
 typedef NS_ENUM(NSUInteger, RLMSyncStopPolicy);
 
 typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
@@ -1488,14 +1521,14 @@ typedef struct _AspectBlock {
 struct unarchive_list {
     int ifield;
     id *list;
-}; // FIXME
+};
 
 @end
 
 struct type_s {
    SS may_recurse;
    id id_val;
-};
+}; // FIXME
 
 struct Derived : type_s { };
 
