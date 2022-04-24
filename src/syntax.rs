@@ -12,19 +12,13 @@ use std::{
 use typed_arena::Arena;
 
 use crate::{
+    changes::ChangeKind,
+    changes::ChangeKind::*,
     lines::{LineNumber, NewlinePositions},
     myers_diff,
     positions::SingleLineSpan,
 };
-use ChangeKind::*;
 use Syntax::*;
-
-#[derive(PartialEq, Eq, Clone, Copy)]
-pub enum ChangeKind<'a> {
-    Unchanged(&'a Syntax<'a>),
-    ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
-    Novel,
-}
 
 /// A Debug implementation that does not reucurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will

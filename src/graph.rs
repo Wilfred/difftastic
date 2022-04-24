@@ -10,7 +10,8 @@ use std::{
 };
 use strsim::normalized_levenshtein;
 
-use crate::syntax::{AtomKind, ChangeKind, Syntax};
+use crate::changes::ChangeKind;
+use crate::syntax::{AtomKind, Syntax};
 use Edge::*;
 
 /// A vertex in a directed acyclic graph that represents a diff.

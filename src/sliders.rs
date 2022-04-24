@@ -29,11 +29,7 @@
 //! forwards or backwards when the before and after nodes are the same
 //! (B in this example).
 
-use crate::{
-    guess_language,
-    positions::SingleLineSpan,
-    syntax::{ChangeKind::*, Syntax},
-};
+use crate::{changes::ChangeKind::*, guess_language, positions::SingleLineSpan, syntax::Syntax};
 use Syntax::*;
 
 pub fn fix_all_sliders<'a>(language: guess_language::Language, nodes: &[&'a Syntax<'a>]) {

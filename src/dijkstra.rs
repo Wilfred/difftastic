@@ -4,8 +4,9 @@
 use std::{cmp::Reverse, env};
 
 use crate::{
-    graph::{mark_route, neighbours, Edge, Vertex, change_kinds},
-    syntax::{ChangeKind, Syntax},
+    changes::ChangeKind,
+    graph::{change_kinds, mark_route, neighbours, Edge, Vertex},
+    syntax::Syntax,
 };
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
