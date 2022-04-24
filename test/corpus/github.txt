@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, RLMSyncStopPolicy);
     name: (identifier)
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier))))
+      name: (identifier))))
 
 ================================================================================
 jsonmodel
@@ -681,7 +681,7 @@ FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *
                   type: (generic_type_specifier
                     class_name: (id)
                     type_reference: (protocol_qualifiers
-                      (protocol_identifier))))))
+                      name: (identifier))))))
             declarator: (pointer_declarator
               (type_qualifier)
               declarator: (identifier)))
@@ -693,7 +693,7 @@ FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *
                   type: (generic_type_specifier
                     class_name: (id)
                     type_reference: (protocol_qualifiers
-                      (protocol_identifier))))))
+                      name: (identifier))))))
             declarator: (pointer_declarator
               (type_qualifier)
               declarator: (identifier)))
@@ -949,7 +949,7 @@ __auto_type copy = (typeof(self.message))[self.message copy];
     (superclass_reference
       name: (identifier))
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_interface
     name: (identifier)
     (method_declaration
@@ -961,7 +961,7 @@ __auto_type copy = (typeof(self.message))[self.message copy];
           type: (generic_type_specifier
             class_name: (id)
             type_reference: (protocol_qualifiers
-              (protocol_identifier)))
+              name: (identifier)))
           name: (identifier)))
       (swift_name_attribute_sepcifier
         method: (identifier)
@@ -1460,7 +1460,7 @@ NS_EXTENSION_UNAVAILABLE_IOS("Use view controller based solutions where appropri
                 receiver: (generic_type_specifier
                   class_name: (type_identifier)
                   type_reference: (protocol_qualifiers
-                    (protocol_identifier)))
+                    name: (identifier)))
                 selector: (identifier))))))))
   (class_interface
     (attribute_specifier

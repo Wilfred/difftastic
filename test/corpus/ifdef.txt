@@ -44,7 +44,7 @@ ifdef
   (category_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (category_interface
     name: (identifier)
     (property_declaration

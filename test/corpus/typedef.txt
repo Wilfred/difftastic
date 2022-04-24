@@ -20,7 +20,7 @@ typedef SEL _Nonnull nonnull_SEL;
     type: (generic_type_specifier
       class_name: (id)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     attributes: (identifier))
   (type_definition
     type: (generic_type_specifier

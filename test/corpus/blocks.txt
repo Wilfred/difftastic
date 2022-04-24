@@ -1046,7 +1046,7 @@ CGFloat (* msgSendIMP)(id, SEL, id, CGFloat) = (CGFloat (*)(id, SEL, id, CGFloat
   (class_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier))
+      name: (identifier))
     (superclass_reference
       name: (identifier)
       type_reference: (generic_type_references

@@ -6235,16 +6235,17 @@
   {
     "type": "protocol_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6264,23 +6265,19 @@
     }
   },
   {
-    "type": "protocol_identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "protocol_qualifiers",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "protocol_identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6408,7 +6405,7 @@
   },
   {
     "type": "string_literal",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -8050,11 +8047,11 @@
   },
   {
     "type": "auto",
-    "named": true
+    "named": false
   },
   {
     "type": "auto",
-    "named": false
+    "named": true
   },
   {
     "type": "break",
@@ -8287,10 +8284,6 @@
   {
     "type": "protected",
     "named": true
-  },
-  {
-    "type": "protocol_identifier",
-    "named": false
   },
   {
     "type": "public",

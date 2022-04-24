@@ -26,8 +26,8 @@ module.exports = grammar(C, {
     [$._expression, $.generic_type_specifier],
     [$._declaration_specifiers],
     [$._declaration_specifiers, $.class_interface],
-    [$.protocol_identifier, $._type_specifier],
-    [$.protocol_identifier, $._parameterized_class_type_arguments],
+    [$._protocol_identifier, $._type_specifier],
+    [$._protocol_identifier, $._parameterized_class_type_arguments],
     [$.declaration, $._argument_type_declarator],
   ]),
 
@@ -35,9 +35,9 @@ module.exports = grammar(C, {
     $._expression,
     $._statement,
     $._declarator,
+    $._abstract_declarator,
     $._field_declarator,
     $._type_declarator,
-    $._abstract_declarator,
   ],
   
   rules: {
@@ -62,7 +62,6 @@ module.exports = grammar(C, {
     //
     // Imports
     //
-
     _import: $ => choice(
       $.preproc_import,
       $.module_import
@@ -168,10 +167,10 @@ module.exports = grammar(C, {
     ),
     
     protocol_qualifiers: $ => seq(
-      '<', commaSep1($.protocol_identifier), '>'
+      '<', commaSep1($._protocol_identifier), '>'
     ),
 
-    protocol_identifier: $ => prec.dynamic(5, alias($.identifier, 'protocol_identifier')),
+    _protocol_identifier: $ => prec.dynamic(5, field('name', $.identifier)),
     
     parameterized_class_type_arguments: $ => seq(
       '<', commaSep1($._parameterized_class_type_arguments), '>'
@@ -909,7 +908,7 @@ module.exports = grammar(C, {
     // https://opensource.apple.com/source/clang/clang-703.0.31/src/tools/clang/docs/ObjectiveCLiterals.rst.auto.html
     // objc-at-expression : '@' (string-literal | encode-literal | selector-literal | protocol-literal | object-literal)
     protocol_expression: $ => seq(
-      '@protocol', '(', $.identifier, ')'
+      '@protocol', '(', $._name, ')'
     ),
 
     encode_expression: $ => seq(

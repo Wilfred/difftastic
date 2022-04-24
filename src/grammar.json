@@ -7796,7 +7796,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "protocol_identifier"
+              "name": "_protocol_identifier"
             },
             {
               "type": "REPEAT",
@@ -7809,7 +7809,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "protocol_identifier"
+                    "name": "_protocol_identifier"
                   }
                 ]
               }
@@ -7822,17 +7822,16 @@
         }
       ]
     },
-    "protocol_identifier": {
+    "_protocol_identifier": {
       "type": "PREC_DYNAMIC",
       "value": 5,
       "content": {
-        "type": "ALIAS",
+        "type": "FIELD",
+        "name": "name",
         "content": {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        "named": false,
-        "value": "protocol_identifier"
+        }
       }
     },
     "parameterized_class_type_arguments": {
@@ -10428,7 +10427,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_name"
         },
         {
           "type": "STRING",
@@ -11268,11 +11267,11 @@
       "class_interface"
     ],
     [
-      "protocol_identifier",
+      "_protocol_identifier",
       "_type_specifier"
     ],
     [
-      "protocol_identifier",
+      "_protocol_identifier",
       "_parameterized_class_type_arguments"
     ],
     [
@@ -11294,9 +11293,9 @@
     "_expression",
     "_statement",
     "_declarator",
+    "_abstract_declarator",
     "_field_declarator",
-    "_type_declarator",
-    "_abstract_declarator"
+    "_type_declarator"
   ]
 }
 

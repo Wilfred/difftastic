@@ -45,18 +45,18 @@ Class interface: protocol qualifier
   (class_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_interface
     name: (identifier)
     (superclass_reference
       name: (identifier))
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)
-      (protocol_identifier))))
+      name: (identifier)
+      name: (identifier))))
 
 ================================================================================
 Class interface: ObjectType generic
@@ -89,12 +89,12 @@ Class interface: ObjectType generic
         type: (generic_type_specifier
           class_name: (id)
           type_reference: (protocol_qualifiers
-            (protocol_identifier)
-            (protocol_identifier)))))
+            name: (identifier)
+            name: (identifier)))))
     (superclass_reference
       name: (identifier))
     (protocol_qualifiers
-      (protocol_identifier))
+      name: (identifier))
     (property_declaration
       (property_attributes
         (nonatomic)
@@ -102,14 +102,14 @@ Class interface: ObjectType generic
       type: (generic_type_specifier
         class_name: (type_identifier)
         type_reference: (protocol_qualifiers
-          (protocol_identifier)))
+          name: (identifier)))
       declarator: (pointer_declarator
         declarator: (identifier))))
   (category_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)
-      (protocol_identifier)))
+      name: (identifier)
+      name: (identifier)))
   (class_interface
     name: (identifier)
     (parameterized_class_type_arguments
@@ -123,7 +123,7 @@ Class interface: ObjectType generic
         (type_descriptor
           type: (type_identifier))))
     (protocol_qualifiers
-      (protocol_identifier))))
+      name: (identifier))))
 
 ================================================================================
 Class interface: __GENERICS generic
@@ -180,7 +180,7 @@ Class interface: superclass type arguments
           type: (type_identifier)
           declarator: (abstract_pointer_declarator))))
     (protocol_qualifiers
-      (protocol_identifier))))
+      name: (identifier))))
 
 ================================================================================
 Class interface: parameterized classes
@@ -218,13 +218,13 @@ Class interface: parameterized classes
         type: (generic_type_specifier
           class_name: (id)
           type_reference: (protocol_qualifiers
-            (protocol_identifier)))))
+            name: (identifier)))))
     (superclass_reference
       name: (identifier)))
   (class_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier))
+      name: (identifier))
     (superclass_reference
       name: (identifier)
       type_reference: (generic_type_references
@@ -399,7 +399,7 @@ Class interface: property generic type
       type: (generic_type_specifier
         class_name: (type_identifier)
         type_reference: (protocol_qualifiers
-          (protocol_identifier)))
+          name: (identifier)))
       declarator: (pointer_declarator
         declarator: (identifier)))
     (property_declaration
@@ -413,7 +413,7 @@ Class interface: property generic type
             type: (generic_type_specifier
               class_name: (id)
               type_reference: (protocol_qualifiers
-                (protocol_identifier))))))
+                name: (identifier))))))
       declarator: (pointer_declarator
         declarator: (identifier)))
     (property_declaration
@@ -444,7 +444,7 @@ Class interface: property generic type
             type: (generic_type_specifier
               class_name: (type_identifier)
               type_reference: (protocol_qualifiers
-                (protocol_identifier)))
+                name: (identifier)))
             declarator: (abstract_pointer_declarator))))
       declarator: (pointer_declarator
         declarator: (identifier)))
@@ -459,8 +459,8 @@ Class interface: property generic type
             type: (type_identifier)
             declarator: (abstract_pointer_declarator)))
         type_reference: (protocol_qualifiers
-          (protocol_identifier)
-          (protocol_identifier)))
+          name: (identifier)
+          name: (identifier)))
       declarator: (pointer_declarator
         declarator: (identifier)))))
 
@@ -524,7 +524,7 @@ Method declaration: unary selector
       type: (generic_type_specifier
         class_name: (id)
         type_reference: (protocol_qualifiers
-          (protocol_identifier)))
+          name: (identifier)))
       selector: (identifier))))
 
 ================================================================================
@@ -664,7 +664,7 @@ Class implementation: method definition ending with semicolon
   (class_interface
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_implementation
     name: (identifier)
     (method_definition
@@ -856,8 +856,8 @@ Category interface: protocol qualifier
     name: (identifier)
     category: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)
-      (protocol_identifier))))
+      name: (identifier)
+      name: (identifier))))
 
 ================================================================================
 Category implementation
@@ -886,8 +886,8 @@ Protocol declaration: inheritance
   (protocol_declaration
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)
-      (protocol_identifier))))
+      name: (identifier)
+      name: (identifier))))
 
 ================================================================================
 Protocol forward declaration
@@ -927,7 +927,7 @@ Class forward declaration
   (class_forward_declaration
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_forward_declaration
     name: (identifier)
     (parameterized_class_type_arguments
@@ -936,7 +936,7 @@ Class forward declaration
     name: (identifier)
     name: (identifier)
     (protocol_qualifiers
-      (protocol_identifier))))
+      name: (identifier))))
 
 ================================================================================
 FOUNDATION_EXPORT global declaration

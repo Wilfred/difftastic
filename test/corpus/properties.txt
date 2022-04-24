@@ -35,7 +35,7 @@ Property: declaration
             type: (type_identifier)
             declarator: (abstract_pointer_declarator)))
         type_reference: (protocol_qualifiers
-          (protocol_identifier)))
+          name: (identifier)))
       declarator: (pointer_declarator
         declarator: (identifier)))
     (property_declaration

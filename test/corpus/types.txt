@@ -26,7 +26,7 @@ NSArray<__kindof UIView *> *backgroundSubviews;
     type: (generic_type_specifier
       class_name: (type_identifier)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     declarator: (pointer_declarator
       declarator: (identifier)))
   (declaration
@@ -175,7 +175,7 @@ Type: generics in selector receiver
         receiver: (generic_type_specifier
           class_name: (type_identifier)
           type_reference: (protocol_qualifiers
-            (protocol_identifier)))
+            name: (identifier)))
         selector: (identifier))
       selector: (identifier))))
 
@@ -197,7 +197,7 @@ static NSMapTable <Class <TTLElementProtocol>, NSString *> * mapTable = nil;
           type: (generic_type_specifier
             class_name: (Class)
             type_reference: (protocol_qualifiers
-              (protocol_identifier))))
+              name: (identifier))))
         (type_descriptor
           type: (type_identifier)
           declarator: (abstract_pointer_declarator))))
@@ -223,7 +223,7 @@ id<SDImageCoder> imageCoder;
     type: (generic_type_specifier
       class_name: (id)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     declarator: (function_declarator
       declarator: (identifier)
       parameters: (parameter_list
@@ -231,7 +231,7 @@ id<SDImageCoder> imageCoder;
           type: (generic_type_specifier
             class_name: (id)
             type_reference: (protocol_qualifiers
-              (protocol_identifier)))
+              name: (identifier)))
           declarator: (identifier))))
     body: (compound_statement
       (expression_statement
@@ -243,7 +243,7 @@ id<SDImageCoder> imageCoder;
     type: (generic_type_specifier
       class_name: (id)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     declarator: (identifier)))
 
 ================================================================================
@@ -415,8 +415,8 @@ Type: **
           type: (generic_type_specifier
             class_name: (type_identifier)
             type_reference: (protocol_qualifiers
-              (protocol_identifier)
-              (protocol_identifier)))
+              name: (identifier)
+              name: (identifier)))
           declarator: (abstract_pointer_declarator)
           name: (identifier))
         (keyword_declarator

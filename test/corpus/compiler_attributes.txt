@@ -55,7 +55,7 @@ __attribute__((objc_subclassing_restricted))
     (superclass_reference
       name: (identifier))
     (protocol_qualifiers
-      (protocol_identifier)))
+      name: (identifier)))
   (class_interface
     (attribute_specifier
       (availability_attribute_specifier
@@ -719,7 +719,7 @@ __attribute__((__swift_name__("SDWebImage")))
           type: (generic_type_specifier
             class_name: (id)
             type_reference: (protocol_qualifiers
-              (protocol_identifier)))
+              name: (identifier)))
           name: (identifier)))
       (swift_name_attribute_sepcifier
         method: (identifier)
@@ -782,7 +782,7 @@ FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *
                   type: (generic_type_specifier
                     class_name: (id)
                     type_reference: (protocol_qualifiers
-                      (protocol_identifier))))))
+                      name: (identifier))))))
             declarator: (pointer_declarator
               (type_qualifier)
               declarator: (identifier)))
@@ -794,7 +794,7 @@ FOUNDATION_EXTERN IGListIndexSetResult *IGListDiff(NSArray<id<IGListDiffable>> *
                   type: (generic_type_specifier
                     class_name: (id)
                     type_reference: (protocol_qualifiers
-                      (protocol_identifier))))))
+                      name: (identifier))))))
             declarator: (pointer_declarator
               (type_qualifier)
               declarator: (identifier)))

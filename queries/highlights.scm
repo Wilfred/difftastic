@@ -247,7 +247,7 @@ declarator: (identifier) @property
 (class_forward_declaration name: (identifier) @type.class)
 (protocol_forward_declaration name: (identifier) @type.protocol)
 (protocol_declaration name: (identifier) @type.protocol)
-(protocol_qualifiers (protocol_identifier) @type.protocol)
+(protocol_qualifiers name: (identifier) @type.protocol)
 (protocol_expression (identifier) @type.protocol)
 
 ;; Preproc def / undef

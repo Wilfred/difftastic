@@ -71,7 +71,7 @@ for (NSNumber * _Nonnull foo in foos) {
     type: (generic_type_specifier
       class_name: (id)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     declarator: (identifier)
     loop: (field_expression
       argument: (self)
@@ -81,7 +81,7 @@ for (NSNumber * _Nonnull foo in foos) {
     type: (generic_type_specifier
       class_name: (id)
       type_reference: (protocol_qualifiers
-        (protocol_identifier)))
+        name: (identifier)))
     declarator: (identifier)
     loop: (field_expression
       argument: (message_expression
