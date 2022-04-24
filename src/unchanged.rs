@@ -450,12 +450,12 @@ mod tests {
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
-            lhs_nodes[0].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[0]))
+            change_map.get(lhs_nodes[0]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
         );
         assert_eq!(
-            rhs_nodes[0].change(),
-            Some(ChangeKind::Unchanged(lhs_nodes[0]))
+            change_map.get(rhs_nodes[0]),
+            Some(&ChangeKind::Unchanged(lhs_nodes[0]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -476,12 +476,12 @@ mod tests {
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
-            lhs_nodes[2].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+            change_map.get(lhs_nodes[2]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
-            rhs_nodes[1].change(),
-            Some(ChangeKind::Unchanged(lhs_nodes[2]))
+            change_map.get(rhs_nodes[1]),
+            Some(&ChangeKind::Unchanged(lhs_nodes[2]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -509,8 +509,8 @@ mod tests {
         assert!(matches!(rhs_after_skip[0], Syntax::List { .. }));
 
         // The inner items haven't had their change set yet.
-        assert_eq!(lhs_after_skip[0].change(), None);
-        assert_eq!(rhs_after_skip[0].change(), None);
+        assert_eq!(change_map.get(lhs_after_skip[0]), None);
+        assert_eq!(change_map.get(rhs_after_skip[0]), None);
     }
 
     #[test]
@@ -530,12 +530,12 @@ mod tests {
         let (lhs_after_skip, rhs_after_skip) = &res[0];
 
         assert_eq!(
-            lhs_nodes[0].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[0]))
+            change_map.get(lhs_nodes[0]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
         );
         assert_eq!(
-            rhs_nodes[0].change(),
-            Some(ChangeKind::Unchanged(lhs_nodes[0]))
+            change_map.get(rhs_nodes[0]),
+            Some(&ChangeKind::Unchanged(lhs_nodes[0]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -558,12 +558,12 @@ mod tests {
         let (lhs_after_skip, rhs_after_skip) = &res[0];
 
         assert_eq!(
-            lhs_nodes[2].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+            change_map.get(lhs_nodes[2]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
-            rhs_nodes[1].change(),
-            Some(ChangeKind::Unchanged(lhs_nodes[2]))
+            change_map.get(rhs_nodes[1]),
+            Some(&ChangeKind::Unchanged(lhs_nodes[2]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -593,8 +593,8 @@ mod tests {
         assert!(matches!(rhs_after_skip[0], Syntax::List { .. }));
 
         // The outer list delimiters don't have their change set yet.
-        assert_eq!(lhs_nodes[0].change(), None);
-        assert_eq!(rhs_nodes[0].change(), None);
+        assert_eq!(change_map.get(lhs_nodes[0]), None);
+        assert_eq!(change_map.get(rhs_nodes[0]), None);
     }
 
     #[test]
@@ -625,12 +625,12 @@ mod tests {
         );
 
         assert_eq!(
-            lhs_nodes[1].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+            change_map.get(lhs_nodes[1]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
-            rhs_nodes[1].change(),
-            Some(ChangeKind::Unchanged(lhs_nodes[1]))
+            change_map.get(rhs_nodes[1]),
+            Some(&ChangeKind::Unchanged(lhs_nodes[1]))
         );
     }
 
@@ -684,8 +684,8 @@ mod tests {
         assert_eq!(res.len(), 2);
 
         assert_eq!(
-            lhs_nodes[0].change(),
-            Some(ChangeKind::Unchanged(rhs_nodes[0]))
+            change_map.get(lhs_nodes[0]),
+            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
         );
     }
 

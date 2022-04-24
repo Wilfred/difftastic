@@ -344,8 +344,8 @@ fn diff_file_content(
                     fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
                 }
 
-                let lhs_positions = syntax::change_positions(&lhs);
-                let rhs_positions = syntax::change_positions(&rhs);
+                let lhs_positions = syntax::change_positions(&lhs, &change_map);
+                let rhs_positions = syntax::change_positions(&rhs, &change_map);
                 (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
             }
         }

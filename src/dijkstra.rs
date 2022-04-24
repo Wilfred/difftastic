@@ -565,8 +565,9 @@ mod tests {
 
         let mut change_map = new_change_map();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
-        assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
-        assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
+
+        assert_eq!(change_map.get(lhs), Some(&ChangeKind::Unchanged(rhs)));
+        assert_eq!(change_map.get(rhs), Some(&ChangeKind::Unchanged(lhs)));
     }
 
     #[test]
@@ -578,7 +579,7 @@ mod tests {
 
         let mut change_map = new_change_map();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
-        assert_eq!(lhs.change(), Some(ChangeKind::Novel));
-        assert_eq!(rhs.change(), Some(ChangeKind::Novel));
+        assert_eq!(change_map.get(lhs), Some(&ChangeKind::Novel));
+        assert_eq!(change_map.get(rhs), Some(&ChangeKind::Novel));
     }
 }
