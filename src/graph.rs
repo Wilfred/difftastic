@@ -9,7 +9,7 @@ use std::{
 };
 use strsim::normalized_levenshtein;
 
-use crate::changes::{ChangeKind, ChangeMap, new_change_map};
+use crate::changes::{insert_deep_unchanged, new_change_map, ChangeKind, ChangeMap};
 use crate::syntax::{AtomKind, Syntax};
 use Edge::*;
 
@@ -589,34 +589,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     );
 }
 
-fn set_deep_unchanged<'a>(
-    node: &'a Syntax<'a>,
-    opposite_node: &'a Syntax<'a>,
-    changes: &mut ChangeMap<'a>,
-) {
-    changes.insert(node, ChangeKind::Unchanged(opposite_node));
-
-    match (node, opposite_node) {
-        (
-            Syntax::List {
-                children: node_children,
-                ..
-            },
-            Syntax::List {
-                children: opposite_children,
-                ..
-            },
-        ) => {
-            for (child, opposite_child) in node_children.iter().zip(opposite_children) {
-                set_deep_unchanged(child, opposite_child, changes);
-            }
-        }
-        (Syntax::Atom { .. }, Syntax::Atom { .. }) => {}
-        _ => unreachable!("Unchanged nodes should be both lists, or both atoms"),
-    }
-}
-
-pub fn change_kinds<'a>(route: &[(Edge, Vertex<'a>)]) -> ChangeMap<'a> {
+pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)]) -> ChangeMap<'a> {
     let mut res = new_change_map();
 
     for (e, v) in route {
@@ -629,8 +602,8 @@ pub fn change_kinds<'a>(route: &[(Edge, Vertex<'a>)]) -> ChangeMap<'a> {
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
 
-                set_deep_unchanged(lhs, rhs, &mut res);
-                set_deep_unchanged(rhs, lhs, &mut res);
+                insert_deep_unchanged(lhs, rhs, &mut res);
+                insert_deep_unchanged(rhs, lhs, &mut res);
             }
             EnterUnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may
