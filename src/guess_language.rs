@@ -195,9 +195,6 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         // Treat .h as C++ rather than C. This is an arbitrary choice,
         // but C++ is more widely used than C according to
         // https://madnight.github.io/githut/
-        //
-        // TODO: allow users to override the association between
-        // extensions and parses.
         "cc" | "cpp" | "h" | "hh" | "hpp" | "cxx" => Some(CPlusPlus),
         "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
             Some(Clojure)
