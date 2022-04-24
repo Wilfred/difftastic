@@ -13,7 +13,7 @@ use typed_arena::Arena;
 
 use crate::{
     changes::ChangeKind,
-    changes::ChangeKind::*,
+    changes::{ChangeKind::*, ChangeMap},
     lines::{LineNumber, NewlinePositions},
     myers_diff,
     positions::SingleLineSpan,
@@ -319,10 +319,6 @@ impl<'a> Syntax<'a> {
             Atom { position, .. } => position,
         };
         position.last().map(|lp| lp.line)
-    }
-
-    pub fn change(&'a self) -> Option<ChangeKind<'a>> {
-        todo!()
     }
 }
 
@@ -768,16 +764,23 @@ impl MatchedPos {
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
-pub fn change_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<MatchedPos> {
+pub fn change_positions<'a>(
+    nodes: &[&'a Syntax<'a>],
+    change_map: &ChangeMap<'a>,
+) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
-    change_positions_(nodes, &mut positions);
+    change_positions_(nodes, change_map, &mut positions);
     positions
 }
 
-fn change_positions_<'a>(nodes: &[&'a Syntax<'a>], positions: &mut Vec<MatchedPos>) {
+fn change_positions_<'a>(
+    nodes: &[&'a Syntax<'a>],
+    change_map: &ChangeMap<'a>,
+    positions: &mut Vec<MatchedPos>,
+) {
     for node in nodes {
-        let change = node
-            .change()
+        let change = change_map
+            .get(node)
             .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
         match node {
@@ -788,16 +791,16 @@ fn change_positions_<'a>(nodes: &[&'a Syntax<'a>], positions: &mut Vec<MatchedPo
                 ..
             } => {
                 positions.extend(MatchedPos::new(
-                    change,
+                    *change,
                     TokenKind::Delimiter,
                     open_position,
                     false,
                 ));
 
-                change_positions_(children, positions);
+                change_positions_(children, change_map, positions);
 
                 positions.extend(MatchedPos::new(
-                    change,
+                    *change,
                     TokenKind::Delimiter,
                     close_position,
                     true,
@@ -805,7 +808,7 @@ fn change_positions_<'a>(nodes: &[&'a Syntax<'a>], positions: &mut Vec<MatchedPo
             }
             Atom { position, kind, .. } => {
                 positions.extend(MatchedPos::new(
-                    change,
+                    *change,
                     TokenKind::Atom(*kind),
                     position,
                     false,
