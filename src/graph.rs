@@ -94,6 +94,15 @@ impl<'a> Hash for Vertex<'a> {
     }
 }
 
+pub fn matches_end(v: &Vertex, end: &Vertex) -> bool {
+    // This is a weaker form of equality than Vertex::eq. We don't
+    // want to consider parent_id, as the sentinel end node may not
+    // have it.
+    v.parents.is_empty()
+        && v.lhs_syntax.map(|node| node.id()) == end.lhs_syntax.map(|node| node.id())
+        && v.rhs_syntax.map(|node| node.id()) == end.rhs_syntax.map(|node| node.id())
+}
+
 /// Tracks entering syntax List nodes.
 #[derive(Clone)]
 enum EnteredDelimiter<'a> {
@@ -247,10 +256,6 @@ fn push_rhs_delimiter<'a>(
 }
 
 impl<'a> Vertex<'a> {
-    pub fn is_end(&self) -> bool {
-        self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
-    }
-
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         let parents = Stack::new();
         Vertex {
@@ -585,7 +590,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     }
     assert!(
         i > 0,
-        "Must always find some next steps if node is not the end"
+        "Must always find some next steps if vertex is not the end, vertex: {:?}",
+        v
     );
 }
 

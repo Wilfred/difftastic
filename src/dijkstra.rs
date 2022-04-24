@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     changes::ChangeMap,
-    graph::{neighbours, populate_change_map, Edge, Vertex},
+    graph::{neighbours, populate_change_map, Edge, Vertex, matches_end},
     syntax::Syntax,
 };
 use itertools::Itertools;
@@ -14,7 +14,7 @@ use rustc_hash::FxHashMap;
 
 type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
 
-fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
+fn shortest_path<'a>(start: Vertex<'a>, end: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
@@ -32,7 +32,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let end = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
-                if current.is_end() {
+                if matches_end(&current, &end) {
                     break current;
                 }
 
@@ -139,20 +139,23 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
 }
 
 pub fn mark_syntax<'a>(
-    lhs_syntax: Option<&'a Syntax<'a>>,
-    rhs_syntax: Option<&'a Syntax<'a>>,
+    lhs_syntax_start: Option<&'a Syntax<'a>>,
+    rhs_syntax_start: Option<&'a Syntax<'a>>,
+    lhs_syntax_end: Option<&'a Syntax<'a>>,
+    rhs_syntax_end: Option<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
 ) {
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
-        node_count(lhs_syntax),
-        tree_count(lhs_syntax),
-        node_count(rhs_syntax),
-        tree_count(rhs_syntax),
+        node_count(lhs_syntax_start),
+        tree_count(lhs_syntax_start),
+        node_count(rhs_syntax_start),
+        tree_count(rhs_syntax_start),
     );
 
-    let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start);
+    let start = Vertex::new(lhs_syntax_start, rhs_syntax_start);
+    let end = Vertex::new(lhs_syntax_end, rhs_syntax_end);
+    let route = shortest_path(start, end);
 
     populate_change_map(&route, change_map)
 }
@@ -196,7 +199,8 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -236,7 +240,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -278,7 +283,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -324,7 +330,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -363,7 +370,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -400,7 +408,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -438,7 +447,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -472,7 +482,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -503,7 +514,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -542,7 +554,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let end = Vertex::new(None, None);
+        let route = shortest_path(start, end);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -564,7 +577,7 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
+        mark_syntax(Some(lhs), Some(rhs), None, None, &mut change_map);
 
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
@@ -578,7 +591,7 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let mut change_map = ChangeMap::default();
-        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
+        mark_syntax(Some(lhs), Some(rhs), None, None, &mut change_map);
         assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
         assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
     }
