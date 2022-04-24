@@ -41,3 +41,13 @@ pub fn insert_deep_unchanged<'a>(
         _ => unreachable!("Unchanged nodes should be both lists, or both atoms"),
     }
 }
+
+pub fn insert_deep_novel<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
+    change_map.insert(node, ChangeKind::Novel);
+
+    if let Syntax::List { children, .. } = node {
+        for child in children.iter() {
+            insert_deep_novel(child, change_map);
+        }
+    }
+}

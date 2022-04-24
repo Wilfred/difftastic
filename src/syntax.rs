@@ -324,32 +324,6 @@ impl<'a> Syntax<'a> {
     pub fn change(&'a self) -> Option<ChangeKind<'a>> {
         todo!()
     }
-
-    fn set_change(&self, ck: ChangeKind<'a>) {
-        todo!()
-    }
-
-    pub fn set_change_deep(&self, ck: ChangeKind<'a>) {
-        self.set_change(ck);
-
-        if let List { children, .. } = self {
-            // For unchanged lists, match up children with the
-            // unchanged children on the other side.
-            if let Unchanged(List {
-                children: other_children,
-                ..
-            }) = ck
-            {
-                for (child, other_child) in children.iter().zip(other_children) {
-                    child.set_change_deep(Unchanged(other_child));
-                }
-            } else {
-                for child in children {
-                    child.set_change_deep(ck);
-                }
-            };
-        }
-    }
 }
 
 /// Initialise all the fields in `SyntaxInfo`.

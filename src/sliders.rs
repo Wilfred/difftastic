@@ -30,7 +30,7 @@
 //! (B in this example).
 
 use crate::{
-    changes::{ChangeKind::*, ChangeMap},
+    changes::{ChangeKind::*, ChangeMap, insert_deep_unchanged, insert_deep_novel},
     guess_language,
     positions::SingleLineSpan,
     syntax::Syntax,
@@ -344,9 +344,9 @@ fn slide_to_prev_node<'a>(
             _ => unreachable!(),
         };
 
-        before_start_node.set_change_deep(Novel);
-        last_node.set_change_deep(Unchanged(opposite));
-        opposite.set_change_deep(Unchanged(last_node));
+        insert_deep_novel(before_start_node, change_map);
+        insert_deep_unchanged(last_node, opposite, change_map);
+        insert_deep_unchanged(opposite, last_node, change_map);
     }
 }
 
@@ -394,9 +394,9 @@ fn slide_to_next_node<'a>(
             _ => unreachable!(),
         };
 
-        start_node.set_change_deep(Unchanged(opposite));
-        opposite.set_change_deep(Unchanged(start_node));
-        after_last_node.set_change_deep(Novel);
+        insert_deep_unchanged(start_node, opposite, change_map);
+        insert_deep_unchanged(opposite, start_node, change_map);
+        insert_deep_novel(after_last_node, change_map);
     }
 }
 
