@@ -306,7 +306,7 @@ fn diff_file_content(
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
 
             init_all_info(&lhs, &rhs);
-            
+
             let mut change_map = new_change_map();
             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                 vec![(lhs.clone(), rhs.clone())]
@@ -340,8 +340,8 @@ fn diff_file_content(
                     );
 
                     let language = language.unwrap();
-                    fix_all_sliders(language, &lhs_section_nodes);
-                    fix_all_sliders(language, &rhs_section_nodes);
+                    fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
+                    fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
                 }
 
                 let lhs_positions = syntax::change_positions(&lhs);

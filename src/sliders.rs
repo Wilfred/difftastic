@@ -29,13 +29,22 @@
 //! forwards or backwards when the before and after nodes are the same
 //! (B in this example).
 
-use crate::{changes::ChangeKind::*, guess_language, positions::SingleLineSpan, syntax::Syntax};
+use crate::{
+    changes::{ChangeKind::*, ChangeMap},
+    guess_language,
+    positions::SingleLineSpan,
+    syntax::Syntax,
+};
 use Syntax::*;
 
-pub fn fix_all_sliders<'a>(language: guess_language::Language, nodes: &[&'a Syntax<'a>]) {
+pub fn fix_all_sliders<'a>(
+    language: guess_language::Language,
+    nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
+) {
     // TODO: fix sliders that require more than two steps.
-    fix_all_sliders_one_step(nodes);
-    fix_all_sliders_one_step(nodes);
+    fix_all_sliders_one_step(nodes, change_map);
+    fix_all_sliders_one_step(nodes, change_map);
 
     if !prefer_outer_delimiter(language) {
         fix_all_nested_sliders(nodes);
@@ -62,13 +71,13 @@ fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
     }
 }
 
-fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>]) {
+fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
     for node in nodes {
         if let List { children, .. } = node {
-            fix_all_sliders_one_step(children);
+            fix_all_sliders_one_step(children, change_map);
         }
     }
-    fix_sliders(nodes);
+    fix_sliders(nodes, change_map);
 }
 
 /// Correct sliders in middle insertions.
@@ -163,12 +172,12 @@ fn push_unchanged_to_ancestor<'a>(root: &'a Syntax<'a>, inner: &'a Syntax<'a>) {
     }
 }
 
-fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
+fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
     for (region_start, region_end) in novel_regions_after_unchanged(nodes) {
-        slide_to_prev_node(nodes, region_start, region_end);
+        slide_to_prev_node(nodes, change_map, region_start, region_end);
     }
     for (region_start, region_end) in novel_regions_before_unchanged(nodes) {
-        slide_to_next_node(nodes, region_start, region_end);
+        slide_to_next_node(nodes, change_map, region_start, region_end);
     }
 }
 
@@ -251,43 +260,48 @@ fn novel_regions_before_unchanged<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<(usize, u
         .collect()
 }
 
-fn is_novel_deep(node: &Syntax) -> bool {
+fn is_novel_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
     match node {
-        List { info, children, .. } => {
-            if !matches!(info.change.get(), Some(Novel)) {
+        List { children, .. } => {
+            if !matches!(change_map.get(node), Some(Novel)) {
                 return false;
             }
             for child in children {
-                if !is_novel_deep(child) {
+                if !is_novel_deep(child, change_map) {
                     return false;
                 }
             }
 
             true
         }
-        Atom { info, .. } => matches!(info.change.get(), Some(Novel)),
+        Atom { .. } => matches!(change_map.get(node), Some(Novel)),
     }
 }
 
-fn is_unchanged_deep(node: &Syntax) -> bool {
+fn is_unchanged_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
     match node {
-        List { info, children, .. } => {
-            if !matches!(info.change.get(), Some(Unchanged(_))) {
+        List { children, .. } => {
+            if !matches!(change_map.get(node), Some(Unchanged(_))) {
                 return false;
             }
             for child in children {
-                if !is_unchanged_deep(child) {
+                if !is_unchanged_deep(child, change_map) {
                     return false;
                 }
             }
 
             true
         }
-        Atom { info, .. } => matches!(info.change.get(), Some(Unchanged(_))),
+        Atom { .. } => matches!(change_map.get(node), Some(Unchanged(_))),
     }
 }
 
-fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
+fn slide_to_prev_node<'a>(
+    nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
+    start_idx: usize,
+    end_idx: usize,
+) {
     if start_idx == 0 {
         return;
     }
@@ -309,11 +323,11 @@ fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
 
     if distance_to_before_start <= distance_to_last {
         // Deep checks walk the whole tree, so do these last.
-        if !is_unchanged_deep(before_start_node) {
+        if !is_unchanged_deep(before_start_node, change_map) {
             return;
         }
         for node in &nodes[start_idx..=end_idx] {
-            if !is_novel_deep(node) {
+            if !is_novel_deep(node, change_map) {
                 return;
             }
         }
@@ -332,7 +346,12 @@ fn slide_to_prev_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
     }
 }
 
-fn slide_to_next_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: usize) {
+fn slide_to_next_node<'a>(
+    nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
+    start_idx: usize,
+    end_idx: usize,
+) {
     if end_idx == nodes.len() - 1 {
         return;
     }
@@ -354,11 +373,11 @@ fn slide_to_next_node<'a>(nodes: &[&'a Syntax<'a>], start_idx: usize, end_idx: u
 
     if distance_to_after_last < distance_to_start {
         // Deep checks walk the whole tree, so do these last.
-        if !is_unchanged_deep(after_last_node) {
+        if !is_unchanged_deep(after_last_node, change_map) {
             return;
         }
         for node in &nodes[start_idx..=end_idx] {
-            if !is_novel_deep(node) {
+            if !is_novel_deep(node, change_map) {
                 return;
             }
         }
@@ -448,7 +467,7 @@ mod tests {
     use crate::{
         guess_language,
         syntax::{init_all_info, AtomKind},
-        tree_sitter_parser::{from_language, parse},
+        tree_sitter_parser::{from_language, parse}, changes::new_change_map,
     };
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
@@ -494,7 +513,8 @@ mod tests {
         lhs[1].set_change(Novel);
         lhs[2].set_change(Novel);
 
-        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs);
+        let mut change_map = new_change_map();
+        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
         assert_eq!(lhs[0].change(), Some(Novel));
         assert_eq!(lhs[1].change(), Some(Novel));
         assert_eq!(lhs[2].change(), Some(Unchanged(rhs[0])));
@@ -542,7 +562,8 @@ mod tests {
         lhs[1].set_change(Novel);
         lhs[2].set_change(Unchanged(rhs[0]));
 
-        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs);
+        let mut change_map = new_change_map();
+        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
         assert_eq!(rhs[0].change(), Some(Unchanged(lhs[0])));
         assert_eq!(lhs[0].change(), Some(Unchanged(rhs[0])));
         assert_eq!(lhs[1].change(), Some(Novel));
@@ -563,7 +584,8 @@ mod tests {
         rhs[3].set_change(Novel);
         rhs[4].set_change(Novel);
 
-        fix_all_sliders(guess_language::Language::EmacsLisp, &rhs);
+        let mut change_map = new_change_map();
+        fix_all_sliders(guess_language::Language::EmacsLisp, &rhs, &mut change_map);
         assert_eq!(rhs[0].change(), Some(Novel));
         assert_eq!(rhs[1].change(), Some(Novel));
         assert_eq!(rhs[2].change(), Some(Novel));
