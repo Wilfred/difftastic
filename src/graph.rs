@@ -1,6 +1,7 @@
 //! A graph representation for computing tree diffs.
 
 use rpds::Stack;
+use rustc_hash::FxHashMap;
 use std::{
     cmp::min,
     fmt,
@@ -586,6 +587,83 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
         i > 0,
         "Must always find some next steps if node is not the end"
     );
+}
+
+fn set_deep_unchanged<'a>(
+    node: &'a Syntax<'a>,
+    opposite_node: &'a Syntax<'a>,
+    changes: &mut FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+) {
+    changes.insert(node, ChangeKind::Unchanged(opposite_node));
+
+    match (node, opposite_node) {
+        (
+            Syntax::List {
+                children: node_children,
+                ..
+            },
+            Syntax::List {
+                children: opposite_children,
+                ..
+            },
+        ) => {
+            for (child, opposite_child) in node_children.iter().zip(opposite_children) {
+                set_deep_unchanged(child, opposite_child, changes);
+            }
+        }
+        (Syntax::Atom { .. }, Syntax::Atom { .. }) => {}
+        _ => unreachable!("Unchanged nodes should be both lists, or both atoms"),
+    }
+}
+
+pub fn change_kinds<'a>(route: &[(Edge, Vertex<'a>)]) -> FxHashMap<&'a Syntax<'a>, ChangeKind<'a>> {
+    let mut res = FxHashMap::default();
+
+    for (e, v) in route {
+        match e {
+            ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
+                // Nothing to do: we have already marked this node when we entered it.
+            }
+            UnchangedNode { .. } => {
+                // No change on this node or its children.
+                let lhs = v.lhs_syntax.unwrap();
+                let rhs = v.rhs_syntax.unwrap();
+
+                set_deep_unchanged(lhs, rhs, &mut res);
+                set_deep_unchanged(rhs, lhs, &mut res);
+            }
+            EnterUnchangedDelimiter { .. } => {
+                // No change on the outer delimiter, but children may
+                // have changed.
+                let lhs = v.lhs_syntax.unwrap();
+                let rhs = v.rhs_syntax.unwrap();
+                res.insert(lhs, ChangeKind::Unchanged(rhs));
+                res.insert(rhs, ChangeKind::Unchanged(lhs));
+            }
+            ReplacedComment { levenshtein_pct } => {
+                let lhs = v.lhs_syntax.unwrap();
+                let rhs = v.rhs_syntax.unwrap();
+
+                if *levenshtein_pct > 40 {
+                    res.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
+                    res.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));
+                } else {
+                    res.insert(lhs, ChangeKind::Novel);
+                    res.insert(rhs, ChangeKind::Novel);
+                }
+            }
+            NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
+                let lhs = v.lhs_syntax.unwrap();
+                res.insert(lhs, ChangeKind::Novel);
+            }
+            NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
+                let rhs = v.rhs_syntax.unwrap();
+                res.insert(rhs, ChangeKind::Novel);
+            }
+        }
+    }
+
+    res
 }
 
 pub fn mark_route(route: &[(Edge, Vertex)]) {
