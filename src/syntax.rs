@@ -791,7 +791,7 @@ fn change_positions_<'a>(
                 ..
             } => {
                 positions.extend(MatchedPos::new(
-                    *change,
+                    change,
                     TokenKind::Delimiter,
                     open_position,
                     false,
@@ -800,7 +800,7 @@ fn change_positions_<'a>(
                 change_positions_(children, change_map, positions);
 
                 positions.extend(MatchedPos::new(
-                    *change,
+                    change,
                     TokenKind::Delimiter,
                     close_position,
                     true,
@@ -808,7 +808,7 @@ fn change_positions_<'a>(
             }
             Atom { position, kind, .. } => {
                 positions.extend(MatchedPos::new(
-                    *change,
+                    change,
                     TokenKind::Atom(*kind),
                     position,
                     false,
