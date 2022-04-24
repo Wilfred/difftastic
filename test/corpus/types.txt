@@ -457,14 +457,14 @@ Struct
 struct unarchive_list {
     int ifield;
     id *list;
-}; // FIXME
+};
 
 @end
 
 struct type_s {
    SS may_recurse;
    id id_val;
-};
+}; // FIXME
 
 struct Derived : type_s { };
 
@@ -484,8 +484,7 @@ struct Derived : type_s { };
             type: (id)
             declarator: (pointer_declarator
               declarator: (field_identifier)))))
-      declarator: (MISSING identifier))
-    (comment))
+      declarator: (MISSING identifier)))
   (struct_specifier
     name: (type_identifier)
     body: (field_declaration_list
@@ -495,6 +494,7 @@ struct Derived : type_s { };
       (field_declaration
         type: (id)
         declarator: (field_identifier))))
+  (comment)
   (struct_specifier
     name: (type_identifier)
     (superclass_reference

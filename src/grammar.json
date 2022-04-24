@@ -10058,17 +10058,8 @@
       "value": "BOOL"
     },
     "auto": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "auto"
-        },
-        {
-          "type": "STRING",
-          "value": "__auto_type"
-        }
-      ]
+      "type": "STRING",
+      "value": "__auto_type"
     },
     "autoreleasepool_statement": {
       "type": "PREC_RIGHT",

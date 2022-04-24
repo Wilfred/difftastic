@@ -485,7 +485,7 @@ module.exports = grammar(C, {
       field('return_type', optional($._method_argument_type_specifier)),
       field('selector', $._method_selector),
       optional($.attribute_specifier),
-      optional(';'),
+      optional(';'), // compatible with: - (void)method; {}
       field('body', $.compound_statement),
       optional(';'),
     ),
@@ -498,12 +498,12 @@ module.exports = grammar(C, {
       ),
     ),
 
-    _unary_selector: $ => $.identifier, // naming
+    _unary_selector: $ => $.identifier,
 
     keyword_selector: $ => repeat1($.keyword_declarator),
 
     keyword_declarator: $ => prec.right(seq(
-      field('keyword', optional($.identifier)), // naming
+      field('keyword', optional($.identifier)),
       ':',
       field('type', optional($._method_argument_type_specifier)),
       $._name,

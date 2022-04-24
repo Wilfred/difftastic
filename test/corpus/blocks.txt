@@ -825,7 +825,7 @@ Blocks: as a instance variable
         parameters: (parameter_list)))))
 
 ================================================================================
-Blocks: unknown [FIXME]
+Blocks: unknown
 ================================================================================
 
 extern void use(id);
