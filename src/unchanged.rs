@@ -1,7 +1,9 @@
 use rustc_hash::FxHashMap;
 
+use crate::changes::ChangeKind;
 use crate::myers_diff;
-use crate::syntax::{ChangeKind, Syntax};
+
+use crate::syntax::Syntax;
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_NODES: usize = 4;
