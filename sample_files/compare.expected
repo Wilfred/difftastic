@@ -41,7 +41,7 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 9c668c79e56f1e1cecf1c02759c195a9  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-5918eacc75d3277c1f64df1116ec356d  -
+f8a18b1f0b50c1a1736e13306cf3db52  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
 bce74573e003cc6b729a63a4bc34c4af  -

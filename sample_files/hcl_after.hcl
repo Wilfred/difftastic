@@ -73,8 +73,14 @@ resource "example" "template_expressions" {
 	EOF
 
   tpl6 = <<-EOF
-    %{ for a in f(b) ~}
+    %{ for a in f(x) ~}
       %{~if a~} "true" %{~else~} "false" %{~endif~}
+    %{ endfor ~}
+	EOF
+
+  tpl7 = <<-EOF
+    %{ for a in f(b) ~}
+      "true"
     %{ endfor ~}
 	EOF
 }
