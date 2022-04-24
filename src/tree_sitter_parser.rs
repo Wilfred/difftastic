@@ -313,7 +313,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Hcl",
                 language,
-                atom_nodes: vec!["string"].into_iter().collect(),
+                atom_nodes: vec!["string_lit", "heredoc_template"].into_iter().collect(),
                 delimiter_tokens: vec![
                     ("[", "]"),
                     ("(", ")"),

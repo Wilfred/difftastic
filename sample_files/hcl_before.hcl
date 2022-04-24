@@ -71,8 +71,8 @@ resource "example" "template_expressions" {
   EOF
 
   tpl5 = <<-EOF
-    %{~if cond~} 
-      "foo" 
+    %{~if cond~}
+      "foo"
     %{~else~}
       4
     %{~endif~}
