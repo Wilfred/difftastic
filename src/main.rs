@@ -336,6 +336,7 @@ fn diff_file_content(
                     mark_syntax(
                         lhs_section_nodes.get(0).copied(),
                         rhs_section_nodes.get(0).copied(),
+                        &mut change_map,
                     );
 
                     let language = language.unwrap();
