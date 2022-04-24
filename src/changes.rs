@@ -9,10 +9,27 @@ pub enum ChangeKind<'a> {
     Novel,
 }
 
-pub type ChangeMap<'a> = FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>;
+#[derive(Debug)]
+pub struct ChangeMap<'a> {
+    changes: FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+}
 
-pub fn new_change_map<'a>() -> ChangeMap<'a> {
-    FxHashMap::default()
+impl<'a> Default for ChangeMap<'a> {
+    fn default() -> Self {
+        Self {
+            changes: Default::default(),
+        }
+    }
+}
+
+impl<'a> ChangeMap<'a> {
+    pub fn insert(&mut self, node: &'a Syntax<'a>, ck: ChangeKind<'a>) {
+        self.changes.insert(node, ck);
+    }
+
+    pub fn get(&self, node: &Syntax<'a>) -> Option<ChangeKind<'a>> {
+        self.changes.get(node).copied()
+    }
 }
 
 pub fn insert_deep_unchanged<'a>(

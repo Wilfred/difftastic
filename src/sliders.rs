@@ -156,7 +156,7 @@ fn push_unchanged_to_ancestor<'a>(
     inner: &'a Syntax<'a>,
     change_map: &mut ChangeMap<'a>,
 ) {
-    let inner_change = *change_map.get(inner).expect("Node changes should be set");
+    let inner_change = change_map.get(inner).expect("Node changes should be set");
 
     let delimiters_match = match (root, inner) {
         (
@@ -350,13 +350,13 @@ fn slide_to_prev_node<'a>(
             .get(before_start_node)
             .expect("Node changes should be set")
         {
-            Unchanged(n) => *n,
+            Unchanged(n) => n,
             _ => unreachable!(),
         };
 
         insert_deep_novel(before_start_node, change_map);
-        insert_deep_unchanged(last_node, opposite, change_map);
-        insert_deep_unchanged(opposite, last_node, change_map);
+        insert_deep_unchanged(last_node, &opposite, change_map);
+        insert_deep_unchanged(&opposite, last_node, change_map);
     }
 }
 
@@ -400,12 +400,12 @@ fn slide_to_next_node<'a>(
             .get(after_last_node)
             .expect("Node changes should be set")
         {
-            Unchanged(n) => *n,
+            Unchanged(n) => n,
             _ => unreachable!(),
         };
 
-        insert_deep_unchanged(start_node, opposite, change_map);
-        insert_deep_unchanged(opposite, start_node, change_map);
+        insert_deep_unchanged(start_node, &opposite, change_map);
+        insert_deep_unchanged(&opposite, start_node, change_map);
         insert_deep_novel(after_last_node, change_map);
     }
 }
@@ -479,7 +479,6 @@ impl<'a> Syntax<'a> {
 mod tests {
     use super::*;
     use crate::{
-        changes::new_change_map,
         guess_language,
         syntax::{init_all_info, AtomKind},
         tree_sitter_parser::{from_language, parse},
@@ -524,16 +523,16 @@ mod tests {
 
         init_all_info(&lhs, &rhs);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         change_map.insert(lhs[0], Unchanged(rhs[0]));
         change_map.insert(lhs[1], Novel);
         change_map.insert(lhs[2], Novel);
 
         fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
-        assert_eq!(change_map.get(lhs[0]), Some(&Novel));
-        assert_eq!(change_map.get(lhs[1]), Some(&Novel));
-        assert_eq!(change_map.get(lhs[2]), Some(&Unchanged(rhs[0])));
-        assert_eq!(change_map.get(rhs[0]), Some(&Unchanged(lhs[2])));
+        assert_eq!(change_map.get(lhs[0]), Some(Novel));
+        assert_eq!(change_map.get(lhs[1]), Some(Novel));
+        assert_eq!(change_map.get(lhs[2]), Some(Unchanged(rhs[0])));
+        assert_eq!(change_map.get(rhs[0]), Some(Unchanged(lhs[2])));
     }
 
     /// Test that we slide at the end if the unchanged node is
@@ -573,16 +572,17 @@ mod tests {
 
         init_all_info(&lhs, &rhs);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         change_map.insert(lhs[0], Novel);
         change_map.insert(lhs[1], Novel);
         change_map.insert(lhs[2], Unchanged(rhs[0]));
 
         fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
-        assert_eq!(change_map.get(rhs[0]), Some(&Unchanged(lhs[0])));
-        assert_eq!(change_map.get(lhs[0]), Some(&Unchanged(rhs[0])));
-        assert_eq!(change_map.get(lhs[1]), Some(&Novel));
-        assert_eq!(change_map.get(lhs[2]), Some(&Novel));
+
+        assert_eq!(change_map.get(rhs[0]), Some(Unchanged(lhs[0])));
+        assert_eq!(change_map.get(lhs[0]), Some(Unchanged(rhs[0])));
+        assert_eq!(change_map.get(lhs[1]), Some(Novel));
+        assert_eq!(change_map.get(lhs[2]), Some(Novel));
     }
     #[test]
     fn test_slider_two_steps() {
@@ -593,7 +593,7 @@ mod tests {
         let rhs = parse(&arena, "A B X\n A B", &config);
         init_all_info(&lhs, &rhs);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         change_map.insert(rhs[0], Unchanged(lhs[0]));
         change_map.insert(rhs[1], Unchanged(lhs[1]));
         change_map.insert(rhs[2], Novel);
@@ -601,9 +601,9 @@ mod tests {
         change_map.insert(rhs[4], Novel);
 
         fix_all_sliders(guess_language::Language::EmacsLisp, &rhs, &mut change_map);
-        assert_eq!(change_map.get(rhs[0]), Some(&Novel));
-        assert_eq!(change_map.get(rhs[1]), Some(&Novel));
-        assert_eq!(change_map.get(rhs[2]), Some(&Novel));
-        assert_eq!(change_map.get(rhs[3]), Some(&Unchanged(rhs[0])));
+        assert_eq!(change_map.get(rhs[0]), Some(Novel));
+        assert_eq!(change_map.get(rhs[1]), Some(Novel));
+        assert_eq!(change_map.get(rhs[2]), Some(Novel));
+        assert_eq!(change_map.get(rhs[3]), Some(Unchanged(rhs[0])));
     }
 }

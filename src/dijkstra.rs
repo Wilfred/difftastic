@@ -161,7 +161,7 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::{new_change_map, ChangeKind},
+        changes::ChangeKind,
         graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
@@ -563,11 +563,11 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
 
-        assert_eq!(change_map.get(lhs), Some(&ChangeKind::Unchanged(rhs)));
-        assert_eq!(change_map.get(rhs), Some(&ChangeKind::Unchanged(lhs)));
+        assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
+        assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
     }
 
     #[test]
@@ -577,9 +577,9 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
-        assert_eq!(change_map.get(lhs), Some(&ChangeKind::Novel));
-        assert_eq!(change_map.get(rhs), Some(&ChangeKind::Novel));
+        assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
+        assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
     }
 }

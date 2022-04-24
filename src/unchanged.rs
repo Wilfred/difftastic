@@ -429,7 +429,6 @@ fn shrink_unchanged_at_ends<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::new_change_map,
         guess_language,
         syntax::init_all_info,
         tree_sitter_parser::{from_language, parse},
@@ -445,17 +444,17 @@ mod tests {
         let rhs_nodes = parse(&arena, "unchanged X", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let (_, lhs_after_skip, rhs_after_skip) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             change_map.get(lhs_nodes[0]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
         assert_eq!(
             change_map.get(rhs_nodes[0]),
-            Some(&ChangeKind::Unchanged(lhs_nodes[0]))
+            Some(ChangeKind::Unchanged(lhs_nodes[0]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -471,17 +470,17 @@ mod tests {
         let rhs_nodes = parse(&arena, "X unchanged", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let (_, lhs_after_skip, rhs_after_skip) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             change_map.get(lhs_nodes[2]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
             change_map.get(rhs_nodes[1]),
-            Some(&ChangeKind::Unchanged(lhs_nodes[2]))
+            Some(ChangeKind::Unchanged(lhs_nodes[2]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -497,7 +496,7 @@ mod tests {
         let rhs_nodes = parse(&arena, "unchanged-before (more-unchanged (B))", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let (_, lhs_after_skip, rhs_after_skip) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
@@ -523,7 +522,7 @@ mod tests {
         let rhs_nodes = parse(&arena, "(unchanged (1 2 3 4 5 6 7 8 9 10)) X", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
@@ -531,11 +530,11 @@ mod tests {
 
         assert_eq!(
             change_map.get(lhs_nodes[0]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
         assert_eq!(
             change_map.get(rhs_nodes[0]),
-            Some(&ChangeKind::Unchanged(lhs_nodes[0]))
+            Some(ChangeKind::Unchanged(lhs_nodes[0]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -551,7 +550,7 @@ mod tests {
         let rhs_nodes = parse(&arena, "X (unchanged (1 2 3 4 5 6 7 8 9 10))", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
@@ -559,11 +558,11 @@ mod tests {
 
         assert_eq!(
             change_map.get(lhs_nodes[2]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
             change_map.get(rhs_nodes[1]),
-            Some(&ChangeKind::Unchanged(lhs_nodes[2]))
+            Some(ChangeKind::Unchanged(lhs_nodes[2]))
         );
 
         assert_eq!(lhs_after_skip.len(), 2);
@@ -579,7 +578,7 @@ mod tests {
         let rhs_nodes = parse(&arena, "(B)", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
@@ -614,7 +613,7 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(
             res,
@@ -626,11 +625,11 @@ mod tests {
 
         assert_eq!(
             change_map.get(lhs_nodes[1]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[1]))
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
         );
         assert_eq!(
             change_map.get(rhs_nodes[1]),
-            Some(&ChangeKind::Unchanged(lhs_nodes[1]))
+            Some(ChangeKind::Unchanged(lhs_nodes[1]))
         );
     }
 
@@ -651,7 +650,7 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(
             res,
@@ -679,13 +678,13 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let mut change_map = new_change_map();
+        let mut change_map = ChangeMap::default();
         let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(res.len(), 2);
 
         assert_eq!(
             change_map.get(lhs_nodes[0]),
-            Some(&ChangeKind::Unchanged(rhs_nodes[0]))
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
         );
     }
 
