@@ -564,7 +564,7 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let change_map = new_change_map();
+        let mut change_map = new_change_map();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
         assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
@@ -577,7 +577,7 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let change_map = new_change_map();
+        let mut change_map = new_change_map();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
         assert_eq!(lhs.change(), Some(ChangeKind::Novel));
         assert_eq!(rhs.change(), Some(ChangeKind::Novel));

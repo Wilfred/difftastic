@@ -429,7 +429,7 @@ mod tests {
     use crate::{
         guess_language,
         syntax::init_all_info,
-        tree_sitter_parser::{from_language, parse},
+        tree_sitter_parser::{from_language, parse}, changes::new_change_map,
     };
     use typed_arena::Arena;
 
@@ -442,7 +442,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "unchanged X", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             lhs_nodes[0].change(),
@@ -466,7 +467,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "X unchanged", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             lhs_nodes[2].change(),
@@ -490,7 +492,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "unchanged-before (more-unchanged (B))", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         // The only possibly changed nodes are inside the lists.
         assert_eq!(lhs_after_skip.len(), 1);

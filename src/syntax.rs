@@ -56,7 +56,7 @@ pub struct SyntaxInfo<'a> {
     prev_is_contiguous: Cell<bool>,
     /// Whether or not this syntax node has changed. This value is set
     /// when computing the diff with another syntax tree.
-    pub change: Cell<Option<ChangeKind<'a>>>,
+    change: Cell<Option<ChangeKind<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
