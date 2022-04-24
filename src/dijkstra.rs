@@ -141,7 +141,8 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
 pub fn mark_syntax<'a>(
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
-) -> ChangeMap<'a> {
+    change_map: &mut ChangeMap<'a>,
+) {
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         node_count(lhs_syntax),
@@ -154,14 +155,14 @@ pub fn mark_syntax<'a>(
     let route = shortest_path(start);
     mark_route(&route);
 
-    populate_change_map(&route)
+    populate_change_map(&route, change_map)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::{
-        changes::ChangeKind,
+        changes::{ChangeKind, new_change_map},
         graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
@@ -563,7 +564,8 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let _change_map = mark_syntax(Some(lhs), Some(rhs));
+        let change_map = new_change_map();
+        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
         assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
     }
@@ -575,7 +577,8 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        let _change_map = mark_syntax(Some(lhs), Some(rhs));
+        let change_map = new_change_map();
+        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
         assert_eq!(lhs.change(), Some(ChangeKind::Novel));
         assert_eq!(rhs.change(), Some(ChangeKind::Novel));
     }
