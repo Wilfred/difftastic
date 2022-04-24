@@ -47,7 +47,7 @@ pub fn fix_all_sliders<'a>(
     fix_all_sliders_one_step(nodes, change_map);
 
     if !prefer_outer_delimiter(language) {
-        fix_all_nested_sliders(nodes);
+        fix_all_nested_sliders(nodes, change_map);
     }
 }
 
@@ -96,13 +96,13 @@ fn fix_all_sliders_one_step<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut Chang
 ///
 /// For C-like languages, the first case matches human intuition much
 /// better. Fix the slider to make the inner delimiter novel.
-fn fix_all_nested_sliders<'a>(nodes: &[&'a Syntax<'a>]) {
+fn fix_all_nested_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
     for node in nodes {
-        fix_nested_slider(node);
+        fix_nested_slider(node, change_map);
     }
 }
 
-fn fix_nested_slider<'a>(node: &'a Syntax<'a>) {
+fn fix_nested_slider<'a>(node: &'a Syntax<'a>, change_map: &mut ChangeMap<'a>) {
     if let List { children, .. } = node {
         match node
             .change()
@@ -110,7 +110,7 @@ fn fix_nested_slider<'a>(node: &'a Syntax<'a>) {
         {
             Unchanged(_) => {
                 for child in children {
-                    fix_nested_slider(child);
+                    fix_nested_slider(child, change_map);
                 }
             }
             ReplacedComment(_, _) => {}
@@ -121,7 +121,7 @@ fn fix_nested_slider<'a>(node: &'a Syntax<'a>) {
                 }
 
                 if let [List { .. }] = found_unchanged[..] {
-                    push_unchanged_to_ancestor(node, found_unchanged[0]);
+                    push_unchanged_to_ancestor(node, found_unchanged[0], change_map);
                 }
             }
         }
@@ -147,7 +147,11 @@ fn unchanged_descendants<'a>(node: &'a Syntax<'a>, found: &mut Vec<&'a Syntax<'a
     }
 }
 
-fn push_unchanged_to_ancestor<'a>(root: &'a Syntax<'a>, inner: &'a Syntax<'a>) {
+fn push_unchanged_to_ancestor<'a>(
+    root: &'a Syntax<'a>,
+    inner: &'a Syntax<'a>,
+    change_map: &mut ChangeMap<'a>,
+) {
     let inner_change = inner.change().expect("Node changes should be set");
 
     let delimiters_match = match (root, inner) {
@@ -167,8 +171,8 @@ fn push_unchanged_to_ancestor<'a>(root: &'a Syntax<'a>, inner: &'a Syntax<'a>) {
     };
 
     if delimiters_match {
-        root.set_change(inner_change);
-        inner.set_change(Novel);
+        change_map.insert(root, inner_change);
+        change_map.insert(inner, Novel);
     }
 }
 
@@ -465,9 +469,10 @@ impl<'a> Syntax<'a> {
 mod tests {
     use super::*;
     use crate::{
+        changes::new_change_map,
         guess_language,
         syntax::{init_all_info, AtomKind},
-        tree_sitter_parser::{from_language, parse}, changes::new_change_map,
+        tree_sitter_parser::{from_language, parse},
     };
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
@@ -509,11 +514,11 @@ mod tests {
 
         init_all_info(&lhs, &rhs);
 
-        lhs[0].set_change(Unchanged(rhs[0]));
-        lhs[1].set_change(Novel);
-        lhs[2].set_change(Novel);
-
         let mut change_map = new_change_map();
+        change_map.insert(lhs[0], Unchanged(rhs[0]));
+        change_map.insert(lhs[1], Novel);
+        change_map.insert(lhs[2], Novel);
+
         fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
         assert_eq!(lhs[0].change(), Some(Novel));
         assert_eq!(lhs[1].change(), Some(Novel));
@@ -558,11 +563,11 @@ mod tests {
 
         init_all_info(&lhs, &rhs);
 
-        lhs[0].set_change(Novel);
-        lhs[1].set_change(Novel);
-        lhs[2].set_change(Unchanged(rhs[0]));
-
         let mut change_map = new_change_map();
+        change_map.insert(lhs[0], Novel);
+        change_map.insert(lhs[1], Novel);
+        change_map.insert(lhs[2], Unchanged(rhs[0]));
+
         fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
         assert_eq!(rhs[0].change(), Some(Unchanged(lhs[0])));
         assert_eq!(lhs[0].change(), Some(Unchanged(rhs[0])));
@@ -578,13 +583,13 @@ mod tests {
         let rhs = parse(&arena, "A B X\n A B", &config);
         init_all_info(&lhs, &rhs);
 
-        rhs[0].set_change(Unchanged(lhs[0]));
-        rhs[1].set_change(Unchanged(lhs[1]));
-        rhs[2].set_change(Novel);
-        rhs[3].set_change(Novel);
-        rhs[4].set_change(Novel);
-
         let mut change_map = new_change_map();
+        change_map.insert(rhs[0], Unchanged(lhs[0]));
+        change_map.insert(rhs[1], Unchanged(lhs[1]));
+        change_map.insert(rhs[2], Novel);
+        change_map.insert(rhs[3], Novel);
+        change_map.insert(rhs[4], Novel);
+
         fix_all_sliders(guess_language::Language::EmacsLisp, &rhs, &mut change_map);
         assert_eq!(rhs[0].change(), Some(Novel));
         assert_eq!(rhs[1].change(), Some(Novel));

@@ -54,9 +54,6 @@ pub struct SyntaxInfo<'a> {
     /// Does the previous syntax node occur on the same line as the
     /// first line of this node?
     prev_is_contiguous: Cell<bool>,
-    /// Whether or not this syntax node has changed. This value is set
-    /// when computing the diff with another syntax tree.
-    change: Cell<Option<ChangeKind<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
@@ -77,7 +74,6 @@ impl<'a> SyntaxInfo<'a> {
             prev: Cell::new(None),
             parent: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
-            change: Cell::new(None),
             num_ancestors: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
@@ -145,8 +141,6 @@ impl<'a> fmt::Debug for Syntax<'a> {
                     .field("close_position", &dbg_pos(close_position));
 
                 if env::var("DFT_VERBOSE").is_ok() {
-                    ds.field("change", &info.change.get());
-
                     let next_sibling_s = match info.next_sibling.get() {
                         Some(List { .. }) => "Some(List)",
                         Some(Atom { .. }) => "Some(Atom)",
@@ -174,7 +168,6 @@ impl<'a> fmt::Debug for Syntax<'a> {
 
                 if env::var("DFT_VERBOSE").is_ok() {
                     ds.field("highlight", highlight);
-                    ds.field("change", &info.change.get());
                     let next_sibling_s = match info.next_sibling.get() {
                         Some(List { .. }) => "Some(List)",
                         Some(Atom { .. }) => "Some(Atom)",
@@ -329,11 +322,11 @@ impl<'a> Syntax<'a> {
     }
 
     pub fn change(&'a self) -> Option<ChangeKind<'a>> {
-        self.info().change.get()
+        todo!()
     }
 
-    pub fn set_change(&self, ck: ChangeKind<'a>) {
-        self.info().change.set(Some(ck));
+    fn set_change(&self, ck: ChangeKind<'a>) {
+        todo!()
     }
 
     pub fn set_change_deep(&self, ck: ChangeKind<'a>) {
@@ -990,40 +983,6 @@ mod tests {
         init_all_info(&[x], &[y]);
 
         assert_eq!(x, y);
-    }
-
-    #[test]
-    fn test_atom_equality_ignores_change() {
-        let lhs = Atom {
-            info: SyntaxInfo {
-                change: Cell::new(Some(Novel)),
-                ..SyntaxInfo::default()
-            },
-
-            position: vec![SingleLineSpan {
-                line: 1.into(),
-                start_col: 2,
-                end_col: 3,
-            }],
-            content: "foo".into(),
-            kind: AtomKind::Normal,
-        };
-        let rhs = Atom {
-            info: SyntaxInfo {
-                change: Cell::new(None),
-                ..SyntaxInfo::default()
-            },
-            position: vec![SingleLineSpan {
-                line: 1.into(),
-                start_col: 2,
-                end_col: 3,
-            }],
-            content: "foo".into(),
-            kind: AtomKind::Normal,
-        };
-        init_all_info(&[&lhs], &[&rhs]);
-
-        assert_eq!(lhs, rhs);
     }
 
     #[test]

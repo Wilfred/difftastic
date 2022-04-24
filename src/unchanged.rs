@@ -1,4 +1,4 @@
-use crate::changes::{ChangeKind, ChangeMap};
+use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::myers_diff;
 
 use crate::syntax::Syntax;
@@ -20,7 +20,7 @@ pub fn mark_unchanged<'a>(
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
         let (_, lhs_nodes, rhs_nodes) =
             shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
-        res.extend(split_unchanged(&lhs_nodes, &rhs_nodes));
+        res.extend(split_unchanged(&lhs_nodes, &rhs_nodes, change_map));
     }
 
     res
@@ -36,6 +36,7 @@ enum ChangeState {
 fn split_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
     let size_threshold = if let Ok(env_threshold) = std::env::var("DFT_TINY_THRESHOLD") {
         env_threshold
@@ -56,8 +57,8 @@ fn split_unchanged<'a>(
                 for (lhs_section_node, rhs_section_node) in
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
                 {
-                    lhs_section_node.set_change(ChangeKind::Unchanged(rhs_section_node));
-                    rhs_section_node.set_change(ChangeKind::Unchanged(lhs_section_node));
+                    change_map.insert(lhs_section_node, ChangeKind::Unchanged(rhs_section_node));
+                    change_map.insert(rhs_section_node, ChangeKind::Unchanged(lhs_section_node));
                 }
             }
             ChangeState::UnchangedNode => {
@@ -65,8 +66,8 @@ fn split_unchanged<'a>(
                 for (lhs_section_node, rhs_section_node) in
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
                 {
-                    lhs_section_node.set_change_deep(ChangeKind::Unchanged(rhs_section_node));
-                    rhs_section_node.set_change_deep(ChangeKind::Unchanged(lhs_section_node));
+                    insert_deep_unchanged(lhs_section_node, rhs_section_node, change_map);
+                    insert_deep_unchanged(rhs_section_node, lhs_section_node, change_map);
                 }
             }
             ChangeState::PossiblyChanged => {
@@ -360,8 +361,9 @@ fn shrink_unchanged_delimiters<'a>(
             let (changed_later, lhs_shrunk_nodes, rhs_shrunk_nodes) =
                 shrink_unchanged_at_ends(lhs_children, rhs_children, change_map);
             if changed_later {
-                lhs_nodes[0].set_change(ChangeKind::Unchanged(rhs_nodes[0]));
-                rhs_nodes[0].set_change(ChangeKind::Unchanged(lhs_nodes[0]));
+                change_map.insert(lhs_nodes[0], ChangeKind::Unchanged(rhs_nodes[0]));
+                change_map.insert(rhs_nodes[0], ChangeKind::Unchanged(lhs_nodes[0]));
+
                 return (true, lhs_shrunk_nodes, rhs_shrunk_nodes);
             }
         }
@@ -427,9 +429,10 @@ fn shrink_unchanged_at_ends<'a>(
 mod tests {
     use super::*;
     use crate::{
+        changes::new_change_map,
         guess_language,
         syntax::init_all_info,
-        tree_sitter_parser::{from_language, parse}, changes::new_change_map,
+        tree_sitter_parser::{from_language, parse},
     };
     use typed_arena::Arena;
 
@@ -443,7 +446,8 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut change_map = new_change_map();
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
+        let (_, lhs_after_skip, rhs_after_skip) =
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             lhs_nodes[0].change(),
@@ -468,7 +472,8 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut change_map = new_change_map();
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
+        let (_, lhs_after_skip, rhs_after_skip) =
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(
             lhs_nodes[2].change(),
@@ -493,7 +498,8 @@ mod tests {
         init_all_info(&lhs_nodes, &rhs_nodes);
 
         let mut change_map = new_change_map();
-        let (_, lhs_after_skip, rhs_after_skip) = shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
+        let (_, lhs_after_skip, rhs_after_skip) =
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         // The only possibly changed nodes are inside the lists.
         assert_eq!(lhs_after_skip.len(), 1);
@@ -517,7 +523,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "(unchanged (1 2 3 4 5 6 7 8 9 10)) X", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -544,7 +551,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "X (unchanged (1 2 3 4 5 6 7 8 9 10))", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -571,7 +579,8 @@ mod tests {
         let rhs_nodes = parse(&arena, "(B)", &config);
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
 
         assert_eq!(res.len(), 1);
         let (lhs_after_skip, rhs_after_skip) = &res[0];
@@ -605,7 +614,8 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(
             res,
             vec![
@@ -641,7 +651,8 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(
             res,
             vec![
@@ -668,7 +679,8 @@ mod tests {
         );
         init_all_info(&lhs_nodes, &rhs_nodes);
 
-        let res = split_unchanged(&lhs_nodes, &rhs_nodes);
+        let mut change_map = new_change_map();
+        let res = split_unchanged(&lhs_nodes, &rhs_nodes, &mut change_map);
         assert_eq!(res.len(), 2);
 
         assert_eq!(

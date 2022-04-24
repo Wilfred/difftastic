@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     changes::ChangeMap,
-    graph::{mark_route, neighbours, populate_change_map, Edge, Vertex},
+    graph::{neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
 use itertools::Itertools;
@@ -153,7 +153,6 @@ pub fn mark_syntax<'a>(
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
-    mark_route(&route);
 
     populate_change_map(&route, change_map)
 }
@@ -162,7 +161,7 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::{ChangeKind, new_change_map},
+        changes::{new_change_map, ChangeKind},
         graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
