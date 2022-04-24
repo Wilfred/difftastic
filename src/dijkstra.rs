@@ -4,8 +4,8 @@
 use std::{cmp::Reverse, env};
 
 use crate::{
-    changes::ChangeKind,
-    graph::{change_kinds, mark_route, neighbours, Edge, Vertex},
+    changes::ChangeMap,
+    graph::{mark_route, neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
 use itertools::Itertools;
@@ -138,24 +138,10 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
     count
 }
 
-pub fn syntax_changed<'a>(
+pub fn mark_syntax<'a>(
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
-) -> FxHashMap<&'a Syntax<'a>, ChangeKind<'a>> {
-    info!(
-        "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
-        node_count(lhs_syntax),
-        tree_count(lhs_syntax),
-        node_count(rhs_syntax),
-        tree_count(rhs_syntax),
-    );
-
-    let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start);
-    change_kinds(&route)
-}
-
-pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
+) -> ChangeMap<'a> {
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         node_count(lhs_syntax),
@@ -167,15 +153,18 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
     mark_route(&route);
+
+    populate_change_map(&route)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::{
+        changes::ChangeKind,
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_all_info, AtomKind, ChangeKind},
+        syntax::{init_all_info, AtomKind},
     };
 
     use itertools::Itertools;
@@ -574,7 +563,7 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        mark_syntax(Some(lhs), Some(rhs));
+        let _change_map = mark_syntax(Some(lhs), Some(rhs));
         assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
         assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
     }
@@ -586,7 +575,7 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        mark_syntax(Some(lhs), Some(rhs));
+        let _change_map = mark_syntax(Some(lhs), Some(rhs));
         assert_eq!(lhs.change(), Some(ChangeKind::Novel));
         assert_eq!(rhs.change(), Some(ChangeKind::Novel));
     }

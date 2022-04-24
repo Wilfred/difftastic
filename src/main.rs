@@ -39,6 +39,7 @@ mod unchanged;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use changes::new_change_map;
 use context::opposite_positions;
 use files::read_files_or_die;
 use guess_language::guess;
@@ -305,11 +306,12 @@ fn diff_file_content(
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
 
             init_all_info(&lhs, &rhs);
-
+            
+            let mut change_map = new_change_map();
             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                 vec![(lhs.clone(), rhs.clone())]
             } else {
-                unchanged::mark_unchanged(&lhs, &rhs)
+                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
             };
 
             let possibly_changed_max = max_num_nodes(&possibly_changed);

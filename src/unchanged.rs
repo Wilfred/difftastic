@@ -1,6 +1,4 @@
-use rustc_hash::FxHashMap;
-
-use crate::changes::{new_change_map, ChangeKind, ChangeMap};
+use crate::changes::{ChangeKind, ChangeMap};
 use crate::myers_diff;
 
 use crate::syntax::Syntax;
@@ -14,16 +12,14 @@ const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 pub fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
+    change_map: &mut ChangeMap<'a>,
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let mut change_kinds = new_change_map();
-
-    let (_, lhs_nodes, rhs_nodes) =
-        shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, &mut change_kinds);
+    let (_, lhs_nodes, rhs_nodes) = shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, change_map);
 
     let mut res = vec![];
     for (lhs_nodes, rhs_nodes) in split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes) {
         let (_, lhs_nodes, rhs_nodes) =
-            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, &mut change_kinds);
+            shrink_unchanged_at_ends(&lhs_nodes, &rhs_nodes, change_map);
         res.extend(split_unchanged(&lhs_nodes, &rhs_nodes));
     }
 
@@ -343,7 +339,7 @@ fn as_singleton_list_children<'a>(
 fn shrink_unchanged_delimiters<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    changes: &mut ChangeMap<'a>,
+    change_map: &mut ChangeMap<'a>,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     if let (
         [Syntax::List {
@@ -362,7 +358,7 @@ fn shrink_unchanged_delimiters<'a>(
     {
         if lhs_open == rhs_open && lhs_close == rhs_close {
             let (changed_later, lhs_shrunk_nodes, rhs_shrunk_nodes) =
-                shrink_unchanged_at_ends(lhs_children, rhs_children, changes);
+                shrink_unchanged_at_ends(lhs_children, rhs_children, change_map);
             if changed_later {
                 lhs_nodes[0].set_change(ChangeKind::Unchanged(rhs_nodes[0]));
                 rhs_nodes[0].set_change(ChangeKind::Unchanged(lhs_nodes[0]));
@@ -382,7 +378,7 @@ fn shrink_unchanged_delimiters<'a>(
 fn shrink_unchanged_at_ends<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    changes: &mut ChangeMap<'a>,
+    change_map: &mut ChangeMap<'a>,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     let mut lhs_nodes = lhs_nodes;
     let mut rhs_nodes = rhs_nodes;
@@ -420,7 +416,7 @@ fn shrink_unchanged_at_ends<'a>(
 
     if lhs_nodes.len() == 1 && rhs_nodes.len() == 1 {
         let (changed_later, lhs_nodes, rhs_nodes) =
-            shrink_unchanged_delimiters(lhs_nodes, rhs_nodes, changes);
+            shrink_unchanged_delimiters(lhs_nodes, rhs_nodes, change_map);
         (changed || changed_later, lhs_nodes, rhs_nodes)
     } else {
         (changed, Vec::from(lhs_nodes), Vec::from(rhs_nodes))
