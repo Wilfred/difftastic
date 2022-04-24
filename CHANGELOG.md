@@ -4,6 +4,9 @@
 
 Added support for Perl.
 
+Improved language detection for JSON. More file extensions and file
+names are recognised as JSON, e.g. `.jsonl`.
+
 ### Display
 
 Fixed crash in inline mode.

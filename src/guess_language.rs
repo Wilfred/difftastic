@@ -178,6 +178,9 @@ fn from_name(path: &Path) -> Option<Language> {
             | "gradlew" | "kshrc" | "login" | "man" | "profile" | "zlogin" | "zlogout"
             | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
             ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
+            ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
+            | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
+            | "composer.lock" | "mcmod.info" => Some(Json),
             "TARGETS" | "BUCK" | "DEPS" => Some(Python),
             "Gemfile" | "Rakefile" => Some(Ruby),
             "Cargo.lock" | "Gopkg.lock" | "Pipfile" | "poetry.lock" => Some(Toml),
@@ -213,7 +216,10 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         "java" => Some(Java),
         "cjs" | "js" | "mjs" => Some(JavaScript),
         "jsx" => Some(Jsx),
-        "json" => Some(Json),
+        "json" | "avsc" | "geojson" | "gltf" | "har" | "ice" | "JSON-tmLanguage" | "jsonl"
+        | "mcmeta" | "tfstate" | "tfstate.backup" | "topojson" | "webapp" | "webmanifest" => {
+            Some(Json)
+        }
         "kt" | "ktm" | "kts" => Some(Kotlin),
         "lua" => Some(Lua),
         "nix" => Some(Nix),
