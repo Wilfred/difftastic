@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 
-use crate::changes::ChangeKind;
+use crate::changes::{new_change_map, ChangeKind, ChangeMap};
 use crate::myers_diff;
 
 use crate::syntax::Syntax;
@@ -15,7 +15,7 @@ pub fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> Vec<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>)> {
-    let mut change_kinds = FxHashMap::default();
+    let mut change_kinds = new_change_map();
 
     let (_, lhs_nodes, rhs_nodes) =
         shrink_unchanged_at_ends(lhs_nodes, rhs_nodes, &mut change_kinds);
@@ -343,7 +343,7 @@ fn as_singleton_list_children<'a>(
 fn shrink_unchanged_delimiters<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    changes: &mut FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+    changes: &mut ChangeMap<'a>,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     if let (
         [Syntax::List {
@@ -382,7 +382,7 @@ fn shrink_unchanged_delimiters<'a>(
 fn shrink_unchanged_at_ends<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
     rhs_nodes: &[&'a Syntax<'a>],
-    changes: &mut FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+    changes: &mut ChangeMap<'a>,
 ) -> (bool, Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     let mut lhs_nodes = lhs_nodes;
     let mut rhs_nodes = rhs_nodes;

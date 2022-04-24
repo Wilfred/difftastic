@@ -1,7 +1,6 @@
 //! A graph representation for computing tree diffs.
 
 use rpds::Stack;
-use rustc_hash::FxHashMap;
 use std::{
     cmp::min,
     fmt,
@@ -10,7 +9,7 @@ use std::{
 };
 use strsim::normalized_levenshtein;
 
-use crate::changes::ChangeKind;
+use crate::changes::{ChangeKind, ChangeMap, new_change_map};
 use crate::syntax::{AtomKind, Syntax};
 use Edge::*;
 
@@ -593,7 +592,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 fn set_deep_unchanged<'a>(
     node: &'a Syntax<'a>,
     opposite_node: &'a Syntax<'a>,
-    changes: &mut FxHashMap<&'a Syntax<'a>, ChangeKind<'a>>,
+    changes: &mut ChangeMap<'a>,
 ) {
     changes.insert(node, ChangeKind::Unchanged(opposite_node));
 
@@ -617,8 +616,8 @@ fn set_deep_unchanged<'a>(
     }
 }
 
-pub fn change_kinds<'a>(route: &[(Edge, Vertex<'a>)]) -> FxHashMap<&'a Syntax<'a>, ChangeKind<'a>> {
-    let mut res = FxHashMap::default();
+pub fn change_kinds<'a>(route: &[(Edge, Vertex<'a>)]) -> ChangeMap<'a> {
+    let mut res = new_change_map();
 
     for (e, v) in route {
         match e {
