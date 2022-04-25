@@ -13,6 +13,7 @@
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
 
+mod changes;
 mod constants;
 mod context;
 mod dijkstra;
@@ -38,6 +39,7 @@ mod unchanged;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use changes::ChangeMap;
 use context::opposite_positions;
 use files::read_files_or_die;
 use guess_language::guess;
@@ -307,10 +309,11 @@ fn diff_file_content(
 
             init_all_info(&lhs, &rhs);
 
+            let mut change_map = ChangeMap::default();
             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                 vec![(lhs.clone(), rhs.clone())]
             } else {
-                unchanged::mark_unchanged(&lhs, &rhs)
+                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
             };
 
             let possibly_changed_max = max_num_nodes(&possibly_changed);
@@ -335,15 +338,16 @@ fn diff_file_content(
                     mark_syntax(
                         lhs_section_nodes.get(0).copied(),
                         rhs_section_nodes.get(0).copied(),
+                        &mut change_map,
                     );
 
                     let language = language.unwrap();
-                    fix_all_sliders(language, &lhs_section_nodes);
-                    fix_all_sliders(language, &rhs_section_nodes);
+                    fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
+                    fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
                 }
 
-                let lhs_positions = syntax::change_positions(&lhs);
-                let rhs_positions = syntax::change_positions(&rhs);
+                let lhs_positions = syntax::change_positions(&lhs, &change_map);
+                let rhs_positions = syntax::change_positions(&rhs, &change_map);
                 (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
             }
         }
