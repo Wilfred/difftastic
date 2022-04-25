@@ -4,7 +4,7 @@ use rustc_hash::FxHashMap;
 
 use crate::syntax::Syntax;
 
-#[derive(PartialEq, Eq, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub enum ChangeKind<'a> {
     Unchanged(&'a Syntax<'a>),
     ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),

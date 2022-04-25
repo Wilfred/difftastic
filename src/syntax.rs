@@ -2,13 +2,7 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{
-    cell::Cell,
-    collections::HashMap,
-    env, fmt,
-    hash::Hash,
-    num::NonZeroU32,
-};
+use std::{cell::Cell, collections::HashMap, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
 use crate::{
@@ -503,15 +497,6 @@ fn set_prev_is_contiguous<'a>(roots: &[&Syntax<'a>]) {
     }
 }
 
-impl<'a> PartialEq for Syntax<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        debug_assert!(self.content_id() > 0);
-        debug_assert!(other.content_id() > 0);
-        self.content_id() == other.content_id()
-    }
-}
-impl<'a> Eq for Syntax<'a> {}
-
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
@@ -879,7 +864,7 @@ mod tests {
         let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
         init_all_info(&[comment], &[atom]);
 
-        assert_ne!(comment, atom);
+        assert_ne!(comment.content_id(), atom.content_id());
     }
 
     /// Ignore the syntax highighting kind when comparing
@@ -899,7 +884,7 @@ mod tests {
         let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
         init_all_info(&[type_atom], &[atom]);
 
-        assert_eq!(type_atom, atom);
+        assert_eq!(type_atom.content_id(), atom.content_id());
     }
 
     #[test]
@@ -953,7 +938,7 @@ mod tests {
         let y = Syntax::new_atom(&arena, pos, "foo\n    bar", AtomKind::Comment);
         init_all_info(&[x], &[y]);
 
-        assert_eq!(x, y);
+        assert_eq!(x.content_id(), y.content_id());
     }
 
     #[test]

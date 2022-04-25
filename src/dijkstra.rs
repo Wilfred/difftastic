@@ -566,8 +566,18 @@ mod tests {
         let mut change_map = ChangeMap::default();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
 
-        assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
-        assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
+        match change_map.get(lhs) {
+            Some(ChangeKind::Unchanged(rhs)) => {
+                assert_eq!(lhs.content_id(), rhs.content_id());
+            }
+            _ => assert!(false),
+        }
+        match change_map.get(rhs) {
+            Some(ChangeKind::Unchanged(lhs)) => {
+                assert_eq!(lhs.content_id(), rhs.content_id());
+            }
+            _ => assert!(false),
+        }
     }
 
     #[test]
@@ -579,7 +589,8 @@ mod tests {
 
         let mut change_map = ChangeMap::default();
         mark_syntax(Some(lhs), Some(rhs), &mut change_map);
-        assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
-        assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
+
+        assert!(matches!(change_map.get(lhs), Some(ChangeKind::Novel)));
+        assert!(matches!(change_map.get(rhs), Some(ChangeKind::Novel)));
     }
 }

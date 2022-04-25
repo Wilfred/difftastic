@@ -529,8 +529,10 @@ mod tests {
         change_map.insert(lhs[2], Novel);
 
         fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
-        assert_eq!(change_map.get(lhs[0]), Some(Novel));
-        assert_eq!(change_map.get(lhs[1]), Some(Novel));
+
+        assert!(matches!(change_map.get(lhs[0]), Some(Novel)));
+        assert!(matches!(change_map.get(lhs[1]), Some(Novel)));
+
         assert_eq!(change_map.get(lhs[2]), Some(Unchanged(rhs[0])));
         assert_eq!(change_map.get(rhs[0]), Some(Unchanged(lhs[2])));
     }
@@ -581,9 +583,11 @@ mod tests {
 
         assert_eq!(change_map.get(rhs[0]), Some(Unchanged(lhs[0])));
         assert_eq!(change_map.get(lhs[0]), Some(Unchanged(rhs[0])));
-        assert_eq!(change_map.get(lhs[1]), Some(Novel));
-        assert_eq!(change_map.get(lhs[2]), Some(Novel));
+
+        assert!(matches!(change_map.get(lhs[1]), Some(Novel)));
+        assert!(matches!(change_map.get(lhs[2]), Some(Novel)));
     }
+
     #[test]
     fn test_slider_two_steps() {
         let arena = Arena::new();
@@ -601,9 +605,12 @@ mod tests {
         change_map.insert(rhs[4], Novel);
 
         fix_all_sliders(guess_language::Language::EmacsLisp, &rhs, &mut change_map);
-        assert_eq!(change_map.get(rhs[0]), Some(Novel));
-        assert_eq!(change_map.get(rhs[1]), Some(Novel));
-        assert_eq!(change_map.get(rhs[2]), Some(Novel));
+
+        assert!(matches!(change_map.get(rhs[0]), Some(Novel)));
+        assert!(matches!(change_map.get(rhs[1]), Some(Novel)));
+        assert!(matches!(change_map.get(rhs[2]), Some(Novel)));
+
+        
         assert_eq!(change_map.get(rhs[3]), Some(Unchanged(rhs[0])));
     }
 }
