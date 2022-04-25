@@ -34,10 +34,11 @@ Difftastic supports the following programming languages.
 
 Difftastic also supports the following structured text formats.
 
-| Language | Parser Used                                                                     |
-|----------|---------------------------------------------------------------------------------|
-| CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)   |
-| JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json) |
-| TOML     | [ikatyang/tree-sitter-toml](https://github.com/ikatyang/tree-sitter-toml)       |
-| YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)       |
+| Language | Parser Used                                                                       |
+|----------|-----------------------------------------------------------------------------------|
+| CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)     |
+| HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) |
+| JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)   |
+| TOML     | [ikatyang/tree-sitter-toml](https://github.com/ikatyang/tree-sitter-toml)         |
+| YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)         |
 
