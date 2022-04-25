@@ -386,7 +386,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     }
 }
 
-pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
+fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);

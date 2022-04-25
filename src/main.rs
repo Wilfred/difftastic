@@ -58,7 +58,6 @@ use rayon::prelude::*;
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
-use syntax::init_next_prev;
 use typed_arena::Arena;
 
 use crate::{
@@ -310,9 +309,6 @@ fn diff_file_content(
                 )
             } else {
                 for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                    init_next_prev(&lhs_section_nodes);
-                    init_next_prev(&rhs_section_nodes);
-
                     mark_syntax(
                         lhs_section_nodes.first().copied(),
                         rhs_section_nodes.first().copied(),
