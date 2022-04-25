@@ -52,6 +52,7 @@ use mimalloc::MiMalloc;
 static GLOBAL: MiMalloc = MiMalloc;
 
 use options::{should_use_color, DisplayMode, Mode};
+use rayon::prelude::*;
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use style::BackgroundColor;
@@ -163,14 +164,15 @@ fn main() {
             }
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
-                for diff_result in diff_directories(
+                diff_directories(
                     lhs_path,
                     rhs_path,
                     missing_as_empty,
                     node_limit,
                     byte_limit,
                     language_override,
-                ) {
+                )
+                .for_each(|diff_result| {
                     print_diff_result(
                         display_width,
                         use_color,
@@ -179,7 +181,7 @@ fn main() {
                         print_unchanged,
                         &diff_result,
                     );
-                }
+                });
             } else {
                 let diff_result = diff_file(
                     &display_path,
@@ -375,28 +377,33 @@ fn diff_directories<'a>(
     node_limit: u32,
     byte_limit: usize,
     language_override: Option<guess_language::Language>,
-) -> impl Iterator<Item = DiffResult> + 'a {
-    WalkDir::new(lhs_dir)
+) -> impl ParallelIterator<Item = DiffResult> + 'a {
+    // We greedily list all files in the directory, and then diff them
+    // in parallel. This is assuming that diffing is slower than
+    // enumerating files, so it benefits more from parallelism.
+    let lhs_paths: Vec<_> = WalkDir::new(lhs_dir)
         .into_iter()
         .filter_map(Result::ok)
         .map(|entry| entry.into_path())
         .filter(|lhs_path| !lhs_path.is_dir())
-        .map(move |lhs_path| {
-            info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
+        .collect();
 
-            let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
-            let rhs_path = Path::new(rhs_dir).join(rel_path);
+    lhs_paths.into_par_iter().map(move |lhs_path| {
+        info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
 
-            diff_file(
-                &rel_path.to_string_lossy(),
-                &lhs_path,
-                &rhs_path,
-                missing_as_empty,
-                node_limit,
-                byte_limit,
-                language_override,
-            )
-        })
+        let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
+        let rhs_path = Path::new(rhs_dir).join(rel_path);
+
+        diff_file(
+            &rel_path.to_string_lossy(),
+            &lhs_path,
+            &rhs_path,
+            missing_as_empty,
+            node_limit,
+            byte_limit,
+            language_override,
+        )
+    })
 }
 
 // TODO: factor out a DiffOptions struct.

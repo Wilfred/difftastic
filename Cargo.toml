@@ -41,6 +41,7 @@ const_format = "0.2.22"
 owo-colors = "3.3.0"
 rpds = "0.10.0"
 wu-diff = "0.1.2"
+rayon = "1.5.2"
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"
