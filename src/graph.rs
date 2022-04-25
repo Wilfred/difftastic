@@ -9,7 +9,8 @@ use std::{
 };
 use strsim::normalized_levenshtein;
 
-use crate::syntax::{AtomKind, ChangeKind, Syntax};
+use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
+use crate::syntax::{AtomKind, Syntax};
 use Edge::*;
 
 /// A vertex in a directed acyclic graph that represents a diff.
@@ -588,7 +589,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     );
 }
 
-pub fn mark_route(route: &[(Edge, Vertex)]) {
+pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)], change_map: &mut ChangeMap<'a>) {
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
@@ -598,36 +599,37 @@ pub fn mark_route(route: &[(Edge, Vertex)]) {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
-                lhs.set_change_deep(ChangeKind::Unchanged(rhs));
-                rhs.set_change_deep(ChangeKind::Unchanged(lhs));
+
+                insert_deep_unchanged(lhs, rhs, change_map);
+                insert_deep_unchanged(rhs, lhs, change_map);
             }
             EnterUnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
-                lhs.set_change(ChangeKind::Unchanged(rhs));
-                rhs.set_change(ChangeKind::Unchanged(lhs));
+                change_map.insert(lhs, ChangeKind::Unchanged(rhs));
+                change_map.insert(rhs, ChangeKind::Unchanged(lhs));
             }
             ReplacedComment { levenshtein_pct } => {
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
 
                 if *levenshtein_pct > 40 {
-                    lhs.set_change(ChangeKind::ReplacedComment(lhs, rhs));
-                    rhs.set_change(ChangeKind::ReplacedComment(rhs, lhs));
+                    change_map.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
+                    change_map.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));
                 } else {
-                    lhs.set_change(ChangeKind::Novel);
-                    rhs.set_change(ChangeKind::Novel);
+                    change_map.insert(lhs, ChangeKind::Novel);
+                    change_map.insert(rhs, ChangeKind::Novel);
                 }
             }
             NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
-                lhs.set_change(ChangeKind::Novel);
+                change_map.insert(lhs, ChangeKind::Novel);
             }
             NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
-                rhs.set_change(ChangeKind::Novel);
+                change_map.insert(rhs, ChangeKind::Novel);
             }
         }
     }

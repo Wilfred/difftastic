@@ -4,7 +4,8 @@
 use std::{cmp::Reverse, env};
 
 use crate::{
-    graph::{mark_route, neighbours, Edge, Vertex},
+    changes::ChangeMap,
+    graph::{neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
 use itertools::Itertools;
@@ -137,7 +138,11 @@ fn tree_count(root: Option<&Syntax>) -> u32 {
     count
 }
 
-pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
+pub fn mark_syntax<'a>(
+    lhs_syntax: Option<&'a Syntax<'a>>,
+    rhs_syntax: Option<&'a Syntax<'a>>,
+    change_map: &mut ChangeMap<'a>,
+) {
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         node_count(lhs_syntax),
@@ -148,16 +153,18 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
-    mark_route(&route);
+
+    populate_change_map(&route, change_map)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::{
+        changes::ChangeKind,
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_all_info, AtomKind, ChangeKind},
+        syntax::{init_all_info, AtomKind},
     };
 
     use itertools::Itertools;
@@ -556,9 +563,11 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        mark_syntax(Some(lhs), Some(rhs));
-        assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
-        assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
+        let mut change_map = ChangeMap::default();
+        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
+
+        assert_eq!(change_map.get(lhs), Some(ChangeKind::Unchanged(rhs)));
+        assert_eq!(change_map.get(rhs), Some(ChangeKind::Unchanged(lhs)));
     }
 
     #[test]
@@ -568,8 +577,9 @@ mod tests {
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_all_info(&[lhs], &[rhs]);
 
-        mark_syntax(Some(lhs), Some(rhs));
-        assert_eq!(lhs.change(), Some(ChangeKind::Novel));
-        assert_eq!(rhs.change(), Some(ChangeKind::Novel));
+        let mut change_map = ChangeMap::default();
+        mark_syntax(Some(lhs), Some(rhs), &mut change_map);
+        assert_eq!(change_map.get(lhs), Some(ChangeKind::Novel));
+        assert_eq!(change_map.get(rhs), Some(ChangeKind::Novel));
     }
 }
