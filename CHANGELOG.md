@@ -11,6 +11,11 @@ names are recognised as JSON, e.g. `.jsonl`.
 
 Fixed crash in inline mode.
 
+### Diffing
+
+Difftastic now diffs files in parallel when diffing whole directories,
+increasing performance.
+
 ## 0.27 (released 18th April 2022)
 
 ### Parsing
