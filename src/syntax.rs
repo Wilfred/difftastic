@@ -6,7 +6,7 @@ use std::{
     cell::Cell,
     collections::HashMap,
     env, fmt,
-    hash::{Hash, Hasher},
+    hash::Hash,
     num::NonZeroU32,
 };
 use typed_arena::Arena;
@@ -511,12 +511,6 @@ impl<'a> PartialEq for Syntax<'a> {
     }
 }
 impl<'a> Eq for Syntax<'a> {}
-
-impl<'a> Hash for Syntax<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.content_id().hash(state);
-    }
-}
 
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
