@@ -214,7 +214,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         "gleam" => Some(Gleam),
         "go" => Some(Go),
         "hs" => Some(Haskell),
-        "hcl" => Some(Hcl),
+        "hcl" | "nomad" | "tf" | "tfvars" | "worfklow" => Some(Hcl),
         "janet" | "jdn" => Some(Janet),
         "java" => Some(Java),
         "cjs" | "js" | "mjs" => Some(JavaScript),
