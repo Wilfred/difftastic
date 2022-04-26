@@ -110,6 +110,11 @@ fn dbg_pos(pos: &[SingleLineSpan]) -> String {
     }
 }
 
+
+/// Technically wrong, but syntax values cannot be modified asfter init.
+unsafe impl<'a> Send for Syntax<'a> {}
+unsafe impl<'a> Sync for Syntax<'a> {}
+
 impl<'a> fmt::Debug for Syntax<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
