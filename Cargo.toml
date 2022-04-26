@@ -1,5 +1,5 @@
 [package]
-name = "tree-sitter-markdown"
+name = "tree-sitter-md"
 description = "markdown grammar for the tree-sitter parsing library"
 version = "0.0.1"
 keywords = ["incremental", "parsing", "markdown"]
