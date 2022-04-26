@@ -308,20 +308,30 @@ fn diff_file_content(
                     rhs_positions,
                 )
             } else {
-                for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                    mark_syntax(
-                        lhs_section_nodes.first().copied(),
-                        rhs_section_nodes.first().copied(),
-                        lhs_section_nodes.last().and_then(|n| n.next_sibling()),
-                        rhs_section_nodes.last().and_then(|n| n.next_sibling()),
-                        &mut change_map,
-                    );
+                let change_maps: Vec<_> = possibly_changed
+                    .par_iter()
+                    .map(|(lhs_section_nodes, rhs_section_nodes)| {
+                        let mut change_map = ChangeMap::default();
+                        mark_syntax(
+                            lhs_section_nodes.first().copied(),
+                            rhs_section_nodes.first().copied(),
+                            lhs_section_nodes.last().and_then(|n| n.next_sibling()),
+                            rhs_section_nodes.last().and_then(|n| n.next_sibling()),
+                            &mut change_map,
+                        );
 
-                    let language = language.unwrap();
-                    fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
-                    fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
+                        let language = language.unwrap();
+                        fix_all_sliders(language, lhs_section_nodes, &mut change_map);
+                        fix_all_sliders(language, rhs_section_nodes, &mut change_map);
+
+                        change_map
+                    })
+                    .collect();
+
+                for section_change_map in change_maps {
+                    change_map.extend(section_change_map);
                 }
-
+                
                 let lhs_positions = syntax::change_positions(&lhs, &change_map);
                 let rhs_positions = syntax::change_positions(&rhs, &change_map);
                 (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
