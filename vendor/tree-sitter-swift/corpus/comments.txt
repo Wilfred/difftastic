@@ -1,0 +1,103 @@
+================================================================================
+Comments
+================================================================================
+
+1 + 2
+// 1 + 2
+/* Hello world */
+/** I am a doc comment */
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (additive_expression
+    (integer_literal)
+    (integer_literal))
+  (comment)
+  (multiline_comment)
+  (multiline_comment))
+
+================================================================================
+Nested Comments
+================================================================================
+
+/*
+  This is how comments work: //
+  Also like this: /* */
+
+    func doesNotExist() {
+        // This should not show up in the AST
+    }
+*/
+
+/*
+  This is the same but with different whitespace: /* 
+*/
+
+func alsoDoesNotExist() { }
+
+*/
+
+// /*
+/* * */
+func doesExist() { }
+
+/*/*/* triple nested */*/*/
+
+/****
+  /****
+    nested with extra stars
+  ****/
+****/
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (multiline_comment)
+  (multiline_comment)
+  (comment)
+  (multiline_comment)
+  (function_declaration
+    (simple_identifier)
+    (function_body))
+  (multiline_comment)
+  (multiline_comment))
+
+================================================================================
+Almost nested comments
+================================================================================
+
+/*
+    This is allowed in a comment but does not nest: /
+*/
+
+/*
+   Same with this: *
+*/
+
+/*
+   And even this: / *
+*/
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (multiline_comment)
+  (multiline_comment)
+  (multiline_comment))
+
+================================================================================
+Single line comment at the end of a non-empty file
+================================================================================
+
+class SwiftExamples {
+}
+// Some comment
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body))
+  (comment))

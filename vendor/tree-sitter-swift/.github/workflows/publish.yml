@@ -1,0 +1,66 @@
+name: Publish to `npm` and `crates.io`
+
+on:
+  workflow_run:
+    workflows: ["Parse top repositories"]
+    types:
+      - completed
+
+jobs:
+  npm_publish:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    outputs:
+      type: ${{ steps.npm_publish.outputs.type }}
+      package_version: ${{ steps.npm_publish.outputs.version }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run test-ci
+      - run: cd ./test-npm-package && npm test; cd ..
+      - uses: JS-DevTools/npm-publish@v1
+        id: npm_publish
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+  crates_io_publish:
+    runs-on: ubuntu-latest
+    needs: npm_publish
+    if: ${{ needs.npm_publish.outputs.type != 'none' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+      - run: npm install
+      - run: npm run test-ci
+      - run: cargo test
+      - uses: katyo/publish-crates@v1
+        with:
+            registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+            args: --allow-dirty
+  badge_update:
+    runs-on: ubuntu-latest
+    needs:
+      - npm_publish
+      - crates_io_publish
+    steps:
+      - name: Update crates.io badge
+        uses: RubbaBoy/BYOB@v1.3.0
+        with:
+          NAME: crates_io_version
+          LABEL: 'crates.io'
+          STATUS: ${{ needs.npm_publish.outputs.package_version }}
+          COLOR: green
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update npm badge
+        uses: RubbaBoy/BYOB@v1.3.0
+        with:
+          NAME: npm_version
+          LABEL: 'npm'
+          STATUS: ${{ needs.npm_publish.outputs.package_version }}
+          COLOR: green
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
