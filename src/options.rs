@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, env};
+use std::{borrow::Borrow, env, ffi::OsString};
 
 use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
@@ -148,8 +148,8 @@ pub enum Mode {
         display_width: usize,
         display_path: String,
         language_override: Option<guess_language::Language>,
-        lhs_path: String,
-        rhs_path: String,
+        lhs_path: OsString,
+        rhs_path: OsString,
     },
     DumpTreeSitter {
         path: String,
@@ -194,23 +194,22 @@ pub fn parse_args() -> Mode {
         };
     }
 
-    // TODO: Use OsString rather than forcing paths to be valid UTF-8.
-    let args: Vec<_> = matches.values_of_lossy("paths").unwrap_or_default();
+    let args: Vec<_> = matches.values_of_os("paths").unwrap_or_default().collect();
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path) = match &args[..] {
         [lhs_path, rhs_path] => (
-            rhs_path.to_string(),
-            lhs_path.to_string(),
-            rhs_path.to_string(),
+            rhs_path.to_owned(),
+            lhs_path.to_owned(),
+            rhs_path.to_owned(),
         ),
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (
-                display_path.to_string(),
-                lhs_tmp_file.to_string(),
-                rhs_tmp_file.to_string(),
+                display_path.to_owned(),
+                lhs_tmp_file.to_owned(),
+                rhs_tmp_file.to_owned(),
             )
         }
         [_old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
@@ -219,9 +218,9 @@ pub fn parse_args() -> Mode {
             // TODO: mention old name as well as diffing.
             // TODO: where does git document these 9 arguments?
             (
-                new_name.to_string(),
-                lhs_tmp_file.to_string(),
-                rhs_tmp_file.to_string(),
+                new_name.to_owned(),
+                lhs_tmp_file.to_owned(),
+                rhs_tmp_file.to_owned(),
             )
         }
         _ => {
@@ -305,10 +304,10 @@ pub fn parse_args() -> Mode {
         background_color,
         color_output,
         display_width,
-        display_path,
+        display_path: display_path.to_string_lossy().to_string(),
         language_override,
-        lhs_path,
-        rhs_path,
+        lhs_path: lhs_path.to_owned(),
+        rhs_path: rhs_path.to_owned(),
     }
 }
 

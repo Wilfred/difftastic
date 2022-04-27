@@ -16,6 +16,10 @@ Fixed crash in inline mode.
 Difftastic now diffs files in parallel when diffing whole directories,
 increasing performance.
 
+## Command Line Interface
+
+Fixed handling of paths that aren't valid UTF-8.
+
 ## 0.27 (released 18th April 2022)
 
 ### Parsing
