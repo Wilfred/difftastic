@@ -22,7 +22,7 @@ include = [
 
 [dependencies]
 regex = "1.5.4"
-clap = { version = "3.1.8", features = ["cargo", "env"] }
+clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.10.1"
 typed-arena = "2.0.1"
 rustc-hash = "1.1.0"
