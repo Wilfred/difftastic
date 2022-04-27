@@ -2,6 +2,7 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+use serde::{Deserialize, Serialize};
 use std::{
     cell::Cell,
     collections::HashMap,
@@ -552,7 +553,7 @@ impl<'a> Hash for Syntax<'a> {
     }
 }
 
-#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
     String,
@@ -562,14 +563,14 @@ pub enum AtomKind {
 }
 
 /// Unlike atoms, tokens can be delimiters like `{`.
-#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, Debug, Clone, Copy)]
 pub enum TokenKind {
     Delimiter,
     Atom(AtomKind),
 }
 
 /// A matched token (an atom, a delimiter, or a comment word).
-#[derive(PartialEq, Eq, Debug, Clone)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
     UnchangedToken {
         highlight: TokenKind,
@@ -598,7 +599,7 @@ impl MatchKind {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: SingleLineSpan,

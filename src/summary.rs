@@ -1,12 +1,13 @@
 use crate::syntax::MatchedPos;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Deserialize, Serialize, Debug, PartialEq, Eq)]
 pub enum FileContent {
     Text(String),
     Binary(Vec<u8>),
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct DiffResult {
     pub path: String,
     pub language: Option<String>,
