@@ -2,13 +2,7 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
-use std::{
-    cell::Cell,
-    collections::HashMap,
-    env, fmt,
-    hash::Hash,
-    num::NonZeroU32,
-};
+use std::{cell::Cell, collections::HashMap, env, fmt, hash::Hash, num::NonZeroU32};
 use typed_arena::Arena;
 
 use crate::{
