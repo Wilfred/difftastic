@@ -355,8 +355,8 @@ fn slide_to_prev_node<'a>(
         };
 
         insert_deep_novel(before_start_node, change_map);
-        insert_deep_unchanged(last_node, &opposite, change_map);
-        insert_deep_unchanged(&opposite, last_node, change_map);
+        insert_deep_unchanged(last_node, opposite, change_map);
+        insert_deep_unchanged(opposite, last_node, change_map);
     }
 }
 
@@ -404,8 +404,8 @@ fn slide_to_next_node<'a>(
             _ => unreachable!(),
         };
 
-        insert_deep_unchanged(start_node, &opposite, change_map);
-        insert_deep_unchanged(&opposite, start_node, change_map);
+        insert_deep_unchanged(start_node, opposite, change_map);
+        insert_deep_unchanged(opposite, start_node, change_map);
         insert_deep_novel(after_last_node, change_map);
     }
 }

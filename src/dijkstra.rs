@@ -94,11 +94,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
                     x.1.lhs_syntax
-                        .map(Syntax::dbg_content)
-                        .unwrap_or_else(|| "None".into()),
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.1.rhs_syntax
-                        .map(Syntax::dbg_content)
-                        .unwrap_or_else(|| "None".into()),
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.0.cost(),
                     x.0,
                 )
@@ -156,7 +154,7 @@ pub fn mark_syntax<'a>(
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start);
 
-    populate_change_map(&route, change_map)
+    populate_change_map(&route, change_map);
 }
 
 #[cfg(test)]

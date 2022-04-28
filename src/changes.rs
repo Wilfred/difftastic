@@ -11,17 +11,9 @@ pub enum ChangeKind<'a> {
     Novel,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct ChangeMap<'a> {
     changes: FxHashMap<NonZeroU32, ChangeKind<'a>>,
-}
-
-impl<'a> Default for ChangeMap<'a> {
-    fn default() -> Self {
-        Self {
-            changes: Default::default(),
-        }
-    }
 }
 
 impl<'a> ChangeMap<'a> {

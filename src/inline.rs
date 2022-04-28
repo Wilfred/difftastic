@@ -76,8 +76,6 @@ pub fn print(
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
                 println!("{}   {}", format_line_num(lhs_line), lhs_lines[lhs_line.0]);
-            } else {
-                continue;
             }
         }
 
@@ -88,8 +86,6 @@ pub fn print(
                     format_line_num(*lhs_line).red().bold(),
                     lhs_lines[lhs_line.0]
                 );
-            } else {
-                continue;
             }
         }
         for (_, rhs_line) in &hunk_lines {
@@ -99,16 +95,12 @@ pub fn print(
                     format_line_num(*rhs_line).green().bold(),
                     rhs_lines[rhs_line.0]
                 );
-            } else {
-                continue;
             }
         }
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
                 println!("   {}{}", format_line_num(*rhs_line), rhs_lines[rhs_line.0]);
-            } else {
-                continue;
             }
         }
         println!();
