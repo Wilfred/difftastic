@@ -1,6 +1,13 @@
 //! File reading utilities.
 
-use std::{fs, io::ErrorKind::*, path::Path};
+use std::{
+    fs,
+    io::ErrorKind::*,
+    path::{Path, PathBuf},
+};
+
+use rustc_hash::FxHashSet;
+use walkdir::WalkDir;
 
 pub fn read_files_or_die(
     lhs_path: &Path,
@@ -71,6 +78,70 @@ pub fn is_probably_binary(bytes: &[u8]) -> bool {
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
         .count();
     num_replaced > 20
+}
+
+/// All the files in `dir`, including subdirectories.
+fn relative_file_paths_in_dir(dir: &Path) -> Vec<PathBuf> {
+    WalkDir::new(dir)
+        .into_iter()
+        .filter_map(Result::ok)
+        .map(|entry| entry.into_path())
+        .filter(|path| !path.is_dir())
+        .map(|path| path.strip_prefix(dir).unwrap().to_path_buf())
+        .collect()
+}
+
+/// Walk `lhs_dir` and `rhs_dir`, and return relative paths of files
+/// that occur in at least one directory.
+///
+/// Attempts to preserve the ordering of files in both directories.
+pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> {
+    let lhs_paths = relative_file_paths_in_dir(lhs_dir);
+    let rhs_paths = relative_file_paths_in_dir(rhs_dir);
+
+    let mut seen = FxHashSet::default();
+    let mut res: Vec<PathBuf> = vec![];
+
+    let mut i = 0;
+    let mut j = 0;
+
+    loop {
+        match (lhs_paths.get(i), rhs_paths.get(j)) {
+            (Some(lhs_path), Some(rhs_path)) if lhs_path == rhs_path => {
+                if !seen.contains(lhs_path) {
+                    // It should be impossible to get duplicates, but
+                    // be defensive.
+                    res.push(lhs_path.to_owned());
+                    seen.insert(lhs_path);
+                }
+
+                i += 1;
+                j += 1;
+            }
+            (Some(lhs_path), Some(rhs_path)) => {
+                if seen.contains(lhs_path) {
+                    i += 1;
+                } else if seen.contains(rhs_path) {
+                    j += 1;
+                } else {
+                    res.push(lhs_path.to_owned());
+                    res.push(rhs_path.to_owned());
+
+                    seen.insert(lhs_path);
+                    seen.insert(rhs_path);
+
+                    i += 1;
+                    j += 1;
+                }
+            }
+            _ => break,
+        }
+    }
+
+    res.extend(lhs_paths.into_iter().skip(i));
+    res.extend(rhs_paths.into_iter().skip(j));
+
+    res
 }
 
 #[cfg(test)]
