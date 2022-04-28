@@ -90,7 +90,7 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("missing-as-empty").long("missing-as-empty")
-                .help("Treat paths that don't exist as equivalent to an empty file.")
+                .help("Treat paths that don't exist as equivalent to an empty file. Only applies when diffing files, not directories.")
         )
         .arg(
             Arg::new("language").long("language")

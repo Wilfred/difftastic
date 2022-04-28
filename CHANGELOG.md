@@ -16,9 +16,15 @@ Fixed crash in inline mode.
 Difftastic now diffs files in parallel when diffing whole directories,
 increasing performance.
 
+Directory diffing now correctly handles files that are only in one of
+the directories.
+
 ## Command Line Interface
 
 Fixed handling of paths that aren't valid UTF-8.
+
+`--missing-as-empty` now only applies when diffing files, and has no
+effect when diffing directories.
 
 ## 0.27 (released 18th April 2022)
 

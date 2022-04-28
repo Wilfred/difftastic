@@ -41,7 +41,7 @@ extern crate log;
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use changes::ChangeMap;
 use context::opposite_positions;
-use files::read_files_or_die;
+use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
 use guess_language::guess;
 use log::info;
 use mimalloc::MiMalloc;
@@ -61,14 +61,9 @@ use style::BackgroundColor;
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
-use walkdir::WalkDir;
 
 use crate::{
-    dijkstra::mark_syntax,
-    files::{is_probably_binary, read_or_die},
-    lines::MaxLine,
-    syntax::init_all_info,
-    tree_sitter_parser as tsp,
+    dijkstra::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp,
 };
 
 extern crate pretty_env_logger;
@@ -169,7 +164,6 @@ fn main() {
                 diff_directories(
                     lhs_path,
                     rhs_path,
-                    missing_as_empty,
                     node_limit,
                     byte_limit,
                     language_override,
@@ -377,7 +371,6 @@ fn diff_file_content(
 fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
-    missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
     language_override: Option<guess_language::Language>,
@@ -385,24 +378,19 @@ fn diff_directories<'a>(
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
-    let lhs_paths: Vec<_> = WalkDir::new(lhs_dir)
-        .into_iter()
-        .filter_map(Result::ok)
-        .map(|entry| entry.into_path())
-        .filter(|lhs_path| !lhs_path.is_dir())
-        .collect();
+    let paths = relative_paths_in_either(lhs_dir, rhs_dir);
 
-    lhs_paths.into_par_iter().map(move |lhs_path| {
-        info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
+    paths.into_par_iter().map(move |rel_path| {
+        info!("Relative path is {:?} inside {:?}", rel_path, lhs_dir);
 
-        let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
-        let rhs_path = Path::new(rhs_dir).join(rel_path);
+        let lhs_path = Path::new(lhs_dir).join(&rel_path);
+        let rhs_path = Path::new(rhs_dir).join(&rel_path);
 
         diff_file(
             &rel_path.to_string_lossy(),
             &lhs_path,
             &rhs_path,
-            missing_as_empty,
+            true,
             node_limit,
             byte_limit,
             language_override,
