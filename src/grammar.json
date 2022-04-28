@@ -725,6 +725,10 @@
         {
           "type": "SYMBOL",
           "name": "xhp_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_pointer"
         }
       ]
     },
@@ -8282,6 +8286,32 @@
         }
       ]
     },
+    "function_pointer": {
+      "type": "PREC_DYNAMIC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "scoped_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "qualified_identifier"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_arguments"
+          }
+        ]
+      }
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
@@ -8675,7 +8705,16 @@
     ],
     [
       "_expression",
+      "type_specifier",
+      "function_pointer"
+    ],
+    [
+      "_expression",
       "field_initializer"
+    ],
+    [
+      "_expression",
+      "function_pointer"
     ],
     [
       "scoped_identifier",
@@ -8687,6 +8726,10 @@
     ],
     [
       "type_specifier"
+    ],
+    [
+      "type_specifier",
+      "function_pointer"
     ],
     [
       "shape_type_specifier",
