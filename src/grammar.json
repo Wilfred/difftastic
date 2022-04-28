@@ -815,7 +815,7 @@
     },
     "subset": {
       "type": "PREC",
-      "value": 16,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -848,7 +848,7 @@
     },
     "subset2": {
       "type": "PREC",
-      "value": 16,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -992,8 +992,129 @@
       "type": "STRING",
       "value": "..."
     },
-    "pipe": {
+    "placeholder": {
+      "type": "STRING",
+      "value": "_"
+    },
+    "pipe_placeholder_argument": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "FIELD",
+            "name": "value",
+            "content": {
+              "type": "SYMBOL",
+              "name": "placeholder"
+            }
+          }
+        ]
+      }
+    },
+    "_pipe_rhs_argument": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "default_argument"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "pipe_placeholder_argument"
+            },
+            "named": true,
+            "value": "default_argument"
+          }
+        ]
+      }
+    },
+    "pipe_rhs_arguments": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_pipe_rhs_argument"
+          },
+          {
+            "type": "STRING",
+            "value": ","
+          }
+        ]
+      }
+    },
+    "pipe_rhs": {
       "type": "PREC_LEFT",
+      "value": 16,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "function",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "pipe_rhs_arguments"
+                  },
+                  "named": true,
+                  "value": "arguments"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
+    },
+    "pipe": {
+      "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
@@ -1018,8 +1139,13 @@
             "type": "FIELD",
             "name": "right",
             "content": {
-              "type": "SYMBOL",
-              "name": "call"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "pipe_rhs"
+              },
+              "named": true,
+              "value": "call"
             }
           }
         ]
@@ -1671,10 +1797,6 @@
           {
             "type": "SYMBOL",
             "name": "dots"
-          },
-          {
-            "type": "STRING",
-            "value": ";"
           }
         ]
       }
@@ -1721,7 +1843,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": 18,
+        "value": 19,
         "content": {
           "type": "SEQ",
           "members": [
@@ -1768,7 +1890,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC_LEFT",
-        "value": 17,
+        "value": 18,
         "content": {
           "type": "CHOICE",
           "members": [
@@ -2117,7 +2239,16 @@
       "value": "\\s"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_pipe_rhs_argument",
+      "_argument"
+    ],
+    [
+      "pipe_rhs_arguments",
+      "arguments"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

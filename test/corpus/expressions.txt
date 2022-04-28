@@ -310,6 +310,37 @@ x |> {function(x) x}()
           (identifier))))))
 
 ===========
+Pipe Placeholder
+===========
+
+foo |> bar(x, y = _)
+foo |> bar() |> baz(data = _)
+
+---
+
+(program
+  (pipe
+    left: (identifier)
+    right: (call
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (default_argument
+          name: (identifier)
+          value: (placeholder)))))
+  (pipe
+    left: (pipe
+      left: (identifier)
+      right: (call
+        function: (identifier)))
+    right: (call
+      function: (identifier)
+      arguments: (arguments
+        (default_argument
+          name: (identifier)
+          value: (placeholder))))))
+
+===========
 Subset
 ===========
 

@@ -22,7 +22,7 @@ _foo
  (identifier)
  (identifier)
  (identifier (escape_sequence))
- (ERROR (UNEXPECTED '_')) (identifier))
+ (ERROR (placeholder)) (identifier))
 
 ============================================
 Strings

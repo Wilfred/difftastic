@@ -179,10 +179,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -422,10 +418,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -772,10 +764,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -977,10 +965,6 @@
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1089,6 +1073,10 @@
             "named": true
           },
           {
+            "type": "placeholder",
+            "named": true
+          },
+          {
             "type": "repeat",
             "named": true
           },
@@ -1158,10 +1146,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -1498,10 +1482,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -1663,10 +1643,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -1835,10 +1811,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -2011,10 +1983,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -2393,10 +2361,6 @@
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2563,10 +2527,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -2728,10 +2688,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -3072,10 +3028,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -3237,10 +3189,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -3410,10 +3358,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -3575,10 +3519,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -3972,10 +3912,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -4331,10 +4267,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -4503,10 +4435,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -4668,10 +4596,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -5035,7 +4959,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arguments",
@@ -5206,7 +5130,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arguments",
@@ -5380,10 +5304,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -5545,10 +5465,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -5718,10 +5634,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -5883,10 +5795,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -6066,10 +5974,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -6237,10 +6141,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -6432,10 +6332,6 @@
         "required": true,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
             "type": "binary",
             "named": true
           },
@@ -6597,10 +6493,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ";",
-            "named": false
-          },
           {
             "type": "binary",
             "named": true
@@ -7003,6 +6895,10 @@
   },
   {
     "type": "null",
+    "named": true
+  },
+  {
+    "type": "placeholder",
     "named": true
   },
   {

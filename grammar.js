@@ -17,8 +17,9 @@ const PREC = {
   DOLLAR: 13,
   NS_GET: 14,
   CALL: 15,
-  SUBSET: 16,
-  FLOAT: 17
+  CALL_PIPE: 16,
+  SUBSET: 17,
+  FLOAT: 18
 }
 
 newline = '\n',
@@ -30,6 +31,11 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /\s/
+  ],
+
+  conflicts: ($) => [
+    [$._pipe_rhs_argument, $._argument],
+    [$.pipe_rhs_arguments, $.arguments]
   ],
 
   rules: {
@@ -110,9 +116,9 @@ module.exports = grammar({
     ),
 
     _formal_parameter: $ => choice(
-        $.identifier,
-        $.default_parameter,
-        $.dots
+      $.identifier,
+      $.default_parameter,
+      $.dots
     ),
 
     block: $ => seq(
@@ -122,8 +128,8 @@ module.exports = grammar({
     ),
 
     arguments: $ => repeat1(choice(
-      $._argument,
-      ','
+      $._argument, 
+      ',',
     )),
 
     default_argument: $ => prec.right(seq(
@@ -134,7 +140,7 @@ module.exports = grammar({
 
     _argument: $ => prec.left(choice(
       $._expression,
-      $.default_argument
+      $.default_argument,
     )),
 
     call: $ => prec(PREC.CALL, seq(
@@ -158,28 +164,28 @@ module.exports = grammar({
         field('name', $._expression),
         '<-',
         field('value', $._expression)
-    )),
+      )),
 
     left_assignment2: $ => prec.right(PREC.ASSIGN,
       seq(
         field('name', $._expression),
         ':=',
         field('value', $._expression)
-    )),
+      )),
 
     equals_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
         field('name', $._expression),
         '=',
         field('value', $._expression)
-    )),
+      )),
 
     super_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
         field('name', $._expression),
         '<<-',
-      field('value', $._expression)
-    )),
+        field('value', $._expression)
+      )),
 
     super_right_assignment: $ => prec.right(PREC.ASSIGN,
       seq(
@@ -192,8 +198,8 @@ module.exports = grammar({
       seq(
         field('value', $._expression),
         '->',
-      field('name', $._expression)
-    )),
+        field('name', $._expression)
+      )),
 
     brace_list: $ => seq(
       '{',
@@ -234,7 +240,7 @@ module.exports = grammar({
       )
     )),
 
-    slot : $ => prec(PREC.DOLLAR, seq(
+    slot: $ => prec(PREC.DOLLAR, seq(
       $._expression,
       '@',
       $.identifier
@@ -254,10 +260,37 @@ module.exports = grammar({
 
     dots: $ => '...',
 
-    pipe: $ => prec.left(PREC.PIPE, seq(
+    placeholder: $ => '_',
+
+    pipe_placeholder_argument: $ => prec.right(seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $.placeholder)
+    )),
+
+    _pipe_rhs_argument: $ => prec.right(choice(
+      $._expression,
+      $.default_argument,
+      alias($.pipe_placeholder_argument, $.default_argument)
+    )),
+
+    pipe_rhs_arguments: $ => repeat1(choice(
+      $._pipe_rhs_argument,
+      ','
+    )),
+
+    // pipe_hrs is a call function
+    pipe_rhs: $ => prec.left(PREC.CALL_PIPE, seq(
+      field('function', $._expression),
+      '(',
+      field('arguments', optional(alias($.pipe_rhs_arguments, $.arguments))),
+      ')'
+    )),
+
+    pipe: $ => prec(PREC.PIPE, seq(
       field('left', $._expression),
-      field('operator' ,'|>'),
-      field('right', $.call)
+      field('operator', '|>'),
+      field('right', alias($.pipe_rhs, $.call))
     )),
 
     unary: $ => {
@@ -346,23 +379,23 @@ module.exports = grammar({
       $.nan,
       $.na,
       $.dots,
-      ';'
+      // ';'
     )),
 
     identifier: $ =>
       choice(
-      /[A-Za-z.][A-Za-z0-9_.]*/,
-      seq(
-        '`',
-        repeat(choice(
-          /[^`\\\n]+|\\\r?\n/,
-          $.escape_sequence
-        )),
-        '`'
-      )
-    ),
+        /[A-Za-z.][A-Za-z0-9_.]*/,
+        seq(
+          '`',
+          repeat(choice(
+            /[^`\\\n]+|\\\r?\n/,
+            $.escape_sequence
+          )),
+          '`'
+        )
+      ),
 
-    integer: $ => token(prec(PREC.FLOAT+1,
+    integer: $ => token(prec(PREC.FLOAT + 1,
       seq(
         choice(
           seq(
@@ -416,10 +449,10 @@ module.exports = grammar({
 
     special: $ => seq(
       '%',
-    repeat(choice(
-      /[^%\\\n]+|\\\r?\n/,
-      $.escape_sequence
-    )),
+      repeat(choice(
+        /[^%\\\n]+|\\\r?\n/,
+        $.escape_sequence
+      )),
       '%'
     ),
 
