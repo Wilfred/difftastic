@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for HCL and Perl.
+Added support for HCL, Perl and Swift.
 
 Improved language detection for JSON. More file extensions and file
 names are recognised as JSON, e.g. `.jsonl`.
