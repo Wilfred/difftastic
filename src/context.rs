@@ -1,5 +1,6 @@
 //! Calculate which nearby lines should also be displayed.
 
+use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
 use rustc_hash::FxHashSet;
@@ -189,14 +190,14 @@ fn merge_in_opposite_lines(
     for (line, opposite_line) in matched_lines {
         if let Some(opposite_line) = opposite_line {
             while let Some(novel_opposite_line) = novel_opposite_lines.get(i) {
-                if novel_opposite_line < opposite_line {
-                    res.push((None, Some(*novel_opposite_line)));
-                    i += 1;
-                } else if novel_opposite_line == opposite_line {
-                    i += 1;
-                } else {
-                    break;
+                match novel_opposite_line.cmp(opposite_line) {
+                    Ordering::Less => res.push((None, Some(*novel_opposite_line))),
+                    Ordering::Equal => (),
+                    Ordering::Greater => {
+                        break;
+                    }
                 }
+                i += 1;
             }
         }
         res.push((*line, *opposite_line));
@@ -502,7 +503,7 @@ fn after_with_opposites(
                         all_opposites = all_opposites
                             .into_iter()
                             .filter(|x| *x > prev_max_opposite)
-                            .collect()
+                            .collect();
                     }
 
                     all_opposites.first().copied()

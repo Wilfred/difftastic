@@ -7,7 +7,7 @@ const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_NODES: usize = 4;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
-/// Set ChangeKind on nodes that are obviously unchanged, and return a
+/// Set [`ChangeKind`] on nodes that are obviously unchanged, and return a
 /// vec of pairs that need proper diffing.
 pub fn mark_unchanged<'a>(
     lhs_nodes: &[&'a Syntax<'a>],
@@ -328,7 +328,7 @@ fn as_singleton_list_children<'a>(
     ) = (lhs_nodes, rhs_nodes)
     {
         if lhs_open == rhs_open && lhs_close == rhs_close {
-            return Some((lhs_children.to_vec(), rhs_children.to_vec()));
+            return Some((lhs_children.clone(), rhs_children.clone()));
         }
     }
 
@@ -375,7 +375,7 @@ fn shrink_unchanged_delimiters<'a>(
 /// Skip syntax nodes at the beginning or end that are obviously
 /// unchanged.
 ///
-/// Set the ChangeKind on the definitely changed nodes, and return the
+/// Set the [`ChangeKind`] on the definitely changed nodes, and return the
 /// nodes that may contain changes.
 fn shrink_unchanged_at_ends<'a>(
     lhs_nodes: &[&'a Syntax<'a>],

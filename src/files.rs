@@ -111,7 +111,7 @@ pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> 
                 if !seen.contains(lhs_path) {
                     // It should be impossible to get duplicates, but
                     // be defensive.
-                    res.push(lhs_path.to_owned());
+                    res.push(lhs_path.clone());
                     seen.insert(lhs_path);
                 }
 
@@ -124,8 +124,8 @@ pub fn relative_paths_in_either(lhs_dir: &Path, rhs_dir: &Path) -> Vec<PathBuf> 
                 } else if seen.contains(rhs_path) {
                     j += 1;
                 } else {
-                    res.push(lhs_path.to_owned());
-                    res.push(rhs_path.to_owned());
+                    res.push(lhs_path.clone());
+                    res.push(rhs_path.clone());
 
                     seen.insert(lhs_path);
                     seen.insert(rhs_path);

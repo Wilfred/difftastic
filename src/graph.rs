@@ -137,10 +137,7 @@ fn push_both_delimiters<'a>(
 }
 
 fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
-    match entered.peek() {
-        Some(EnteredDelimiter::PopEither(_)) => true,
-        _ => false,
-    }
+    matches!(entered.peek(), Some(EnteredDelimiter::PopEither(_)))
 }
 
 fn try_pop_both<'a>(
@@ -288,7 +285,7 @@ pub enum Edge {
 }
 
 impl Edge {
-    pub fn cost(&self) -> u64 {
+    pub fn cost(self) -> u64 {
         match self {
             // When we're at the end of a list, there's only one exit
             // delimiter possibility, so the cost doesn't matter. We
@@ -302,9 +299,11 @@ impl Edge {
             ExitDelimiterLHS | ExitDelimiterRHS => 2,
 
             // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
+            UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
             // Matching an outer delimiter is good.
-            EnterUnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
+            EnterUnchangedDelimiter { depth_difference } => {
+                100 + min(40, u64::from(depth_difference))
+            }
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
@@ -314,7 +313,7 @@ impl Edge {
             | NovelAtomRHS { contiguous }
             | EnterNovelDelimiterLHS { contiguous }
             | EnterNovelDelimiterRHS { contiguous } => {
-                if *contiguous {
+                if contiguous {
                     300
                 } else {
                     // This needs to be more than 40 greater than the
