@@ -139,6 +139,9 @@ a1d8070fda3b8fa65886a90bde64a2ab  -
 sample_files/small_before.js sample_files/small_after.js
 27bcac13aa17141718a3e6b8c0ac8f47  -
 
+sample_files/swift_before.swift sample_files/swift_after.swift
+eeab25a68552f051a6392b5e713fbd29  -
+
 sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 fe636ad27b1aa75e0b153dfe248023bb  -
 
