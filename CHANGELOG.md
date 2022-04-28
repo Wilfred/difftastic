@@ -19,7 +19,7 @@ increasing performance.
 Directory diffing now correctly handles files that are only in one of
 the directories.
 
-## Command Line Interface
+### Command Line Interface
 
 Fixed handling of paths that aren't valid UTF-8.
 
