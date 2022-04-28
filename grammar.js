@@ -1299,7 +1299,11 @@ module.exports = grammar({
         field('operator', keyword('instanceof')),
         field('right', $._class_type_designator)
       )),
-      prec.right(PREC.NULL_COALESCE, seq($._expression, '??', $._expression)),
+      prec.right(PREC.NULL_COALESCE, seq(
+        field('left', $._expression),
+        field('operator', '??'),
+        field('right', $._expression)
+      )),
       ...[
         [keyword('and'), PREC.LOGICAL_AND_2],
         [keyword('or'), PREC.LOGICAL_OR_2],

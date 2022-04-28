@@ -876,8 +876,8 @@ throw $exception ??= new Exception();
   (expression_statement
     (throw_expression
       (binary_expression
-        (variable_name (name))
-        (object_creation_expression
+        left: (variable_name (name))
+        right: (object_creation_expression
           (name)
           (arguments)
         )
