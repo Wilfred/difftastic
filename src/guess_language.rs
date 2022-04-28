@@ -94,8 +94,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
     // first line is a shebang.
     for line in src.lines().take(2) {
         let mode_name: String = match (MODE_RE.captures(line), SHORTHAND_RE.captures(line)) {
-            (Some(cap), _) => cap[1].into(),
-            (_, Some(cap)) => cap[1].into(),
+            (Some(cap), _) | (_, Some(cap)) => cap[1].into(),
             _ => "".into(),
         };
         let lang = match mode_name.to_ascii_lowercase().trim().borrow() {

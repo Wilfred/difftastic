@@ -19,7 +19,7 @@ pub enum BackgroundColor {
 }
 
 impl BackgroundColor {
-    pub fn is_dark(&self) -> bool {
+    pub fn is_dark(self) -> bool {
         matches!(self, BackgroundColor::Dark)
     }
 }
@@ -230,12 +230,10 @@ pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> S
         } else {
             style.bright_green()
         }
+    } else if is_lhs {
+        style.red()
     } else {
-        if is_lhs {
-            style.red()
-        } else {
-            style.green()
-        }
+        style.green()
     }
 }
 

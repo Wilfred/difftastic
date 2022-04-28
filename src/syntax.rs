@@ -301,8 +301,7 @@ impl<'a> Syntax<'a> {
             } => {
                 let line = position
                     .first()
-                    .map(|p| format!("{}", p.line.one_indexed()))
-                    .unwrap_or_else(|| "?".to_owned());
+                    .map_or_else(|| "?".to_owned(), |p| p.line.one_indexed().to_string());
 
                 format!("line:{} {}", line, content)
             }

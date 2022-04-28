@@ -81,18 +81,14 @@ fn fill_between(
     let mut lhs_lines = vec![];
     if let (Some(prev_lhs), Some(next_lhs)) = (prev_lhs, next_lhs) {
         if prev_lhs.0 + 1 < next_lhs.0 {
-            lhs_lines = (prev_lhs.0 + 1..next_lhs.0)
-                .map(|line| line.into())
-                .collect();
+            lhs_lines = (prev_lhs.0 + 1..next_lhs.0).map(LineNumber::from).collect();
         }
     }
 
     let mut rhs_lines = vec![];
     if let (Some(prev_rhs), Some(next_rhs)) = (prev_rhs, next_rhs) {
         if prev_rhs.0 + 1 < next_rhs.0 {
-            rhs_lines = (prev_rhs.0 + 1..next_rhs.0)
-                .map(|line| line.into())
-                .collect();
+            rhs_lines = (prev_rhs.0 + 1..next_rhs.0).map(LineNumber::from).collect();
         }
     }
 
@@ -345,8 +341,8 @@ fn lines_to_hunks(
     hunks
 }
 
-/// Given a sequence of novel MatchedPos values in a section between
-/// two unchanged MatchedPos values, return them in an order suited
+/// Given a sequence of novel [`MatchedPos`] values in a section between
+/// two unchanged [`MatchedPos`] values, return them in an order suited
 /// for displaying.
 ///
 /// ```text
@@ -404,20 +400,18 @@ fn novel_section_in_order(
     // Next, we want novel MatchedPos values that occur on lines
     // without any unchanged MatchedPos values.
     while let Some(lhs_mp) = lhs_iter.peek() {
-        if !opposite_to_lhs.contains_key(&lhs_mp.pos.line) {
-            res.push((Side::Left, (**lhs_mp).clone()));
-            lhs_iter.next();
-        } else {
+        if opposite_to_lhs.contains_key(&lhs_mp.pos.line) {
             break;
         }
+        res.push((Side::Left, (**lhs_mp).clone()));
+        lhs_iter.next();
     }
     while let Some(rhs_mp) = rhs_iter.peek() {
-        if !opposite_to_rhs.contains_key(&rhs_mp.pos.line) {
-            res.push((Side::Right, (**rhs_mp).clone()));
-            rhs_iter.next();
-        } else {
+        if opposite_to_rhs.contains_key(&rhs_mp.pos.line) {
             break;
         }
+        res.push((Side::Right, (**rhs_mp).clone()));
+        rhs_iter.next();
     }
 
     // Finally, the remainder of the novel MatchedPos values will be
@@ -432,7 +426,7 @@ fn novel_section_in_order(
     res
 }
 
-/// Return a vec of novel MatchedPos values in an order suited for
+/// Return a vec of novel [`MatchedPos`] values in an order suited for
 /// displaying.
 ///
 /// Since novel positions don't have a corresponding opposite
@@ -642,6 +636,7 @@ pub fn matched_lines_for_hunk(
     } else {
         start_i = 0;
     }
+
     if end_i + MAX_PADDING < matched_lines.len() {
         end_i += MAX_PADDING
     } else {

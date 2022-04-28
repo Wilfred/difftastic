@@ -357,7 +357,7 @@ pub fn parse_args() -> Mode {
 /// Choose the display width: try to autodetect, or fall back to a
 /// sensible default.
 fn detect_display_width() -> usize {
-    term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
+    term_size::dimensions().map_or(80, |(w, _)| w)
 }
 
 pub fn should_use_color(color_output: ColorOutput) -> bool {
