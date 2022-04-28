@@ -49,6 +49,7 @@ pub enum Language {
     Ruby,
     Rust,
     Scala,
+    Swift,
     Toml,
     Tsx,
     TypeScript,
@@ -122,6 +123,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             "rust" => Some(Rust),
             "scala" => Some(Scala),
             "sh" => Some(Bash),
+            "swift" => Some(Swift),
             "toml" => Some(Toml),
             "tuareg" => Some(OCaml),
             "typescript" => Some(TypeScript),
@@ -160,6 +162,7 @@ fn from_shebang(src: &str) -> Option<Language> {
                     "perl" => return Some(Perl),
                     "python" | "python2" | "python3" => return Some(Python),
                     "ruby" | "macruby" | "rake" | "jruby" | "rbx" => return Some(Ruby),
+                    "swift" => return Some(Swift),
                     "deno" | "ts-node" => return Some(TypeScript),
                     _ => {}
                 }
@@ -234,6 +237,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         "rb" | "builder" | "spec" | "rake" => Some(Ruby),
         "rs" => Some(Rust),
         "scala" | "sbt" | "sc" => Some(Scala),
+        "swift" => Some(Swift),
         "toml" => Some(Toml),
         "ts" => Some(TypeScript),
         "tsx" => Some(Tsx),
