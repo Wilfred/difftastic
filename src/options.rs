@@ -27,6 +27,7 @@ pub struct DisplayOptions {
     pub print_unchanged: bool,
     pub tab_width: usize,
     pub display_width: usize,
+    pub syntax_highlight: bool,
 }
 
 fn app() -> clap::Command<'static> {
@@ -105,6 +106,14 @@ fn app() -> clap::Command<'static> {
                 .env("DFT_BACKGROUND")
                 .possible_values(["dark", "light"])
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
+        )
+        .arg(
+            Arg::new("syntax-highlight").long("syntax-highlight")
+                .value_name("ON/OFF")
+                .env("DFT_SYNTAX_HIGHLIGHT")
+                .possible_values(["on", "off"])
+                .default_value("on")
+                .help("Enable or disable syntax highlighting.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
@@ -298,6 +307,8 @@ pub fn parse_args() -> Mode {
         BackgroundColor::Dark
     };
 
+    let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
+
     let node_limit = matches
         .value_of("node-limit")
         .expect("Always present as we've given clap a default")
@@ -328,6 +339,7 @@ pub fn parse_args() -> Mode {
         tab_width,
         display_mode,
         display_width,
+        syntax_highlight,
     };
 
     Mode::Diff {

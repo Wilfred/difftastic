@@ -242,6 +242,7 @@ pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> S
 pub fn color_positions(
     is_lhs: bool,
     background: BackgroundColor,
+    syntax_highlight: bool,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
@@ -249,39 +250,43 @@ pub fn color_positions(
         let mut style = Style::new();
         match pos.kind {
             MatchKind::UnchangedToken { highlight, .. } => {
-                if let TokenKind::Atom(atom_kind) = highlight {
-                    match atom_kind {
-                        AtomKind::String => {
-                            style = if background.is_dark() {
-                                style.bright_magenta()
-                            } else {
-                                style.magenta()
-                            };
+                if syntax_highlight {
+                    if let TokenKind::Atom(atom_kind) = highlight {
+                        match atom_kind {
+                            AtomKind::String => {
+                                style = if background.is_dark() {
+                                    style.bright_magenta()
+                                } else {
+                                    style.magenta()
+                                };
+                            }
+                            AtomKind::Comment => {
+                                style = style.italic();
+                                style = if background.is_dark() {
+                                    style.bright_blue()
+                                } else {
+                                    style.blue()
+                                };
+                            }
+                            AtomKind::Keyword | AtomKind::Type => {
+                                style = style.bold();
+                            }
+                            AtomKind::Normal => {}
                         }
-                        AtomKind::Comment => {
-                            style = style.italic();
-                            style = if background.is_dark() {
-                                style.bright_blue()
-                            } else {
-                                style.blue()
-                            };
-                        }
-                        AtomKind::Keyword | AtomKind::Type => {
-                            style = style.bold();
-                        }
-                        AtomKind::Normal => {}
                     }
                 }
             }
             MatchKind::Novel { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                if matches!(
-                    highlight,
-                    TokenKind::Delimiter
-                        | TokenKind::Atom(AtomKind::Keyword)
-                        | TokenKind::Atom(AtomKind::Type)
-                ) {
-                    style = style.bold();
+                if syntax_highlight {
+                    if matches!(
+                        highlight,
+                        TokenKind::Delimiter
+                            | TokenKind::Atom(AtomKind::Keyword)
+                            | TokenKind::Atom(AtomKind::Type)
+                    ) {
+                        style = style.bold();
+                    }
                 }
                 if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
@@ -289,14 +294,18 @@ pub fn color_positions(
             }
             MatchKind::NovelWord { highlight } => {
                 style = novel_style(style, is_lhs, background).bold();
-                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                    style = style.italic();
+                if syntax_highlight {
+                    if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                        style = style.italic();
+                    }
                 }
             }
             MatchKind::NovelLinePart { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                    style = style.italic();
+                if syntax_highlight {
+                    if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                        style = style.italic();
+                    }
                 }
             }
         };
@@ -308,10 +317,11 @@ pub fn color_positions(
 pub fn apply_colors(
     s: &str,
     is_lhs: bool,
+    syntax_highlight: bool,
     background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> String {
-    let styles = color_positions(is_lhs, background, positions);
+    let styles = color_positions(is_lhs, background, syntax_highlight, positions);
     apply(s, &styles)
 }
 

@@ -9,12 +9,14 @@ use crate::{
 };
 use owo_colors::colored::*;
 
+// TODO: take display options
 pub fn print(
     lhs_src: &str,
     rhs_src: &str,
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
+    syntax_highlight: bool,
     display_path: &str,
     lang_name: &str,
     use_color: bool,
@@ -22,8 +24,8 @@ pub fn print(
 ) {
     let (lhs_colored, rhs_colored) = if use_color {
         (
-            apply_colors(lhs_src, true, background, lhs_positions),
-            apply_colors(rhs_src, false, background, rhs_positions),
+            apply_colors(lhs_src, true, syntax_highlight, background, lhs_positions),
+            apply_colors(rhs_src, false, syntax_highlight, background, rhs_positions),
         )
     } else {
         (lhs_src.to_string(), rhs_src.to_string())
