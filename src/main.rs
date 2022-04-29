@@ -431,24 +431,18 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     inline::print(
                         lhs_src,
                         rhs_src,
+                        display_options,
                         &summary.lhs_positions,
                         &summary.rhs_positions,
                         &hunks,
-                        display_options.syntax_highlight,
                         &summary.path,
                         &lang_name,
-                        display_options.use_color,
-                        display_options.background_color,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
                     side_by_side::print(
                         &hunks,
-                        display_options.display_width,
-                        display_options.use_color,
-                        display_options.syntax_highlight,
-                        display_options.display_mode,
-                        display_options.background_color,
+                        display_options,
                         &summary.path,
                         &lang_name,
                         lhs_src,

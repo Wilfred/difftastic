@@ -11,7 +11,7 @@ use crate::{
     context::all_matched_lines_filled,
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
-    options::DisplayMode,
+    options::{DisplayMode, DisplayOptions},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -301,14 +301,9 @@ fn highlight_as_novel(
     false
 }
 
-// TODO: pass display options here.
 pub fn print(
     hunks: &[Hunk],
-    display_width: usize,
-    use_color: bool,
-    syntax_highlight: bool,
-    display_mode: DisplayMode,
-    background: BackgroundColor,
+    display_options: &DisplayOptions,
     display_path: &str,
     lang_name: &str,
     lhs_src: &str,
@@ -316,10 +311,22 @@ pub fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let (lhs_colored_src, rhs_colored_src) = if use_color {
+    let (lhs_colored_src, rhs_colored_src) = if display_options.use_color {
         (
-            apply_colors(lhs_src, true, syntax_highlight, background, lhs_mps),
-            apply_colors(rhs_src, false, syntax_highlight, background, rhs_mps),
+            apply_colors(
+                lhs_src,
+                true,
+                display_options.syntax_highlight,
+                display_options.background_color,
+                lhs_mps,
+            ),
+            apply_colors(
+                rhs_src,
+                false,
+                display_options.syntax_highlight,
+                display_options.background_color,
+                rhs_mps,
+            ),
         )
     } else {
         (lhs_src.to_string(), rhs_src.to_string())
@@ -333,8 +340,8 @@ pub fn print(
                 lang_name,
                 &rhs_colored_src,
                 false,
-                use_color,
-                background
+                display_options.use_color,
+                display_options.background_color
             )
         );
         return;
@@ -347,16 +354,21 @@ pub fn print(
                 lang_name,
                 &lhs_colored_src,
                 true,
-                use_color,
-                background
+                display_options.use_color,
+                display_options.background_color
             )
         );
         return;
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
-    let (lhs_highlights, rhs_highlights) = if use_color {
-        highlight_positions(background, syntax_highlight, lhs_mps, rhs_mps)
+    let (lhs_highlights, rhs_highlights) = if display_options.use_color {
+        highlight_positions(
+            display_options.background_color,
+            display_options.syntax_highlight,
+            lhs_mps,
+            rhs_mps,
+        )
     } else {
         (HashMap::new(), HashMap::new())
     };
@@ -381,8 +393,8 @@ pub fn print(
                 i + 1,
                 hunks.len(),
                 lang_name,
-                use_color,
-                background
+                display_options.use_color,
+                display_options.background_color
             )
         );
 
@@ -391,8 +403,12 @@ pub fn print(
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let source_dims =
-            SourceDimensions::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
+        let source_dims = SourceDimensions::new(
+            display_options.display_width,
+            &aligned_lines,
+            &lhs_lines,
+            &rhs_lines,
+        );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 lhs_line_num,
@@ -411,15 +427,18 @@ pub fn print(
                 lhs_line_num,
                 rhs_line_num,
                 &source_dims,
-                use_color,
-                background,
+                display_options.use_color,
+                display_options.background_color,
                 lhs_line_novel,
                 rhs_line_novel,
                 prev_lhs_line_num,
                 prev_rhs_line_num,
             );
 
-            let show_both = matches!(display_mode, DisplayMode::SideBySideShowBoth);
+            let show_both = matches!(
+                display_options.display_mode,
+                DisplayMode::SideBySideShowBoth
+            );
             if no_lhs_changes && !show_both {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
@@ -462,7 +481,7 @@ pub fn print(
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.0],
                         source_dims.lhs_content_width,
-                        use_color,
+                        display_options.use_color,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
@@ -472,7 +491,7 @@ pub fn print(
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.0],
                         source_dims.rhs_content_width,
-                        use_color,
+                        display_options.use_color,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
                     ),
@@ -494,11 +513,11 @@ pub fn print(
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             true,
-                            use_color,
+                            display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
-                                s = if background.is_dark() {
+                                s = if display_options.background_color.is_dark() {
                                     s.bright_red().to_string()
                                 } else {
                                     s.red().to_string()
@@ -515,11 +534,11 @@ pub fn print(
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             false,
-                            use_color,
+                            display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
-                                s = if background.is_dark() {
+                                s = if display_options.background_color.is_dark() {
                                     s.bright_green().to_string()
                                 } else {
                                     s.green().to_string()
@@ -690,14 +709,20 @@ mod tests {
             lines: vec![(Some(0.into()), Some(0.into()))],
         }];
 
+        let display_options = DisplayOptions {
+            background_color: BackgroundColor::Dark,
+            use_color: true,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            display_width: 80,
+            syntax_highlight: true,
+        };
+
         // Simple smoke test.
         print(
             &hunks,
-            80,
-            true,
-            true,
-            DisplayMode::SideBySide,
-            BackgroundColor::Dark,
+            &display_options,
             "foo.el",
             "Emacs Lisp",
             "foo",
