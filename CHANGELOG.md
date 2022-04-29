@@ -15,6 +15,9 @@ Added an option `--tab-width` that controls how many spaces are used
 to display tabs. The default value is 8, consistent with older
 versions.
 
+Added an option `--syntax-highlight` that controls whether the output
+is syntax highlighted.
+
 ### Diffing
 
 Difftastic now diffs files in parallel when diffing whole directories,

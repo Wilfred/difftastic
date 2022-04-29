@@ -250,13 +250,14 @@ pub fn lines_with_novel(
 /// both syntax highlighting and added/removed content highlighting.
 fn highlight_positions(
     background: BackgroundColor,
+    syntax_highlight: bool,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions = color_positions(true, background, lhs_mps);
+    let lhs_positions = color_positions(true, background, syntax_highlight, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(lhs_positions.len() / 2);
@@ -265,7 +266,7 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions = color_positions(false, background, rhs_mps);
+    let rhs_positions = color_positions(false, background, syntax_highlight, rhs_mps);
     let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(rhs_positions.len() / 2);
     for (span, style) in rhs_positions {
@@ -300,10 +301,12 @@ fn highlight_as_novel(
     false
 }
 
+// TODO: pass display options here.
 pub fn print(
     hunks: &[Hunk],
     display_width: usize,
     use_color: bool,
+    syntax_highlight: bool,
     display_mode: DisplayMode,
     background: BackgroundColor,
     display_path: &str,
@@ -315,8 +318,8 @@ pub fn print(
 ) {
     let (lhs_colored_src, rhs_colored_src) = if use_color {
         (
-            apply_colors(lhs_src, true, background, lhs_mps),
-            apply_colors(rhs_src, false, background, rhs_mps),
+            apply_colors(lhs_src, true, syntax_highlight, background, lhs_mps),
+            apply_colors(rhs_src, false, syntax_highlight, background, rhs_mps),
         )
     } else {
         (lhs_src.to_string(), rhs_src.to_string())
@@ -353,7 +356,7 @@ pub fn print(
 
     // TODO: this is largely duplicating the `apply_colors` logic.
     let (lhs_highlights, rhs_highlights) = if use_color {
-        highlight_positions(background, lhs_mps, rhs_mps)
+        highlight_positions(background, syntax_highlight, lhs_mps, rhs_mps)
     } else {
         (HashMap::new(), HashMap::new())
     };
@@ -691,6 +694,7 @@ mod tests {
         print(
             &hunks,
             80,
+            true,
             true,
             DisplayMode::SideBySide,
             BackgroundColor::Dark,
