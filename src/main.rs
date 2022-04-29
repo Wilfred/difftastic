@@ -53,11 +53,10 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use options::{should_use_color, DisplayMode, Mode};
+use options::{should_use_color, DisplayMode, DisplayOptions, Mode};
 use rayon::prelude::*;
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
-use style::BackgroundColor;
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
@@ -132,20 +131,14 @@ fn main() {
         Mode::Diff {
             node_limit,
             byte_limit,
-            print_unchanged,
+            display_options,
             missing_as_empty,
-            display_mode,
-            background_color,
-            color_output,
-            display_width,
             display_path,
             language_override,
             lhs_path,
             rhs_path,
-            tab_width,
-            ..
         } => {
-            let use_color = should_use_color(color_output);
+            let use_color = should_use_color(display_options.color_output);
 
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
@@ -165,40 +158,26 @@ fn main() {
                 diff_directories(
                     lhs_path,
                     rhs_path,
-                    tab_width,
+                    &display_options,
                     node_limit,
                     byte_limit,
                     language_override,
                 )
                 .for_each(|diff_result| {
-                    print_diff_result(
-                        display_width,
-                        use_color,
-                        display_mode,
-                        background_color,
-                        print_unchanged,
-                        &diff_result,
-                    );
+                    print_diff_result(&display_options, use_color, &diff_result);
                 });
             } else {
                 let diff_result = diff_file(
                     &display_path,
                     lhs_path,
                     rhs_path,
-                    tab_width,
+                    &display_options,
                     missing_as_empty,
                     node_limit,
                     byte_limit,
                     language_override,
                 );
-                print_diff_result(
-                    display_width,
-                    use_color,
-                    display_mode,
-                    background_color,
-                    print_unchanged,
-                    &diff_result,
-                );
+                print_diff_result(&display_options, use_color, &diff_result);
             }
         }
     };
@@ -209,7 +188,7 @@ fn diff_file(
     display_path: &str,
     lhs_path: &Path,
     rhs_path: &Path,
-    tab_width: usize,
+    display_options: &DisplayOptions,
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
@@ -220,7 +199,7 @@ fn diff_file(
         display_path,
         &lhs_bytes,
         &rhs_bytes,
-        tab_width,
+        display_options.tab_width,
         node_limit,
         byte_limit,
         language_override,
@@ -378,11 +357,13 @@ fn diff_file_content(
 fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
-    tab_width: usize,
+    display_options: &DisplayOptions,
     node_limit: u32,
     byte_limit: usize,
     language_override: Option<guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
+    let display_options = display_options.clone();
+
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
     // enumerating files, so it benefits more from parallelism.
@@ -398,7 +379,7 @@ fn diff_directories<'a>(
             &rel_path.to_string_lossy(),
             &lhs_path,
             &rhs_path,
-            tab_width,
+            &display_options,
             true,
             node_limit,
             byte_limit,
@@ -407,15 +388,7 @@ fn diff_directories<'a>(
     })
 }
 
-// TODO: factor out a DiffOptions struct.
-fn print_diff_result(
-    display_width: usize,
-    use_color: bool,
-    display_mode: DisplayMode,
-    background: BackgroundColor,
-    print_unchanged: bool,
-    summary: &DiffResult,
-) {
+fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary: &DiffResult) {
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
@@ -432,10 +405,17 @@ fn print_diff_result(
 
             let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());
             if hunks.is_empty() {
-                if print_unchanged {
+                if display_options.print_unchanged {
                     println!(
                         "{}",
-                        style::header(&summary.path, 1, 1, &lang_name, use_color, background)
+                        style::header(
+                            &summary.path,
+                            1,
+                            1,
+                            &lang_name,
+                            use_color,
+                            display_options.background_color
+                        )
                     );
                     if lang_name == "Text" || summary.lhs_src == summary.rhs_src {
                         // TODO: there are other Text names now, so
@@ -448,7 +428,7 @@ fn print_diff_result(
                 return;
             }
 
-            match display_mode {
+            match display_options.display_mode {
                 DisplayMode::Inline => {
                     inline::print(
                         lhs_src,
@@ -459,16 +439,16 @@ fn print_diff_result(
                         &summary.path,
                         &lang_name,
                         use_color,
-                        background,
+                        display_options.background_color,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
                     side_by_side::print(
                         &hunks,
-                        display_width,
+                        display_options.display_width,
                         use_color,
-                        display_mode,
-                        background,
+                        display_options.display_mode,
+                        display_options.background_color,
                         &summary.path,
                         &lang_name,
                         lhs_src,
@@ -481,10 +461,17 @@ fn print_diff_result(
         }
         (FileContent::Binary(lhs_bytes), FileContent::Binary(rhs_bytes)) => {
             let changed = lhs_bytes != rhs_bytes;
-            if print_unchanged || changed {
+            if display_options.print_unchanged || changed {
                 println!(
                     "{}",
-                    style::header(&summary.path, 1, 1, "binary", use_color, background)
+                    style::header(
+                        &summary.path,
+                        1,
+                        1,
+                        "binary",
+                        use_color,
+                        display_options.background_color
+                    )
                 );
                 if changed {
                     println!("Binary contents changed.");
@@ -497,7 +484,14 @@ fn print_diff_result(
             // We're diffing a binary file against a text file.
             println!(
                 "{}",
-                style::header(&summary.path, 1, 1, "binary", use_color, background)
+                style::header(
+                    &summary.path,
+                    1,
+                    1,
+                    "binary",
+                    use_color,
+                    display_options.background_color
+                )
             );
             println!("Binary contents changed.");
         }

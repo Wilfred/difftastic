@@ -12,11 +12,21 @@ pub const DEFAULT_TAB_WIDTH: usize = 8;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum ColorOutput {
     Always,
     Auto,
     Never,
+}
+
+#[derive(Debug, Clone)]
+pub struct DisplayOptions {
+    pub background_color: BackgroundColor,
+    pub color_output: ColorOutput,
+    pub display_mode: DisplayMode,
+    pub print_unchanged: bool,
+    pub tab_width: usize,
+    pub display_width: usize,
 }
 
 fn app() -> clap::Command<'static> {
@@ -152,13 +162,8 @@ pub enum Mode {
     Diff {
         node_limit: u32,
         byte_limit: usize,
-        print_unchanged: bool,
+        display_options: DisplayOptions,
         missing_as_empty: bool,
-        tab_width: usize,
-        display_mode: DisplayMode,
-        background_color: BackgroundColor,
-        color_output: ColorOutput,
-        display_width: usize,
         display_path: String,
         language_override: Option<guess_language::Language>,
         lhs_path: OsString,
@@ -314,16 +319,20 @@ pub fn parse_args() -> Mode {
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
 
+    let display_options = DisplayOptions {
+        background_color,
+        color_output,
+        print_unchanged,
+        tab_width,
+        display_mode,
+        display_width,
+    };
+
     Mode::Diff {
         node_limit,
         byte_limit,
-        print_unchanged,
+        display_options,
         missing_as_empty,
-        tab_width,
-        display_mode,
-        background_color,
-        color_output,
-        display_width,
         display_path: display_path.to_string_lossy().to_string(),
         language_override,
         lhs_path: lhs_path.to_owned(),
