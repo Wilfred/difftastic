@@ -262,8 +262,8 @@ impl<'a> Vertex<'a> {
             lhs_syntax,
             rhs_syntax,
             parents,
-            lhs_parent_id: None,
-            rhs_parent_id: None,
+            lhs_parent_id: lhs_syntax.and_then(|n| n.parent().map(Syntax::id)),
+            rhs_parent_id: rhs_syntax.and_then(|n| n.parent().map(Syntax::id)),
             can_pop_either: false,
         }
     }
