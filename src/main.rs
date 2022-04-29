@@ -53,7 +53,7 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use options::{should_use_color, DisplayMode, DisplayOptions, Mode};
+use options::{DisplayMode, DisplayOptions, Mode};
 use rayon::prelude::*;
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
