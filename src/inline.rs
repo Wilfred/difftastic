@@ -4,28 +4,38 @@ use crate::{
     context::{calculate_after_context, calculate_before_context, opposite_positions},
     hunks::Hunk,
     lines::{format_line_num, MaxLine},
-    style::{self, apply_colors, BackgroundColor},
+    options::DisplayOptions,
+    style::{self, apply_colors},
     syntax::MatchedPos,
 };
 use owo_colors::colored::*;
 
-// TODO: take display options
 pub fn print(
     lhs_src: &str,
     rhs_src: &str,
+    display_options: &DisplayOptions,
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
-    syntax_highlight: bool,
     display_path: &str,
     lang_name: &str,
-    use_color: bool,
-    background: BackgroundColor,
 ) {
-    let (lhs_colored, rhs_colored) = if use_color {
+    let (lhs_colored, rhs_colored) = if display_options.use_color {
         (
-            apply_colors(lhs_src, true, syntax_highlight, background, lhs_positions),
-            apply_colors(rhs_src, false, syntax_highlight, background, rhs_positions),
+            apply_colors(
+                lhs_src,
+                true,
+                display_options.syntax_highlight,
+                display_options.background_color,
+                lhs_positions,
+            ),
+            apply_colors(
+                rhs_src,
+                false,
+                display_options.syntax_highlight,
+                display_options.background_color,
+                rhs_positions,
+            ),
         )
     } else {
         (lhs_src.to_string(), rhs_src.to_string())
@@ -45,8 +55,8 @@ pub fn print(
                 i + 1,
                 hunks.len(),
                 lang_name,
-                use_color,
-                background
+                display_options.use_color,
+                display_options.background_color
             )
         );
 
