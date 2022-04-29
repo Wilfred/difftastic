@@ -145,6 +145,9 @@ eeab25a68552f051a6392b5e713fbd29  -
 sample_files/syntax_error_before.js sample_files/syntax_error_after.js
 fe636ad27b1aa75e0b153dfe248023bb  -
 
+sample_files/tab_before.c sample_files/tab_after.c
+36ba3231eeba6f0b67a6be9db454de19  -
+
 sample_files/text_before.txt sample_files/text_after.txt
 dfc3495b8d5931029b479f0c878a3219  -
 

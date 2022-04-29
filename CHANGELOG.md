@@ -11,6 +11,10 @@ names are recognised as JSON, e.g. `.jsonl`.
 
 Fixed crash in inline mode.
 
+Added an option `--tab-width` that controls how many spaces are used
+to display tabs. The default value is 8, consistent with older
+versions.
+
 ### Diffing
 
 Difftastic now diffs files in parallel when diffing whole directories,
