@@ -22,7 +22,7 @@ pub enum ColorOutput {
 #[derive(Debug, Clone)]
 pub struct DisplayOptions {
     pub background_color: BackgroundColor,
-    pub color_output: ColorOutput,
+    pub use_color: bool,
     pub display_mode: DisplayMode,
     pub print_unchanged: bool,
     pub tab_width: usize,
@@ -319,9 +319,11 @@ pub fn parse_args() -> Mode {
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
 
+    let use_color = should_use_color(color_output);
+
     let display_options = DisplayOptions {
         background_color,
-        color_output,
+        use_color,
         print_unchanged,
         tab_width,
         display_mode,

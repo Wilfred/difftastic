@@ -138,8 +138,6 @@ fn main() {
             lhs_path,
             rhs_path,
         } => {
-            let use_color = should_use_color(display_options.color_output);
-
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
 
@@ -164,7 +162,7 @@ fn main() {
                     language_override,
                 )
                 .for_each(|diff_result| {
-                    print_diff_result(&display_options, use_color, &diff_result);
+                    print_diff_result(&display_options, &diff_result);
                 });
             } else {
                 let diff_result = diff_file(
@@ -177,7 +175,7 @@ fn main() {
                     byte_limit,
                     language_override,
                 );
-                print_diff_result(&display_options, use_color, &diff_result);
+                print_diff_result(&display_options, &diff_result);
             }
         }
     };
@@ -388,7 +386,7 @@ fn diff_directories<'a>(
     })
 }
 
-fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary: &DiffResult) {
+fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
@@ -413,7 +411,7 @@ fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary:
                             1,
                             1,
                             &lang_name,
-                            use_color,
+                            display_options.use_color,
                             display_options.background_color
                         )
                     );
@@ -438,7 +436,7 @@ fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary:
                         &hunks,
                         &summary.path,
                         &lang_name,
-                        use_color,
+                        display_options.use_color,
                         display_options.background_color,
                     );
                 }
@@ -446,7 +444,7 @@ fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary:
                     side_by_side::print(
                         &hunks,
                         display_options.display_width,
-                        use_color,
+                        display_options.use_color,
                         display_options.display_mode,
                         display_options.background_color,
                         &summary.path,
@@ -469,7 +467,7 @@ fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary:
                         1,
                         1,
                         "binary",
-                        use_color,
+                        display_options.use_color,
                         display_options.background_color
                     )
                 );
@@ -489,7 +487,7 @@ fn print_diff_result(display_options: &DisplayOptions, use_color: bool, summary:
                     1,
                     1,
                     "binary",
-                    use_color,
+                    display_options.use_color,
                     display_options.background_color
                 )
             );
