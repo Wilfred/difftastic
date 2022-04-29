@@ -8,6 +8,7 @@ use crate::{guess_language, style::BackgroundColor};
 
 pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
+pub const DEFAULT_TAB_WIDTH: usize = 8;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
 
@@ -61,6 +62,17 @@ fn app() -> clap::Command<'static> {
                 .value_name("COLUMNS")
                 .long_help("Use this many columns when calculating line wrapping. If not specified, difftastic will detect the terminal width.")
                 .env("DFT_WIDTH")
+                .validator(|s| s.parse::<usize>())
+                .required(false),
+        )
+        .arg(
+            Arg::new("tab-width")
+                .long("tab-width")
+                .takes_value(true)
+                .value_name("NUM_SPACES")
+                .long_help("Treat a tab as this many spaces.")
+                .env("DFT_TAB_WIDTH")
+                .default_value(formatcp!("{}", DEFAULT_TAB_WIDTH))
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
@@ -142,6 +154,7 @@ pub enum Mode {
         byte_limit: usize,
         print_unchanged: bool,
         missing_as_empty: bool,
+        tab_width: usize,
         display_mode: DisplayMode,
         background_color: BackgroundColor,
         color_output: ColorOutput,
@@ -292,6 +305,12 @@ pub fn parse_args() -> Mode {
         .parse::<usize>()
         .expect("Value already validated by clap");
 
+    let tab_width = matches
+        .value_of("tab-width")
+        .expect("Always present as we've given clap a default")
+        .parse::<usize>()
+        .expect("Value already validated by clap");
+
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
 
@@ -300,6 +319,7 @@ pub fn parse_args() -> Mode {
         byte_limit,
         print_unchanged,
         missing_as_empty,
+        tab_width,
         display_mode,
         background_color,
         color_output,

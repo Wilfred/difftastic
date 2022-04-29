@@ -142,6 +142,7 @@ fn main() {
             language_override,
             lhs_path,
             rhs_path,
+            tab_width,
             ..
         } => {
             let use_color = should_use_color(color_output);
@@ -164,6 +165,7 @@ fn main() {
                 diff_directories(
                     lhs_path,
                     rhs_path,
+                    tab_width,
                     node_limit,
                     byte_limit,
                     language_override,
@@ -183,6 +185,7 @@ fn main() {
                     &display_path,
                     lhs_path,
                     rhs_path,
+                    tab_width,
                     missing_as_empty,
                     node_limit,
                     byte_limit,
@@ -206,6 +209,7 @@ fn diff_file(
     display_path: &str,
     lhs_path: &Path,
     rhs_path: &Path,
+    tab_width: usize,
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
@@ -216,6 +220,7 @@ fn diff_file(
         display_path,
         &lhs_bytes,
         &rhs_bytes,
+        tab_width,
         node_limit,
         byte_limit,
         language_override,
@@ -226,6 +231,7 @@ fn diff_file_content(
     display_path: &str,
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
+    tab_width: usize,
     node_limit: u32,
     byte_limit: usize,
     language_override: Option<guess_language::Language>,
@@ -242,12 +248,13 @@ fn diff_file_content(
     }
 
     // TODO: don't replace tab characters inside string literals.
+    let tab_as_spaces = " ".repeat(tab_width);
     let mut lhs_src = String::from_utf8_lossy(lhs_bytes)
         .to_string()
-        .replace('\t', "        ");
+        .replace('\t', &tab_as_spaces);
     let mut rhs_src = String::from_utf8_lossy(rhs_bytes)
         .to_string()
-        .replace('\t', "        ");
+        .replace('\t', &tab_as_spaces);
 
     // Ignore the trailing newline, if present.
     // TODO: highlight if this has changes (#144).
@@ -371,6 +378,7 @@ fn diff_file_content(
 fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
+    tab_width: usize,
     node_limit: u32,
     byte_limit: usize,
     language_override: Option<guess_language::Language>,
@@ -390,6 +398,7 @@ fn diff_directories<'a>(
             &rel_path.to_string_lossy(),
             &lhs_path,
             &rhs_path,
+            tab_width,
             true,
             node_limit,
             byte_limit,
@@ -521,7 +530,7 @@ fn max_num_nodes(roots_vec: &[(Vec<&syntax::Syntax>, Vec<&syntax::Syntax>)]) -> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_NODE_LIMIT};
+    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_NODE_LIMIT, DEFAULT_TAB_WIDTH};
 
     #[test]
     fn test_diff_identical_content() {
@@ -530,6 +539,7 @@ mod tests {
             "foo.el",
             s.as_bytes(),
             s.as_bytes(),
+            DEFAULT_TAB_WIDTH,
             DEFAULT_NODE_LIMIT,
             DEFAULT_BYTE_LIMIT,
             None,
