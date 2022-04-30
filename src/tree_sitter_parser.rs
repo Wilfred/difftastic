@@ -502,7 +502,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Perl",
                 language,
-                atom_nodes: vec!["string_single_quoted", "string_double_quoted"]
+                atom_nodes: vec!["string_single_quoted", "string_double_quoted", "comments"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
@@ -1092,7 +1092,8 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
-    let highlight = if node.is_extra() || node.kind() == "comment" {
+    // Most languages use "comment", but Perl uses "comments".
+    let highlight = if node.is_extra() || node.kind() == "comment" || node.kind() == "comments" {
         AtomKind::Comment
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
