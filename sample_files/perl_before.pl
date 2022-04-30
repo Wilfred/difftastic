@@ -23,3 +23,5 @@ use constant {
 use constant WEEKDAYS => qw(
   Sunday Monday Tuesday Wednesday Thursday Friday Saturday
 );
+
+$f =~ s/foo/bar/g;

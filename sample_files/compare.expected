@@ -110,7 +110,7 @@ sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
 73130b8572a4f17fa6cf828f74e226ce  -
 
 sample_files/perl_before.pl sample_files/perl_after.pl
-08d7cad58a79d423c0584387d4bb4dd1  -
+ae10c90122289e0f4298c1b962a74c2e  -
 
 sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 3e4331cb935cbe735a79ebc43786cd3a  -
