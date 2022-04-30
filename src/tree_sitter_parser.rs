@@ -506,6 +506,10 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     "string_single_quoted",
                     "string_double_quoted",
                     "comments",
+                    "command_qx_quoted",
+                    "patter_matcher_m",
+                    "regex_pattern_qr",
+                    "transliteration_tr_or_y",
                     "substitution_pattern_s",
                 ]
                 .into_iter()
