@@ -74,6 +74,7 @@ module.exports = grammar({
     [$._contextual_keywords, $.type_parameter_constraint],
 
     [$._type, $.array_creation_expression],
+    [$._type, $.attribute],
     [$._type, $.stack_alloc_array_creation_expression],
     [$._type, $._nullable_base_type],
     [$._type, $._nullable_base_type, $.array_creation_expression],
@@ -924,11 +925,21 @@ module.exports = grammar({
       $.negated_pattern,
       $.parenthesized_pattern,
       $.relational_pattern,
-      $.binary_pattern,
+      $.or_pattern,
+      $.and_pattern,
+      $.list_pattern,
       $.type_pattern
     ),
 
     type_pattern: $ => $._type,
+
+    list_pattern: $ => seq(
+      '[',
+      optional(seq(commaSep(choice($._pattern, $.slice_pattern)), optional(','))),
+      ']'
+    ),
+
+    slice_pattern: $ => '..',
 
     parenthesized_pattern: $ => seq('(', $._pattern, ')'),
 
@@ -941,18 +952,17 @@ module.exports = grammar({
 
     negated_pattern: $ => seq('not', $._pattern),
 
-    binary_pattern: $ => choice(
-      prec.left(PREC.AND, seq(
-        field('left', $._pattern),
-        field('operator', 'and'),
-        field('right', $._pattern)
-      )),
-      prec.left(PREC.OR, seq(
-        field('left', $._pattern),
-        field('operator', 'or'),
-        field('right', $._pattern)
-      )),
-    ),
+    and_pattern: $ => prec.left(PREC.AND, seq(
+      field('left', $._pattern),
+      field('operator', 'and'),
+      field('right', $._pattern)
+    )),
+
+    or_pattern: $ => prec.left(PREC.OR, seq(
+      field('left', $._pattern),
+      field('operator', 'or'),
+      field('right', $._pattern)
+    )),
 
     //We may need to expand this list if more things can be evaluated at compile time
     constant_pattern: $ => choice(

@@ -1877,9 +1877,9 @@ var x = c is < '0' or >= 'A' and <= 'Z';
           (equals_value_clause
             (is_pattern_expression
               (identifier)
-              (binary_pattern
+              (or_pattern
                 (relational_pattern (character_literal))
-                (binary_pattern
+                (and_pattern
                   (relational_pattern (character_literal))
                   (relational_pattern (character_literal)))))))))))
 
@@ -2019,7 +2019,7 @@ var c = o is int; //is_expression with type
           (equals_value_clause
             (is_pattern_expression
               (identifier)
-              (binary_pattern
+              (or_pattern
                 (type_pattern (predefined_type))
                 (type_pattern (predefined_type))))))))) (comment)
   (global_statement
@@ -2033,6 +2033,31 @@ var c = o is int; //is_expression with type
                 (identifier)
                 (predefined_type))))))) (comment))
 
+=====================================
+List patterns
+=====================================
+
+var a = p is [1,2,x,] and [] or [2,..];
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause
+            (is_pattern_expression (identifier)
+              (or_pattern
+                (and_pattern
+                  (list_pattern
+                    (constant_pattern (integer_literal))
+                    (constant_pattern (integer_literal))
+                    (constant_pattern (identifier)))
+                  (list_pattern))
+                  (list_pattern
+                    (constant_pattern (integer_literal))
+                    (slice_pattern))))))))))
 
 =====================================
 Conditional expression with member accesses
