@@ -9,7 +9,7 @@ use constant DEBUG , 0; # comma (,) is also used instead of '=>'
 print "Pi equals ", PI, "...\n";
 
 use constant {
-  SEC   => 0,
+  SEC   => 0, # foo bar
   MIN   => 1,
   HOUR  => 2,
   MDAY  => 3,
