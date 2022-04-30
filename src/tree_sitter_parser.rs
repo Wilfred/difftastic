@@ -502,9 +502,14 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Perl",
                 language,
-                atom_nodes: vec!["string_single_quoted", "string_double_quoted", "comments"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "string_single_quoted",
+                    "string_double_quoted",
+                    "comments",
+                    "substitution_pattern_s",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,

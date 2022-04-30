@@ -5,7 +5,7 @@
 Improved detection of binary files that have a large number of null
 bytes.
 
-Improved handling of comments in Perl.
+Improved handling of comments and regexp literals in Perl.
 
 ## 0.28 (released 29th April 2022)
 
