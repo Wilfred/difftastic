@@ -69,14 +69,15 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
 
 /// Do these bytes look like a binary (non-textual) format?
 pub fn is_probably_binary(bytes: &[u8]) -> bool {
-    // If more than 20 of the first 1,000 characters are not valid
-    // UTF-8, we assume it's binary.
+    // If more than 20 of the first 1,000 characters are null bytes or
+    // invalid UTF-8, we assume it's binary.
     let num_replaced = String::from_utf8_lossy(bytes)
         .to_string()
         .chars()
         .take(1000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
+
     num_replaced > 20
 }
 
@@ -152,5 +153,10 @@ mod tests {
     fn test_text_is_not_binary() {
         let s = "hello world";
         assert!(!is_probably_binary(s.as_bytes()));
+    }
+    #[test]
+    fn test_null_bytes_are_binary() {
+        let s = "\0".repeat(1000);
+        assert!(is_probably_binary(s.as_bytes()));
     }
 }

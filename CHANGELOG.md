@@ -1,5 +1,10 @@
 ## 0.29 (unreleased)
 
+### Parsing
+
+Improved detection of binary files that have a large number of null
+bytes.
+
 ## 0.28 (released 29th April 2022)
 
 ### Parsing
