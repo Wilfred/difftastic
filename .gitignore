@@ -1,0 +1,16 @@
+# Logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+package-lock.json
+
+# Builds
+build/
+
+# Tests
+examples/SemaObjC*.txt
+
+# wasm
+*.wasm

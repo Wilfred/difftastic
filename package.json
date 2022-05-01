@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-objc",
+  "version": "1.0.0",
+  "description": "A tree-sitter parser for Objective-C",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "objective-c",
+    "tree-sitter"
+  ],
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test",
+    "highlight": "tree-sitter highlight ./examples/corpus.m"
+  },
+  "author": "Jiyee Sheng <jiyee.sheng@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-c": "^0.19.0",
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.objc",
+      "file-types": [
+        "h",
+        "m"
+      ],
+      "highlights": [
+        "queries/highlights.scm",
+        "node_modules/tree-sitter-c/queries/highlights.scm"
+      ]
+    }
+  ]
+}
