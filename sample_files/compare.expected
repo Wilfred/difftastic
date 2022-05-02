@@ -77,7 +77,7 @@ sample_files/java_before.java sample_files/java_after.java
 3e4026bbf0bbca8f02da48e4f16d9cb9  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
-7564417d233d92e1224c3b8f072110f6  -
+d58e32d3b78669ec1f94219f3f20141f  -
 
 sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
 6ab5fc9bdc188d86f627707bb8323894  -
@@ -140,13 +140,13 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 4bd27366cf92341cd8851f420cda0b84  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-9ab41d4f3ad9a1a55d6f44d19cf6863a  -
+200c6ae867dfbfb4337efd5432d81431  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
 9d83bf7e3faa308a1a5f307a4649c3aa  -
 
 sample_files/simple_before.js sample_files/simple_after.js
-f2f1422dfc6ea1abb3621dffdbf81d7b  -
+45fef08587e93e19a3bd76299aa7c142  -
 
 sample_files/simple_before.txt sample_files/simple_after.txt
 6b94787a9827ed06267d7a65809d33c4  -
@@ -155,7 +155,7 @@ sample_files/slider_before.rs sample_files/slider_after.rs
 de52265ad13da4be534de5a9f50224a4  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-85412285c0b80d3a17a25ff5254af2dd  -
+9c226d66a5eb48c49b76a922dd440d7b  -
 
 sample_files/small_before.js sample_files/small_after.js
 c2373eb64c01d6cc5c30907323c1fcee  -
@@ -179,7 +179,7 @@ sample_files/toml_before.toml sample_files/toml_after.toml
 f9fe45bfba5e7d9aad7d39114011046a  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
-e566bffb4d2fab7ad5a4d36287e6bd11  -
+ef62af218bd0c955d62e4407d3de2cd0  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 85822ec1badcd7f6e292b154b367bc81  -
