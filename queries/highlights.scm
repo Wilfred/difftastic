@@ -60,6 +60,8 @@
 ")" @punctuation.bracket
 "[" @punctuation.bracket
 "]" @punctuation.bracket
+"{" @punctuation.bracket
+"}" @punctuation.bracket
 
 (type_arguments
   "<" @punctuation.bracket
@@ -69,7 +71,9 @@
   ">" @punctuation.bracket)
 
 "::" @punctuation.delimiter
+":" @punctuation.delimiter
 "." @punctuation.delimiter
+"," @punctuation.delimiter
 ";" @punctuation.delimiter
 
 (parameter (identifier) @variable.parameter)
