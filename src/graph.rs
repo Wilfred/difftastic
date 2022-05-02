@@ -50,6 +50,8 @@ pub struct Vertex<'a> {
     parents: Stack<EnteredDelimiter<'a>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
+    lhs_matched_ancestor_id: Option<SyntaxId>,
+    rhs_matched_ancestor_id: Option<SyntaxId>,
     can_pop_either: bool,
 }
 
@@ -75,6 +77,8 @@ impl<'a> PartialEq for Vertex<'a> {
             // the graph size relative to tree depth.
             && self.lhs_parent_id == other.lhs_parent_id
             && self.rhs_parent_id == other.rhs_parent_id
+            && self.lhs_matched_ancestor_id == other.lhs_matched_ancestor_id
+            && self.rhs_matched_ancestor_id == other.rhs_matched_ancestor_id
             // We do want to distinguish whether we can pop each side
             // independently though. Without this, if we find a case
             // where we can pop sides together, we don't consider the
@@ -92,6 +96,10 @@ impl<'a> Hash for Vertex<'a> {
 
         self.lhs_parent_id.hash(state);
         self.rhs_parent_id.hash(state);
+
+        self.lhs_matched_ancestor_id.hash(state);
+        self.rhs_matched_ancestor_id.hash(state);
+
         self.can_pop_either.hash(state);
     }
 }
@@ -150,6 +158,20 @@ fn try_pop_both<'a>(
             Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
         }
         _ => None,
+    }
+}
+
+/// If `entered` has a PopBoth at the head, find the next PopBoth.
+fn next_pop_both<'a>(
+    entered: &Stack<EnteredDelimiter<'a>>,
+) -> Option<(&'a Syntax<'a>, &'a Syntax<'a>)> {
+    let next = entered.pop()?;
+    let next = next.pop()?;
+
+    if let Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) = next.peek() {
+        Some((lhs_delim, rhs_delim))
+    } else {
+        None
     }
 }
 
@@ -258,6 +280,8 @@ impl<'a> Vertex<'a> {
             parents,
             lhs_parent_id: None,
             rhs_parent_id: None,
+            lhs_matched_ancestor_id: None,
+            rhs_matched_ancestor_id: None,
             can_pop_either: false,
         }
     }
@@ -344,6 +368,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             // We have exhausted all the nodes on both lists, so we can
             // move up to the parent node.
 
+            let (lhs_matched_ancestor_id, rhs_matched_ancestor_id) = match next_pop_both(&v.parents)
+            {
+                Some((lhs_ancestor, rhs_ancestor)) => {
+                    (Some(lhs_ancestor.id()), Some(rhs_ancestor.id()))
+                }
+                None => (None, None),
+            };
+
             // Continue from sibling of parent.
             buf[i] = Some((
                 ExitDelimiterBoth,
@@ -354,6 +386,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
+                    lhs_matched_ancestor_id,
+                    rhs_matched_ancestor_id,
                 },
             ));
             i += 1;
@@ -374,6 +408,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: v.rhs_parent_id,
+                    lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                    rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                 },
             ));
             i += 1;
@@ -394,6 +430,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     parents: parents_next,
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
+                    lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                    rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                 },
             ));
             i += 1;
@@ -415,6 +453,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     parents: v.parents.clone(),
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: v.rhs_parent_id,
+                    lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                    rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                     can_pop_either: v.can_pop_either,
                 },
             ));
@@ -456,6 +496,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: Some(rhs_syntax.id()),
+                        lhs_matched_ancestor_id: Some(lhs_syntax.id()),
+                        rhs_matched_ancestor_id: Some(rhs_syntax.id()),
                         can_pop_either: false,
                     },
                 ));
@@ -489,6 +531,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
+                        lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                        rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                         can_pop_either: v.can_pop_either,
                     },
                 ));
@@ -513,6 +557,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
+                        lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                        rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                         can_pop_either: v.can_pop_either,
                     },
                 ));
@@ -534,6 +580,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: v.rhs_parent_id,
+                        lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                        rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                         can_pop_either: true,
                     },
                 ));
@@ -556,6 +604,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
+                        lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                        rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                         can_pop_either: v.can_pop_either,
                     },
                 ));
@@ -577,6 +627,8 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         parents: parents_next,
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: Some(rhs_syntax.id()),
+                        lhs_matched_ancestor_id: v.lhs_matched_ancestor_id,
+                        rhs_matched_ancestor_id: v.rhs_matched_ancestor_id,
                         can_pop_either: true,
                     },
                 ));
