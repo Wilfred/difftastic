@@ -34,6 +34,8 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     }
 }
 
+type SyntaxId = NonZeroU32;
+
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
     /// The previous node with the same parent as this one.
@@ -51,7 +53,7 @@ pub struct SyntaxInfo<'a> {
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
-    unique_id: Cell<NonZeroU32>,
+    unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
     /// diff, or nodes at different positions.
@@ -264,7 +266,7 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
-    pub fn id(&self) -> NonZeroU32 {
+    pub fn id(&self) -> SyntaxId {
         self.info().unique_id.get()
     }
 
@@ -393,13 +395,13 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_is_contiguous(roots);
 }
 
-fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
+fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_unique_id(roots, next_id);
 }
 
-fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut NonZeroU32) {
+fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     for node in nodes {
         node.info().unique_id.set(*next_id);
         *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
