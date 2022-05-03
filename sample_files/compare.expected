@@ -32,7 +32,7 @@ sample_files/elisp_contiguous_before.el sample_files/elisp_contiguous_after.el
 e3946aef566a707c718edd7a86340566  -
 
 sample_files/elm_before.elm sample_files/elm_after.elm
-c1ea9f99a815b2ae5ce2a7d58fb65368  -
+1fe758b3148056d9c744f75640e7cd83  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 b8c51005df7e1eaaeaf738a4353ac88f  -
@@ -71,7 +71,7 @@ sample_files/json_before.json sample_files/json_after.json
 3b9ee16f0ff09a830e5769da05bd8b95  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-43ac617752545bcf832a18c7f856012f  -
+f6211fad4ccff5b7a92dbe52d25470e8  -
 
 sample_files/load_before.js sample_files/load_after.js
 58df6bfac4f237d3a1dd9201e7873f1c  -
@@ -155,7 +155,7 @@ sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
 c1d8b44875121d81c583dd3a8fb43232  -
 
 sample_files/toml_before.toml sample_files/toml_after.toml
-9928c1f07b655860c27e2e1002d94106  -
+1e2de7235c339b07a0784498453e896c  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
 ceba89e4ffc8406454d337638c7d45e6  -
@@ -164,7 +164,7 @@ sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 c4151c5a44b11e04fd11c2594597ed33  -
 
 sample_files/yaml_before.yaml sample_files/yaml_after.yaml
-c6b4ca92476b2abcf8ec53eab9115e67  -
+8339ac699789fb3d17becce27dd3af6b  -
 
 sample_files/zig_before.zig sample_files/zig_after.zig
 fe7f694c4223c83ecadbbf96f791ccad  -
