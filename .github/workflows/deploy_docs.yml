@@ -16,11 +16,6 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: doc
