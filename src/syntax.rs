@@ -34,7 +34,7 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     }
 }
 
-type SyntaxId = NonZeroU32;
+pub type SyntaxId = NonZeroU32;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {

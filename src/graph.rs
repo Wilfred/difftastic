@@ -5,12 +5,13 @@ use std::{
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
-    num::NonZeroU32,
 };
 use strsim::normalized_levenshtein;
 
-use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
-use crate::syntax::{AtomKind, Syntax};
+use crate::{
+    changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
+    syntax::{AtomKind, Syntax, SyntaxId},
+};
 use Edge::*;
 
 /// A vertex in a directed acyclic graph that represents a diff.
@@ -46,8 +47,8 @@ pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
-    lhs_parent_id: Option<NonZeroU32>,
-    rhs_parent_id: Option<NonZeroU32>,
+    lhs_parent_id: Option<SyntaxId>,
+    rhs_parent_id: Option<SyntaxId>,
     can_pop_either: bool,
 }
 
