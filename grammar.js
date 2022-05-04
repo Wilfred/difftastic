@@ -293,6 +293,7 @@ module.exports = grammar({
         $.case,
         $.let,
         $.assert,
+        $.negation,
         $.record_update,
         $.tuple_access,
         $.field_access,
@@ -387,6 +388,7 @@ module.exports = grammar({
       seq(field("tuple", $.identifier), ".", field("index", $.integer)),
     let: ($) => seq("let", $._assignment),
     assert: ($) => seq("assert", $._assignment),
+    negation: ($) => seq("!", $._expression_unit),
     _assignment: ($) =>
       seq(
         field("pattern", $._pattern),

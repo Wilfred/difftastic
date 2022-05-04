@@ -126,6 +126,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -315,6 +319,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -400,6 +408,10 @@
           },
           {
             "type": "list",
+            "named": true
+          },
+          {
+            "type": "negation",
             "named": true
           },
           {
@@ -587,6 +599,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -753,6 +769,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -846,6 +866,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -998,6 +1022,10 @@
           },
           {
             "type": "list",
+            "named": true
+          },
+          {
+            "type": "negation",
             "named": true
           },
           {
@@ -1229,6 +1257,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -1497,6 +1529,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -1820,6 +1856,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -2250,6 +2290,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2338,6 +2382,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2418,6 +2466,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -2536,6 +2588,93 @@
     "type": "module",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "negation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expression_group",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "let",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "pattern_spread",
@@ -2782,6 +2921,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2877,6 +3020,10 @@
           },
           {
             "type": "list",
+            "named": true
+          },
+          {
+            "type": "negation",
             "named": true
           },
           {
@@ -3026,6 +3173,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -3308,6 +3459,10 @@
             "named": true
           },
           {
+            "type": "negation",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -3393,6 +3548,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "negation",
           "named": true
         },
         {
@@ -3826,6 +3985,10 @@
     }
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
     "type": "!=",
     "named": false
   },
@@ -4015,11 +4178,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "fn",
