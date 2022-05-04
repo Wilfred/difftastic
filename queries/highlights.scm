@@ -58,6 +58,7 @@
 ; Operators
 (binary_expression
   operator: _ @operator)
+"!" @operator
 
 ; Keywords
 [

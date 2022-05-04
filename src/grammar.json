@@ -2496,6 +2496,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "negation"
+        },
+        {
+          "type": "SYMBOL",
           "name": "record_update"
         },
         {
@@ -3746,6 +3750,19 @@
         {
           "type": "SYMBOL",
           "name": "_assignment"
+        }
+      ]
+    },
+    "negation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression_unit"
         }
       ]
     },

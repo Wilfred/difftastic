@@ -87,3 +87,9 @@ fn myfun(argument) {
   //         ^ variable
   //                   ^ variable.parameter
 }
+
+fn negate(arg) {
+  !arg
+  // <- operator
+  // ^ variable.parameter
+}
