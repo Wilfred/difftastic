@@ -314,6 +314,50 @@ class A {
           (identifier)
           (equals_value_clause (string_literal (escape_sequence)))))))))
 
+=======================================
+utf-8 string literals
+=======================================
+
+var a = "lower"u8;
+var b = "upper"U8;
+var c = @"lower"u8;
+var d = @"upper"U8;
+---
+
+ (compilation_unit
+    (global_statement
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (string_literal))))))
+    (global_statement
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (string_literal))))))
+    (global_statement
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (verbatim_string_literal))))))
+    (global_statement
+      (local_declaration_statement
+        (variable_declaration
+          (implicit_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (verbatim_string_literal)))))))
+
 ==================================================
 string literals containing newline
 ==================================================

@@ -9214,8 +9214,21 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\""
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\""
+            },
+            {
+              "type": "STRING",
+              "value": "\"U8"
+            },
+            {
+              "type": "STRING",
+              "value": "\"u8"
+            }
+          ]
         }
       ]
     },
@@ -9256,8 +9269,21 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "\""
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\""
+              },
+              {
+                "type": "STRING",
+                "value": "\"U8"
+              },
+              {
+                "type": "STRING",
+                "value": "\"u8"
+              }
+            ]
           }
         ]
       }

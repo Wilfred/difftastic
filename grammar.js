@@ -1644,7 +1644,7 @@ module.exports = grammar({
         $._string_literal_fragment,
         $.escape_sequence
       )),
-      '"'
+      choice('"', '"U8', '"u8')
     ),
 
     _string_literal_fragment: $ => token.immediate(prec(1, /[^"\\\n]+/)),
@@ -1655,7 +1655,7 @@ module.exports = grammar({
         /[^"]/,
         '""',
       )),
-      '"'
+      choice('"', '"U8', '"u8')
     )),
 
     // Comments

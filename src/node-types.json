@@ -6270,6 +6270,14 @@
     "named": false
   },
   {
+    "type": "\"U8",
+    "named": false
+  },
+  {
+    "type": "\"u8",
+    "named": false
+  },
+  {
     "type": "$\"",
     "named": false
   },
