@@ -4,7 +4,8 @@ use rpds::Stack;
 use std::{
     cmp::min,
     fmt,
-    hash::{Hash, Hasher}, rc::Rc,
+    hash::{Hash, Hasher},
+    rc::Rc,
 };
 use strsim::normalized_levenshtein;
 
