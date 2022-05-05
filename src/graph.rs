@@ -4,7 +4,7 @@ use rpds::Stack;
 use std::{
     cmp::min,
     fmt,
-    hash::{Hash, Hasher},
+    hash::{Hash, Hasher}, rc::Rc,
 };
 use strsim::normalized_levenshtein;
 
@@ -590,7 +590,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     );
 }
 
-pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)], change_map: &mut ChangeMap<'a>) {
+pub fn populate_change_map<'a>(route: &[(Edge, Rc<Vertex<'a>>)], change_map: &mut ChangeMap<'a>) {
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
