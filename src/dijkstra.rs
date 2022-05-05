@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, env, rc::Rc};
 
 use crate::{
     changes::ChangeMap,
@@ -12,19 +12,19 @@ use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
-type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
+type PredecessorInfo<'a> = (u64, Rc<Vertex<'a>>, Edge);
 
-fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
+fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, Vertex> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, Rc<Vertex>> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    heap.push(Reverse(0), Rc::new(start));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Vertex, PredecessorInfo> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Rc<Vertex>, PredecessorInfo> = FxHashMap::default();
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
@@ -46,6 +46,8 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                         };
 
                         if found_shorter_route {
+                            let next = Rc::new(next);
+
                             predecessors
                                 .insert(next.clone(), (distance_to_next, current.clone(), edge));
 
@@ -61,13 +63,13 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     debug!(
         "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
         predecessors.len(),
-        std::mem::size_of::<Vertex>(),
+        std::mem::size_of::<Rc<Vertex>>(),
         std::mem::size_of::<PredecessorInfo>(),
         heap.len(),
     );
     let mut current = end;
 
-    let mut route: Vec<(Edge, Vertex)> = vec![];
+    let mut route: Vec<(Edge, Rc<Vertex>)> = vec![];
     let mut cost = 0;
     while let Some((_, node, edge)) = predecessors.remove(&current) {
         route.push((edge, node.clone()));
