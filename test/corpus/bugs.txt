@@ -14,8 +14,8 @@ var_dump(self);
     (function_call_expression
       function: (name)
       arguments: (arguments
-        (argument (string))
-        (argument (string))
+        (argument (string (string_value)))
+        (argument (string (string_value)))
       )
     )
   )
@@ -46,7 +46,7 @@ var_dump(self);
           arguments: (arguments
             (argument
               (encapsed_string
-                (string)
+                (string_value)
               )
             )
           )
@@ -57,7 +57,7 @@ var_dump(self);
         arguments: (arguments
           (argument
             (encapsed_string
-              (string)
+              (string_value)
             )
           )
         )
