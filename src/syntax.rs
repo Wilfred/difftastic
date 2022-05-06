@@ -285,9 +285,17 @@ impl<'a> Syntax<'a> {
         match self {
             List {
                 open_content,
+                open_position,
                 close_content,
                 ..
-            } => format!("{} ... {}", open_content, close_content),
+            } => {
+                let line = open_position
+                    .first()
+                    .map(|p| format!("{}", p.line.one_indexed()))
+                    .unwrap_or_else(|| "?".to_owned());
+
+                format!("line:{} {} ... {}", line, open_content, close_content)
+            }
             Atom {
                 content, position, ..
             } => {
@@ -296,7 +304,7 @@ impl<'a> Syntax<'a> {
                     .map(|p| format!("{}", p.line.one_indexed()))
                     .unwrap_or_else(|| "?".to_owned());
 
-                format!("{} line:{}", content, line)
+                format!("line:{} {}", line, content)
             }
         }
     }
