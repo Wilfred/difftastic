@@ -91,7 +91,7 @@ Testing string scanner confirmance
 
 (program
   (php_tag)
-  (echo_statement (binary_expression (encapsed_string (escape_sequence) (escape_sequence) (escape_sequence) (string)) (string)))
+  (echo_statement (binary_expression (encapsed_string (escape_sequence) (escape_sequence) (escape_sequence) (string_value)) (string (string_value))))
   (text_interpolation))
 
 ==========================

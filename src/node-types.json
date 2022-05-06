@@ -1783,7 +1783,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_value",
           "named": true
         },
         {
@@ -2362,7 +2362,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_value",
           "named": true
         },
         {
@@ -4284,7 +4284,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "subscript_expression",
@@ -5470,6 +5480,10 @@
   {
     "type": "string",
     "named": false
+  },
+  {
+    "type": "string_value",
+    "named": true
   },
   {
     "type": "switch",

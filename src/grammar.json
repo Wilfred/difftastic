@@ -6909,7 +6909,7 @@
                   "name": "encapsed_string_chars_after_variable"
                 },
                 "named": true,
-                "value": "string"
+                "value": "string_value"
               }
             ]
           },
@@ -6920,7 +6920,7 @@
               "name": "encapsed_string_chars"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "SYMBOL",
@@ -6937,7 +6937,7 @@
               "value": "\\u"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "ALIAS",
@@ -6946,7 +6946,7 @@
               "value": "'"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           }
         ]
       }
@@ -6974,7 +6974,7 @@
                   "name": "encapsed_string_chars_after_variable_heredoc"
                 },
                 "named": true,
-                "value": "string"
+                "value": "string_value"
               }
             ]
           },
@@ -6985,7 +6985,7 @@
               "name": "encapsed_string_chars_heredoc"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "SYMBOL",
@@ -7002,7 +7002,7 @@
               "value": "\\u"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "ALIAS",
@@ -7011,7 +7011,7 @@
               "value": "'"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "ALIAS",
@@ -7020,7 +7020,7 @@
               "value": "<?"
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           },
           {
             "type": "ALIAS",
@@ -7036,7 +7036,7 @@
               }
             },
             "named": true,
-            "value": "string"
+            "value": "string_value"
           }
         ]
       }
@@ -7096,24 +7096,28 @@
           ]
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "PREC",
-            "value": 1,
-            "content": {
-              "type": "REPEAT",
-              "content": {
-                "type": "PATTERN",
-                "value": "\\\\'|\\\\\\\\|\\\\?[^'\\\\]"
-              }
-            }
-          }
+          "type": "SYMBOL",
+          "name": "string_value"
         },
         {
           "type": "STRING",
           "value": "'"
         }
       ]
+    },
+    "string_value": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\'|\\\\\\\\|\\\\?[^'\\\\]"
+          }
+        }
+      }
     },
     "heredoc_body": {
       "type": "SEQ",

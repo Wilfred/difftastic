@@ -1249,26 +1249,26 @@ module.exports = grammar({
     _interpolated_string_body: $ => repeat1(
       choice(
         $.escape_sequence,
-        seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
-        alias($.encapsed_string_chars, $.string),
+        seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string_value)),
+        alias($.encapsed_string_chars, $.string_value),
         $._simple_string_part,
         $._complex_string_part,
-        alias('\\u', $.string),
-        alias("'", $.string) // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
+        alias('\\u', $.string_value),
+        alias("'", $.string_value) // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
       ),
     ),
 
     _interpolated_string_body_heredoc: $ => repeat1(
       choice(
         $.escape_sequence,
-        seq($.variable_name, alias($.encapsed_string_chars_after_variable_heredoc, $.string)),
-        alias($.encapsed_string_chars_heredoc, $.string),
+        seq($.variable_name, alias($.encapsed_string_chars_after_variable_heredoc, $.string_value)),
+        alias($.encapsed_string_chars_heredoc, $.string_value),
         $._simple_string_part,
         $._complex_string_part,
-        alias('\\u', $.string),
-        alias("'", $.string), // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
-        alias('<?', $.string),
-        alias(token(prec(1, '?>')), $.string)
+        alias('\\u', $.string_value),
+        alias("'", $.string_value), // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
+        alias('<?', $.string_value),
+        alias(token(prec(1, '?>')), $.string_value)
       ),
     ),
 
@@ -1286,9 +1286,11 @@ module.exports = grammar({
         /[bB]'/,
         "'"
       ),
-      token(prec(1, repeat(/\\'|\\\\|\\?[^'\\]/))), // prec(1, ...) is needed to avoid conflict with $.comment
+      $.string_value,
       "'",
     ),
+
+    string_value: $ => token(prec(1, repeat(/\\'|\\\\|\\?[^'\\]/))), // prec(1, ...) is needed to avoid conflict with $.comment
 
     heredoc_body: $ => seq($._new_line,
       repeat1(prec.right(
