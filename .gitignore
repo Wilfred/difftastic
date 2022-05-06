@@ -4,3 +4,9 @@ build
 package-lock.json
 target
 Cargo.lock
+*.a
+*.dylib
+*.so
+*.o
+bindings/c/*.h
+bindings/c/*.pc
