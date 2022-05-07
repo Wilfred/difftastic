@@ -30,9 +30,9 @@ module.exports = {
 
   exp_tuple: $ => parens($._exp_tuple),
 
-  exp_unboxed_tuple: $ => seq('(# ', $._exp_tuple, $._unboxed_tuple_close),
+  exp_unboxed_tuple: $ => seq('(# ', $._exp_tuple, $._unboxed_close),
 
-  exp_unboxed_sum: $ => seq('(# ', $._exp_sum, $._unboxed_tuple_close),
+  exp_unboxed_sum: $ => seq('(# ', $._exp_sum, $._unboxed_close),
 
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 

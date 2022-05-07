@@ -62,9 +62,9 @@ module.exports = {
 
   type_star: _ => '*',
 
-  type_unboxed_tuple: $ => seq('(# ', $._type_tuple, $._unboxed_tuple_close),
+  type_unboxed_tuple: $ => seq('(# ', $._type_tuple, $._unboxed_close),
 
-  type_unboxed_sum: $ => seq('(# ', $._type_sum, $._unboxed_tuple_close),
+  type_unboxed_sum: $ => seq('(# ', $._type_sum, $._unboxed_close),
 
   _atype: $ => choice(
     $.type_name,
