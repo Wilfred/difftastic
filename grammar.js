@@ -767,14 +767,14 @@ module.exports = grammar({
             field('property', alias($.identifier, $.property_identifier))
         )),
 
-        array_access: $ => prec.right(PREC.MEMBER, seq(
+        array_access: $ => prec.right(1, seq(
             field('base', $._expression),
             '[',
             field('index', $._expression),
             ']'
         )),
 
-        slice_access: $ => prec(PREC.MEMBER, seq(
+        slice_access: $ => prec(1, seq(
             field('base', $._expression),
             '[',
             field('from', $._expression),
