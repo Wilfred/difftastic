@@ -28,7 +28,7 @@ module.exports = {
 
   pat_irrefutable: $ => seq('~', $._apat),
 
-  pat_negation: $ => seq('-', $._number),
+  pat_negation: $ => seq('-', $._apat),
 
   pat_name: $ => $._var,
 

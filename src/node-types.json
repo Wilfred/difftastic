@@ -10276,11 +10276,59 @@
       "required": true,
       "types": [
         {
-          "type": "float",
+          "type": "pat_as",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "pat_irrefutable",
+          "named": true
+        },
+        {
+          "type": "pat_list",
+          "named": true
+        },
+        {
+          "type": "pat_literal",
+          "named": true
+        },
+        {
+          "type": "pat_name",
+          "named": true
+        },
+        {
+          "type": "pat_parens",
+          "named": true
+        },
+        {
+          "type": "pat_record",
+          "named": true
+        },
+        {
+          "type": "pat_strict",
+          "named": true
+        },
+        {
+          "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "splice",
           "named": true
         }
       ]
