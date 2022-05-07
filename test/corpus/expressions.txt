@@ -6,6 +6,8 @@ contract Example {
     function example() {
         int a;
         a.b;
+        TypeA memory a = new TypeA(1);
+        TypeA[] a = new TypeA[](1);
     }
 }
 
@@ -26,7 +28,33 @@ contract Example {
           (expression_statement
             (member_expression
               object: (identifier)
-              property: (property_identifier))))))))
+              property: (property_identifier)))
+          (variable_declaration_statement
+            (variable_declaration
+              (type_name
+                (user_defined_type
+                  (identifier)))
+              name: (identifier))
+            (call_expression
+              (new_expression
+                (type_name
+                  (user_defined_type
+                    (identifier))))
+              (number_literal)))
+          (variable_declaration_statement
+            (variable_declaration
+              (type_name
+                (type_name
+                  (user_defined_type
+                    (identifier))))
+              name: (identifier))
+            (call_expression
+              (new_expression
+                (type_name
+                  (type_name
+                    (user_defined_type
+                      (identifier)))))
+              (number_literal))))))))
 
 ================================================================================
 Subscript Access

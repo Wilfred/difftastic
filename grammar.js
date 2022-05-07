@@ -48,7 +48,7 @@ module.exports = grammar({
         [$.member_expression, $.type_name],
         [$.member_expression, $.type_name],
         [$.identifier, $.type_name],
-
+        [$._primary_expression, $._identifier_path],
         [$._primary_expression, $.member_expression, $._identifier_path],
 
         [$._parameter_list, $.fallback_receive_definition],
@@ -767,7 +767,7 @@ module.exports = grammar({
             field('property', alias($.identifier, $.property_identifier))
         )),
 
-        array_access: $ => prec.right(1, seq(
+        array_access: $ => prec(1, seq(
             field('base', $._expression),
             '[',
             field('index', $._expression),
@@ -862,7 +862,7 @@ module.exports = grammar({
 
         user_defined_type: $ => $._identifier_path,            
         
-        _identifier_path: $ => prec.left(-1, dotSep1($.identifier)),
+        _identifier_path: $ => prec.left(dotSep1($.identifier)),
 
         _mapping: $ => seq(
             'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
