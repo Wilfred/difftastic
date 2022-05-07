@@ -61,10 +61,6 @@ fn format_missing_line_num(
         prev_num >= source_dims.rhs_max_line
     };
 
-    if after_end && !is_lhs {
-        return "".into();
-    }
-
     let mut style = Style::new();
     if use_color {
         style = style.dimmed();
