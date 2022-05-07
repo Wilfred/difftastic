@@ -204,9 +204,14 @@ module.exports = grammar({
     [$._type_or_implicit, $._context_constraints],
 
     /**
-    * `(# | | ...` can start both `pat` and `exp`.
-    */
+     * `(# | | ...` can start both `pat` and `exp`.
+     */
     [$.pat_sum_empty, $.exp_sum_empty],
+
+    /**
+     * The nullary unboxed tuple `(# #)` is indistinguishable between exp and pat.
+     */
+    [$.exp_unboxed_tuple, $.pat_unboxed_tuple],
 
     [$.exp_lambda_case],
   ],
