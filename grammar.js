@@ -318,7 +318,7 @@ module.exports = grammar({
         yul_break: $ => "break",
         yul_continue: $ => "continue",
 
-        yul_identifier: $ => /[a-zA-Z$_]+/,
+        yul_identifier: $ => $.identifier, ///[a-zA-Z$_]+/,
         _yul_expression: $ => choice($.yul_path, $.yul_function_call, $._yul_literal),
         yul_path: $ => prec.left(dotSep1($.yul_identifier)),
 

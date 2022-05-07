@@ -1,6 +1,6 @@
-====================
+================================================================================
 Assembly
-====================
+================================================================================
 
 contract Example {
     function() {
@@ -10,16 +10,23 @@ contract Example {
   }
 }
 
----
-(source_file (contract_declaration (identifier) (contract_body (fallback_receive_definition 
-    (function_body (assembly_statement 
-        (yul_function_call 
-            (yul_evm_builtin)
-            (yul_hex_number) 
-            (yul_hex_number))))))))
-====================
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_function_call
+              (yul_evm_builtin)
+              (yul_hex_number)
+              (yul_hex_number))))))))
+
+================================================================================
 Assembly switch
-====================
+================================================================================
 
 contract Example {
     function() {
@@ -32,12 +39,51 @@ contract Example {
   }
 }
 
----
-(source_file (contract_declaration (identifier) (contract_body (fallback_receive_definition
-    (function_body (assembly_statement 
-        (yul_switch_statement 
-           (yul_path (yul_identifier)) 
-           (yul_decimal_number)
-           (yul_block 
-            (yul_function_call (yul_evm_builtin) (yul_path (yul_identifier))))))))))) 
+--------------------------------------------------------------------------------
 
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_switch_statement
+              (yul_path
+                (yul_identifier
+                  (identifier)))
+              (yul_decimal_number)
+              (yul_block
+                (yul_function_call
+                  (yul_evm_builtin)
+                  (yul_path
+                    (yul_identifier
+                      (identifier))))))))))))
+
+================================================================================
+Assembly Assignment
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+            _origin1 := 1
+
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_assignment
+              (yul_path
+                (yul_identifier
+                  (identifier)))
+              (yul_decimal_number))))))))
