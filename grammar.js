@@ -483,9 +483,9 @@ module.exports = grammar({
 
         expression_statement: $ => seq($._expression, $._semicolon),
 
-        if_statement: $ => seq(
-            'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $._statement)),
-        ),
+        if_statement: $ => prec.right(seq(
+            'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
+        )),
 
         for_statement: $ => seq(
             'for', '(',
