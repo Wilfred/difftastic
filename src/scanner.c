@@ -237,7 +237,7 @@ void debug_state(State *state) {
   debug_valid(state->symbols);
   DEBUG_PRINTF(", indents = ");
   debug_indents(state->indents);
-  DEBUG_PRINTF("\n");
+  DEBUG_PRINTF(" }\n");
 }
 #endif
 
@@ -857,9 +857,9 @@ static Result cpp_workaround(State *state) {
 }
 
 /**
- * If the current column i 0, a cpp directive may begin.
+ * If the current column is 0, a cpp directive may begin.
  */
-static Result cpp_init(State *state) {
+static Result cpp(State *state) {
   if (column(state) == 0) {
     return cpp_workaround(state);
   }
@@ -1415,7 +1415,7 @@ static Result newline(uint32_t indent, State *state) {
   SHORT_SCANNER;
   res = initialize(indent, state);
   SHORT_SCANNER;
-  res = cpp_workaround(state);
+  res = cpp(state);
   SHORT_SCANNER;
   res = comment(state);
   SHORT_SCANNER;
@@ -1461,7 +1461,7 @@ static Result init(State *state) {
   SHORT_SCANNER;
   res = dot(state);
   SHORT_SCANNER;
-  res = cpp_init(state);
+  res = cpp(state);
   SHORT_SCANNER;
   if (state->symbols[QQ_BODY]) {
     return qq_body(state);

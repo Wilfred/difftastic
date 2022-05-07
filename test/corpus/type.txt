@@ -517,3 +517,20 @@ type A =
   (type_unboxed_tuple
    (type_name
     (type_variable)))))
+
+================================================================================
+type decl: unboxed tuple with newline before closing brace
+================================================================================
+
+type A =
+  (# a
+    #)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_unboxed_tuple
+   (type_name
+    (type_variable)))))

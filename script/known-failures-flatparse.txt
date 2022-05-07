@@ -1,2 +1,0 @@
-examples/flatparse/src/FlatParse/Stateful.hs
-examples/flatparse/src/FlatParse/Basic.hs
