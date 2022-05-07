@@ -36,8 +36,9 @@ contract Example {
           name: (identifier))
         (parameter
           type: (type_name
-            (identifier)
-            (identifier))
+            (user_defined_type
+              (identifier)
+              (identifier)))
           name: (identifier))
         body: (function_body)))))
 
@@ -62,8 +63,9 @@ contract Example {
           name: (identifier))
         (parameter
           type: (type_name
-            (identifier)
-            (identifier))
+            (user_defined_type
+              (identifier)
+              (identifier)))
           name: (identifier))
         (modifier_invocation
           (identifier))

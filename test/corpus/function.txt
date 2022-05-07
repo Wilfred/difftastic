@@ -131,9 +131,11 @@ contract Example {
       (function_definition
         function_name: (identifier)
         (override_specifier
-          (identifier)
-          (identifier)
-          (identifier))
+          (user_defined_type
+            (identifier)
+            (identifier))
+          (user_defined_type
+            (identifier)))
         body: (function_body)))))
 
 ================================================================================

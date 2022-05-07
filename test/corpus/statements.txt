@@ -62,7 +62,8 @@ contract Example {
             b; 
         }
         if (a) 1;
-
+        
+        if (input >= 1) if (input > 2) 1; else 2;
     }
 }
 
@@ -87,7 +88,19 @@ contract Example {
           (if_statement
             (identifier)
             (expression_statement
-              (number_literal))))))))
+              (number_literal)))
+          (if_statement
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (if_statement
+              (binary_expression
+                (identifier)
+                (number_literal))
+              (expression_statement
+                (number_literal))
+              (expression_statement
+                (number_literal)))))))))
 
 ================================================================================
 For statement
