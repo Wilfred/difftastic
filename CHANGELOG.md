@@ -7,6 +7,8 @@ bytes.
 
 Improved handling of comments and regexp literals in Perl.
 
+Added Elvish support.
+
 ## 0.28 (released 29th April 2022)
 
 ### Parsing
