@@ -470,3 +470,29 @@ type A = a %m -> a
     (type_name (type_variable))
     (modifier (type_name (type_variable)))
     (type_name (type_variable)))))
+
+================================================================================
+type decl: unboxed nullary tuple
+================================================================================
+
+type A = (# #)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_unboxed_tuple)))
+
+================================================================================
+type decl: unboxed unary tuple
+================================================================================
+
+type A = (# a #)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_unboxed_tuple (type_name (type_variable)))))

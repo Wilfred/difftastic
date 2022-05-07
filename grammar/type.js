@@ -62,7 +62,7 @@ module.exports = {
 
   type_star: _ => '*',
 
-  type_unboxed_tuple: $ => seq('(# ', $._type_tuple, $._unboxed_close),
+  type_unboxed_tuple: $ => seq('(# ', sep($.comma, $._type_or_implicit), $._unboxed_close),
 
   type_unboxed_sum: $ => seq('(# ', $._type_sum, $._unboxed_close),
 

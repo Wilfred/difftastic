@@ -1805,8 +1805,37 @@
           "value": "(# "
         },
         {
-          "type": "SYMBOL",
-          "name": "_type_tuple"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_or_implicit"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "comma"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_type_or_implicit"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
