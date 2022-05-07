@@ -37,14 +37,14 @@ module.exports = {
   * likely be significantly more complex to implement correctly. As it stands, the grammar can't parse an unboxed sum
   * exp without a leading space, as in `(#| x #)`.
   */
-  exp_unboxed_tuple: $ => seq('(# ', sep($.comma, optional($._exp)), $._unboxed_close),
+  exp_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, optional($._exp)), $._unboxed_close),
 
   /**
   * Unboxed sums must have at least one separating `|`, otherwise the expression would be a unary or nullary tuple.
   */
   _exp_unboxed_sum: $ => sep2('|', optional($._exp)),
 
-  exp_unboxed_sum: $ => seq('(# ', $._exp_unboxed_sum, $._unboxed_close),
+  exp_unboxed_sum: $ => seq($._unboxed_open, $._exp_unboxed_sum, $._unboxed_close),
 
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 

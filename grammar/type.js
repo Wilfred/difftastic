@@ -65,9 +65,9 @@ module.exports = {
   /**
   * The `(##)` format of the unary tuple is parsed as an operator, see `exp_unboxed_tuple`.
   */
-  type_unboxed_tuple: $ => seq('(# ', sep($.comma, $._type_or_implicit), $._unboxed_close),
+  type_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, $._type_or_implicit), $._unboxed_close),
 
-  type_unboxed_sum: $ => seq('(# ', $._type_sum, $._unboxed_close),
+  type_unboxed_sum: $ => seq($._unboxed_open, $._type_sum, $._unboxed_close),
 
   _atype: $ => choice(
     $.type_name,
