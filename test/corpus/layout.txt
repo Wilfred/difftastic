@@ -498,7 +498,7 @@ a = b where -1 = a
   (variable)
   (exp_name (variable))
   (where)
-  (decls (function (pat_negation (integer)) (exp_name (variable))))))
+  (decls (function (pat_negation (pat_literal (integer))) (exp_name (variable))))))
 
 ================================================================================
 layout: comment in empty where on next line indented
