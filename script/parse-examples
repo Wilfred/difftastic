@@ -35,7 +35,8 @@ clone_repo GaloisInc ivory 3d00324ad1c113c7e70957ff6a6d636d271d0fc4
 clone_repo polysemy-research polysemy c37d485b614e98622f5e7473a478b781a6ad5c45
 clone_repo github semantic b162132339622fe1e80e243f630fe092d5c0cbe1
 clone_repo haskell haskell-language-server d397ef491ef1689d43028f4d3d01a42118292235
+clone_repo AndrasKovacs flatparse ddae0996d2bdd0b5b092484dbe5829b4ee2ef1f6
 
-for name in effects postgrest ivory polysemy semantic haskell-language-server; do
+for name in effects postgrest ivory polysemy semantic haskell-language-server flatparse; do
   script/parse-example "$name" "$mode"
 done
