@@ -476,13 +476,17 @@ type decl: unboxed nullary tuple
 ================================================================================
 
 type A = (# #)
+type A = (##)
 
 ---
 
 (haskell
  (type_alias
   (type)
-  (type_unboxed_tuple)))
+  (type_unboxed_tuple))
+ (type_alias
+  (type)
+  (type_name (type_operator))))
 
 ================================================================================
 type decl: unboxed unary tuple

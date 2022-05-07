@@ -26,11 +26,20 @@ module.exports = {
 
   exp_sum_empty: _ => ' ',
 
+  /**
+  * Unboxed sums must have at least one separating `|`, otherwise the expression would be a unary or nullary tuple.
+  */
   _exp_sum: $ => sep2('|', choice($._exp, $.exp_sum_empty)),
 
   exp_tuple: $ => parens($._exp_tuple),
 
-  exp_unboxed_tuple: $ => seq('(# ', $._exp_tuple, $._unboxed_close),
+  /**
+  * Unlike their boxed variants, unboxed tuples may be nullary and unary, making it simpler to parse them.
+  * The nullary tuple may even have no space between the hashes, but this format coincides with the prefix notation of
+  * the `##` symop. Since the latter is already parsed by other rules and is valid in the same positions, it is left out
+  * here.
+  */
+  exp_unboxed_tuple: $ => seq('(# ', sep($.comma, optional($._exp)), $._unboxed_close),
 
   exp_unboxed_sum: $ => seq('(# ', $._exp_sum, $._unboxed_close),
 
