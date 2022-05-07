@@ -499,7 +499,7 @@ module.exports = grammar({
             'while', '(',$._expression, ')', $._statement,
         ),
         do_while_statement: $ => seq(
-            'do', $._statement, 'while', '(',$._expression, ')',
+            'do', $._statement, 'while', '(',$._expression, ')', $._semicolon,
         ),
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
