@@ -6210,11 +6210,6 @@
     }
   },
   {
-    "type": "exp_sum_empty",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "exp_th_quoted_name",
     "named": true,
     "fields": {},
@@ -6631,7 +6626,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "exp_apply",
@@ -6707,10 +6702,6 @@
         },
         {
           "type": "exp_section_right",
-          "named": true
-        },
-        {
-          "type": "exp_sum_empty",
           "named": true
         },
         {
@@ -10476,11 +10467,6 @@
     }
   },
   {
-    "type": "pat_sum_empty",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "pat_tuple",
     "named": true,
     "fields": {},
@@ -10731,7 +10717,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "pat_apply",
@@ -10775,10 +10761,6 @@
         },
         {
           "type": "pat_strict",
-          "named": true
-        },
-        {
-          "type": "pat_sum_empty",
           "named": true
         },
         {
@@ -13998,10 +13980,6 @@
         }
       ]
     }
-  },
-  {
-    "type": " ",
-    "named": false
   },
   {
     "type": "%",

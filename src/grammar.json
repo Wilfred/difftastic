@@ -2935,53 +2935,6 @@
         }
       ]
     },
-    "exp_sum_empty": {
-      "type": "STRING",
-      "value": " "
-    },
-    "_exp_sum": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_exp"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "exp_sum_empty"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "|"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_exp"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "exp_sum_empty"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
     "exp_tuple": {
       "type": "SEQ",
       "members": [
@@ -3061,6 +3014,47 @@
         }
       ]
     },
+    "_exp_unboxed_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_exp"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     "exp_unboxed_sum": {
       "type": "SEQ",
       "members": [
@@ -3070,7 +3064,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_exp_sum"
+          "name": "_exp_unboxed_sum"
         },
         {
           "type": "SYMBOL",
@@ -5078,11 +5072,7 @@
         }
       ]
     },
-    "pat_sum_empty": {
-      "type": "STRING",
-      "value": " "
-    },
-    "_pat_sum": {
+    "_pat_unboxed_sum": {
       "type": "SEQ",
       "members": [
         {
@@ -5093,8 +5083,7 @@
               "name": "_nested_pat"
             },
             {
-              "type": "SYMBOL",
-              "name": "pat_sum_empty"
+              "type": "BLANK"
             }
           ]
         },
@@ -5115,8 +5104,7 @@
                     "name": "_nested_pat"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "pat_sum_empty"
+                    "type": "BLANK"
                   }
                 ]
               }
@@ -5134,7 +5122,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_pat_sum"
+          "name": "_pat_unboxed_sum"
         },
         {
           "type": "SYMBOL",
@@ -9223,8 +9211,12 @@
       "_context_constraints"
     ],
     [
-      "pat_sum_empty",
-      "exp_sum_empty"
+      "_pat_unboxed_sum",
+      "_exp_unboxed_sum"
+    ],
+    [
+      "exp_unboxed_tuple",
+      "pat_unboxed_tuple"
     ],
     [
       "exp_lambda_case"

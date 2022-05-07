@@ -363,12 +363,8 @@ a (# (# #) | | #) = a
  (function
   (variable)
   (patterns
-   (pat_unboxed_sum
-    (pat_unboxed_tuple)
-    (pat_sum_empty)
-    (pat_sum_empty)))
-  (exp_name
-   (variable))))
+   (pat_unboxed_sum (pat_unboxed_tuple)))
+  (exp_name (variable))))
 
 ================================================================================
 pat: signature

@@ -365,7 +365,7 @@ static bool isws(uint32_t c) {
 }
 
 /**
- * A token like a varsym can be terminated by whitespace of brackets.
+ * A token like a varsym can be terminated by whitespace or brackets.
  */
 static bool token_end(uint32_t c) {
   switch (c) {
