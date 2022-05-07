@@ -206,7 +206,7 @@ module.exports = grammar({
     /**
      * `(# | | ...` can start both `pat` and `exp`.
      */
-    [$.pat_sum_empty, $.exp_sum_empty],
+    [$._pat_unboxed_sum, $._exp_unboxed_sum],
 
     /**
      * The nullary unboxed tuple `(# #)` is indistinguishable between exp and pat.

@@ -18,11 +18,9 @@ module.exports = {
 
   pat_unboxed_tuple: $ => seq('(# ', sep($.comma, $._nested_pat), $._unboxed_close),
 
-  pat_sum_empty: _ => ' ',
+  _pat_unboxed_sum: $ => sep2('|', optional($._nested_pat)),
 
-  _pat_sum: $ => sep2('|', choice($._nested_pat, $.pat_sum_empty)),
-
-  pat_unboxed_sum: $ => seq('(# ', $._pat_sum, $._unboxed_close),
+  pat_unboxed_sum: $ => seq('(# ', $._pat_unboxed_sum, $._unboxed_close),
 
   pat_list: $ => brackets(sep1($.comma, $._nested_pat)),
 

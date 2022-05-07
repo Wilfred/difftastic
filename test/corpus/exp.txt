@@ -1191,6 +1191,7 @@ exp: unboxed sum
 
 a :: (# A | (# A, A #) | A #)
 a = (# a | | #)
+a = (# | a #)
 
 ---
 
@@ -1204,9 +1205,30 @@ a = (# a | | #)
  (function
   (variable)
   (exp_unboxed_sum
-   (exp_name (variable))
-   (exp_sum_empty)
-   (exp_sum_empty))))
+   (exp_name (variable))))
+ (function
+  (variable)
+  (exp_unboxed_sum
+   (exp_name (variable)))))
+
+================================================================================
+exp: error: unboxed sum without space
+================================================================================
+
+a = (#| 5 #)
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_section_right
+   (operator)
+   (exp_infix
+    (exp_literal (integer))
+    (operator)
+    (exp_name
+     (variable (MISSING _varid)))))))
 
 ================================================================================
 exp: label
