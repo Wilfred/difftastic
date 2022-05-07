@@ -87,7 +87,7 @@
  *     when the quasiquote body starts with an operator character.
  *   - qq_body: Prevent extras, like comments, from breaking quasiquotes
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
- *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
+ *   - unboxed_close: Disambiguate the closing parens for unboxed tuples/sums `#)` from symbolic operators
  *   - bar: The vertical bar `|`, used for guards and list comprehension
  *   - in: Closes the layout of a `let` and consumes the token `in`
  *   - indent: Used as a dummy symbol for initialization; uses newline in the grammar to ensure the scanner is called
@@ -138,7 +138,7 @@ static char *sym_names[] = {
   "qq_bar",
   "qq_body",
   "strict",
-  "unboxed_tuple_close",
+  "unboxed_close",
   "bar",
   "in",
   "indent",
@@ -1008,12 +1008,12 @@ static Result splice(State *state) {
   return res_cont;
 }
 
-static Result unboxed_tuple_close(State *state) {
+static Result unboxed_close(State *state) {
   if (state->symbols[UNBOXED_TUPLE_CLOSE]) {
     if (PEEK == ')') {
       S_ADVANCE;
-      MARK("unboxed_tuple_close", false, state);
-      return finish(UNBOXED_TUPLE_CLOSE, "unboxed_tuple_close");
+      MARK("unboxed_close", false, state);
+      return finish(UNBOXED_TUPLE_CLOSE, "unboxed_close");
     }
   }
   return res_cont;
@@ -1079,7 +1079,7 @@ static Result symop_marked(Symbolic type, State *state) {
       return res_fail;
     }
     case S_UNBOXED_TUPLE_CLOSE:
-      return unboxed_tuple_close(state);
+      return unboxed_close(state);
     default:
       return res_cont;
   }

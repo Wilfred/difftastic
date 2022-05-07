@@ -379,6 +379,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -735,6 +739,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -2205,6 +2213,10 @@
             "named": true
           },
           {
+            "type": "pat_unboxed_sum",
+            "named": true
+          },
+          {
             "type": "pat_unboxed_tuple",
             "named": true
           },
@@ -2388,6 +2400,10 @@
           },
           {
             "type": "pat_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
             "named": true
           },
           {
@@ -2601,6 +2617,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -4978,6 +4998,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -6184,6 +6208,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "exp_sum_empty",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "exp_th_quoted_name",
@@ -7484,6 +7513,10 @@
           },
           {
             "type": "pat_typed",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
             "named": true
           },
           {
@@ -8887,6 +8920,10 @@
             "named": true
           },
           {
+            "type": "pat_unboxed_sum",
+            "named": true
+          },
+          {
             "type": "pat_unboxed_tuple",
             "named": true
           },
@@ -8964,6 +9001,10 @@
           },
           {
             "type": "pat_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
             "named": true
           },
           {
@@ -9682,6 +9723,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -9742,6 +9787,10 @@
           },
           {
             "type": "pat_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
             "named": true
           },
           {
@@ -9836,6 +9885,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -9961,6 +10014,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -10029,6 +10086,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -10112,6 +10173,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -10291,6 +10356,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -10384,6 +10453,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -10401,6 +10474,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "pat_sum_empty",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "pat_tuple",
@@ -10464,6 +10542,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -10543,6 +10625,10 @@
           },
           {
             "type": "pat_tuple",
+            "named": true
+          },
+          {
+            "type": "pat_unboxed_sum",
             "named": true
           },
           {
@@ -10640,12 +10726,103 @@
     }
   },
   {
-    "type": "pat_unboxed_tuple",
+    "type": "pat_unboxed_sum",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
+      "types": [
+        {
+          "type": "pat_apply",
+          "named": true
+        },
+        {
+          "type": "pat_as",
+          "named": true
+        },
+        {
+          "type": "pat_infix",
+          "named": true
+        },
+        {
+          "type": "pat_irrefutable",
+          "named": true
+        },
+        {
+          "type": "pat_list",
+          "named": true
+        },
+        {
+          "type": "pat_literal",
+          "named": true
+        },
+        {
+          "type": "pat_name",
+          "named": true
+        },
+        {
+          "type": "pat_negation",
+          "named": true
+        },
+        {
+          "type": "pat_parens",
+          "named": true
+        },
+        {
+          "type": "pat_record",
+          "named": true
+        },
+        {
+          "type": "pat_strict",
+          "named": true
+        },
+        {
+          "type": "pat_sum_empty",
+          "named": true
+        },
+        {
+          "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_view",
+          "named": true
+        },
+        {
+          "type": "pat_wildcard",
+          "named": true
+        },
+        {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "splice",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pat_unboxed_tuple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "comma",
@@ -10701,6 +10878,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -10955,6 +11136,10 @@
         },
         {
           "type": "pat_typed",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -11238,6 +11423,10 @@
           "named": true
         },
         {
+          "type": "pat_unboxed_sum",
+          "named": true
+        },
+        {
           "type": "pat_unboxed_tuple",
           "named": true
         },
@@ -11317,6 +11506,10 @@
         },
         {
           "type": "pat_tuple",
+          "named": true
+        },
+        {
+          "type": "pat_unboxed_sum",
           "named": true
         },
         {
@@ -13807,6 +14000,10 @@
     }
   },
   {
+    "type": " ",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -13964,10 +14161,6 @@
   },
   {
     "type": "empty_file",
-    "named": true
-  },
-  {
-    "type": "exp_sum_empty",
     "named": true
   },
   {
