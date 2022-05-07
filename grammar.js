@@ -48,13 +48,8 @@ module.exports = grammar({
         [$.member_expression, $.type_name],
         [$.member_expression, $.type_name],
         [$.identifier, $.type_name],
-        [$.identifier, $._user_defined_type],
-        
-        [$._user_defined_type, $.member_expression, $._primary_expression],
-        [$._user_defined_type, $.member_expression],
-        [$._user_defined_type, $._primary_expression],
-        [$._user_defined_type_repeat, $.member_expression],
-        [$._user_defined_type_repeat, $._primary_expression],
+
+        [$._primary_expression, $.member_expression, $._identifier_path],
 
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
@@ -135,7 +130,7 @@ module.exports = grammar({
         ),
 
         _single_import: $ => seq(
-            "*",
+            choice("*", $.identifier),
             optional(
                 seq(
                     "as",
@@ -208,7 +203,7 @@ module.exports = grammar({
         ),
 
         inheritance_specifier: $ => seq(
-            field("ancestor", $._user_defined_type),
+            field("ancestor", $.user_defined_type),
             optional(field("ancestor_arguments", $._call_arguments)),
         ),
 
@@ -271,7 +266,7 @@ module.exports = grammar({
 
         using_directive: $ => seq(
             'using',
-            alias($._user_defined_type, $.type_alias),
+            alias($.user_defined_type, $.type_alias),
             'for',
             field("source", choice($.any_source_type, $.type_name)),
             $._semicolon
@@ -461,26 +456,6 @@ module.exports = grammar({
                 $._semicolon
         )),
 
-        // var_variable_decartion: $ => prec.left(seq(
-        //     'var',
-        //     choice(
-        //         $.identifier,
-        //         seq(
-        //             '(',
-        //             optional($.identifier),
-        //             repeat(
-        //                 seq(
-        //                     ',',
-        //                     optional($.identifier),
-        //                 )
-        //             ),
-        //         ')')
-        //     ),
-        //     '=',
-        //      $._expression,
-        //      $._semicolon,
-        // )),
-
         variable_declaration: $ => seq(
             $.type_name,
             optional(choice('memory', 'storage', 'calldata')),
@@ -508,9 +483,9 @@ module.exports = grammar({
 
         expression_statement: $ => seq($._expression, $._semicolon),
 
-        if_statement: $ => prec.left(seq(
-            'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
-        )),
+        if_statement: $ => seq(
+            'if', '(',$._expression, ')', $.block_statement, optional(seq('else', $._statement)),
+        ),
 
         for_statement: $ => seq(
             'for', '(',
@@ -583,7 +558,7 @@ module.exports = grammar({
             'override',
             optional(seq(
                 '(',
-                commaSep1($._user_defined_type),
+                commaSep1($.user_defined_type),
                 ')',
             ))
         ),
@@ -666,7 +641,6 @@ module.exports = grammar({
 
         function_body: $ => seq(
             "{",
-            // TODO: make sure this is correct
                 repeat($._statement),
             "}",
         ),
@@ -686,7 +660,6 @@ module.exports = grammar({
             $.type_cast_expression,
         ),
 
-        // TODO: make primary expression anonymous
         _primary_expression: $ => choice(
             $.parenthesized_expression,
             $.member_expression,
@@ -695,7 +668,7 @@ module.exports = grammar({
             $.primitive_type,
             $.assignment_expression,
             $.augmented_assignment_expression,
-            $._user_defined_type,
+            $.user_defined_type,
             $.tuple_expression,
             $.inline_array_expression,
             $.identifier,
@@ -850,7 +823,7 @@ module.exports = grammar({
 
         type_name: $ => choice(
             $.primitive_type,
-            $._user_defined_type,
+            $.user_defined_type,
             $._mapping,
             $._array_type,
             $._function_type,
@@ -887,16 +860,9 @@ module.exports = grammar({
             'calldata'
         ),
 
-        // TODO: make visible type
-        _user_defined_type: $ => prec.right(PREC.MEMBER, seq(
-            $.identifier,
-            optional($._user_defined_type_repeat),
-        )),
-
-        _user_defined_type_repeat: $ => seq(
-            '.',
-            $._user_defined_type,
-        ),
+        user_defined_type: $ => $._identifier_path,            
+        
+        _identifier_path: $ => prec.left(-1, dotSep1($.identifier)),
 
         _mapping: $ => seq(
             'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
@@ -904,7 +870,7 @@ module.exports = grammar({
 
         _mapping_key: $ => choice(
             $.primitive_type,
-            $._user_defined_type
+            $.user_defined_type
         ),
 
         primitive_type: $ => prec.left(choice(
