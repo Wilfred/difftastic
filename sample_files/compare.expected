@@ -34,6 +34,9 @@ e3946aef566a707c718edd7a86340566  -
 sample_files/elm_before.elm sample_files/elm_after.elm
 c1ea9f99a815b2ae5ce2a7d58fb65368  -
 
+sample_files/elvish_before.elv sample_files/elvish_after.elv
+0107abd4d8c25034207bedd407a499ac  -
+
 sample_files/hack_before.php sample_files/hack_after.php
 b8c51005df7e1eaaeaf738a4353ac88f  -
 

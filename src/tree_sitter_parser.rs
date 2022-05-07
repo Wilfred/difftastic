@@ -53,8 +53,9 @@ extern "C" {
     fn tree_sitter_dart() -> ts::Language;
     fn tree_sitter_elisp() -> ts::Language;
     fn tree_sitter_elixir() -> ts::Language;
-    fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_elm() -> ts::Language;
+    fn tree_sitter_elvish() -> ts::Language;
+    fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_hcl() -> ts::Language;
@@ -249,20 +250,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .unwrap(),
             }
         }
-        Gleam => {
-            let language = unsafe { tree_sitter_gleam() };
-            TreeSitterConfig {
-                name: "Gleam",
-                language,
-                atom_nodes: ["string"].into(),
-                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
-                highlight_query: ts::Query::new(
-                    language,
-                    include_str!("../vendor/highlights/gleam.scm"),
-                )
-                .unwrap(),
-            }
-        }
         Elm => {
             let language = unsafe { tree_sitter_elm() };
             TreeSitterConfig {
@@ -273,6 +260,34 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../vendor/highlights/elm.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Elvish => {
+            let language = unsafe { tree_sitter_elvish() };
+            TreeSitterConfig {
+                name: "Elvish",
+                language,
+                atom_nodes: [].into(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/elvish.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Gleam => {
+            let language = unsafe { tree_sitter_gleam() };
+            TreeSitterConfig {
+                name: "Gleam",
+                language,
+                atom_nodes: ["string"].into(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../vendor/highlights/gleam.scm"),
                 )
                 .unwrap(),
             }
