@@ -164,6 +164,7 @@ module.exports = grammar({
         _declaration: $ => choice(
             $.contract_declaration,
             $.interface_declaration,
+            $.error_declaration,
             $.library_declaration,
             $.struct_declaration,
             $.enum_declaration,
@@ -188,6 +189,9 @@ module.exports = grammar({
             optional($._class_heritage),
             field('body', $.contract_body),
         ),
+
+        error_declaration: $ => seq('error', $.identifier, '(', commaSep($.error_parameter), ')', $._semicolon),
+        error_parameter: $ => seq($.type_name, optional($.identifier)),
 
         interface_declaration: $ => seq(
             'interface',
@@ -221,6 +225,7 @@ module.exports = grammar({
         _contract_member: $ => choice(
             $.function_definition,
             $.modifier_definition,
+            $.error_declaration,
             $.state_variable_declaration,
             $.struct_declaration,
             $.enum_declaration,
@@ -293,7 +298,8 @@ module.exports = grammar({
             $.try_statement,
             $.return_statement,
             $.emit_statement,
-            $.assembly_statement
+            $.assembly_statement,
+            $.revert_statement,
         ),
 
         assembly_statement: $ => seq(
@@ -511,6 +517,8 @@ module.exports = grammar({
         ),
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
+        
+        revert_statement: $ => seq('revert', $._expression, $._call_arguments, $._semicolon),
 
         try_statement: $ => seq(
             'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
