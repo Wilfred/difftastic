@@ -324,9 +324,11 @@ module.exports = grammar({
             $.yul_leave,
             $.yul_break,
             $.yul_continue,
-            $.yul_function_definition
+            $.yul_function_definition,
+            $.yul_label,
         ),
-
+        
+        yul_label: $ => seq($.identifier, ":"),
         yul_leave: $ => "leave",
         yul_break: $ => "break",
         yul_continue: $ => "continue",
