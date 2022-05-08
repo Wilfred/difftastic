@@ -323,32 +323,46 @@ pub fn apply_colors(
     apply(s, &styles)
 }
 
+fn apply_header_color(s: &str, use_color: bool, background: BackgroundColor) -> String {
+    if use_color {
+        if background.is_dark() {
+            s.bright_yellow().to_string()
+        } else {
+            s.yellow().to_string()
+        }
+        .bold()
+        .to_string()
+    } else {
+        s.to_string()
+    }
+}
+
 pub fn header(
-    file_name: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     hunk_num: usize,
     hunk_total: usize,
     language_name: &str,
     use_color: bool,
     background: BackgroundColor,
 ) -> String {
-    let file_name_pretty = if use_color {
-        if background.is_dark() {
-            file_name.bright_yellow().to_string()
-        } else {
-            file_name.yellow().to_string()
-        }
-        .bold()
-        .to_string()
-    } else {
-        file_name.to_string()
-    };
     let divider = if hunk_total == 1 {
         "".to_owned()
     } else {
         format!("{}/{} --- ", hunk_num, hunk_total)
     };
 
-    format!("{} --- {}{}", file_name_pretty, divider, language_name)
+    let rhs_path_pretty = apply_header_color(rhs_display_path, use_color, background);
+    if hunk_num == 1 && lhs_display_path != rhs_display_path {
+        let lhs_path_pretty = apply_header_color(lhs_display_path, use_color, background);
+        let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty,);
+        format!(
+            "{}\n{} --- {}{}",
+            renamed, rhs_path_pretty, divider, language_name
+        )
+    } else {
+        format!("{} --- {}{}", rhs_path_pretty, divider, language_name)
+    }
 }
 
 #[cfg(test)]

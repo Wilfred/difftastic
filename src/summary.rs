@@ -8,7 +8,8 @@ pub enum FileContent {
 
 #[derive(Debug)]
 pub struct DiffResult {
-    pub path: String,
+    pub lhs_display_path: String,
+    pub rhs_display_path: String,
     pub language: Option<String>,
     pub lhs_src: FileContent,
     pub rhs_src: FileContent,
