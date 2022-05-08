@@ -87,3 +87,31 @@ contract Example {
                 (yul_identifier
                   (identifier)))
               (yul_decimal_number))))))))
+
+================================================================================
+Builtin Functions
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+            sub(gas, 1)
+
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_function_call
+              (yul_evm_builtin)
+              (yul_function_call
+                (yul_evm_builtin))
+              (yul_decimal_number))))))))

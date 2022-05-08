@@ -354,8 +354,11 @@ module.exports = grammar({
             seq($.yul_path, ':=', $._yul_expression),
             seq(commaSep1($.yul_path), optional(seq(':=', $.yul_function_call))),
         )),
-        yul_function_call: $ => seq(
-            field("function", choice($.yul_identifier, $.yul_evm_builtin)), '(', commaSep($._yul_expression), ')'
+        yul_function_call: $ => choice(
+            seq(
+                field("function", choice($.yul_identifier, $.yul_evm_builtin)), '(', commaSep($._yul_expression), ')'
+            ),
+            field("function", $.yul_evm_builtin)
         ),
         yul_if_statement: $ => seq('if', $._yul_expression, $.yul_block),
         yul_for_statement: $ => seq('for', $.yul_block, $._yul_expression, $.yul_block, $.yul_block),
