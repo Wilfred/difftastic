@@ -855,7 +855,13 @@ module.exports = grammar({
         _array_type: $ => prec(1, seq($.type_name, '[', optional($._expression), ']')),
 
         _function_type: $ => prec.right(seq(
-            'function', $._parameter_list, optional($._return_parameters),
+            'function', 
+            $._parameter_list, 
+            repeat(choice(
+                $.visibility,
+                $.state_mutability,
+            )),
+            optional($._return_parameters),
         )),
 
         _parameter_list: $ => seq(
@@ -863,7 +869,7 @@ module.exports = grammar({
         ),
 
         _return_parameters: $ => seq(
-            '(', commaSep1($._nameless_parameter), ')'
+            'returns', '(', commaSep1($._nameless_parameter), ')'
         ),
 
         _nameless_parameter: $ =>  seq(

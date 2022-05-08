@@ -166,3 +166,23 @@ function exampleFunction ();
 (source_file
   (function_definition
     function_name: (identifier)))
+
+================================================================================
+Function with function type argument
+================================================================================
+
+function exampleFunction (function(uint) public returns(bool));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    function_name: (identifier)
+    (parameter
+      type: (type_name
+        (parameter
+          type: (type_name
+            (primitive_type)))
+        (visibility)
+        (type_name
+          (primitive_type))))))
