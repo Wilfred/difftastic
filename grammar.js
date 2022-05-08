@@ -65,6 +65,8 @@ module.exports = grammar({
         [$.pragma_value, $._solidity],
         [$.variable_declaration_tuple, $.tuple_expression],
         [$._decimal_number, $._hex_number],
+
+        [$._yul_statement, $.yul_assignment],
     ],
 
     rules: {
@@ -326,6 +328,7 @@ module.exports = grammar({
             $.yul_continue,
             $.yul_function_definition,
             $.yul_label,
+            $._yul_literal
         ),
         
         yul_label: $ => seq($.identifier, ":"),
