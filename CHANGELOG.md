@@ -9,6 +9,11 @@ Improved handling of comments and regexp literals in Perl.
 
 Added Elvish support.
 
+### Display
+
+Difftastic now displays information about file renames. Previously, it
+would only show the new name.
+
 ## 0.28 (released 29th April 2022)
 
 ### Parsing

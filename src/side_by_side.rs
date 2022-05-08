@@ -78,7 +78,8 @@ fn format_missing_line_num(
 
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(
-    display_path: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     lang_name: &str,
     src: &str,
     is_lhs: bool,
@@ -89,7 +90,8 @@ fn display_single_column(
 
     let mut result = String::with_capacity(src.len());
     result.push_str(&style::header(
-        display_path,
+        lhs_display_path,
+        rhs_display_path,
         1,
         1,
         lang_name,
@@ -300,7 +302,8 @@ fn highlight_as_novel(
 pub fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
-    display_path: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     lang_name: &str,
     lhs_src: &str,
     rhs_src: &str,
@@ -332,7 +335,8 @@ pub fn print(
         println!(
             "{}",
             display_single_column(
-                display_path,
+                lhs_display_path,
+                rhs_display_path,
                 lang_name,
                 &rhs_colored_src,
                 false,
@@ -346,7 +350,8 @@ pub fn print(
         println!(
             "{}",
             display_single_column(
-                display_path,
+                lhs_display_path,
+                rhs_display_path,
                 lang_name,
                 &lhs_colored_src,
                 true,
@@ -385,7 +390,8 @@ pub fn print(
         println!(
             "{}",
             style::header(
-                display_path,
+                lhs_display_path,
+                rhs_display_path,
                 i + 1,
                 hunks.len(),
                 lang_name,
@@ -629,6 +635,7 @@ mod tests {
         // Basic smoke test.
         let res = display_single_column(
             "foo.py",
+            "foo.py",
             "Python",
             "print(123)\n",
             false,
@@ -719,7 +726,8 @@ mod tests {
         print(
             &hunks,
             &display_options,
-            "foo.el",
+            "foo-old.el",
+            "foo-new.el",
             "Emacs Lisp",
             "foo",
             "bar",

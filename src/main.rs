@@ -133,10 +133,11 @@ fn main() {
             byte_limit,
             display_options,
             missing_as_empty,
-            display_path,
             language_override,
             lhs_path,
             rhs_path,
+            lhs_display_path,
+            rhs_display_path,
         } => {
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
@@ -166,7 +167,8 @@ fn main() {
                 });
             } else {
                 let diff_result = diff_file(
-                    &display_path,
+                    &lhs_display_path,
+                    &rhs_display_path,
                     lhs_path,
                     rhs_path,
                     &display_options,
@@ -183,7 +185,8 @@ fn main() {
 
 /// Print a diff between two files.
 fn diff_file(
-    display_path: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     lhs_path: &Path,
     rhs_path: &Path,
     display_options: &DisplayOptions,
@@ -194,7 +197,8 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
-        display_path,
+        lhs_display_path,
+        rhs_display_path,
         &lhs_bytes,
         &rhs_bytes,
         display_options.tab_width,
@@ -205,7 +209,8 @@ fn diff_file(
 }
 
 fn diff_file_content(
-    display_path: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
     tab_width: usize,
@@ -215,7 +220,8 @@ fn diff_file_content(
 ) -> DiffResult {
     if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
-            path: display_path.into(),
+            lhs_display_path: lhs_display_path.into(),
+            rhs_display_path: rhs_display_path.into(),
             language: None,
             lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
             rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
@@ -244,7 +250,7 @@ fn diff_file_content(
     }
 
     // TODO: take a Path directly instead.
-    let path = Path::new(&display_path);
+    let guess_path = Path::new(&rhs_display_path);
 
     // Take the larger of the two files when guessing the
     // language. This is useful when we've added or removed a whole
@@ -254,14 +260,15 @@ fn diff_file_content(
     } else {
         &rhs_src
     };
-    let language = language_override.or_else(|| guess(path, guess_src));
+    let language = language_override.or_else(|| guess(guess_path, guess_src));
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
-            path: display_path.into(),
+            lhs_display_path: lhs_display_path.into(),
+            rhs_display_path: rhs_display_path.into(),
             language: lang_config.map(|l| l.name.into()),
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -337,7 +344,8 @@ fn diff_file_content(
     };
 
     DiffResult {
-        path: display_path.into(),
+        lhs_display_path: lhs_display_path.into(),
+        rhs_display_path: rhs_display_path.into(),
         language: lang_name,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
@@ -375,6 +383,7 @@ fn diff_directories<'a>(
 
         diff_file(
             &rel_path.to_string_lossy(),
+            &rel_path.to_string_lossy(), // todo
             &lhs_path,
             &rhs_path,
             &display_options,
@@ -407,7 +416,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     println!(
                         "{}",
                         style::header(
-                            &summary.path,
+                            &summary.lhs_display_path,
+                            &summary.rhs_display_path,
                             1,
                             1,
                             &lang_name,
@@ -435,7 +445,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_positions,
                         &summary.rhs_positions,
                         &hunks,
-                        &summary.path,
+                        &summary.lhs_display_path,
+                        &summary.rhs_display_path,
                         &lang_name,
                     );
                 }
@@ -443,7 +454,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     side_by_side::print(
                         &hunks,
                         display_options,
-                        &summary.path,
+                        &summary.lhs_display_path,
+                        &summary.rhs_display_path,
                         &lang_name,
                         lhs_src,
                         rhs_src,
@@ -459,7 +471,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 println!(
                     "{}",
                     style::header(
-                        &summary.path,
+                        &summary.lhs_display_path,
+                        &summary.rhs_display_path,
                         1,
                         1,
                         "binary",
@@ -479,7 +492,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             println!(
                 "{}",
                 style::header(
-                    &summary.path,
+                    &summary.lhs_display_path,
+                    &summary.rhs_display_path,
                     1,
                     1,
                     "binary",
@@ -524,6 +538,7 @@ mod tests {
     fn test_diff_identical_content() {
         let s = "foo";
         let res = diff_file_content(
+            "foo.el",
             "foo.el",
             s.as_bytes(),
             s.as_bytes(),

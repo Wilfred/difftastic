@@ -17,7 +17,8 @@ pub fn print(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
-    display_path: &str,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
     lang_name: &str,
 ) {
     let (lhs_colored, rhs_colored) = if display_options.use_color {
@@ -51,7 +52,8 @@ pub fn print(
         println!(
             "{}",
             style::header(
-                display_path,
+                lhs_display_path,
+                rhs_display_path,
                 i + 1,
                 hunks.len(),
                 lang_name,
