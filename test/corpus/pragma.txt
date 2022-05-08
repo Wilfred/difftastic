@@ -93,3 +93,17 @@ pragma solidity .0;
   (pragma_directive
     (solidity_pragma_token
       (solidity_version))))
+
+================================================================================
+String solidity pragma
+================================================================================
+
+pragma solidity "0.8.12";
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))
