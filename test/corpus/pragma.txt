@@ -79,3 +79,17 @@ pragma solidity ^0.5.0 || ^0.6.0;
       (solidity_version)
       (solidity_version_comparison_operator)
       (solidity_version))))
+
+================================================================================
+Dot sol pragma
+================================================================================
+
+pragma solidity .0;
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))
