@@ -800,9 +800,9 @@ module.exports = grammar({
         slice_access: $ => seq(
             field('base', $._expression),
             '[',
-            field('from', $._expression),
+            optional(field('from', $._expression)),
             ':',
-            field('to', $._expression),
+            optional(field('to', $._expression)),
             ']'
         ),
 

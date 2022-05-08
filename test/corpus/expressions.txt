@@ -81,6 +81,30 @@ contract Example {
               index: (number_literal))))))))
 
 ================================================================================
+Slice Access
+================================================================================
+
+contract Example {
+    function example() {
+        a[1:];
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        function_name: (identifier)
+        body: (function_body
+          (expression_statement
+            (slice_access
+              base: (identifier)
+              from: (number_literal))))))))
+
+================================================================================
 Parenthesized expression
 ================================================================================
 
