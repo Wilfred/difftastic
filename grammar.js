@@ -793,7 +793,7 @@ module.exports = grammar({
         array_access: $ => seq(
             field('base', $._expression),
             '[',
-            field('index', $._expression),
+            optional(field('index', $._expression)),
             ']'
         ),
 

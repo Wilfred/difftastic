@@ -529,3 +529,59 @@ contract Example {
             (type_cast_expression
               (primitive_type)
               (number_literal))))))))
+
+================================================================================
+Type Expression
+================================================================================
+
+contract Example {
+    function example() {
+        uint64[2][2];
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (expression_statement
+            (array_access
+              (array_access
+                (primitive_type)
+                (number_literal))
+              (number_literal))))))))
+
+================================================================================
+Type Cast Expression Nested (TODO: Solidity specification is wrong here fix it)
+================================================================================
+
+contract Example {
+    function example(bytes b) {
+        uint64[2][2] (b);
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (parameter
+          (type_name
+            (primitive_type))
+          (identifier))
+        (function_body
+          (expression_statement
+            (call_expression
+              (array_access
+                (array_access
+                  (primitive_type)
+                  (number_literal))
+                (number_literal))
+              (identifier))))))))
