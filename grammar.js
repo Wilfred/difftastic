@@ -111,7 +111,7 @@ module.exports = grammar({
             optional($.solidity_version_comparison_operator),
             $.solidity_version,
         ),
-        solidity_version: $ => /"?\.?(\d|\*)+(\.(\d|\*)+(\.(\d|\*)+)?)?"?/,
+        solidity_version: $ => /"?\.?(\d|\*)+(\.(\d|\*)+(\.\d+)?)?"?/,
         solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
 
         // Import
@@ -527,8 +527,10 @@ module.exports = grammar({
         
         revert_statement: $ => seq(
             'revert',
-            field("error", optional($._expression)), 
-            $._call_arguments, 
+            optional(seq(
+                field("error", optional($._expression)), 
+                $._call_arguments, 
+            )),
             $._semicolon
         ),
 

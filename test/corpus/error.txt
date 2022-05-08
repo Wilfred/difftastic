@@ -47,3 +47,19 @@ function test() {
     (function_body
       (revert_statement
         (identifier)))))
+
+================================================================================
+Very old revert
+================================================================================
+
+function test() {
+  revert;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement))))
