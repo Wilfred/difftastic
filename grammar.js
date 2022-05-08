@@ -610,8 +610,8 @@ module.exports = grammar({
 
         fallback_receive_definition: $ => seq(
             choice(seq(
-                optional("function"),
-                choice('fallback', 'receive'),
+                // optional("function"),
+                choice('fallback', 'receive', 'function'),
                 ),
                 "function"
             ),
