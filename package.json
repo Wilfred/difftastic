@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-solidity",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A tree sitter parser for Solidity",
   "main": "bindings/node",
   "scripts": {
@@ -9,10 +9,10 @@
   "author": "Joran Honig",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.1"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9"
+    "tree-sitter-cli": "^0.20.6"
   },
   "tree-sitter": [
     {
