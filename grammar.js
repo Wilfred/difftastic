@@ -56,6 +56,8 @@ module.exports = grammar({
         [$.member_expression, $._array_type],
         [$.array_access, $._array_type],
 
+        [$._call_arguments, $.tuple_expression],
+
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
         [$._yul_expression, $.yul_path],
@@ -518,7 +520,12 @@ module.exports = grammar({
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
         
-        revert_statement: $ => seq('revert', $._expression, $._call_arguments, $._semicolon),
+        revert_statement: $ => seq(
+            'revert',
+            field("error", optional($._expression)), 
+            $._call_arguments, 
+            $._semicolon
+        ),
 
         try_statement: $ => seq(
             'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
