@@ -24,7 +24,7 @@ const PREC = {
     INC: 11,
     CALL: 12,
     NEW: 13,
-    MEMBER: 14
+    MEMBER: 1
 }
 
 // The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
@@ -46,10 +46,15 @@ module.exports = grammar({
     conflicts: $ => [
         [$._primary_expression, $.type_name],
         [$.member_expression, $.type_name],
-        [$.member_expression, $.type_name],
         [$.identifier, $.type_name],
         [$._primary_expression, $._identifier_path],
         [$._primary_expression, $.member_expression, $._identifier_path],
+
+        [$.member_expression, $._identifier_path],
+
+        [$.member_expression, $.array_access],
+        [$.member_expression, $._array_type],
+        [$.array_access, $._array_type],
 
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
@@ -758,30 +763,30 @@ module.exports = grammar({
             ),
         )),
 
-        member_expression: $ => prec(PREC.MEMBER, seq(
+        member_expression: $ => seq(
             field('object', choice(
                 $._expression,
                 $.identifier,
             )),
             '.',
             field('property', alias($.identifier, $.property_identifier))
-        )),
+        ),
 
-        array_access: $ => prec(1, seq(
+        array_access: $ => seq(
             field('base', $._expression),
             '[',
             field('index', $._expression),
             ']'
-        )),
+        ),
 
-        slice_access: $ => prec(1, seq(
+        slice_access: $ => seq(
             field('base', $._expression),
             '[',
             field('from', $._expression),
             ':',
             field('to', $._expression),
             ']'
-        )),
+        ),
 
         struct_expression: $ => seq(
             $._expression,
@@ -862,7 +867,7 @@ module.exports = grammar({
 
         user_defined_type: $ => $._identifier_path,            
         
-        _identifier_path: $ => prec.left(dotSep1($.identifier)),
+        _identifier_path: $ => prec.left(dotSep1( $.identifier)),
 
         _mapping: $ => seq(
             'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
