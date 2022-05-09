@@ -977,22 +977,22 @@ module.exports = grammar({
                 seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
                 seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
             )))),
-        _escape_sequence: $ => seq('\\', choice(
-            // TODO: it might be allowed to escape non special characters
-            /"'\\bfnrtv\n\r/,
-            /u([a-fA-F0-9]{4})/,
-            /x([a-fA-F0-9]{2})/,
-        )),
-        // _escape_sequence: $ => token.immediate(seq(
-        //     '\\',
-        //     choice(
-        //       /[^xu0-7]/,
-        //       /[0-7]{1,3}/,
-        //       /x[0-9a-fA-F]{2}/,
-        //       /u[0-9a-fA-F]{4}/,
-        //       /u{[0-9a-fA-F]+}/
-        //     )
+        // _escape_sequence: $ => seq('\\', choice(
+        //     // TODO: it might be allowed to escape non special characters
+        //     /"'\\bfnrtv\n\r/,
+        //     /u([a-fA-F0-9]{4})/,
+        //     /x([a-fA-F0-9]{2})/,
         // )),
+        _escape_sequence: $ => token.immediate(seq(
+            '\\',
+            choice(
+              /[^xu0-7]/,
+              /[0-7]{1,3}/,
+              /x[0-9a-fA-F]{2}/,
+              /u[0-9a-fA-F]{4}/,
+              /u{[0-9a-fA-F]+}/
+            )
+        )),
         _single_quoted_unicode_char: $ => 
             token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
         _double_quoted_unicode_char: $ => 
