@@ -629,7 +629,7 @@ module.exports = grammar({
                 "function"
             ),
             // #todo: only fallback should get arguments
-            '(', $._parameter_list, ')',
+            $._parameter_list,
             // FIXME: We use repeat to allow for unorderedness. However, this means that the parser
             // accepts more than just the solidity language. The same problem exists for other definition rules.
             repeat(choice(
