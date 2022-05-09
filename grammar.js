@@ -67,6 +67,7 @@ module.exports = grammar({
         [$._decimal_number, $._hex_number],
 
         [$._yul_statement, $.yul_assignment],
+        [$.yul_label, $.yul_identifier],
     ],
 
     rules: {
@@ -363,9 +364,10 @@ module.exports = grammar({
                 )),
                 optional(seq(':=', field("right", $.yul_function_call)))),
         )),
+        _yul_assignment_operator: $ => choice(":=", seq(":", "=")),
         yul_assignment: $ => prec.left(PREC.ASSIGN, choice(
-            seq($.yul_path, ':=', $._yul_expression),
-            seq(commaSep1($.yul_path), optional(seq(':=', $.yul_function_call))),
+            seq($.yul_path, $._yul_assignment_operator, $._yul_expression),
+            seq(commaSep1($.yul_path), optional(seq($._yul_assignment_operator, $.yul_function_call))),
         )),
         yul_function_call: $ => choice(
             seq(
