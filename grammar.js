@@ -175,7 +175,10 @@ module.exports = grammar({
             $.enum_declaration,
             $.function_definition,
             $.constant_variable_declaration,
+            $.user_defined_type_definition,
         ),
+
+        user_defined_type_definition: $ => seq('type', $.identifier, 'is', $.primitive_type, $._semicolon),
 
         constant_variable_declaration: $ => seq(
             field("type", $.type_name),
@@ -238,6 +241,7 @@ module.exports = grammar({
             $.using_directive,
             $.constructor_definition,
             $.fallback_receive_definition,
+            $.user_defined_type_definition,
         ),
 
         struct_declaration: $ =>  seq(
