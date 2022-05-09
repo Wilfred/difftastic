@@ -658,7 +658,7 @@ module.exports = grammar({
         ),
 
         virtual: $ => "virtual",
-        modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
+        modifier_invocation: $ => seq($._identifier_path, optional($._call_arguments)),
 
         _call_arguments: $ => prec(4,
             seq(
