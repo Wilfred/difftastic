@@ -833,23 +833,23 @@ module.exports = grammar({
             "}"
         ),
 
-        _lhs_expression: $ => choice(
-            $.member_expression,
-            $.array_access,
-            $.identifier,
-            $.tuple_expression,
-            // $._destructuring_pattern
-        ),
+        // _lhs_expression: $ => choice(
+        //     $.member_expression,
+        //     $.array_access,
+        //     $.identifier,
+        //     $.tuple_expression,
+        //     // $._destructuring_pattern
+        // ),
         parenthesized_expression: $ => prec(2, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-            field('left', choice($.parenthesized_expression, $._lhs_expression)),
+            field('left', $._expression),
             '=',
             field('right', $._expression)
         )),
 
         augmented_assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
-            field('left', $._lhs_expression),
+            field('left', $._expression),
             choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
                 '<<=',),
             field('right', $._expression)
