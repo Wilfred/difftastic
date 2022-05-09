@@ -96,7 +96,7 @@ module.exports = grammar({
 
         solidity_pragma_token: $ => prec(10, seq(
             $._solidity,
-            repeat(seq(field("version_constraint", $._pragma_version_constraint), optional("||"))),
+            repeat(seq(field("version_constraint", $._pragma_version_constraint), optional(choice("||", "-")))),
         )),
 
         any_pragma_token: $ => seq(
