@@ -68,6 +68,8 @@ module.exports = grammar({
 
         [$._yul_statement, $.yul_assignment],
         [$.yul_label, $.yul_identifier],
+
+        [$.fallback_receive_definition, $._function_type]
     ],
 
     rules: {
