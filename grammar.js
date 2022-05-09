@@ -1034,7 +1034,7 @@ module.exports = grammar({
         comment: $ => token(
             prec(PREC.COMMENT,
                 choice(
-                    seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
+                    seq('//', /([^\r\n])*/),
                     seq(
                         '/*',
                         /[^*]*\*+([^/*][^*]*\*+)*/,
