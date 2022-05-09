@@ -981,18 +981,20 @@ module.exports = grammar({
             /u([a-fA-F0-9]{4})/,
             /x([a-fA-F0-9]{2})/,
         )),
-        _escape_sequence: $ => token.immediate(seq(
-            '\\',
-            choice(
-              /[^xu0-7]/,
-              /[0-7]{1,3}/,
-              /x[0-9a-fA-F]{2}/,
-              /u[0-9a-fA-F]{4}/,
-              /u{[0-9a-fA-F]+}/
-            )
-        )),
-        _single_quoted_unicode_char: $ => choice(/[^'\r\n\\]/, $._escape_sequence),
-        _double_quoted_unicode_char: $ => choice(/[^"\r\n\\]/, $._escape_sequence),
+        // _escape_sequence: $ => token.immediate(seq(
+        //     '\\',
+        //     choice(
+        //       /[^xu0-7]/,
+        //       /[0-7]{1,3}/,
+        //       /x[0-9a-fA-F]{2}/,
+        //       /u[0-9a-fA-F]{4}/,
+        //       /u{[0-9a-fA-F]+}/
+        //     )
+        // )),
+        _single_quoted_unicode_char: $ => 
+            token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
+        _double_quoted_unicode_char: $ => 
+            token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
         unicode_string_literal: $ => prec.left(repeat1(seq(
             'unicode',
             choice(
