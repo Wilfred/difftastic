@@ -1738,7 +1738,7 @@
           "named": true
         },
         {
-          "type": "wildcard",
+          "type": "import_wildcard",
           "named": true
         }
       ]
@@ -1750,18 +1750,63 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "compound_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "import_wildcard",
+          "named": true
+        },
+        {
+          "type": "infix_type",
+          "named": true
+        },
+        {
+          "type": "projected_type",
+          "named": true
+        },
+        {
           "type": "renamed_identifier",
+          "named": true
+        },
+        {
+          "type": "stable_type_identifier",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "import_wildcard",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "infix_expression",
@@ -3571,6 +3616,11 @@
     }
   },
   {
+    "type": "wildcard",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -3655,7 +3705,15 @@
     "named": false
   },
   {
+    "type": "_",
+    "named": false
+  },
+  {
     "type": "abstract",
+    "named": false
+  },
+  {
+    "type": "as",
     "named": false
   },
   {
@@ -3712,6 +3770,10 @@
   },
   {
     "type": "for",
+    "named": false
+  },
+  {
+    "type": "given",
     "named": false
   },
   {
@@ -3821,10 +3883,6 @@
   {
     "type": "while",
     "named": false
-  },
-  {
-    "type": "wildcard",
-    "named": true
   },
   {
     "type": "with",
