@@ -109,24 +109,27 @@ module.exports = grammar({
       optional(seq(
         '.',
         choice(
-          $.wildcard,
+          $.import_wildcard,
           $.import_selectors
         )
       ))
     ),
-
+    import_wildcard: $ => choice('*', '_', 'given'),
+    _import_given_by_type: $ => seq('given', $._type),
     import_selectors: $ => seq(
       '{',
-      commaSep1(choice(
-        $.identifier,
-        $.renamed_identifier
-      )),
+        commaSep1(choice(
+          $._import_given_by_type,
+          $.import_wildcard,
+          $.identifier,
+          $.renamed_identifier
+        )),
       '}'
     ),
 
     renamed_identifier: $ => seq(
       field('name', $.identifier),
-      '=>',
+      choice('=>', 'as'),
       field('alias', choice($.identifier, $.wildcard))
     ),
 

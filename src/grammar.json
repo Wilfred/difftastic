@@ -210,7 +210,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "wildcard"
+                      "name": "import_wildcard"
                     },
                     {
                       "type": "SYMBOL",
@@ -227,6 +227,36 @@
         }
       ]
     },
+    "import_wildcard": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        },
+        {
+          "type": "STRING",
+          "value": "given"
+        }
+      ]
+    },
+    "_import_given_by_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "given"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
     "import_selectors": {
       "type": "SEQ",
       "members": [
@@ -240,6 +270,14 @@
             {
               "type": "CHOICE",
               "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_import_given_by_type"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "import_wildcard"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "identifier"
@@ -262,6 +300,14 @@
                   {
                     "type": "CHOICE",
                     "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_import_given_by_type"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "import_wildcard"
+                      },
                       {
                         "type": "SYMBOL",
                         "name": "identifier"
@@ -295,8 +341,17 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "=>"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "=>"
+            },
+            {
+              "type": "STRING",
+              "value": "as"
+            }
+          ]
         },
         {
           "type": "FIELD",
