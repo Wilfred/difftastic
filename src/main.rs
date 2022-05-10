@@ -422,6 +422,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             1,
                             &lang_name,
                             display_options.use_color,
+                            display_options.in_vcs,
                             display_options.background_color
                         )
                     );
@@ -477,6 +478,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         1,
                         "binary",
                         display_options.use_color,
+                        display_options.in_vcs,
                         display_options.background_color
                     )
                 );
@@ -498,6 +500,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     1,
                     "binary",
                     display_options.use_color,
+                    display_options.in_vcs,
                     display_options.background_color
                 )
             );

@@ -27,6 +27,7 @@ pub struct DisplayOptions {
     pub print_unchanged: bool,
     pub tab_width: usize,
     pub display_width: usize,
+    pub in_vcs: bool,
     pub syntax_highlight: bool,
 }
 
@@ -232,12 +233,13 @@ pub fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (lhs_display_path, rhs_display_path, lhs_path, rhs_path) = match &args[..] {
+    let (lhs_display_path, rhs_display_path, lhs_path, rhs_path, in_vcs) = match &args[..] {
         [lhs_path, rhs_path] => (
             lhs_path.to_owned(),
             rhs_path.to_owned(),
             lhs_path.to_owned(),
             rhs_path.to_owned(),
+            false,
         ),
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
@@ -246,6 +248,7 @@ pub fn parse_args() -> Mode {
                 display_path.to_owned(),
                 lhs_tmp_file.to_owned(),
                 rhs_tmp_file.to_owned(),
+                true,
             )
         }
         [old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
@@ -257,6 +260,7 @@ pub fn parse_args() -> Mode {
                 new_name.to_owned(),
                 lhs_tmp_file.to_owned(),
                 rhs_tmp_file.to_owned(),
+                true,
             )
         }
         _ => {
@@ -349,6 +353,7 @@ pub fn parse_args() -> Mode {
         display_mode,
         display_width,
         syntax_highlight,
+        in_vcs,
     };
 
     Mode::Diff {
