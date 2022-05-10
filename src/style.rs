@@ -344,6 +344,7 @@ pub fn header(
     hunk_total: usize,
     language_name: &str,
     use_color: bool,
+    in_vcs: bool,
     background: BackgroundColor,
 ) -> String {
     let divider = if hunk_total == 1 {
@@ -353,7 +354,7 @@ pub fn header(
     };
 
     let rhs_path_pretty = apply_header_color(rhs_display_path, use_color, background);
-    if hunk_num == 1 && lhs_display_path != rhs_display_path {
+    if hunk_num == 1 && lhs_display_path != rhs_display_path && in_vcs {
         let lhs_path_pretty = apply_header_color(lhs_display_path, use_color, background);
         let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty,);
         format!(

@@ -57,7 +57,9 @@ pub fn print(
                 i + 1,
                 hunks.len(),
                 lang_name,
+                // TODO: Just pass display_options.
                 display_options.use_color,
+                display_options.in_vcs,
                 display_options.background_color
             )
         );

@@ -84,6 +84,7 @@ fn display_single_column(
     src: &str,
     is_lhs: bool,
     use_color: bool,
+    in_vcs: bool,
     background: BackgroundColor,
 ) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
@@ -96,6 +97,7 @@ fn display_single_column(
         1,
         lang_name,
         use_color,
+        in_vcs,
         background,
     ));
     result.push('\n');
@@ -341,6 +343,7 @@ pub fn print(
                 &rhs_colored_src,
                 false,
                 display_options.use_color,
+                display_options.in_vcs,
                 display_options.background_color
             )
         );
@@ -355,7 +358,9 @@ pub fn print(
                 lang_name,
                 &lhs_colored_src,
                 true,
+                // TODO: pass display_options directly.
                 display_options.use_color,
+                display_options.in_vcs,
                 display_options.background_color
             )
         );
@@ -396,6 +401,7 @@ pub fn print(
                 hunks.len(),
                 lang_name,
                 display_options.use_color,
+                display_options.in_vcs,
                 display_options.background_color
             )
         );
@@ -640,6 +646,7 @@ mod tests {
             "print(123)\n",
             false,
             true,
+            false,
             BackgroundColor::Dark,
         );
         assert!(res.len() > 10);
@@ -720,6 +727,7 @@ mod tests {
             tab_width: 8,
             display_width: 80,
             syntax_highlight: true,
+            in_vcs: true,
         };
 
         // Simple smoke test.
