@@ -114,7 +114,7 @@ module.exports = grammar({
             optional($.solidity_version_comparison_operator),
             $.solidity_version,
         ),
-        solidity_version: $ => /"?\.? ?(\d|\*)+(\. ?(\d|\*)+ ?(\.\d+)?)?"?/,
+        solidity_version: $ => /"?\.? ?(\d|\*)+(\. ?(\d|\*)+ ?(\.(\d|\*)+)?)?"?/,
         solidity_version_comparison_operator: $ => choice("<=", "<", "^", ">", ">=", "~", "="),
 
         // Import
