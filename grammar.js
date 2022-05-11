@@ -142,7 +142,7 @@ module.exports = grammar({
         ),
 
         _single_import: $ => seq(
-            choice("*", $.identifier),
+            choice("*", field("import_name", $.identifier)),
             optional(
                 seq(
                     "as",
