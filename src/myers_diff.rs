@@ -1,3 +1,5 @@
+//! A fast diff for linear content, using Myer's diff algorithm.
+
 #[derive(Debug)]
 pub enum DiffResult<T> {
     Left(T),

@@ -1,3 +1,5 @@
+//! CLI option parsing.
+
 use std::{borrow::Borrow, env, ffi::OsString};
 
 use atty::Stream;

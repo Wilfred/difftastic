@@ -1,3 +1,5 @@
+//! Data types that track the change state for syntax nodes.
+
 use std::num::NonZeroU32;
 
 use rustc_hash::FxHashMap;

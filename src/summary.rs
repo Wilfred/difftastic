@@ -1,3 +1,5 @@
+//! Data types summarising the result of diffing content.
+
 use crate::syntax::MatchedPos;
 
 #[derive(Debug, PartialEq, Eq)]
