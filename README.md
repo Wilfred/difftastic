@@ -1,5 +1,5 @@
 ## 🌴 tree-sitter-solidity 
-![badge](https://action-badges.now.sh/JoranHonig/tree-sitter-solidity)
+[![Node.js CI](https://github.com/JoranHonig/tree-sitter-solidity/actions/workflows/node.js.yml/badge.svg)](https://github.com/JoranHonig/tree-sitter-solidity/actions/workflows/node.js.yml)
 [![npm version](https://badge.fury.io/js/tree-sitter-solidity.svg)](https://badge.fury.io/js/tree-sitter-solidity)
 
 > 💡 this grammar is still in development, the structure of the generated AST is not stable
