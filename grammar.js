@@ -797,14 +797,14 @@ module.exports = grammar({
             ),
         )),
 
-        member_expression: $ => seq(
+        member_expression: $ => prec.dynamic(1, seq(
             field('object', choice(
                 $._expression,
                 $.identifier,
             )),
             '.',
             field('property', alias($.identifier, $.property_identifier))
-        ),
+        )),
 
         array_access: $ => seq(
             field('base', $._expression),
