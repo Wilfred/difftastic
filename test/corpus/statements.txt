@@ -25,6 +25,34 @@ contract Example {
               name: (identifier))))))))
 
 ================================================================================
+Array local variable declaration subtype
+================================================================================
+
+contract Example {
+    function example() {
+        A.B[] storage a;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        function_name: (identifier)
+        body: (function_body
+          (variable_declaration_statement
+            (variable_declaration
+              (type_name
+                (type_name
+                  (user_defined_type
+                    (identifier)
+                    (identifier))))
+              name: (identifier))))))))
+
+================================================================================
 Block statement
 ================================================================================
 
@@ -62,7 +90,8 @@ contract Example {
             b; 
         }
         if (a) 1;
-
+        
+        if (input >= 1) if (input > 2) 1; else 2;
     }
 }
 
@@ -87,7 +116,19 @@ contract Example {
           (if_statement
             (identifier)
             (expression_statement
-              (number_literal))))))))
+              (number_literal)))
+          (if_statement
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (if_statement
+              (binary_expression
+                (identifier)
+                (number_literal))
+              (expression_statement
+                (number_literal))
+              (expression_statement
+                (number_literal)))))))))
 
 ================================================================================
 For statement

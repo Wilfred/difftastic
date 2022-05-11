@@ -70,8 +70,9 @@ contract Example {
       (modifier_definition
         name: (identifier)
         (override_specifier
-          (identifier)
-          (identifier))
+          (user_defined_type
+            (identifier)
+            (identifier)))
         body: (function_body)))))
 
 ================================================================================

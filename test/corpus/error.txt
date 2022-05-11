@@ -1,74 +1,65 @@
 ================================================================================
-Function Fallback
+Error Declaration
 ================================================================================
 
-contract Example {
-    fallback () {}
+error Something(uint a);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (error_declaration
+    (identifier)
+    (error_parameter
+      (type_name
+        (primitive_type))
+      (identifier))))
+
+================================================================================
+Revert with custom error
+================================================================================
+
+function test() {
+  revert Error();
 }
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body
-      (fallback_receive_definition
-        body: (function_body)))))
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement
+        (identifier)))))
 
 ================================================================================
-Function Fallback
+Revert regularly
 ================================================================================
 
-contract Example {
-    receive () {}
+function test() {
+  revert(variableName);
 }
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body
-      (fallback_receive_definition
-        body: (function_body)))))
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement
+        (identifier)))))
 
 ================================================================================
-Function Fallback with modifiers and visibility
+Very old revert
 ================================================================================
 
-contract Example {
-    receive () onlyOwner virtual override(param) {}
+function test() {
+  revert;
 }
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body
-      (fallback_receive_definition
-        (modifier_invocation
-          (identifier))
-        (virtual)
-        (override_specifier
-          (user_defined_type
-            (identifier)))
-        body: (function_body)))))
-
-
-================================================================================
-Function Old Fallback
-================================================================================
-
-contract Example {
-    function () {}
-}
-
---------------------------------------------------------------------------------
-
-(source_file
-  (contract_declaration
-    name: (identifier)
-    body: (contract_body
-      (fallback_receive_definition
-        body: (function_body)))))
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement))))
