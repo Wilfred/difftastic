@@ -35,8 +35,8 @@
 ; Color payable in payable address conversion as type and not as keyword
 (payable_conversion_expression "payable" @type)
 (emit_statement . (identifier) @type)
-; Handles ContractA, ContractB in function foo() override(ContractA, contractB) {}
-(override_specifier (identifier) @type)
+; Handles ContractA, ContractB in function foo() override(ContractA, contractB) {} and other user_defined_type cases
+(user_defined_type (identifier) @type)
 ; Ensures that delimiters in mapping( ... => .. ) are not colored like types
 (type_name "(" @punctuation.bracket "=>" @punctuation.delimiter ")" @punctuation.bracket)
 
