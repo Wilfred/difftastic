@@ -600,3 +600,18 @@ tree-sitter-latex (Issue #42) | Command with parens
   (text
     (word)
     (word)))
+
+================================================================================
+tree-sitter-latex (Issue #43) | \left and \right
+================================================================================
+
+\left\{ Foo \right.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_delimiter
+    (command_name)
+    (text
+      (word))
+    (word)))

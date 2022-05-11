@@ -95,6 +95,7 @@ module.exports = grammar({
           $.text,
           $.displayed_equation,
           $.inline_formula,
+          $.math_delimiter,
           $.math_set,
           $.text_mode,
           '(',
@@ -826,6 +827,15 @@ module.exports = grammar({
         field('declaration', $.command_name),
         optional('='),
         field('implementation', $.command_name)
+      ),
+
+    math_delimiter: $ =>
+      seq(
+        field('left_command', '\\left'),
+        field('left_delimiter', choice($.word, $.command_name)),
+        repeat($._root_content),
+        field('right_command', '\\right'),
+        field('right_delimiter', choice($.word, $.command_name))
       ),
 
     paired_delimiter_definition: $ =>
