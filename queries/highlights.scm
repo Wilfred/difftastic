@@ -8,6 +8,7 @@
 (escape_sequence) @string.escape
 
 [(comment)
+ (block_comment)
  (directive)] @comment
 
 [(boolean)

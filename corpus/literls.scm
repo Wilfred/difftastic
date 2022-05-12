@@ -7,13 +7,22 @@ comment
 #|
 |comment
 |#
+#| a #| b |# |#
+#|#|#||##|x|#|##||#|#
 
 ---
 (program
   (comment)
   (comment (list (symbol)))
-  (comment)
-  (comment))
+  (block_comment)
+  (block_comment)
+  (block_comment
+    (block_comment))
+  (block_comment
+    (block_comment
+      (block_comment)
+      (block_comment))
+    (block_comment)))
 
 ===
 numbers

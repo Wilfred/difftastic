@@ -2,6 +2,8 @@ const INTRA_WHITERPACE = /[ \n\t\p{Zs}]/;
 const LINE_ENDING = /\n|\r|(\r\n)|(\r\u{85})|\u2028|\u{85}|/;
 
 const PREC = {
+  first: 100,
+  block_comment: 2,
   symbol: -1,
 };
 
@@ -12,20 +14,35 @@ module.exports = grammar({
     // Unicode whitespace
     /[\r\n\t\f\v ]|\p{Zs}|\p{Zl}|\p{Zp}/,
     $.comment,
+
+    // `block_comment` have to be placed here.
+    // It's a workaround for 'no entry found for key' error,
+    // see https://github.com/tree-sitter/tree-sitter/issues/768
+    //
+    // We also removed it from `$.comment` to avoid conflict.
+    // Finally, we can't hide `block_comment`.
+    // It means we have two comment now: `comment` and `block_comment`.
+    $.block_comment,
     $.directive,
   ],
 
   rules: {
     program: $ => repeat($._datum),
     _datum: $ => choice($._simple_datum, $._compound_datum),
+
     comment: $ =>
       choice(
         token(seq(";", /.*/)),
-        // unrolled version of /#\|.*?\|#/s
-        seq("#|", /[^|]*\|+([^#][^|]*\|+)*/, "#"),
         seq("#;", $._datum)),
+
     directive: $ =>
       seq("#!", $.symbol),
+
+    block_comment: $ =>
+      prec(PREC.block_comment,
+        seq("#|",
+          repeat(/./),
+          prec(PREC.first, "|#"))),
 
     // simple datum {{{
 

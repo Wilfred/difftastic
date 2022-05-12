@@ -47,6 +47,11 @@
     }
   },
   {
+    "type": "block_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "boolean",
     "named": true,
     "fields": {}
@@ -289,10 +294,6 @@
     "named": false
   },
   {
-    "type": "#",
-    "named": false
-  },
-  {
     "type": "#!",
     "named": false
   },
@@ -394,6 +395,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|#",
     "named": false
   },
   {

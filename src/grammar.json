@@ -45,23 +45,6 @@
           "members": [
             {
               "type": "STRING",
-              "value": "#|"
-            },
-            {
-              "type": "PATTERN",
-              "value": "[^|]*\\|+([^#][^|]*\\|+)*"
-            },
-            {
-              "type": "STRING",
-              "value": "#"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
               "value": "#;"
             },
             {
@@ -84,6 +67,34 @@
           "name": "symbol"
         }
       ]
+    },
+    "block_comment": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#|"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PATTERN",
+              "value": "."
+            }
+          },
+          {
+            "type": "PREC",
+            "value": 100,
+            "content": {
+              "type": "STRING",
+              "value": "|#"
+            }
+          }
+        ]
+      }
     },
     "_simple_datum": {
       "type": "CHOICE",
@@ -6573,6 +6584,10 @@
     {
       "type": "SYMBOL",
       "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
     },
     {
       "type": "SYMBOL",
