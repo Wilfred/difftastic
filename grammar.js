@@ -43,7 +43,7 @@ module.exports = grammar({
     ),
 
     string_content: $ => repeat1(choice(
-      token.immediate(/[^\\"\n]+/),
+      token.immediate(prec(1, /[^\\"\n]+/)),
       $.escape_sequence
     )),
 
