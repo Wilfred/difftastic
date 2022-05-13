@@ -83,9 +83,7 @@ fn display_single_column(
     lang_name: &str,
     src: &str,
     is_lhs: bool,
-    use_color: bool,
-    in_vcs: bool,
-    background: BackgroundColor,
+    display_options: &DisplayOptions,
 ) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
 
@@ -96,15 +94,13 @@ fn display_single_column(
         1,
         1,
         lang_name,
-        use_color,
-        in_vcs,
-        background,
+        display_options,
     ));
     result.push('\n');
 
     let mut style = Style::new();
-    if use_color {
-        style = novel_style(Style::new(), is_lhs, background);
+    if display_options.use_color {
+        style = novel_style(Style::new(), is_lhs, display_options.background_color);
     }
 
     for (i, line) in src.lines().enumerate() {
@@ -342,9 +338,7 @@ pub fn print(
                 lang_name,
                 &rhs_colored_src,
                 false,
-                display_options.use_color,
-                display_options.in_vcs,
-                display_options.background_color
+                display_options
             )
         );
         return;
@@ -358,10 +352,7 @@ pub fn print(
                 lang_name,
                 &lhs_colored_src,
                 true,
-                // TODO: pass display_options directly.
-                display_options.use_color,
-                display_options.in_vcs,
-                display_options.background_color
+                display_options
             )
         );
         return;
@@ -400,9 +391,7 @@ pub fn print(
                 i + 1,
                 hunks.len(),
                 lang_name,
-                display_options.use_color,
-                display_options.in_vcs,
-                display_options.background_color
+                display_options
             )
         );
 
@@ -638,6 +627,17 @@ mod tests {
 
     #[test]
     fn test_display_single_column() {
+        let display_options = DisplayOptions {
+            background_color: BackgroundColor::Dark,
+            use_color: false,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            display_width: 80,
+            in_vcs: false,
+            syntax_highlight: true,
+        };
+
         // Basic smoke test.
         let res = display_single_column(
             "foo.py",
@@ -645,9 +645,7 @@ mod tests {
             "Python",
             "print(123)\n",
             false,
-            true,
-            false,
-            BackgroundColor::Dark,
+            &display_options,
         );
         assert!(res.len() > 10);
     }
