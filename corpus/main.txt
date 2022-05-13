@@ -40,7 +40,9 @@ String content
   "abc",
   "def\n",
   "ghi\t",
-  "jkl\f"
+  "jkl\f",
+  "//",
+  "/**/"
 ]
 
 --------------------------------------------------------------------------------
@@ -58,7 +60,11 @@ String content
         (escape_sequence)))
     (string
       (string_content
-        (escape_sequence)))))
+        (escape_sequence)))
+    (string
+      (string_content))
+    (string
+      (string_content))))
 
 ================================================================================
 Top-level numbers
