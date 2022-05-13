@@ -421,9 +421,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             1,
                             1,
                             &lang_name,
-                            display_options.use_color,
-                            display_options.in_vcs,
-                            display_options.background_color
+                            display_options
                         )
                     );
                     if lang_name == "Text" || summary.lhs_src == summary.rhs_src {
@@ -477,9 +475,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         1,
                         1,
                         "binary",
-                        display_options.use_color,
-                        display_options.in_vcs,
-                        display_options.background_color
+                        display_options
                     )
                 );
                 if changed {
@@ -499,9 +495,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     1,
                     1,
                     "binary",
-                    display_options.use_color,
-                    display_options.in_vcs,
-                    display_options.background_color
+                    display_options
                 )
             );
             println!("Binary contents changed.");
