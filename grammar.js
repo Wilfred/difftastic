@@ -365,7 +365,7 @@ module.exports = grammar({
         choice($.null_constraint, $.check_constraint),
         optional($.check_constraint),
       ),
-    parameter: $ => seq($.identifier, $._type),
+    parameter: $ => seq($.identifier, choice($._type, $.constrained_type)),
     parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(

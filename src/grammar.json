@@ -3054,8 +3054,17 @@
           "name": "identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "constrained_type"
+            }
+          ]
         }
       ]
     },

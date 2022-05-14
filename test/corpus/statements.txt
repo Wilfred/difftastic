@@ -493,7 +493,7 @@ SELECT 1 IN (1, 2);
 CREATE TYPE statement
 ================================================================================
 
-CREATE TYPE xest AS (data TEXT, val INT);
+CREATE TYPE xest AS (data TEXT, val INT NOT NULL);
 
 --------------------------------------------------------------------------------
 
@@ -507,8 +507,11 @@ CREATE TYPE xest AS (data TEXT, val INT);
           (identifier)))
       (parameter
         (identifier)
-        (type
-          (identifier))))))
+        (constrained_type
+          (type
+            (identifier))
+          (null_constraint
+            (NULL)))))))
 
 ================================================================================
 CREATE DOMAIN
