@@ -968,6 +968,21 @@
     }
   },
   {
+    "type": "create_extension_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_function_parameter",
     "named": true,
     "fields": {
@@ -3196,6 +3211,10 @@
           "named": true
         },
         {
+          "type": "create_extension_statement",
+          "named": true
+        },
+        {
           "type": "create_function_statement",
           "named": true
         },
@@ -3871,6 +3890,10 @@
   },
   {
     "type": "CREATE_DOMAIN",
+    "named": false
+  },
+  {
+    "type": "CREATE_EXTENSION",
     "named": false
   },
   {

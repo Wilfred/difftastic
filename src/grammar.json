@@ -57,6 +57,10 @@
             {
               "type": "SYMBOL",
               "name": "create_schema_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "create_extension_statement"
             }
           ]
         },
@@ -616,6 +620,63 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "create_extension_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[cC][rR][eE][aA][tT][eE]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[eE][xX][tT][eE][nN][sS][iI][oO][nN]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "CREATE_EXTENSION"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[iI][fF]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[nN][oO][tT]"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[eE][xX][iI][sS][tT][sS]"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "IF_NOT_EXISTS"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },

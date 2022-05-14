@@ -1732,3 +1732,18 @@ SELECT COUNT(a.*) FROM Customers;
             (identifier)))))
     (from_clause
       (identifier))))
+
+================================================================================
+CREATE EXTENSION
+================================================================================
+
+CREATE EXTENSION postgis;
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_extension_statement
+    (identifier))
+  (create_extension_statement
+    (identifier)))
