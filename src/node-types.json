@@ -423,6 +423,11 @@
     }
   },
   {
+    "type": "binary_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "boolean_expression",
     "named": true,
     "fields": {},
@@ -1265,6 +1270,10 @@
           "named": true
         },
         {
+          "type": "exclude",
+          "named": true
+        },
+        {
           "type": "foreign_key",
           "named": true
         },
@@ -1518,6 +1527,56 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exclude",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "exclude_entry",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exclude_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "op_class",
           "named": true
         }
       ]
@@ -2446,6 +2505,25 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "op_class",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3657,6 +3735,10 @@
     "named": false
   },
   {
+    "type": "&&",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
@@ -3798,6 +3880,10 @@
   },
   {
     "type": "DISTINCT_FROM",
+    "named": false
+  },
+  {
+    "type": "EXCLUDE",
     "named": false
   },
   {
@@ -4095,6 +4181,10 @@
   {
     "type": "language",
     "named": true
+  },
+  {
+    "type": "||",
+    "named": false
   },
   {
     "type": "~",

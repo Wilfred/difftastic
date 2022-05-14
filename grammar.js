@@ -233,8 +233,23 @@ module.exports = grammar({
         alias($.table_constraint_unique, $.unique),
         alias($.table_constraint_primary_key, $.primary_key),
         alias($.table_constraint_check, $.check),
+        alias($.table_constraint_exclude, $.exclude),
       ),
     table_constraint_check: $ => seq(kw("CHECK"), $._expression),
+    exclude_entry: $ =>
+      seq(
+        $._identifier,
+        optional(alias($._identifier, $.op_class)),
+        optional(seq(kw("WITH"), $.binary_operator)),
+      ),
+    table_constraint_exclude: $ =>
+      seq(
+        kw("EXCLUDE"),
+        optional(seq(kw("USING"), $._identifier)),
+        "(",
+        commaSep1($.exclude_entry),
+        ")",
+      ),
     table_constraint_foreign_key: $ =>
       seq(
         kw("FOREIGN KEY"),
@@ -439,6 +454,7 @@ module.exports = grammar({
           seq($._expression, "+", $._expression),
         ),
       ),
+    binary_operator: $ => choice("=", "&&", "||"),
     asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
     interval_expression: $ => seq("INTERVAL", $.string),
     argument_reference: $ => seq("$", /\d+/),
