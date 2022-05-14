@@ -42,6 +42,8 @@ owo-colors = "3.3.0"
 rpds = "0.10.0"
 wu-diff = "0.1.2"
 rayon = "1.5.2"
+yansi = "0.5.1"
+cansi = "2.1.1"
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"

@@ -53,6 +53,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
+name = "cansi"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "185b9281d84fc234662dc95ef999e5ac4e9b7591a6e5aa54edabda3179b80b4f"
+
+[[package]]
 name = "cc"
 version = "1.0.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -166,6 +172,7 @@ name = "difftastic"
 version = "0.29.0"
 dependencies = [
  "atty",
+ "cansi",
  "cc",
  "clap",
  "const_format",
@@ -188,6 +195,7 @@ dependencies = [
  "typed-arena",
  "walkdir",
  "wu-diff",
+ "yansi",
 ]
 
 [[package]]
@@ -593,3 +601,9 @@ name = "wu-diff"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8e3e6735fcde06432870db8dc9d7e3ab1b93727c14eaef329969426299f28893"
+
+[[package]]
+name = "yansi"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09041cd90cf85f7f8b2df60c646f853b7f535ce68f85244eb6731cf89fa498ec"

@@ -92,7 +92,7 @@ pub fn split_and_apply(
 ) -> Vec<String> {
     if styles.is_empty() && !line.trim().is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
-        return split_string_by_codepoint(line, max_len, matches!(side, Side::Left))
+        return split_string_by_codepoint(line, max_len, true)
             .into_iter()
             .map(|part| {
                 if use_color {
@@ -107,7 +107,7 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for part in split_string_by_codepoint(line, max_len, matches!(side, Side::Left)) {
+    for part in split_string_by_codepoint(line, max_len, true) {
         let mut res = String::with_capacity(part.len());
         let mut prev_style_end = 0;
         for (span, style) in styles {
@@ -227,14 +227,14 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> Style {
     if background.is_dark() {
         if is_lhs {
-            style.bright_red()
+            style.on_red()
         } else {
-            style.bright_green()
+            style.on_green()
         }
     } else if is_lhs {
-        style.red()
+        style.on_bright_red()
     } else {
-        style.green()
+        style.on_bright_green()
     }
 }
 
