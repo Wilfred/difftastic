@@ -1498,52 +1498,87 @@
       ]
     },
     "_table_constraint": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "table_constraint_foreign_key"
-          },
-          "named": true,
-          "value": "foreign_key"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[cC][oO][nN][sS][tT][rR][aA][iI][nN][tT]"
+                  },
+                  "named": false,
+                  "value": "CONSTRAINT"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "name",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_identifier"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "table_constraint_unique"
-          },
-          "named": true,
-          "value": "unique"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "table_constraint_primary_key"
-          },
-          "named": true,
-          "value": "primary_key"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "table_constraint_check"
-          },
-          "named": true,
-          "value": "check"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "table_constraint_exclude"
-          },
-          "named": true,
-          "value": "exclude"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_constraint_foreign_key"
+              },
+              "named": true,
+              "value": "foreign_key"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_constraint_unique"
+              },
+              "named": true,
+              "value": "unique"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_constraint_primary_key"
+              },
+              "named": true,
+              "value": "primary_key"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_constraint_check"
+              },
+              "named": true,
+              "value": "check"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_constraint_exclude"
+              },
+              "named": true,
+              "value": "exclude"
+            }
+          ]
         }
       ]
     },
@@ -2808,43 +2843,20 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "on_update_action"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "on_delete_action"
-                    }
-                  ]
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "on_delete_action"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "on_update_action"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "on_update_action"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "on_delete_action"
+              }
+            ]
+          }
         }
       ]
     },
