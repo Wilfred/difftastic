@@ -1166,6 +1166,25 @@
     }
   },
   {
+    "type": "create_role_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_schema_statement",
     "named": true,
     "fields": {},
@@ -1563,6 +1582,25 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "drop_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -3223,6 +3261,10 @@
           "named": true
         },
         {
+          "type": "create_role_statement",
+          "named": true
+        },
+        {
           "type": "create_schema_statement",
           "named": true
         },
@@ -3232,6 +3274,10 @@
         },
         {
           "type": "create_type_statement",
+          "named": true
+        },
+        {
+          "type": "drop_statement",
           "named": true
         },
         {
@@ -3901,6 +3947,10 @@
     "named": false
   },
   {
+    "type": "CREATE_ROLE",
+    "named": false
+  },
+  {
     "type": "CREATE_SCHEMA",
     "named": false
   },
@@ -3933,7 +3983,15 @@
     "named": false
   },
   {
+    "type": "DROP",
+    "named": false
+  },
+  {
     "type": "EXCLUDE",
+    "named": false
+  },
+  {
+    "type": "EXTENSION",
     "named": false
   },
   {
@@ -3962,6 +4020,10 @@
   },
   {
     "type": "GROUP_BY",
+    "named": false
+  },
+  {
+    "type": "IF_EXISTS",
     "named": false
   },
   {
@@ -4141,6 +4203,10 @@
     "named": false
   },
   {
+    "type": "TABLESPACE",
+    "named": false
+  },
+  {
     "type": "TIME_ZONE",
     "named": false
   },
@@ -4186,6 +4252,10 @@
   },
   {
     "type": "VARIADIC",
+    "named": false
+  },
+  {
+    "type": "VIEW",
     "named": false
   },
   {
