@@ -440,6 +440,7 @@ module.exports = grammar({
         ),
       ),
     asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
+    interval_expression: $ => seq("INTERVAL", $.string),
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
@@ -451,6 +452,7 @@ module.exports = grammar({
         $.NULL,
         $.asterisk_expression,
         $._identifier,
+        $.interval_expression,
         $.number,
         $.comparison_operator,
         $.in_expression,

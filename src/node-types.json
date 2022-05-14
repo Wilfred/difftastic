@@ -79,6 +79,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -168,6 +172,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -274,6 +282,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -384,6 +396,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -468,6 +484,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -558,6 +578,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -645,6 +669,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -729,6 +757,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -847,6 +879,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -1350,6 +1386,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1439,6 +1479,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -1586,6 +1630,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1705,6 +1753,10 @@
           },
           {
             "type": "in_expression",
+            "named": true
+          },
+          {
+            "type": "interval_expression",
             "named": true
           },
           {
@@ -1859,6 +1911,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1943,6 +1999,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -2037,6 +2097,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2081,6 +2145,21 @@
         },
         {
           "type": "values_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interval_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -2152,6 +2231,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -2239,6 +2322,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -2446,6 +2533,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2545,6 +2636,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -2748,6 +2843,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2927,6 +3026,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -3125,6 +3228,10 @@
             "named": true
           },
           {
+            "type": "interval_expression",
+            "named": true
+          },
+          {
             "type": "is_expression",
             "named": true
           },
@@ -3248,6 +3355,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -3416,6 +3527,10 @@
           "named": true
         },
         {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -3500,6 +3615,10 @@
         },
         {
           "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
           "named": true
         },
         {
@@ -3735,6 +3854,10 @@
   },
   {
     "type": "INSERT",
+    "named": false
+  },
+  {
+    "type": "INTERVAL",
     "named": false
   },
   {

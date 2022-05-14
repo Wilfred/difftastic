@@ -754,7 +754,7 @@ CREATE TABLE with timestamp
 CREATE TABLE public.my_table (
     col1 INT PRIMARY KEY,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL DEFAULT (now() + INTERVAL '1 second')
 );
 
 --------------------------------------------------------------------------------
@@ -785,7 +785,13 @@ CREATE TABLE public.my_table (
           (number))
         (time_zone_constraint)
         (null_constraint
-          (NULL))))))
+          (NULL))
+        (column_default
+          (binary_expression
+            (function_call
+              (identifier))
+            (interval_expression
+              (string))))))))
 
 ================================================================================
 CREATE TABLE with not null constraint
