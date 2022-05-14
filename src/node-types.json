@@ -2867,6 +2867,11 @@
     }
   },
   {
+    "type": "pg_command",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "primary_key",
     "named": true,
     "fields": {},
@@ -3286,6 +3291,10 @@
         },
         {
           "type": "insert_statement",
+          "named": true
+        },
+        {
+          "type": "pg_command",
           "named": true
         },
         {
@@ -3955,10 +3964,6 @@
     "named": false
   },
   {
-    "type": "CREATE_TABLE",
-    "named": false
-  },
-  {
     "type": "CREATE_TYPE",
     "named": false
   },
@@ -4204,6 +4209,10 @@
   },
   {
     "type": "TABLESPACE",
+    "named": false
+  },
+  {
+    "type": "TEMPORARY",
     "named": false
   },
   {
