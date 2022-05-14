@@ -734,10 +734,22 @@ CREATE TABLE
 ================================================================================
 
 CREATE TABLE my_table (col1 INT, col2 INT)
+CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT)
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (create_table_statement
+    (identifier)
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)))))
   (create_table_statement
     (identifier)
     (create_table_parameters
@@ -1795,3 +1807,41 @@ DROP EXTENSION postgis;
     (identifier))
   (drop_statement
     (identifier)))
+
+================================================================================
+DROP
+================================================================================
+
+DROP TABLE IF EXISTS foo;
+DROP TABLE foo;
+DROP VIEW bar;
+DROP INDEX baz;
+DROP TABLESPACE bar;
+DROP EXTENSION postgis;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)))
+
+================================================================================
+Postgres command
+================================================================================
+
+\echo Use "CREATE EXTENSION foo" to load this file.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pg_command))

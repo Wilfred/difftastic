@@ -46,6 +46,7 @@ module.exports = grammar({
     _statement: $ =>
       seq(
         choice(
+          $.pg_command,
           $.select_statement,
           $.update_statement,
           $.set_statement,
@@ -63,7 +64,7 @@ module.exports = grammar({
         ),
         optional(";"),
       ),
-
+    pg_command: $ => seq(/\\[a-zA-Z]+/, /.*/),
     create_function_statement: $ =>
       seq(
         createOrReplace("FUNCTION"),
@@ -133,7 +134,7 @@ module.exports = grammar({
     drop_statement: $ =>
       seq(
         kw("DROP"),
-        choice("TABLE", "VIEW", "TABLESPACE", "EXTENSION"),
+        choice("TABLE", "VIEW", "TABLESPACE", "EXTENSION", "INDEX"),
         optional(kw("IF EXISTS")),
         $._identifier,
       ),
@@ -287,7 +288,9 @@ module.exports = grammar({
     primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
       seq(
-        kw("CREATE TABLE"),
+        kw("CREATE"),
+        optional(kw("TEMPORARY")),
+        kw("TABLE"),
         optional(kw("IF NOT EXISTS")),
         $._identifier,
         $.create_table_parameters,

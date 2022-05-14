@@ -16,6 +16,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "pg_command"
+            },
+            {
+              "type": "SYMBOL",
               "name": "select_statement"
             },
             {
@@ -83,6 +87,19 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "pg_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\\\[a-zA-Z]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": ".*"
         }
       ]
     },
@@ -831,6 +848,10 @@
             {
               "type": "STRING",
               "value": "EXTENSION"
+            },
+            {
+              "type": "STRING",
+              "value": "INDEX"
             }
           ]
         },
@@ -2102,20 +2123,37 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[cC][rR][eE][aA][tT][eE]"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[tT][aA][bB][lL][eE]"
-              }
-            ]
+            "type": "PATTERN",
+            "value": "[cC][rR][eE][aA][tT][eE]"
           },
           "named": false,
-          "value": "CREATE_TABLE"
+          "value": "CREATE"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[tT][eE][mM][pP][oO][rR][aA][rR][yY]"
+              },
+              "named": false,
+              "value": "TEMPORARY"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[tT][aA][bB][lL][eE]"
+          },
+          "named": false,
+          "value": "TABLE"
         },
         {
           "type": "CHOICE",
