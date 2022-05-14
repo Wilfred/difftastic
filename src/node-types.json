@@ -384,10 +384,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "new_command_definition",
           "named": true
         },
@@ -739,10 +735,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -1070,10 +1062,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -1802,10 +1790,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -2061,10 +2045,6 @@
         },
         {
           "type": "math_delimiter",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -2343,10 +2323,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -2618,10 +2594,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -2940,10 +2912,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -3560,10 +3528,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -4219,10 +4183,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -4467,10 +4427,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -4492,241 +4448,6 @@
         },
         {
           "type": "pycode_environment",
-          "named": true
-        },
-        {
-          "type": "svg_include",
-          "named": true
-        },
-        {
-          "type": "text",
-          "named": true
-        },
-        {
-          "type": "text_mode",
-          "named": true
-        },
-        {
-          "type": "theorem_definition",
-          "named": true
-        },
-        {
-          "type": "tikz_library_import",
-          "named": true
-        },
-        {
-          "type": "title_declaration",
-          "named": true
-        },
-        {
-          "type": "verbatim_environment",
-          "named": true
-        },
-        {
-          "type": "verbatim_include",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "math_set",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "acronym_definition",
-          "named": true
-        },
-        {
-          "type": "acronym_reference",
-          "named": true
-        },
-        {
-          "type": "author_declaration",
-          "named": true
-        },
-        {
-          "type": "biblatex_include",
-          "named": true
-        },
-        {
-          "type": "bibtex_include",
-          "named": true
-        },
-        {
-          "type": "block_comment",
-          "named": true
-        },
-        {
-          "type": "caption",
-          "named": true
-        },
-        {
-          "type": "chapter",
-          "named": true
-        },
-        {
-          "type": "citation",
-          "named": true
-        },
-        {
-          "type": "class_include",
-          "named": true
-        },
-        {
-          "type": "color_definition",
-          "named": true
-        },
-        {
-          "type": "color_reference",
-          "named": true
-        },
-        {
-          "type": "color_set_definition",
-          "named": true
-        },
-        {
-          "type": "comment_environment",
-          "named": true
-        },
-        {
-          "type": "curly_group",
-          "named": true
-        },
-        {
-          "type": "displayed_equation",
-          "named": true
-        },
-        {
-          "type": "enum_item",
-          "named": true
-        },
-        {
-          "type": "environment_definition",
-          "named": true
-        },
-        {
-          "type": "generic_command",
-          "named": true
-        },
-        {
-          "type": "generic_environment",
-          "named": true
-        },
-        {
-          "type": "glossary_entry_definition",
-          "named": true
-        },
-        {
-          "type": "glossary_entry_reference",
-          "named": true
-        },
-        {
-          "type": "graphics_include",
-          "named": true
-        },
-        {
-          "type": "import_include",
-          "named": true
-        },
-        {
-          "type": "inkscape_include",
-          "named": true
-        },
-        {
-          "type": "inline_formula",
-          "named": true
-        },
-        {
-          "type": "label_definition",
-          "named": true
-        },
-        {
-          "type": "label_number",
-          "named": true
-        },
-        {
-          "type": "label_reference",
-          "named": true
-        },
-        {
-          "type": "label_reference_range",
-          "named": true
-        },
-        {
-          "type": "latex_include",
-          "named": true
-        },
-        {
-          "type": "let_command_definition",
-          "named": true
-        },
-        {
-          "type": "listing_environment",
-          "named": true
-        },
-        {
-          "type": "math_delimiter",
-          "named": true
-        },
-        {
-          "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
-          "named": true
-        },
-        {
-          "type": "minted_environment",
-          "named": true
-        },
-        {
-          "type": "new_command_definition",
-          "named": true
-        },
-        {
-          "type": "old_command_definition",
-          "named": true
-        },
-        {
-          "type": "package_include",
-          "named": true
-        },
-        {
-          "type": "paired_delimiter_definition",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "part",
-          "named": true
-        },
-        {
-          "type": "pycode_environment",
-          "named": true
-        },
-        {
-          "type": "section",
-          "named": true
-        },
-        {
-          "type": "subparagraph",
-          "named": true
-        },
-        {
-          "type": "subsection",
-          "named": true
-        },
-        {
-          "type": "subsubsection",
           "named": true
         },
         {
@@ -5213,10 +4934,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -5468,10 +5185,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -5777,10 +5490,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -6001,10 +5710,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -6270,10 +5975,6 @@
           "named": true
         },
         {
-          "type": "math_set",
-          "named": true
-        },
-        {
           "type": "minted_environment",
           "named": true
         },
@@ -6509,10 +6210,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -6763,10 +6460,6 @@
         },
         {
           "type": "math_environment",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -7326,10 +7019,6 @@
         },
         {
           "type": "math_delimiter",
-          "named": true
-        },
-        {
-          "type": "math_set",
           "named": true
         },
         {
@@ -8523,14 +8212,6 @@
   },
   {
     "type": "\\vref",
-    "named": false
-  },
-  {
-    "type": "\\{",
-    "named": false
-  },
-  {
-    "type": "\\}",
     "named": false
   },
   {

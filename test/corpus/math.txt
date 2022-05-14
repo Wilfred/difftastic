@@ -195,10 +195,13 @@ Simple math set
 --------------------------------------------------------------------------------
 
 (source_file
-  (math_set
-    (text
-      (word))
-    (text
-      (word))
-    (text
-      (word))))
+  (generic_command
+    (command_name))
+  (text
+    (word))
+  (text
+    (word))
+  (text
+    (word)
+    (generic_command
+      (command_name))))

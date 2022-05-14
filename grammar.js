@@ -96,7 +96,6 @@ module.exports = grammar({
           $.displayed_equation,
           $.inline_formula,
           $.math_delimiter,
-          $.math_set,
           $.text_mode,
           '(',
           ')'
@@ -428,8 +427,6 @@ module.exports = grammar({
       prec.left(
         seq(choice('$', '\\('), repeat($._root_content), choice('$', '\\)'))
       ),
-
-    math_set: $ => seq('\\{', repeat($._root_content), '\\}'),
 
     //--- Environments
 

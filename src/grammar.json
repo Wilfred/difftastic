@@ -182,10 +182,6 @@
           },
           {
             "type": "SYMBOL",
-            "name": "math_set"
-          },
-          {
-            "type": "SYMBOL",
             "name": "text_mode"
           },
           {
@@ -1893,26 +1889,6 @@
           }
         ]
       }
-    },
-    "math_set": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\\{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_root_content"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "\\}"
-        }
-      ]
     },
     "begin": {
       "type": "PREC_RIGHT",
