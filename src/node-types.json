@@ -1496,7 +1496,7 @@
         "required": true,
         "types": [
           {
-            "type": "curly_group_text",
+            "type": "curly_group",
             "named": true
           }
         ]

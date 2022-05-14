@@ -628,3 +628,27 @@ tree-sitter-latex (Issue #43) | \left and \right with parens
   (math_delimiter
     (text
       (word))))
+
+================================================================================
+tree-sitter-latex (Issue #44) | \definecolor
+================================================================================
+
+\definecolor{delim}{RGB}{20,105,176}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (color_definition
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word))
+      (text
+        (word))
+      (text
+        (word)))))

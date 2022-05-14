@@ -1027,7 +1027,7 @@ module.exports = grammar({
         optional($.brack_group_text),
         field('name', $.curly_group_text),
         field('model', $.curly_group_text),
-        field('spec', $.curly_group_text)
+        field('spec', $.curly_group)
       ),
 
     color_set_definition: $ =>
