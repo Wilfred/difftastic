@@ -549,7 +549,7 @@ pub fn calculate_after_context(
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.last() {
-        Some(first_line) => match *first_line {
+        Some(last_line) => match *last_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
                 // TODO: It would be simpler to do one loop over all
