@@ -6,7 +6,7 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
 
-use crate::{guess_language, style::BackgroundColor};
+use crate::{guess_language, display::style::BackgroundColor};
 
 pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;

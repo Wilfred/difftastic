@@ -6,12 +6,14 @@ use std::{cmp::max, collections::HashSet};
 
 use crate::{
     constants::Side,
-    context::all_matched_lines_filled,
+    display::context::all_matched_lines_filled,
+    display::style::{
+        self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
+    },
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
     positions::SingleLineSpan,
-    style::{self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor},
     syntax::{zip_pad_shorter, MatchedPos},
 };
 

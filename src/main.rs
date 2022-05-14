@@ -15,21 +15,18 @@
 
 mod changes;
 mod constants;
-mod context;
 mod dijkstra;
+mod display;
 mod files;
 mod graph;
 mod guess_language;
 mod hunks;
-mod inline;
 mod line_parser;
 mod lines;
 mod myers_diff;
 mod options;
 mod positions;
-mod side_by_side;
 mod sliders;
-mod style;
 mod summary;
 mod syntax;
 mod tree_sitter_parser;
@@ -40,7 +37,7 @@ extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use changes::ChangeMap;
-use context::opposite_positions;
+use display::context::opposite_positions;
 use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
 use guess_language::guess;
 use log::info;
@@ -415,7 +412,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 if display_options.print_unchanged {
                     println!(
                         "{}",
-                        style::header(
+                        display::style::header(
                             &summary.lhs_display_path,
                             &summary.rhs_display_path,
                             1,
@@ -437,7 +434,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
 
             match display_options.display_mode {
                 DisplayMode::Inline => {
-                    inline::print(
+                    display::inline::print(
                         lhs_src,
                         rhs_src,
                         display_options,
@@ -450,7 +447,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
-                    side_by_side::print(
+                    display::side_by_side::print(
                         &hunks,
                         display_options,
                         &summary.lhs_display_path,
@@ -469,7 +466,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             if display_options.print_unchanged || changed {
                 println!(
                     "{}",
-                    style::header(
+                    display::style::header(
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         1,
@@ -489,7 +486,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             // We're diffing a binary file against a text file.
             println!(
                 "{}",
-                style::header(
+                display::style::header(
                     &summary.lhs_display_path,
                     &summary.rhs_display_path,
                     1,
