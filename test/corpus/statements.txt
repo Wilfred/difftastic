@@ -1169,6 +1169,37 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
         (identifier)))))
 
 ================================================================================
+CREATE TABLE with exclude contraint
+================================================================================
+
+CREATE TABLE foo(col1 INT, col2 VARCHAR, EXCLUDE USING GIST (col1 WITH =, col2 varchar_pattern_ops WITH &&))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (create_table_column_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (exclude
+        (identifier)
+        (exclude_entry
+          (identifier)
+          (binary_operator))
+        (exclude_entry
+          (identifier)
+          (op_class
+            (identifier))
+          (binary_operator))))))
+
+================================================================================
 CREATE TABLE with array type column
 ================================================================================
 
