@@ -228,12 +228,15 @@ module.exports = grammar({
         ")",
       ),
     _table_constraint: $ =>
-      choice(
-        alias($.table_constraint_foreign_key, $.foreign_key),
-        alias($.table_constraint_unique, $.unique),
-        alias($.table_constraint_primary_key, $.primary_key),
-        alias($.table_constraint_check, $.check),
-        alias($.table_constraint_exclude, $.exclude),
+      seq(
+        optional(seq(kw("CONSTRAINT"), field("name", $._identifier))),
+        choice(
+          alias($.table_constraint_foreign_key, $.foreign_key),
+          alias($.table_constraint_unique, $.unique),
+          alias($.table_constraint_primary_key, $.primary_key),
+          alias($.table_constraint_check, $.check),
+          alias($.table_constraint_exclude, $.exclude),
+        ),
       ),
     table_constraint_check: $ => seq(kw("CHECK"), $._expression),
     exclude_entry: $ =>
@@ -346,12 +349,7 @@ module.exports = grammar({
         $._identifier,
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
-        optional(
-          choice(
-            seq($.on_update_action, $.on_delete_action),
-            seq($.on_delete_action, $.on_update_action),
-          ),
-        ),
+        repeat(choice($.on_update_action, $.on_delete_action)),
       ),
     on_update_action: $ =>
       seq(kw("ON UPDATE"), field("action", $._constraint_action)),
