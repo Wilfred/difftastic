@@ -51,12 +51,14 @@ module.exports = grammar({
           $.set_statement,
           $.insert_statement,
           $.grant_statement,
+          $.drop_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
           $.create_table_statement,
           $.create_function_statement,
           $.create_schema_statement,
+          $.create_role_statement,
           $.create_extension_statement,
         ),
         optional(";"),
@@ -119,8 +121,22 @@ module.exports = grammar({
       ),
     create_extension_statement: $ =>
       seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $.identifier),
+    create_role_statement: $ =>
+      seq(
+        kw("CREATE ROLE"),
+        $.identifier,
+        optional(kw("WITH")),
+        optional($._identifier),
+      ),
     create_schema_statement: $ =>
       seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
+    drop_statement: $ =>
+      seq(
+        kw("DROP"),
+        choice("TABLE", "VIEW", "TABLESPACE", "EXTENSION"),
+        optional(kw("IF EXISTS")),
+        $._identifier,
+      ),
     set_statement: $ =>
       seq(
         kw("SET"),

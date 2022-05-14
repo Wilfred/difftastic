@@ -1747,3 +1747,51 @@ CREATE EXTENSION IF NOT EXISTS postgis;
     (identifier))
   (create_extension_statement
     (identifier)))
+
+================================================================================
+CREATE ROLE
+================================================================================
+
+CREATE ROLE regress_lr_normal;
+CREATE ROLE regress_lr_superuser SUPERUSER;
+CREATE ROLE regress_lr_replication REPLICATION;
+CREATE ROLE regress_origin_replication REPLICATION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_role_statement
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier)))
+
+================================================================================
+DROP
+================================================================================
+
+DROP TABLE IF EXISTS foo;
+DROP TABLE foo;
+DROP VIEW bar;
+DROP TABLESPACE bar;
+DROP EXTENSION postgis;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)))
