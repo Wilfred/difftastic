@@ -3722,6 +3722,19 @@
         }
       ]
     },
+    "interval_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "INTERVAL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
     "argument_reference": {
       "type": "SEQ",
       "members": [
@@ -3769,6 +3782,10 @@
         {
           "type": "SYMBOL",
           "name": "_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interval_expression"
         },
         {
           "type": "SYMBOL",
