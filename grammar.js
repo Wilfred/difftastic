@@ -57,6 +57,7 @@ module.exports = grammar({
           $.create_table_statement,
           $.create_function_statement,
           $.create_schema_statement,
+          $.create_extension_statement,
         ),
         optional(";"),
       ),
@@ -116,6 +117,8 @@ module.exports = grammar({
           seq("'", $.select_statement, optional(";"), "'"),
         ),
       ),
+    create_extension_statement: $ =>
+      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $.identifier),
     create_schema_statement: $ =>
       seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
     set_statement: $ =>
