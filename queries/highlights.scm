@@ -23,8 +23,8 @@
    (parameters
      (parameter (type (identifier) @type.builtin))))
   (create_table_statement
-   (create_table_parameters
-     (create_table_column_parameter (type (identifier) @type.builtin))))
+   (table_parameters
+     (table_column (type (identifier) @type.builtin))))
  ]
  (#match?
    @type.builtin
@@ -73,7 +73,8 @@
   "CREATE_DOMAIN"
   "CREATE_OR_REPLACE_FUNCTION"
   "CREATE_SCHEMA"
-  "CREATE_TABLE"
+  "TABLE"
+  "TEMPORARY"
   "CREATE_TYPE"
   "DATABASE"
   "FROM"
