@@ -112,7 +112,7 @@ module.exports = grammar({
             seq(kw("INCREMENT"), optional(kw("BY")), $.number),
             seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
             seq(kw("CACHE"), $.number),
-            seq(kw("OWNED BY"), $.identifier),
+            seq(kw("OWNED BY"), choice($._identifier, $.dotted_name)),
           ),
         ),
       ),

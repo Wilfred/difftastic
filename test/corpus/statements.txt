@@ -1865,6 +1865,7 @@ CREATE SEQUENCE myseq3;
 CREATE SEQUENCE myseq4 AS integer;
 CREATE SEQUENCE myseq5 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
 CREATE SEQUENCE myseq6 OWNED BY user;
+CREATE SEQUENCE myseq6 OWNED BY foo.bar;
 ALTER SEQUENCE myseq3 OWNED BY user;
 ALTER SEQUENCE IF EXISTS myseq2 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
 
@@ -1898,6 +1899,12 @@ ALTER SEQUENCE IF EXISTS myseq2 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAX
     (create_sequence
       (identifier)
       (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)
+      (dotted_name
+        (identifier)
+        (identifier))))
   (alter_statement
     (alter_sequence
       (identifier)
