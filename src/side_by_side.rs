@@ -460,7 +460,7 @@ pub fn print(
                                 // tried several other ANSI stripping libs, this one actually works
                                     - categorise_text(&line_to_print)
                                         .iter()
-                                        .map(|s| s.end.abs_diff(s.start) as usize)
+                                        .map(|s| (s.end - s.start) as usize)
                                         .sum::<usize>(),
                             )
                         } else {
@@ -505,7 +505,7 @@ pub fn print(
                                 // tried several other ANSI stripping libs, this one actually works
                                     - categorise_text(&line_to_print)
                                         .iter()
-                                        .map(|s| s.end.abs_diff(s.start) as usize)
+                                        .map(|s| (s.end - s.start) as usize)
                                         .sum::<usize>(),
                             )
                         } else {
