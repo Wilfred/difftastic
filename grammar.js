@@ -538,10 +538,11 @@ module.exports = grammar({
       ),
     binary_operator: $ => choice("=", "&&", "||"),
     asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
-    interval_expression: $ => seq("INTERVAL", $.string),
+    interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
+        $.interval_expression,
         $.function_call,
         $.string,
         $.field_access,
@@ -550,7 +551,6 @@ module.exports = grammar({
         $.NULL,
         $.asterisk_expression,
         $._identifier,
-        $.interval_expression,
         $.number,
         $.comparison_operator,
         $.in_expression,

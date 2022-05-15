@@ -4429,10 +4429,6 @@
     "named": false
   },
   {
-    "type": "INTERVAL",
-    "named": false
-  },
-  {
     "type": "INTO",
     "named": false
   },
