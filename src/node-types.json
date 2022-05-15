@@ -2385,6 +2385,10 @@
           "named": true
         },
         {
+          "type": "op_class",
+          "named": true
+        },
+        {
           "type": "ordered_expression",
           "named": true
         },

@@ -625,6 +625,7 @@ CREATE INDEX with function
 ================================================================================
 
 CREATE INDEX test_idx ON table(lower(col1), col2);
+CREATE INDEX text_idx2 ON table(col2 text_pattern_ops);
 
 --------------------------------------------------------------------------------
 
@@ -636,7 +637,14 @@ CREATE INDEX test_idx ON table(lower(col1), col2);
       (function_call
         (identifier)
         (identifier))
-      (identifier))))
+      (identifier)))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier)
+      (op_class
+        (identifier)))))
 
 ================================================================================
 CREATE INDEX where clause
