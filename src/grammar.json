@@ -4776,8 +4776,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "INTERVAL"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[iI][nN][tT][eE][rR][vV][aA][lL]"
+              },
+              "named": false,
+              "value": "INTERVAL"
+            }
+          }
         },
         {
           "type": "SYMBOL",
@@ -4801,6 +4813,10 @@
     "_expression": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "interval_expression"
+        },
         {
           "type": "SYMBOL",
           "name": "function_call"
@@ -4832,10 +4848,6 @@
         {
           "type": "SYMBOL",
           "name": "_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "interval_expression"
         },
         {
           "type": "SYMBOL",

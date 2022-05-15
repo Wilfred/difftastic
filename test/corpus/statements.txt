@@ -3,12 +3,18 @@ SELECT statement
 ================================================================================
 
 SELECT;
+SELECT interval '1 minute';
 
 --------------------------------------------------------------------------------
 
 (source_file
   (select_statement
-    (select_clause)))
+    (select_clause))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (interval_expression
+          (string))))))
 
 ================================================================================
 SELECT statement with distinct expression
@@ -1273,7 +1279,12 @@ CREATE TABLE foo(col1 INT[])
 CREATE TABLE with check constraint
 ================================================================================
 
-CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
+CREATE TABLE foo(
+  col1 INT,
+  col2 INT,
+  CHECK(col1 > col2),
+  CONSTRAINT mycheck CHECK (func(start) = interval '5 minutes')
+)
 
 --------------------------------------------------------------------------------
 
@@ -1292,7 +1303,15 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
       (check
         (comparison_operator
           (identifier)
-          (identifier))))))
+          (identifier)))
+      (identifier)
+      (check
+        (comparison_operator
+          (function_call
+            (identifier)
+            (identifier))
+          (interval_expression
+            (string)))))))
 
 ================================================================================
 CREATE TABLE with foreign key constraint with columns specified
