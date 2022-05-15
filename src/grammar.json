@@ -2419,6 +2419,10 @@
         }
       ]
     },
+    "op_class": {
+      "type": "SYMBOL",
+      "name": "_identifier"
+    },
     "exclude_entry": {
       "type": "SEQ",
       "members": [
@@ -2430,13 +2434,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_identifier"
-              },
-              "named": true,
-              "value": "op_class"
+              "type": "SYMBOL",
+              "name": "op_class"
             },
             {
               "type": "BLANK"
@@ -2836,15 +2835,32 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "ordered_expression"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "ordered_expression"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "op_class"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -2858,15 +2874,32 @@
                     "value": ","
                   },
                   {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_expression"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_expression"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "ordered_expression"
+                          }
+                        ]
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "ordered_expression"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "op_class"
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
                       }
                     ]
                   }

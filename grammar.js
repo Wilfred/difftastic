@@ -311,10 +311,11 @@ module.exports = grammar({
         optional($.initial_mode),
       ),
     table_constraint_check: $ => seq(kw("CHECK"), $._expression),
+    op_class: $ => $._identifier,
     exclude_entry: $ =>
       seq(
         $._identifier,
-        optional(alias($._identifier, $.op_class)),
+        optional($.op_class),
         optional(seq(kw("WITH"), $.binary_operator)),
       ),
     table_constraint_exclude: $ =>
@@ -349,7 +350,16 @@ module.exports = grammar({
       ),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
-      seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
+      seq(
+        "(",
+        commaSep1(
+          seq(
+            choice($._expression, $.ordered_expression),
+            optional($.op_class),
+          ),
+        ),
+        ")",
+      ),
 
     // SELECT
     select_statement: $ =>
