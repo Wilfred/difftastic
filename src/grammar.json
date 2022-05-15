@@ -591,8 +591,17 @@
                     "value": "OWNED_BY"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "dotted_name"
+                      }
+                    ]
                   }
                 ]
               }
