@@ -18,11 +18,7 @@
   "tree-sitter": [
     {
       "scope": "source.scheme",
-      "file-types": [
-        "scm",
-        "ss",
-        "rkt"
-      ]
+      "file-types": ["scm", "ss"]
     }
   ]
 }
