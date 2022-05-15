@@ -1845,3 +1845,58 @@ Postgres command
 
 (source_file
   (pg_command))
+
+================================================================================
+SEQUENCE
+================================================================================
+
+CREATE TEMP SEQUENCE myseq0;
+CREATE TEMPORARY SEQUENCE myseq1;
+CREATE SEQUENCE IF NOT EXISTS myseq2;
+CREATE SEQUENCE myseq3;
+CREATE SEQUENCE myseq4 AS integer;
+CREATE SEQUENCE myseq5 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE myseq6 OWNED BY user;
+ALTER SEQUENCE myseq3 OWNED BY user;
+ALTER SEQUENCE IF EXISTS myseq2 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_statement
+    (sequence
+      (identifier)))
+  (create_statement
+    (sequence
+      (identifier)))
+  (create_statement
+    (sequence
+      (identifier)))
+  (create_statement
+    (sequence
+      (identifier)))
+  (create_statement
+    (sequence
+      (identifier)
+      (type
+        (identifier))))
+  (create_statement
+    (sequence
+      (identifier)
+      (number)
+      (number)
+      (number)))
+  (create_statement
+    (sequence
+      (identifier)
+      (identifier)))
+  (alter_statement
+    (sequence
+      (identifier)
+      (identifier)))
+  (alter_statement
+    (sequence
+      (identifier)
+      (number)
+      (number)
+      (number))))
