@@ -106,6 +106,21 @@
     }
   },
   {
+    "type": "alter_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument_reference",
     "named": true,
     "fields": {}
@@ -1194,6 +1209,21 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "create_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "sequence",
           "named": true
         }
       ]
@@ -3083,6 +3113,33 @@
     }
   },
   {
+    "type": "sequence",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "set_clause",
     "named": true,
     "fields": {},
@@ -3250,6 +3307,10 @@
       "required": false,
       "types": [
         {
+          "type": "alter_statement",
+          "named": true
+        },
+        {
           "type": "create_domain_statement",
           "named": true
         },
@@ -3271,6 +3332,10 @@
         },
         {
           "type": "create_schema_statement",
+          "named": true
+        },
+        {
+          "type": "create_statement",
           "named": true
         },
         {
@@ -3908,6 +3973,10 @@
     "named": false
   },
   {
+    "type": "ALTER",
+    "named": false
+  },
+  {
     "type": "AND",
     "named": false
   },
@@ -3921,6 +3990,14 @@
   },
   {
     "type": "AUTO_INCREMENT",
+    "named": false
+  },
+  {
+    "type": "BY",
+    "named": false
+  },
+  {
+    "type": "CACHE",
     "named": false
   },
   {
@@ -3996,6 +4073,10 @@
     "named": false
   },
   {
+    "type": "EXISTS",
+    "named": false
+  },
+  {
     "type": "EXTENSION",
     "named": false
   },
@@ -4028,6 +4109,10 @@
     "named": false
   },
   {
+    "type": "IF",
+    "named": false
+  },
+  {
     "type": "IF_EXISTS",
     "named": false
   },
@@ -4041,6 +4126,10 @@
   },
   {
     "type": "IN",
+    "named": false
+  },
+  {
+    "type": "INCREMENT",
     "named": false
   },
   {
@@ -4088,6 +4177,18 @@
     "named": false
   },
   {
+    "type": "MAXVALUE",
+    "named": false
+  },
+  {
+    "type": "MINVALUE",
+    "named": false
+  },
+  {
+    "type": "NO",
+    "named": false
+  },
+  {
     "type": "NOT",
     "named": false
   },
@@ -4121,6 +4222,10 @@
   },
   {
     "type": "OUTER",
+    "named": false
+  },
+  {
+    "type": "OWNED_BY",
     "named": false
   },
   {
@@ -4200,6 +4305,10 @@
     "named": false
   },
   {
+    "type": "START",
+    "named": false
+  },
+  {
     "type": "STRICT",
     "named": false
   },
@@ -4209,6 +4318,10 @@
   },
   {
     "type": "TABLESPACE",
+    "named": false
+  },
+  {
+    "type": "TEMP",
     "named": false
   },
   {

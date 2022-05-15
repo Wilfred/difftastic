@@ -37,6 +37,7 @@ function createCaseInsensitiveRegex(word) {
   );
 }
 
+
 module.exports = grammar({
   name: "sql",
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
@@ -53,6 +54,8 @@ module.exports = grammar({
           $.insert_statement,
           $.grant_statement,
           $.drop_statement,
+          $.create_statement,
+          $.alter_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -64,6 +67,31 @@ module.exports = grammar({
         ),
         optional(";"),
       ),
+
+    create_statement: $ => seq(
+      kw("CREATE"),
+      optional(choice(kw("TEMP"), kw("TEMPORARY"))),
+      choice($.sequence),
+    ),
+    alter_statement: $ => seq(
+      kw("ALTER"),
+      choice($.sequence)
+    ),
+    sequence: $ => seq(
+      kw("SEQUENCE"),
+      optional(seq(kw("IF"), optional(kw("NOT")), kw("EXISTS"))),
+      $._identifier,
+      optional(seq(kw("AS"), $.type)),
+      repeat(
+        choice(
+          seq(kw("START"), kw("WITH"), $.number),
+          seq(kw("INCREMENT"), optional(kw("BY")), $.number),
+          seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
+          seq(kw("CACHE"), $.number),
+          seq(kw("OWNED BY"), $.identifier),
+        )
+      ),
+    ),
     pg_command: $ => seq(/\\[a-zA-Z]+/, /.*/),
     create_function_statement: $ =>
       seq(
