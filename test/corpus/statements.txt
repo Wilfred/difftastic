@@ -741,23 +741,23 @@ CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))))
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier))))))
@@ -779,13 +779,13 @@ CREATE TABLE public.my_table (
     (dotted_name
       (identifier)
       (identifier))
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
         (primary_key_constraint))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)
@@ -793,7 +793,7 @@ CREATE TABLE public.my_table (
         (time_zone_constraint)
         (null_constraint
           (NULL)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)
@@ -819,8 +819,8 @@ CREATE TABLE my_table (col1 INT NOT NULL)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -838,8 +838,8 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -858,8 +858,8 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -877,8 +877,8 @@ CREATE TABLE my_table (col1 INT PRIMARY KEY)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -895,8 +895,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -914,8 +914,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -934,8 +934,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -956,8 +956,8 @@ CREATE TABLE my_table (col1 INT UNIQUE)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -974,8 +974,8 @@ CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -996,8 +996,8 @@ CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1024,12 +1024,12 @@ CREATE TABLE my_table (
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1060,8 +1060,8 @@ CREATE TABLE foo(
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1072,7 +1072,7 @@ CREATE TABLE foo(
           (identifier)
           (on_update_action)
           (on_delete_action)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1081,7 +1081,7 @@ CREATE TABLE foo(
         (references_constraint
           (identifier)
           (on_update_action)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1102,12 +1102,12 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1129,15 +1129,15 @@ CREATE TABLE foo(
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
         (null_constraint
           (NULL))
         (primary_key_constraint))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1180,8 +1180,8 @@ CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier))
@@ -1199,12 +1199,12 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1223,12 +1223,12 @@ CREATE TABLE foo(col1 INT, col2 VARCHAR, EXCLUDE USING GIST (col1 WITH =, col2 v
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1254,8 +1254,8 @@ CREATE TABLE foo(col1 INT[])
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (array_type
           (type
@@ -1272,12 +1272,12 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1301,12 +1301,12 @@ CREATE TABLE my_table (
 (source_file
   (create_table_statement
     (identifier)
-    (create_table_parameters
-      (create_table_column_parameter
+    (table_parameters
+      (table_column
         (identifier)
         (type
           (identifier)))
-      (create_table_column_parameter
+      (table_column
         (identifier)
         (type
           (identifier)))
@@ -1864,39 +1864,93 @@ ALTER SEQUENCE IF EXISTS myseq2 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAX
 
 (source_file
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)
       (type
         (identifier))))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)
       (number)
       (number)
       (number)))
   (create_statement
-    (sequence
+    (create_sequence
       (identifier)
       (identifier)))
   (alter_statement
-    (sequence
+    (alter_sequence
       (identifier)
       (identifier)))
   (alter_statement
-    (sequence
+    (alter_sequence
       (identifier)
       (number)
       (number)
       (number))))
+
+================================================================================
+ALTER TABLE
+================================================================================
+
+ALTER TABLE ONLY foo ALTER COLUMN myid SET DEFAULT nextval('myseq0'::regclass);
+ALTER TABLE bar
+    ADD COLUMN col1 UUID REFERENCES baz (col1) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE mytable0
+    ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
+      ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_alter_column
+          (identifier)
+          (function_call
+            (identifier)
+            (type_cast
+              (string)
+              (type
+                (identifier))))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_add
+          (table_column
+            (identifier)
+            (type
+              (identifier))
+            (references_constraint
+              (identifier)
+              (identifier)
+              (on_update_action)
+              (on_delete_action)))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_add
+          (foreign_key
+            (identifier)
+            (references_constraint
+              (identifier)
+              (identifier)
+              (on_update_action)
+              (on_delete_action)))
+          (initial_mode))))))
