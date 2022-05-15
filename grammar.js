@@ -46,21 +46,77 @@ module.exports = grammar({
     _statement: $ =>
       seq(
         choice(
+          $.pg_command,
           $.select_statement,
           $.update_statement,
           $.set_statement,
           $.insert_statement,
           $.grant_statement,
+          $.drop_statement,
+          $.create_statement,
+          $.alter_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
           $.create_table_statement,
           $.create_function_statement,
           $.create_schema_statement,
+          $.create_role_statement,
+          $.create_extension_statement,
         ),
         optional(";"),
       ),
 
+    create_statement: $ =>
+      seq(
+        kw("CREATE"),
+        optional(choice(kw("TEMP"), kw("TEMPORARY"))),
+        choice(alias($.sequence, $.create_sequence)),
+      ),
+    alter_statement: $ =>
+      seq(
+        kw("ALTER"),
+        choice(alias($.sequence, $.alter_sequence), $.alter_table),
+      ),
+    alter_table: $ =>
+      seq(
+        kw("TABLE"),
+        optional(kw("IF EXISTS")),
+        optional(kw("ONLY")),
+        $._identifier,
+        $.alter_table_action,
+      ),
+    alter_table_action_alter_column: $ =>
+      seq(
+        kw("ALTER COLUMN"),
+        $._identifier,
+        kw("SET DEFAULT"),
+        $._column_default_expression,
+      ),
+    alter_table_action_add: $ =>
+      seq(
+        kw("ADD"),
+        choice(seq(kw("COLUMN"), $.table_column), $._table_constraint),
+      ),
+    alter_table_action: $ =>
+      choice($.alter_table_action_add, $.alter_table_action_alter_column),
+    sequence: $ =>
+      seq(
+        kw("SEQUENCE"),
+        optional(seq(kw("IF"), optional(kw("NOT")), kw("EXISTS"))),
+        $._identifier,
+        optional(seq(kw("AS"), $.type)),
+        repeat(
+          choice(
+            seq(kw("START"), kw("WITH"), $.number),
+            seq(kw("INCREMENT"), optional(kw("BY")), $.number),
+            seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
+            seq(kw("CACHE"), $.number),
+            seq(kw("OWNED BY"), choice($._identifier, $.dotted_name)),
+          ),
+        ),
+      ),
+    pg_command: $ => seq(/\\[a-zA-Z]+/, /.*/),
     create_function_statement: $ =>
       seq(
         createOrReplace("FUNCTION"),
@@ -116,8 +172,24 @@ module.exports = grammar({
           seq("'", $.select_statement, optional(";"), "'"),
         ),
       ),
+    create_extension_statement: $ =>
+      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $.identifier),
+    create_role_statement: $ =>
+      seq(
+        kw("CREATE ROLE"),
+        $.identifier,
+        optional(kw("WITH")),
+        optional($._identifier),
+      ),
     create_schema_statement: $ =>
       seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
+    drop_statement: $ =>
+      seq(
+        kw("DROP"),
+        choice("TABLE", "VIEW", "TABLESPACE", "EXTENSION", "INDEX"),
+        optional(kw("IF EXISTS")),
+        $._identifier,
+      ),
     set_statement: $ =>
       seq(
         kw("SET"),
@@ -182,7 +254,7 @@ module.exports = grammar({
         $.index_table_parameters,
         optional($.where_clause),
       ),
-    create_table_column_parameter: $ =>
+    table_column: $ =>
       seq(
         field("name", $._identifier),
         field("type", $._type),
@@ -206,35 +278,54 @@ module.exports = grammar({
     time_zone_constraint: _ =>
       seq(choice(kw("WITH"), kw("WITHOUT")), kw("TIME ZONE")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
+    _column_default_expression: $ =>
+      choice(
+        $._parenthesized_expression,
+        $.string,
+        $.identifier,
+        $.function_call,
+      ),
     column_default: $ =>
       seq(
         kw("DEFAULT"),
         // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
         // TODO: simple expression to use for check and default
-        choice(
-          choice(
-            $._parenthesized_expression,
-            $.string,
-            $.identifier,
-            $.function_call,
-          ),
-          $.type_cast,
-        ),
+        choice($._column_default_expression, $.type_cast),
       ),
-    create_table_parameters: $ =>
-      seq(
-        "(",
-        commaSep1(choice($.create_table_column_parameter, $._table_constraint)),
-        ")",
-      ),
+    table_parameters: $ =>
+      seq("(", commaSep1(choice($.table_column, $._table_constraint)), ")"),
+    mode: $ => choice(kw("NOT DEFERRABLE"), kw("DEFERRABLE")),
+    initial_mode: $ =>
+      seq(kw("INITIALLY"), choice(kw("DEFERRED"), kw("IMMEDIATE"))),
     _table_constraint: $ =>
-      choice(
-        alias($.table_constraint_foreign_key, $.foreign_key),
-        alias($.table_constraint_unique, $.unique),
-        alias($.table_constraint_primary_key, $.primary_key),
-        alias($.table_constraint_check, $.check),
+      seq(
+        optional(seq(kw("CONSTRAINT"), field("name", $._identifier))),
+        choice(
+          alias($.table_constraint_foreign_key, $.foreign_key),
+          alias($.table_constraint_unique, $.unique),
+          alias($.table_constraint_primary_key, $.primary_key),
+          alias($.table_constraint_check, $.check),
+          alias($.table_constraint_exclude, $.exclude),
+        ),
+        optional($.mode),
+        optional($.initial_mode),
       ),
     table_constraint_check: $ => seq(kw("CHECK"), $._expression),
+    op_class: $ => $._identifier,
+    exclude_entry: $ =>
+      seq(
+        $._identifier,
+        optional($.op_class),
+        optional(seq(kw("WITH"), $.binary_operator)),
+      ),
+    table_constraint_exclude: $ =>
+      seq(
+        kw("EXCLUDE"),
+        optional(seq(kw("USING"), $._identifier)),
+        "(",
+        commaSep1($.exclude_entry),
+        ")",
+      ),
     table_constraint_foreign_key: $ =>
       seq(
         kw("FOREIGN KEY"),
@@ -250,14 +341,25 @@ module.exports = grammar({
     primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
       seq(
-        kw("CREATE TABLE"),
+        kw("CREATE"),
+        optional(kw("TEMPORARY")),
+        kw("TABLE"),
         optional(kw("IF NOT EXISTS")),
         $._identifier,
-        $.create_table_parameters,
+        $.table_parameters,
       ),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
-      seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
+      seq(
+        "(",
+        commaSep1(
+          seq(
+            choice($._expression, $.ordered_expression),
+            optional($.op_class),
+          ),
+        ),
+        ")",
+      ),
 
     // SELECT
     select_statement: $ =>
@@ -331,12 +433,7 @@ module.exports = grammar({
         $._identifier,
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
-        optional(
-          choice(
-            seq($.on_update_action, $.on_delete_action),
-            seq($.on_delete_action, $.on_update_action),
-          ),
-        ),
+        repeat(choice($.on_update_action, $.on_delete_action)),
       ),
     on_update_action: $ =>
       seq(kw("ON UPDATE"), field("action", $._constraint_action)),
@@ -352,7 +449,7 @@ module.exports = grammar({
         choice($.null_constraint, $.check_constraint),
         optional($.check_constraint),
       ),
-    parameter: $ => seq($.identifier, $._type),
+    parameter: $ => seq($.identifier, choice($._type, $.constrained_type)),
     parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(
@@ -439,10 +536,13 @@ module.exports = grammar({
           seq($._expression, "+", $._expression),
         ),
       ),
+    binary_operator: $ => choice("=", "&&", "||"),
     asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
+    interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
+        $.interval_expression,
         $.function_call,
         $.string,
         $.field_access,
