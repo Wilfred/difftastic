@@ -106,6 +106,33 @@
     }
   },
   {
+    "type": "alter_sequence",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "alter_statement",
     "named": true,
     "fields": {},
@@ -114,7 +141,210 @@
       "required": true,
       "types": [
         {
-          "type": "sequence",
+          "type": "alter_sequence",
+          "named": true
+        },
+        {
+          "type": "alter_table",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_table",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alter_table_action",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_table_action",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "alter_table_action_add",
+          "named": true
+        },
+        {
+          "type": "alter_table_action_alter_column",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_table_action_add",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "`",
+            "named": false
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "check",
+          "named": true
+        },
+        {
+          "type": "exclude",
+          "named": true
+        },
+        {
+          "type": "foreign_key",
+          "named": true
+        },
+        {
+          "type": "initial_mode",
+          "named": true
+        },
+        {
+          "type": "mode",
+          "named": true
+        },
+        {
+          "type": "primary_key",
+          "named": true
+        },
+        {
+          "type": "table_column",
+          "named": true
+        },
+        {
+          "type": "unique",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_table_action_alter_column",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
           "named": true
         }
       ]
@@ -1215,6 +1445,33 @@
     }
   },
   {
+    "type": "create_sequence",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_statement",
     "named": true,
     "fields": {},
@@ -1223,153 +1480,7 @@
       "required": true,
       "types": [
         {
-          "type": "sequence",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "create_table_column_parameter",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
-          {
-            "type": "dotted_name",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "auto_increment_constraint",
-          "named": true
-        },
-        {
-          "type": "check_constraint",
-          "named": true
-        },
-        {
-          "type": "column_default",
-          "named": true
-        },
-        {
-          "type": "direction_constraint",
-          "named": true
-        },
-        {
-          "type": "named_constraint",
-          "named": true
-        },
-        {
-          "type": "null_constraint",
-          "named": true
-        },
-        {
-          "type": "primary_key_constraint",
-          "named": true
-        },
-        {
-          "type": "references_constraint",
-          "named": true
-        },
-        {
-          "type": "time_zone_constraint",
-          "named": true
-        },
-        {
-          "type": "unique_constraint",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "create_table_parameters",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
-          {
-            "type": "dotted_name",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "check",
-          "named": true
-        },
-        {
-          "type": "create_table_column_parameter",
-          "named": true
-        },
-        {
-          "type": "exclude",
-          "named": true
-        },
-        {
-          "type": "foreign_key",
-          "named": true
-        },
-        {
-          "type": "primary_key",
-          "named": true
-        },
-        {
-          "type": "unique",
+          "type": "create_sequence",
           "named": true
         }
       ]
@@ -1384,15 +1495,15 @@
       "required": true,
       "types": [
         {
-          "type": "create_table_parameters",
-          "named": true
-        },
-        {
           "type": "dotted_name",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "table_parameters",
           "named": true
         }
       ]
@@ -2293,6 +2404,11 @@
     }
   },
   {
+    "type": "initial_mode",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "insert_statement",
     "named": true,
     "fields": {},
@@ -2522,6 +2638,11 @@
   },
   {
     "type": "join_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "mode",
     "named": true,
     "fields": {}
   },
@@ -3113,33 +3234,6 @@
     }
   },
   {
-    "type": "sequence",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "set_clause",
     "named": true,
     "fields": {},
@@ -3381,6 +3475,160 @@
     "type": "string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "table_column",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "`",
+            "named": false
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "auto_increment_constraint",
+          "named": true
+        },
+        {
+          "type": "check_constraint",
+          "named": true
+        },
+        {
+          "type": "column_default",
+          "named": true
+        },
+        {
+          "type": "direction_constraint",
+          "named": true
+        },
+        {
+          "type": "named_constraint",
+          "named": true
+        },
+        {
+          "type": "null_constraint",
+          "named": true
+        },
+        {
+          "type": "primary_key_constraint",
+          "named": true
+        },
+        {
+          "type": "references_constraint",
+          "named": true
+        },
+        {
+          "type": "time_zone_constraint",
+          "named": true
+        },
+        {
+          "type": "unique_constraint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "table_parameters",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "`",
+            "named": false
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "check",
+          "named": true
+        },
+        {
+          "type": "exclude",
+          "named": true
+        },
+        {
+          "type": "foreign_key",
+          "named": true
+        },
+        {
+          "type": "initial_mode",
+          "named": true
+        },
+        {
+          "type": "mode",
+          "named": true
+        },
+        {
+          "type": "primary_key",
+          "named": true
+        },
+        {
+          "type": "table_column",
+          "named": true
+        },
+        {
+          "type": "unique",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "time_zone_constraint",
@@ -3969,11 +4217,19 @@
     "named": false
   },
   {
+    "type": "ADD",
+    "named": false
+  },
+  {
     "type": "ALL",
     "named": false
   },
   {
     "type": "ALTER",
+    "named": false
+  },
+  {
+    "type": "ALTER_COLUMN",
     "named": false
   },
   {
@@ -4010,6 +4266,10 @@
   },
   {
     "type": "CHECK",
+    "named": false
+  },
+  {
+    "type": "COLUMN",
     "named": false
   },
   {
@@ -4050,6 +4310,14 @@
   },
   {
     "type": "DEFAULT",
+    "named": false
+  },
+  {
+    "type": "DEFERRABLE",
+    "named": false
+  },
+  {
+    "type": "DEFERRED",
     "named": false
   },
   {
@@ -4121,6 +4389,10 @@
     "named": false
   },
   {
+    "type": "IMMEDIATE",
+    "named": false
+  },
+  {
     "type": "IMMUTABLE",
     "named": false
   },
@@ -4134,6 +4406,10 @@
   },
   {
     "type": "INDEX",
+    "named": false
+  },
+  {
+    "type": "INITIALLY",
     "named": false
   },
   {
@@ -4193,11 +4469,19 @@
     "named": false
   },
   {
+    "type": "NOT_DEFERRABLE",
+    "named": false
+  },
+  {
     "type": "NULL",
     "named": false
   },
   {
     "type": "ON",
+    "named": false
+  },
+  {
+    "type": "ONLY",
     "named": false
   },
   {
@@ -4294,6 +4578,10 @@
   },
   {
     "type": "SETOF",
+    "named": false
+  },
+  {
+    "type": "SET_DEFAULT",
     "named": false
   },
   {

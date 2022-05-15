@@ -37,7 +37,6 @@ function createCaseInsensitiveRegex(word) {
   );
 }
 
-
 module.exports = grammar({
   name: "sql",
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
@@ -68,30 +67,55 @@ module.exports = grammar({
         optional(";"),
       ),
 
-    create_statement: $ => seq(
-      kw("CREATE"),
-      optional(choice(kw("TEMP"), kw("TEMPORARY"))),
-      choice($.sequence),
-    ),
-    alter_statement: $ => seq(
-      kw("ALTER"),
-      choice($.sequence)
-    ),
-    sequence: $ => seq(
-      kw("SEQUENCE"),
-      optional(seq(kw("IF"), optional(kw("NOT")), kw("EXISTS"))),
-      $._identifier,
-      optional(seq(kw("AS"), $.type)),
-      repeat(
-        choice(
-          seq(kw("START"), kw("WITH"), $.number),
-          seq(kw("INCREMENT"), optional(kw("BY")), $.number),
-          seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
-          seq(kw("CACHE"), $.number),
-          seq(kw("OWNED BY"), $.identifier),
-        )
+    create_statement: $ =>
+      seq(
+        kw("CREATE"),
+        optional(choice(kw("TEMP"), kw("TEMPORARY"))),
+        choice(alias($.sequence, $.create_sequence)),
       ),
-    ),
+    alter_statement: $ =>
+      seq(
+        kw("ALTER"),
+        choice(alias($.sequence, $.alter_sequence), $.alter_table),
+      ),
+    alter_table: $ =>
+      seq(
+        kw("TABLE"),
+        optional(kw("IF EXISTS")),
+        optional(kw("ONLY")),
+        $._identifier,
+        $.alter_table_action,
+      ),
+    alter_table_action_alter_column: $ =>
+      seq(
+        kw("ALTER COLUMN"),
+        $._identifier,
+        kw("SET DEFAULT"),
+        $._column_default_expression,
+      ),
+    alter_table_action_add: $ =>
+      seq(
+        kw("ADD"),
+        choice(seq(kw("COLUMN"), $.table_column), $._table_constraint),
+      ),
+    alter_table_action: $ =>
+      choice($.alter_table_action_add, $.alter_table_action_alter_column),
+    sequence: $ =>
+      seq(
+        kw("SEQUENCE"),
+        optional(seq(kw("IF"), optional(kw("NOT")), kw("EXISTS"))),
+        $._identifier,
+        optional(seq(kw("AS"), $.type)),
+        repeat(
+          choice(
+            seq(kw("START"), kw("WITH"), $.number),
+            seq(kw("INCREMENT"), optional(kw("BY")), $.number),
+            seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
+            seq(kw("CACHE"), $.number),
+            seq(kw("OWNED BY"), $.identifier),
+          ),
+        ),
+      ),
     pg_command: $ => seq(/\\[a-zA-Z]+/, /.*/),
     create_function_statement: $ =>
       seq(
@@ -230,7 +254,7 @@ module.exports = grammar({
         $.index_table_parameters,
         optional($.where_clause),
       ),
-    create_table_column_parameter: $ =>
+    table_column: $ =>
       seq(
         field("name", $._identifier),
         field("type", $._type),
@@ -254,27 +278,25 @@ module.exports = grammar({
     time_zone_constraint: _ =>
       seq(choice(kw("WITH"), kw("WITHOUT")), kw("TIME ZONE")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
+    _column_default_expression: $ =>
+      choice(
+        $._parenthesized_expression,
+        $.string,
+        $.identifier,
+        $.function_call,
+      ),
     column_default: $ =>
       seq(
         kw("DEFAULT"),
         // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
         // TODO: simple expression to use for check and default
-        choice(
-          choice(
-            $._parenthesized_expression,
-            $.string,
-            $.identifier,
-            $.function_call,
-          ),
-          $.type_cast,
-        ),
+        choice($._column_default_expression, $.type_cast),
       ),
-    create_table_parameters: $ =>
-      seq(
-        "(",
-        commaSep1(choice($.create_table_column_parameter, $._table_constraint)),
-        ")",
-      ),
+    table_parameters: $ =>
+      seq("(", commaSep1(choice($.table_column, $._table_constraint)), ")"),
+    mode: $ => choice(kw("NOT DEFERRABLE"), kw("DEFERRABLE")),
+    initial_mode: $ =>
+      seq(kw("INITIALLY"), choice(kw("DEFERRED"), kw("IMMEDIATE"))),
     _table_constraint: $ =>
       seq(
         optional(seq(kw("CONSTRAINT"), field("name", $._identifier))),
@@ -285,6 +307,8 @@ module.exports = grammar({
           alias($.table_constraint_check, $.check),
           alias($.table_constraint_exclude, $.exclude),
         ),
+        optional($.mode),
+        optional($.initial_mode),
       ),
     table_constraint_check: $ => seq(kw("CHECK"), $._expression),
     exclude_entry: $ =>
@@ -321,7 +345,7 @@ module.exports = grammar({
         kw("TABLE"),
         optional(kw("IF NOT EXISTS")),
         $._identifier,
-        $.create_table_parameters,
+        $.table_parameters,
       ),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
