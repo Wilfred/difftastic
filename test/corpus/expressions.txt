@@ -705,7 +705,8 @@ exit!()
 include?
 include?("hello")
 include? "hello"
-
+exit! if done
+exit!() if done
 
 ---
 
@@ -732,7 +733,16 @@ include? "hello"
     arguments: (argument_list (string (string_content))))
   (call
     method: (identifier)
-    arguments: (argument_list (string (string_content)))))
+    arguments: (argument_list (string (string_content))))
+  (if_modifier
+    body: (call
+      method: (identifier))
+    condition: (identifier))
+  (if_modifier
+    body: (call
+      method: (identifier)
+      arguments: (argument_list))
+    condition: (identifier)))
 
 ====================================
 nested unparenthesized method calls
