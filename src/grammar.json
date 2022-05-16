@@ -6383,7 +6383,7 @@
       ]
     },
     "_function_identifier_call": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "FIELD",
