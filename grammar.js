@@ -975,7 +975,7 @@ module.exports = grammar({
     rest_assignment: $ => prec(-1, seq('*', optional($._lhs))),
 
     _function_identifier: $ => choice(alias($.identifier_suffix, $.identifier), alias($.constant_suffix, $.constant)),
-    _function_identifier_call: $ => prec.right(field('method', $._function_identifier)),
+    _function_identifier_call: $ => prec.left(field('method', $._function_identifier)),
     _lhs: $ => prec.left(choice(
       $._variable,
       $.true,
