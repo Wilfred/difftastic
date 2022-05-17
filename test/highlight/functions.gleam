@@ -68,6 +68,13 @@ fn trial(uri) {
   }
 }
 
+fn my_uri_to_string(my_uri) -> String {
+  uri.to_string(my_uri)
+  // <- module
+  //   ^ function
+  //             ^ variable.parameter
+}
+
 fn myfun(argument) {
   let local_fun = fn(x) { x + 1 }
   //   ^ variable
