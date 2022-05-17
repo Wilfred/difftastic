@@ -20,6 +20,10 @@ The standards are expected to support:
 * More tests
 * Queries
 
+## Usage
+
+See [nodes.md](./nodes.md) for all visible nodes.
+
 ## Reference
 
 Scheme
