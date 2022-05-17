@@ -57,6 +57,16 @@ pub struct Vertex<'a> {
 
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
+        let lhs_parents = self.lhs_parent_id.map_or(0, |n| n.num_ancestors());
+        let rhs_parents = self.rhs_parent_id.map_or(0, |n| n.num_ancestors());
+
+        let ancestors_match = if lhs_parents < 6 && rhs_parents < 6 {
+            self.lhs_matched_ancestor_id == other.lhs_matched_ancestor_id
+                && self.rhs_matched_ancestor_id == other.rhs_matched_ancestor_id
+        } else {
+            true
+        };
+
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
             // Strictly speaking, we should compare the whole
@@ -77,8 +87,7 @@ impl<'a> PartialEq for Vertex<'a> {
             // the graph size relative to tree depth.
             && self.lhs_parent_id.map(|node| node.id()) == other.lhs_parent_id.map(|node| node.id())
             && self.rhs_parent_id.map(|node| node.id()) == other.rhs_parent_id.map(|node| node.id())
-            && self.lhs_matched_ancestor_id == other.lhs_matched_ancestor_id
-            && self.rhs_matched_ancestor_id == other.rhs_matched_ancestor_id
+            && ancestors_match
             // We do want to distinguish whether we can pop each side
             // independently though. Without this, if we find a case
             // where we can pop sides together, we don't consider the
@@ -97,8 +106,8 @@ impl<'a> Hash for Vertex<'a> {
         self.lhs_parent_id.map(|node| node.id()).hash(state);
         self.rhs_parent_id.map(|node| node.id()).hash(state);
 
-        self.lhs_matched_ancestor_id.hash(state);
-        self.rhs_matched_ancestor_id.hash(state);
+        // self.lhs_matched_ancestor_id.hash(state);
+        // self.rhs_matched_ancestor_id.hash(state);
 
         self.can_pop_either.hash(state);
     }

@@ -56,7 +56,7 @@ sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
 
 sample_files/if_before.py sample_files/if_after.py
-ec9c3b52643b5fde34ea7432b9d537ac  -
+10cf973a88f0fba531feb514e29922c3  -
 
 sample_files/janet_before.janet sample_files/janet_after.janet
 677604a16ef62f6b6252d76d76e86265  -
@@ -125,7 +125,7 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 4a9847a91e32ec6afdc2f0b01e28d2d6  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-bb18213033492a633e7f978ab9711ae1  -
+b276168d30704b4242fc82dc1f8382d8  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
 46994b58bb24200f82866951013f03ce  -
@@ -140,7 +140,7 @@ sample_files/slider_before.rs sample_files/slider_after.rs
 50e1df5af0bf4a1fa7211e079196f1a9  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-5137a829d1266503ff6674654796fd3d  -
+a1d8070fda3b8fa65886a90bde64a2ab  -
 
 sample_files/small_before.js sample_files/small_after.js
 27bcac13aa17141718a3e6b8c0ac8f47  -
@@ -164,7 +164,7 @@ sample_files/toml_before.toml sample_files/toml_after.toml
 1e2de7235c339b07a0784498453e896c  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
-4fc4ba869815fdf37680116b79fecdc5  -
+ceba89e4ffc8406454d337638c7d45e6  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 c4151c5a44b11e04fd11c2594597ed33  -
