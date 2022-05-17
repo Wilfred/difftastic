@@ -60,7 +60,9 @@ impl<'a> PartialEq for Vertex<'a> {
         let lhs_parents = self.lhs_parent_id.map_or(0, |n| n.num_ancestors());
         let rhs_parents = self.rhs_parent_id.map_or(0, |n| n.num_ancestors());
 
-        let ancestors_match = if lhs_parents < 6 && rhs_parents < 6 {
+        // TODO: also allow if children is a pretty small number, so
+        // we explore all of deep, narrow trees in those cases.
+        let ancestors_match = if lhs_parents < 9 && rhs_parents < 9 {
             self.lhs_matched_ancestor_id == other.lhs_matched_ancestor_id
                 && self.rhs_matched_ancestor_id == other.rhs_matched_ancestor_id
         } else {
