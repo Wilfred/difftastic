@@ -1,0 +1,47 @@
+======================
+should parse literal 0
+======================
+
+0
+
+---
+
+(document
+  (expr
+    (number)))
+
+======================
+should parse literal 1
+======================
+
+1
+
+---
+
+(document
+  (expr
+    (number)))
+
+=========================
+should parse literal 3.14
+=========================
+
+3.14
+
+---
+
+(document
+  (expr
+    (number)))
+
+============================
+should parse literal 1.23e10
+============================
+
+1.23e10
+
+---
+
+(document
+  (expr
+    (number)))
