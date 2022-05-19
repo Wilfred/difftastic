@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env, rc::Rc};
+use std::{cmp::Reverse, collections::{VecDeque, hash_map::Entry}, env, rc::Rc, time::Instant};
 
 use crate::{
     changes::ChangeMap,
@@ -9,49 +9,39 @@ use crate::{
     syntax::Syntax,
 };
 use itertools::Itertools;
-use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
+use typed_arena::Arena;
 
-type PredecessorInfo<'a> = (u64, Rc<Vertex<'a>>, Edge);
+type PredecessorInfo<'a, 'b> = (&'b Vertex<'a>, Edge);
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
-    // We want to visit nodes with the shortest distance first, but
-    // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
-    // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, Rc<Vertex>> = RadixHeapMap::new();
+    let vertices: Arena<Vertex> = Arena::new();
 
-    heap.push(Reverse(0), Rc::new(start));
+    let mut queue: VecDeque<(u64, &Vertex)> = VecDeque::new();
+
+    queue.push_back((0_u64, vertices.alloc(start)));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Rc<Vertex>, PredecessorInfo> = FxHashMap::default();
+    let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
     ];
     let end = loop {
-        match heap.pop() {
-            Some((Reverse(distance), current)) => {
+        match queue.pop_front() {
+            Some((distance, current)) => {
                 if current.is_end() {
                     break current;
                 }
 
-                neighbours(&current, &mut neighbour_buf);
+                neighbours(current, &mut neighbour_buf, &vertices);
                 for neighbour in &mut neighbour_buf {
                     if let Some((edge, next)) = neighbour.take() {
-                        let distance_to_next = distance + edge.cost();
-                        let found_shorter_route = match predecessors.get(&next) {
-                            Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
-                            _ => true,
-                        };
-
-                        if found_shorter_route {
-                            let next = Rc::new(next);
-
-                            predecessors
-                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
-
-                            heap.push(Reverse(distance_to_next), next);
+                        if let Entry::Vacant(e) = predecessors.entry(next) {
+                            let distance_to_next = distance + edge.cost();
+                            e.insert((current, edge));
+                            queue.push_back((distance_to_next, next));
                         }
                     }
                 }
@@ -63,16 +53,16 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     debug!(
         "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
         predecessors.len(),
-        std::mem::size_of::<Rc<Vertex>>(),
+        std::mem::size_of::<&Vertex>(),
         std::mem::size_of::<PredecessorInfo>(),
-        heap.len(),
+        queue.len(),
     );
     let mut current = end;
 
     let mut route: Vec<(Edge, Rc<Vertex>)> = vec![];
     let mut cost = 0;
-    while let Some((_, node, edge)) = predecessors.remove(&current) {
-        route.push((edge, node.clone()));
+    while let Some((node, edge)) = predecessors.remove(&current) {
+        route.push((edge, Rc::new(node.clone())));
         cost += edge.cost();
 
         current = node;

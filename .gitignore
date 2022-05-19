@@ -5,3 +5,5 @@ perf.data*
 sample_files/compare.result
 
 notes.md
+
+flamegraph*
