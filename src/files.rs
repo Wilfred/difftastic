@@ -69,6 +69,21 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
 
 /// Do these bytes look like a binary (non-textual) format?
 pub fn is_probably_binary(bytes: &[u8]) -> bool {
+    let mime = tree_magic_mini::from_u8(bytes);
+    match mime {
+        // Treat pdf as binary.
+        "application/pdf" => return true,
+        // Treat all image content as binary.
+        v if v.starts_with("image/") => return true,
+        // Treat all audio content as binary.
+        v if v.starts_with("audio/") => return true,
+        // Treat all video content as binary.
+        v if v.starts_with("video/") => return true,
+        // Treat all font content as binary.
+        v if v.starts_with("font/") => return true,
+        _ => {}
+    }
+
     // If more than 20 of the first 1,000 characters are null bytes or
     // invalid UTF-8, we assume it's binary.
     let num_replaced = String::from_utf8_lossy(bytes)
