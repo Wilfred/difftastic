@@ -50,7 +50,6 @@ module.exports = grammar({
         [$._primary_expression, $.member_expression, $._identifier_path],
         [$.member_expression, $._identifier_path],
 
-        [$.array_access, $._array_type],
 
         [$._call_arguments, $.tuple_expression],
 
