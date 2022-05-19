@@ -39,7 +39,7 @@ local object = {
 
   // Using the variable fetches the function,
   // the parens call the function.
-  call: my_function(2),
+  call: my_function(true),
 
   // Like python, parameters can be named at
   // call time.
@@ -53,6 +53,7 @@ local object = {
 
   standard_lib:
     std.join(' ', std.split('foo/bar', '/')),
+
   len: [
     std.length('hello'),
     std.length([1, 2, 3]),

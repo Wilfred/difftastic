@@ -78,6 +78,16 @@
           }
         ]
       },
+      "function": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
       "params": {
         "multiple": false,
         "required": false,
@@ -91,7 +101,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expr",

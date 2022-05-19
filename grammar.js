@@ -54,10 +54,8 @@ module.exports = grammar({
         comment: () =>
             token(
                 choice(
-                    // -> // .*
                     seq("//", /.*/),
                     seq("#", /.*/),
-                    // -> /*... */
                     seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
                 )
             ),
@@ -73,11 +71,8 @@ module.exports = grammar({
                     $.number,
                     $.super,
                     $.string,
-                    //  |   { objinside }
                     seq("{", optional($.objinside), "}"),
-                    //  |   [ [ expr { , expr } [ , ] ] ]
                     seq("[", commaSep($.expr, true), "]"),
-                    //  [ expr [ , ] forspec compspec ]
                     seq(
                         "[",
                         $.expr,
@@ -86,9 +81,7 @@ module.exports = grammar({
                         optional($.compspec),
                         "]"
                     ),
-                    // |    expr . id
                     seq($.expr, ".", $.id),
-                    // |    expr [ [ expr ] [ : [ expr ] [ : [ expr ] ] ] ]
                     seq(
                         $.expr,
                         "[",
@@ -102,17 +95,11 @@ module.exports = grammar({
                         ),
                         "]"
                     ),
-                    // |    super . id
                     seq($.super, ".", $.id),
-                    // |    super [ expr ]
                     seq($.super, "[", $.expr, "]"),
-                    // |    expr ( [ args ] )
                     seq($.expr, "(", optional($.args), ")"),
-                    // |    id
                     $.id,
-                    // |    local bind { , bind } ; expr
                     seq("local", commaSep1($.bind, false), ";", $.expr),
-                    // |    if expr then expr [ else expr ]
                     seq(
                         "if",
                         field("condition", $.expr),
@@ -120,7 +107,6 @@ module.exports = grammar({
                         field("consequence", $.expr),
                         optional(seq("else", field("alternative", $.expr)))
                     ),
-                    // |    expr binaryop expr
                     prec.left(
                         seq(
                             field("left", $.expr),
@@ -128,23 +114,18 @@ module.exports = grammar({
                             field("right", $.expr)
                         )
                     ),
-                    // |    unaryop expr
                     prec.left(
                         seq(
                             field("operator", $.unaryop),
                             field("argument", $.expr)
                         )
                     ),
-                    // |    expr { objinside }
                     seq($.expr, "{", $.objinside, "}"),
-                    // |    function ( [ params ] ) expr
                     $.anonymous_function,
-                    // |    assert ; expr
                     seq($.assert, ";", $.expr),
                     $.import,
                     $.importstr,
                     $.expr_error,
-                    // |    expr in super
                     seq($.expr, "in", $.super)
                 )
             ),
@@ -211,7 +192,7 @@ module.exports = grammar({
             choice(
                 seq($.id, "=", $.expr),
                 seq(
-                    $.id,
+                    field("function", $.id),
                     "(",
                     optional(field("params", $.params)),
                     ")",

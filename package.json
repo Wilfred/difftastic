@@ -15,5 +15,14 @@
   },
   "scripts": {
     "test": "tree-sitter test"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.jsonnet",
+      "file-types": [
+        "jsonnet"
+      ],
+      "injection-regex": "jsonnet"
+    }
+  ]
 }
