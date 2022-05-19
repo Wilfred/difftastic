@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, collections::{VecDeque, hash_map::Entry}, env, rc::Rc, time::Instant};
+use std::{collections::{VecDeque, hash_map::Entry}, env, rc::Rc};
 
 use crate::{
     changes::ChangeMap,
