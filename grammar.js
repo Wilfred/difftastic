@@ -50,7 +50,7 @@ module.exports = grammar({
         [$._primary_expression, $.member_expression, $._identifier_path],
         [$.member_expression, $._identifier_path],
 
-
+        // This is to deal with an ambiguity due to different revert styles
         [$._call_arguments, $.tuple_expression],
 
         [$._parameter_list, $.fallback_receive_definition],
