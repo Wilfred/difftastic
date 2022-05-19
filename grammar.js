@@ -45,25 +45,27 @@ module.exports = grammar({
 
     conflicts: $ => [
         [$._primary_expression, $.type_name],
-        [$.member_expression, $.type_name],
         [$.identifier, $.type_name],
+
         [$._primary_expression, $._identifier_path],
         [$._primary_expression, $.member_expression, $._identifier_path],
-
         [$.member_expression, $._identifier_path],
 
+        [$.member_expression, $.type_name],
         [$.member_expression, $.array_access],
         [$.member_expression, $._array_type],
+
         [$.array_access, $._array_type],
 
         [$._call_arguments, $.tuple_expression],
 
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
-        [$._yul_expression, $.yul_path],
-        [$._yul_expression, $.yul_assignment],
         [$.pragma_value, $._solidity],
         [$.variable_declaration_tuple, $.tuple_expression],
+
+        [$._yul_expression, $.yul_path],
+        [$._yul_expression, $.yul_assignment],
         [$._decimal_number, $._hex_number],
 
         [$._yul_statement, $.yul_assignment],
