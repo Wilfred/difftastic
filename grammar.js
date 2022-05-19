@@ -63,11 +63,9 @@ module.exports = grammar({
         [$._primary_expression, $.type_cast_expression],
         [$.pragma_value, $._solidity],
         [$.variable_declaration_tuple, $.tuple_expression],
-
+        
         [$._yul_expression, $.yul_path],
         [$._yul_expression, $.yul_assignment],
-        [$._decimal_number, $._hex_number],
-
         [$._yul_statement, $.yul_assignment],
         [$.yul_label, $.yul_identifier],
 
@@ -980,18 +978,14 @@ module.exports = grammar({
         true: $ => "true",
         false: $ => "false",
         boolean_literal: $ => choice($.true, $.false),
+        
         hex_string_literal: $ => prec.left(repeat1(seq(
             'hex',
             choice(
                 seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
                 seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
             )))),
-        // _escape_sequence: $ => seq('\\', choice(
-        //     // TODO: it might be allowed to escape non special characters
-        //     /"'\\bfnrtv\n\r/,
-        //     /u([a-fA-F0-9]{4})/,
-        //     /x([a-fA-F0-9]{2})/,
-        // )),
+
         _escape_sequence: $ => token.immediate(seq(
             '\\',
             choice(
