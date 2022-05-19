@@ -1591,7 +1591,9 @@ bool tree_sitter_haskell_external_scanner_scan(void *indents_v, TSLexer *lexer, 
 unsigned tree_sitter_haskell_external_scanner_serialize(void *indents_v, char *buffer) {
   indent_vec *indents = (indent_vec*) indents_v;
   unsigned to_copy = sizeof(indents->data[0]) * indents->len;
-  assert(to_copy <= TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
+  if (to_copy > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+    return 0;
+  }
   memcpy(buffer, indents->data, to_copy);
   return to_copy;
 }
