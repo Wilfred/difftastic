@@ -44,16 +44,11 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     conflicts: $ => [
+        // The following conflicts are all due to the array type and array access expression ambiguity
         [$._primary_expression, $.type_name],
-        [$.identifier, $.type_name],
-
         [$._primary_expression, $._identifier_path],
         [$._primary_expression, $.member_expression, $._identifier_path],
         [$.member_expression, $._identifier_path],
-
-        [$.member_expression, $.type_name],
-        [$.member_expression, $.array_access],
-        [$.member_expression, $._array_type],
 
         [$.array_access, $._array_type],
 
