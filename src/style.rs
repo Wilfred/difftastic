@@ -8,10 +8,8 @@ use crate::{
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 use owo_colors::{OwoColorize, Style};
-use std::{
-    cmp::{max, min},
-    collections::HashMap,
-};
+use rustc_hash::FxHashMap;
+use std::cmp::{max, min};
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
@@ -196,8 +194,8 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
 fn group_by_line(
     ranges: &[(SingleLineSpan, Style)],
-) -> HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
-    let mut ranges_by_line: HashMap<_, Vec<_>> = HashMap::with_capacity(ranges.len());
+) -> FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
+    let mut ranges_by_line: FxHashMap<_, Vec<_>> = FxHashMap::default();
     for range in ranges {
         if let Some(matching_ranges) = ranges_by_line.get_mut(&range.0.line) {
             (*matching_ranges).push(*range);

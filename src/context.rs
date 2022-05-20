@@ -1,9 +1,9 @@
 //! Calculate which nearby lines should also be displayed.
 
 use std::cmp::Ordering;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::{
     lines::LineNumber,
@@ -331,9 +331,8 @@ fn match_preceding_blanks(
     res
 }
 
-// TODO: use FxHashMap here.
-pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
-    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
+pub fn opposite_positions(mps: &[MatchedPos]) -> FxHashMap<LineNumber, HashSet<LineNumber>> {
+    let mut res: FxHashMap<LineNumber, HashSet<LineNumber>> = FxHashMap::default();
 
     for mp in mps {
         match &mp.kind {
@@ -381,7 +380,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
 /// ```
 fn before_with_opposites(
     before_lines: &[LineNumber],
-    opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_lines: &FxHashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut lines = before_lines.to_vec();
     lines.reverse();
@@ -477,7 +476,7 @@ pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
 /// 122    91 (closest match)
 fn after_with_opposites(
     after_lines: &[LineNumber],
-    opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_lines: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     prev_max_opposite: Option<LineNumber>,
     max_opposite: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -523,8 +522,8 @@ fn after_with_opposites(
 
 pub fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.first() {
         Some(first_line) => match *first_line {
@@ -544,13 +543,13 @@ pub fn calculate_before_context(
 
 pub fn calculate_after_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.last() {
-        Some(first_line) => match *first_line {
+        Some(last_line) => match *last_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
                 // TODO: It would be simpler to do one loop over all
@@ -593,8 +592,8 @@ pub fn calculate_after_context(
 
 pub fn add_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -741,10 +740,10 @@ mod tests {
     fn test_calculate_before_context() {
         let lines = vec![(Some(1.into()), Some(1.into()))];
 
-        let mut opposite_to_lhs = HashMap::new();
+        let mut opposite_to_lhs = FxHashMap::default();
         opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
 
-        let mut opposite_to_rhs = HashMap::new();
+        let mut opposite_to_rhs = FxHashMap::default();
         opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
 
         let res = calculate_before_context(&lines, &opposite_to_lhs, &opposite_to_rhs);
