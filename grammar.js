@@ -58,9 +58,7 @@ module.exports = grammar({
         [$.pragma_value, $._solidity],
         [$.variable_declaration_tuple, $.tuple_expression],
         
-        [$._yul_expression, $.yul_path],
         [$._yul_expression, $.yul_assignment],
-        [$._yul_statement, $.yul_assignment],
         [$.yul_label, $.yul_identifier],
 
         [$.fallback_receive_definition, $._function_type]
