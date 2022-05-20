@@ -44,29 +44,21 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     conflicts: $ => [
+        // The following conflicts are all due to the array type and array access expression ambiguity
         [$._primary_expression, $.type_name],
-        [$.member_expression, $.type_name],
-        [$.identifier, $.type_name],
         [$._primary_expression, $._identifier_path],
         [$._primary_expression, $.member_expression, $._identifier_path],
-
         [$.member_expression, $._identifier_path],
 
-        [$.member_expression, $.array_access],
-        [$.member_expression, $._array_type],
-        [$.array_access, $._array_type],
-
+        // This is to deal with an ambiguity due to different revert styles
         [$._call_arguments, $.tuple_expression],
 
         [$._parameter_list, $.fallback_receive_definition],
         [$._primary_expression, $.type_cast_expression],
-        [$._yul_expression, $.yul_path],
-        [$._yul_expression, $.yul_assignment],
         [$.pragma_value, $._solidity],
         [$.variable_declaration_tuple, $.tuple_expression],
-        [$._decimal_number, $._hex_number],
-
-        [$._yul_statement, $.yul_assignment],
+        
+        [$._yul_expression, $.yul_assignment],
         [$.yul_label, $.yul_identifier],
 
         [$.fallback_receive_definition, $._function_type]
@@ -978,18 +970,14 @@ module.exports = grammar({
         true: $ => "true",
         false: $ => "false",
         boolean_literal: $ => choice($.true, $.false),
+        
         hex_string_literal: $ => prec.left(repeat1(seq(
             'hex',
             choice(
                 seq('"', optional(optionalDashSeparation($._hex_digit)), '"'),
                 seq("'", optional(optionalDashSeparation($._hex_digit)), "'"),
             )))),
-        // _escape_sequence: $ => seq('\\', choice(
-        //     // TODO: it might be allowed to escape non special characters
-        //     /"'\\bfnrtv\n\r/,
-        //     /u([a-fA-F0-9]{4})/,
-        //     /x([a-fA-F0-9]{2})/,
-        // )),
+
         _escape_sequence: $ => token.immediate(seq(
             '\\',
             choice(
