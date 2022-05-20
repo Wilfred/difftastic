@@ -2,8 +2,8 @@
 
 ### Parsing
 
-Improved detection of binary files that have a large number of null
-bytes.
+Improved detection of binary files, including using
+`/usr/share/mime/magic` when available.
 
 Improved handling of comments and regexp literals in Perl.
 

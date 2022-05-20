@@ -20,7 +20,6 @@ Difftastic can be installed with [Homebrew](https://formulae.brew.sh/formula/dif
 $ brew install difftastic
 ```
 
-
 ## Installing from source
 
 ### Build Requirements
@@ -49,3 +48,17 @@ docs](https://github.com/alexcrichton/cc-rs#external-configuration-via-environme
 
 See [contributing](./contributing.md) for instructions on debug
 builds.
+
+## (Optional) Install MIME Database
+
+If a MIME database is available, difftastic will use it to detect
+binary files more accurately. This is the same database used by the
+`file` command, so you probably already have it.
+
+The MIME database path is [specified in the XDG
+specification](https://specifications.freedesktop.org/shared-mime-info-spec/0.11/ar01s03.html). The
+database should be at one of the following paths:
+
+* `/usr/share/mime/magic`
+* `/usr/local/share/mime/magic`
+* `$HOME/.local/share/mime/magic`
