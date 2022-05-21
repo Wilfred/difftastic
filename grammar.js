@@ -657,16 +657,14 @@ module.exports = grammar({
                     '/=',
                     '%=',
                     '~/=',
-                    seq(
-                        choice(
-                            // $._multiplicative_operator,
-                            $._shift_operator,
-                            $._bitwise_operator,
-                            // $._additive_operator,
-                            '??'
-                        ),
-                        '='
-                    )
+                    // shift operator
+                    '<<=',
+                    '>>=',
+                    '>>>=',
+                    '&=',
+                    '^=',
+                    '|=',
+                    '??=',
                 ),
 
         // binary_expression: $ => choice(

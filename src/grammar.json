@@ -1977,30 +1977,32 @@
           "value": "~/="
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_shift_operator"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_bitwise_operator"
-                },
-                {
-                  "type": "STRING",
-                  "value": "??"
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "="
-            }
-          ]
+          "type": "STRING",
+          "value": "<<="
+        },
+        {
+          "type": "STRING",
+          "value": ">>="
+        },
+        {
+          "type": "STRING",
+          "value": ">>>="
+        },
+        {
+          "type": "STRING",
+          "value": "&="
+        },
+        {
+          "type": "STRING",
+          "value": "^="
+        },
+        {
+          "type": "STRING",
+          "value": "|="
+        },
+        {
+          "type": "STRING",
+          "value": "??="
         }
       ]
     },
