@@ -17,8 +17,9 @@
 (library_declaration
   name: (identifier) @name) @definition.interface
 
-(struct_declaration struct_name: (identifier) @name) @definition.class
-(enum_declaration enum_type_name: (identifier) @name) @definition.class
+(struct_declaration name: (identifier) @name) @definition.class
+(enum_declaration name: (identifier) @name) @definition.class
+(event_definition name: (identifier) @name) @definition.class
 
 ;; Function calls
 (call_expression (identifier) @name ) @reference.call
@@ -26,6 +27,9 @@
 (call_expression 
     (member_expression 
         property: (property_identifier) @name )) @reference.call
+
+;; Log emit
+(emit_statement name: (identifier) @name) @reference.class
 
 
 ;; Inheritance
