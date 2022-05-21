@@ -194,7 +194,12 @@ module.exports = grammar({
             field('body', $.contract_body),
         ),
 
-        error_declaration: $ => seq('error', $.identifier, '(', commaSep($.error_parameter), ')', $._semicolon),
+        error_declaration: $ => seq(
+            'error', 
+            field("name", $.identifier), 
+            '(', commaSep($.error_parameter), ')',
+            $._semicolon
+        ),
         error_parameter: $ => seq($.type_name, optional($.identifier)),
 
         interface_declaration: $ => seq(
@@ -242,7 +247,7 @@ module.exports = grammar({
 
         struct_declaration: $ =>  seq(
             'struct',
-            field("struct_name", $.identifier),
+            field("name", $.identifier),
             '{',
             repeat1($.struct_member),
             '}',
@@ -256,7 +261,7 @@ module.exports = grammar({
 
         enum_declaration: $ =>  seq(
             'enum',
-            field("enum_type_name", $.identifier),
+            field("name", $.identifier),
             '{',
             commaSep(alias($.identifier, $.enum_value)),
             '}',
@@ -640,7 +645,7 @@ module.exports = grammar({
 
         function_definition: $ => seq(
             "function",
-            field("function_name", $.identifier),
+            field("name", $.identifier),
             $._parameter_list,
             repeat(choice(
                 $.modifier_invocation,

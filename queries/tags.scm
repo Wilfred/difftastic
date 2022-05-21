@@ -1,11 +1,11 @@
 ;; Method and Function declarations
 (contract_declaration (_
     (function_definition
-        function_name: (identifier) @name) @definition.method))
+        name: (identifier) @name) @definition.method))
 
 (source_file
     (function_definition
-        function_name: (identifier) @name) @definition.function)
+        name: (identifier) @name) @definition.function)
 
 ;; Contract, struct, enum and interface declarations
 (contract_declaration
