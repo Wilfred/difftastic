@@ -832,23 +832,18 @@ module.exports = grammar({
         ),
 
         struct_expression: $ => seq(
-            $._expression,
+            field("type", $._expression),
             "{",
-            commaSep(seq(
-                $.identifier,
-                ":",
-                $._expression,
-            )),
+            commaSep($.struct_field_assignment),
             "}"
         ),
 
-        // _lhs_expression: $ => choice(
-        //     $.member_expression,
-        //     $.array_access,
-        //     $.identifier,
-        //     $.tuple_expression,
-        //     // $._destructuring_pattern
-        // ),
+        struct_field_assignment: $ => seq(
+            field("name", $.identifier),
+            ":",
+            field("value", $._expression),
+        ),
+
         parenthesized_expression: $ => prec(2, seq('(', $._expression, ')')),
 
         assignment_expression: $ => prec.right(PREC.ASSIGN, seq(
@@ -864,7 +859,10 @@ module.exports = grammar({
             field('right', $._expression)
         )),
 
-        call_expression: $ => seq($._expression, $._call_arguments),
+        call_expression: $ => seq(
+            field("function", $._expression),
+            $._call_arguments
+        ),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
