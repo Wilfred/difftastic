@@ -123,7 +123,7 @@ module.exports = grammar({
 
         _source_import: $ => seq(
             field('source', $.string),
-            optional(seq("as", $.identifier))
+            optional($._import_alias)
         ),
 
         _import_clause: $ => choice(
@@ -137,12 +137,7 @@ module.exports = grammar({
 
         _single_import: $ => seq(
             choice("*", field("import_name", $.identifier)),
-            optional(
-                seq(
-                    "as",
-                    field("import_alias", $.identifier)
-                )
-            )
+            optional($._import_alias)
         ),
 
         _multiple_import: $ => seq(
@@ -152,14 +147,11 @@ module.exports = grammar({
         ),
 
         _import_declaration: $  => seq(
-            field("import_origin", $.identifier),
-            optional(
-                seq(
-                    "as",
-                    field("import_alias", $.identifier)
-                )
-            )
+            field("import_name", $.identifier),
+            optional($._import_alias)
         ),
+        
+        _import_alias: $ => seq("as", field("alias", $.identifier)),
 
         //  -- [ Declarations ] --
         _declaration: $ => choice(
