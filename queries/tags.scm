@@ -14,6 +14,9 @@
 (interface_declaration
   name: (identifier) @name) @definition.interface
 
+(library_declaration
+  name: (identifier) @name) @definition.interface
+
 (struct_declaration struct_name: (identifier) @name) @definition.class
 (enum_declaration enum_type_name: (identifier) @name) @definition.class
 
