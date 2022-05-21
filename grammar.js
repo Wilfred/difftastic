@@ -118,7 +118,11 @@ module.exports = grammar({
         // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
-        [$.lambda_expression, $.local_variable_declaration],
+        [$._top_level_definition, $._var_or_type, $.function_signature],
+        [$._var_or_type, $.function_signature],
+        [$._var_or_type, $._function_formal_parameter],
+        [$._var_or_type],
+        [$._top_level_definition, $._var_or_type],
         [$._top_level_definition, $._final_const_var_or_type],
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
@@ -645,12 +649,20 @@ module.exports = grammar({
         //todo: use the op names in place of these.
         _assignment_operator: $ => choice(
                     '=',
+                    // additive operator
+                    '+=',
+                    '-=',
+                    // multiplicative operator
+                    '*=',
+                    '/=',
+                    '%=',
+                    '~/=',
                     seq(
                         choice(
-                            $._multiplicative_operator,
+                            // $._multiplicative_operator,
                             $._shift_operator,
                             $._bitwise_operator,
-                            $._additive_operator,
+                            // $._additive_operator,
                             '??'
                         ),
                         '='
@@ -1855,7 +1867,7 @@ module.exports = grammar({
             ),
             seq(
                 optional($._late_builtin),
-                _var_or_type,
+                $._var_or_type,
                 $.initialized_identifier_list
             )
         //    TODO: add in the 'late' keyword from the informal draft spec:
@@ -2071,10 +2083,7 @@ module.exports = grammar({
                 $._type
             )),
             seq(optional($._late_builtin),
-                choice(
-                    $._type,
-                    $.inferred_type,
-                ))
+                $._var_or_type)
         ),
 
         _type: $ => choice(
