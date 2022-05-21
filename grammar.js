@@ -59,8 +59,10 @@ module.exports = grammar({
         [$.variable_declaration_tuple, $.tuple_expression],
         
         [$._yul_expression, $.yul_assignment],
+        // Ambiguity: identifier ':'
         [$.yul_label, $.yul_identifier],
 
+        // This is to deal with ambiguities arising from different fallback styles
         [$.fallback_receive_definition, $._function_type]
     ],
 
