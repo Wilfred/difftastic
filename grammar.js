@@ -166,11 +166,17 @@ module.exports = grammar({
             $.user_defined_type_definition,
         ),
 
-        user_defined_type_definition: $ => seq('type', $.identifier, 'is', $.primitive_type, $._semicolon),
+        user_defined_type_definition: $ => seq(
+            'type',
+            field("name", $.identifier), 
+            'is', 
+            $.primitive_type, 
+            $._semicolon
+        ),
 
         constant_variable_declaration: $ => seq(
             field("type", $.type_name),
-            $.constant,
+            $._constant,
             field("name", $.identifier),
             '=',
             field("value", $._expression),
@@ -560,7 +566,7 @@ module.exports = grammar({
             field("type", $.type_name),
             repeat(choice(
                 field('visibility', $.visibility), // FIXME: this also allows external
-                $.constant,
+                $._constant,
                 $.override_specifier,
                 $.immutable,
             )),
@@ -570,7 +576,7 @@ module.exports = grammar({
             )),
             $._semicolon
         ),
-        constant: $ => "constant",
+        _constant: $ => "constant",
         visibility: $ => choice(
             'public',
             'internal',
