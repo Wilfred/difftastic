@@ -16,7 +16,7 @@
 mod changes;
 mod constants;
 mod context;
-mod dijkstra;
+mod bfs;
 mod files;
 mod graph;
 mod guess_language;
@@ -62,7 +62,7 @@ use syntax::init_next_prev;
 use typed_arena::Arena;
 
 use crate::{
-    dijkstra::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp,
+    bfs::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp,
 };
 
 extern crate pretty_env_logger;

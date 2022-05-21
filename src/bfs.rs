@@ -51,7 +51,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     };
 
     debug!(
-        "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
+        "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left in queue.",
         predecessors.len(),
         std::mem::size_of::<&Vertex>(),
         std::mem::size_of::<PredecessorInfo>(),
