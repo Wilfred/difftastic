@@ -198,7 +198,7 @@ module.exports = grammar({
             '(', commaSep($.error_parameter), ')',
             $._semicolon
         ),
-        
+
         error_parameter: $ => seq(
             field("type", $.type_name), 
             field("name", optional($.identifier)),
@@ -484,15 +484,15 @@ module.exports = grammar({
         block_statement: $ => seq(optional($._unchecked), '{', repeat($._statement), "}"),
         variable_declaration_statement: $ => prec(1,seq(
                 choice(
-                    seq($.variable_declaration, optional(seq('=', $._expression))),
-                    seq($.variable_declaration_tuple, '=', $._expression),
+                    seq($.variable_declaration, optional(seq('=', field("value", $._expression)))),
+                    seq($.variable_declaration_tuple, '=', field("value", $._expression)),
                 ),
                 $._semicolon
         )),
 
         variable_declaration: $ => seq(
-            $.type_name,
-            optional(choice('memory', 'storage', 'calldata')),
+            field("type", $.type_name),
+            field("location", optional(choice('memory', 'storage', 'calldata'))),
             field('name', $.identifier)
         ),
 
@@ -504,13 +504,7 @@ module.exports = grammar({
             ),
             seq('var',
                 '(',
-                optional($.identifier),
-                repeat(
-                    seq(
-                        ',',
-                        optional($.identifier),
-                    )
-                ),
+                commaSep(optional($.identifier)),
                 ')'
             )
         )),
