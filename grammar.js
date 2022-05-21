@@ -744,7 +744,7 @@ module.exports = grammar({
         ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
 
         // TODO: make sure call arguments are part of solidity
-        new_expression: $ => prec.left(seq('new', $.type_name, optional($._call_arguments))),
+        new_expression: $ => prec.left(seq('new', field("name", $.type_name), optional($._call_arguments))),
 
         tuple_expression: $ => prec(1, seq('(', commaSep(optional($._expression)), ')' )),
 
