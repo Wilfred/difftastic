@@ -320,16 +320,16 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS { contiguous: false },
                 EnterNovelDelimiterLHS { contiguous: false },
+                EnterNovelDelimiterRHS { contiguous: false },
                 UnchangedNode {
                     depth_difference: 0
                 },
                 UnchangedNode {
                     depth_difference: 0
                 },
-                ExitDelimiterRHS,
                 ExitDelimiterLHS,
+                ExitDelimiterRHS,
             ],
         );
     }
