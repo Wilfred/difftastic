@@ -13,10 +13,10 @@
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
 
+mod bfs;
 mod changes;
 mod constants;
 mod context;
-mod bfs;
 mod files;
 mod graph;
 mod guess_language;
@@ -61,9 +61,7 @@ use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
 
-use crate::{
-    bfs::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp,
-};
+use crate::{bfs::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp};
 
 extern crate pretty_env_logger;
 

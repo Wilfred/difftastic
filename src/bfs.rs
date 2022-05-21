@@ -1,7 +1,11 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{collections::{VecDeque, hash_map::Entry}, env, rc::Rc};
+use std::{
+    collections::{hash_map::Entry, VecDeque},
+    env,
+    rc::Rc,
+};
 
 use crate::{
     changes::ChangeMap,
@@ -12,7 +16,7 @@ use itertools::Itertools;
 use rustc_hash::FxHashMap;
 use typed_arena::Arena;
 
-type PredecessorInfo<'a, 'b> = (&'b Vertex<'a>, Edge);
+type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     let vertices: Arena<Vertex> = Arena::new();
@@ -38,10 +42,18 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
                 neighbours(current, &mut neighbour_buf, &vertices);
                 for neighbour in &mut neighbour_buf {
                     if let Some((edge, next)) = neighbour.take() {
-                        if let Entry::Vacant(e) = predecessors.entry(next) {
-                            let distance_to_next = distance + edge.cost();
-                            e.insert((current, edge));
-                            queue.push_back((distance_to_next, next));
+                        let distance_to_next = distance + edge.cost();
+                        match predecessors.entry(next) {
+                            Entry::Occupied(mut o) => {
+                                let (dist, _, _) = o.get();
+                                if distance_to_next < *dist {
+                                    o.insert((distance_to_next, current, edge));
+                                }
+                            }
+                            Entry::Vacant(e) => {
+                                e.insert((distance_to_next, current, edge));
+                                queue.push_back((distance_to_next, next));
+                            }
                         }
                     }
                 }
@@ -61,7 +73,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
 
     let mut route: Vec<(Edge, Rc<Vertex>)> = vec![];
     let mut cost = 0;
-    while let Some((node, edge)) = predecessors.remove(&current) {
+    while let Some((_, node, edge)) = predecessors.remove(&current) {
         route.push((edge, Rc::new(node.clone())));
         cost += edge.cost();
 

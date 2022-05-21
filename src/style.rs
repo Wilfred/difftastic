@@ -275,12 +275,14 @@ pub fn color_positions(
             }
             MatchKind::Novel { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                if syntax_highlight && matches!(
+                if syntax_highlight
+                    && matches!(
                         highlight,
                         TokenKind::Delimiter
                             | TokenKind::Atom(AtomKind::Keyword)
                             | TokenKind::Atom(AtomKind::Type)
-                    ) {
+                    )
+                {
                     style = style.bold();
                 }
                 if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
