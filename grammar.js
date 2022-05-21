@@ -512,22 +512,32 @@ module.exports = grammar({
         expression_statement: $ => seq($._expression, $._semicolon),
 
         if_statement: $ => prec.right(seq(
-            'if', '(',$._expression, ')', $._statement, optional(seq('else', $._statement)),
+            'if', '(',
+            field("condition", $._expression), 
+            ')', 
+            field("body", $._statement), 
+            field("else",
+                optional(
+                    seq(
+                        'else',
+                        field("body", $._statement)
+                ))
+            ),
         )),
 
         for_statement: $ => seq(
             'for', '(',
-            choice($.variable_declaration_statement, $.expression_statement, $._semicolon),
-            choice($.expression_statement, $._semicolon),
-            optional($._expression),
-            ')', $._statement,
+            field("initial", choice($.variable_declaration_statement, $.expression_statement, $._semicolon)),
+            field("condition", choice($.expression_statement, $._semicolon)),
+            field("update", optional($._expression)),
+            ')', field("body", $._statement),
         ),
 
         while_statement: $ => seq(
-            'while', '(',$._expression, ')', $._statement,
+            'while', '(',field("condition", $._expression), ')', field("body", $._statement),
         ),
         do_while_statement: $ => seq(
-            'do', $._statement, 'while', '(',$._expression, ')', $._semicolon,
+            'do', field("body", $._statement), 'while', '(', field("condition", $._expression), ')', $._semicolon,
         ),
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
@@ -542,18 +552,30 @@ module.exports = grammar({
         ),
 
         try_statement: $ => seq(
-            'try', $._expression, optional(seq('returns', $._parameter_list)), $.block_statement, repeat1($.catch_clause),
+            'try', 
+            field("attempt", $._expression), 
+            optional(seq('returns', $._parameter_list)), 
+            field("body", $.block_statement), 
+            repeat1($.catch_clause),
         ),
 
         catch_clause: $ => seq(
-            'catch', optional(seq(optional($.identifier), $._parameter_list)), $.block_statement,
+            'catch', 
+            optional(seq(optional($.identifier), $._parameter_list)), 
+            field("body", $.block_statement),
         ),
 
         return_statement: $ => seq(
-            'return', optional($._expression), $._semicolon
+            'return', 
+            optional($._expression), 
+            $._semicolon
         ),
+
         emit_statement: $ => seq(
-            'emit',  $._expression, $._call_arguments, $._semicolon
+            'emit',  
+            field("name", $._expression), 
+            $._call_arguments, 
+            $._semicolon
         ),
 
 
@@ -669,12 +691,14 @@ module.exports = grammar({
         _call_arguments: $ => prec(4,
             seq(
                 '(',
-                commaSep(choice(
-                    $._expression,
-                    seq("{", commaSep(seq($.identifier, ":", $._expression)), "}"),
-                )),
+                commaSep($.call_argument),
                 ')'
             ),
+        ),
+        
+        call_argument: $ => choice(
+            $._expression,
+            seq("{", commaSep(seq($.identifier, ":", $._expression)), "}"),
         ),
 
         function_body: $ => seq(
