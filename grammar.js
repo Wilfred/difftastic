@@ -198,7 +198,11 @@ module.exports = grammar({
             '(', commaSep($.error_parameter), ')',
             $._semicolon
         ),
-        error_parameter: $ => seq($.type_name, optional($.identifier)),
+        
+        error_parameter: $ => seq(
+            field("type", $.type_name), 
+            field("name", optional($.identifier)),
+        ),
 
         interface_declaration: $ => seq(
             'interface',
