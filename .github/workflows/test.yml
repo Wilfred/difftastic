@@ -8,11 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -22,11 +17,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -36,11 +26,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -50,11 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -65,11 +45,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: package
@@ -80,12 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: 1.56.0
-          override: true
-      - run: rustup component add rustfmt
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
