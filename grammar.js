@@ -695,7 +695,7 @@ module.exports = grammar({
                 ')'
             ),
         ),
-        
+
         call_argument: $ => choice(
             $._expression,
             seq("{", commaSep(seq($.identifier, ":", $._expression)), "}"),
@@ -746,17 +746,7 @@ module.exports = grammar({
         // TODO: make sure call arguments are part of solidity
         new_expression: $ => prec.left(seq('new', $.type_name, optional($._call_arguments))),
 
-        tuple_expression: $ => prec(1, seq(
-            '(',
-            optional($._expression),
-            repeat(
-                seq(
-                    ',',
-                    optional($._expression),
-                )
-            ),
-            ')'
-        )),
+        tuple_expression: $ => prec(1, seq('(', commaSep(optional($._expression)), ')' )),
 
         inline_array_expression: $ => seq(
             '[',
