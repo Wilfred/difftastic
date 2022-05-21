@@ -118,6 +118,7 @@ module.exports = grammar({
         // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
+        [$.lambda_expression, $.local_variable_declaration],
         [$._top_level_definition, $._final_const_var_or_type],
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
@@ -1091,7 +1092,7 @@ module.exports = grammar({
         cascade_section: $ => prec.left(
             DART_PREC.Cascade,
             seq(
-                '..',
+                choice('..', '?..'),
                 $.cascade_selector,
                 repeat($.argument_part),
                 repeat(
@@ -1173,7 +1174,8 @@ module.exports = grammar({
         // Statements
         _statement: $ => choice(
             $.block,
-            $.local_variable_declaration,
+            prec.dynamic(1, $.local_function_declaration),
+            prec.dynamic(2, $.local_variable_declaration),
             $.for_statement,
             $.while_statement,
             $.do_statement,
@@ -1191,6 +1193,10 @@ module.exports = grammar({
             $.expression_statement,
             $.assert_statement,
             // $.labeled_statement,
+        ),
+
+        local_function_declaration: $ => seq(
+            optional($._metadata),
             $.lambda_expression
         ),
 
@@ -1773,11 +1779,74 @@ module.exports = grammar({
                 $._static,
                 $.function_signature,
             ),
+            // | static const 〈type〉? 〈staticFinalDeclarationList〉
+            // | static final 〈type〉? 〈staticFinalDeclarationList〉
+            // | static late final 〈type〉? 〈initializedIdentifierList〉
+            // | static late? 〈varOrType〉 〈initializedIdentifierList
             seq(
                 $._static,
-                $._final_or_const,
-                optional($._type),
-                $.static_final_declaration_list
+                choice(
+                    seq(
+                        $._final_or_const,
+                        optional($._type),
+                        $.static_final_declaration_list
+                    ),
+                    seq(
+                        $._late_builtin,
+                        choice(
+                            seq(
+                                $.final_builtin,
+                                optional($._type),
+                                $.initialized_identifier_list
+                            ),
+                            seq(
+                                choice(
+                                    $._type,
+                                    $.inferred_type,
+                                ),
+                                $.initialized_identifier_list
+                            )
+                        )
+                    ),
+                    seq(
+                        choice(
+                            $._type,
+                            $.inferred_type,
+                        ),
+                        $.initialized_identifier_list
+                    )
+                )
+            ),
+            // | covariant late final 〈type〉? 〈identifierList〉
+            // | covariant late? 〈varOrType〉 〈initializedIdentifierList〉
+            seq(
+                $._covariant,
+                choice(
+                    seq(
+                        $._late_builtin,
+                        choice(
+                            seq(
+                                $.final_builtin,
+                                optional($._type),
+                                $.identifier_list
+                            ),
+                            seq(
+                                choice(
+                                    $._type,
+                                    $.inferred_type,
+                                ),
+                                $.initialized_identifier_list
+                            )
+                        )
+                    ),
+                    seq(
+                        choice(
+                            $._type,
+                            $.inferred_type,
+                        ),
+                        $.initialized_identifier_list
+                    )
+                )
             ),
             seq(
                 optional($._late_builtin), $.final_builtin,
@@ -1785,12 +1854,8 @@ module.exports = grammar({
                 $.initialized_identifier_list
             ),
             seq(
-                optional($._static_or_covariant),
                 optional($._late_builtin),
-                choice(
-                    $._type,
-                    $.inferred_type
-                ),
+                _var_or_type,
                 $.initialized_identifier_list
             )
         //    TODO: add in the 'late' keyword from the informal draft spec:
@@ -1799,6 +1864,10 @@ module.exports = grammar({
         //    |covariant late?〈varOrType〉 〈initializedIdentifierList〉
         //    |late?final〈type〉?〈initializedIdentifierList〉
         //    |late?〈varOrType〉 〈initializedIdentifierList〉
+        ),
+
+        identifier_list: $ => commaSep1(
+            $.identifier
         ),
         initialized_identifier_list: $ => commaSep1(
             $.initialized_identifier
@@ -2169,6 +2238,14 @@ module.exports = grammar({
         ),
 
         void_type: $ => token('void'),
+
+        _var_or_type: $ => choice(
+            $._type,
+            seq(
+                $.inferred_type,
+                optional($._type)
+            )
+        ),
 
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
