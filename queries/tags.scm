@@ -7,13 +7,15 @@
     (function_definition
         function_name: (identifier) @name) @definition.function)
 
-;; Contract and Interface declarations
+;; Contract, struct, enum and interface declarations
 (contract_declaration
   name: (identifier) @name) @definition.class
 
 (interface_declaration
   name: (identifier) @name) @definition.interface
 
+(struct_declaration struct_name: (identifier) @name) @definition.class
+(enum_declaration enum_type_name: (identifier) @name) @definition.class
 
 ;; Function calls
 (call_expression (identifier) @name ) @reference.call
