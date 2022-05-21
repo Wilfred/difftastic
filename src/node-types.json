@@ -100,7 +100,7 @@
         "named": true
       },
       {
-        "type": "lambda_expression",
+        "type": "local_function_declaration",
         "named": true
       },
       {
@@ -2762,6 +2762,10 @@
         },
         {
           "type": "getter_signature",
+          "named": true
+        },
+        {
+          "type": "identifier_list",
           "named": true
         },
         {
@@ -5441,6 +5445,21 @@
     "fields": {}
   },
   {
+    "type": "identifier_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_element",
     "named": true,
     "fields": {
@@ -6737,6 +6756,29 @@
         },
         {
           "type": "unconditional_assignable_selector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "local_function_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
           "named": true
         }
       ]
@@ -11315,6 +11357,10 @@
   },
   {
     "type": "?.",
+    "named": false
+  },
+  {
+    "type": "?..",
     "named": false
   },
   {
