@@ -748,11 +748,7 @@ module.exports = grammar({
 
         tuple_expression: $ => prec(1, seq('(', commaSep(optional($._expression)), ')' )),
 
-        inline_array_expression: $ => seq(
-            '[',
-            commaSep($._expression),
-            ']'
-        ),
+        inline_array_expression: $ => seq('[', commaSep($._expression), ']' ),
 
         binary_expression: $ => choice(
             ...[
