@@ -879,7 +879,7 @@ module.exports = grammar({
 
         _function_type: $ => prec.right(seq(
             'function', 
-            $._parameter_list, 
+            field("parameters", $._parameter_list), 
             repeat(choice(
                 $.visibility,
                 $.state_mutability,
@@ -892,17 +892,17 @@ module.exports = grammar({
         ),
 
         _return_parameters: $ => seq(
-            'returns', '(', commaSep1($._nameless_parameter), ')'
+            'returns', '(', commaSep1(alias($._nameless_parameter, $.return_parameter)), ')'
         ),
 
         _nameless_parameter: $ =>  seq(
-            $.type_name,
-            optional($._storage_location),
+            field("type", $.type_name),
+            field("location", optional($._storage_location)),
         ),
 
         parameter: $ =>  seq(
             field("type", $.type_name),
-            optional(field("storage_location", $._storage_location)),
+            optional(field("location", $._storage_location)),
             optional(field("name", $.identifier)),
         ),
 
@@ -917,7 +917,11 @@ module.exports = grammar({
         _identifier_path: $ => prec.left(dotSep1( $.identifier)),
 
         _mapping: $ => seq(
-            'mapping', '(', $._mapping_key, '=>', $.type_name, ')',
+            'mapping', '(', 
+            field("key_type", $._mapping_key), 
+            '=>', 
+            field("value_type", $.type_name), 
+            ')',
         ),
 
         _mapping_key: $ => choice(
