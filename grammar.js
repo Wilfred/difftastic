@@ -1,18 +1,19 @@
 const PREC = {
   stable_type_id: 1,
-  binding: 1,
   lambda: 1,
-  stable_id: 2,
-  assign: 2,
-  unit: 2,
-  ascription: 2,
-  postfix: 3,
-  infix: 4,
-  new: 5,
-  prefix: 5,
-  compound: 5,
-  call: 6,
-  field: 6,
+  binding_decl: 1,
+  binding_def: 2,
+  stable_id: 3,
+  assign: 3,
+  unit: 3,
+  ascription: 3,
+  postfix: 4,
+  infix: 5,
+  new: 6,
+  prefix: 6,
+  compound: 6,
+  call: 7,
+  field: 7,
 }
 
 module.exports = grammar({
@@ -56,8 +57,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
     [$.binding, $.expression],
-    [$.val_declaration, $.typed_pattern],
-    [$.var_declaration, $.typed_pattern],
   ],
 
   word: $ => $.identifier,
@@ -235,7 +234,7 @@ module.exports = grammar({
       field('arguments', repeat($.arguments)),
     )),
 
-    val_definition: $ => prec(PREC.binding, seq(
+    val_definition: $ => prec(PREC.binding_def, seq(
       $._start_val,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
@@ -243,12 +242,12 @@ module.exports = grammar({
       field('value', $.expression)
     )),
 
-    val_declaration: $ => seq(
+    val_declaration: $ => prec(PREC.binding_decl, seq(
       $._start_val,
       commaSep1(field('name', $.identifier)),
       ':',
       field('type', $._type)
-    ),
+    )),
 
     _start_val: $ => seq(
       repeat($.annotation),
@@ -256,14 +255,14 @@ module.exports = grammar({
       'val',
     ),
 
-    var_declaration: $ => seq(
+    var_declaration: $ => prec(PREC.binding_decl, seq(
       $._start_var,
       commaSep1(field('name', $.identifier)),
       ':',
       field('type', $._type)
-    ),
+    )),
 
-    var_definition: $ => prec(PREC.binding, seq(
+    var_definition: $ => prec(PREC.binding_def, seq(
       $._start_var,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
@@ -596,7 +595,7 @@ module.exports = grammar({
 
     finally_clause: $ => prec.right(seq('finally', $.expression)),
 
-    binding: $ => prec.dynamic(PREC.binding, seq(
+    binding: $ => prec.dynamic(PREC.binding_decl, seq(
       field('name', $.identifier),
       optional(seq(':', field('type', $._param_type))),
     )),
