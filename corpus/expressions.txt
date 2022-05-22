@@ -460,8 +460,7 @@ object O {
         (identifier)
         (block (lambda_expression
           (identifier)
-          (val_definition (identifier) (infix_expression (integer_literal) (operator_identifier) (identifier)))
-        ))))))
+          (val_definition (identifier) (infix_expression (integer_literal) (operator_identifier) (identifier)))))))))
 
 ===============================
 Unit expressions
