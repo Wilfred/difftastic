@@ -11,20 +11,22 @@ use crate::{
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
+use typed_arena::Arena;
 
-type PredecessorInfo<'a> = (u64, Rc<Vertex<'a>>, Edge);
+type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
-fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
+fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, Rc<Vertex>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, &Vertex> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), Rc::new(start));
+    let vertex_arena: Arena<Vertex> = Arena::new();
+    heap.push(Reverse(0), vertex_arena.alloc(start));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Rc<Vertex>, PredecessorInfo> = FxHashMap::default();
+    let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
@@ -36,7 +38,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
                     break current;
                 }
 
-                neighbours(&current, &mut neighbour_buf);
+                neighbours(current, &mut neighbour_buf, &vertex_arena);
                 for neighbour in &mut neighbour_buf {
                     if let Some((edge, next)) = neighbour.take() {
                         let distance_to_next = distance + edge.cost();
@@ -46,10 +48,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
                         };
 
                         if found_shorter_route {
-                            let next = Rc::new(next);
-
-                            predecessors
-                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
+                            predecessors.insert(next, (distance_to_next, current, edge));
 
                             heap.push(Reverse(distance_to_next), next);
                         }
@@ -69,7 +68,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     );
     let mut current = end;
 
-    let mut route: Vec<(Edge, Rc<Vertex>)> = vec![];
+    let mut route: Vec<(Edge, Vertex)> = vec![];
     let mut cost = 0;
     while let Some((_, node, edge)) = predecessors.remove(&current) {
         route.push((edge, node.clone()));

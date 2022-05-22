@@ -5,9 +5,9 @@ use std::{
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
-    rc::Rc,
 };
 use strsim::normalized_levenshtein;
+use typed_arena::Arena;
 
 use crate::{
     changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
@@ -332,7 +332,11 @@ impl Edge {
 }
 
 /// Calculate all the neighbours from `v` and write them to `buf`.
-pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
+pub fn neighbours<'a, 'b>(
+    v: &Vertex<'a>,
+    buf: &mut [Option<(Edge, &'b Vertex<'a>)>],
+    alloc: &'b Arena<Vertex<'a>>,
+) {
     for item in &mut *buf {
         *item = None;
     }
@@ -347,14 +351,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             // Continue from sibling of parent.
             buf[i] = Some((
                 ExitDelimiterBoth,
-                Vertex {
+                alloc.alloc(Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: rhs_parent.next_sibling(),
                     can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                },
+                }),
             ));
             i += 1;
         }
@@ -367,14 +371,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             // Continue from sibling of parent.
             buf[i] = Some((
                 ExitDelimiterLHS,
-                Vertex {
+                alloc.alloc(Vertex {
                     lhs_syntax: lhs_parent.next_sibling(),
                     rhs_syntax: v.rhs_syntax,
                     can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                     rhs_parent_id: v.rhs_parent_id,
-                },
+                }),
             ));
             i += 1;
         }
@@ -387,14 +391,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             // Continue from sibling of parent.
             buf[i] = Some((
                 ExitDelimiterRHS,
-                Vertex {
+                alloc.alloc(Vertex {
                     lhs_syntax: v.lhs_syntax,
                     rhs_syntax: rhs_parent.next_sibling(),
                     can_pop_either: can_pop_either_parent(&parents_next),
                     parents: parents_next,
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                },
+                }),
             ));
             i += 1;
         }
@@ -409,14 +413,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             // Both nodes are equal, the happy case.
             buf[i] = Some((
                 UnchangedNode { depth_difference },
-                Vertex {
+                alloc.alloc(Vertex {
                     lhs_syntax: lhs_syntax.next_sibling(),
                     rhs_syntax: rhs_syntax.next_sibling(),
                     parents: v.parents.clone(),
                     lhs_parent_id: v.lhs_parent_id,
                     rhs_parent_id: v.rhs_parent_id,
                     can_pop_either: v.can_pop_either,
-                },
+                }),
             ));
             i += 1;
         }
@@ -450,14 +454,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 buf[i] = Some((
                     EnterUnchangedDelimiter { depth_difference },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: Some(rhs_syntax.id()),
                         can_pop_either: false,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -483,14 +487,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
                 buf[i] = Some((
                     ReplacedComment { levenshtein_pct },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
                         can_pop_either: v.can_pop_either,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -507,14 +511,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         // node rather than a sibling?
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
                         can_pop_either: v.can_pop_either,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -528,14 +532,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
                         lhs_parent_id: Some(lhs_syntax.id()),
                         rhs_parent_id: v.rhs_parent_id,
                         can_pop_either: true,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -550,14 +554,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     NovelAtomRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
                         can_pop_either: v.can_pop_either,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -571,14 +575,14 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
-                    Vertex {
+                    alloc.alloc(Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
                         parents: parents_next,
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: Some(rhs_syntax.id()),
                         can_pop_either: true,
-                    },
+                    }),
                 ));
                 i += 1;
             }
@@ -590,7 +594,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     );
 }
 
-pub fn populate_change_map<'a>(route: &[(Edge, Rc<Vertex<'a>>)], change_map: &mut ChangeMap<'a>) {
+pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)], change_map: &mut ChangeMap<'a>) {
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
