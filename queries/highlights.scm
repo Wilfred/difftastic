@@ -1,9 +1,16 @@
 (pair
-  key: (_) @keyword)
+  key: (_) @string.special.key)
 
 (string) @string
 
-(object
-  "{" @escape
-  (_)
-  "}" @escape)
+(number) @number
+
+[
+  (null)
+  (true)
+  (false)
+] @constant.builtin
+
+(escape_sequence) @escape
+
+(comment) @comment
