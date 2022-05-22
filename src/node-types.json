@@ -344,6 +344,10 @@
         "named": true
       },
       {
+        "type": "macro_invocation",
+        "named": true
+      },
+      {
         "type": "mut_pattern",
         "named": true
       },
@@ -2642,10 +2646,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "macro_invocation",
-            "named": true
-          },
           {
             "type": "match_pattern",
             "named": true

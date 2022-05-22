@@ -768,7 +768,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[/_\\-=->,;:::!=?.@*&#%^+<>|~]+"
+          "value": "[\\/_\\-=->,;:::!=?.@*&#%^+<>|~]+"
         },
         {
           "type": "STRING",
@@ -7101,17 +7101,8 @@
           "type": "FIELD",
           "name": "pattern",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "macro_invocation"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "match_pattern"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "match_pattern"
           }
         },
         {
@@ -7966,6 +7957,10 @@
         {
           "type": "SYMBOL",
           "name": "const_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_invocation"
         },
         {
           "type": "STRING",

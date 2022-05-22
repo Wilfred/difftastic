@@ -243,6 +243,8 @@ let ref mut x @ (A | B | C);
 
 fn foo((1 | 2 | 3): u8) {}
 
+if let x!() | y!() = () {}
+
 // Discomment after box pattern land on master
 // let box (A | B | C);
 
@@ -366,6 +368,17 @@ fn foo((1 | 2 | 3): u8) {}
             (integer_literal)))
         type: (primitive_type)))
     body: (block))
+  (expression_statement
+    (if_let_expression
+      pattern: (or_pattern
+        (macro_invocation
+          macro: (identifier)
+          (token_tree))
+        (macro_invocation
+          macro: (identifier)
+          (token_tree)))
+      value: (unit_expression)
+      consequence: (block)))
   (line_comment)
   (line_comment)
   (line_comment)

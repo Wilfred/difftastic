@@ -1216,10 +1216,7 @@ module.exports = grammar({
 
     match_arm: $ => seq(
       repeat($.attribute_item),
-      field('pattern', choice(
-        $.macro_invocation,
-        $.match_pattern
-      )),
+      field('pattern', $.match_pattern),
       '=>',
       choice(
         seq(field('value', $._expression), ','),
@@ -1358,6 +1355,7 @@ module.exports = grammar({
       $.range_pattern,
       $.or_pattern,
       $.const_block,
+      $.macro_invocation,
       '_'
     ),
 
