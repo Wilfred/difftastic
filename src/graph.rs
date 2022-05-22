@@ -5,7 +5,6 @@ use std::{
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
-    rc::Rc,
 };
 use strsim::normalized_levenshtein;
 use typed_arena::Arena;
@@ -595,7 +594,7 @@ pub fn neighbours<'a, 'b>(
     );
 }
 
-pub fn populate_change_map<'a>(route: &[(Edge, Rc<Vertex<'a>>)], change_map: &mut ChangeMap<'a>) {
+pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)], change_map: &mut ChangeMap<'a>) {
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
