@@ -56,16 +56,22 @@ module.exports = grammar({
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
     [$.binding, $.expression],
+    [$.val_declaration, $.typed_pattern],
+    [$.var_declaration, $.typed_pattern],
   ],
 
   word: $ => $.identifier,
 
   rules: {
-    compilation_unit: $ => repeat($._definition),
+    compilation_unit: $ => repeat($._top_level_definition),
 
-    _definition: $ => choice(
+    _top_level_definition: $ => choice(
       $.package_clause,
       $.package_object,
+      $._definition,
+    ),
+
+    _definition: $ => choice(
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -89,9 +95,9 @@ module.exports = grammar({
       field('body', optional($.template_body))
     ),
 
-    package_identifier: $ => sep1(
+    package_identifier: $ => prec.right(sep1(
       '.', $.identifier
-    ),
+    )),
 
     package_object: $ => seq(
       'package',
@@ -99,10 +105,10 @@ module.exports = grammar({
       $._object_definition
     ),
 
-    import_declaration: $ => seq(
+    import_declaration: $ => prec.left(seq(
       'import',
       sep1(',', $._import_expression)
-    ),
+    )),
 
     _import_expression: $ => seq(
       field('path', choice($.stable_identifier, $.identifier)),
@@ -141,11 +147,11 @@ module.exports = grammar({
       $._object_definition
     ),
 
-    _object_definition: $ => seq(
+    _object_definition: $ => prec.left(seq(
       field('name', $.identifier),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body)),
-    ),
+    )),
 
     class_definition: $ => prec.right(seq(
       repeat($.annotation),
@@ -160,7 +166,7 @@ module.exports = grammar({
       field('body', optional($.template_body))
     )),
 
-    trait_definition: $ => seq(
+    trait_definition: $ => prec.left(seq(
       repeat($.annotation),
        optional($.modifiers),
       'trait',
@@ -168,7 +174,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body))
-    ),
+    )),
 
     // The EBNF makes a distinction between function type parameters and other
     // type parameters as you can't specify variance on function type
@@ -229,42 +235,46 @@ module.exports = grammar({
       field('arguments', repeat($.arguments)),
     )),
 
-    val_definition: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'val',
+    val_definition: $ => prec(PREC.binding, seq(
+      $._start_val,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
       field('value', $.expression)
-    ),
+    )),
 
     val_declaration: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'val',
+      $._start_val,
       commaSep1(field('name', $.identifier)),
       ':',
       field('type', $._type)
+    ),
+
+    _start_val: $ => seq(
+      repeat($.annotation),
+      optional($.modifiers),
+      'val',
     ),
 
     var_declaration: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'var',
+      $._start_var,
       commaSep1(field('name', $.identifier)),
       ':',
       field('type', $._type)
     ),
 
-    var_definition: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'var',
+    var_definition: $ => prec(PREC.binding, seq(
+      $._start_var,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
       field('value', $.expression)
+    )),
+
+    _start_var: $ => seq(
+      repeat($.annotation),
+      optional($.modifiers),
+      'var',
     ),
 
     type_definition: $ => seq(
@@ -291,7 +301,7 @@ module.exports = grammar({
       )
     ),
 
-    function_declaration: $ => seq(
+    function_declaration: $ => prec.left(seq(
       repeat($.annotation),
       optional($.modifiers),
       'def',
@@ -299,7 +309,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type)))
-    ),
+    )),
 
     modifiers: $ => repeat1(choice(
       'abstract',
@@ -311,10 +321,10 @@ module.exports = grammar({
       $.access_modifier,
     )),
 
-    access_modifier: $ => seq(
+    access_modifier: $ => prec.left(seq(
       choice('private', 'protected'),
       optional($.access_qualifier),
-    ),
+    )),
 
     access_qualifier: $ => seq(
       '[',
@@ -322,11 +332,11 @@ module.exports = grammar({
       ']',
     ),
 
-    extends_clause: $ => seq(
+    extends_clause: $ => prec.left(seq(
       'extends',
       field('type', $._type),
       optional($.arguments)
-    ),
+    )),
 
     // TODO: Allow only the last parameter list to be implicit.
     class_parameters: $ => prec(1, seq(
@@ -569,11 +579,11 @@ module.exports = grammar({
       ))
     )),
 
-    match_expression: $ => seq(
+    match_expression: $ => prec.left(PREC.postfix, seq(
       field('value', $.expression),
       'match',
       field('body', $.case_block)
-    ),
+    )),
 
     try_expression: $ => prec.right(seq(
       'try',
@@ -603,7 +613,7 @@ module.exports = grammar({
           $.identifier,
       ),
       '=>',
-      $.expression,
+      optional($._block),
     )),
 
     case_block: $ => choice(
@@ -809,7 +819,7 @@ module.exports = grammar({
       )
     ),
 
-    string :$ => 
+    string :$ =>
       choice(
         $._simple_string,
         $._simple_multiline_string
@@ -880,10 +890,6 @@ function commaSep(rule) {
 
 function commaSep1(rule) {
   return sep1(',', rule)
-}
-
-function sep(delimiter, rule) {
-  return optional(sep1(delimiter, rule))
 }
 
 function sep1(delimiter, rule) {
