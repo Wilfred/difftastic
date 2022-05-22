@@ -1,0 +1,56 @@
+[
+  {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "program",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "#! ",
+    "named": false
+  },
+  {
+    "type": "#!/",
+    "named": false
+  },
+  {
+    "type": "#;",
+    "named": false
+  },
+  {
+    "type": "#|",
+    "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "|#",
+    "named": false
+  }
+]
