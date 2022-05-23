@@ -48,7 +48,6 @@ Strings
 ============================================
 Raw Strings
 ============================================
-
 r"(raw string)"
 R"{another raw string}"
 R"--[yet another ]- raw string]--"

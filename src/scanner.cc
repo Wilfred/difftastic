@@ -1,8 +1,6 @@
 
 #include <tree_sitter/parser.h>
 
-#include <string>
-
 namespace {
 
 enum TokenType {
@@ -12,11 +10,6 @@ enum TokenType {
 struct Scanner {
 
   bool scan(TSLexer* lexer, const bool* valid_symbols) {
-
-    // skip leading whitespace
-    while (std::iswspace(lexer->lookahead)) {
-      lexer->advance(lexer, true);
-    }
 
     // raw string literals can start with either 'r' or 'R'
     char prefix = lexer->lookahead;
