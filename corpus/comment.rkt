@@ -16,6 +16,7 @@ comment
   (comment)
   (comment)
   (comment)
-  (comment)
+  (comment
+    (number))
   (comment)
   (comment))
