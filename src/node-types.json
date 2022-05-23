@@ -1,10 +1,5 @@
 [
   {
-    "type": "boolean",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "byte_string",
     "named": true,
     "fields": {},
@@ -46,17 +41,16 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
         }
       ]
     }
   },
   {
     "type": "escape_sequence",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "number",
     "named": true,
     "fields": {}
   },
@@ -87,6 +81,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
         }
       ]
     }
@@ -107,6 +105,11 @@
     }
   },
   {
+    "type": "symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -123,31 +126,11 @@
     "named": false
   },
   {
+    "type": "#%",
+    "named": false
+  },
+  {
     "type": "#;",
-    "named": false
-  },
-  {
-    "type": "#F",
-    "named": false
-  },
-  {
-    "type": "#T",
-    "named": false
-  },
-  {
-    "type": "#f",
-    "named": false
-  },
-  {
-    "type": "#false",
-    "named": false
-  },
-  {
-    "type": "#t",
-    "named": false
-  },
-  {
-    "type": "#true",
     "named": false
   },
   {
@@ -213,6 +196,14 @@
   {
     "type": "\\x",
     "named": false
+  },
+  {
+    "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
   },
   {
     "type": "|#",

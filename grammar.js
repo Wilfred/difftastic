@@ -60,7 +60,7 @@ module.exports = grammar({
         $.byte_string,
         $.number),
 
-    boolean: _ => choice("#true", "#t", "#T", "#false", "#f", "#F"),
+    boolean: _ => token(choice("#true", "#t", "#T", "#false", "#f", "#F")),
 
     // string {{{
 
@@ -92,11 +92,12 @@ module.exports = grammar({
     // string }}}
 
     number: _ =>
-      choice(
-        _number_base(2),
-        _number_base(8),
-        _number_base(10),
-        _number_base(16)),
+      token(
+        choice(
+          _number_base(2),
+          _number_base(8),
+          _number_base(10),
+          _number_base(16))),
 
     _compound_datum: _ => "()",
   }
@@ -105,7 +106,7 @@ module.exports = grammar({
 // number {{{
 
 function _number_base(n) {
-  number = _ =>
+  const number = _ =>
     seq(
       choice(
         seq(_n_radix(), optional(_n_exactness())),
@@ -116,9 +117,9 @@ function _number_base(n) {
         // So we don't need to parse exact number explicitly
         _n_inexact()));
 
-  _n_sign = _ => /[+-]/;
+  const _n_sign = _ => /[+-]/;
 
-  _n_digit = _ => {
+  const _n_digit = _ => {
     return {
       2: /[01]/,
       8: /[0-7]/,
@@ -127,7 +128,7 @@ function _number_base(n) {
     }[n];
   };
 
-  _n_radix = _ => {
+  const _n_radix = _ => {
     return {
       2: /#[bB]/,
       8: /#[oO]/,
@@ -136,20 +137,20 @@ function _number_base(n) {
     }[n];
   };
 
-  _n_exactness = _ =>
+  const _n_exactness = _ =>
     choice("#e", "#E", "#i", "#I");
 
-  _n_exp_mark = _ => /[sldeftSLDEFT]/;
+  const _n_exp_mark = _ => /[sldeftSLDEFT]/;
 
-  _n_unsigned_integer = _ =>
+  const _n_unsigned_integer = _ =>
     repeat1(_n_digit());
 
-  _n_inexact = _ =>
+  const _n_inexact = _ =>
     choice(
       _n_inexact_real(),
       _n_inexact_complex());
 
-  _n_inexact_real = _ =>
+  const _n_inexact_real = _ =>
     choice(
       seq(
         optional(_n_sign()),
@@ -158,7 +159,7 @@ function _number_base(n) {
         _n_sign(),
         _n_inexact_special()));
 
-  _n_inexact_complex = _ =>
+  const _n_inexact_complex = _ =>
     choice(
       seq(
         optional(_n_inexact_real()),
@@ -170,12 +171,12 @@ function _number_base(n) {
         "@",
         _n_inexact_real()));
 
-  _n_inexact_unsigned = _ =>
+  const _n_inexact_unsigned = _ =>
     choice(
       _n_inexact_normal(),
       _n_inexact_special());
 
-  _n_inexact_normal = _ =>
+  const _n_inexact_normal = _ =>
     seq(
       _n_inexact_simple(),
       optional(
@@ -184,7 +185,7 @@ function _number_base(n) {
           optional(_n_sign()),
           _n_unsigned_integer())));
 
-  _n_inexact_special = _ =>
+  const _n_inexact_special = _ =>
     choice(
       /[iI][nN][fF]\.0/,
       /[nN][aA][nN]\.0/,
@@ -192,7 +193,7 @@ function _number_base(n) {
       /[nN][aA][nN]\.[fFtT]/,
     );
 
-  _n_inexact_simple = _ =>
+  const _n_inexact_simple = _ =>
     choice(
       seq(
         _n_digits(),
@@ -207,7 +208,7 @@ function _number_base(n) {
         "/",
         _n_digits()));
 
-  _n_digits = _ =>
+  const _n_digits = _ =>
     seq(
       _n_unsigned_integer(),
       repeat("#"));
