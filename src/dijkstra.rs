@@ -8,10 +8,10 @@ use crate::{
     graph::{neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
+use bumpalo::Bump;
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
-use typed_arena::Arena;
 
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
@@ -21,7 +21,7 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
     // Reverse to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, &Vertex> = RadixHeapMap::new();
 
-    let vertex_arena: Arena<Vertex> = Arena::new();
+    let vertex_arena = Bump::new();
     heap.push(Reverse(0), vertex_arena.alloc(start));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
