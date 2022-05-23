@@ -1,5 +1,6 @@
 //! A graph representation for computing tree diffs.
 
+use bumpalo::Bump;
 use rpds::Stack;
 use std::{
     cmp::min,
@@ -7,7 +8,6 @@ use std::{
     hash::{Hash, Hasher},
 };
 use strsim::normalized_levenshtein;
-use typed_arena::Arena;
 
 use crate::{
     changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
@@ -335,7 +335,7 @@ impl Edge {
 pub fn neighbours<'a, 'b>(
     v: &Vertex<'a>,
     buf: &mut [Option<(Edge, &'b Vertex<'a>)>],
-    alloc: &'b Arena<Vertex<'a>>,
+    alloc: &'b Bump,
 ) {
     for item in &mut *buf {
         *item = None;
