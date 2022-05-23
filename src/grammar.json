@@ -5606,6 +5606,10 @@
         {
           "type": "SYMBOL",
           "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_abbrev_list"
         }
       ]
     },
@@ -5698,6 +5702,53 @@
               "value": "}"
             }
           ]
+        }
+      ]
+    },
+    "_abbrev_list": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "vector"
+        }
+      ]
+    },
+    "vector": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#"
+            },
+            {
+              "type": "STRING",
+              "value": "#fl"
+            },
+            {
+              "type": "STRING",
+              "value": "#fx"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "number"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
         }
       ]
     }

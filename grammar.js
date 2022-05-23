@@ -123,6 +123,7 @@ module.exports = grammar({
     _compound_datum: $ =>
       choice(
         $.list,
+        $._abbrev_list,
       ),
 
     list: $ =>
@@ -132,6 +133,16 @@ module.exports = grammar({
             $._token,
             $.dot))),
 
+    _abbrev_list: $ =>
+      choice(
+        $.vector,
+      ),
+
+    vector: $ =>
+      seq(
+        choice("#", "#fl", "#fx"),
+        optional($.number),
+        $.list),
   }
 })
 

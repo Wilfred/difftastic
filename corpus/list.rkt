@@ -46,3 +46,27 @@ list
     (number)
     (dot)
     (number)))
+
+===
+vector
+===
+
+#(1 "apple" 3)
+#3("apple" "banana")
+#3()
+
+---
+(program
+  (vector
+    (list
+      (number)
+      (string)
+      (number)))
+  (vector
+    (number)
+    (list
+      (string)
+      (string)))
+  (vector
+    (number)
+    (list)))

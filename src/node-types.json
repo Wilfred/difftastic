@@ -53,6 +53,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
         }
       ]
     }
@@ -105,6 +109,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
         }
       ]
     }
@@ -148,6 +156,10 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
         }
       ]
     }
@@ -183,6 +195,25 @@
     }
   },
   {
+    "type": "vector",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -200,6 +231,14 @@
   },
   {
     "type": "#;",
+    "named": false
+  },
+  {
+    "type": "#fl",
+    "named": false
+  },
+  {
+    "type": "#fx",
     "named": false
   },
   {
