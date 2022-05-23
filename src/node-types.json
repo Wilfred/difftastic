@@ -39,6 +39,10 @@
           "named": true
         },
         {
+          "type": "hash",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -71,6 +75,21 @@
     "fields": {}
   },
   {
+    "type": "hash",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -96,6 +115,10 @@
         },
         {
           "type": "dot",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -147,6 +170,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "hash",
           "named": true
         },
         {
@@ -266,6 +293,18 @@
   },
   {
     "type": "#fx",
+    "named": false
+  },
+  {
+    "type": "#hash",
+    "named": false
+  },
+  {
+    "type": "#hasheq",
+    "named": false
+  },
+  {
+    "type": "#hasheqv",
     "named": false
   },
   {

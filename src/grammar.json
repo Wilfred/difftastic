@@ -5715,6 +5715,10 @@
         {
           "type": "SYMBOL",
           "name": "structure"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash"
         }
       ]
     },
@@ -5762,6 +5766,32 @@
         {
           "type": "STRING",
           "value": "#s"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        }
+      ]
+    },
+    "hash": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#hash"
+            },
+            {
+              "type": "STRING",
+              "value": "#hasheq"
+            },
+            {
+              "type": "STRING",
+              "value": "#hasheqv"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

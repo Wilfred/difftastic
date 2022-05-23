@@ -136,7 +136,8 @@ module.exports = grammar({
     _abbrev_list: $ =>
       choice(
         $.vector,
-        $.structure),
+        $.structure,
+        $.hash),
 
     vector: $ =>
       seq(
@@ -147,6 +148,11 @@ module.exports = grammar({
     structure: $ =>
       seq(
         "#s",
+        $.list),
+
+    hash: $ =>
+      seq(
+        choice("#hash", "#hasheq", "#hasheqv"),
         $.list),
   }
 })
