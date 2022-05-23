@@ -58,6 +58,7 @@ module.exports = grammar({
         $.boolean,
         $.string,
         $.byte_string,
+        $.character,
         $.number),
 
     boolean: _ => token(choice("#true", "#t", "#T", "#false", "#f", "#F")),
@@ -98,6 +99,18 @@ module.exports = grammar({
           _number_base(8),
           _number_base(10),
           _number_base(16))),
+
+    character: _ =>
+      token(
+        seq(
+          "#\\",
+          choice(
+            "nul", "null", "backspace",
+            "tab", "newline", "linefeed",
+            "vtab", "page", "return",
+            "space", "rubout",
+            /[0-7]{3,3}/, /u[0-9a-fA-F]{1,4}/, /U[0-9a-fA-F]{1,8}/,
+            /./))),
 
     _compound_datum: _ => "()",
   }

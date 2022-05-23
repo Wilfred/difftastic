@@ -31,6 +31,10 @@
           "named": true
         },
         {
+          "type": "character",
+          "named": true
+        },
+        {
           "type": "comment",
           "named": true
         },
@@ -40,10 +44,6 @@
         },
         {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbol",
           "named": true
         }
       ]
@@ -71,6 +71,10 @@
           "named": true
         },
         {
+          "type": "character",
+          "named": true
+        },
+        {
           "type": "comment",
           "named": true
         },
@@ -80,10 +84,6 @@
         },
         {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbol",
           "named": true
         }
       ]
@@ -105,11 +105,6 @@
     }
   },
   {
-    "type": "symbol",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "\"",
     "named": false
   },
@@ -123,10 +118,6 @@
   },
   {
     "type": "#!/",
-    "named": false
-  },
-  {
-    "type": "#%",
     "named": false
   },
   {
@@ -199,6 +190,10 @@
   },
   {
     "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "character",
     "named": true
   },
   {

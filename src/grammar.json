@@ -193,7 +193,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "symbol"
+          "name": "character"
         },
         {
           "type": "SYMBOL",
@@ -5482,41 +5482,77 @@
         ]
       }
     },
-    "symbol": {
-      "type": "PREC",
-      "value": -1,
+    "character": {
+      "type": "TOKEN",
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "STRING",
+            "value": "#\\"
+          },
+          {
+            "type": "CHOICE",
             "members": [
               {
                 "type": "STRING",
-                "value": "#%"
+                "value": "nul"
               },
               {
-                "type": "REPEAT",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "."
-                }
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
+                "type": "STRING",
+                "value": "null"
+              },
+              {
+                "type": "STRING",
+                "value": "backspace"
+              },
+              {
+                "type": "STRING",
+                "value": "tab"
+              },
+              {
+                "type": "STRING",
+                "value": "newline"
+              },
+              {
+                "type": "STRING",
+                "value": "linefeed"
+              },
+              {
+                "type": "STRING",
+                "value": "vtab"
+              },
+              {
+                "type": "STRING",
+                "value": "page"
+              },
+              {
+                "type": "STRING",
+                "value": "return"
+              },
+              {
+                "type": "STRING",
+                "value": "space"
+              },
+              {
+                "type": "STRING",
+                "value": "rubout"
+              },
               {
                 "type": "PATTERN",
-                "value": "[^#]"
+                "value": "[0-7]{3,3}"
               },
               {
-                "type": "REPEAT",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "."
-                }
+                "type": "PATTERN",
+                "value": "u[0-9a-fA-F]{1,4}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "U[0-9a-fA-F]{1,8}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "."
               }
             ]
           }

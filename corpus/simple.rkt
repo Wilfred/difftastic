@@ -70,3 +70,19 @@ number
   (number)
   (number)
   (number))
+
+===
+character
+===
+
+#\newline
+#\n
+#\u3BB
+#\λ
+
+---
+(program
+  (character)
+  (character)
+  (character)
+  (character))
