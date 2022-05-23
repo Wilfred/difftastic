@@ -39,6 +39,10 @@
           "named": true
         },
         {
+          "type": "list",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -57,6 +61,53 @@
     "type": "escape_sequence",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "program",
@@ -80,6 +131,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "list",
           "named": true
         },
         {
@@ -152,6 +207,18 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
     "type": "\\",
     "named": false
   },
@@ -212,6 +279,10 @@
     "named": false
   },
   {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "boolean",
     "named": true
   },
@@ -220,11 +291,23 @@
     "named": true
   },
   {
+    "type": "dot",
+    "named": true
+  },
+  {
     "type": "number",
     "named": true
   },
   {
+    "type": "{",
+    "named": false
+  },
+  {
     "type": "|#",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]

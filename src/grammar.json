@@ -46,6 +46,10 @@
       "type": "PATTERN",
       "value": "[\\r\\n]|\\u{85}|\\u{2028}|\\u{2029}"
     },
+    "dot": {
+      "type": "STRING",
+      "value": "."
+    },
     "comment": {
       "type": "CHOICE",
       "members": [
@@ -5597,8 +5601,105 @@
       }
     },
     "_compound_datum": {
-      "type": "STRING",
-      "value": "()"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        }
+      ]
+    },
+    "list": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_token"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dot"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_token"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dot"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_token"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "dot"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        }
+      ]
     }
   },
   "extras": [],

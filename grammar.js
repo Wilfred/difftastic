@@ -27,6 +27,8 @@ module.exports = grammar({
     _whitespace: _ => /[\r\n\t\f\v ]|\p{Zs}|\p{Zl}|\p{Zp}|\u{FEFF}/,
     _newline: _ => /[\r\n]|\u{85}|\u{2028}|\u{2029}/,
 
+    dot: _ => ".",
+
     // comment {{{
 
     comment: $ =>
@@ -118,9 +120,27 @@ module.exports = grammar({
             /[0-7]{3,3}/, /u[0-9a-fA-F]{1,4}/, /U[0-9a-fA-F]{1,8}/,
             /./))),
 
-    _compound_datum: _ => "()",
+    _compound_datum: $ =>
+      choice(
+        $.list,
+      ),
+
+    list: $ =>
+      paren(
+        repeat(
+          choice(
+            $._token,
+            $.dot))),
+
   }
 })
+
+function paren(tok) {
+  return choice(
+    seq("(", tok, ")"),
+    seq("[", tok, "]"),
+    seq("{", tok, "}"));
+}
 
 // number {{{
 
