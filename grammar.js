@@ -32,6 +32,10 @@ module.exports = grammar({
     /\s/
   ],
 
+  externals: $ => [
+    $._raw_string_literal
+  ],
+
   rules: {
     program: $ => repeat(seq($._expression, optional(terminator))),
 
@@ -396,6 +400,7 @@ module.exports = grammar({
     comment: $ => token(prec(PREC.COMMENT, seq('#', /.*/))),
 
     string: $ => choice(
+      $._raw_string_literal,
       seq(
         '"',
         repeat(choice(
