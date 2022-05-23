@@ -100,3 +100,10 @@ fn negate(arg) {
   // <- operator
   // ^ variable.parameter
 }
+
+fn comment_string_test() {
+  io.println("// hello world!")
+  // <- module
+  // ^ function
+  //            ^ string
+}

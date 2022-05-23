@@ -5072,36 +5072,34 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_string_part"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "quoted_content"
+              }
+            ]
           }
         },
         {
-          "type": "STRING",
-          "value": "\""
-        }
-      ]
-    },
-    "_string_part": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "escape_sequence"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quoted_content"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "\""
+          }
         }
       ]
     },
     "escape_sequence": {
-      "type": "PATTERN",
-      "value": "\\\\[efnrt\\\"\\\\]"
-    },
-    "quoted_content": {
-      "type": "PATTERN",
-      "value": "(?:[^\\\\\\\"]|\\\\[^efnrt\\\"\\\\])+"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\[efnrt\\\"\\\\]"
+      }
     },
     "float": {
       "type": "PATTERN",
@@ -5760,7 +5758,12 @@
     ]
   ],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "quoted_content"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }

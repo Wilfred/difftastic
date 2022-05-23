@@ -3,7 +3,7 @@ Constants
 ================================================================================
 
 const a = "hello"
-const a = "hello\nworld\!"
+const a = "hello\nworld!"
 const a = 1_234
 const a = 0b110
 const a = 0o7224
