@@ -1,5 +1,6 @@
 const PREC = {
   first: $ => prec(100, $),
+  last: $ => prec(-1, $),
   left: prec.left,
   right: prec.right,
 };
@@ -90,109 +91,128 @@ module.exports = grammar({
 
     // string }}}
 
-    // number {{{
-
-    number: $ =>
-      seq(
-        repeat(
-          choice(
-            $._n_radix,
-            $._n_exactness)),
-        choice(
-          // Inexact number pattern already contains exact pattern.
-          // So we don't need to parse exact number explicitly
-          $._n_inexact)),
-
-    _n_sign: _ => /[+-]/,
-
-    _n_digit: _ => /[0-9a-fA-F]/,
-
-    _n_radix: _ =>
-      choice("#b", "#B", "#o", "#O", "#d", "#D", "#x", "#X"),
-
-    _n_exactness: _ =>
-      choice("#e", "#E", "#i", "#I"),
-
-    _n_exp_mark: _ => /[sldeftSLDEFT]/,
-
-    _n_unsigned_integer: $ =>
-      repeat1($._n_digit),
-
-    _n_inexact: $ =>
+    number: _ =>
       choice(
-        $._n_inexact_real,
-        $._n_inexact_complex),
-
-    _n_inexact_real: $ =>
-      choice(
-        seq(
-          optional($._n_sign),
-          $._n_inexact_normal),
-        seq(
-          $._n_sign,
-          $._n_inexact_special)),
-
-    _n_inexact_complex: $ =>
-      PREC.first(
-        choice(
-          seq(
-            optional($._n_inexact_real,),
-            $._n_sign,
-            $._n_inexact_unsigned,
-            /[iI]/),
-          seq(
-            $._n_inexact_real,
-            "@",
-            $._n_inexact_real))),
-
-    _n_inexact_unsigned: $ =>
-      choice(
-        $._n_inexact_normal,
-        $._n_inexact_special),
-
-    _n_inexact_normal: $ =>
-      PREC.right(
-        seq(
-          $._n_inexact_simple,
-          optional(
-            seq(
-              $._n_exp_mark,
-              optional($._n_sign),
-              $._n_unsigned_integer)))),
-
-    _n_inexact_special: _ =>
-      choice(
-        /[iI][nN][fF]\.0/,
-        /[nN][aA][nN]\.0/,
-        /[iI][nN][fF]\.[fFtT]/,
-        /[nN][aA][nN]\.[fFtT]/,
-      ),
-
-    _n_inexact_simple: $ =>
-      PREC.right(
-        choice(
-          seq(
-            $._n_digits,
-            optional("."),
-            repeat("#")),
-          seq(
-            optional($._n_unsigned_integer),
-            ".",
-            $._n_digits),
-          seq(
-            $._n_digits,
-            "/",
-            $._n_digits))),
-
-    _n_digits: $ =>
-      PREC.right(
-        seq(
-          $._n_unsigned_integer,
-          repeat("#"))),
-
-    // number }}}
+        _number_base(2),
+        _number_base(8),
+        _number_base(10),
+        _number_base(16)),
 
     _compound_datum: _ => "()",
   }
 })
 
+// number {{{
+
+function _number_base(n) {
+  number = _ =>
+    seq(
+      choice(
+        seq(_n_radix(), optional(_n_exactness())),
+        seq(optional(_n_exactness()), _n_radix()),
+      ),
+      choice(
+        // Inexact number pattern already contains exact pattern.
+        // So we don't need to parse exact number explicitly
+        _n_inexact()));
+
+  _n_sign = _ => /[+-]/;
+
+  _n_digit = _ => {
+    return {
+      2: /[01]/,
+      8: /[0-7]/,
+      10: /[0-9]/,
+      16: /[0-9a-fA-F]/,
+    }[n];
+  };
+
+  _n_radix = _ => {
+    return {
+      2: /#[bB]/,
+      8: /#[oO]/,
+      10: optional(/#[dD]/),
+      16: /#[xX]/,
+    }[n];
+  };
+
+  _n_exactness = _ =>
+    choice("#e", "#E", "#i", "#I");
+
+  _n_exp_mark = _ => /[sldeftSLDEFT]/;
+
+  _n_unsigned_integer = _ =>
+    repeat1(_n_digit());
+
+  _n_inexact = _ =>
+    choice(
+      _n_inexact_real(),
+      _n_inexact_complex());
+
+  _n_inexact_real = _ =>
+    choice(
+      seq(
+        optional(_n_sign()),
+        _n_inexact_normal()),
+      seq(
+        _n_sign(),
+        _n_inexact_special()));
+
+  _n_inexact_complex = _ =>
+    choice(
+      seq(
+        optional(_n_inexact_real()),
+        _n_sign(),
+        _n_inexact_unsigned(),
+        /[iI]/),
+      seq(
+        _n_inexact_real(),
+        "@",
+        _n_inexact_real()));
+
+  _n_inexact_unsigned = _ =>
+    choice(
+      _n_inexact_normal(),
+      _n_inexact_special());
+
+  _n_inexact_normal = _ =>
+    seq(
+      _n_inexact_simple(),
+      optional(
+        seq(
+          _n_exp_mark(),
+          optional(_n_sign()),
+          _n_unsigned_integer())));
+
+  _n_inexact_special = _ =>
+    choice(
+      /[iI][nN][fF]\.0/,
+      /[nN][aA][nN]\.0/,
+      /[iI][nN][fF]\.[fFtT]/,
+      /[nN][aA][nN]\.[fFtT]/,
+    );
+
+  _n_inexact_simple = _ =>
+    choice(
+      seq(
+        _n_digits(),
+        optional("."),
+        repeat("#")),
+      seq(
+        optional(_n_unsigned_integer()),
+        ".",
+        _n_digits()),
+      seq(
+        _n_digits(),
+        "/",
+        _n_digits()));
+
+  _n_digits = _ =>
+    seq(
+      _n_unsigned_integer(),
+      repeat("#"));
+
+  return token(number());
+}
+
+// number }}}
