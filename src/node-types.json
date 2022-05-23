@@ -1,5 +1,64 @@
 [
   {
+    "type": "box",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "structure",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "byte_string",
     "named": true,
     "fields": {},
@@ -24,6 +83,10 @@
       "types": [
         {
           "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
           "named": true
         },
         {
@@ -102,6 +165,10 @@
           "named": true
         },
         {
+          "type": "box",
+          "named": true
+        },
+        {
           "type": "byte_string",
           "named": true
         },
@@ -158,6 +225,10 @@
       "types": [
         {
           "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
           "named": true
         },
         {
@@ -281,6 +352,10 @@
   },
   {
     "type": "#!/",
+    "named": false
+  },
+  {
+    "type": "#&",
     "named": false
   },
   {

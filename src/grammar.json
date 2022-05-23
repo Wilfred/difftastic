@@ -205,6 +205,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "box"
+        },
+        {
+          "type": "SYMBOL",
           "name": "number"
         }
       ]
@@ -5599,6 +5603,26 @@
           }
         ]
       }
+    },
+    "box": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#&"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_skip"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_datum"
+        }
+      ]
     },
     "_compound_datum": {
       "type": "CHOICE",
