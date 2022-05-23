@@ -5711,6 +5711,10 @@
         {
           "type": "SYMBOL",
           "name": "vector"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "structure"
         }
       ]
     },
@@ -5745,6 +5749,19 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        }
+      ]
+    },
+    "structure": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#s"
         },
         {
           "type": "SYMBOL",

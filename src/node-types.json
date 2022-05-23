@@ -55,6 +55,10 @@
           "named": true
         },
         {
+          "type": "structure",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -111,6 +115,10 @@
           "named": true
         },
         {
+          "type": "structure",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -158,6 +166,10 @@
           "named": true
         },
         {
+          "type": "structure",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -189,6 +201,21 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "structure",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "list",
           "named": true
         }
       ]
@@ -239,6 +266,10 @@
   },
   {
     "type": "#fx",
+    "named": false
+  },
+  {
+    "type": "#s",
     "named": false
   },
   {

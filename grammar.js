@@ -136,12 +136,17 @@ module.exports = grammar({
     _abbrev_list: $ =>
       choice(
         $.vector,
-      ),
+        $.structure),
 
     vector: $ =>
       seq(
         choice("#", "#fl", "#fx"),
         optional($.number),
+        $.list),
+
+    structure: $ =>
+      seq(
+        "#s",
         $.list),
   }
 })
