@@ -86,3 +86,21 @@ character
   (character)
   (character)
   (character))
+
+===
+regex
+===
+
+#rx".*"
+#px"[\\s]*"
+#rx#".*"
+#px#"[\\s]*"
+
+---
+(program
+  (regex)
+  (regex
+    (escape_sequence))
+  (regex)
+  (regex
+    (escape_sequence)))

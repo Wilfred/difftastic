@@ -59,6 +59,7 @@ module.exports = grammar({
         $.string,
         $.byte_string,
         $.character,
+        $.regex,
         $.number),
 
     boolean: _ => token(choice("#true", "#t", "#T", "#false", "#f", "#F")),
@@ -69,6 +70,11 @@ module.exports = grammar({
 
     byte_string: $ =>
       seq("#", $._real_string),
+
+    regex: $ =>
+      seq(
+        token(choice("#rx", "#px", "#rx#", "#px#")),
+        $._real_string),
 
     _real_string: $ =>
       seq(

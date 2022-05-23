@@ -197,6 +197,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "regex"
+        },
+        {
+          "type": "SYMBOL",
           "name": "number"
         }
       ]
@@ -243,6 +247,39 @@
         {
           "type": "STRING",
           "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_real_string"
+        }
+      ]
+    },
+    "regex": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "#rx"
+              },
+              {
+                "type": "STRING",
+                "value": "#px"
+              },
+              {
+                "type": "STRING",
+                "value": "#rx#"
+              },
+              {
+                "type": "STRING",
+                "value": "#px#"
+              }
+            ]
+          }
         },
         {
           "type": "SYMBOL",
