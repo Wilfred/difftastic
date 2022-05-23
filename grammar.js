@@ -177,17 +177,17 @@ function _number_base(n) {
   const number = _ =>
     seq(
       choice(
-        seq(_n_radix(), optional(_n_exactness())),
-        seq(optional(_n_exactness()), _n_radix()),
+        seq(radix(), optional(exactness())),
+        seq(optional(exactness()), radix()),
       ),
       choice(
         // Inexact number pattern already contains exact pattern.
         // So we don't need to parse exact number explicitly
-        _n_inexact()));
+        inexact()));
 
-  const _n_sign = _ => /[+-]/;
+  const sign = _ => /[+-]/;
 
-  const _n_digit = _ => {
+  const digit = _ => {
     return {
       2: /[01]/,
       8: /[0-7]/,
@@ -196,7 +196,7 @@ function _number_base(n) {
     }[n];
   };
 
-  const _n_radix = _ => {
+  const radix = _ => {
     return {
       2: /#[bB]/,
       8: /#[oO]/,
@@ -205,55 +205,55 @@ function _number_base(n) {
     }[n];
   };
 
-  const _n_exactness = _ =>
+  const exactness = _ =>
     choice("#e", "#E", "#i", "#I");
 
-  const _n_exp_mark = _ => /[sldeftSLDEFT]/;
+  const exp_mark = _ => /[sldeftSLDEFT]/;
 
-  const _n_unsigned_integer = _ =>
-    repeat1(_n_digit());
+  const unsigned_integer = _ =>
+    repeat1(digit());
 
-  const _n_inexact = _ =>
+  const inexact = _ =>
     choice(
-      _n_inexact_real(),
-      _n_inexact_complex());
+      inexact_real(),
+      inexact_complex());
 
-  const _n_inexact_real = _ =>
-    choice(
-      seq(
-        optional(_n_sign()),
-        _n_inexact_normal()),
-      seq(
-        _n_sign(),
-        _n_inexact_special()));
-
-  const _n_inexact_complex = _ =>
+  const inexact_real = _ =>
     choice(
       seq(
-        optional(_n_inexact_real()),
-        _n_sign(),
-        _n_inexact_unsigned(),
+        optional(sign()),
+        inexact_normal()),
+      seq(
+        sign(),
+        inexact_special()));
+
+  const inexact_complex = _ =>
+    choice(
+      seq(
+        optional(inexact_real()),
+        sign(),
+        inexact_unsigned(),
         /[iI]/),
       seq(
-        _n_inexact_real(),
+        inexact_real(),
         "@",
-        _n_inexact_real()));
+        inexact_real()));
 
-  const _n_inexact_unsigned = _ =>
+  const inexact_unsigned = _ =>
     choice(
-      _n_inexact_normal(),
-      _n_inexact_special());
+      inexact_normal(),
+      inexact_special());
 
-  const _n_inexact_normal = _ =>
+  const inexact_normal = _ =>
     seq(
-      _n_inexact_simple(),
+      inexact_simple(),
       optional(
         seq(
-          _n_exp_mark(),
-          optional(_n_sign()),
-          _n_unsigned_integer())));
+          exp_mark(),
+          optional(sign()),
+          unsigned_integer())));
 
-  const _n_inexact_special = _ =>
+  const inexact_special = _ =>
     choice(
       /[iI][nN][fF]\.0/,
       /[nN][aA][nN]\.0/,
@@ -261,24 +261,24 @@ function _number_base(n) {
       /[nN][aA][nN]\.[fFtT]/,
     );
 
-  const _n_inexact_simple = _ =>
+  const inexact_simple = _ =>
     choice(
       seq(
-        _n_digits(),
+        digits(),
         optional("."),
         repeat("#")),
       seq(
-        optional(_n_unsigned_integer()),
+        optional(unsigned_integer()),
         ".",
-        _n_digits()),
+        digits()),
       seq(
-        _n_digits(),
+        digits(),
         "/",
-        _n_digits()));
+        digits()));
 
-  const _n_digits = _ =>
+  const digits = _ =>
     seq(
-      _n_unsigned_integer(),
+      unsigned_integer(),
       repeat("#"));
 
   return token(number());
