@@ -497,7 +497,7 @@
     },
     "_n_exp_mark": {
       "type": "PATTERN",
-      "value": "[sldefSLDEF]"
+      "value": "[sldeftSLDEFT]"
     },
     "_n_unsigned_integer": {
       "type": "REPEAT1",
@@ -685,11 +685,11 @@
         },
         {
           "type": "PATTERN",
-          "value": "[iI][nN][fF]\\.[fF]"
+          "value": "[iI][nN][fF]\\.[fFtT]"
         },
         {
           "type": "PATTERN",
-          "value": "[nN][aA][nN]\\.[fF]"
+          "value": "[nN][aA][nN]\\.[fFtT]"
         }
       ]
     },

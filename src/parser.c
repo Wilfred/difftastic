@@ -736,8 +736,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == 'i') ADVANCE(36);
       if (lookahead == 'L' ||
           lookahead == 'S' ||
+          lookahead == 'T' ||
           lookahead == 'l' ||
-          lookahead == 's') ADVANCE(36);
+          lookahead == 's' ||
+          lookahead == 't') ADVANCE(36);
       if (('D' <= lookahead && lookahead <= 'F') ||
           ('d' <= lookahead && lookahead <= 'f')) ADVANCE(36);
       if (('0' <= lookahead && lookahead <= '9') ||
@@ -763,8 +765,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == 'i') ADVANCE(97);
       if (lookahead == 'L' ||
           lookahead == 'S' ||
+          lookahead == 'T' ||
           lookahead == 'l' ||
-          lookahead == 's') ADVANCE(96);
+          lookahead == 's' ||
+          lookahead == 't') ADVANCE(96);
       if (('D' <= lookahead && lookahead <= 'F') ||
           ('d' <= lookahead && lookahead <= 'f')) ADVANCE(83);
       if (('0' <= lookahead && lookahead <= '9') ||
@@ -786,9 +790,11 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (('D' <= lookahead && lookahead <= 'F') ||
           lookahead == 'L' ||
           lookahead == 'S' ||
+          lookahead == 'T' ||
           ('d' <= lookahead && lookahead <= 'f') ||
           lookahead == 'l' ||
-          lookahead == 's') ADVANCE(96);
+          lookahead == 's' ||
+          lookahead == 't') ADVANCE(96);
       END_STATE();
     case 5:
       if (lookahead == '#') ADVANCE(38);
@@ -823,12 +829,16 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 10:
       if (lookahead == '0') ADVANCE(99);
       if (lookahead == 'F' ||
-          lookahead == 'f') ADVANCE(101);
+          lookahead == 'T' ||
+          lookahead == 'f' ||
+          lookahead == 't') ADVANCE(101);
       END_STATE();
     case 11:
       if (lookahead == '0') ADVANCE(100);
       if (lookahead == 'F' ||
-          lookahead == 'f') ADVANCE(102);
+          lookahead == 'T' ||
+          lookahead == 'f' ||
+          lookahead == 't') ADVANCE(102);
       END_STATE();
     case 12:
       if (lookahead == 'e') ADVANCE(40);
@@ -893,8 +903,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead == 'i') ADVANCE(97);
       if (lookahead == 'L' ||
           lookahead == 'S' ||
+          lookahead == 'T' ||
           lookahead == 'l' ||
-          lookahead == 's') ADVANCE(96);
+          lookahead == 's' ||
+          lookahead == 't') ADVANCE(96);
       if (('D' <= lookahead && lookahead <= 'F') ||
           ('d' <= lookahead && lookahead <= 'f')) ADVANCE(83);
       if (('0' <= lookahead && lookahead <= '9') ||

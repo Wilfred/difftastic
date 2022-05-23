@@ -51,10 +51,14 @@ number
 #e2e5
 #x2e5
 #b101
++inf.t
+-nan.t
 
 ---
 
 (program
+  (number)
+  (number)
   (number)
   (number)
   (number)

@@ -113,7 +113,7 @@ module.exports = grammar({
     _n_exactness: _ =>
       choice("#e", "#E", "#i", "#I"),
 
-    _n_exp_mark: _ => /[sldefSLDEF]/,
+    _n_exp_mark: _ => /[sldeftSLDEFT]/,
 
     _n_unsigned_integer: $ =>
       repeat1($._n_digit),
@@ -164,8 +164,9 @@ module.exports = grammar({
       choice(
         /[iI][nN][fF]\.0/,
         /[nN][aA][nN]\.0/,
-        /[iI][nN][fF]\.[fF]/,
-        /[nN][aA][nN]\.[fF]/),
+        /[iI][nN][fF]\.[fFtT]/,
+        /[nN][aA][nN]\.[fFtT]/,
+      ),
 
     _n_inexact_simple: $ =>
       PREC.right(
