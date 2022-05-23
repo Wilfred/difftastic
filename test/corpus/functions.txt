@@ -1032,3 +1032,22 @@ fn lists(x) {
       (list
         (integer)
         spread: (identifier)))))
+
+================================================================================
+Comment in string
+================================================================================
+
+io.println("// hello world!\n")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_call
+    function: (field_access
+      record: (identifier)
+      field: (label))
+    arguments: (arguments
+      (argument
+        value: (string
+	  (quoted_content)
+	  (escape_sequence))))))
