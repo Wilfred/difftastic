@@ -216,6 +216,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "quote"
+        },
+        {
+          "type": "SYMBOL",
           "name": "list"
         },
         {
@@ -5841,6 +5845,59 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "quote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "'"
+            },
+            {
+              "type": "STRING",
+              "value": "`"
+            },
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "STRING",
+              "value": ",@"
+            },
+            {
+              "type": "STRING",
+              "value": "#'"
+            },
+            {
+              "type": "STRING",
+              "value": "#`"
+            },
+            {
+              "type": "STRING",
+              "value": "#,"
+            },
+            {
+              "type": "STRING",
+              "value": "#,@"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_skip"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_datum"
         }
       ]
     },

@@ -66,6 +66,7 @@ module.exports = grammar({
         $.graph,
         $.structure,
         $.hash,
+        $.quote,
 
         $.list,
         $.vector),
@@ -165,6 +166,12 @@ module.exports = grammar({
             "=",
             repeat($._skip),
             $._datum))),
+
+    quote: $ =>
+      seq(
+        choice("'", "`", ",", ",@", "#'", "#`", "#,", "#,@"),
+        repeat($._skip),
+        $._datum),
 
     extension: $ =>
       choice(

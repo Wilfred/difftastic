@@ -1,26 +1,4 @@
 ===
-string
-===
-
-"Apple"
-"\x41pple"
-"\"Apple\""
-"\\"
-#"Apple"
-
----
-(program
-  (string)
-  (string
-    (escape_sequence))
-  (string
-    (escape_sequence)
-    (escape_sequence))
-  (string
-    (escape_sequence))
-  (byte_string))
-
-===
 boolean
 ===
 

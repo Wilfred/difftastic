@@ -44,6 +44,10 @@
           "named": true
         },
         {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -122,6 +126,10 @@
           "named": true
         },
         {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -190,6 +198,10 @@
           "named": true
         },
         {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -250,6 +262,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "quote",
           "named": true
         },
         {
@@ -339,6 +355,10 @@
           "named": true
         },
         {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -403,6 +423,77 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "structure",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quote",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "graph",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "quote",
           "named": true
         },
         {
@@ -505,7 +596,23 @@
     "named": false
   },
   {
+    "type": "#'",
+    "named": false
+  },
+  {
+    "type": "#,",
+    "named": false
+  },
+  {
+    "type": "#,@",
+    "named": false
+  },
+  {
     "type": "#;",
+    "named": false
+  },
+  {
+    "type": "#`",
     "named": false
   },
   {
@@ -545,11 +652,23 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ",@",
     "named": false
   },
   {
@@ -622,6 +741,10 @@
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {
