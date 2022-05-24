@@ -6,7 +6,7 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 
 ## Status
 
-- [ ] symbol
+- [x] symbol
 - [x] number
 - [x] extflonum
 - [x] boolean
@@ -19,7 +19,7 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 - [x] hash table
 - [x] box
 - [x] character
-- [ ] keyword
+- [x] keyword
 - [x] regex
 - [x] graph structure
 - [x] extension
