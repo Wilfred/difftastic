@@ -15,26 +15,23 @@
 
 mod changes;
 mod constants;
-mod dijkstra;
+mod diff;
 mod display;
 mod files;
-mod graph;
 mod guess_language;
 mod hunks;
 mod line_parser;
 mod lines;
-mod myers_diff;
 mod options;
 mod positions;
-mod sliders;
 mod summary;
 mod syntax;
 mod tree_sitter_parser;
-mod unchanged;
 
 #[macro_use]
 extern crate log;
 
+use crate::diff::{dijkstra, unchanged};
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use changes::ChangeMap;
 use display::context::opposite_positions;
@@ -50,9 +47,9 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
+use diff::sliders::fix_all_sliders;
 use options::{DisplayMode, DisplayOptions, Mode};
 use rayon::prelude::*;
-use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;

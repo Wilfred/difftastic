@@ -7,8 +7,8 @@ use regex::Regex;
 use rustc_hash::FxHashMap;
 
 use crate::{
+    diff::myers_diff,
     lines::NewlinePositions,
-    myers_diff,
     syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 

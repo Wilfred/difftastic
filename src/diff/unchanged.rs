@@ -2,7 +2,7 @@
 //! diff on smaller inputs.
 
 use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
-use crate::myers_diff;
+use crate::diff::myers_diff;
 
 use crate::syntax::Syntax;
 

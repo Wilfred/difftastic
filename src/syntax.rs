@@ -8,8 +8,8 @@ use typed_arena::Arena;
 use crate::{
     changes::ChangeKind,
     changes::{ChangeKind::*, ChangeMap},
+    diff::myers_diff,
     lines::{LineNumber, NewlinePositions},
-    myers_diff,
     positions::SingleLineSpan,
 };
 use Syntax::*;
