@@ -180,7 +180,7 @@ module.exports = grammar({
           repeat($._skip),
           $._datum),
         seq(
-          "#lang ",
+          choice("#lang ", "#!"),
           /[a-zA-Z0-9+_/-]+/)),
   }
 })

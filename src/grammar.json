@@ -5928,8 +5928,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "#lang "
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "#lang "
+                },
+                {
+                  "type": "STRING",
+                  "value": "#!"
+                }
+              ]
             },
             {
               "type": "PATTERN",
