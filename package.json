@@ -17,7 +17,7 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.scheme",
+      "scope": "source.racket",
       "file-types": ["rkt"]
     }
   ]
