@@ -1,10 +1,12 @@
 ===
-symbol
+racket/racket
 ===
 
 |#%mzc:embed-me25| "10|" |abc|
 |abc|
 abc|abc| |abc|
+
+#:|abc  |
 
 ---
 
@@ -14,5 +16,5 @@ abc|abc| |abc|
   (symbol)
   (symbol)
   (symbol)
-  (symbol))
-
+  (symbol)
+  (keyword))
