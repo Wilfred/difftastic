@@ -6,7 +6,7 @@
   <a href="https://codecov.io/gh/Wilfred/difftastic"><img src="https://img.shields.io/codecov/c/github/Wilfred/difftastic?style=flat-square&token=dZzAZtQT2S" alt="codecov.io"></a>
 </p>
 
-Difftastic is an experimental diff tool that compares files based on
+Difftastic is a structural diff tool that compares files based on
 their syntax.
 
 **For installation instructions, see

@@ -11,14 +11,14 @@ use crate::{
     graph::{neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
+use bumpalo::Bump;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
-use typed_arena::Arena;
 
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
 fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
-    let vertices: Arena<Vertex> = Arena::new();
+    let vertices = Bump::new();
 
     let mut queue: VecDeque<(u64, &Vertex)> = VecDeque::new();
 
