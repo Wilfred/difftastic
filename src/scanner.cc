@@ -11,6 +11,9 @@ struct Scanner {
 
   bool scan(TSLexer* lexer, const bool* valid_symbols) {
 
+    // scan a raw string literal; see R source code for implementation:
+    // https://github.com/wch/r-source/blob/52b730f217c12ba3d95dee0cd1f330d1977b5ea3/src/main/gram.y#L3102
+
     // raw string literals can start with either 'r' or 'R'
     char prefix = lexer->lookahead;
     if (prefix != 'r' && prefix != 'R') {
