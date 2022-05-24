@@ -14,7 +14,7 @@ use crate::{
     display::context::{add_context, opposite_positions, MAX_PADDING},
     display::side_by_side::lines_with_novel,
     lines::LineNumber,
-    syntax::{zip_pad_shorter, MatchedPos},
+    parse::syntax::{zip_pad_shorter, MatchedPos},
 };
 
 /// A hunk represents a series of modified lines that are displayed
