@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env, rc::Rc};
 
 use crate::{
     changes::ChangeMap,
-    graph::{neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{neighbours, populate_change_map, Edge, Vertex},
     syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -170,7 +170,7 @@ mod tests {
     use super::*;
     use crate::{
         changes::ChangeKind,
-        graph::Edge::*,
+        diff::graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };
