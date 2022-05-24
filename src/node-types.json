@@ -60,6 +60,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -142,6 +146,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -214,6 +222,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -278,6 +290,10 @@
         },
         {
           "type": "structure",
+          "named": true
+        },
+        {
+          "type": "symbol",
           "named": true
         },
         {
@@ -371,6 +387,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -442,6 +462,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -509,6 +533,10 @@
           "named": true
         },
         {
+          "type": "symbol",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -559,6 +587,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "symbol",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "vector",

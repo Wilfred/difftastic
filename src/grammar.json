@@ -12,8 +12,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_whitespace"
+          "type": "PATTERN",
+          "value": "[ \\t\\n\\v\\f\\r\\u{0085}\\u{00A0}\\u{1680}\\u{2000}-\\u{200A}\\u{2028}\\u{2029}\\u{202F}\\u{205F}\\u{3000}]"
         },
         {
           "type": "SYMBOL",
@@ -33,22 +33,14 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_whitespace"
+          "type": "PATTERN",
+          "value": "[ \\t\\n\\v\\f\\r\\u{0085}\\u{00A0}\\u{1680}\\u{2000}-\\u{200A}\\u{2028}\\u{2029}\\u{202F}\\u{205F}\\u{3000}]"
         },
         {
           "type": "SYMBOL",
           "name": "comment"
         }
       ]
-    },
-    "_whitespace": {
-      "type": "PATTERN",
-      "value": "[\\r\\n\\t\\f\\v ]|\\p{Zs}|\\p{Zl}|\\p{Zp}|\\u{FEFF}"
-    },
-    "_newline": {
-      "type": "PATTERN",
-      "value": "[\\r\\n]|\\u{85}|\\u{2028}|\\u{2029}"
     },
     "dot": {
       "type": "STRING",
@@ -91,6 +83,10 @@
           ]
         },
         {
+          "type": "PATTERN",
+          "value": "#[cC][iIsS]"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -120,8 +116,8 @@
                     "value": "\\"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_newline"
+                    "type": "PATTERN",
+                    "value": "[\\r\\n\\u{85}\\u{2028}\\u{2029}]"
                   }
                 ]
               }
@@ -193,6 +189,10 @@
         {
           "type": "SYMBOL",
           "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "symbol"
         },
         {
           "type": "SYMBOL",
@@ -459,8 +459,8 @@
               "value": "\\"
             },
             {
-              "type": "SYMBOL",
-              "name": "_newline"
+              "type": "PATTERN",
+              "value": "[\\r\\n\\u{85}\\u{2028}\\u{2029}]"
             }
           ]
         }
@@ -5617,6 +5617,63 @@
             ]
           }
         ]
+      }
+    },
+    "symbol": {
+      "type": "PREC",
+      "value": -100,
+      "content": {
+        "type": "PREC_RIGHT",
+        "value": 0,
+        "content": {
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[^# \\t\\n\\v\\f\\r\\u{0085}\\u{00A0}\\u{1680}\\u{2000}-\\u{200A}\\u{2028}\\u{2029}\\u{202F}\\u{205F}\\u{3000}\\u{FEFF}(){}\",'`;\\[\\]]"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "#%"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\|[^|]*\\|"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "\\\\."
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "\\|[^|]*\\|"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\."
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[^ \\t\\n\\v\\f\\r\\u{0085}\\u{00A0}\\u{1680}\\u{2000}-\\u{200A}\\u{2028}\\u{2029}\\u{202F}\\u{205F}\\u{3000}\\u{FEFF}(){}\",'`;\\[\\]]"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
       }
     },
     "box": {

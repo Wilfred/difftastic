@@ -65,3 +65,31 @@ character
   (character)
   (character))
 
+===
+symbol
+===
+
+Apple
+Ap#ple
+Ap ple
+Ap| |ple
+Ap\ ple
+#%Apple
+123app
+app123app123
+123app123
+中文
+
+---
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))

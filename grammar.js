@@ -1,9 +1,28 @@
 const PREC = {
   first: $ => prec(100, $),
-  last: $ => prec(-1, $),
+  last: $ => prec(-100, $),
   left: prec.left,
   right: prec.right,
 };
+
+const LEAF = {
+  // https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
+  whitespace: /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}]/u,
+  newline: /[\r\n\u{85}\u{2028}\u{2029}]/,
+  delimiter: /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
+  non_delimiter: /[^ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
+
+  // first character of symbol or number or extflonum
+  // symbol_or_number_start = not (delimiter or "#")
+  symbol_or_number_start: /[^# \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
+};
+
+function paren(tok) {
+  return choice(
+    seq("(", tok, ")"),
+    seq("[", tok, "]"),
+    seq("{", tok, "}"));
+}
 
 module.exports = grammar({
   name: 'racket',
@@ -19,14 +38,13 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        $._whitespace,
+        // $._whitespace,
+        LEAF.whitespace,
         $.comment,
         $.extension,
         $._datum),
 
-    _skip: $ => choice($._whitespace, $.comment),
-    _whitespace: _ => /[\r\n\t\f\v ]|\p{Zs}|\p{Zl}|\p{Zp}|\u{FEFF}/,
-    _newline: _ => /[\r\n]|\u{85}|\u{2028}|\u{2029}/,
+    _skip: $ => choice(LEAF.whitespace, $.comment),
 
     dot: _ => ".",
 
@@ -39,9 +57,10 @@ module.exports = grammar({
         seq("#;",
           repeat($._skip),
           $._datum),
+        /#[cC][iIsS]/, // read-case-sensitive parameter
         seq(
           choice("#! ", "#!/"),
-          repeat(seq(/.*/, "\\", $._newline)),
+          repeat(seq(/.*/, "\\", LEAF.newline)),
           /.*/)),
 
     _block_comment: $ =>
@@ -61,6 +80,8 @@ module.exports = grammar({
         $.byte_string,
         $.character,
         $.number,
+        $.symbol,
+
         $.regex,
         $.box,
         $.graph,
@@ -103,7 +124,7 @@ module.exports = grammar({
         seq("\\u", /[0-9a-fA-F]{1,4}/),
         seq("\\u", /[0-9a-fA-F]{4,4}/),
         seq("\\U", /[0-9a-fA-F]{1,8}/),
-        seq("\\", $._newline)),
+        seq("\\", LEAF.newline)),
 
     // string }}}
 
@@ -126,6 +147,22 @@ module.exports = grammar({
             "space", "rubout",
             /[0-7]{3,3}/, /u[0-9a-fA-F]{1,4}/, /U[0-9a-fA-F]{1,8}/,
             /./))),
+
+    symbol: _ =>
+      PREC.last(
+        PREC.right(
+          token(
+            seq(
+              choice(
+                LEAF.symbol_or_number_start,
+                "#%",
+                /\|[^|]*\|/,
+                /\\./),
+              repeat(
+                choice(
+                  /\|[^|]*\|/,
+                  /\\./,
+                  LEAF.non_delimiter)))))),
 
     box: $ =>
       seq(
@@ -184,13 +221,6 @@ module.exports = grammar({
           /[a-zA-Z0-9+_/-]+/)),
   }
 })
-
-function paren(tok) {
-  return choice(
-    seq("(", tok, ")"),
-    seq("[", tok, "]"),
-    seq("{", tok, "}"));
-}
 
 // number {{{
 
