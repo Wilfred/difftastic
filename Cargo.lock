@@ -400,9 +400,9 @@ dependencies = [
 
 [[package]]
 name = "pretty_assertions"
-version = "1.0.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec0cfe1b2403f172ba0f234e500906ee0a3e493fb81092dac23ebefe129301cc"
+checksum = "c89f989ac94207d048d92db058e4f6ec7342b0971fc58d1271ca148b799b3563"
 dependencies = [
  "ansi_term",
  "ctor",
