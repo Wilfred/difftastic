@@ -6,7 +6,7 @@ use crate::{
     hunks::Hunk,
     lines::{format_line_num, MaxLine},
     options::DisplayOptions,
-    syntax::MatchedPos,
+    parse::syntax::MatchedPos,
 };
 use owo_colors::colored::*;
 

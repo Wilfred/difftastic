@@ -11,7 +11,7 @@ use strsim::normalized_levenshtein;
 
 use crate::{
     changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
-    syntax::{AtomKind, Syntax, SyntaxId},
+    parse::syntax::{AtomKind, Syntax, SyntaxId},
 };
 use Edge::*;
 

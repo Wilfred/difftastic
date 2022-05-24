@@ -9,7 +9,7 @@ use rustc_hash::FxHashMap;
 use crate::{
     diff::myers_diff,
     lines::NewlinePositions,
-    syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
+    parse::syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {

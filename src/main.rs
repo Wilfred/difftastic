@@ -18,27 +18,26 @@ mod constants;
 mod diff;
 mod display;
 mod files;
-mod guess_language;
 mod hunks;
 mod line_parser;
 mod lines;
 mod options;
+mod parse;
 mod positions;
 mod summary;
-mod syntax;
-mod tree_sitter_parser;
 
 #[macro_use]
 extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use crate::parse::syntax;
 use changes::ChangeMap;
 use display::context::opposite_positions;
 use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
-use guess_language::guess;
 use log::info;
 use mimalloc::MiMalloc;
+use parse::guess_language::guess;
 
 /// The global allocator used by difftastic.
 ///
@@ -56,7 +55,8 @@ use syntax::init_next_prev;
 use typed_arena::Arena;
 
 use crate::{
-    dijkstra::mark_syntax, lines::MaxLine, syntax::init_all_info, tree_sitter_parser as tsp,
+    dijkstra::mark_syntax, lines::MaxLine, parse::syntax::init_all_info,
+    parse::tree_sitter_parser as tsp,
 };
 
 extern crate pretty_env_logger;
@@ -187,7 +187,7 @@ fn diff_file(
     missing_as_empty: bool,
     node_limit: u32,
     byte_limit: usize,
-    language_override: Option<guess_language::Language>,
+    language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
@@ -210,7 +210,7 @@ fn diff_file_content(
     tab_width: usize,
     node_limit: u32,
     byte_limit: usize,
-    language_override: Option<guess_language::Language>,
+    language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
@@ -360,7 +360,7 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     node_limit: u32,
     byte_limit: usize,
-    language_override: Option<guess_language::Language>,
+    language_override: Option<parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let display_options = display_options.clone();
 

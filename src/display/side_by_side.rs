@@ -14,7 +14,7 @@ use crate::{
     lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
     positions::SingleLineSpan,
-    syntax::{zip_pad_shorter, MatchedPos},
+    parse::syntax::{zip_pad_shorter, MatchedPos},
 };
 
 const SPACER: &str = " ";

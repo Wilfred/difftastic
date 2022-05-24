@@ -7,7 +7,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::{
     lines::LineNumber,
-    syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
+    parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
 /// The maximum number of lines that may be displayed above and below

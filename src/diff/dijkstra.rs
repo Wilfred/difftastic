@@ -6,7 +6,7 @@ use std::{cmp::Reverse, env, rc::Rc};
 use crate::{
     changes::ChangeMap,
     diff::graph::{neighbours, populate_change_map, Edge, Vertex},
-    syntax::Syntax,
+    parse::syntax::Syntax,
 };
 use bumpalo::Bump;
 use itertools::Itertools;

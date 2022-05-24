@@ -5,7 +5,7 @@ use crate::{
     lines::{byte_len, codepoint_len, LineNumber},
     options::DisplayOptions,
     positions::SingleLineSpan,
-    syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
+    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
