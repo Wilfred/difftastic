@@ -12,7 +12,7 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 - [x] boolean
 - [x] pair/list
 - [x] string
-- [ ] quote
+- [x] quote
 - [x] comment
 - [x] vector
 - [x] structure
@@ -21,8 +21,8 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 - [x] character
 - [ ] keyword
 - [x] regex
-- [ ] graph structure
-- [ ] extension
+- [x] graph structure
+- [x] extension
 
 ## Usage
 
