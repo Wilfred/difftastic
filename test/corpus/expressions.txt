@@ -33,10 +33,10 @@ True && !False
 (source_file
   (negation
     (record
-      (type_identifier)))
+      (constructor_name)))
   (binary_expression
     (record
-      (type_identifier))
+      (constructor_name))
     (negation
       (record
-        (type_identifier)))))
+        (constructor_name)))))

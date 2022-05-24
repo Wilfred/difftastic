@@ -1369,6 +1369,11 @@
     }
   },
   {
+    "type": "constructor_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "data_constructor",
     "named": true,
     "fields": {
@@ -1387,7 +1392,7 @@
         "required": true,
         "types": [
           {
-            "type": "type_identifier",
+            "type": "constructor_name",
             "named": true
           }
         ]
@@ -2700,11 +2705,11 @@
         "required": true,
         "types": [
           {
-            "type": "remote_type_identifier",
+            "type": "constructor_name",
             "named": true
           },
           {
-            "type": "type_identifier",
+            "type": "remote_constructor_name",
             "named": true
           }
         ]
@@ -2730,11 +2735,11 @@
         "required": true,
         "types": [
           {
-            "type": "remote_type_identifier",
+            "type": "constructor_name",
             "named": true
           },
           {
-            "type": "type_identifier",
+            "type": "remote_constructor_name",
             "named": true
           }
         ]
@@ -2855,11 +2860,11 @@
         "required": true,
         "types": [
           {
-            "type": "remote_type_identifier",
+            "type": "constructor_name",
             "named": true
           },
           {
-            "type": "type_identifier",
+            "type": "remote_constructor_name",
             "named": true
           }
         ]
@@ -3067,6 +3072,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "remote_constructor_name",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constructor_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

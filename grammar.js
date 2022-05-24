@@ -18,6 +18,11 @@ module.exports = grammar({
       $._maybe_tuple_expression,
       $.remote_type_identifier,
     ],
+    [
+      $._maybe_record_expression,
+      $._maybe_tuple_expression,
+      $.remote_constructor_name,
+    ],
     [$.case_subjects],
     [$.source_file],
   ],
@@ -97,7 +102,7 @@ module.exports = grammar({
     ...bit_string_rules("constant", "_constant_value", "integer"),
     constant_record: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(
           field("arguments", alias($.constant_record_arguments, $.arguments))
         )
@@ -302,7 +307,7 @@ module.exports = grammar({
       ),
     record: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
@@ -401,7 +406,7 @@ module.exports = grammar({
       seq(
         field(
           "constructor",
-          choice($.type_identifier, $.remote_type_identifier)
+          choice($.constructor_name, $.remote_constructor_name)
         ),
         "(",
         "..",
@@ -507,7 +512,7 @@ module.exports = grammar({
       ),
     record_pattern: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(field("arguments", $.record_pattern_arguments))
       ),
     record_pattern_arguments: ($) =>
@@ -562,7 +567,7 @@ module.exports = grammar({
     data_constructors: ($) => repeat1($.data_constructor),
     data_constructor: ($) =>
       seq(
-        field("name", $.type_identifier),
+        field("name", $.constructor_name),
         optional(field("arguments", $.data_constructor_arguments))
       ),
     data_constructor_arguments: ($) =>
@@ -667,6 +672,13 @@ module.exports = grammar({
     type_identifier: ($) => $._upname,
     remote_type_identifier: ($) =>
       seq(field("module", $.identifier), ".", field("name", $.type_identifier)),
+    constructor_name: ($) => $._upname,
+    remote_constructor_name: ($) =>
+      seq(
+        field("module", $.identifier),
+        ".",
+        field("name", $.constructor_name)
+      ),
 
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,

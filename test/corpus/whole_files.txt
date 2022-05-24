@@ -64,13 +64,13 @@ if javascript {
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (record_pattern
-                  name: (type_identifier))))
+                  name: (constructor_name))))
             value: (identifier))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (record_pattern
-                  name: (type_identifier))))
+                  name: (constructor_name))))
             value: (function_call
               function: (field_access
                 record: (identifier)
@@ -193,16 +193,16 @@ pub fn negate(bool: Bool) -> Bool {
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (record_pattern
-                  name: (type_identifier))))
+                  name: (constructor_name))))
             value: (record
-              name: (type_identifier)))
+              name: (constructor_name)))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (record_pattern
-                  name: (type_identifier))))
+                  name: (constructor_name))))
             value: (record
-              name: (type_identifier))))))))
+              name: (constructor_name))))))))
 
 ================================================================================
 Trailing commas
@@ -255,7 +255,7 @@ fn foo(a,) {
           (type
             (type_identifier)))))
     (record
-      (type_identifier)
+      (constructor_name)
       (arguments
         (argument
           (label)
@@ -266,7 +266,7 @@ fn foo(a,) {
       (type_identifier))
     (data_constructors
       (data_constructor
-        (type_identifier)
+        (constructor_name)
         (data_constructor_arguments
           (data_constructor_argument
             (label)
@@ -298,13 +298,13 @@ fn foo(a,) {
             (identifier))))
       (let
         (record_pattern
-          (type_identifier)
+          (constructor_name)
           (record_pattern_arguments
             (record_pattern_argument
               (label)
               (identifier))))
         (record_update
-          (type_identifier)
+          (constructor_name)
           (identifier)
           (record_update_arguments
             (record_update_argument

@@ -815,11 +815,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "type_identifier"
+                "name": "constructor_name"
               },
               {
                 "type": "SYMBOL",
-                "name": "remote_type_identifier"
+                "name": "remote_constructor_name"
               }
             ]
           }
@@ -2527,11 +2527,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "type_identifier"
+                "name": "constructor_name"
               },
               {
                 "type": "SYMBOL",
-                "name": "remote_type_identifier"
+                "name": "remote_constructor_name"
               }
             ]
           }
@@ -3814,11 +3814,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "type_identifier"
+                "name": "constructor_name"
               },
               {
                 "type": "SYMBOL",
-                "name": "remote_type_identifier"
+                "name": "remote_constructor_name"
               }
             ]
           }
@@ -4297,11 +4297,11 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "type_identifier"
+                "name": "constructor_name"
               },
               {
                 "type": "SYMBOL",
-                "name": "remote_type_identifier"
+                "name": "remote_constructor_name"
               }
             ]
           }
@@ -4900,7 +4900,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "type_identifier"
+            "name": "constructor_name"
           }
         },
         {
@@ -5701,6 +5701,35 @@
         }
       ]
     },
+    "constructor_name": {
+      "type": "SYMBOL",
+      "name": "_upname"
+    },
+    "remote_constructor_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "module",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "constructor_name"
+          }
+        }
+      ]
+    },
     "_discard_name": {
       "type": "PATTERN",
       "value": "_[_0-9a-z]*"
@@ -5749,6 +5778,11 @@
       "_maybe_record_expression",
       "_maybe_tuple_expression",
       "remote_type_identifier"
+    ],
+    [
+      "_maybe_record_expression",
+      "_maybe_tuple_expression",
+      "remote_constructor_name"
     ],
     [
       "case_subjects"
