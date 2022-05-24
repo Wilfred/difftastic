@@ -21,6 +21,7 @@ module.exports = grammar({
       choice(
         $._whitespace,
         $.comment,
+        $.extension,
         $._datum),
 
     _skip: $ => choice($._whitespace, $.comment),
@@ -164,6 +165,16 @@ module.exports = grammar({
             "=",
             repeat($._skip),
             $._datum))),
+
+    extension: $ =>
+      choice(
+        seq(
+          "#reader",
+          repeat($._skip),
+          $._datum),
+        seq(
+          "#lang ",
+          /[a-zA-Z0-9+_/-]+/)),
   }
 })
 

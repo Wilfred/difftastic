@@ -21,6 +21,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "extension"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_datum"
         }
       ]
@@ -5835,6 +5839,44 @@
                   "name": "_datum"
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    "extension": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#reader"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_skip"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_datum"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#lang "
+            },
+            {
+              "type": "PATTERN",
+              "value": "[a-zA-Z0-9+_/-]+"
             }
           ]
         }

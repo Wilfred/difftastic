@@ -146,6 +146,69 @@
     "fields": {}
   },
   {
+    "type": "extension",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "graph",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "structure",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "graph",
     "named": true,
     "fields": {},
@@ -256,6 +319,10 @@
           "named": true
         },
         {
+          "type": "extension",
+          "named": true
+        },
+        {
           "type": "graph",
           "named": true
         },
@@ -316,6 +383,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "extension",
           "named": true
         },
         {
@@ -455,6 +526,14 @@
   },
   {
     "type": "#hasheqv",
+    "named": false
+  },
+  {
+    "type": "#lang ",
+    "named": false
+  },
+  {
+    "type": "#reader",
     "named": false
   },
   {
