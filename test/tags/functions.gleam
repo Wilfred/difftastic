@@ -1,6 +1,6 @@
 fn record_with_fun_field(record) {
   let foo = Bar(baz: fn(x) { x + 1 })
-  //         ^ reference.type
+  //         ^ reference.constructor
   foo.baz(41)
   record.foobar("hello")
 

@@ -9,14 +9,14 @@ import gleam/bit_builder
 pub type FrameData {
   //      ^ definition.type
   Text(String)
-  // <- definition.type
+  // <- definition.constructor
   //    ^ reference.type
   Binary(BitString)
   Continuation(BitString)
   Ping(BitString)
   Pong(BitString)
   Close(code: Option(Int), reason: Option(String))
-  // <- definition.type
+  // <- definition.constructor
   //            ^ reference.type
   //                  ^ reference.type
   //                                ^ reference.type
@@ -42,7 +42,7 @@ fn encode_frame(frame: Frame) -> bit_builder.BitBuilder {
   let opcode =
     case frame.data {
       Continuation(_) -> <<0x0:size(1)>>
-      // <- reference.type
+      // <- reference.constructor
       Text(_) -> <<0x1:size(1)>>
       Binary(_) -> <<0x2:size(1)>>
       // 0x3-7 reserved for future non-control frames
