@@ -93,3 +93,18 @@ app123app123
   (symbol)
   (symbol)
   (symbol))
+
+===
+keyword
+===
+
+#:apple
+#:###abc##123123
+#:123123
+
+---
+
+(program
+  (keyword)
+  (keyword)
+  (keyword))

@@ -82,6 +82,7 @@ module.exports = grammar({
         $.number,
         $.symbol,
 
+        $.keyword,
         $.regex,
         $.box,
         $.graph,
@@ -163,6 +164,12 @@ module.exports = grammar({
                   /\|[^|]*\|/,
                   /\\./,
                   LEAF.non_delimiter)))))),
+
+    keyword: $ =>
+      token(
+        seq(
+          "#:",
+          repeat1(LEAF.non_delimiter))),
 
     box: $ =>
       seq(

@@ -36,6 +36,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -122,6 +126,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -198,6 +206,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -266,6 +278,10 @@
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -363,6 +379,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -438,6 +458,10 @@
           "named": true
         },
         {
+          "type": "keyword",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -506,6 +530,10 @@
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "keyword",
           "named": true
         },
         {
@@ -794,6 +822,10 @@
   },
   {
     "type": "dot",
+    "named": true
+  },
+  {
+    "type": "keyword",
     "named": true
   },
   {
