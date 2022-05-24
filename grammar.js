@@ -53,17 +53,21 @@ module.exports = grammar({
 
     // comment }}}
 
-    _datum: $ => choice($._simple_datum, $._compound_datum),
-
-    _simple_datum: $ =>
+    _datum: $ =>
       choice(
         $.boolean,
         $.string,
         $.byte_string,
         $.character,
+        $.number,
         $.regex,
         $.box,
-        $.number),
+        $.graph,
+        $.structure,
+        $.hash,
+
+        $.list,
+        $.vector),
 
     boolean: _ => token(choice("#true", "#t", "#T", "#false", "#f", "#F")),
 
@@ -127,12 +131,6 @@ module.exports = grammar({
         repeat($._skip),
         $._datum),
 
-    _compound_datum: $ =>
-      choice(
-        $.list,
-        $._abbrev_list,
-      ),
-
     list: $ =>
       paren(
         repeat(
@@ -140,16 +138,10 @@ module.exports = grammar({
             $._token,
             $.dot))),
 
-    _abbrev_list: $ =>
-      choice(
-        $.vector,
-        $.structure,
-        $.hash),
-
     vector: $ =>
       seq(
         choice("#", "#fl", "#fx"),
-        optional($.number),
+        repeat(/[0-9]/),
         $.list),
 
     structure: $ =>
@@ -161,6 +153,17 @@ module.exports = grammar({
       seq(
         choice("#hash", "#hasheq", "#hasheqv"),
         $.list),
+
+    graph: $ =>
+      seq(
+        "#",
+        repeat1(/[0-9]/),
+        choice(
+          "#",
+          seq(
+            "=",
+            repeat($._skip),
+            $._datum))),
   }
 })
 
