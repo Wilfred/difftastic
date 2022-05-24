@@ -43,6 +43,7 @@ pub fn replace(
 
 fn record_with_fun_field(record) {
   let foo = Bar(baz: fn(x) { x + 1 })
+  //        ^ constructor
   foo.baz(41)
   // <- variable
   //  ^ property
@@ -59,10 +60,10 @@ fn trial(uri) {
   case uri {
     //  ^ variable.parameter
     Uri(scheme: None) -> True
-    // <- type
+    // <- constructor
     //  ^ property
-    //          ^ type
-    //                   ^ type
+    //          ^ constructor
+    //                   ^ constructor
     _ -> False
     // <- comment.unused
   }

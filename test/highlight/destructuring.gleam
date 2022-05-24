@@ -5,13 +5,13 @@ fn case_case(x: Option(String)) {
   //     ^ variable.parameter
   //        ^ variable.parameter
     #(None, None) -> None
-    // ^ type
-    //       ^ type
-    //                ^ type
+    // ^ constructor
+    //       ^ constructor
+    //                ^ constructor
     #(Some(y), Some(z)) -> #(y, z)
-    // ^ type
+    // ^ constructor
     //     ^ variable
-    //          ^ type
+    //          ^ constructor
     //              ^ variable
     //                       ^ variable
     //                          ^ variable

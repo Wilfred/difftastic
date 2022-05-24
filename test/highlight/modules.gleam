@@ -38,5 +38,13 @@ fn remote_type_case() {
   gleam.Ok(1)
   // <- module
   //   ^ punctuation.delimiter
-  //     ^ type
+  //     ^ constructor
+}
+
+fn make_cat() -> kitty.Cat {
+  //             ^ module
+  //                   ^ type
+  kitty.Cat(name: "Nubi")
+  // ^ module
+  //    ^ constructor
 }
