@@ -15,6 +15,8 @@ const LEAF = {
   // first character of symbol or number or extflonum
   // symbol_or_number_start = not (delimiter or "#")
   symbol_or_number_start: /[^# \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
+
+  any_char: /.|[\r\n\u{85}\u{2028}\u{2029}]/,
 };
 
 function paren(tok) {
@@ -68,7 +70,7 @@ module.exports = grammar({
         repeat(
           choice(
             PREC.first($._block_comment),
-            /./)),
+            LEAF.any_char)),
         PREC.first("|#")),
 
     // comment }}}
