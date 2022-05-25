@@ -36,6 +36,10 @@
           "named": true
         },
         {
+          "type": "here_string",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -126,6 +130,10 @@
           "named": true
         },
         {
+          "type": "here_string",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -206,6 +214,10 @@
           "named": true
         },
         {
+          "type": "here_string",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -281,6 +293,10 @@
           "named": true
         },
         {
+          "type": "here_string",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -335,6 +351,11 @@
     }
   },
   {
+    "type": "here_string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -376,6 +397,10 @@
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "here_string",
           "named": true
         },
         {
@@ -458,6 +483,10 @@
           "named": true
         },
         {
+          "type": "here_string",
+          "named": true
+        },
+        {
           "type": "keyword",
           "named": true
         },
@@ -530,6 +559,10 @@
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "here_string",
           "named": true
         },
         {
@@ -674,6 +707,10 @@
   },
   {
     "type": "#;",
+    "named": false
+  },
+  {
+    "type": "#<<",
     "named": false
   },
   {

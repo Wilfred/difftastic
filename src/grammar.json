@@ -180,6 +180,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "here_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "byte_string"
         },
         {
@@ -278,6 +282,19 @@
         {
           "type": "SYMBOL",
           "name": "_real_string"
+        }
+      ]
+    },
+    "here_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#<<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_here_string_body"
         }
       ]
     },
@@ -6045,7 +6062,12 @@
   "extras": [],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_here_string_body"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }

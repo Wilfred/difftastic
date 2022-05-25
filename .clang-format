@@ -1,0 +1,7 @@
+BasedOnStyle: Google
+IndentWidth: 4
+PointerAlignment: Left
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: InlineOnly
+BinPackArguments: false
+BinPackParameters: false

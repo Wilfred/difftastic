@@ -40,8 +40,8 @@ module.exports = grammar({
 
   extras: _ => [],
 
-  externals: _ => [
-    // TODO: $.here_string,
+  externals: $ => [
+    $._here_string_body,
   ],
 
   rules: {
@@ -88,6 +88,7 @@ module.exports = grammar({
       choice(
         $.boolean,
         $.string,
+        $.here_string,
         $.byte_string,
         $.character,
         $.number,
@@ -112,6 +113,9 @@ module.exports = grammar({
 
     byte_string: $ =>
       seq("#", $._real_string),
+
+    here_string: $ =>
+      seq("#<<", $._here_string_body),
 
     regex: $ =>
       seq(

@@ -7,6 +7,15 @@ string
 "\"Apple\""
 "\\"
 #"Apple"
+#<<EOF
+(define (fib n)
+  (if (< n 2) 1
+    (+ (fib (- n 1))
+       (fib (- n 2)))))
+EOF
+#<<one two three
+one two three
+
 
 ---
 (program
@@ -18,7 +27,9 @@ string
     (escape_sequence))
   (string
     (escape_sequence))
-  (byte_string))
+  (byte_string)
+  (here_string)
+  (here_string))
 
 
 ===
