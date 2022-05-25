@@ -17,7 +17,6 @@ mod constants;
 mod diff;
 mod display;
 mod files;
-mod hunks;
 mod line_parser;
 mod lines;
 mod options;
@@ -29,7 +28,7 @@ mod summary;
 extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
-use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use display::context::opposite_positions;
