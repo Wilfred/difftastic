@@ -1,6 +1,7 @@
 ============================================
 Identifiers
 ============================================
+
 foo
 foo2
 foo.bar
@@ -23,6 +24,21 @@ _foo
  (identifier)
  (identifier (escape_sequence))
  (ERROR (placeholder)) (identifier))
+
+============================================
+Unicode Identifiers
+============================================
+
+你好
+.你.好.
+.你_好.
+
+----
+
+(program
+  (identifier)
+  (identifier)
+  (identifier))
 
 ============================================
 Strings

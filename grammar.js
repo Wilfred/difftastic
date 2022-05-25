@@ -384,7 +384,7 @@ module.exports = grammar({
 
     identifier: $ =>
       choice(
-        /[A-Za-z.][A-Za-z0-9_.]*/,
+        /[.\p{XID_Start}][._\p{XID_Continue}]*/,
         seq(
           '`',
           repeat(choice(

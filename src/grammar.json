@@ -1806,7 +1806,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[A-Za-z.][A-Za-z0-9_.]*"
+          "value": "[.\\p{XID_Start}][._\\p{XID_Continue}]*"
         },
         {
           "type": "SEQ",
