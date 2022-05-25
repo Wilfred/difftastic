@@ -2103,6 +2103,10 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "_raw_string_literal"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -2250,7 +2254,12 @@
     ]
   ],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_raw_string_literal"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }
