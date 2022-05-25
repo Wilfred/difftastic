@@ -173,11 +173,6 @@
     }
   },
   {
-    "type": "escape_sequence",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "extension",
     "named": true,
     "fields": {},
@@ -786,62 +781,6 @@
     "named": false
   },
   {
-    "type": "\\\"",
-    "named": false
-  },
-  {
-    "type": "\\'",
-    "named": false
-  },
-  {
-    "type": "\\U",
-    "named": false
-  },
-  {
-    "type": "\\\\",
-    "named": false
-  },
-  {
-    "type": "\\a",
-    "named": false
-  },
-  {
-    "type": "\\b",
-    "named": false
-  },
-  {
-    "type": "\\e",
-    "named": false
-  },
-  {
-    "type": "\\f",
-    "named": false
-  },
-  {
-    "type": "\\n",
-    "named": false
-  },
-  {
-    "type": "\\r",
-    "named": false
-  },
-  {
-    "type": "\\t",
-    "named": false
-  },
-  {
-    "type": "\\u",
-    "named": false
-  },
-  {
-    "type": "\\v",
-    "named": false
-  },
-  {
-    "type": "\\x",
-    "named": false
-  },
-  {
     "type": "]",
     "named": false
   },
@@ -859,6 +798,10 @@
   },
   {
     "type": "dot",
+    "named": true
+  },
+  {
+    "type": "escape_sequence",
     "named": true
   },
   {

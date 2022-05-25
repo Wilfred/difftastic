@@ -49,7 +49,6 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        // $._whitespace,
         LEAF.whitespace,
         $.comment,
         $.extension,
@@ -131,16 +130,17 @@ module.exports = grammar({
             /[^"\\]/)),
         '"'),
 
-    escape_sequence: $ =>
-      choice(
-        "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\e",
-        '\\"', "\\'", "\\\\",
-        seq("\\", /[0-7]{1,3}/),
-        seq("\\x", /[0-9a-fA-F]{1,2}/),
-        seq("\\u", /[0-9a-fA-F]{1,4}/),
-        seq("\\u", /[0-9a-fA-F]{4,4}/),
-        seq("\\U", /[0-9a-fA-F]{1,8}/),
-        seq("\\", LEAF.newline)),
+    escape_sequence: _ =>
+      token(
+        choice(
+          "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\e",
+          '\\"', "\\'", "\\\\",
+          seq("\\", /[0-7]{1,3}/),
+          seq("\\x", /[0-9a-fA-F]{1,2}/),
+          seq("\\u", /[0-9a-fA-F]{1,4}/),
+          seq("\\u", /[0-9a-fA-F]{4,4}/),
+          seq("\\U", /[0-9a-fA-F]{1,8}/),
+          seq("\\", LEAF.newline))),
 
     // string }}}
 
