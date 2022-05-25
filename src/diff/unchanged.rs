@@ -433,8 +433,8 @@ mod tests {
     use super::*;
     use crate::{
         parse::guess_language,
-        syntax::init_all_info,
         parse::tree_sitter_parser::{from_language, parse},
+        syntax::init_all_info,
     };
     use typed_arena::Arena;
 

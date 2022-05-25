@@ -7,14 +7,14 @@ use std::{cmp::max, collections::HashSet};
 use crate::{
     constants::Side,
     display::context::all_matched_lines_filled,
+    display::hunks::{matched_lines_for_hunk, Hunk},
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
-    display::hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
-    positions::SingleLineSpan,
     parse::syntax::{zip_pad_shorter, MatchedPos},
+    positions::SingleLineSpan,
 };
 
 const SPACER: &str = " ";
