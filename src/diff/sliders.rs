@@ -32,8 +32,8 @@
 use crate::{
     diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
     parse::guess_language,
-    positions::SingleLineSpan,
     parse::syntax::Syntax,
+    positions::SingleLineSpan,
 };
 use Syntax::*;
 
@@ -606,8 +606,8 @@ mod tests {
     use super::*;
     use crate::{
         parse::guess_language,
-        syntax::{init_all_info, AtomKind},
         parse::tree_sitter_parser::{from_language, parse},
+        syntax::{init_all_info, AtomKind},
     };
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
