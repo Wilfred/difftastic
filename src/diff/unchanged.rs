@@ -1,7 +1,7 @@
 //! Find nodes that are obviously unchanged, so we can run the main
 //! diff on smaller inputs.
 
-use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
+use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
 
 use crate::parse::syntax::Syntax;

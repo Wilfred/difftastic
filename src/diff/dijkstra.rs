@@ -4,7 +4,7 @@
 use std::{cmp::Reverse, env, rc::Rc};
 
 use crate::{
-    changes::ChangeMap,
+    diff::changes::ChangeMap,
     diff::graph::{neighbours, populate_change_map, Edge, Vertex},
     parse::syntax::Syntax,
 };
@@ -169,7 +169,7 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::ChangeKind,
+        diff::changes::ChangeKind,
         diff::graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},

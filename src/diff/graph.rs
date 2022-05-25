@@ -10,7 +10,7 @@ use std::{
 use strsim::normalized_levenshtein;
 
 use crate::{
-    changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
+    diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
     parse::syntax::{AtomKind, Syntax, SyntaxId},
 };
 use Edge::*;

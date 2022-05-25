@@ -13,7 +13,6 @@
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
 
-mod changes;
 mod constants;
 mod diff;
 mod display;
@@ -32,7 +31,7 @@ extern crate log;
 use crate::diff::{dijkstra, unchanged};
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::parse::syntax;
-use changes::ChangeMap;
+use diff::changes::ChangeMap;
 use display::context::opposite_positions;
 use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
 use log::info;

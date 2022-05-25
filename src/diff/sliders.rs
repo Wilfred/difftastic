@@ -30,7 +30,7 @@
 //! (B in this example).
 
 use crate::{
-    changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
+    diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
     parse::guess_language,
     positions::SingleLineSpan,
     parse::syntax::Syntax,
