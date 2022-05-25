@@ -16,3 +16,14 @@ jobs:
           node-version: 14
       - run: npm install
       - run: npm test
+
+  racket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: git clone https://github.com/racket/racket --depth 1
+      - run: npx tree-sitter parse tree-sitter parse $(find racket -name '*.rkt' -type f -not -exec grep -q '#lang at-exp' {} \; -print) -qt
