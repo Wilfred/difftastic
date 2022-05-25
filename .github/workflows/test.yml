@@ -14,10 +14,5 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: |
-          gcc -v
-          g++ -v
-          clang -v
-          clang++ -v
       - run: npm install
       - run: npm test

@@ -1,29 +1,55 @@
-#include <optional>
+#if __cplusplus < 201103L
+#error "You should have a C++11 compatible compiler."
+#endif
+
 #include <string>
 
 #include "tree_sitter/parser.h"
 
 namespace {
 
-using std::optional;
 using std::u32string;
 
 enum TokenType {
     HERE_STRING_BODY,
 };
 
+class optional_str {
+    bool valid = true;
+    u32string str;
+
+   public:
+    static optional_str empty() {
+        optional_str emp;
+        emp.valid = false;
+        return emp;
+    }
+
+    bool has_value() const { return valid; }
+
+    bool operator==(const optional_str &rhs) const {
+        if (!this->valid) {
+            return !rhs.valid;
+        } else {
+            return rhs.valid && this->str == rhs.str;
+        }
+    }
+
+    u32string *operator->() { return &this->str; }
+};
+
 inline bool isnewline(int32_t c) {
     return c == '\n' || c == '\r' || c == 0x85 || c == 0x2028 || c == 0x2029;
 }
 
-inline optional<u32string> readline(TSLexer *lexer) {
-    u32string line;
+inline optional_str readline(TSLexer *lexer) {
+    optional_str line;
 
     while (!isnewline(lexer->lookahead)) {
         if (lexer->eof(lexer)) {
-            return {};
+            return optional_str::empty();
         }
-        line.push_back(lexer->lookahead);
+        line->push_back(lexer->lookahead);
         lexer->advance(lexer, false);
     }
     lexer->advance(lexer, false);
@@ -35,14 +61,14 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
         return false;
     }
 
-    optional<u32string> terminator = readline(lexer);
+    const optional_str terminator = readline(lexer);
 
     if (!terminator.has_value()) {
         return false;
     }
 
     while (true) {
-        optional<u32string> line = readline(lexer);
+        const optional_str line = readline(lexer);
         if (!line.has_value()) {
             return false;
         }
