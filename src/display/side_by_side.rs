@@ -10,7 +10,7 @@ use crate::{
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
-    hunks::{matched_lines_for_hunk, Hunk},
+    display::hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
     positions::SingleLineSpan,
