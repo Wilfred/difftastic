@@ -63,7 +63,7 @@ const PREC = {
   NS_GET: 21,
   CALL: 22,
   CALL_PIPE: 23,
-  FLOAT: 24,
+  FLOAT: 24
 }
 
 newline = '\n',
@@ -79,7 +79,7 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$._pipe_rhs_argument, $._argument],
-    [$.pipe_rhs_arguments, $.arguments],
+    [$.pipe_rhs_arguments, $.arguments]
   ],
 
   externals: $ => [
@@ -139,8 +139,6 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
-    // TODO: Do we need a special rule for 'switch'?
-    // It's just a regular function call in R.
     switch: $ => seq(
       'switch',
       '(',
