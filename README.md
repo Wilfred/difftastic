@@ -8,7 +8,7 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 
 ## Status
 
-stable
+stable. It should recognize most grammar with the default readtable.
 
 ## Usage
 
