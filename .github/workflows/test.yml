@@ -26,4 +26,4 @@ jobs:
           node-version: 14
       - run: npm install
       - run: git clone https://github.com/racket/racket --depth 1
-      - run: npx tree-sitter parse tree-sitter parse $(find racket -name '*.rkt' -type f -not -exec grep -q '#lang at-exp' {} \; -print) -q
+      - run: npx tree-sitter parse tree-sitter parse $(find racket -name '*.rkt' -type f -not -exec grep -q '#lang at-exp' {} \; -print) -qt
