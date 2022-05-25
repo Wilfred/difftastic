@@ -15,10 +15,12 @@ enum TokenType {
 };
 
 class optional_str {
-    bool valid = true;
+    bool valid;
     u32string str;
 
    public:
+    optional_str() : valid(true) {}
+
     static optional_str empty() {
         optional_str emp;
         emp.valid = false;
