@@ -1,25 +1,43 @@
-const PREC = {
-  COMMENT: -1,
 
-  ASSIGN: 0,
-  PIPE: 1,
-  TILDE: 2,
-  OR: 3,
-  AND: 4,
-  NOT: 5,
-  REL: 6,
-  PLUS: 7,
-  TIMES: 8,
-  SPECIAL: 9,
-  COLON: 10,
-  NEG: 11,
-  EXP: 12,
-  DOLLAR: 13,
-  NS_GET: 14,
-  CALL: 15,
-  CALL_PIPE: 16,
-  SUBSET: 17,
-  FLOAT: 18
+// The precedence rules for R expressions are defined here:
+//
+// https://github.com/wch/r-source/blob/36008873fb8ca2af3bdaaff418dbade5f7bce118/src/main/gram.y#L414-L436
+//
+// Note that R also defines some special reduction rules for assignment ('=') and help ('?')
+//
+// https://github.com/wch/r-source/blob/36008873fb8ca2af3bdaaff418dbade5f7bce118/src/main/gram.y#L447-L453
+const PREC = {
+  COMMENT: -2,
+  LOW: 0,
+  WHILE: 0,
+  FOR: 0,
+  REPEAT: 0,
+  IF: 1,
+  ELSE: 2,
+  HELP: 3,
+  LEFT_ASSIGN: 4,
+  EQ_ASSIGN: 5,
+  RIGHT_ASSIGN: 6,
+  TILDE: 7,
+  OR: 8,
+  AND: 9,
+  NOT: 10,
+  REL: 11,
+  PLUS: 12,
+  TIMES: 13,
+  SPECIAL: 14,
+  PIPE: 14,
+  PIPEBIND: 15,
+  COLON: 16,
+  UPLUS: 17,
+  EXP: 18,
+  DOLLAR: 19,
+  NS_GET: 20,
+  CALL: 21,
+  SUBSET: 21,
+  SUBSET: 21,
+  CALL_PIPE: 22,
+  FLOAT: 23,
 }
 
 newline = '\n',
@@ -51,19 +69,19 @@ module.exports = grammar({
       // TODO: other kinds of definitions
     ),
 
-    function_definition: $ => prec.left(seq(
+    function_definition: $ => prec.left(PREC.LOW, seq(
       'function',
       $.formal_parameters,
       $._expression
     )),
 
-    lambda_function: $ => prec.left(seq(
+    lambda_function: $ => prec.left(PREC.LOW, seq(
       '\\',
       $.formal_parameters,
       $._expression
     )),
 
-    if: $ => prec.right(seq(
+    if: $ => prec.right(PREC.IF, seq(
       'if',
       '(',
       field('condition', $._expression),
@@ -72,7 +90,7 @@ module.exports = grammar({
       field('alternative', optional(seq('else', $._expression)))
     )),
 
-    while: $ => prec.right(seq(
+    while: $ => prec.left(PREC.WHILE, seq(
       'while',
       '(',
       field('condition', $._expression),
@@ -80,12 +98,12 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
-    repeat: $ => prec.right(seq(
+    repeat: $ => prec.left(PREC.REPEAT, seq(
       'repeat',
       field('body', $._expression)
     )),
 
-    for: $ => prec.right(seq(
+    for: $ => prec.left(PREC.FOR, seq(
       'for',
       '(',
       field('name', $.identifier),
@@ -95,6 +113,8 @@ module.exports = grammar({
       field('body', $._expression)
     )),
 
+    // TODO: Do we need a special rule for 'switch'?
+    // It's just a regular function call in R.
     switch: $ => seq(
       'switch',
       '(',
@@ -163,42 +183,42 @@ module.exports = grammar({
       $.super_right_assignment,
     ),
 
-    left_assignment: $ => prec.right(PREC.ASSIGN,
+    left_assignment: $ => prec.right(PREC.LEFT_ASSIGN,
       seq(
         field('name', $._expression),
         '<-',
         field('value', $._expression)
       )),
 
-    left_assignment2: $ => prec.right(PREC.ASSIGN,
+    left_assignment2: $ => prec.right(PREC.LEFT_ASSIGN,
       seq(
         field('name', $._expression),
         ':=',
         field('value', $._expression)
       )),
 
-    equals_assignment: $ => prec.right(PREC.ASSIGN,
+    equals_assignment: $ => prec.right(PREC.EQ_ASSIGN,
       seq(
         field('name', $._expression),
         '=',
         field('value', $._expression)
       )),
 
-    super_assignment: $ => prec.right(PREC.ASSIGN,
+    super_assignment: $ => prec.right(PREC.LEFT_ASSIGN,
       seq(
         field('name', $._expression),
         '<<-',
         field('value', $._expression)
       )),
 
-    super_right_assignment: $ => prec.right(PREC.ASSIGN,
+    super_right_assignment: $ => prec.left(PREC.RIGHT_ASSIGN,
       seq(
         field('value', $._expression),
         '->>',
         field('name', $._expression)
       )),
 
-    right_assignment: $ => prec.left(PREC.ASSIGN,
+    right_assignment: $ => prec.left(PREC.RIGHT_ASSIGN,
       seq(
         field('value', $._expression),
         '->',
@@ -235,7 +255,7 @@ module.exports = grammar({
       ']]'
     )),
 
-    dollar: $ => prec(PREC.DOLLAR, seq(
+    dollar: $ => prec.left(PREC.DOLLAR, seq(
       $._expression,
       '$',
       choice(
@@ -244,19 +264,19 @@ module.exports = grammar({
       )
     )),
 
-    slot: $ => prec(PREC.DOLLAR, seq(
+    slot: $ => prec.left(PREC.DOLLAR, seq(
       $._expression,
       '@',
       $.identifier
     )),
 
-    namespace_get: $ => prec(PREC.NS_GET, seq(
+    namespace_get: $ => prec.left(PREC.NS_GET, seq(
       field('namespace', $.identifier),
       '::',
       field('function', $.identifier),
     )),
 
-    namespace_get_internal: $ => prec(PREC.NS_GET, seq(
+    namespace_get_internal: $ => prec.left(PREC.NS_GET, seq(
       field('namespace', $.identifier),
       ':::',
       field('function', $.identifier),
@@ -283,7 +303,7 @@ module.exports = grammar({
       ','
     )),
 
-    // pipe_hrs is a call function
+    // pipe_rhs is a call function
     pipe_rhs: $ => prec.left(PREC.CALL_PIPE, seq(
       field('function', $._expression),
       '(',
@@ -291,7 +311,7 @@ module.exports = grammar({
       ')'
     )),
 
-    pipe: $ => prec(PREC.PIPE, seq(
+    pipe: $ => prec.left(PREC.PIPE, seq(
       field('left', $._expression),
       field('operator', '|>'),
       field('right', alias($.pipe_rhs, $.call))
@@ -299,9 +319,10 @@ module.exports = grammar({
 
     unary: $ => {
       const operators = [
-        [PREC.NEG, choice('-', '+')],
+        [PREC.UPLUS, choice('-', '+')],
         [PREC.NOT, '!'],
         [PREC.TILDE, '~'],
+        [PREC.HELP, '?'],
       ];
 
       return choice(...operators.map(([precedence, operator]) => prec.left(precedence, seq(
@@ -321,6 +342,7 @@ module.exports = grammar({
         [prec.left, PREC.SPECIAL, $.special],
         [prec.left, PREC.COLON, ':'],
         [prec.left, PREC.TILDE, '~'],
+        [prec.left, PREC.HELP, '?'],
       ];
 
       return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(

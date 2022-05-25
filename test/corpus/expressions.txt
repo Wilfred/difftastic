@@ -838,3 +838,91 @@ y~x
   (unary operand: (identifier))
 
   (binary left: (identifier) right: (identifier)))
+
+============================================
+Help Operator
+============================================
+a ? b
+a ? b <- 1
+
+---
+
+(program
+  (binary
+    (identifier)
+    (identifier))
+  (binary
+    (identifier)
+    (left_assignment
+      (identifier)
+      (float))))
+
+============================================
+Complex Expressions
+============================================
+repeat if (1) TRUE else repeat 42
+if (TRUE) if (FALSE) 2 else NULL
+a::b$c[[d]] <- e
+TRUE ~ FALSE ~ NULL ? NA ? NaN
+if (TRUE) FALSE
+else NA
+(if (TRUE) FALSE
+else NA)
+a = TRUE ? FALSE
+TRUE <- FALSE = NA
+
+---
+
+(program
+  (repeat
+    (if
+      (float)
+      (true)
+      (repeat
+        (float))))
+  (if
+    (true)
+    (if
+      (false)
+      (float)
+      (null)))
+  (left_assignment
+    (subset2
+      (dollar
+        (namespace_get
+          (identifier)
+          (identifier))
+       (identifier))
+       (arguments
+        (identifier)))
+    (identifier))
+  (binary
+    (binary
+      (binary
+        (binary
+          (true)
+          (false))
+        (null))
+      (na))
+    (nan))
+  (if
+    (true)
+    (false))
+  (identifier)
+  (na)
+  (paren_list
+    (if
+      (true)
+      (false)
+      (na)))
+  (binary
+    (equals_assignment
+      (identifier)
+      (true))
+    (false))
+  (equals_assignment
+    (left_assignment
+      (true)
+      (false))
+    (na)))
+
