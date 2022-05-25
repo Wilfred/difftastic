@@ -1,13 +1,40 @@
 
-// The precedence rules for R expressions are defined here:
+// The R 4.2.0 syntax table, from ?Syntax:
+//
+//  ':: :::'           access variables in a namespace
+//  '$ @'              component / slot extraction
+//  '[ [['             indexing
+//  '^'                exponentiation (right to left)
+//  '- +'              unary minus and plus
+//  ':'                sequence operator
+//  '%any% |>'         special operators (including '%%' and '%/%')
+//  '* /'              multiply, divide
+//  '+ -'              (binary) add, subtract
+//  '< > <= >= == !='  ordering and comparison
+//  '!'                negation
+//  '&  &&'            and
+//  '| ||'             or
+//  '~'                as in formulae
+//  '-> ->>'           rightwards assignment
+//  '<- <<-'           assignment (right to left)
+//  '='                assignment (right to left)
+//  '?'                help (unary and binary)
+//
+// R also has an operator precedence table defined here:
 //
 // https://github.com/wch/r-source/blob/36008873fb8ca2af3bdaaff418dbade5f7bce118/src/main/gram.y#L414-L436
 //
-// Note that R also defines some special reduction rules for assignment ('=') and help ('?')
+// However, the effective precedence of '?' and '=' is a bit different, as R
+// defines special reduction rules for these operators:
 //
-// https://github.com/wch/r-source/blob/36008873fb8ca2af3bdaaff418dbade5f7bce118/src/main/gram.y#L447-L453
+// https://github.com/wch/r-source/blob/36008873fb8ca2af3bdaaff418dbade5f7bce118/src/main/gram.y#L440-L453
+//
+// Rather than try to replicate those reduction rules, we just adjust the
+// operator precedence to match the declared precedence in the R syntax table,
+// while allowing for R's declared precedence differences between certain
+// control flow keywords.
 const PREC = {
-  COMMENT: -2,
+  COMMENT: -1,
   LOW: 0,
   WHILE: 0,
   FOR: 0,
@@ -15,8 +42,8 @@ const PREC = {
   IF: 1,
   ELSE: 2,
   HELP: 3,
-  LEFT_ASSIGN: 4,
-  EQ_ASSIGN: 5,
+  EQ_ASSIGN: 4,
+  LEFT_ASSIGN: 5,
   RIGHT_ASSIGN: 6,
   TILDE: 7,
   OR: 8,
@@ -31,13 +58,12 @@ const PREC = {
   COLON: 16,
   UPLUS: 17,
   EXP: 18,
-  DOLLAR: 19,
-  NS_GET: 20,
-  CALL: 21,
-  SUBSET: 21,
-  SUBSET: 21,
-  CALL_PIPE: 22,
-  FLOAT: 23,
+  SUBSET: 19,
+  DOLLAR: 20,
+  NS_GET: 21,
+  CALL: 22,
+  CALL_PIPE: 23,
+  FLOAT: 24,
 }
 
 newline = '\n',
@@ -53,7 +79,7 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$._pipe_rhs_argument, $._argument],
-    [$.pipe_rhs_arguments, $.arguments]
+    [$.pipe_rhs_arguments, $.arguments],
   ],
 
   externals: $ => [
@@ -282,6 +308,12 @@ module.exports = grammar({
       field('function', $.identifier),
     )),
 
+    help: $ => prec.left(PREC.HELP, seq(
+      $._expression,
+      '?',
+      $._expression
+    )),
+
     dots: $ => '...',
 
     placeholder: $ => '_',
@@ -342,7 +374,6 @@ module.exports = grammar({
         [prec.left, PREC.SPECIAL, $.special],
         [prec.left, PREC.COLON, ':'],
         [prec.left, PREC.TILDE, '~'],
-        [prec.left, PREC.HELP, '?'],
       ];
 
       return choice(...operators.map(([fn, precedence, operator]) => fn(precedence, seq(
@@ -391,6 +422,7 @@ module.exports = grammar({
       $.slot,
       $.namespace_get,
       $.namespace_get_internal,
+      $.help,
       $.if,
       $.for,
       $.while,

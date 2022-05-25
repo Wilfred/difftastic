@@ -848,10 +848,10 @@ a ? b <- 1
 ---
 
 (program
-  (binary
+  (help
     (identifier)
     (identifier))
-  (binary
+  (help
     (identifier)
     (left_assignment
       (identifier)
@@ -870,6 +870,9 @@ else NA
 else NA)
 a = TRUE ? FALSE
 TRUE <- FALSE = NA
+TRUE <- FALSE ? NA
+TRUE = FALSE ? NA
+TRUE ? FALSE = NA
 
 ---
 
@@ -896,8 +899,8 @@ TRUE <- FALSE = NA
        (arguments
         (identifier)))
     (identifier))
-  (binary
-    (binary
+  (help
+    (help
       (binary
         (binary
           (true)
@@ -915,7 +918,7 @@ TRUE <- FALSE = NA
       (true)
       (false)
       (na)))
-  (binary
+  (help
     (equals_assignment
       (identifier)
       (true))
@@ -924,5 +927,44 @@ TRUE <- FALSE = NA
     (left_assignment
       (true)
       (false))
-    (na)))
+    (na))
+  (help
+    (left_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (equals_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (true)
+    (equals_assignment
+      (false)
+      (na))))
 
+============================================
+Precedence Tests
+============================================
+A$"B"^NA
+a::b$c
+a$b?c
+
+----
+(program
+  (binary
+    (dollar
+      (identifier)
+      (string))
+    (na))
+  (dollar
+    (namespace_get
+      (identifier)
+      (identifier))
+    (identifier))
+  (help
+    (dollar
+      (identifier)
+      (identifier))
+    (identifier)))
