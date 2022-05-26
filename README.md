@@ -8,7 +8,22 @@ This grammar only implements `#lang racket` or `#lang racket/base`.
 
 ## Status
 
-stable. It should recognize most grammar with the default readtable.
+It should recognize most grammar with the default readtable.
+
+## Build and Try
+
+You need
+
+* nodejs
+* a C compiler
+* a C++11 compiler
+
+then run
+
+```shell
+npm install
+npx tree-sitter parse [filename]
+```
 
 ## Usage
 
