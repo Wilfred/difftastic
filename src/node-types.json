@@ -244,10 +244,6 @@
           "named": true
         },
         {
-          "type": "bind",
-          "named": true
-        },
-        {
           "type": "compspec",
           "named": true
         },
@@ -281,6 +277,10 @@
         },
         {
           "type": "importstr",
+          "named": true
+        },
+        {
+          "type": "local_bind",
           "named": true
         },
         {
@@ -444,6 +444,29 @@
     }
   },
   {
+    "type": "local_bind",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bind",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "local",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "member",
     "named": true,
     "fields": {},
@@ -490,11 +513,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "bind",
+          "named": true
+        },
+        {
+          "type": "local",
           "named": true
         }
       ]
@@ -544,11 +571,29 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "string_content",
+          "named": true
+        },
+        {
+          "type": "string_end",
+          "named": true
+        },
+        {
+          "type": "string_start",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "string_content",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -575,10 +620,6 @@
     "named": false
   },
   {
-    "type": "\"",
-    "named": false
-  },
-  {
     "type": "%",
     "named": false
   },
@@ -588,10 +629,6 @@
   },
   {
     "type": "&&",
-    "named": false
-  },
-  {
-    "type": "'",
     "named": false
   },
   {
@@ -748,7 +785,7 @@
   },
   {
     "type": "local",
-    "named": false
+    "named": true
   },
   {
     "type": "null",
@@ -760,6 +797,14 @@
   },
   {
     "type": "self",
+    "named": true
+  },
+  {
+    "type": "string_end",
+    "named": true
+  },
+  {
+    "type": "string_start",
     "named": true
   },
   {

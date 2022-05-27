@@ -1,5 +1,5 @@
 ======================
-Parses example 1
+Parses example 2
 ======================
 {
   person1: {
@@ -11,4 +11,48 @@ Parses example 1
 
 ---
 
-()
+
+(document
+  (expr
+    (member
+      (field
+        (fieldname
+          (id))
+        (expr
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (string))))
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (expr
+                  (expr
+                    (string))
+                  (binaryop)
+                  (expr
+                    (expr
+                      (self))
+                    (id)))
+                (binaryop)
+                (expr
+                  (string))))))))
+    (member
+      (field
+        (fieldname
+          (id))
+        (expr
+          (expr
+            (expr
+              (self))
+            (id))
+          (member
+            (field
+              (fieldname
+                (id))
+              (expr
+                (string)))))))))

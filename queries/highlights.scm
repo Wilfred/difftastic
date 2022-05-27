@@ -1,6 +1,6 @@
 "if" @conditional
 [
-  "local"
+  (local)
   "function"
 ] @keyword
 (comment) @comment

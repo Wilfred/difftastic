@@ -1,46 +1,6 @@
-/*
-expr ∈ Expr ::= null | true | false | self | $ | string | number
-|   { objinside }
-|   [ [ expr { , expr } [ , ] ] ]
-|   [ expr [ , ] forspec compspec ]
-|   expr . id
-|   expr [ [ expr ] [ : [ expr ] [ : [ expr ] ] ] ]
-|   super . id
-|   super [ expr ]
-|   expr ( [ args ] )
-|   id
-|   local bind { , bind } ; expr
-|   if expr then expr [ else expr ]
-|   expr binaryop expr
-|   unaryop expr
-|   expr { objinside }
-|   function ( [ params ] ) expr
-|   assert ; expr
-|   import string
-|   importstr string
-|   error expr
-|   expr in super
-objinside   ::= member { , member } [ , ]
-|   { objlocal , } [ expr ] : expr [ { , objlocal } ] [ , ] forspec compspec
-member  ::= objlocal | assert | field
-field ∈ Field   ::= fieldname [ + ] h expr
-|   fieldname ( [ params ] ) h expr
-h ∈ Hidden  ::= : | :: | :::
-objlocal    ::= local bind
-compspec ∈ CompSpec ::= { forspec | ifspec }
-forspec ::= for id in expr
-ifspec  ::= if expr
-fieldname   ::= id | string | [ expr ]
-assert  ::= assert expr [ : expr ]
-bind ∈ Bind ::= id = expr
-|   id ( [ params ] ) = expr
-args    ::= expr { , expr } { , id = expr } [ , ]
-|   id = expr { , id = expr } [ , ]
-params  ::= param { , param } [ , ]
-param   ::= id [ = expr ]
-binaryop    ::= * | / | % | + | - | << | >> | < | <= | > | >= | == | != | in | & | ^ | | | && | ||
-unaryop ::= - | + | ! | ~
- */
+const PREC_DEFAULT = 1;
+const PREC_MEMBER = 2;
+const PREC_BINARY = 3;
 
 module.exports = grammar({
     name: "jsonnet",
@@ -62,6 +22,7 @@ module.exports = grammar({
 
         expr: ($) =>
             prec.right(
+                PREC_DEFAULT,
                 choice(
                     $.null,
                     $.true,
@@ -99,7 +60,7 @@ module.exports = grammar({
                     seq($.super, "[", $.expr, "]"),
                     seq($.expr, "(", optional($.args), ")"),
                     $.id,
-                    seq("local", commaSep1($.bind, false), ";", $.expr),
+                    $.local_bind,
                     seq(
                         "if",
                         field("condition", $.expr),
@@ -126,9 +87,13 @@ module.exports = grammar({
                     $.import,
                     $.importstr,
                     $.expr_error,
-                    seq($.expr, "in", $.super)
+                    seq($.expr, "in", $.super),
+                    seq("(", $.expr, ")")
                 )
             ),
+
+        local_bind: ($) =>
+            prec.right(seq($.local, commaSep1($.bind, false), ";", $.expr)),
 
         anonymous_function: ($) =>
             prec.right(
@@ -150,11 +115,6 @@ module.exports = grammar({
         // error expr
         expr_error: ($) => prec.right(seq("error", $.expr)),
 
-        forspec: ($) => seq("for", $.id, "in", $.expr),
-        ifspec: ($) => seq("if", $.expr),
-
-        compspec: ($) => repeat1(choice($.forspec, $.ifspec)),
-
         // Literals
         null: () => "null",
         true: () => "true",
@@ -162,10 +122,12 @@ module.exports = grammar({
         self: () => "self",
         dollar: () => "$",
         super: () => "super",
+        local: () => "local",
 
         objinside: ($) =>
             choice(
-                seq($.member, repeat(seq(",", $.member)), optional(",")),
+                // seq($.member, repeat(seq(",", $.member)), optional(",")),
+                commaSep1($.member, true),
                 seq(
                     repeat(seq($.objlocal, ",")),
                     "[",
@@ -173,41 +135,54 @@ module.exports = grammar({
                     "]",
                     ":",
                     $.expr,
-                    optional(seq(",", $.objlocal)),
+                    repeat(seq(",", $.objlocal)),
                     optional(","),
                     $.forspec,
                     optional($.compspec)
                 )
             ),
 
-        objlocal: ($) => seq("local", $.bind),
-        member: ($) => prec.right(choice($.objlocal, $.assert, $.field)),
-        params: ($) => commaSep1($.param, true),
-        param: ($) =>
-            seq(
-                field("identifier", $.id),
-                optional(seq("=", field("value", $.expr)))
-            ),
-        bind: ($) =>
-            choice(
-                seq($.id, "=", $.expr),
-                seq(
-                    field("function", $.id),
-                    "(",
-                    optional(field("params", $.params)),
-                    ")",
-                    "=",
-                    field("body", $.expr)
-                )
-            ),
+        member: ($) =>
+            prec.right(PREC_MEMBER, choice($.objlocal, $.assert, $.field)),
 
         field: ($) =>
             choice(
                 seq($.fieldname, optional("+"), $.h, $.expr),
                 seq($.fieldname, "(", optional($.params), ")", $.h, $.expr)
             ),
+
+        h: () => choice(":", "::", ":::"),
+
+        objlocal: ($) => seq($.local, $.bind),
+
+        compspec: ($) => repeat1(choice($.forspec, $.ifspec)),
+        forspec: ($) => seq("for", $.id, "in", $.expr),
+        ifspec: ($) => seq("if", $.expr),
+
         fieldname: ($) =>
             prec.right(choice($.id, $.string, seq("[", $.expr, "]"))),
+
+        bind: ($) =>
+            choice(
+                seq($.id, "=", $.expr),
+                prec.right(
+                    seq(
+                        field("function", $.id),
+                        "(",
+                        optional(field("params", $.params)),
+                        ")",
+                        "=",
+                        field("body", $.expr)
+                    )
+                )
+            ),
+
+        params: ($) => commaSep1($.param, true),
+        param: ($) =>
+            seq(
+                field("identifier", $.id),
+                optional(seq("=", field("value", $.expr)))
+            ),
 
         assert: ($) => seq("assert", $.expr, optional(seq(":", $.expr))),
         named_argument: ($) => seq($.id, "=", $.expr),
@@ -227,11 +202,11 @@ module.exports = grammar({
             ),
 
         id: () => /[_a-zA-Z][_a-zA-Z0-9]*/,
-        h: () => choice(":", "::", ":::"),
 
         // TODO: Precendence?
         binaryop: () =>
             prec.right(
+                PREC_BINARY,
                 choice(
                     "*",
                     "/",
@@ -246,7 +221,7 @@ module.exports = grammar({
                     ">=",
                     "==",
                     "!=",
-                    "in",
+                    // "in",
                     "&",
                     "^",
                     "|",
@@ -300,35 +275,48 @@ module.exports = grammar({
 
         string: ($) =>
             choice(
-                seq(optional("@"), '"', '"'),
+                // Single Quotes
                 seq(
                     optional("@"),
-                    '"',
-                    alias($.string_content_double, "string_content"),
-                    '"'
+                    alias($._single, $.string_start),
+                    alias($._single, $.string_end)
                 ),
-                seq(optional("@"), "'", "'"),
                 seq(
                     optional("@"),
-                    "'",
-                    alias($.string_content_single, "string_content"),
-                    "'"
+                    alias($._single, $.string_start),
+                    alias($._str_single, $.string_content),
+                    alias($._single, $.string_end)
                 ),
-                // TODO: ||| <content> |||
+                // Double Quotes
                 seq(
                     optional("@"),
-                    $._string_start,
-                    $._string_content,
-                    $._string_end
+                    alias($._double, $.string_start),
+                    alias($._double, $.string_end)
+                ),
+                seq(
+                    optional("@"),
+                    alias($._double, $.string_start),
+                    alias($._str_double, $.string_content),
+                    alias($._double, $.string_end)
+                ),
+                // ||| Quotes
+                seq(
+                    optional("@"),
+                    alias($._string_start, $.string_start),
+                    alias($._string_content, $.string_content),
+                    alias($._string_end, $.string_end)
                 )
             ),
 
-        string_content_double: ($) =>
+        _single: () => "'",
+        _double: () => '"',
+
+        _str_double: ($) =>
             repeat1(
                 choice(token.immediate(prec(1, /[^\\"\n]+/)), $.escape_sequence)
             ),
 
-        string_content_single: ($) =>
+        _str_single: ($) =>
             repeat1(
                 choice(token.immediate(prec(1, /[^\\'\n]+/)), $.escape_sequence)
             ),
