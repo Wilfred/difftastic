@@ -1163,11 +1163,14 @@ module.exports = grammar({
       seq('[', commaSep($.array_element_initializer), optional(','), ']')
     ),
 
-    attribute_list: $ => repeat1(seq(
+    attribute_group: $ => seq(
       '#[',
       commaSep1($.attribute),
+      optional(','),
       ']',
-    )),
+    ),
+
+    attribute_list: $ => repeat1($.attribute_group),
 
     attribute: $ => seq(
       choice($.name, alias($._reserved_identifier, $.name), $.qualified_name),
