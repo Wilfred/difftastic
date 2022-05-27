@@ -1,5 +1,20 @@
 [
   {
+    "type": "block_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "box",
     "named": true,
     "fields": {},
@@ -7,6 +22,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -57,6 +76,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "sexp_comment",
           "named": true
         },
         {
@@ -96,81 +119,7 @@
   {
     "type": "comment",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "box",
-          "named": true
-        },
-        {
-          "type": "byte_string",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "graph",
-          "named": true
-        },
-        {
-          "type": "hash",
-          "named": true
-        },
-        {
-          "type": "here_string",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "quote",
-          "named": true
-        },
-        {
-          "type": "regex",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "structure",
-          "named": true
-        },
-        {
-          "type": "symbol",
-          "named": true
-        },
-        {
-          "type": "vector",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "extension",
@@ -178,8 +127,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -217,6 +170,10 @@
           "named": true
         },
         {
+          "type": "lang_name",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -230,6 +187,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "sexp_comment",
           "named": true
         },
         {
@@ -257,8 +218,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -277,6 +242,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "decimal",
           "named": true
         },
         {
@@ -309,6 +278,10 @@
         },
         {
           "type": "regex",
+          "named": true
+        },
+        {
+          "type": "sexp_comment",
           "named": true
         },
         {
@@ -358,6 +331,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -419,6 +396,10 @@
           "named": true
         },
         {
+          "type": "sexp_comment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -445,6 +426,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -502,6 +487,10 @@
           "named": true
         },
         {
+          "type": "sexp_comment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -528,6 +517,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
         {
           "type": "boolean",
           "named": true
@@ -581,6 +574,10 @@
           "named": true
         },
         {
+          "type": "sexp_comment",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -609,6 +606,93 @@
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sexp_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "graph",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "here_string",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "sexp_comment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "structure",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "vector",
           "named": true
         }
       ]
@@ -654,9 +738,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "decimal",
+          "named": true
+        },
         {
           "type": "list",
           "named": true
@@ -674,14 +762,6 @@
   },
   {
     "type": "#!",
-    "named": false
-  },
-  {
-    "type": "#! ",
-    "named": false
-  },
-  {
-    "type": "#!/",
     "named": false
   },
   {
@@ -777,10 +857,6 @@
     "named": false
   },
   {
-    "type": "\\",
-    "named": false
-  },
-  {
     "type": "]",
     "named": false
   },
@@ -797,6 +873,10 @@
     "named": true
   },
   {
+    "type": "decimal",
+    "named": true
+  },
+  {
     "type": "dot",
     "named": true
   },
@@ -806,6 +886,10 @@
   },
   {
     "type": "keyword",
+    "named": true
+  },
+  {
+    "type": "lang_name",
     "named": true
   },
   {

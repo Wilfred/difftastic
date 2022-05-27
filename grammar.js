@@ -50,36 +50,47 @@ module.exports = grammar({
     _token: $ =>
       choice(
         LEAF.whitespace,
-        $.comment,
+        $._all_comment,
         $.extension,
         $._datum),
 
-    _skip: $ => choice(LEAF.whitespace, $.comment),
+    _skip: $ => choice(LEAF.whitespace, $._all_comment),
 
     dot: _ => ".",
 
     // comment {{{
 
+    _all_comment: $ =>
+      choice(
+        $.comment,
+        $.sexp_comment,
+        $.block_comment),
+
     comment: $ =>
       choice(
-        seq(/;.*/),
-        $._block_comment,
-        seq("#;",
-          repeat($._skip),
-          $._datum),
-        /#[cC][iIsS]/, // read-case-sensitive parameter
+        token(
+          seq(/;.*/)),
+        $._line_comment),
+
+    block_comment: $ =>
+      seq("#|",
+        repeat(
+          choice(
+            PREC.first($.block_comment),
+            LEAF.any_char)),
+        PREC.first("|#")),
+
+    sexp_comment: $ =>
+      seq("#;",
+        repeat($._skip),
+        $._datum),
+
+    _line_comment: _ =>
+      token(
         seq(
           choice("#! ", "#!/"),
           repeat(seq(/.*/, "\\", LEAF.newline)),
           /.*/)),
-
-    _block_comment: $ =>
-      seq("#|",
-        repeat(
-          choice(
-            PREC.first($._block_comment),
-            LEAF.any_char)),
-        PREC.first("|#")),
 
     // comment }}}
 
@@ -152,6 +163,8 @@ module.exports = grammar({
           _number_base(10),
           _number_base(16))),
 
+    decimal: _ => /[0-9]+/,
+
     character: _ =>
       token(
         seq(
@@ -168,11 +181,13 @@ module.exports = grammar({
       PREC.last(
         PREC.right(
           token(
-            seq(
-              LEAF.symbol_start,
-              repeat(LEAF.symbol_remain))))),
+            choice(
+              /#[cC][iIsS]/, // read-case-sensitive parameter
+              seq(
+                LEAF.symbol_start,
+                repeat(LEAF.symbol_remain)))))),
 
-    keyword: $ =>
+    keyword: _ =>
       token(
         seq(
           "#:",
@@ -194,7 +209,7 @@ module.exports = grammar({
     vector: $ =>
       seq(
         choice("#", "#fl", "#fx"),
-        repeat(/[0-9]/),
+        optional($.decimal),
         $.list),
 
     structure: $ =>
@@ -210,7 +225,7 @@ module.exports = grammar({
     graph: $ =>
       seq(
         "#",
-        repeat1(/[0-9]/),
+        $.decimal,
         choice(
           "#",
           seq(
@@ -232,7 +247,10 @@ module.exports = grammar({
           $._datum),
         seq(
           choice("#lang ", "#!"),
-          /[a-zA-Z0-9+_/-]+/)),
+          $.lang_name)),
+
+    lang_name: _ => /[a-zA-Z0-9+_/-]+/,
+
   }
 })
 

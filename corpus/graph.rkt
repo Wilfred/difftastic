@@ -10,11 +10,16 @@ graph
 (program
   (list
     (graph
+      (decimal)
       (number))
-    (graph)
-    (graph))
+    (graph
+      (decimal))
+    (graph
+      (decimal)))
   (graph
+    (decimal)
     (list
       (number)
       (dot)
-      (graph))))
+      (graph
+        (decimal)))))

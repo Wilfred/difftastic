@@ -14,9 +14,10 @@ comment
 (program
   (comment)
   (comment)
-  (comment)
-  (comment)
-  (comment
+  (block_comment)
+  (block_comment
+    (block_comment))
+  (sexp_comment
     (number))
   (comment)
   (comment))

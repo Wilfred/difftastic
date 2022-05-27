@@ -10,9 +10,13 @@ extension
 
 ---
 (program
-  (extension)
-  (extension)
-  (extension)
+  (extension
+    (lang_name))
+  (extension
+    (lang_name))
+  (extension
+    (lang_name))
   (extension
     (number))
-  (extension))
+  (extension
+    (lang_name)))

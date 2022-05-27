@@ -63,10 +63,12 @@ vector
       (string)
       (number)))
   (vector
+    (decimal)
     (list
       (string)
       (string)))
   (vector
+    (decimal)
     (list)))
 
 
