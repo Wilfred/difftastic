@@ -4,20 +4,20 @@
 use std::{
     collections::{hash_map::Entry, VecDeque},
     env,
+    rc::Rc,
 };
 
-use crate::{
-    diff::changes::ChangeMap,
-    diff::graph::{neighbours, populate_change_map, Edge, Vertex},
-    parse::syntax::Syntax,
-};
+use crate::diff::changes::ChangeMap;
+use crate::diff::graph::{neighbours, populate_change_map, Edge, Vertex};
+use crate::syntax::Syntax;
 use bumpalo::Bump;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
+use typed_arena::Arena;
 
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
-fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
+fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let vertices = Bump::new();
 
     let mut queue: VecDeque<(u64, &Vertex)> = VecDeque::new();
@@ -27,7 +27,6 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
     let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
-    predecessors.reserve(size_hint);
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
@@ -145,24 +144,16 @@ pub fn mark_syntax<'a>(
     rhs_syntax: Option<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
 ) {
-    let lhs_node_count = node_count(lhs_syntax) as usize;
-    let rhs_node_count = node_count(rhs_syntax) as usize;
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
-        lhs_node_count,
+        node_count(lhs_syntax),
         tree_count(lhs_syntax),
-        rhs_node_count,
+        node_count(rhs_syntax),
         tree_count(rhs_syntax),
     );
 
-    // When there are a large number of changes, we end up building a
-    // graph whose size is roughly quadratic. Use this as a size hint,
-    // so we don't spend too much time re-hashing and expanding the
-    // predecessors hashmap.
-    let size_hint = lhs_node_count * rhs_node_count;
-
     let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start, size_hint);
+    let route = shortest_path(start);
 
     populate_change_map(&route, change_map);
 }
@@ -171,8 +162,8 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        diff::changes::ChangeKind,
-        diff::graph::Edge::*,
+        changes::ChangeKind,
+        graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };
@@ -206,7 +197,7 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -246,7 +237,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -288,7 +279,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -334,7 +325,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -373,7 +364,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -410,7 +401,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -448,7 +439,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -482,7 +473,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -513,7 +504,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -552,7 +543,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
