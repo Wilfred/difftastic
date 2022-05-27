@@ -24,7 +24,10 @@ Parses example 2
               (fieldname
                 (id))
               (expr
-                (string))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end)))))
           (member
             (field
               (fieldname
@@ -32,7 +35,10 @@ Parses example 2
               (expr
                 (expr
                   (expr
-                    (string))
+                    (string
+                      (string_start)
+                      (string_content)
+                      (string_end)))
                   (binaryop)
                   (expr
                     (expr
@@ -40,7 +46,10 @@ Parses example 2
                     (id)))
                 (binaryop)
                 (expr
-                  (string))))))))
+                  (string
+                    (string_start)
+                    (string_content)
+                    (string_end)))))))))
     (member
       (field
         (fieldname
@@ -55,4 +64,7 @@ Parses example 2
               (fieldname
                 (id))
               (expr
-                (string)))))))))
+                (string
+                  (string_start)
+                  (string_content)
+                  (string_end))))))))))
