@@ -4,7 +4,6 @@
 use std::{
     collections::{hash_map::Entry, VecDeque},
     env,
-    rc::Rc,
 };
 
 use crate::diff::changes::ChangeMap;
@@ -13,11 +12,11 @@ use crate::syntax::Syntax;
 use bumpalo::Bump;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
-use typed_arena::Arena;
+
 
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
-fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
+fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let vertices = Bump::new();
 
     let mut queue: VecDeque<(u64, &Vertex)> = VecDeque::new();
@@ -162,8 +161,8 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::ChangeKind,
-        graph::Edge::*,
+        diff::changes::ChangeKind,
+        diff::graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };
