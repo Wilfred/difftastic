@@ -7,7 +7,7 @@ This page contains all visible nodes in yaml format.
 - block_comment
 - sexp_comment
 - extension # #lang or #reader
-- lang_name # identifier after extension
+- lang_name # language name in extension
 - dot # .
 
 - boolean
