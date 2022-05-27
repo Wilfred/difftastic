@@ -1,10 +1,10 @@
 //! Find nodes that are obviously unchanged, so we can run the main
 //! diff on smaller inputs.
 
-use crate::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
-use crate::myers_diff;
+use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
+use crate::diff::myers_diff;
 
-use crate::syntax::Syntax;
+use crate::parse::syntax::Syntax;
 
 const TINY_TREE_THRESHOLD: u32 = 10;
 const MOSTLY_UNCHANGED_MIN_NODES: usize = 4;
@@ -432,9 +432,9 @@ fn shrink_unchanged_at_ends<'a>(
 mod tests {
     use super::*;
     use crate::{
-        guess_language,
+        parse::guess_language,
+        parse::tree_sitter_parser::{from_language, parse},
         syntax::init_all_info,
-        tree_sitter_parser::{from_language, parse},
     };
     use typed_arena::Arena;
 

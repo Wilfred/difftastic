@@ -11,10 +11,10 @@ use rustc_hash::FxHashMap;
 
 use crate::{
     constants::Side,
-    context::{add_context, opposite_positions, MAX_PADDING},
+    display::context::{add_context, opposite_positions, MAX_PADDING},
+    display::side_by_side::lines_with_novel,
     lines::LineNumber,
-    side_by_side::lines_with_novel,
-    syntax::{zip_pad_shorter, MatchedPos},
+    parse::syntax::{zip_pad_shorter, MatchedPos},
 };
 
 /// A hunk represents a series of modified lines that are displayed

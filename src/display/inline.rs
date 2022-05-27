@@ -1,12 +1,12 @@
 //! Inline, or "unified" diff display.
 
 use crate::{
-    context::{calculate_after_context, calculate_before_context, opposite_positions},
-    hunks::Hunk,
+    display::context::{calculate_after_context, calculate_before_context, opposite_positions},
+    display::hunks::Hunk,
+    display::style::{self, apply_colors},
     lines::{format_line_num, MaxLine},
     options::DisplayOptions,
-    style::{self, apply_colors},
-    syntax::MatchedPos,
+    parse::syntax::MatchedPos,
 };
 use owo_colors::colored::*;
 

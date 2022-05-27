@@ -6,10 +6,10 @@ use std::{cell::Cell, collections::HashMap, env, fmt, hash::Hash, num::NonZeroU3
 use typed_arena::Arena;
 
 use crate::{
-    changes::ChangeKind,
-    changes::{ChangeKind::*, ChangeMap},
+    diff::changes::ChangeKind,
+    diff::changes::{ChangeKind::*, ChangeMap},
+    diff::myers_diff,
     lines::{LineNumber, NewlinePositions},
-    myers_diff,
     positions::SingleLineSpan,
 };
 use Syntax::*;

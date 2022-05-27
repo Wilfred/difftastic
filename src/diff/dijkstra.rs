@@ -7,9 +7,9 @@ use std::{
 };
 
 use crate::{
-    changes::ChangeMap,
-    graph::{neighbours, populate_change_map, Edge, Vertex},
-    syntax::Syntax,
+    diff::changes::ChangeMap,
+    diff::graph::{neighbours, populate_change_map, Edge, Vertex},
+    parse::syntax::Syntax,
 };
 use bumpalo::Bump;
 use itertools::Itertools;
@@ -171,8 +171,8 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::ChangeKind,
-        graph::Edge::*,
+        diff::changes::ChangeKind,
+        diff::graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };

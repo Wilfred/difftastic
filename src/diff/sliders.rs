@@ -30,10 +30,10 @@
 //! (B in this example).
 
 use crate::{
-    changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
-    guess_language,
+    diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
+    parse::guess_language,
+    parse::syntax::Syntax,
     positions::SingleLineSpan,
-    syntax::Syntax,
 };
 use Syntax::*;
 
@@ -52,7 +52,7 @@ pub fn fix_all_sliders<'a>(
 /// Should nester slider correction prefer the inner or outer
 /// delimiter?
 fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
-    use guess_language::Language::*;
+    use crate::parse::guess_language::Language::*;
     match language {
         // For Lisp family languages, we get the best result with the
         // outer delimiter.
@@ -605,9 +605,9 @@ impl<'a> Syntax<'a> {
 mod tests {
     use super::*;
     use crate::{
-        guess_language,
+        parse::guess_language,
+        parse::tree_sitter_parser::{from_language, parse},
         syntax::{init_all_info, AtomKind},
-        tree_sitter_parser::{from_language, parse},
     };
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
