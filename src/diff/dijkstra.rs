@@ -13,7 +13,6 @@ use bumpalo::Bump;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
