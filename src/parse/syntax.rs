@@ -332,7 +332,7 @@ pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'
     init_next_prev(rhs_roots);
 }
 
-pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
     init_info_single(lhs_roots, &mut id);
     init_info_single(rhs_roots, &mut id);
