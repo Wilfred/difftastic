@@ -41,6 +41,3 @@
 ;; Imports ( note that unknown is not standardised )
 (import_directive 
   import_name: (identifier) @name ) @reference.unknown
-
-(import_directive 
-  import_origin: (identifier) @name ) @reference.unknown
