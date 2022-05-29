@@ -17,8 +17,12 @@ let package = Package(
                     "corpus",
                     "grammar.js",
                     "LICENSE",
+                    "Makefile",
                     "package.json",
                     "README.md",
+                    "script",
+                    "src/grammar.json",
+                    "src/node-types.json",
                 ],
                 sources: [
                     "src/parser.c",
@@ -29,4 +33,4 @@ let package = Package(
                 publicHeadersPath: "bindings/swift",
                 cSettings: [.headerSearchPath("src")])
     ]
-) 
+)
