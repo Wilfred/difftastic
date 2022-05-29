@@ -77,33 +77,9 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
 
         current = node;
     }
-    route.reverse();
-
     debug!("Found a path of {} with cost {}.", route.len(), cost);
-    let print_length = if env::var("DFT_VERBOSE").is_ok() {
-        50
-    } else {
-        5
-    };
-    debug!(
-        "Initial {} items on path: {:#?}",
-        print_length,
-        route
-            .iter()
-            .map(|x| {
-                format!(
-                    "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.0.cost(),
-                    x.0,
-                )
-            })
-            .take(print_length)
-            .collect_vec()
-    );
+
+    route.reverse();
     route
 }
 
@@ -161,6 +137,31 @@ pub fn mark_syntax<'a>(
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
     let route = shortest_path(start, size_hint);
+
+    let print_length = if env::var("DFT_VERBOSE").is_ok() {
+        50
+    } else {
+        5
+    };
+    debug!(
+        "Initial {} items on path: {:#?}",
+        print_length,
+        route
+            .iter()
+            .map(|x| {
+                format!(
+                    "{:20} {:20} --- {:3} {:?}",
+                    x.1.lhs_syntax
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                    x.1.rhs_syntax
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                    x.0.cost(),
+                    x.0,
+                )
+            })
+            .take(print_length)
+            .collect_vec()
+    );
 
     populate_change_map(&route, change_map);
 }
