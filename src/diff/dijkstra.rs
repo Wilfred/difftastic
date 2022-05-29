@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env, rc::Rc};
+use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -63,7 +63,7 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
     debug!(
         "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
         predecessors.len(),
-        std::mem::size_of::<Rc<Vertex>>(),
+        std::mem::size_of::<&Vertex>(),
         std::mem::size_of::<PredecessorInfo>(),
         heap.len(),
     );
