@@ -13,16 +13,17 @@ use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
-type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>, Edge);
+type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>);
 
-fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
+/// Return the shortest route from `start` to the end vertex.
+fn shortest_vertex_path(start: Vertex, size_hint: usize) -> Vec<Vertex> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, &Vertex> = RadixHeapMap::new();
 
     let vertex_arena = Bump::new();
-    heap.push(Reverse(0), vertex_arena.alloc(start));
+    heap.push(Reverse(0), vertex_arena.alloc(start.clone()));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
@@ -44,12 +45,12 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
                     if let Some((edge, next)) = neighbour.take() {
                         let distance_to_next = distance + edge.cost();
                         let found_shorter_route = match predecessors.get(&next) {
-                            Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
+                            Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
                             _ => true,
                         };
 
                         if found_shorter_route {
-                            predecessors.insert(next, (distance_to_next, current, edge));
+                            predecessors.insert(next, (distance_to_next, current));
 
                             heap.push(Reverse(distance_to_next), next);
                         }
@@ -69,18 +70,61 @@ fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
     );
     let mut current = end;
 
-    let mut route: Vec<(Edge, Vertex)> = vec![];
+    let mut vertex_route: Vec<Vertex> = vec![end.clone()];
+    while let Some((_, node)) = predecessors.remove(&current) {
+        vertex_route.push(node.clone());
+        current = node;
+    }
+
+    vertex_route.reverse();
+    vertex_route
+}
+
+fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)> {
+    let mut prev = route.first().expect("Expected non-empty route");
+
     let mut cost = 0;
-    while let Some((_, node, edge)) = predecessors.remove(&current) {
-        route.push((edge, node.clone()));
+    let mut res = vec![];
+    for vertex in route.iter().skip(1) {
+        let edge = edge_between(prev, vertex);
+        res.push((edge, prev.clone()));
         cost += edge.cost();
 
-        current = node;
+        prev = vertex;
     }
     debug!("Found a path of {} with cost {}.", route.len(), cost);
 
-    route.reverse();
-    route
+    res
+}
+
+/// Return the shortest route from the `start` to the end vertex.
+///
+/// The vec returned does not return the very last vertex. This is
+/// necessary because a route of N vertices only has N-1 edges.
+fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
+    let vertex_path = shortest_vertex_path(start, size_hint);
+    shortest_path_with_edges(&vertex_path)
+}
+
+fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
+    let mut neighbour_buf = [
+        None, None, None, None, None, None, None, None, None, None, None, None,
+    ];
+
+    let vertex_arena = Bump::new();
+    neighbours(before, &mut neighbour_buf, &vertex_arena);
+    for neighbour in &mut neighbour_buf {
+        if let Some((edge, next)) = neighbour.take() {
+            if next == after {
+                return edge;
+            }
+        }
+    }
+
+    panic!(
+        "Expected a route between the two vertices {:#?} and {:#?}",
+        before, after
+    );
 }
 
 /// What is the total number of AST nodes?
