@@ -1,6 +1,6 @@
-====================
+================================================================================
 Integer Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -8,20 +8,21 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (number_literal)))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (number_literal)))))))
 
-====================
+================================================================================
 String Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -29,20 +30,22 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (string_literal (string))))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string))))))))
 
-====================
+================================================================================
 Double String Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -50,20 +53,23 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (string_literal (string) (string))))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string)
+              (string))))))))
 
-====================
+================================================================================
 String Literal Escapes
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -74,23 +80,31 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (string_literal (string)))
-            (expression_statement (string_literal (string)))
-            (expression_statement (string_literal (string))) 
-            (expression_statement (string_literal (string))))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string))))))))
 
-====================
+================================================================================
 Hex String Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -99,21 +113,23 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (hex_string_literal))
-            (expression_statement (hex_string_literal)))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (hex_string_literal))
+          (expression_statement
+            (hex_string_literal)))))))
 
-====================
+================================================================================
 Unicode String Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -122,21 +138,23 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (unicode_string_literal))
-            (expression_statement (unicode_string_literal)))))))
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (unicode_string_literal))
+          (expression_statement
+            (unicode_string_literal)))))))
 
-====================
+================================================================================
 Bool Literal
-====================
+================================================================================
 
 contract Example {
     function example() {
@@ -145,17 +163,18 @@ contract Example {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (contract_declaration
     name: (identifier)
-    body: (contract_body 
-        (function_definition
-         function_name: (identifier)
-         body: (function_body 
-            (expression_statement (boolean_literal (true)))
-            (expression_statement (boolean_literal (false))))))))
-
-
-    
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (boolean_literal
+              (true)))
+          (expression_statement
+            (boolean_literal
+              (false))))))))
