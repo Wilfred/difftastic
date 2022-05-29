@@ -76,7 +76,7 @@ module.exports = grammar({
         _source_unit: $ =>  choice(
             $._directive,
             $._declaration,
-        ),
+        ), 
 
         //  -- [ Directives ] --
         _directive: $ => choice(
@@ -542,14 +542,12 @@ module.exports = grammar({
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
         
-        revert_statement: $ => seq(
+        revert_statement: $ => prec(1, seq(
             'revert',
-            optional(seq(
-                field("error", optional($._expression)), 
-                $._call_arguments, 
-            )),
+            optional(field("error", $._expression)), 
+            optional(alias($._call_arguments, $.revert_arguments)),
             $._semicolon
-        ),
+        )),
 
         try_statement: $ => seq(
             'try', 
