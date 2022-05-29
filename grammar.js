@@ -694,7 +694,12 @@ module.exports = grammar({
 
         call_argument: $ => choice(
             $._expression,
-            seq("{", commaSep(seq($.identifier, ":", $._expression)), "}"),
+            seq("{", commaSep($.call_struct_argument), "}"),
+        ),
+        call_struct_argument: $ => seq(
+            field("name", $.identifier), 
+            ":", 
+            field("value", $._expression)
         ),
 
         function_body: $ => seq(
@@ -808,7 +813,7 @@ module.exports = grammar({
                 $.identifier,
             )),
             '.',
-            field('property', alias($.identifier, $.property_identifier))
+            field('property', $.identifier)
         )),
 
         array_access: $ => seq(
