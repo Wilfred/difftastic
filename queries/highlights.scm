@@ -2,11 +2,7 @@
 
 ; Pragma
 (pragma_directive) @tag
-(solidity_version_comparison_operator ">=" @tag)
-(solidity_version_comparison_operator "<=" @tag)
-(solidity_version_comparison_operator "=" @tag)
-(solidity_version_comparison_operator "~" @tag)
-(solidity_version_comparison_operator "^" @tag)
+(solidity_version_comparison_operator _ @tag)
 
 
 ; Literals
@@ -28,10 +24,9 @@
 
 
 ; Type
+
 (type_name) @type
 (primitive_type) @type
-(struct_declaration struct_name: (identifier) @type)
-(enum_declaration enum_type_name: (identifier) @type)
 ; Color payable in payable address conversion as type and not as keyword
 (payable_conversion_expression "payable" @type)
 (emit_statement . (identifier) @type)
@@ -40,12 +35,19 @@
 ; Ensures that delimiters in mapping( ... => .. ) are not colored like types
 (type_name "(" @punctuation.bracket "=>" @punctuation.delimiter ")" @punctuation.bracket)
 
+; Type Declarations
+(struct_declaration name: (identifier) @type)
+(enum_declaration name: (identifier) @type)
+(contract_declaration
+  name: (identifier) @type) 
+(interface_declaration
+  name: (identifier) @type)
 
 
 ; Functions and parameters
 
 (function_definition
-  function_name:  (identifier) @function)
+  name:  (identifier) @function)
 (modifier_definition
   name:  (identifier) @function)
 (yul_evm_builtin) @function.builtin
@@ -66,7 +68,7 @@
 ; Function parameters
 (event_paramater name: (identifier) @variable.parameter)
 (function_definition
-  function_name:  (identifier) @variable.parameter)
+  name:  (identifier) @variable.parameter)
 
 ; Yul functions
 (yul_function_call function: (yul_identifier) @function)
@@ -78,7 +80,10 @@
 
 (member_expression (property_identifier) @property)
 (property_identifier) @property
-(struct_expression ((identifier) @property . ":"))
+(struct_expression type: ((identifier) @type .))
+(struct_member name: (identifier) @property)
+(struct_field_assignment name: (identifier) @property)
+
 (enum_value) @property
 
 
@@ -105,7 +110,7 @@
  "for"
  "while"
  "do"
- "try"
+ "try" 
  "catch"
  "return"
  "emit"
@@ -122,10 +127,10 @@
  "storage"
  "calldata"
  "function"
+ "override"
+ "constant"
  "var"
- (constant)
  (virtual)
- (override_specifier)
  (yul_leave)
 ] @keyword
 

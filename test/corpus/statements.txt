@@ -15,11 +15,11 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         body: (function_body
           (variable_declaration_statement
             (variable_declaration
-              (type_name
+              type: (type_name
                 (type_name
                   (primitive_type)))
               name: (identifier))))))))
@@ -41,11 +41,11 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         body: (function_body
           (variable_declaration_statement
             (variable_declaration
-              (type_name
+              type: (type_name
                 (type_name
                   (user_defined_type
                     (identifier)

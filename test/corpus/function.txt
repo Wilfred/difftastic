@@ -13,7 +13,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         body: (function_body)))))
 
 ================================================================================
@@ -31,7 +31,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         (parameter
           type: (type_name
             (primitive_type))
@@ -53,7 +53,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         return_type: (return_type_definition
           (parameter
             type: (type_name
@@ -79,7 +79,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         (state_mutability)
         (visibility)
         (modifier_invocation
@@ -110,7 +110,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         (override_specifier)
         body: (function_body)))))
 
@@ -129,7 +129,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)
+        name: (identifier)
         (override_specifier
           (user_defined_type
             (identifier)
@@ -153,7 +153,7 @@ contract Example {
     name: (identifier)
     body: (contract_body
       (function_definition
-        function_name: (identifier)))))
+        name: (identifier)))))
 
 ================================================================================
 Function not in contract
@@ -165,7 +165,7 @@ function exampleFunction ();
 
 (source_file
   (function_definition
-    function_name: (identifier)))
+    name: (identifier)))
 
 ================================================================================
 Function with function type argument
@@ -177,12 +177,13 @@ function exampleFunction (function(uint) public returns(bool));
 
 (source_file
   (function_definition
-    function_name: (identifier)
+    name: (identifier)
     (parameter
       type: (type_name
-        (parameter
+        parameters: (parameter
           type: (type_name
             (primitive_type)))
         (visibility)
-        (type_name
-          (primitive_type))))))
+        (return_parameter
+          type: (type_name
+            (primitive_type)))))))
