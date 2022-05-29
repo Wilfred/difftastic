@@ -176,7 +176,7 @@ module.exports = grammar({
 
         constant_variable_declaration: $ => seq(
             field("type", $.type_name),
-            $._constant,
+            "constant",
             field("name", $.identifier),
             '=',
             field("value", $._expression),
@@ -584,7 +584,7 @@ module.exports = grammar({
             field("type", $.type_name),
             repeat(choice(
                 field('visibility', $.visibility), // FIXME: this also allows external
-                $._constant,
+                "constant",
                 $.override_specifier,
                 $.immutable,
             )),
@@ -594,8 +594,7 @@ module.exports = grammar({
             )),
             $._semicolon
         ),
-        _constant: $ => "constant",
-        visibility: $ => choice(
+         visibility: $ => choice(
             'public',
             'internal',
             'private',
@@ -609,7 +608,6 @@ module.exports = grammar({
         ),
 
         immutable: $ => 'immutable',
-        _override: $ => 'override',
 
         override_specifier: $ => seq(
             'override',
