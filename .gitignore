@@ -7,3 +7,4 @@ build
 /examples/npm
 package-lock.json
 /target/
+.build/
