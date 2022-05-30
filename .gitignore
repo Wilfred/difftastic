@@ -6,3 +6,4 @@ package-lock.json
 examples
 !examples/ast.rs
 /target/
+.build/
