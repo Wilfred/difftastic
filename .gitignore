@@ -13,3 +13,4 @@ target
 *.o
 bindings/c/*.h
 bindings/c/tree-sitter-*.pc
+.build/
