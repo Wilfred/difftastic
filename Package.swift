@@ -28,7 +28,7 @@ let package = Package(
                 ],
                 sources: [
                     "src/parser.c",
-                    "scanner.c",
+                    "src/scanner.c",
                 ],
                 resources: [
                     .copy("queries")
