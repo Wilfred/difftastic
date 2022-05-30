@@ -10,3 +10,4 @@ examples
 !examples/.gitkeep
 scanner.obj
 /target/
+.build/
