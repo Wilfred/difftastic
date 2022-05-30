@@ -343,7 +343,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       'params',
       choice($.array_type, $.nullable_type),
-      $.identifier
+      field('name', $.identifier),
     ),
 
     constructor_initializer: $ => seq(
@@ -381,8 +381,8 @@ module.exports = grammar({
       repeat($.attribute_list),
       optional('extern'),
       '~',
-      $.identifier,
-      $.parameter_list,
+      field('name', $.identifier),
+      field('parameters', $.parameter_list),
       $._function_body
     ),
 
@@ -405,7 +405,7 @@ module.exports = grammar({
     type_parameter: $ => seq(
       repeat($.attribute_list),
       optional(choice('in', 'out')),
-      $.identifier
+      field('name', $.identifier),
     ),
 
     type_parameter_constraints_clause: $ => seq(
@@ -830,14 +830,10 @@ module.exports = grammar({
       field('body', $._statement)
     ),
 
-    // grammar.txt one doesn't seem to make sense so we do this instead
     goto_statement: $ => seq(
       'goto',
-      choice(
-        alias($.identifier, $.label_name),
-        seq('case', $._expression),
-        'default'
-      ),
+      optional(choice('case', 'default')),
+      optional($._expression),
       ';'
     ),
 
@@ -854,7 +850,7 @@ module.exports = grammar({
     )),
 
     labeled_statement: $ => seq(
-      alias($.identifier, $.label_name),
+      $.identifier,
       ':',
       $._statement
     ),
@@ -983,7 +979,7 @@ module.exports = grammar({
     _variable_designation: $ => prec(1, choice(
       $.discard,
       $.parenthesized_variable_designation,
-      $.identifier
+      field('name', $.identifier),
     )),
 
     discard: $ => '_',
@@ -1053,7 +1049,7 @@ module.exports = grammar({
     catch_declaration: $ => seq(
       '(',
       field('type', $._type),
-      field('name', optional($.identifier)),
+      optional(field('name', $.identifier)),
       ')'
     ),
 
@@ -1086,14 +1082,13 @@ module.exports = grammar({
     anonymous_method_expression: $ => seq(
       optional('async'),
       'delegate',
-      optional($.parameter_list),
+      optional(field('parameters', $.parameter_list)),
       $.block
     ),
 
     lambda_expression: $ => prec(-1, seq(
-      optional('async'),
-      optional('static'),
-      choice($.parameter_list, $.identifier),
+      optional(alias(choice('async', 'static', seq('async', 'static'), seq('static', 'async')), $.modifier)),
+      choice(field('parameters', $.parameter_list), $.identifier),
       '=>',
       field('body', choice($.block, $._expression))
     )),
