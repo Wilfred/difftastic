@@ -3,12 +3,13 @@
 /// The maximum number of lines that may occur between changed lines in a hunk.
 ///
 /// If we exceed this, the lines are stored in separate hunks.
-const MAX_DISTANCE: u32 = 4;
+const MAX_DISTANCE: usize = 4;
 
 use std::collections::{HashMap, HashSet};
 
 use crate::{
     context::{add_context, opposite_positions, MAX_PADDING},
+    lines::LineNumber,
     side_by_side::lines_with_novel,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -18,12 +19,12 @@ use crate::{
 #[derive(Debug, Clone)]
 pub struct Hunk {
     /// The LHS line numbers that contain novel content.
-    pub novel_lhs: HashSet<u32>,
+    pub novel_lhs: HashSet<LineNumber>,
     /// The RHS line numbers that contain novel content.
-    pub novel_rhs: HashSet<u32>,
+    pub novel_rhs: HashSet<LineNumber>,
     /// Line pairs that contain modified lines. This does not include
     /// padding, so at least one of the two lines has novel content.
-    pub lines: Vec<(Option<u32>, Option<u32>)>,
+    pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
 impl Hunk {
@@ -31,8 +32,8 @@ impl Hunk {
         let mut lines = self.lines;
         lines.extend(other.lines.iter());
 
-        let mut lhs_seen: HashSet<u32> = HashSet::new();
-        let mut rhs_seen: HashSet<u32> = HashSet::new();
+        let mut lhs_seen: HashSet<LineNumber> = HashSet::new();
+        let mut rhs_seen: HashSet<LineNumber> = HashSet::new();
 
         let mut deduped_lines = vec![];
         for (lhs_line, rhs_line) in lines {
@@ -71,25 +72,25 @@ impl Hunk {
 }
 
 fn fill_between(
-    prev_lhs: Option<u32>,
-    next_lhs: Option<u32>,
-    prev_rhs: Option<u32>,
-    next_rhs: Option<u32>,
-) -> Vec<(Option<u32>, Option<u32>)> {
+    prev_lhs: Option<LineNumber>,
+    next_lhs: Option<LineNumber>,
+    prev_rhs: Option<LineNumber>,
+    next_rhs: Option<LineNumber>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut lhs_lines = vec![];
     if let (Some(prev_lhs), Some(next_lhs)) = (prev_lhs, next_lhs) {
-        if prev_lhs + 1 < next_lhs {
-            lhs_lines = (prev_lhs + 1..next_lhs)
-                .map(|line| line)
+        if prev_lhs.0 + 1 < next_lhs.0 {
+            lhs_lines = (prev_lhs.0 + 1..next_lhs.0)
+                .map(|line| line.into())
                 .collect();
         }
     }
 
     let mut rhs_lines = vec![];
     if let (Some(prev_rhs), Some(next_rhs)) = (prev_rhs, next_rhs) {
-        if prev_rhs + 1 < next_rhs {
-            rhs_lines = (prev_rhs + 1..next_rhs)
-                .map(|line| line)
+        if prev_rhs.0 + 1 < next_rhs.0 {
+            rhs_lines = (prev_rhs.0 + 1..next_rhs.0)
+                .map(|line| line.into())
                 .collect();
         }
     }
@@ -97,7 +98,7 @@ fn fill_between(
     zip_pad_shorter(&lhs_lines, &rhs_lines)
 }
 
-fn extract_lines(hunk: &Hunk) -> Vec<(Option<u32>, Option<u32>)> {
+fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
     let mut max_lhs = None;
@@ -132,20 +133,20 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<u32>, Option<u32>)> {
 
 pub fn merge_adjacent(
     hunks: &[Hunk],
-    opposite_to_lhs: &HashMap<u32, HashSet<u32>>,
-    opposite_to_rhs: &HashMap<u32, HashSet<u32>>,
-    max_lhs_src_line: u32,
-    max_rhs_src_line: u32,
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
 ) -> Vec<Hunk> {
     let mut res: Vec<Hunk> = vec![];
     let mut prev_hunk: Option<Hunk> = None;
 
-    let mut prev_lhs_lines: HashSet<u32> = HashSet::new();
-    let mut prev_rhs_lines: HashSet<u32> = HashSet::new();
+    let mut prev_lhs_lines: HashSet<LineNumber> = HashSet::new();
+    let mut prev_rhs_lines: HashSet<LineNumber> = HashSet::new();
 
     for hunk in hunks {
-        let mut lhs_lines: HashSet<u32> = HashSet::new();
-        let mut rhs_lines: HashSet<u32> = HashSet::new();
+        let mut lhs_lines: HashSet<LineNumber> = HashSet::new();
+        let mut rhs_lines: HashSet<LineNumber> = HashSet::new();
 
         let lines = extract_lines(hunk);
         let contextual_lines = add_context(
@@ -198,19 +199,19 @@ pub fn merge_adjacent(
 }
 
 fn lines_are_close(
-    max_lhs: Option<u32>,
-    max_rhs: Option<u32>,
-    line: (Option<u32>, Option<u32>),
+    max_lhs: Option<LineNumber>,
+    max_rhs: Option<LineNumber>,
+    line: (Option<LineNumber>, Option<LineNumber>),
 ) -> bool {
     let (lhs, rhs) = line;
 
     if let (Some(max_lhs_number), Some(lhs_number)) = (max_lhs, lhs) {
-        if lhs_number <= max_lhs_number + MAX_DISTANCE {
+        if lhs_number.0 <= max_lhs_number.0 + MAX_DISTANCE {
             return true;
         }
     }
     if let (Some(max_rhs_number), Some(rhs_number)) = (max_rhs, rhs) {
-        if rhs_number <= max_rhs_number + MAX_DISTANCE {
+        if rhs_number.0 <= max_rhs_number.0 + MAX_DISTANCE {
             return true;
         }
     }
@@ -223,12 +224,12 @@ fn lines_are_close(
 /// monotonically increasing. If an earlier line occurs after a later
 /// line, replace that line with None.
 fn enforce_increasing(
-    lines: &[(Option<u32>, Option<u32>)],
-) -> Vec<(Option<u32>, Option<u32>)> {
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut res = vec![];
 
-    let mut max_lhs_line: Option<u32> = None;
-    let mut max_rhs_line: Option<u32> = None;
+    let mut max_lhs_line: Option<LineNumber> = None;
+    let mut max_rhs_line: Option<LineNumber> = None;
 
     for (mut lhs_line, mut rhs_line) in lines {
         // If this LHS line is before the max line we've seen, discard it.
@@ -270,10 +271,10 @@ fn enforce_increasing(
 }
 
 fn find_novel_lines(
-    lines: &[(Option<u32>, Option<u32>)],
-    all_lhs_novel: &HashSet<u32>,
-    all_rhs_novel: &HashSet<u32>,
-) -> (HashSet<u32>, HashSet<u32>) {
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    all_lhs_novel: &HashSet<LineNumber>,
+    all_rhs_novel: &HashSet<LineNumber>,
+) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
     let mut lhs_novel = HashSet::new();
     let mut rhs_novel = HashSet::new();
 
@@ -295,7 +296,7 @@ fn find_novel_lines(
 
 /// Split lines into hunks.
 fn lines_to_hunks(
-    lines: &[(Option<u32>, Option<u32>)],
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> Vec<Hunk> {
@@ -303,8 +304,8 @@ fn lines_to_hunks(
 
     let mut hunks = vec![];
     let mut current_hunk_lines = vec![];
-    let mut max_lhs_line: Option<u32> = None;
-    let mut max_rhs_line: Option<u32> = None;
+    let mut max_lhs_line: Option<LineNumber> = None;
+    let mut max_rhs_line: Option<LineNumber> = None;
 
     for line in enforce_increasing(lines) {
         let (lhs_line, rhs_line) = line;
@@ -441,12 +442,12 @@ fn sorted_novel_positions(
 }
 
 fn next_opposite(
-    line: u32,
-    opposites: &HashMap<u32, HashSet<u32>>,
-    prev_opposite: Option<u32>,
-) -> Option<u32> {
+    line: LineNumber,
+    opposites: &HashMap<LineNumber, HashSet<LineNumber>>,
+    prev_opposite: Option<LineNumber>,
+) -> Option<LineNumber> {
     opposites.get(&line).and_then(|lines_set| {
-        let mut lines: Vec<u32> = lines_set.iter().copied().collect();
+        let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
         lines.sort_unstable();
 
         lines.into_iter().find(|ln| {
@@ -462,14 +463,14 @@ fn next_opposite(
 fn matched_novel_lines(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> Vec<(Option<u32>, Option<u32>)> {
-    let mut highest_lhs: Option<u32> = None;
-    let mut highest_rhs: Option<u32> = None;
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut highest_lhs: Option<LineNumber> = None;
+    let mut highest_rhs: Option<LineNumber> = None;
 
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
-    let mut lines: Vec<(Option<u32>, Option<u32>)> = vec![];
+    let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for (side, mp) in sorted_novel_positions(lhs_mps, rhs_mps) {
         let self_line = mp.pos.line;
 
@@ -532,26 +533,26 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
 /// 4 -- (preserve outer gaps)
 /// ```
 pub fn ensure_contiguous(
-    lines: &[(Option<u32>, Option<u32>)],
-) -> Vec<(Option<u32>, Option<u32>)> {
-    let mut res: Vec<(Option<u32>, Option<u32>)> = vec![];
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
 
-    let mut lhs_min: Option<u32> = None;
-    let mut rhs_min: Option<u32> = None;
+    let mut lhs_min: Option<LineNumber> = None;
+    let mut rhs_min: Option<LineNumber> = None;
 
     for (lhs_line, rhs_line) in lines {
         if let Some(lhs_line) = lhs_line {
             if let Some(lhs_prev_min) = lhs_min {
-                if lhs_prev_min + 1 != *lhs_line {
-                    res.extend((lhs_prev_min + 1..*lhs_line).map(|l| (Some(l), None)));
+                if lhs_prev_min.0 + 1 != lhs_line.0 {
+                    res.extend((lhs_prev_min.0 + 1..lhs_line.0).map(|l| (Some(l.into()), None)));
                 }
             }
             lhs_min = Some(*lhs_line);
         }
         if let Some(rhs_line) = rhs_line {
             if let Some(rhs_prev_min) = rhs_min {
-                if rhs_prev_min + 1 != *rhs_line {
-                    res.extend((rhs_prev_min + 1..*rhs_line).map(|r| (None, Some(r))));
+                if rhs_prev_min.0 + 1 != rhs_line.0 {
+                    res.extend((rhs_prev_min.0 + 1..rhs_line.0).map(|r| (None, Some(r.into()))));
                 }
             }
             rhs_min = Some(*rhs_line);
@@ -577,16 +578,16 @@ pub fn ensure_contiguous(
 ///
 /// The returned vec will contain no (None, None) pairs.
 pub fn compact_gaps(
-    items: &[(Option<u32>, Option<u32>)],
-) -> Vec<(Option<u32>, Option<u32>)> {
-    let mut res: Vec<(Option<u32>, Option<u32>)> = vec![];
+    items: &[(Option<LineNumber>, Option<LineNumber>)],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     // A vec of the most recent single-sided lines, e.g.
     //
     // 10 --
     // 11 --
     //
     // All items must be Some on the same side.
-    let mut unpaired_lines: Vec<(Option<u32>, Option<u32>)> = vec![];
+    let mut unpaired_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
 
     for (lhs_line, rhs_line) in items {
         match (lhs_line, rhs_line) {
@@ -627,8 +628,8 @@ pub fn compact_gaps(
 }
 
 fn either_side_equal(
-    x: &(Option<u32>, Option<u32>),
-    y: &(Option<u32>, Option<u32>),
+    x: &(Option<LineNumber>, Option<LineNumber>),
+    y: &(Option<LineNumber>, Option<LineNumber>),
 ) -> bool {
     let (lhs_x, rhs_x) = x;
     let (lhs_y, rhs_y) = y;
@@ -647,9 +648,9 @@ fn either_side_equal(
 }
 
 pub fn matched_lines_for_hunk(
-    matched_lines: &[(Option<u32>, Option<u32>)],
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
-) -> Vec<(Option<u32>, Option<u32>)> {
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     // TODO: Use binary search instead.
     let hunk_first = hunk.lines.first().expect("Hunks are non-empty");
     let hunk_last = hunk.lines.last().expect("Hunks are non-empty");

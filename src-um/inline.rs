@@ -63,7 +63,7 @@ pub fn print(
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
-                println!("{}   {}", format_line_num(lhs_line), lhs_lines[lhs_line as usize]);
+                println!("{}   {}", format_line_num(lhs_line), lhs_lines[lhs_line.0]);
             } else {
                 continue;
             }
@@ -74,7 +74,7 @@ pub fn print(
                 println!(
                     "{}   {}",
                     format_line_num(*lhs_line).red().bold(),
-                    lhs_lines[*lhs_line as usize]
+                    lhs_lines[lhs_line.0]
                 );
             } else {
                 continue;
@@ -85,7 +85,7 @@ pub fn print(
                 println!(
                     "   {}{}",
                     format_line_num(*rhs_line).green().bold(),
-                    rhs_lines[*rhs_line as usize]
+                    rhs_lines[rhs_line.0]
                 );
             } else {
                 continue;
@@ -94,7 +94,7 @@ pub fn print(
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
-                println!("   {}{}", format_line_num(*rhs_line), rhs_lines[*rhs_line as usize]);
+                println!("   {}{}", format_line_num(*rhs_line), rhs_lines[rhs_line.0]);
             } else {
                 continue;
             }

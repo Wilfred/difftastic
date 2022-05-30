@@ -11,7 +11,7 @@ use std::{
 use typed_arena::Arena;
 
 use crate::{
-    lines::NewlinePositions,
+    lines::{LineNumber, NewlinePositions},
     positions::SingleLineSpan,
 };
 use ChangeKind::*;
@@ -107,10 +107,10 @@ pub enum Syntax<'a> {
 fn dbg_pos(pos: &[SingleLineSpan]) -> String {
     match pos {
         [] => "-".into(),
-        [pos] => format!("{}:{}-{}", pos.line, pos.start_col, pos.end_col),
+        [pos] => format!("{}:{}-{}", pos.line.0, pos.start_col, pos.end_col),
         [start, .., end] => format!(
             "{}:{}-{}:{}",
-            start.line, start.start_col, end.line, end.end_col
+            start.line.0, start.start_col, end.line.0, end.end_col
         ),
     }
 }
@@ -298,7 +298,7 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    pub fn first_line(&self) -> Option<u32> {
+    pub fn first_line(&self) -> Option<LineNumber> {
         let position = match self {
             List { open_position, .. } => open_position,
             Atom { position, .. } => position,
@@ -306,7 +306,7 @@ impl<'a> Syntax<'a> {
         position.first().map(|lp| lp.line)
     }
 
-    pub fn last_line(&self) -> Option<u32> {
+    pub fn last_line(&self) -> Option<LineNumber> {
         let position = match self {
             List { close_position, .. } => close_position,
             Atom { position, .. } => position,

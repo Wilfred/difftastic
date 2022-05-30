@@ -9,7 +9,7 @@ use std::{
 use crate::{
     context::all_matched_lines_filled,
     hunks::{matched_lines_for_hunk, Hunk},
-    lines::{codepoint_len, format_line_num},
+    lines::{codepoint_len, format_line_num, LineNumber},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -25,16 +25,16 @@ fn split_on_newlines(s: &str) -> Vec<&str> {
     s.split('\n').collect()
 }
 
-fn format_line_num_padded(line_num: u32, column_width: usize) -> String {
+fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!(
         "{:width$} ",
-        line_num = line_num + 1,
+        line_num.one_indexed(),
         width = column_width - 1
     )
 }
 
 fn format_missing_line_num(
-    prev_num: u32,
+    prev_num: LineNumber,
     source_dims: &SourceDimensions,
     is_lhs: bool,
 ) -> String {
@@ -54,7 +54,7 @@ fn format_missing_line_num(
         return "".into();
     }
 
-    let num_digits = format!("{}", prev_num + 1).len();
+    let num_digits = format!("{}", prev_num.one_indexed()).len();
     format!(
         "{:>width$} ",
         (if after_end { " " } else { "." }).repeat(num_digits),
@@ -73,7 +73,7 @@ fn display_single_column(
     use_color: bool,
     background: BackgroundColor,
 ) -> String {
-    let column_width = format_line_num(src.lines().count() as u32).len();
+    let column_width = format_line_num(src.lines().count().into()).len();
 
     let mut result = String::with_capacity(src.len());
     result.push_str(&style::header(
@@ -93,7 +93,7 @@ fn display_single_column(
 
     for (i, line) in src.lines().enumerate() {
         result.push_str(
-            &format_line_num_padded(i as u32, column_width)
+            &format_line_num_padded(i.into(), column_width)
                 .style(style)
                 .to_string(),
         );
@@ -105,15 +105,15 @@ fn display_single_column(
 }
 
 fn display_line_nums(
-    lhs_line_num: Option<u32>,
-    rhs_line_num: Option<u32>,
+    lhs_line_num: Option<LineNumber>,
+    rhs_line_num: Option<LineNumber>,
     source_dims: &SourceDimensions,
     use_color: bool,
     background: BackgroundColor,
     lhs_has_novel: bool,
     rhs_has_novel: bool,
-    prev_lhs_line_num: Option<u32>,
-    prev_rhs_line_num: Option<u32>,
+    prev_lhs_line_num: Option<LineNumber>,
+    prev_rhs_line_num: Option<LineNumber>,
 ) -> (String, String) {
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
@@ -130,7 +130,7 @@ fn display_line_nums(
             }
         }
         None => format_missing_line_num(
-            prev_lhs_line_num.unwrap_or_else(|| 1),
+            prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             true,
         ),
@@ -149,7 +149,7 @@ fn display_line_nums(
             }
         }
         None => format_missing_line_num(
-            prev_rhs_line_num.unwrap_or_else(|| 1),
+            prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             false,
         ),
@@ -164,30 +164,30 @@ struct SourceDimensions {
     rhs_content_width: usize,
     lhs_line_nums_width: usize,
     rhs_line_nums_width: usize,
-    lhs_max_line: u32,
-    rhs_max_line: u32,
+    lhs_max_line: LineNumber,
+    rhs_max_line: LineNumber,
 }
 
 impl SourceDimensions {
     fn new(
         terminal_width: usize,
-        line_nums: &[(Option<u32>, Option<u32>)],
+        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
         lhs_lines: &[&str],
         rhs_lines: &[&str],
     ) -> Self {
-        let mut lhs_max_line: u32 = 1;
-        let mut rhs_max_line: u32 = 1;
+        let mut lhs_max_line: LineNumber = 1.into();
+        let mut rhs_max_line: LineNumber = 1.into();
         let mut lhs_max_content = 1;
         let mut rhs_max_content = 1;
 
         for (lhs_line_num, rhs_line_num) in line_nums {
             if let Some(lhs_line_num) = lhs_line_num {
                 lhs_max_line = max(lhs_max_line, *lhs_line_num);
-                lhs_max_content = max(lhs_max_content, codepoint_len(lhs_lines[*lhs_line_num as usize]));
+                lhs_max_content = max(lhs_max_content, codepoint_len(lhs_lines[lhs_line_num.0]));
             }
             if let Some(rhs_line_num) = rhs_line_num {
                 rhs_max_line = max(rhs_max_line, *rhs_line_num);
-                rhs_max_content = max(rhs_max_content, codepoint_len(rhs_lines[*rhs_line_num as usize]));
+                rhs_max_content = max(rhs_max_content, codepoint_len(rhs_lines[rhs_line_num.0]));
             }
         }
 
@@ -213,13 +213,13 @@ impl SourceDimensions {
 pub fn lines_with_novel(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-) -> (HashSet<u32>, HashSet<u32>) {
-    let lhs_lines_with_novel: HashSet<u32> = lhs_mps
+) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
+    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
         .iter()
         .filter(|mp| mp.kind.is_change())
         .map(|mp| mp.pos.line)
         .collect();
-    let rhs_lines_with_novel: HashSet<u32> = rhs_mps
+    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
         .iter()
         .filter(|mp| mp.kind.is_change())
         .map(|mp| mp.pos.line)
@@ -235,12 +235,12 @@ fn highlight_positions(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
-    HashMap<u32, Vec<(SingleLineSpan, Style)>>,
-    HashMap<u32, Vec<(SingleLineSpan, Style)>>,
+    HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+    HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
     let lhs_positions = color_positions(true, background, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
-    let mut lhs_styles: HashMap<u32, Vec<(SingleLineSpan, Style)>> =
+    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(lhs_positions.len() / 2);
     for (span, style) in lhs_positions {
         let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -248,7 +248,7 @@ fn highlight_positions(
     }
 
     let rhs_positions = color_positions(false, background, rhs_mps);
-    let mut rhs_styles: HashMap<u32, Vec<(SingleLineSpan, Style)>> =
+    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(rhs_positions.len() / 2);
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -259,10 +259,10 @@ fn highlight_positions(
 }
 
 fn highlight_as_novel(
-    line_num: Option<u32>,
+    line_num: Option<LineNumber>,
     lines: &[&str],
-    opposite_line_num: Option<u32>,
-    lines_with_novel: &HashSet<u32>,
+    opposite_line_num: Option<LineNumber>,
+    lines_with_novel: &HashSet<LineNumber>,
 ) -> bool {
     if let Some(line_num) = line_num {
         // If this line contains any novel tokens, highlight it.
@@ -270,7 +270,7 @@ fn highlight_as_novel(
             return true;
         }
 
-        let line_content = lines.get(line_num as usize).map(|s| str::trim(s));
+        let line_content = lines.get(line_num.0).map(|s| str::trim(s));
         // If this is a blank line without a corresponding line on the
         // other side, highlight it too. This helps highlight novel
         // blank lines.
@@ -400,7 +400,7 @@ pub fn print(
             if no_lhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
-                        let rhs_line = &rhs_colored_lines[rhs_line_num as usize];
+                        let rhs_line = &rhs_colored_lines[rhs_line_num.0];
                         if same_lines {
                             println!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
@@ -420,7 +420,7 @@ pub fn print(
             } else if no_rhs_changes && !std::env::var("DFT_SHOW_BOTH").is_ok() {
                 match lhs_line_num {
                     Some(lhs_line_num) => {
-                        let lhs_line = &lhs_colored_lines[lhs_line_num as usize];
+                        let lhs_line = &lhs_colored_lines[lhs_line_num.0];
                         if same_lines {
                             println!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
@@ -437,7 +437,7 @@ pub fn print(
             } else {
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
-                        lhs_lines[lhs_line_num as usize],
+                        lhs_lines[lhs_line_num.0],
                         source_dims.lhs_content_width,
                         use_color,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
@@ -446,7 +446,7 @@ pub fn print(
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
-                        rhs_lines[rhs_line_num as usize],
+                        rhs_lines[rhs_line_num.0],
                         source_dims.rhs_content_width,
                         use_color,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
@@ -466,7 +466,7 @@ pub fn print(
                     } else {
                         let mut s = format_missing_line_num(
                             lhs_line_num
-                                .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10)),
+                                .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             true,
                         );
@@ -486,7 +486,7 @@ pub fn print(
                     } else {
                         let mut s = format_missing_line_num(
                             rhs_line_num
-                                .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10)),
+                                .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
                             false,
                         );

@@ -1,7 +1,7 @@
 //! Apply colours and styling to strings.
 
 use crate::{
-    lines::codepoint_len,
+    lines::{codepoint_len, LineNumber},
     positions::SingleLineSpan,
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
@@ -187,7 +187,7 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
 fn group_by_line(
     ranges: &[(SingleLineSpan, Style)],
-) -> HashMap<u32, Vec<(SingleLineSpan, Style)>> {
+) -> HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> {
     let mut ranges_by_line: HashMap<_, Vec<_>> = HashMap::with_capacity(ranges.len());
     for range in ranges {
         if let Some(matching_ranges) = ranges_by_line.get_mut(&range.0.line) {
@@ -208,7 +208,7 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
     let mut res = String::with_capacity(s.len());
     for (i, line) in s.lines().enumerate() {
-        let ranges = ranges_by_line.remove(&(i as u32)).unwrap_or_default();
+        let ranges = ranges_by_line.remove(&i.into()).unwrap_or_default();
         res.push_str(&apply_line(line, &ranges));
         res.push('\n');
     }

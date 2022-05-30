@@ -282,7 +282,7 @@ fn distance_between(prev: &Syntax, next: &Syntax) -> (usize, usize) {
 
     if let (Some(prev_pos), Some(next_pos)) = (prev_pos, next_pos) {
         if prev_pos.line != next_pos.line {
-            return ((next_pos.line - prev_pos.line) as usize, 0);
+            return (next_pos.line.0 - prev_pos.line.0, 0);
         }
 
         return (0, next_pos.start_col - prev_pos.end_col);
