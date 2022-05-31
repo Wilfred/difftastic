@@ -1109,7 +1109,7 @@ module.exports = grammar({
     argument: $ => seq(
       optional(seq(field('name', $.name), ':')),
       optional(field('reference_modifier', $.reference_modifier)),
-      choice($.variadic_unpacking, $._expression)
+      choice(alias($._reserved_identifier, $.name), $.variadic_unpacking, $._expression)
     ),
 
     member_call_expression: $ => prec(PREC.CALL, seq(

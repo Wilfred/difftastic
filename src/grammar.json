@@ -6138,6 +6138,15 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_reserved_identifier"
+              },
+              "named": true,
+              "value": "name"
+            },
+            {
               "type": "SYMBOL",
               "name": "variadic_unpacking"
             },

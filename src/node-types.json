@@ -457,6 +457,10 @@
           "named": true
         },
         {
+          "type": "name",
+          "named": true
+        },
+        {
           "type": "variadic_unpacking",
           "named": true
         }

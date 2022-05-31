@@ -1,0 +1,28 @@
+=========================================
+#131: Parse error when using self as constant
+=========================================
+
+<?php
+define('self', 'value');
+var_dump(self);
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (function_call_expression
+      function: (name)
+      arguments: (arguments
+        (argument (string))
+        (argument (string))
+      )
+    )
+  )
+  (expression_statement
+    (function_call_expression
+      function: (name)
+      arguments: (arguments (argument (name)))
+    )
+  )
+)
