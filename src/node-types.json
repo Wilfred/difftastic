@@ -478,6 +478,10 @@
         {
           "type": "argument",
           "named": true
+        },
+        {
+          "type": "variadic_placeholder",
+          "named": true
         }
       ]
     }
@@ -4634,6 +4638,11 @@
     }
   },
   {
+    "type": "variadic_placeholder",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "variadic_unpacking",
     "named": true,
     "fields": {},
@@ -5176,11 +5185,11 @@
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "or",

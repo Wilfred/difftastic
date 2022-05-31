@@ -980,6 +980,71 @@ $country = $session?->user?->getAddress()?->country;
   )
 )
 
+
+===============================================
+First class callable syntax
+===============================================
+
+<?php
+foo(...);
+$this->foo(...);
+A::foo(...);
+
+// These are invalid, but accepted on the parser level.
+new Foo(...);
+
+#[Foo(...)]
+function foo() {}
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (function_call_expression
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  (expression_statement
+    (member_call_expression
+      (variable_name (name))
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  (expression_statement
+    (scoped_call_expression
+      (name)
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  
+  (comment)
+  (expression_statement
+    (object_creation_expression
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  
+  (function_definition
+    (attribute_list
+      (attribute_group
+        (attribute
+          (name)
+          (arguments (variadic_placeholder))
+        )
+      )
+    )
+    (name)
+    (formal_parameters)
+    (compound_statement)
+  )
+)
+
+
 ===============================================
 Match expressions
 ===============================================

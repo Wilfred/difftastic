@@ -1099,11 +1099,18 @@ module.exports = grammar({
       keyword('static')
     )),
 
+    variadic_placeholder: $ => token('...'),
+
     arguments: $ => seq(
       '(',
-      commaSep($.argument),
-      optional(','),
-      ')'
+      choice(
+        seq(
+          commaSep($.argument),
+          optional(','),
+        ),
+        $.variadic_placeholder,
+      ),
+      ')',
     ),
 
     argument: $ => seq(
