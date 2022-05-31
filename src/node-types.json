@@ -2848,6 +2848,10 @@
           "named": true
         },
         {
+          "type": "readonly_modifier",
+          "named": true
+        },
+        {
           "type": "static_modifier",
           "named": true
         },
@@ -3494,6 +3498,10 @@
           "named": true
         },
         {
+          "type": "readonly_modifier",
+          "named": true
+        },
+        {
           "type": "static_modifier",
           "named": true
         },
@@ -3606,6 +3614,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "readonly_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "reference_assignment_expression",
@@ -5191,6 +5204,10 @@
   },
   {
     "type": "public",
+    "named": false
+  },
+  {
+    "type": "readonly",
     "named": false
   },
   {
