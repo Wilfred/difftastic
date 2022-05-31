@@ -1,10 +1,12 @@
-================
-Variables
-================
+==============================
+identifiers
+==============================
 
-w
-w′
-θ
+abc_123_ABC
+_fn!
+ρ; φ; z
+ℝ
+x′
 θ̄
 logŷ
 ϵ
@@ -19,30 +21,12 @@ logŷ
   (identifier)
   (identifier)
   (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
   (identifier))
 
-=================
-Assignments
-=================
-
-a = b
-c &= d ÷= e
-a, b = c, d, e
-
----
-
-(source_file
-  (assignment_expression
-    (identifier)
-    (identifier))
-  (assignment_expression
-    (identifier)
-    (assignment_expression
-      (identifier)
-      (identifier)))
-  (assignment_expression
-    (bare_tuple_expression (identifier) (identifier))
-    (bare_tuple_expression (identifier) (identifier) (identifier))))
 
 =================
 Functions
@@ -137,111 +121,19 @@ end
   (macro_expression
     (macro_identifier (identifier))
     (macro_argument_list
-      (binary_expression (identifier) (identifier))))
+      (binary_expression (identifier) (operator) (identifier))))
   (macro_expression
     (macro_identifier (identifier))
     (macro_argument_list
-      (binary_expression (identifier) (identifier))
+      (binary_expression (identifier) (operator) (identifier))
       (string_literal)))
   (macro_expression (macro_identifier (operator)) (macro_argument_list (identifier)))
   (macro_expression
     (macro_identifier (identifier))
     (macro_argument_list
       (string_literal)
-      (compound_expression (assignment_expression (identifier) (identifier))))))
+      (compound_expression (assignment_expression (identifier) (operator) (identifier))))))
 
-=================
-Binary operators
-=================
-
-a → b ⇶ c ⭄ d
-a * b ⦼ c
-a == b
-
----
-
-(source_file
-  (binary_expression
-    (identifier)
-    (binary_expression
-      (identifier)
-      (binary_expression
-        (identifier)
-        (identifier))))
-  (binary_expression
-    (binary_expression
-      (identifier)
-      (identifier))
-    (identifier))
-  (binary_expression
-    (identifier)
-    (identifier)))
-
-===================================
-Binary operators with leading dots
-===================================
-
-a .* b .+ c
-
----
-
-(source_file
-  (binary_expression
-    (binary_expression (identifier) (identifier))
-    (identifier)))
-
-=================
-Unary operators
-=================
-
-+a
--b
-√9
-[a]'
-!(a + b)
-
----
-
-(source_file
-  (unary_expression (identifier))
-  (unary_expression (identifier))
-  (unary_expression (integer_literal))
-  (unary_expression (array_expression (identifier)))
-  (unary_expression
-    (parenthesized_expression (binary_expression (identifier) (identifier)))))
-
-====================
-The ternary operator
-====================
-
-x = batch_size == 1 ?
-  rand(10) :
-  rand(10, batch_size)
-
----
-
-(source_file
-  (assignment_expression
-    (identifier)
-    (ternary_expression
-      (binary_expression (identifier) (integer_literal))
-      (call_expression (identifier) (argument_list (integer_literal)))
-      (call_expression (identifier) (argument_list (integer_literal) (identifier))))))
-
-====================
-Operators as values
-====================
-
-x = +
-print(:)
-foo(^, ÷)
-
----
-
-(source_file
-  (assignment_expression (identifier) (operator))
-  (call_expression (identifier) (argument_list (operator)))
-  (call_expression (identifier) (argument_list (operator) (operator))))
 
 ===========================
 Coefficient expressions
@@ -259,29 +151,39 @@ Coefficient expressions
     (binary_expression
       (binary_expression
         (coefficient_expression (integer_literal) (identifier))
+        (operator)
         (integer_literal))
+      (operator)
       (coefficient_expression (integer_literal) (identifier)))
+    (operator)
     (integer_literal))
   (binary_expression
     (binary_expression
       (binary_expression
         (coefficient_expression (float_literal) (identifier))
+        (operator)
         (integer_literal))
+      (operator)
       (coefficient_expression (float_literal) (identifier)))
+    (operator)
     (integer_literal))
   (binary_expression
     (integer_literal)
+    (operator)
     (coefficient_expression (integer_literal) (identifier)))
   (binary_expression
     (binary_expression
       (binary_expression
         (coefficient_expression
           (integer_literal)
-          (parenthesized_expression (binary_expression (identifier) (integer_literal))))
+          (parenthesized_expression (binary_expression (identifier) (operator) (integer_literal))))
+        (operator)
         (integer_literal))
+      (operator)
       (coefficient_expression
         (integer_literal)
-        (parenthesized_expression (binary_expression (identifier) (integer_literal)))))
+        (parenthesized_expression (binary_expression (identifier) (operator) (integer_literal)))))
+    (operator)
     (integer_literal)))
 
 =================
@@ -313,7 +215,7 @@ Named tuples
 
 (source_file
   (parenthesized_expression
-    (assignment_expression (identifier) (integer_literal)))
+    (assignment_expression (identifier) (operator) (integer_literal)))
   (tuple_expression
     (named_field (identifier) (integer_literal)))
   (tuple_expression
@@ -353,20 +255,6 @@ Matrices
     (matrix_row (integer_literal) (integer_literal))
     (matrix_row (integer_literal) (integer_literal))))
 
-=================
-Pairs
-=================
-
-A(b => c, d => e)
-
----
-
-(source_file
-  (call_expression
-    (identifier)
-    (argument_list
-      (pair_expression (identifier) (identifier))
-      (pair_expression (identifier) (identifier)))))
 
 ====================
 Function expressions
@@ -383,11 +271,15 @@ function () 3 end
 (source_file
   (function_expression
     (identifier)
-    (binary_expression (identifier) (integer_literal)))
+    (binary_expression (identifier) (operator) (integer_literal)))
   (function_expression
     (parameter_list (identifier) (identifier) (identifier))
     (binary_expression
-      (binary_expression (coefficient_expression (integer_literal) (identifier)) (identifier))
+      (binary_expression
+        (coefficient_expression (integer_literal) (identifier))
+        (operator)
+        (identifier))
+      (operator)
       (identifier)))
   (function_expression
     (parameter_list)
@@ -399,7 +291,7 @@ function () 3 end
     (parameter_list)
     (parenthesized_expression
       (call_expression (identifier) (argument_list (float_literal)))
-      (assignment_expression (identifier) (integer_literal))
+      (assignment_expression (identifier) (operator) (integer_literal))
       (identifier))))
 
 ============================
