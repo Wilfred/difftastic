@@ -1298,6 +1298,15 @@
       "named": false,
       "value": "abstract"
     },
+    "readonly_modifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "PATTERN",
+        "value": "[rR][eE][aA][dD][oO][nN][lL][yY]"
+      },
+      "named": false,
+      "value": "readonly"
+    },
     "class_interface_clause": {
       "type": "SEQ",
       "members": [
@@ -1597,6 +1606,10 @@
           {
             "type": "SYMBOL",
             "name": "abstract_modifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "readonly_modifier"
           }
         ]
       }

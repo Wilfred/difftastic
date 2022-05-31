@@ -298,6 +298,7 @@ module.exports = grammar({
 
     final_modifier: $ => keyword('final'),
     abstract_modifier: $ => keyword('abstract'),
+    readonly_modifier: $ => keyword('readonly'),
 
     class_interface_clause: $ => seq(
       keyword('implements'),
@@ -339,7 +340,8 @@ module.exports = grammar({
       $.visibility_modifier,
       $.static_modifier,
       $.final_modifier,
-      $.abstract_modifier
+      $.abstract_modifier,
+      $.readonly_modifier
     )),
 
     property_element: $ => seq(
