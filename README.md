@@ -1,7 +1,7 @@
 tree-sitter-julia
 =================
 
-[![Build Status](https://travis-ci.org/tree-sitter/tree-sitter-julia.svg?branch=master)](https://travis-ci.org/tree-sitter/tree-sitter-julia)
+[![Build/test](https://github.com/tree-sitter/tree-sitter-julia/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/tree-sitter/tree-sitter-julia/actions/workflows/ci.yml)
 
 Julia grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
