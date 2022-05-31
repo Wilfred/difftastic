@@ -11,9 +11,9 @@ const PREC = [
   'colon_quote',
   'colon_range',
   'plus',
-  'bitshift',
   'times',
   'rational',
+  'bitshift',
   'power',
   'call',
   'decl',
@@ -25,6 +25,10 @@ const PREC = [
   return result;
 }, {});
 
+const ASSIGN_OPERATORS = `
+  = += -= *= /= //= \\= ^= ÷= %= <<= >>= >>>= |= &= ⊻= ≔ ⩴ ≕
+`;
+
 const ARROW_OPERATORS = `
   ← → ↔ ↚ ↛ ↞ ↠ ↢ ↣ ↦ ↤ ↮ ⇎ ⇍ ⇏ ⇐ ⇒ ⇔ ⇴ ⇶
   ⇷ ⇸ ⇹ ⇺ ⇻ ⇼ ⇽ ⇾ ⇿ ⟵ ⟶ ⟷ ⟹ ⟺ ⟻ ⟼ ⟽ ⟾
@@ -33,10 +37,6 @@ const ARROW_OPERATORS = `
   ⥢ ⥤ ⥦ ⥧ ⥨ ⥩ ⥪ ⥫ ⥬ ⥭ ⥰ ⧴ ⬱ ⬰ ⬲ ⬳ ⬴ ⬵ ⬶ ⬷
   ⬸ ⬹ ⬺ ⬻ ⬼ ⬽ ⬾ ⬿ ⭀ ⭁ ⭂ ⭃ ⭄ ⭇ ⭈ ⭉ ⭊ ⭋ ⭌ ￩ ￫
   ⇜ ⇝ ↜ ↝ ↩ ↪ ↫ ↬ ↼ ↽ ⇀ ⇁ ⇄ ⇆ ⇇ ⇉ ⇋ ⇌ ⇚ ⇛ ⇠ ⇢
-`;
-
-const ASSIGN_OPERATORS = `
-  = += -= *= /= //= |\=| ^= ÷= %= <<= >>= >>>= ||=| &= ⊻= ≔ ⩴ ≕
 `;
 
 const COMPARISON_OPERATORS = `
@@ -51,8 +51,10 @@ const COMPARISON_OPERATORS = `
   ⫹ ⫺ ⊢ ⊣ ⟂
 `;
 
+const DOTTY_OPERATORS = '… ⁝ ⋮ ⋱ ⋰ ⋯';
+
 const PLUS_OPERATORS = `
-  + - |\|| ⊕ ⊖ ⊞ ⊟ |++| ∪ ∨ ⊔ ± ∓ ∔ ∸ ≂ ≏ ⊎ ⊻ ⊽ ⋎ ⋓ ⧺ ⧻ ⨈
+  + - | ⊕ ⊖ ⊞ ⊟ ++ ∪ ∨ ⊔ ± ∓ ∔ ∸ ≂ ≏ ⊎ ⊻ ⊽ ⋎ ⋓ ⧺ ⧻ ⨈
   ⨢ ⨣ ⨤ ⨥ ⨦ ⨧ ⨨ ⨩ ⨪ ⨫ ⨬ ⨭ ⨮ ⨹ ⨺ ⩁ ⩂ ⩅ ⩊ ⩌ ⩏ ⩐ ⩒ ⩔ ⩖ ⩗ ⩛ ⩝ ⩡ ⩢ ⩣
 `;
 
@@ -62,6 +64,8 @@ const TIMES_OPERATORS = `
   ⨱ ⨲ ⨳ ⨴ ⨵ ⨶ ⨷ ⨸ ⨻ ⨼ ⨽ ⩀ ⩃ ⩄ ⩋ ⩍ ⩎ ⩑ ⩓ ⩕ ⩘
   ⩚ ⩜ ⩞ ⩟ ⩠ ⫛ ⊍ ▷ ⨝ ⟕ ⟖ ⟗
 `;
+
+const BITSHIFT_OPERATORS = '<< >> >>>';
 
 const POWER_OPERATORS = `
   ^ ↑ ↓ ⇵ ⟰ ⟱ ⤈ ⤉ ⤊ ⤋ ⤒ ⤓ ⥉ ⥌ ⥍ ⥏ ⥑ ⥔ ⥕ ⥘ ⥙ ⥜ ⥝ ⥠ ⥡ ⥣ ⥥ ⥮ ⥯ ￪ ￬
@@ -414,11 +418,11 @@ grammar({
       $.interpolation_expression,
       $._primary_expression,
       $._literal,
+      $.operator,
     ),
 
     _primary_expression: $ => choice(
       $.identifier,
-      $.operator,
       $.array_expression,
       $.array_comprehension_expression,
       $.matrix_expression,
@@ -436,7 +440,16 @@ grammar({
       repeat1(prec(-1, seq(',', $._expression)))
     )),
 
-    operator: $ => choice('+', $._plus_operator, $._times_operator, $._power_operator),
+    operator: $ => choice(
+      $._comparison_operator,
+      $._dotty_operator,
+      $._plus_operator,
+      $._times_operator,
+      $._rational_operator,
+      $._bitshift_operator,
+      $._power_operator,
+      $._unary_operator,
+    ),
 
     parenthesized_expression: $ => prec(1, seq(
       '(', choice($._expression_list, $.spread_expression), ')'
@@ -483,7 +496,7 @@ grammar({
     ),
 
     call_expression: $ => prec(PREC.call, seq(
-      $._primary_expression,
+      choice($._primary_expression, $.operator),
       $._immediate_paren,
       choice($.argument_list, $.generator_expression),
       optional($.do_clause)
@@ -540,7 +553,7 @@ grammar({
         $._expression,
         $.bare_tuple_expression
       ),
-      choice($._assign_operator, '='),
+      alias(choice($._assign_operator, '='), $.operator),
       choice(
         $._expression,
         $.assignment_expression,
@@ -550,62 +563,34 @@ grammar({
 
     unary_expression: $ => choice(
       prec(PREC.prefix, seq(
-        choice('>:', '+', '-', '!', '~', '¬', '√', '∛', '∜'),
-        $._expression
-      )),
-      prec(PREC.postfix, seq(
+        alias($._unary_operator, $.operator),
         $._expression,
-        choice("'", ".'")
-      ))
+      )),
+      prec(PREC.postfix, seq($._expression, alias("'", $.operator))),
     ),
 
-    binary_expression: $ => choice(
-      prec.left(PREC.power, seq(
+    binary_expression: $ => {
+      const table = [
+        [prec.left, PREC.power, $._power_operator],
+        [prec.left, PREC.rational, $._rational_operator],
+        [prec.left, PREC.bitshift, $._bitshift_operator],
+        [prec.left, PREC.times, $._times_operator],
+        [prec.left, PREC.plus, choice('+', $._plus_operator)],
+        [prec.left, PREC.colon_range, $._dotty_operator],
+        [prec.right, PREC.arrow, $._arrow_operator],
+        [prec.right, PREC.pipe_left, '<|'],
+        [prec.left, PREC.pipe_right, '|>'],
+        [prec.left, PREC.comparison, choice('in', 'isa', $._comparison_operator)],
+        [prec.left, PREC.lazy_or, '||'],
+        [prec.left, PREC.lazy_and, '&&'],
+      ];
+
+      return choice(...table.map(([fn, prec, op]) => fn(prec, seq(
         $._expression,
-        $._power_operator,
-        $._expression
-      )),
-      prec.left(PREC.times, seq(
+        alias(op, $.operator),
         $._expression,
-        $._times_operator,
-        $._expression
-      )),
-      prec.left(PREC.plus, seq(
-        $._expression,
-        choice('+', $._plus_operator),
-        $._expression
-      )),
-      prec.right(PREC.arrow, seq(
-        $._expression,
-        $._arrow_operator,
-        $._expression
-      )),
-      prec.right(PREC.pipe_left, seq(
-        $._expression,
-        '<|',
-        $._expression
-      )),
-      prec.left(PREC.pipe_right, seq(
-        $._expression,
-        '|>',
-        $._expression
-      )),
-      prec.left(PREC.comparison, seq(
-        $._expression,
-        choice('in', 'isa', $._comparison_operator),
-        $._expression
-      )),
-      prec.left(PREC.lazy_or, seq(
-        $._expression,
-        '||',
-        $._expression
-      )),
-      prec.left(PREC.lazy_and, seq(
-        $._expression,
-        '&&',
-        $._expression
-      ))
-    ),
+      ))));
+    },
 
     ternary_expression: $ => prec.right(PREC.conditional, seq(
       $._expression,
@@ -757,14 +742,15 @@ grammar({
         '(', ')',
         '{', '}',
         '&',
-        '|',
         '$',
-        ARROW_OPERATORS,
         ASSIGN_OPERATORS,
+        ARROW_OPERATORS,
         COMPARISON_OPERATORS,
+        DOTTY_OPERATORS,
         PLUS_OPERATORS,
-        POWER_OPERATORS,
         TIMES_OPERATORS,
+        BITSHIFT_OPERATORS,
+        POWER_OPERATORS
       ];
 
       const operatorCharacters = operators
@@ -775,9 +761,9 @@ grammar({
         .replace(/\\/g, '\\\\')
         .replace(/!/g, '');
 
-      // First char: ASCII letter, Greek letter, Extended Latin letter, or ∇
-      // Remaining characters: not delimiter, not operator
-      return new RegExp(`[_a-zA-ZͰ-ϿĀ-ſ∇][^"'\`\\s\\.\\-\\[\\]${operatorCharacters}]*`)
+      const start = "[_\\p{L}\\p{Nl}∇]"
+      const rest = `[^"'\`\\s\\.\\-\\[\\]${operatorCharacters}]*`
+      return new RegExp(start + rest)
     },
 
     // Literals
@@ -872,17 +858,23 @@ grammar({
       ),
     ),
 
+    _unary_operator: $ => token(addDots('+ - ! ~ ¬ √ ∛ ∜')),
+
     _power_operator: $ => token(addDots(POWER_OPERATORS)),
+
+    _bitshift_operator: $ => token(addDots(BITSHIFT_OPERATORS)),
+
+    _rational_operator: $ => token(addDots('//')),
 
     _times_operator: $ => token(addDots(TIMES_OPERATORS)),
 
     _plus_operator: $ => token(choice('$', addDots(PLUS_OPERATORS))),
 
-    _arrow_operator: $ => token(choice('--', '-->', addDots(ARROW_OPERATORS))),
+    _dotty_operator: $ => token(choice('..', addDots(DOTTY_OPERATORS))),
 
-    _comparison_operator: $ => token(choice(
-      '|<:|', '|>:|', addDots(COMPARISON_OPERATORS)
-    )),
+    _comparison_operator: $ => token(choice('<:', '>:', addDots(COMPARISON_OPERATORS))),
+
+    _arrow_operator: $ => token(choice('<--', '-->', '<-->', addDots(ARROW_OPERATORS))),
 
     _assign_operator: $ => token(choice(':=', '~', '$=', addDots(ASSIGN_OPERATORS))),
 

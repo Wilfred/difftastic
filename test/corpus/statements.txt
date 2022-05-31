@@ -78,7 +78,7 @@ while a(); b(); end
 
 (source_file
   (while_statement
-    (binary_expression (identifier) (integer_literal))
+    (binary_expression (identifier) (operator) (integer_literal))
     (call_expression (identifier) (argument_list (identifier)))
     (continue_statement)
     (break_statement))
@@ -100,7 +100,7 @@ return a, b, c
 (source_file
   (return_statement)
   (return_statement (identifier))
-  (return_statement (binary_expression (identifier) (identifier)))
+  (return_statement (binary_expression (identifier) (operator) (identifier)))
   (return_statement (bare_tuple_expression (identifier) (identifier) (identifier))))
 
 ===============================
@@ -147,9 +147,9 @@ end
 
 (source_file
   (quote_statement
-    (assignment_expression (identifier) (integer_literal))
-    (assignment_expression (identifier) (integer_literal))
-    (binary_expression (identifier) (identifier))))
+    (assignment_expression (identifier) (operator) (integer_literal))
+    (assignment_expression (identifier) (operator) (integer_literal))
+    (binary_expression (identifier) (operator) (identifier))))
 
 ===============================
 Try statements

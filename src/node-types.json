@@ -424,10 +424,6 @@
           "named": true
         },
         {
-          "type": "operator",
-          "named": true
-        },
-        {
           "type": "parameterized_identifier",
           "named": true
         },
@@ -794,10 +790,6 @@
         },
         {
           "type": "matrix_expression",
-          "named": true
-        },
-        {
-          "type": "operator",
           "named": true
         },
         {
@@ -1983,7 +1975,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -2047,15 +2039,7 @@
     "named": false
   },
   {
-    "type": "!",
-    "named": false
-  },
-  {
     "type": "$",
-    "named": false
-  },
-  {
-    "type": "&&",
     "named": false
   },
   {
@@ -2071,15 +2055,7 @@
     "named": false
   },
   {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
-    "named": false
-  },
-  {
-    "type": "-",
     "named": false
   },
   {
@@ -2088,10 +2064,6 @@
   },
   {
     "type": ".",
-    "named": false
-  },
-  {
-    "type": ".'",
     "named": false
   },
   {
@@ -2115,19 +2087,11 @@
     "named": false
   },
   {
-    "type": "<|",
-    "named": false
-  },
-  {
     "type": "=",
     "named": false
   },
   {
     "type": "=>",
-    "named": false
-  },
-  {
-    "type": ">:",
     "named": false
   },
   {
@@ -2231,10 +2195,6 @@
     "named": false
   },
   {
-    "type": "isa",
-    "named": false
-  },
-  {
     "type": "let",
     "named": false
   },
@@ -2291,39 +2251,11 @@
     "named": false
   },
   {
-    "type": "|>",
-    "named": false
-  },
-  {
-    "type": "||",
-    "named": false
-  },
-  {
     "type": "}",
     "named": false
   },
   {
-    "type": "~",
-    "named": false
-  },
-  {
-    "type": "¬",
-    "named": false
-  },
-  {
     "type": "∈",
-    "named": false
-  },
-  {
-    "type": "√",
-    "named": false
-  },
-  {
-    "type": "∛",
-    "named": false
-  },
-  {
-    "type": "∜",
     "named": false
   }
 ]

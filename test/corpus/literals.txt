@@ -94,6 +94,7 @@ band = "Interpol"
   (string_literal)
   (assignment_expression
     (identifier)
+    (operator)
     (string_literal))
   (string_literal
     (string_interpolation (identifier)))
@@ -143,10 +144,12 @@ version = v"1.0"
 (source_file
   (assignment_expression
     (identifier)
+    (operator)
     (prefixed_string_literal 
         prefix: (identifier)))
   (assignment_expression
     (identifier)
+    (operator)
     (prefixed_string_literal 
         prefix: (identifier))))
 
@@ -172,7 +175,7 @@ nested #= comments =# =#
   (line_comment)
   (block_comment)
   (block_comment)
-  (assignment_expression (identifier) (block_comment) (integer_literal))
+  (assignment_expression (identifier) (operator) (block_comment) (integer_literal))
   (block_comment)
   (block_comment))
 

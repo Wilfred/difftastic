@@ -175,6 +175,7 @@ end
     (parameter_list (identifier) (optional_parameter (identifier) (identifier)))
     (assignment_expression
       (identifier)
+      (operator)
       (array_expression
         (quote_expression
           (tuple_expression
