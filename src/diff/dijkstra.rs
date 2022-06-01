@@ -1,30 +1,34 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env, rc::Rc};
+use std::{cmp::Reverse, env};
 
 use crate::{
-    changes::ChangeMap,
-    graph::{neighbours, populate_change_map, Edge, Vertex},
-    syntax::Syntax,
+    diff::changes::ChangeMap,
+    diff::graph::{neighbours, populate_change_map, Edge, Vertex},
+    parse::syntax::Syntax,
 };
+use bumpalo::Bump;
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
-type PredecessorInfo<'a> = (u64, Rc<Vertex<'a>>, Edge);
+type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>);
 
-fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
+/// Return the shortest route from `start` to the end vertex.
+fn shortest_vertex_path(start: Vertex, size_hint: usize) -> Vec<Vertex> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, Rc<Vertex>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, &Vertex> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), Rc::new(start));
+    let vertex_arena = Bump::new();
+    heap.push(Reverse(0), vertex_arena.alloc(start.clone()));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Rc<Vertex>, PredecessorInfo> = FxHashMap::default();
+    let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
+    predecessors.reserve(size_hint);
 
     let mut neighbour_buf = [
         None, None, None, None, None, None, None, None, None, None, None, None,
@@ -36,20 +40,17 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
                     break current;
                 }
 
-                neighbours(&current, &mut neighbour_buf);
+                neighbours(current, &mut neighbour_buf, &vertex_arena);
                 for neighbour in &mut neighbour_buf {
                     if let Some((edge, next)) = neighbour.take() {
                         let distance_to_next = distance + edge.cost();
                         let found_shorter_route = match predecessors.get(&next) {
-                            Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
+                            Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
                             _ => true,
                         };
 
                         if found_shorter_route {
-                            let next = Rc::new(next);
-
-                            predecessors
-                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
+                            predecessors.insert(next, (distance_to_next, current));
 
                             heap.push(Reverse(distance_to_next), next);
                         }
@@ -63,48 +64,67 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Rc<Vertex>)> {
     debug!(
         "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
         predecessors.len(),
-        std::mem::size_of::<Rc<Vertex>>(),
+        std::mem::size_of::<&Vertex>(),
         std::mem::size_of::<PredecessorInfo>(),
         heap.len(),
     );
     let mut current = end;
 
-    let mut route: Vec<(Edge, Rc<Vertex>)> = vec![];
-    let mut cost = 0;
-    while let Some((_, node, edge)) = predecessors.remove(&current) {
-        route.push((edge, node.clone()));
-        cost += edge.cost();
-
+    let mut vertex_route: Vec<Vertex> = vec![end.clone()];
+    while let Some((_, node)) = predecessors.remove(&current) {
+        vertex_route.push(node.clone());
         current = node;
     }
-    route.reverse();
 
+    vertex_route.reverse();
+    vertex_route
+}
+
+fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)> {
+    let mut prev = route.first().expect("Expected non-empty route");
+
+    let mut cost = 0;
+    let mut res = vec![];
+    for vertex in route.iter().skip(1) {
+        let edge = edge_between(prev, vertex);
+        res.push((edge, prev.clone()));
+        cost += edge.cost();
+
+        prev = vertex;
+    }
     debug!("Found a path of {} with cost {}.", route.len(), cost);
-    let print_length = if env::var("DFT_VERBOSE").is_ok() {
-        50
-    } else {
-        5
-    };
-    debug!(
-        "Initial {} items on path: {:#?}",
-        print_length,
-        route
-            .iter()
-            .map(|x| {
-                format!(
-                    "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
-                        .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.0.cost(),
-                    x.0,
-                )
-            })
-            .take(print_length)
-            .collect_vec()
+
+    res
+}
+
+/// Return the shortest route from the `start` to the end vertex.
+///
+/// The vec returned does not return the very last vertex. This is
+/// necessary because a route of N vertices only has N-1 edges.
+fn shortest_path(start: Vertex, size_hint: usize) -> Vec<(Edge, Vertex)> {
+    let vertex_path = shortest_vertex_path(start, size_hint);
+    shortest_path_with_edges(&vertex_path)
+}
+
+fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
+    let mut neighbour_buf = [
+        None, None, None, None, None, None, None, None, None, None, None, None,
+    ];
+
+    let vertex_arena = Bump::new();
+    neighbours(before, &mut neighbour_buf, &vertex_arena);
+    for neighbour in &mut neighbour_buf {
+        if let Some((edge, next)) = neighbour.take() {
+            if next == after {
+                return edge;
+            }
+        }
+    }
+
+    panic!(
+        "Expected a route between the two vertices {:#?} and {:#?}",
+        before, after
     );
-    route
 }
 
 /// What is the total number of AST nodes?
@@ -143,16 +163,49 @@ pub fn mark_syntax<'a>(
     rhs_syntax: Option<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
 ) {
+    let lhs_node_count = node_count(lhs_syntax) as usize;
+    let rhs_node_count = node_count(rhs_syntax) as usize;
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
-        node_count(lhs_syntax),
+        lhs_node_count,
         tree_count(lhs_syntax),
-        node_count(rhs_syntax),
+        rhs_node_count,
         tree_count(rhs_syntax),
     );
 
+    // When there are a large number of changes, we end up building a
+    // graph whose size is roughly quadratic. Use this as a size hint,
+    // so we don't spend too much time re-hashing and expanding the
+    // predecessors hashmap.
+    let size_hint = lhs_node_count * rhs_node_count;
+
     let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start);
+    let route = shortest_path(start, size_hint);
+
+    let print_length = if env::var("DFT_VERBOSE").is_ok() {
+        50
+    } else {
+        5
+    };
+    debug!(
+        "Initial {} items on path: {:#?}",
+        print_length,
+        route
+            .iter()
+            .map(|x| {
+                format!(
+                    "{:20} {:20} --- {:3} {:?}",
+                    x.1.lhs_syntax
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                    x.1.rhs_syntax
+                        .map_or_else(|| "None".into(), Syntax::dbg_content),
+                    x.0.cost(),
+                    x.0,
+                )
+            })
+            .take(print_length)
+            .collect_vec()
+    );
 
     populate_change_map(&route, change_map);
 }
@@ -161,8 +214,8 @@ pub fn mark_syntax<'a>(
 mod tests {
     use super::*;
     use crate::{
-        changes::ChangeKind,
-        graph::Edge::*,
+        diff::changes::ChangeKind,
+        diff::graph::Edge::*,
         positions::SingleLineSpan,
         syntax::{init_all_info, AtomKind},
     };
@@ -196,7 +249,7 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -236,7 +289,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -278,7 +331,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -324,7 +377,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -363,7 +416,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -400,7 +453,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -438,7 +491,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -472,7 +525,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -503,7 +556,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -542,7 +595,7 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start);
+        let route = shortest_path(start, 0);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(

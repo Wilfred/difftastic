@@ -4,8 +4,8 @@ use crate::{
     constants::Side,
     lines::{byte_len, codepoint_len, LineNumber},
     options::DisplayOptions,
+    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     positions::SingleLineSpan,
-    syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;

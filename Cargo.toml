@@ -1,6 +1,6 @@
 [package]
 name = "difftastic"
-description = "A diff that understands syntax"
+description = "A structural diff that understands syntax."
 repository = "https://github.com/wilfred/difftastic"
 homepage = "http://difftastic.wilfred.me.uk/"
 license = "MIT"
@@ -49,9 +49,10 @@ rayon = "1.5.2"
 yansi = "0.5.1"
 cansi = "2.1.1"
 tree_magic_mini = "3.0.3"
+bumpalo = "3.9.1"
 
 [dev-dependencies]
-pretty_assertions = "1.0.0"
+pretty_assertions = "1.2.1"
 
 [build-dependencies]
 cc = "1.0.73"
