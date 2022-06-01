@@ -493,6 +493,8 @@ module.exports = grammar({
       )
     ),
 
+    bottom_type: $ => 'never',
+
     union_type: $ => prec.right(pipeSep1($._types)),
 
     primitive_type: $ => choice(
@@ -525,7 +527,7 @@ module.exports = grammar({
       keyword('unset', false)
     ),
 
-    _return_type: $ => seq(':', field('return_type', $._type)),
+    _return_type: $ => seq(':', field('return_type', choice($._type, $.bottom_type))),
 
     const_element: $ => seq(
       choice($.name, alias($._reserved_identifier, $.name)), '=', $._expression
