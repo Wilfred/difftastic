@@ -2534,6 +2534,10 @@
         }
       ]
     },
+    "bottom_type": {
+      "type": "STRING",
+      "value": "never"
+    },
     "union_type": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -2685,8 +2689,17 @@
           "type": "FIELD",
           "name": "return_type",
           "content": {
-            "type": "SYMBOL",
-            "name": "_type"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bottom_type"
+              }
+            ]
           }
         }
       ]
