@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0 - not yet released
+## 0.7.0 - 2022-06-02
 
 housekeeping:
 * bump tree-sitter dependency to 0.20.6
