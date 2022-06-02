@@ -2129,7 +2129,7 @@ and stmt_ env pos st =
     in
     let (env, (te1, te2, te3, tb, refinement_map)) =
       LEnv.stash_and_do env [C.Continue; C.Break] (fun env ->
-          (* For loops leak their initalizer, but nothing that's defined in the
+          (* For loops leak their initializer, but nothing that's defined in the
              body
           *)
           let (env, te1, _) = exprs env e1 in
@@ -2276,7 +2276,7 @@ and finally env fb =
        * We don't want to record errors during this phase, because certain types
        * of errors will fire wrongly. For example, if $x is nullable in some
        * continuations but not in others, then we must use `?->` on $x, but an
-       * error will fire when typechecking the finally block againts continuations
+       * error will fire when typechecking the finally block against continuations
        * where $x is non-null. *)
     let finally_cont env _key = finally_cont fb env in
     let (env, locals_map) =
@@ -7871,7 +7871,7 @@ and call
                 ~required:(Typing_coeffects.pretty env capability))
       in
       let should_forget_fakes =
-        (* If the function doesn't have write priveleges to properties, fake
+        (* If the function doesn't have write privileges to properties, fake
            members cannot be reassigned, so their refinements stand. *)
         let capability =
           Typing_coeffects.get_type ft.ft_implicit_params.capability
