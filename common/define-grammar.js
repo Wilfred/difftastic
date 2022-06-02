@@ -624,6 +624,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       constructor_type: $ => prec.left(seq(
+        optional('abstract'),
         'new',
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
@@ -857,6 +858,7 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       construct_signature: $ => seq(
+        optional('abstract'),
         'new',
         field('type_parameters', optional($.type_parameters)),
         field('parameters', $.formal_parameters),
