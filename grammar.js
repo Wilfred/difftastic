@@ -108,7 +108,7 @@ module.exports = grammar({
 
     string_lit: $ => prec(PREC.string_lit, seq(
       $.quoted_template_start,
-      $.template_literal,
+      optional($.template_literal),
       $.quoted_template_end,
     )),
 

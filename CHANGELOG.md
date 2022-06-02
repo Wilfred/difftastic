@@ -7,6 +7,9 @@ housekeeping:
 * regenerate parser
 * fix clang+windows CI job
 
+fix:
+* allow empty string literals
+
 ## 0.6.0 - 2021-09-20
 
 feature:
