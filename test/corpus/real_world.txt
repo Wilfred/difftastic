@@ -126,8 +126,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                       (identifier))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression
@@ -158,8 +158,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                       (identifier))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression
@@ -203,8 +203,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                       (identifier))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression
@@ -259,8 +259,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                       (identifier))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression
@@ -315,8 +315,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                       (identifier))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression
@@ -396,16 +396,16 @@ resource "azurerm_storage_blob" "proxy_cert" {
                               (identifier))
                             (get_attr
                               (identifier))
-                            (template_expr
-                              (quoted_template
+                            (literal_value
+                              (string_lit
                                 (quoted_template_start)
                                 (quoted_template_end)))))
                         (variable_expr
                           (identifier))))
                     (get_attr
                       (identifier))
-                    (template_expr
-                      (quoted_template
+                    (literal_value
+                      (string_lit
                         (quoted_template_start)
                         (quoted_template_end))))))
               (expression

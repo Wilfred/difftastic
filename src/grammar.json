@@ -313,8 +313,16 @@
             "name": "quoted_template_start"
           },
           {
-            "type": "SYMBOL",
-            "name": "template_literal"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "template_literal"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
