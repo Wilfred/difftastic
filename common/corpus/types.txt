@@ -1356,3 +1356,54 @@ type T = Foo<any, unknown, number, string, void, true, false, null, undefined, 0
         (literal_type
           (string
             (string_fragment)))))))
+
+==================================
+Extends
+==================================
+
+type Foo<T extends abstract new (...args: any) => any> = T;
+type Foo<T extends new (...args: any) => any> = T;
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (constructor_type
+            (formal_parameters
+              (required_parameter
+                (rest_pattern
+                  (identifier))
+                (type_annotation
+                  (predefined_type))))
+            (predefined_type)))))
+    (type_identifier))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (constructor_type
+            (formal_parameters
+              (required_parameter
+                (rest_pattern
+                  (identifier))
+                (type_annotation
+                  (predefined_type))))
+            (predefined_type)))))
+    (type_identifier)))
+
+========
+Abstract
+========
+
+type Foo<T> = abstract new () => T;
+
+---
+
+(program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier)))) 
