@@ -1268,7 +1268,7 @@ module.exports = grammar({
         alias('\\u', $.string_value),
         alias("'", $.string_value), // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
         alias('<?', $.string_value),
-        alias(token(prec(1, '?>')), $.string_value)
+        alias(token(prec(1, '?>')), $.string_value),
       ),
     ),
 
@@ -1304,11 +1304,20 @@ module.exports = grammar({
         $.heredoc_start,
         seq('"', $.heredoc_start, token.immediate('"'))
       )),
-      field('value', optional($.heredoc_body)),
-      seq($._new_line, field('end_tag', $.heredoc_end)),
+      choice(
+        seq(
+          field('value', $.heredoc_body),
+          $._new_line,
+          field('end_tag', $.heredoc_end),
+        ),
+        seq(
+          field('value', optional($.heredoc_body)),
+          field('end_tag', $.heredoc_end),
+        )
+      ),
     ),
 
-    _new_line: $ => token(/\r?\n/),
+    _new_line: $ => choice(token(/\r?\n/), token(/\r/)),
 
     nowdoc_body: $ => seq($._new_line,
       choice(

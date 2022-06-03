@@ -7200,46 +7200,84 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "heredoc_body"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        },
-        {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_new_line"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "value",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "heredoc_body"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_new_line"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "end_tag",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "heredoc_end"
+                  }
+                }
+              ]
             },
             {
-              "type": "FIELD",
-              "name": "end_tag",
-              "content": {
-                "type": "SYMBOL",
-                "name": "heredoc_end"
-              }
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "value",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "heredoc_body"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "end_tag",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "heredoc_end"
+                  }
+                }
+              ]
             }
           ]
         }
       ]
     },
     "_new_line": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "\\r?\\n"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r"
+          }
+        }
+      ]
     },
     "nowdoc_body": {
       "type": "SEQ",

@@ -725,6 +725,27 @@ EOL;
     /**/";
 EOL;
 
+<<<EOT
+hello
+ 
+world
+EOT;
+
+<<< EOF
+EOF;
+
+<<<EOT
+ \$
+EOT;
+
+<<< EOF
+E
+EOF;
+
+<<<EOF
+String with null byte   with lagging letters
+EOF;
+
 ---
 (program
   (php_tag)
@@ -885,13 +906,58 @@ EOL;
       ) 
       end_tag: (heredoc_end)
     )
-  ) 
+  )
   (expression_statement 
     (heredoc 
       identifier: (heredoc_start) 
       value: (heredoc_body 
         (string_value)
       ) 
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (heredoc
+      identifier: (heredoc_start)
+      value: (heredoc_body
+        (string_value)
+        (string_value)
+        (string_value)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (heredoc
+      identifier: (heredoc_start)
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (heredoc
+      identifier: (heredoc_start)
+      value: (heredoc_body
+        (string_value)
+        (escape_sequence)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (heredoc
+      identifier: (heredoc_start)
+      value: (heredoc_body
+        (string_value)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (heredoc
+      identifier: (heredoc_start)
+      value: (heredoc_body
+        (string_value)
+      )
       end_tag: (heredoc_end)
     )
   )
