@@ -26,7 +26,7 @@
 
 (call_expression 
     (member_expression 
-        property: (property_identifier) @name )) @reference.call
+        property: (identifier) @name )) @reference.call
 
 ;; Log emit
 (emit_statement name: (identifier) @name) @reference.class

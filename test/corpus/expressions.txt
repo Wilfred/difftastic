@@ -28,7 +28,7 @@ contract Example {
           (expression_statement
             (member_expression
               object: (identifier)
-              property: (property_identifier)))
+              property: (identifier)))
           (variable_declaration_statement
             (variable_declaration
               type: (type_name
@@ -227,10 +227,12 @@ contract Example {
             (call_expression
               function: (identifier)
               (call_argument
-                (identifier)
-                (identifier)
-                (identifier)
-                (identifier)))))))))
+                (call_struct_argument
+                  name: (identifier)
+                  value: (identifier))
+                (call_struct_argument
+                  name: (identifier)
+                  value: (identifier))))))))))
 
 ================================================================================
 Payable conversion
@@ -461,7 +463,7 @@ contract Example {
           (expression_statement
             (member_expression
               (identifier)
-              (property_identifier)))
+              (identifier)))
           (expression_statement
             (primitive_type)))))))
 
