@@ -1,10 +1,17 @@
 // NOTES
 //
-// - 0.0.9 (planning)
+// - 0.0.10 (possibly)
 //   - rename _form -> _lit
 //   - update tree-sitter and friends to latest
 //   - regenerate
 //   - test
+//
+//   0.0.9
+//   - misc doc updates
+//   - add corpus
+//   - add minimal highlighting queries
+//   - remove web-tree-sitter dependency
+//   - add binding.gyp
 //
 //   0.0.8
 //   - upgrade tree-sitter bits to 0.19.3
