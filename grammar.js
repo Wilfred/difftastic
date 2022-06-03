@@ -849,7 +849,7 @@ module.exports = grammar({
     ),
 
     unary_op_expression: $ => choice(
-      seq('@', $._expression),
+      prec(PREC.INC, seq('@', $._expression)),
       prec.left(PREC.NEG, seq(choice('+', '-', '~', '!'), $._expression))
     ),
 
