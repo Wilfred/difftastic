@@ -8,15 +8,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v3
-      - uses: ilammy/msvc-dev-cmd@v1
       - uses: actions/setup-node@v3
         with:
           node-version: 14
       - run: npm install
       - run: npm test
+  test_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: npx tree-sitter test
 
   racket:
     runs-on: ubuntu-latest
