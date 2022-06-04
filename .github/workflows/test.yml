@@ -18,13 +18,16 @@ jobs:
       - run: npm test
   test_windows:
     runs-on: windows-latest
+    env:
+      CC: cl
     steps:
       - uses: actions/checkout@v3
+      - uses: ilammy/msvc-dev-cmd@v1
       - uses: actions/setup-node@v3
         with:
           node-version: 14
       - run: npm install
-      - run: npx tree-sitter test
+      - run: npm test
 
   racket:
     runs-on: ubuntu-latest
