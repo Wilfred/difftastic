@@ -8,24 +8,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v2
         with:
-          node-version: 14
-      - run: npm install
-      - run: npm test
-  test_windows:
-    runs-on: windows-latest
-    env:
-      CC: cl
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ilammy/msvc-dev-cmd@v1
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
+          node-version: 16
       - run: npm install
       - run: npm test
 
@@ -35,7 +23,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
       - run: npm install
       - run: git clone https://github.com/racket/racket --depth 1
       - run: npx tree-sitter parse $(find racket -name '*.rkt' -type f -not -exec grep -q '#lang at-exp' {} \; -print) -qt
