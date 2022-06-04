@@ -11,6 +11,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v3
+      - uses: ilammy/msvc-dev-cmd@v1
       - uses: actions/setup-node@v3
         with:
           node-version: 14
