@@ -1,7 +1,3 @@
-#if __cplusplus < 201103L
-#error "You should have a C++11 compatible compiler."
-#endif
-
 #include <string>
 
 #include "tree_sitter/parser.h"
