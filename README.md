@@ -4,7 +4,7 @@
 
 Racket grammar for tree-sitter.
 
-This grammar only implements `#lang racket` or `#lang racket/base`.
+This grammar only implements the Racket language with the default readtable.
 
 ## Status
 
