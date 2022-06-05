@@ -2,6 +2,10 @@
 
 tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md) language
 
+## Try It Out
+
+Try the parser in the [playground](https://michahoffmann.github.io/tree-sitter-hcl/)
+
 ## Example
 
 Highlighting `example/example.hcl`:
@@ -30,3 +34,6 @@ Total parses: 1892; successful parses: 1892; failed parses: 0; success percentag
 
 See the [fuzzing repo for this parser](https://github.com/MichaHoffmann/tree-sitter-hcl-fuzz)
 
+## Attributions
+
+Pages were copied from https://github.com/m-novikov/tree-sitter-sql
