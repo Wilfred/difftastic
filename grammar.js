@@ -49,12 +49,12 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        LEAF.whitespace,
+        token(repeat1(LEAF.whitespace)),
         $._all_comment,
         $.extension,
         $._datum),
 
-    _skip: $ => choice(LEAF.whitespace, $._all_comment),
+    _skip: $ => choice(token(repeat1(LEAF.whitespace)), $._all_comment),
 
     dot: _ => ".",
 
@@ -138,7 +138,7 @@ module.exports = grammar({
         repeat(
           choice(
             $.escape_sequence,
-            /[^"\\]/)),
+            /[^"\\]+/)),
         '"'),
 
     escape_sequence: _ =>
