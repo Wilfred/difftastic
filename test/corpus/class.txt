@@ -730,3 +730,41 @@ class A {
         (property_element
           (variable_name
             (name)))))))
+
+================================================================================
+Constructor property promotion with readonly modifier
+================================================================================
+
+<?php
+class Point {
+    public function __construct(
+        public $x,
+        protected readonly $y,
+        private readonly int $z,
+    ) {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (php_tag)
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            name: (variable_name (name)))
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            readonly: (readonly_modifier)
+            name: (variable_name (name)))
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            readonly: (readonly_modifier)
+            type: (union_type (primitive_type))
+            name: (variable_name (name))))
+        body: (compound_statement)))))

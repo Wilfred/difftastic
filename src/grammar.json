@@ -2278,6 +2278,22 @@
         },
         {
           "type": "FIELD",
+          "name": "readonly",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "readonly_modifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
           "name": "type",
           "content": {
             "type": "CHOICE",

@@ -448,6 +448,7 @@ module.exports = grammar({
 
     property_promotion_parameter: $ => seq(
       field('visibility', $.visibility_modifier),
+      field('readonly', optional($.readonly_modifier)),
       field('type', optional($._type)), // Note: callable is not a valid type here, but instead of complicating the parser, we defer this checking to any intelligence using the parser
       field('name', $.variable_name),
       optional(seq(
