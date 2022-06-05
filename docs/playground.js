@@ -364,7 +364,7 @@ ${outputText}
     const queryParams = `title=${encodeURIComponent(
       title,
     )}&body=${encodeURIComponent(body)}`;
-    const url = `https://github.com/m-novikov/tree-sitter-sql/issues/new?${queryParams}`;
+    const url = `https://github.com/MichaHoffmann/tree-sitter-hcl/issues/new?${queryParams}`;
     window.open(url);
   }
 
