@@ -432,7 +432,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "embedded_brace_expression"
+                "name": "embedded_braced_expression"
               }
             ]
           }
@@ -460,147 +460,44 @@
         }
       ]
     },
-    "embedded_brace_expression": {
+    "embedded_braced_expression": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_embedded_brace_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
-    },
-    "_embedded_brace_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "TOKEN",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "{$"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*"
-                }
-              ]
-            }
-          },
-          "named": true,
-          "value": "variable"
-        },
         {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_embedded_brace_call_expression"
+            "name": "_embedded_opening_brace"
           },
-          "named": true,
-          "value": "call_expression"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_embedded_brace_subscript_expression"
-          },
-          "named": true,
-          "value": "subscript_expression"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_embedded_brace_selection_expression"
-          },
-          "named": true,
-          "value": "selection_expression"
-        }
-      ]
-    },
-    "_embedded_brace_call_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_embedded_brace_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "arguments"
-        }
-      ]
-    },
-    "_embedded_brace_subscript_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_embedded_brace_expression"
-        },
-        {
-          "type": "STRING",
-          "value": "["
+          "named": false,
+          "value": "{"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "variable"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "call_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "subscript_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "selection_expression"
             }
           ]
         },
         {
           "type": "STRING",
-          "value": "]"
+          "value": "}"
         }
       ]
-    },
-    "_embedded_brace_selection_expression": {
-      "type": "PREC",
-      "value": -1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_embedded_brace_expression"
-          },
-          {
-            "type": "FIELD",
-            "name": "selection_operator",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "?->"
-                },
-                {
-                  "type": "STRING",
-                  "value": "->"
-                }
-              ]
-            }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_variablish"
-          }
-        ]
-      }
     },
     "braced_expression": {
       "type": "SEQ",
@@ -8767,6 +8664,10 @@
     {
       "type": "SYMBOL",
       "name": "_heredoc_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_embedded_opening_brace"
     }
   ],
   "inline": [

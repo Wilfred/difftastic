@@ -150,35 +150,23 @@ const rules = {
       '<<<',
       $._heredoc_start,
       opt(alias($._heredoc_start_newline, '\n')),
-      rep(choice($._heredoc_body, $.variable, $.embedded_brace_expression)),
+      rep(choice($._heredoc_body, $.variable, $.embedded_braced_expression)),
       opt(alias($._heredoc_end_newline, '\n')),
       $._heredoc_end,
     ),
 
-  embedded_brace_expression: $ => seq($._embedded_brace_expression, '}'),
-
-  _embedded_brace_expression: $ =>
-    choice(
-      alias(token(seq('{$', identifier)), $.variable),
-      alias($._embedded_brace_call_expression, $.call_expression),
-      alias($._embedded_brace_subscript_expression, $.subscript_expression),
-      alias($._embedded_brace_selection_expression, $.selection_expression),
-    ),
-
-  _embedded_brace_call_expression: $ =>
-    seq($._embedded_brace_expression, $.arguments),
-
-  _embedded_brace_subscript_expression: $ =>
-    seq($._embedded_brace_expression, '[', opt($._expression), ']'),
-
-  _embedded_brace_selection_expression: $ =>
-    prec(
-      -1,
-      seq(
-        $._embedded_brace_expression,
-        field('selection_operator', choice('?->', '->')),
-        $._variablish,
+  embedded_braced_expression: $ =>
+    seq(
+      // Use an external scanner for the opening brace so we can restrict embedded braced
+      // expressions to ones that start with a $.variable.
+      alias($._embedded_opening_brace, '{'),
+      choice(
+        $.variable,
+        $.call_expression,
+        $.subscript_expression,
+        $.selection_expression,
       ),
+      '}',
     ),
 
   braced_expression: $ => seq('{', $._expression, '}'),
@@ -1250,6 +1238,7 @@ module.exports = grammar({
     $._heredoc_body,
     $._heredoc_end_newline,
     $._heredoc_end,
+    $._embedded_opening_brace,
   ],
 
   supertypes: $ => [

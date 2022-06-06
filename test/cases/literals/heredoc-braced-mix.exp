@@ -1,0 +1,26 @@
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
+        (variable))
+      (embedded_braced_expression
+        (selection_expression
+          (variable)
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)
+          (string)))
+      (embedded_braced_expression
+        (call_expression
+          function: (variable)
+          (arguments)))
+      (embedded_braced_expression
+        (call_expression
+          function: (variable)
+          (arguments
+            (argument
+              (string)))))
+      (embedded_braced_expression
+        (variable)))))
