@@ -165,11 +165,51 @@ EOF;
     (heredoc)))
 
 ==========================
-Heredoc brace
+Heredoc braced almost
 ==========================
 
 <<<EOF
-1{$var}2{$var}3{$var}4{$var}
+{$ var}
+{\$func("arg")}
+{map()->var}
+EOF;
+
+<<<EOF
+{C::$scoped}
+EOF;
+
+<<<EOF
+{ $var->func}
+EOF;
+
+<<<EOF
+$var["key"]}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable))))
+
+==========================
+Heredoc braced call
+==========================
+
+<<<EOF
+{$func()()}
+{$func()->var()}
+{$func()["key"]()}
+{$$()}
 EOF;
 
 ---
@@ -177,14 +217,231 @@ EOF;
 (script
   (expression_statement
     (heredoc
-      (embedded_brace_expression
+      (embedded_braced_expression
+        (call_expression
+          function: (call_expression
+            function: (variable)
+            (arguments))
+          (arguments)))
+      (embedded_braced_expression
+        (call_expression
+          function: (selection_expression
+            (call_expression
+              function: (variable)
+              (arguments))
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (embedded_braced_expression
+        (call_expression
+          function: (subscript_expression
+            (call_expression
+              function: (variable)
+              (arguments))
+            (string))
+          (arguments))))))
+
+==========================
+Heredoc braced mix
+==========================
+
+<<<EOF
+1{$var }{$var->func}
+{$var["key" ]}x {$func()}y
+x{$func("arg") } {$var}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
         (variable))
-      (embedded_brace_expression
-        (variable))
-      (embedded_brace_expression
-        (variable))
-      (embedded_brace_expression
+      (embedded_braced_expression
+        (selection_expression
+          (variable)
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)
+          (string)))
+      (embedded_braced_expression
+        (call_expression
+          function: (variable)
+          (arguments)))
+      (embedded_braced_expression
+        (call_expression
+          function: (variable)
+          (arguments
+            (argument
+              (string)))))
+      (embedded_braced_expression
         (variable)))))
+
+==========================
+Heredoc braced selection
+==========================
+
+<<<EOF
+{$var->var->var}
+{$var->var()->var}
+{$var->var->var()}
+{$var->var["key"]->var}
+{$var->var->var["key"]}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
+        (selection_expression
+          (selection_expression
+            (variable)
+            (qualified_identifier
+              (identifier)))
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (selection_expression
+          (call_expression
+            function: (selection_expression
+              (variable)
+              (qualified_identifier
+                (identifier)))
+            (arguments))
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (call_expression
+          function: (selection_expression
+            (selection_expression
+              (variable)
+              (qualified_identifier
+                (identifier)))
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (embedded_braced_expression
+        (selection_expression
+          (subscript_expression
+            (selection_expression
+              (variable)
+              (qualified_identifier
+                (identifier)))
+            (string))
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (subscript_expression
+          (selection_expression
+            (selection_expression
+              (variable)
+              (qualified_identifier
+                (identifier)))
+            (qualified_identifier
+              (identifier)))
+          (string))))))
+
+==========================
+Heredoc braced simple
+==========================
+
+<<<EOF
+{$var}
+{$var->func}
+{$var["key"]}
+{$func("arg")}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
+        (variable))
+      (embedded_braced_expression
+        (selection_expression
+          (variable)
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)
+          (string)))
+      (embedded_braced_expression
+        (call_expression
+          function: (variable)
+          (arguments
+            (argument
+              (string))))))))
+
+==========================
+Heredoc braced subscript
+==========================
+
+<<<EOF
+{$var[]}
+{$var["key"]}
+{$var["key"]()->var}
+{$var["key"]->var()}
+{$var["key"][$var]}
+{$var[$var->func()][$var()]}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)))
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)
+          (string)))
+      (embedded_braced_expression
+        (selection_expression
+          (call_expression
+            function: (subscript_expression
+              (variable)
+              (string))
+            (arguments))
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (call_expression
+          function: (selection_expression
+            (subscript_expression
+              (variable)
+              (string))
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (embedded_braced_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (string))
+          (variable)))
+      (embedded_braced_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (call_expression
+              function: (selection_expression
+                (variable)
+                (qualified_identifier
+                  (identifier)))
+              (arguments)))
+          (call_expression
+            function: (variable)
+            (arguments)))))))
 
 ==========================
 Heredoc concat

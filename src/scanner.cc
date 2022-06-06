@@ -74,14 +74,16 @@ enum TokenType {
   HEREDOC_BODY,
   HEREDOC_END_NEWLINE,
   HEREDOC_END,
+  EMBEDDED_OPENING_BRACE,
 };
 
 const char *TokenTypes[] = {
-    "HEREDOC_START",          //
-    "HEREDOC_START_NEWLINE",  //
-    "HEREDOC_BODY",           //
-    "HEREDOC_END_NEWLINE",    //
-    "HEREDOC_END",            //
+    "HEREDOC_START",           //
+    "HEREDOC_START_NEWLINE",   //
+    "HEREDOC_BODY",            //
+    "HEREDOC_END_NEWLINE",     //
+    "HEREDOC_END",             //
+    "EMBEDDED_OPENING_BRACE",  //
 };
 
 static string str(int32_t chr) {
@@ -142,9 +144,11 @@ struct Scanner {
     if (expected[HEREDOC_BODY]) print("%s ", TokenTypes[HEREDOC_BODY]);
     if (expected[HEREDOC_END_NEWLINE]) print("%s ", TokenTypes[HEREDOC_END_NEWLINE]);
     if (expected[HEREDOC_END]) print("%s ", TokenTypes[HEREDOC_END]);
+    if (expected[EMBEDDED_OPENING_BRACE]) print("%s ", TokenTypes[EMBEDDED_OPENING_BRACE]);
     print("\n");
 
-    if (expected[HEREDOC_BODY] || expected[HEREDOC_END]) {
+    if ((expected[HEREDOC_BODY] || expected[HEREDOC_END] || expected[EMBEDDED_OPENING_BRACE]) &&
+        !delimiter.empty()) {
       return scan_body(lexer);
     }
 
@@ -240,7 +244,21 @@ struct Scanner {
 
       if ((peek() == '{' || peek() == '$') && !is_nowdoc) {
         stop();
-        if (peek() == '{') next();
+
+        if (peek() == '{') {
+          next();
+
+          if (peek() == '$' && !did_advance) {
+            stop();
+            next();
+
+            if (is_identifier_start_char(peek())) {
+              set(EMBEDDED_OPENING_BRACE);
+              ret("scan_body", true);
+            }
+          }
+        }
+
         if (peek() == '$') {
           next();
 
