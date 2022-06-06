@@ -24,14 +24,6 @@
         "named": true
       },
       {
-        "type": "package_clause",
-        "named": true
-      },
-      {
-        "type": "package_object",
-        "named": true
-      },
-      {
         "type": "trait_definition",
         "named": true
       },
@@ -902,6 +894,14 @@
       "types": [
         {
           "type": "_definition",
+          "named": true
+        },
+        {
+          "type": "package_clause",
+          "named": true
+        },
+        {
+          "type": "package_object",
           "named": true
         }
       ]
@@ -2060,6 +2060,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "_definition",
+          "named": true
+        },
         {
           "type": "bindings",
           "named": true
