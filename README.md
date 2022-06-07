@@ -6,7 +6,11 @@ Scheme grammar for tree-sitter.
 
 ## Status
 
-tree-sitter-scheme should work on a superset of Scheme.
+~~tree-sitter-scheme should work on a superset of Scheme.~~
+
+The Scheme with many extensions will more close to [Racket](https://racket-lang.org/).
+
+The support of implementation specific extensions may be delayed.
 
 The standards are expected to support:
 
@@ -14,6 +18,7 @@ The standards are expected to support:
 * [x] R6RS
 * [ ] Implementation specific extensions
   * [ ] Chez Scheme ([#1](https://github.com/6cdh/tree-sitter-scheme/issues/1))
+  * [ ] Chicken Scheme ([#3](https://github.com/6cdh/tree-sitter-scheme/issues/3))
 
 ## TODO
 
