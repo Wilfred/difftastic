@@ -17,6 +17,17 @@ jobs:
       - run: npm install
       - run: npm test
 
+  chez:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: git clone --depth 1 https://github.com/cisco/ChezScheme.git
+      - run: npx tree-sitter parse $(find ./ChezScheme -type f -name "*.scm" -o -name "*.ss" -not -exec grep -q -e '<<' -e '(#' -e '#{' -e '(\\' {} \; -print) -q
+
   sicp:
     runs-on: ubuntu-latest
     steps:
