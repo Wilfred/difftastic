@@ -25,4 +25,5 @@ bool tree_sitter_gleam_external_scanner_scan(void * payload, TSLexer *lexer, con
     lexer->result_symbol = QUOTED_CONTENT;
     return has_content;
   }
+  return false;
 }
