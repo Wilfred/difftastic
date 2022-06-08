@@ -10,6 +10,7 @@ const a = 0o7224
 const a = 0xBEef
 const a: Int = 1234
 const a: Float = -1_234.53__23
+const a: Float = 0.
 const a: #(Int, String) = #(1, "Hello!")
 const a: #() = #()
 const a: List(Int) = [1, 2]
@@ -56,6 +57,11 @@ const a: option.Option(String) = option.Some("Hello, World!")
     type: (type
       name: (type_identifier))
     value: (integer))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (float))
   (constant
     name: (identifier)
     type: (type
