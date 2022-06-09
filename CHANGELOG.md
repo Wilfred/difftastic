@@ -1,6 +1,9 @@
 ## 0.30 (unreleased)
 
-## 0.29 (release 9th June 2022)
+## 0.29 (released 9th June 2022)
+
+Performance has improved in 0.29, and larger files typically see a 30%
+reduction in runtime.
 
 ### Parsing
 
