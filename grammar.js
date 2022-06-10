@@ -31,8 +31,6 @@ module.exports = grammar({
     [$.column_declaration, $.type_declaration],
     [$.assignment_pattern, $.assignment_expression],
     [$.comment, $.developer_comment],
-    // [$._expression, $._attr_expression],
-    // [$._attr_expression, $._constructable_expression],
   ],
 
   rules: {
@@ -47,7 +45,6 @@ module.exports = grammar({
     model_declaration: $ => prec(10, seq(
       'model',
       $.identifier,
-      // field('body', $.statement_block)
       $.statement_block,
     )),
 
