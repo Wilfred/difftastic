@@ -24,6 +24,7 @@ const PREC = {
     INC: 11,
     CALL: 12,
     NEW: 13,
+    REVERT: 14,
     MEMBER: 1
 }
 
@@ -542,7 +543,7 @@ module.exports = grammar({
         continue_statement: $ => seq('continue', $._semicolon),
         break_statement: $ => seq('break', $._semicolon),
         
-        revert_statement: $ => prec(1, seq(
+        revert_statement: $ => prec(PREC.REVERT, seq(
             'revert',
             optional(field("error", $._expression)), 
             optional(alias($._call_arguments, $.revert_arguments)),
@@ -860,10 +861,10 @@ module.exports = grammar({
             field('right', $._expression)
         )),
 
-        call_expression: $ => seq(
+        call_expression: $ => prec.right(PREC.CALL, seq(
             field("function", $._expression),
             $._call_arguments
-        ),
+        )),
 
         payable_conversion_expression: $ => seq('payable', $._call_arguments),
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),

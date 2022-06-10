@@ -286,6 +286,55 @@ contract Example {
               argument: (identifier))))))))
 
 ================================================================================
+call and unary
+================================================================================
+
+contract Example {
+    function example() {
+        !call();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (unary_expression
+              argument: (call_expression
+                    function: (identifier)))))))))
+
+================================================================================
+call and binary
+================================================================================
+
+contract Example {
+    function example() {
+        value == call();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (binary_expression
+                  left: (identifier)
+                  right: (call_expression
+                    function: (identifier)))))))))
+
+================================================================================
 Boolean logic
 ================================================================================
 
