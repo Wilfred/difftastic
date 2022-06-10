@@ -278,3 +278,40 @@ model Post {
     )
   )
 )
+
+===============================
+Models with special names
+===============================
+
+model my-model {
+}
+
+model -my-model {
+}
+
+model _my-model {
+}
+
+model _MY_MODEL {
+}
+
+---
+
+(program
+  (model_declaration
+    (identifier)
+    (statement_block)
+  )
+  (model_declaration
+    (identifier)
+    (statement_block)
+  )
+  (model_declaration
+    (identifier)
+    (statement_block)
+  )
+  (model_declaration
+    (identifier)
+    (statement_block)
+  )
+)
