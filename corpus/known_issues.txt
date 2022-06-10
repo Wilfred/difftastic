@@ -1,0 +1,54 @@
+=================================================
+Handles Invalid Column Declaration
+=================================================
+
+model User {
+}
+id  Int
+
+---
+
+(program
+  (model_declaration
+    (identifier)
+    (statement_block
+        (ERROR)
+        (column_declaration
+            (identifier)
+            (column_type
+                (identifier)
+            )
+        )
+        (MISSING "}")
+    )
+  )
+)
+
+=================================================
+Handles Invalid Column Declaration with Attribute
+=================================================
+
+model User {
+}
+id  Int  @id
+
+---
+
+(program
+  (model_declaration
+    (identifier)
+    (statement_block
+        (ERROR)
+        (column_declaration
+            (identifier)
+            (column_type
+                (identifier)
+            )
+            (attribute
+                (identifier)
+            )
+        )
+        (MISSING "}")
+    )
+  )
+)

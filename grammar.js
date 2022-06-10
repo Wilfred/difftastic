@@ -23,6 +23,10 @@ module.exports = grammar({
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
 
+  precedences: $ => [
+    ['declaration', $.statement_block],
+  ],
+
   conflicts: $ => [
     [$.column_declaration, $.type_declaration],
     [$.assignment_pattern, $.assignment_expression],
@@ -38,17 +42,17 @@ module.exports = grammar({
       $.statement_block,
     ),
 
-    model_declaration: $ => seq(
+    model_declaration: $ => prec(10, seq(
       'model',
       $.identifier,
       $.statement_block,
-    ),
+    )),
 
-    generator_declaration: $ => seq(
+    generator_declaration: $ => prec(10, seq(
       'generator',
       $.identifier,
       $.statement_block,
-    ),
+    )),
 
     type_declaration: $ => prec(PREC.MEMBER, seq(
       'type',
@@ -82,22 +86,24 @@ module.exports = grammar({
       seq('///', /.*/),
     )),
 
-    statement_block: $ => prec.right(seq(
+    statement_block: $ => seq(
       '{',
-      repeat($._statement),
+      optional(
+        repeat(
+          choice(
+            $.column_declaration,
+            $.assignment_expression,
+            $.block_attribute_declaration,
+          )
+        )
+      ),
       '}'
-    )),
+    ),
 
-    enum_block: $ => prec.right(seq(
+    enum_block: $ => seq(
       '{',
       repeat($.enumeral),
       '}'
-    )),
-
-    _statement: $ => choice(
-      $.column_declaration,
-      $.block_attribute_declaration,
-      $.assignment_expression,
     ),
 
     column_declaration: $ => seq(
@@ -235,7 +241,8 @@ module.exports = grammar({
       $.binary_expression,
     ),
 
-    identifier: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
+    identifier: $ => /[a-zA-Z_\-][a-zA-Z0-9_\-]*/,
+
     string: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),
       seq('"', /([^"\n]|\\(.|\n))*/, '"')

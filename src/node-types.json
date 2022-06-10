@@ -632,11 +632,6 @@
     }
   },
   {
-    "type": "enumeral",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "formal_parameters",
     "named": true,
     "fields": {},
@@ -681,11 +676,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "identifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "member_expression",
@@ -759,11 +749,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "property_identifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "statement_block",
@@ -927,11 +912,6 @@
     }
   },
   {
-    "type": "variable",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "!=",
     "named": false
   },
@@ -1064,12 +1044,20 @@
     "named": false
   },
   {
+    "type": "enumeral",
+    "named": true
+  },
+  {
     "type": "false",
     "named": true
   },
   {
     "type": "generator",
     "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
   },
   {
     "type": "model",
@@ -1084,6 +1072,10 @@
     "named": true
   },
   {
+    "type": "property_identifier",
+    "named": true
+  },
+  {
     "type": "string",
     "named": true
   },
@@ -1094,6 +1086,10 @@
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "variable",
+    "named": true
   },
   {
     "type": "{",
