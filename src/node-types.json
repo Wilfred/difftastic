@@ -439,23 +439,7 @@
       "required": true,
       "types": [
         {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "false",
           "named": true
         },
         {
@@ -464,26 +448,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_expression",
           "named": true
         }
       ]
@@ -573,6 +537,10 @@
       "types": [
         {
           "type": "array",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {

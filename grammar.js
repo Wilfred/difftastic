@@ -29,6 +29,7 @@ module.exports = grammar({
 
   inline: $ => [
     $._expression,
+    $._attribute_expression,
     $._call_signature,
     $._formal_parameter,
     $._constructable_expression,
@@ -186,7 +187,7 @@ module.exports = grammar({
     )),
 
     column_type: $ => seq(
-      $.identifier,
+      choice($.identifier, $.call_expression),
       optional(/\?/),
       optional($.array),
     ),
@@ -204,16 +205,12 @@ module.exports = grammar({
 
     attribute: $ => seq(
       '@',
-      choice(
-        $.identifier,
-        $.call_expression,
-        $.member_expression
-      ),
+      $._attribute_expression,
     ),
 
     block_attribute_declaration: $ => seq(
       '@@',
-      $._expression,
+      $._attribute_expression,
     ),
 
     arguments: $ => seq(
@@ -239,6 +236,12 @@ module.exports = grammar({
       $.string,
       $.array,
       $.assignment_pattern,
+    ),
+
+    _attribute_expression: $ => choice(
+      $.identifier,
+      $.call_expression,
+      $.member_expression
     ),
 
     _expression: $ => choice(

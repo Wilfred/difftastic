@@ -1000,8 +1000,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "call_expression"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -1071,21 +1080,8 @@
           "value": "@"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "call_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "member_expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_attribute_expression"
         }
       ]
     },
@@ -1098,7 +1094,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_attribute_expression"
         }
       ]
     },
@@ -1246,6 +1242,23 @@
         {
           "type": "SYMBOL",
           "name": "assignment_pattern"
+        }
+      ]
+    },
+    "_attribute_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "call_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "member_expression"
         }
       ]
     },
@@ -1494,6 +1507,7 @@
   "externals": [],
   "inline": [
     "_expression",
+    "_attribute_expression",
     "_call_signature",
     "_formal_parameter",
     "_constructable_expression",

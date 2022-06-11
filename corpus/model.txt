@@ -8,6 +8,8 @@ model User {
   posts      Post?[]
   type       String
   number     Int?
+  circle     Unsupported("circle")?
+  square     Unsupported("square")[]
 }
 
 ---
@@ -44,6 +46,29 @@ model User {
         (identifier)
         (column_type
           (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+          (array)
         )
       )
     )
@@ -135,6 +160,73 @@ model User {
           (member_expression
             (identifier)
             (property_identifier)
+          )
+        )
+      )
+    )
+  )
+)
+
+============================
+Model with complex attribute
+============================
+
+model User {
+  id         Number                   @id @default(sequence(maxValue: 4294967295))
+  circle     Unsupported("circle")?   @default(dbgenerated("'<(10,4),11>'::circle"))
+}
+
+---
+
+(program
+  (model_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments
+                  (type_expression
+                    (identifier)
+                    (number)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments
+                  (string)
+                )
+              )
+            )
           )
         )
       )
