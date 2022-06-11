@@ -72,6 +72,9 @@ module.exports = grammar({
       seq(
         choice(
           $.pg_command,
+          $.begin_statement,
+          $.commit_statement,
+          $.rollback_statement,
           $.select_statement,
           $.update_statement,
           $.set_statement,
@@ -91,6 +94,13 @@ module.exports = grammar({
         ),
         optional(";"),
       ),
+
+    begin_statement: $ =>
+      seq(kw("BEGIN"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
+    commit_statement: $ =>
+      seq(kw("COMMIT"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
+    rollback_statement: $ =>
+      seq(kw("ROLLBACK"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
 
     create_statement: $ =>
       seq(

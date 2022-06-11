@@ -20,6 +20,18 @@
             },
             {
               "type": "SYMBOL",
+              "name": "begin_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "commit_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "rollback_statement"
+            },
+            {
+              "type": "SYMBOL",
               "name": "select_statement"
             },
             {
@@ -90,6 +102,141 @@
             {
               "type": "STRING",
               "value": ";"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "begin_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[bB][eE][gG][iI][nN]"
+          },
+          "named": false,
+          "value": "BEGIN"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[wW][oO][rR][kK]"
+                  },
+                  "named": false,
+                  "value": "WORK"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[tT][rR][aA][nN][sS][aA][cC][tT][iI][oO][nN]"
+                  },
+                  "named": false,
+                  "value": "TRANSACTION"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "commit_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[cC][oO][mM][mM][iI][tT]"
+          },
+          "named": false,
+          "value": "COMMIT"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[wW][oO][rR][kK]"
+                  },
+                  "named": false,
+                  "value": "WORK"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[tT][rR][aA][nN][sS][aA][cC][tT][iI][oO][nN]"
+                  },
+                  "named": false,
+                  "value": "TRANSACTION"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "rollback_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[rR][oO][lL][lL][bB][aA][cC][kK]"
+          },
+          "named": false,
+          "value": "ROLLBACK"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[wW][oO][rR][kK]"
+                  },
+                  "named": false,
+                  "value": "WORK"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[tT][rR][aA][nN][sS][aA][cC][tT][iI][oO][nN]"
+                  },
+                  "named": false,
+                  "value": "TRANSACTION"
+                }
+              ]
             },
             {
               "type": "BLANK"

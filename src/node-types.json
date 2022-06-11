@@ -672,6 +672,11 @@
     "fields": {}
   },
   {
+    "type": "begin_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {
@@ -1339,6 +1344,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "commit_statement",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "constrained_type",
@@ -3389,6 +3399,11 @@
     }
   },
   {
+    "type": "rollback_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "select_clause",
     "named": true,
     "fields": {},
@@ -3720,6 +3735,14 @@
           "named": true
         },
         {
+          "type": "begin_statement",
+          "named": true
+        },
+        {
+          "type": "commit_statement",
+          "named": true
+        },
+        {
           "type": "create_domain_statement",
           "named": true
         },
@@ -3769,6 +3792,10 @@
         },
         {
           "type": "pg_command",
+          "named": true
+        },
+        {
+          "type": "rollback_statement",
           "named": true
         },
         {
@@ -4750,6 +4777,10 @@
     "named": false
   },
   {
+    "type": "BEGIN",
+    "named": false
+  },
+  {
     "type": "BY",
     "named": false
   },
@@ -4771,6 +4802,10 @@
   },
   {
     "type": "COLUMN",
+    "named": false
+  },
+  {
+    "type": "COMMIT",
     "named": false
   },
   {
@@ -5054,6 +5089,10 @@
     "named": false
   },
   {
+    "type": "ROLLBACK",
+    "named": false
+  },
+  {
     "type": "SAFE",
     "named": false
   },
@@ -5126,6 +5165,10 @@
     "named": false
   },
   {
+    "type": "TRANSACTION",
+    "named": false
+  },
+  {
     "type": "TRIGGER",
     "named": false
   },
@@ -5187,6 +5230,10 @@
   },
   {
     "type": "WITH_GRANT_OPTION",
+    "named": false
+  },
+  {
+    "type": "WORK",
     "named": false
   },
   {
