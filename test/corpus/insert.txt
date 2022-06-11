@@ -3,6 +3,7 @@ INSERT statement
 ================================================================================
 
 INSERT INTO table1 VALUES (1, 'test')
+INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
 
 --------------------------------------------------------------------------------
 
@@ -12,4 +13,16 @@ INSERT INTO table1 VALUES (1, 'test')
     (values_clause
       (values_clause_body
         (number)
-        (string)))))
+        (string))))
+  (insert_statement
+    (identifier)
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (asterisk_expression)))
+      (from_clause
+        (function_call
+          (identifier)
+          (number)
+          (number)
+          (number))))))

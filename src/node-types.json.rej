@@ -1,0 +1,819 @@
+diff a/src/node-types.json b/src/node-types.json	(rejected hunks)
+@@ -701,17 +721,342 @@
+         {
+           "type": "type_cast",
+           "named": true
++        },
++        {
++          "type": "unary_expression",
++          "named": true
+         }
+       ]
+     }
+   },
+   {
+-    "type": "auto_increment_constraint",
++    "type": "auto_increment_constraint",
++    "named": true,
++    "fields": {}
++  },
++  {
++    "type": "binary_expression",
++    "named": true,
++    "fields": {
++      "left": {
++        "multiple": true,
++        "required": true,
++        "types": [
++          {
++            "type": "\"",
++            "named": false
++          },
++          {
++            "type": "(",
++            "named": false
++          },
++          {
++            "type": ")",
++            "named": false
++          },
++          {
++            "type": "FALSE",
++            "named": true
++          },
++          {
++            "type": "NULL",
++            "named": true
++          },
++          {
++            "type": "TRUE",
++            "named": true
++          },
++          {
++            "type": "`",
++            "named": false
++          },
++          {
++            "type": "argument_reference",
++            "named": true
++          },
++          {
++            "type": "array_element_access",
++            "named": true
++          },
++          {
++            "type": "asterisk_expression",
++            "named": true
++          },
++          {
++            "type": "at_time_zone_expression",
++            "named": true
++          },
++          {
++            "type": "binary_expression",
++            "named": true
++          },
++          {
++            "type": "boolean_expression",
++            "named": true
++          },
++          {
++            "type": "conditional_expression",
++            "named": true
++          },
++          {
++            "type": "dotted_name",
++            "named": true
++          },
++          {
++            "type": "function_call",
++            "named": true
++          },
++          {
++            "type": "identifier",
++            "named": true
++          },
++          {
++            "type": "in_expression",
++            "named": true
++          },
++          {
++            "type": "interval_expression",
++            "named": true
++          },
++          {
++            "type": "is_expression",
++            "named": true
++          },
++          {
++            "type": "json_access",
++            "named": true
++          },
++          {
++            "type": "number",
++            "named": true
++          },
++          {
++            "type": "select_subexpression",
++            "named": true
++          },
++          {
++            "type": "string",
++            "named": true
++          },
++          {
++            "type": "type_cast",
++            "named": true
++          },
++          {
++            "type": "unary_expression",
++            "named": true
++          }
++        ]
++      },
++      "operator": {
++        "multiple": false,
++        "required": true,
++        "types": [
++          {
++            "type": "!~",
++            "named": false
++          },
++          {
++            "type": "!~*",
++            "named": false
++          },
++          {
++            "type": "#",
++            "named": false
++          },
++          {
++            "type": "%",
++            "named": false
++          },
++          {
++            "type": "&",
++            "named": false
++          },
++          {
++            "type": "*",
++            "named": false
++          },
++          {
++            "type": "+",
++            "named": false
++          },
++          {
++            "type": "-",
++            "named": false
++          },
++          {
++            "type": "/",
++            "named": false
++          },
++          {
++            "type": "<",
++            "named": false
++          },
++          {
++            "type": "<<",
++            "named": false
++          },
++          {
++            "type": "<=",
++            "named": false
++          },
++          {
++            "type": "<>",
++            "named": false
++          },
++          {
++            "type": "=",
++            "named": false
++          },
++          {
++            "type": ">",
++            "named": false
++          },
++          {
++            "type": ">=",
++            "named": false
++          },
++          {
++            "type": ">>",
++            "named": false
++          },
++          {
++            "type": "^",
++            "named": false
++          },
++          {
++            "type": "|",
++            "named": false
++          },
++          {
++            "type": "~",
++            "named": false
++          },
++          {
++            "type": "~*",
++            "named": false
++          }
++        ]
++      },
++      "right": {
++        "multiple": true,
++        "required": true,
++        "types": [
++          {
++            "type": "\"",
++            "named": false
++          },
++          {
++            "type": "(",
++            "named": false
++          },
++          {
++            "type": ")",
++            "named": false
++          },
++          {
++            "type": "FALSE",
++            "named": true
++          },
++          {
++            "type": "NULL",
++            "named": true
++          },
++          {
++            "type": "TRUE",
++            "named": true
++          },
++          {
++            "type": "`",
++            "named": false
++          },
++          {
++            "type": "argument_reference",
++            "named": true
++          },
++          {
++            "type": "array_element_access",
++            "named": true
++          },
++          {
++            "type": "asterisk_expression",
++            "named": true
++          },
++          {
++            "type": "at_time_zone_expression",
++            "named": true
++          },
++          {
++            "type": "binary_expression",
++            "named": true
++          },
++          {
++            "type": "boolean_expression",
++            "named": true
++          },
++          {
++            "type": "conditional_expression",
++            "named": true
++          },
++          {
++            "type": "dotted_name",
++            "named": true
++          },
++          {
++            "type": "function_call",
++            "named": true
++          },
++          {
++            "type": "identifier",
++            "named": true
++          },
++          {
++            "type": "in_expression",
++            "named": true
++          },
++          {
++            "type": "interval_expression",
++            "named": true
++          },
++          {
++            "type": "is_expression",
++            "named": true
++          },
++          {
++            "type": "json_access",
++            "named": true
++          },
++          {
++            "type": "number",
++            "named": true
++          },
++          {
++            "type": "select_subexpression",
++            "named": true
++          },
++          {
++            "type": "string",
++            "named": true
++          },
++          {
++            "type": "type_cast",
++            "named": true
++          },
++          {
++            "type": "unary_expression",
++            "named": true
++          }
++        ]
++      }
++    }
++  },
++  {
++    "type": "binary_operator",
+     "named": true,
+     "fields": {}
+   },
+   {
+-    "type": "binary_expression",
++    "type": "boolean_expression",
+     "named": true,
+     "fields": {},
+     "children": {
+@@ -801,105 +1146,9 @@
+         {
+           "type": "type_cast",
+           "named": true
+-        }
+-      ]
+-    }
+-  },
+-  {
+-    "type": "binary_operator",
+-    "named": true,
+-    "fields": {}
+-  },
+-  {
+-    "type": "boolean_expression",
+-    "named": true,
+-    "fields": {},
+-    "children": {
+-      "multiple": true,
+-      "required": false,
+-      "types": [
+-        {
+-          "type": "FALSE",
+-          "named": true
+-        },
+-        {
+-          "type": "NULL",
+-          "named": true
+-        },
+-        {
+-          "type": "TRUE",
+-          "named": true
+-        },
+-        {
+-          "type": "argument_reference",
+-          "named": true
+-        },
+-        {
+-          "type": "array_element_access",
+-          "named": true
+-        },
+-        {
+-          "type": "asterisk_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "at_time_zone_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "binary_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "boolean_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "comparison_operator",
+-          "named": true
+-        },
+-        {
+-          "type": "dotted_name",
+-          "named": true
+-        },
+-        {
+-          "type": "function_call",
+-          "named": true
+-        },
+-        {
+-          "type": "identifier",
+-          "named": true
+-        },
+-        {
+-          "type": "in_expression",
+-          "named": true
+         },
+         {
+-          "type": "interval_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "is_expression",
+-          "named": true
+-        },
+-        {
+-          "type": "json_access",
+-          "named": true
+-        },
+-        {
+-          "type": "number",
+-          "named": true
+-        },
+-        {
+-          "type": "select_subexpression",
+-          "named": true
+-        },
+-        {
+-          "type": "string",
+-          "named": true
+-        },
+-        {
+-          "type": "type_cast",
++          "type": "unary_expression",
+           "named": true
+         }
+       ]
+@@ -1186,45 +1443,18 @@
+         {
+           "type": "type_cast",
+           "named": true
++        },
++        {
++          "type": "unary_expression",
++          "named": true
+         }
+       ]
+     }
+   },
+   {
+-    "type": "comparison_operator",
++    "type": "conditional_expression",
+     "named": true,
+-    "fields": {
+-      "operator": {
+-        "multiple": false,
+-        "required": true,
+-        "types": [
+-          {
+-            "type": "<",
+-            "named": false
+-          },
+-          {
+-            "type": "<=",
+-            "named": false
+-          },
+-          {
+-            "type": "<>",
+-            "named": false
+-          },
+-          {
+-            "type": "=",
+-            "named": false
+-          },
+-          {
+-            "type": ">",
+-            "named": false
+-          },
+-          {
+-            "type": ">=",
+-            "named": false
+-          }
+-        ]
+-      }
+-    },
++    "fields": {},
+     "children": {
+       "multiple": true,
+       "required": false,
+@@ -1927,36 +2185,9 @@
+         {
+           "type": "type_cast",
+           "named": true
+-        }
+-      ]
+-    }
+-  },
+-  {
+-    "type": "dml_statement",
+-    "named": true,
+-    "fields": {},
+-    "children": {
+-      "multiple": true,
+-      "required": true,
+-      "types": [
+-        {
+-          "type": "cte",
+-          "named": true
+-        },
+-        {
+-          "type": "delete_statement",
+-          "named": true
+-        },
+-        {
+-          "type": "insert_statement",
+-          "named": true
+-        },
+-        {
+-          "type": "select_statement",
+-          "named": true
+         },
+         {
+-          "type": "update_statement",
++          "type": "unary_expression",
+           "named": true
+         }
+       ]
+@@ -3577,6 +3856,10 @@
+       "multiple": true,
+       "required": true,
+       "types": [
++        {
++          "type": "cte",
++          "named": true
++        },
+         {
+           "type": "from_clause",
+           "named": true
+@@ -3835,7 +4122,7 @@
+           "named": true
+         },
+         {
+-          "type": "dml_statement",
++          "type": "delete_statement",
+           "named": true
+         },
+         {
+@@ -3846,13 +4133,25 @@
+           "type": "grant_statement",
+           "named": true
+         },
++        {
++          "type": "insert_statement",
++          "named": true
++        },
+         {
+           "type": "pg_command",
+           "named": true
+         },
++        {
++          "type": "select_statement",
++          "named": true
++        },
+         {
+           "type": "set_statement",
+           "named": true
++        },
++        {
++          "type": "update_statement",
++          "named": true
+         }
+       ]
+     }
+@@ -4266,10 +4560,168 @@
+         {
+           "type": "type_cast",
+           "named": true
++        },
++        {
++          "type": "unary_expression",
++          "named": true
+         }
+       ]
+     }
+   },
++  {
++    "type": "unary_expression",
++    "named": true,
++    "fields": {
++      "operand": {
++        "multiple": true,
++        "required": true,
++        "types": [
++          {
++            "type": "\"",
++            "named": false
++          },
++          {
++            "type": "(",
++            "named": false
++          },
++          {
++            "type": ")",
++            "named": false
++          },
++          {
++            "type": "FALSE",
++            "named": true
++          },
++          {
++            "type": "NULL",
++            "named": true
++          },
++          {
++            "type": "TRUE",
++            "named": true
++          },
++          {
++            "type": "`",
++            "named": false
++          },
++          {
++            "type": "argument_reference",
++            "named": true
++          },
++          {
++            "type": "array_element_access",
++            "named": true
++          },
++          {
++            "type": "asterisk_expression",
++            "named": true
++          },
++          {
++            "type": "at_time_zone_expression",
++            "named": true
++          },
++          {
++            "type": "binary_expression",
++            "named": true
++          },
++          {
++            "type": "boolean_expression",
++            "named": true
++          },
++          {
++            "type": "conditional_expression",
++            "named": true
++          },
++          {
++            "type": "dotted_name",
++            "named": true
++          },
++          {
++            "type": "function_call",
++            "named": true
++          },
++          {
++            "type": "identifier",
++            "named": true
++          },
++          {
++            "type": "in_expression",
++            "named": true
++          },
++          {
++            "type": "interval_expression",
++            "named": true
++          },
++          {
++            "type": "is_expression",
++            "named": true
++          },
++          {
++            "type": "json_access",
++            "named": true
++          },
++          {
++            "type": "number",
++            "named": true
++          },
++          {
++            "type": "select_subexpression",
++            "named": true
++          },
++          {
++            "type": "string",
++            "named": true
++          },
++          {
++            "type": "type_cast",
++            "named": true
++          },
++          {
++            "type": "unary_expression",
++            "named": true
++          }
++        ]
++      },
++      "operator": {
++        "multiple": false,
++        "required": true,
++        "types": [
++          {
++            "type": "!",
++            "named": false
++          },
++          {
++            "type": "!!",
++            "named": false
++          },
++          {
++            "type": "+",
++            "named": false
++          },
++          {
++            "type": "-",
++            "named": false
++          },
++          {
++            "type": "@",
++            "named": false
++          },
++          {
++            "type": "|/",
++            "named": false
++          },
++          {
++            "type": "||/",
++            "named": false
++          },
++          {
++            "type": "~",
++            "named": false
++          }
++        ]
++      }
++    }
++  },
+   {
+     "type": "unique",
+     "named": true,
+@@ -4302,6 +4754,10 @@
+       "multiple": true,
+       "required": true,
+       "types": [
++        {
++          "type": "cte",
++          "named": true
++        },
+         {
+           "type": "from_clause",
+           "named": true
+@@ -4538,14 +4998,38 @@
+         {
+           "type": "type_cast",
+           "named": true
++        },
++        {
++          "type": "unary_expression",
++          "named": true
+         }
+       ]
+     }
+   },
++  {
++    "type": "!",
++    "named": false
++  },
++  {
++    "type": "!!",
++    "named": false
++  },
++  {
++    "type": "!~",
++    "named": false
++  },
++  {
++    "type": "!~*",
++    "named": false
++  },
+   {
+     "type": "\"",
+     "named": false
+   },
++  {
++    "type": "#",
++    "named": false
++  },
+   {
+     "type": "#>",
+     "named": false
+@@ -4590,6 +5082,10 @@
+     "type": ",",
+     "named": false
+   },
++  {
++    "type": "-",
++    "named": false
++  },
+   {
+     "type": "->",
+     "named": false
