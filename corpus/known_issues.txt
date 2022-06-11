@@ -58,7 +58,7 @@ id  Int  @id @default(autoincrement())
   (ERROR
     (UNEXPECTED 'i')
     (UNEXPECTED 'i')
-    (UNEXPECTED 'd')
+    (UNEXPECTED 'e')
     (UNEXPECTED 'a')
   )
 )
