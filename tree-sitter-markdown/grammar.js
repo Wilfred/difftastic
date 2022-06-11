@@ -136,16 +136,16 @@ module.exports = grammar({
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._line)),
         info_string: $ => choice( // TODO: character references
-            seq($.language, repeat(choice($._line, $.backslash_escape))),
+            seq($.language, repeat(choice($._line, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
             seq(
                 repeat1(choice('{', '}')),
                 optional(choice(
-                    seq($.language, repeat(choice($._line, $.backslash_escape))),
-                    seq($._whitespace, repeat(choice($._line, $.backslash_escape))),
+                    seq($.language, repeat(choice($._line, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
+                    seq($._whitespace, repeat(choice($._line, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
                 ))
             )
         ),
-        language: $ => prec.right(repeat1(choice($._word, punctuation_without($, ['{', '}']), $.backslash_escape))),
+        language: $ => prec.right(repeat1(choice($._word, punctuation_without($, ['{', '}']), $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
 
         // An HTML block. We do not emit addition nodes relating to the kind or structure or of the
         // html block as this is best done using language injections and a proper html parsers.
@@ -243,8 +243,6 @@ module.exports = grammar({
             ))),
             $._newline,
         )),
-        // TODO: Have common rules
-        // TODO: character references
         _link_text_non_empty: $ => seq('[', alias(repeat1(choice(
             $._word,
             $._whitespace,
@@ -256,10 +254,12 @@ module.exports = grammar({
             punctuation_without($, ['[', ']']),
             $._whitespace,
             $.backslash_escape,
+            $.entity_reference,
+            $.numeric_character_reference,
             $._newline
         )), ']'),
         link_destination: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice(
-            seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
+            seq('<', repeat(choice($._text_no_angle, $.backslash_escape, $.entity_reference, $.numeric_character_reference)), '>'),
             seq(
                 choice( // first character is not a '<'
                     choice($._word, punctuation_without($, ['<', '(', ')'])),
@@ -269,17 +269,21 @@ module.exports = grammar({
                     $._word,
                     punctuation_without($, ['(', ')']),
                     $.backslash_escape,
+                    $.entity_reference,
+                    $.numeric_character_reference,
                     $._link_destination_parenthesis
                 )),
             )
         )),
-        _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthesis)), ')'),
+        _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $.entity_reference, $.numeric_character_reference, $._link_destination_parenthesis)), ')'),
         _text_no_angle: $ => choice($._word, $._whitespace, punctuation_without($, ['<', '>'])),
         link_title: $ => choice( // TODO: escapes and character references
             seq('"', repeat(choice(
                 $._word,
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 punctuation_without($, ['"']),
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), '"'),
@@ -287,6 +291,8 @@ module.exports = grammar({
                 $._word,
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 punctuation_without($, ["'"]),
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), "'"),
@@ -294,6 +300,8 @@ module.exports = grammar({
                 $._word,
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 punctuation_without($, ['(', ')']),
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), ')'),
@@ -431,8 +439,16 @@ module.exports = grammar({
         // The external scanner emits some characters that should just be ignored.
         _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, alias($._block_quote_continuation, $.block_quote_marker))),
         _whitespace: $ => /[ \t]+/,
-        // TODO: common tokens
+
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS_REGEX + ']'),
+
+        // HTML entity and numeric character references.
+        //
+        // The regex for entity references are build from the html_entities.json file.
+        //
+        // https://github.github.com/gfm/#entity-and-numeric-character-references
+        entity_reference: $ => html_entity_regex(),
+        numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
     },
 
     externals: $ => [
@@ -656,4 +672,15 @@ function negative_regex(ss, classExtra, isStart) {
 // argument returns a rule that matches all punctuation.
 function punctuation_without($, chars) {
     return choice(...PUNCTUATION_CHARACTERS_ARRAY.filter(c => !chars.includes(c)));
+}
+
+// Constructs a regex that matches all html entity references.
+function html_entity_regex() {
+    // A file with all html entities, should be kept up to date with
+    // https://html.spec.whatwg.org/multipage/entities.json
+    let html_entities = require("./html_entities.json");
+    let s = '&(';
+    s += Object.keys(html_entities).map(name => name.substring(1, name.length - 1)).join('|');
+    s += ');';
+    return new RegExp(s);
 }
