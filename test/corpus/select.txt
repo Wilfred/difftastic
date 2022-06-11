@@ -36,7 +36,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
         (identifier)))
     (join_clause
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -46,7 +46,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -56,7 +56,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -66,7 +66,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -76,7 +76,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -86,7 +86,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -96,7 +96,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
@@ -106,7 +106,7 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (join_clause
       (join_type)
       (identifier)
-      (comparison_operator
+      (binary_expression
         (dotted_name
           (identifier)
           (identifier))
