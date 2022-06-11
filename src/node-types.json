@@ -3830,7 +3830,18 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "content",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "table_column",
@@ -4627,10 +4638,6 @@
     "named": false
   },
   {
-    "type": "$$",
-    "named": false
-  },
-  {
     "type": "%",
     "named": false
   },
@@ -5240,6 +5247,10 @@
   },
   {
     "type": "comment",
+    "named": true
+  },
+  {
+    "type": "content",
     "named": true
   },
   {

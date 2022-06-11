@@ -28,7 +28,8 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
           (identifier))
         (alias
           (interval_expression
-            (string))
+            (string
+              (content)))
           (identifier))))
     (from_clause
       (alias

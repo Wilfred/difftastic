@@ -4638,8 +4638,13 @@
               "type": "FIELD",
               "name": "content",
               "content": {
-                "type": "PATTERN",
-                "value": "[^']*"
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^']*"
+                },
+                "named": true,
+                "value": "content"
               }
             },
             {
@@ -4652,20 +4657,25 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "$$"
+              "type": "SYMBOL",
+              "name": "_dollar_quoted_string_tag"
             },
             {
               "type": "FIELD",
               "name": "content",
               "content": {
-                "type": "PATTERN",
-                "value": "(\\$?[^$]+)+"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_dollar_quoted_string_content"
+                },
+                "named": true,
+                "value": "content"
               }
             },
             {
-              "type": "STRING",
-              "value": "$$"
+              "type": "SYMBOL",
+              "name": "_dollar_quoted_string_end_tag"
             }
           ]
         }
@@ -5309,7 +5319,20 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_dollar_quoted_string_tag"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_dollar_quoted_string_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_dollar_quoted_string_end_tag"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }
