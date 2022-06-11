@@ -11,21 +11,15 @@ id  Int
 (program
   (model_declaration
     (identifier)
-    (statement_block
-        (ERROR)
-        (column_declaration
-            (identifier)
-            (column_type
-                (identifier)
-            )
-        )
-        (MISSING "}")
-    )
+    (statement_block)
+  )
+  (ERROR
+    (UNEXPECTED 'i')
   )
 )
 
 =================================================
-Handles Invalid Column Declaration with Attribute
+Handles Invalid Column Declaration With Attribute
 =================================================
 
 model User {
@@ -37,18 +31,41 @@ id  Int  @id
 (program
   (model_declaration
     (identifier)
-    (statement_block
-        (ERROR)
-        (column_declaration
-            (identifier)
-            (column_type
-                (identifier)
-            )
-            (attribute
-                (identifier)
-            )
-        )
-        (MISSING "}")
-    )
+    (statement_block)
+  )
+  (ERROR
+    (UNEXPECTED 'i')
+    (UNEXPECTED 'i')
+  )
+)
+
+============================================================
+Handles Invalid Column Declaration With Multiple Attributes
+============================================================
+
+model User {
+}
+
+id   Int      @id @default(autoincrement())
+id2  String   @default(cuid())               @id
+
+---
+
+(program
+  (model_declaration
+    (identifier)
+    (statement_block)
+  )
+  (ERROR
+    (UNEXPECTED 'i')
+    (UNEXPECTED 'i')
+    (UNEXPECTED 'e')
+    (UNEXPECTED 'a')
+    (UNEXPECTED 'i')
+    (number)
+    (UNEXPECTED 'S')
+    (UNEXPECTED 'e')
+    (UNEXPECTED 'c')
+    (UNEXPECTED 'i')
   )
 )

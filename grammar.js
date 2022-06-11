@@ -23,32 +23,39 @@ module.exports = grammar({
     /[\s\uFEFF\u2060\u200B\u00A0]/
   ],
 
-  precedences: $ => [
-    ['declaration', $.statement_block],
+  conflicts: $ => [
+    [$.comment, $.developer_comment],
   ],
 
-  conflicts: $ => [
-    [$.column_declaration, $.type_declaration],
-    [$.assignment_pattern, $.assignment_expression],
-    [$.comment, $.developer_comment],
+  inline: $ => [
+    $._expression,
+    $._attribute_expression,
+    $._call_signature,
+    $._formal_parameter,
+    $._constructable_expression,
+    $._declaration,
+  ],
+
+  supertypes: $ => [
+    $._declaration
   ],
 
   rules: {
     program: $ => repeat($._declaration),
 
-    datasource_declaration: $ => seq(
+    datasource_declaration: $ => prec(PREC.MEMBER, seq(
       'datasource',
       $.identifier,
       $.statement_block,
-    ),
+    )),
 
-    model_declaration: $ => prec(10, seq(
+    model_declaration: $ => prec(PREC.MEMBER, seq(
       'model',
       $.identifier,
       $.statement_block,
     )),
 
-    generator_declaration: $ => prec(10, seq(
+    generator_declaration: $ => prec(PREC.MEMBER, seq(
       'generator',
       $.identifier,
       $.statement_block,
@@ -58,16 +65,27 @@ module.exports = grammar({
       'type',
       choice(
         seq($.identifier, $.statement_block),
-        repeat1(
-          $._expression,
+        seq(
+          $.identifier,
+          alias($.identifier, $.type_declaration_type),
+          optional(repeat($.attribute))
         ),
+        seq($.assignment_expression, optional(repeat($.attribute)))
       ),
     )),
 
-    enum_declaration: $ => seq(
+    enum_declaration: $ => prec(PREC.MEMBER, seq(
       'enum',
       $.identifier,
       $.enum_block,
+    )),
+
+    declaration: $ => choice(
+      $.datasource_declaration,
+      $.model_declaration,
+      $.generator_declaration,
+      $.type_declaration,
+      $.enum_declaration,
     ),
 
     _declaration: $ => choice(
@@ -75,7 +93,7 @@ module.exports = grammar({
       $.model_declaration,
       $.generator_declaration,
       $.type_declaration,
-      $.enum_declaration
+      $.enum_declaration,
     ),
 
     developer_comment: $ => token(
@@ -102,7 +120,7 @@ module.exports = grammar({
 
     enum_block: $ => seq(
       '{',
-      repeat($.enumeral),
+      optional(repeat($.enumeral)),
       '}'
     ),
 
@@ -125,20 +143,6 @@ module.exports = grammar({
       '=',
       $._expression
     )),
-
-    _constructable_expression: $ => choice(
-      $.identifier,
-      $.type_expression,
-      $.block_attribute_declaration,
-      $.attribute,
-      $.member_expression,
-      $.number,
-      $.string,
-      $.true,
-      $.false,
-      $.null,
-      $.array,
-    ),
 
     binary_expression: $ => choice(
       ...[
@@ -167,7 +171,7 @@ module.exports = grammar({
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq(
           $._expression,
-          operator,
+          field('operator', operator),
           $._expression
         ))
       )
@@ -183,9 +187,11 @@ module.exports = grammar({
     )),
 
     column_type: $ => seq(
-      $.identifier,
-      /\??/,
-      optional($.array),
+      choice($.identifier, $.call_expression),
+      optional(choice(
+        $.maybe,
+        $.array
+      )),
     ),
 
     type_expression: $ => seq(
@@ -195,25 +201,25 @@ module.exports = grammar({
     ),
 
     call_expression: $ => prec(PREC.CALL, seq(
-      $._expression,
+      $._constructable_expression,
       $.arguments,
     )),
 
     attribute: $ => seq(
       '@',
-      $._expression,
+      $._attribute_expression,
     ),
 
     block_attribute_declaration: $ => seq(
       '@@',
-      $._expression,
+      $._attribute_expression,
     ),
 
-    arguments: $ => prec(PREC.CALL, seq(
+    arguments: $ => seq(
       '(',
       commaSep(optional($._expression)),
       ')'
-    )),
+    ),
 
     _call_signature: $ => seq(
       field('parameters', $.formal_parameters)
@@ -234,6 +240,12 @@ module.exports = grammar({
       $.assignment_pattern,
     ),
 
+    _attribute_expression: $ => choice(
+      $.identifier,
+      $.call_expression,
+      $.member_expression
+    ),
+
     _expression: $ => choice(
       $._constructable_expression,
       $.assignment_expression,
@@ -241,14 +253,34 @@ module.exports = grammar({
       $.binary_expression,
     ),
 
-    identifier: $ => /[a-zA-Z_\-][a-zA-Z0-9_\-]*/,
+    _constructable_expression: $ => choice(
+      $.identifier,
+      $.type_expression,
+      $.member_expression,
+      $.number,
+      $.string,
+      $.true,
+      $.false,
+      $.null,
+      $.array,
+    ),
+
+    identifier: $ => {
+      const alpha = /[^\x00-\x1F\s\p{Zs}0-9:;`"'@#.,|^&<=>+*/\\%?!~()\[\]{}\uFEFF\u2060\u200B]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      const alphanumeric = /[^\x00-\x1F\s\p{Zs}:;`"'@#.,|^&<=>+*/\\%?!~()\[\]{}\uFEFF\u2060\u200B]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      return token(seq(alpha, repeat(alphanumeric)))
+    },
 
     string: $ => token(choice(
       seq("'", /([^'\n]|\\(.|\n))*/, "'"),
       seq('"', /([^"\n]|\\(.|\n))*/, '"')
     )),
 
-    enumeral: $ => /[a-zA-Z-_][a-zA-Z0-9-_]*/,
+    enumeral: $ => {
+      const alpha = /[^\x00-\x1F\s\p{Zs}0-9:;`"'@#.,|^&<=>+*/\\%?!~()\[\]{}\uFEFF\u2060\u200B]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      const alphanumeric = /[^\x00-\x1F\s\p{Zs}:;`"'@#.,|^&<=>+*/\\%?!~()\[\]{}\uFEFF\u2060\u200B]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      return token(seq(alpha, repeat(alphanumeric)))
+    },
 
     number: $ => /\d+/,
 
@@ -259,6 +291,8 @@ module.exports = grammar({
       )),
       ']'
     ),
+
+    maybe: $ => '?',
 
     true: $ => 'true',
     false: $ => 'false',

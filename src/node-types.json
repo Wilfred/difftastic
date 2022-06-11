@@ -1,5 +1,31 @@
 [
   {
+    "type": "_declaration",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "datasource_declaration",
+        "named": true
+      },
+      {
+        "type": "enum_declaration",
+        "named": true
+      },
+      {
+        "type": "generator_declaration",
+        "named": true
+      },
+      {
+        "type": "model_declaration",
+        "named": true
+      },
+      {
+        "type": "type_declaration",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "arguments",
     "named": true,
     "fields": {},
@@ -16,15 +42,7 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
           "named": true
         },
         {
@@ -83,15 +101,7 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
           "named": true
         },
         {
@@ -150,15 +160,7 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
           "named": true
         },
         {
@@ -217,14 +219,6 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
           "type": "false",
           "named": true
         },
@@ -268,31 +262,7 @@
       "required": true,
       "types": [
         {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "false",
           "named": true
         },
         {
@@ -302,26 +272,6 @@
         {
           "type": "member_expression",
           "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_expression",
-          "named": true
         }
       ]
     }
@@ -329,7 +279,102 @@
   {
     "type": "binary_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "!==",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "**",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": "===",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": ">>>",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          },
+          {
+            "type": "||",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -343,15 +388,7 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
           "named": true
         },
         {
@@ -402,31 +439,7 @@
       "required": true,
       "types": [
         {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "false",
           "named": true
         },
         {
@@ -435,26 +448,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_expression",
           "named": true
         }
       ]
@@ -474,26 +467,6 @@
         },
         {
           "type": "array",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "call_expression",
           "named": true
         },
         {
@@ -567,7 +540,15 @@
           "named": true
         },
         {
+          "type": "call_expression",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "maybe",
           "named": true
         }
       ]
@@ -632,6 +613,11 @@
     }
   },
   {
+    "type": "enumeral",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "formal_parameters",
     "named": true,
     "fields": {},
@@ -676,6 +662,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "member_expression",
@@ -728,27 +719,16 @@
       "required": false,
       "types": [
         {
-          "type": "datasource_declaration",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
-          "type": "generator_declaration",
-          "named": true
-        },
-        {
-          "type": "model_declaration",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
+          "type": "_declaration",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "property_identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "statement_block",
@@ -782,10 +762,6 @@
       "required": true,
       "types": [
         {
-          "type": "array",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -794,35 +770,7 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
           "named": true
         },
         {
@@ -830,19 +778,16 @@
           "named": true
         },
         {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_expression",
+          "type": "type_declaration_type",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "type_declaration_type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "type_expression",
@@ -861,15 +806,7 @@
           "named": true
         },
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "block_attribute_declaration",
           "named": true
         },
         {
@@ -910,6 +847,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "variable",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "!=",
@@ -1044,10 +986,6 @@
     "named": false
   },
   {
-    "type": "enumeral",
-    "named": true
-  },
-  {
     "type": "false",
     "named": true
   },
@@ -1056,7 +994,7 @@
     "named": false
   },
   {
-    "type": "identifier",
+    "type": "maybe",
     "named": true
   },
   {
@@ -1072,10 +1010,6 @@
     "named": true
   },
   {
-    "type": "property_identifier",
-    "named": true
-  },
-  {
     "type": "string",
     "named": true
   },
@@ -1086,10 +1020,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "variable",
-    "named": true
   },
   {
     "type": "{",
