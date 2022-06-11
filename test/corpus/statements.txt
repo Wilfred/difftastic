@@ -1473,12 +1473,7 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
     (type
       (identifier))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (binary_expression
-              (argument_reference)
-              (argument_reference))))))
+      (string))
     (language)))
 
 ================================================================================
@@ -1504,12 +1499,7 @@ CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
     (type
       (identifier))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (binary_expression
-              (argument_reference)
-              (argument_reference))))))
+      (string))
     (language)))
 
 ================================================================================
@@ -1532,10 +1522,7 @@ CREATE FUNCTION foo(int) RETURNS integer
     (type
       (identifier))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (number)))))
+      (string))
     (language)
     (null_hint)
     (optimizer_hint)
@@ -1571,16 +1558,7 @@ CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
     (type
       (identifier))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (identifier)))
-        (from_clause
-          (identifier))
-        (where_clause
-          (binary_expression
-            (identifier)
-            (argument_reference)))))
+      (string))
     (language)))
 
 ================================================================================
@@ -1604,16 +1582,7 @@ CREATE FUNCTION add(text) RETURNS SETOF int
       (type
         (identifier)))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (identifier)))
-        (from_clause
-          (identifier))
-        (where_clause
-          (binary_expression
-            (identifier)
-            (argument_reference)))))
+      (string))
     (language)))
 
 ================================================================================
@@ -1640,16 +1609,7 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
         (null_constraint
           (NULL))))
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (identifier)))
-        (from_clause
-          (identifier))
-        (where_clause
-          (binary_expression
-            (identifier)
-            (argument_reference)))))
+      (string))
     (language)))
 
 ================================================================================
@@ -1671,10 +1631,7 @@ CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
       (identifier))
     (language)
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (argument_reference)))))))
+      (string))))
 
 ================================================================================
 CREATE FUNCTION with optimizer hint
@@ -1696,10 +1653,7 @@ CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
     (optimizer_hint)
     (language)
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (argument_reference)))))))
+      (string))))
 
 ================================================================================
 CREATE FUNCTION with constrained args
@@ -1724,10 +1678,7 @@ CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'se
     (optimizer_hint)
     (language)
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (argument_reference)))))))
+      (string))))
 
 ================================================================================
 CREATE FUNCTION lowercase
@@ -1748,10 +1699,7 @@ create function add(integer) returns integer language sql as 'select $1';
       (identifier))
     (language)
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (argument_reference)))))))
+      (string))))
 
 ================================================================================
 CREATE FUNCTION highlight function body
@@ -1772,11 +1720,7 @@ create function add(integer) returns integer language sql as 'select a, b';
       (identifier))
     (language)
     (function_body
-      (select_statement
-        (select_clause
-          (select_clause_body
-            (identifier)
-            (identifier)))))))
+      (string))))
 
 ================================================================================
 CREATE SCHEMA schema
