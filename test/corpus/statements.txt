@@ -14,7 +14,8 @@ SELECT interval '1 minute';
     (select_clause
       (select_clause_body
         (interval_expression
-          (string))))))
+          (string
+            (content)))))))
 
 ================================================================================
 SELECT statement with distinct expression
@@ -202,7 +203,8 @@ SELECT '';
   (select_statement
     (select_clause
       (select_clause_body
-        (string)))))
+        (string
+          (content))))))
 
 ================================================================================
 SELECT statement with dollar quoted string
@@ -216,7 +218,8 @@ SELECT $$hey$$;
   (select_statement
     (select_clause
       (select_clause_body
-        (string)))))
+        (string
+          (content))))))
 
 ================================================================================
 SELECT statement with dollar quoted brackets inside
@@ -230,7 +233,8 @@ SELECT $$(a + b)$$;
   (select_statement
     (select_clause
       (select_clause_body
-        (string)))))
+        (string
+          (content))))))
 
 ================================================================================
 SELECT statement with type cast
@@ -245,7 +249,8 @@ SELECT ''::JSONB;
     (select_clause
       (select_clause_body
         (type_cast
-          (string)
+          (string
+            (content))
           (type
             (identifier)))))))
 
@@ -528,7 +533,8 @@ SELECT 'aaaa'
   (select_statement
     (select_clause
       (select_clause_body
-        (string)))))
+        (string
+          (content))))))
 
 ================================================================================
 SELECT weird_string
@@ -542,7 +548,8 @@ SELECT '%{a.b}'
   (select_statement
     (select_clause
       (select_clause_body
-        (string)))))
+        (string
+          (content))))))
 
 ================================================================================
 SELECT field_access
@@ -558,7 +565,8 @@ SELECT foo->>'bar'
       (select_clause_body
         (field_access
           (identifier)
-          (string))))))
+          (string
+            (content)))))))
 
 ================================================================================
 SELECT in clause
@@ -791,7 +799,8 @@ CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
         (identifier)
         (field_access
           (identifier)
-          (string))))))
+          (string
+            (content)))))))
 
 ================================================================================
 CREATE INDEX using
@@ -925,7 +934,8 @@ CREATE TABLE public.my_table (
             (function_call
               (identifier))
             (interval_expression
-              (string))))))))
+              (string
+                (content)))))))))
 
 ================================================================================
 CREATE TABLE with not null constraint
@@ -983,7 +993,8 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
         (type
           (identifier))
         (column_default
-          (string))))))
+          (string
+            (content)))))))
 
 ================================================================================
 CREATE TABLE with primary key constraint
@@ -1416,7 +1427,8 @@ CREATE TABLE foo(
             (identifier)
             (identifier))
           (interval_expression
-            (string)))))))
+            (string
+              (content))))))))
 
 ================================================================================
 CREATE TABLE with foreign key constraint with columns specified
@@ -1457,6 +1469,9 @@ CREATE FUNCTION
 CREATE FUNCTION add(integer, integer) RETURNS integer
     AS 'select $1 + $2;'
     LANGUAGE SQL;
+CREATE FUNCTION add(integer, integer) RETURNS integer
+    AS $BODY$select $1 + $2;$BODY$
+    LANGUAGE SQL;
 
 --------------------------------------------------------------------------------
 
@@ -1473,7 +1488,23 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
     (type
       (identifier))
     (function_body
-      (string))
+      (string
+        (content)))
+    (language))
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
     (language)))
 
 ================================================================================
@@ -1499,7 +1530,8 @@ CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
     (type
       (identifier))
     (function_body
-      (string))
+      (string
+        (content)))
     (language)))
 
 ================================================================================
@@ -1522,7 +1554,8 @@ CREATE FUNCTION foo(int) RETURNS integer
     (type
       (identifier))
     (function_body
-      (string))
+      (string
+        (content)))
     (language)
     (null_hint)
     (optimizer_hint)
@@ -1558,7 +1591,8 @@ CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
     (type
       (identifier))
     (function_body
-      (string))
+      (string
+        (content)))
     (language)))
 
 ================================================================================
@@ -1582,7 +1616,8 @@ CREATE FUNCTION add(text) RETURNS SETOF int
       (type
         (identifier)))
     (function_body
-      (string))
+      (string
+        (content)))
     (language)))
 
 ================================================================================
@@ -1609,7 +1644,8 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
         (null_constraint
           (NULL))))
     (function_body
-      (string))
+      (string
+        (content)))
     (language)))
 
 ================================================================================
@@ -1631,7 +1667,8 @@ CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
       (identifier))
     (language)
     (function_body
-      (string))))
+      (string
+        (content)))))
 
 ================================================================================
 CREATE FUNCTION with optimizer hint
@@ -1653,7 +1690,8 @@ CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
     (optimizer_hint)
     (language)
     (function_body
-      (string))))
+      (string
+        (content)))))
 
 ================================================================================
 CREATE FUNCTION with constrained args
@@ -1678,7 +1716,8 @@ CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'se
     (optimizer_hint)
     (language)
     (function_body
-      (string))))
+      (string
+        (content)))))
 
 ================================================================================
 CREATE FUNCTION lowercase
@@ -1699,7 +1738,8 @@ create function add(integer) returns integer language sql as 'select $1';
       (identifier))
     (language)
     (function_body
-      (string))))
+      (string
+        (content)))))
 
 ================================================================================
 CREATE FUNCTION highlight function body
@@ -1720,7 +1760,8 @@ create function add(integer) returns integer language sql as 'select a, b';
       (identifier))
     (language)
     (function_body
-      (string))))
+      (string
+        (content)))))
 
 ================================================================================
 CREATE SCHEMA schema
@@ -1767,16 +1808,20 @@ SET SESSION search_path = 'test';
     (identifier))
   (set_statement
     (identifier)
-    (string))
+    (string
+      (content)))
   (set_statement
     (identifier)
-    (string))
+    (string
+      (content)))
   (set_statement
     (identifier)
-    (string))
+    (string
+      (content)))
   (set_statement
     (identifier)
-    (string)))
+    (string
+      (content))))
 
 ================================================================================
 SELECT asterisk expressions
@@ -2008,7 +2053,8 @@ ALTER TABLE foo SET (autovacuum_enabled = false);
           (function_call
             (identifier)
             (type_cast
-              (string)
+              (string
+                (content))
               (type
                 (identifier))))))))
   (alter_statement
@@ -2120,3 +2166,26 @@ SELECT a.`test 1`;
         (dotted_name
           (identifier)
           (identifier))))))
+
+================================================================================
+Dollar quoted strings
+================================================================================
+
+SELECT $$a$$, $a$baz$a$, $a$$$$a$, $a$b$$a$, $TAG$afasf    $$TAG$;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))))))

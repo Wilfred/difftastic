@@ -60,3 +60,10 @@ GrOUP
 -- <- keyword
 By a, b
 -- <- keyword
+
+SELECT $$a$$, $a$baz$a$, $a$$$$a$, $a$b$$a$;
+-- <- keyword
+--       ^ string
+--              ^ string
+--                          ^ string
+--                                    ^ string

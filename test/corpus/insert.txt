@@ -13,7 +13,8 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
     (values_clause
       (values_clause_body
         (number)
-        (string))))
+        (string
+          (content)))))
   (insert_statement
     (identifier)
     (select_statement
