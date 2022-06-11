@@ -152,7 +152,7 @@ module.exports = grammar({
             seq(kw("INCREMENT"), optional(kw("BY")), $.number),
             seq(kw("NO"), choice(kw("MINVALUE"), kw("MAXVALUE"))),
             seq(kw("CACHE"), $.number),
-            seq(kw("OWNED BY"), choice($._identifier, $.dotted_name)),
+            seq(kw("OWNED BY"), choice($._identifier)),
           ),
         ),
       ),
@@ -160,7 +160,7 @@ module.exports = grammar({
     create_function_statement: $ =>
       seq(
         createOrReplace("FUNCTION"),
-        $.identifier,
+        $._identifier,
         $.create_function_parameters,
         kw("RETURNS"),
         $._create_function_return_type,
@@ -206,16 +206,16 @@ module.exports = grammar({
       seq("(", commaSep1($.create_function_parameter), ")"),
     function_body: $ => seq(kw("AS"), $.string),
     create_extension_statement: $ =>
-      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $.identifier),
+      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $._identifier),
     create_role_statement: $ =>
       seq(
         kw("CREATE ROLE"),
-        $.identifier,
+        $._identifier,
         optional(kw("WITH")),
         optional($._identifier),
       ),
     create_schema_statement: $ =>
-      seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
+      seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $._identifier),
     drop_statement: $ =>
       seq(
         kw("DROP"),
@@ -256,7 +256,7 @@ module.exports = grammar({
             choice(kw("SCHEMA"), kw("DATABASE"), kw("SEQUENCE"), kw("TABLE")),
           ),
         ),
-        $.identifier,
+        $._identifier,
         kw("TO"),
         choice(seq(optional(kw("GROUP")), $.identifier), kw("PUBLIC")),
         optional(kw("WITH GRANT OPTION")),
@@ -264,7 +264,7 @@ module.exports = grammar({
     create_domain_statement: $ =>
       seq(
         kw("CREATE DOMAIN"),
-        $.identifier,
+        $._identifier,
         optional(
           seq(
             kw("AS"),
@@ -274,7 +274,7 @@ module.exports = grammar({
         ),
       ),
     create_type_statement: $ =>
-      seq(kw("CREATE TYPE"), $.identifier, kw("AS"), $.parameters),
+      seq(kw("CREATE TYPE"), $._identifier, kw("AS"), $.parameters),
     create_index_with_clause: $ =>
       seq(
         kw("WITH"),
@@ -292,9 +292,9 @@ module.exports = grammar({
         kw("CREATE"),
         optional($.unique_constraint),
         kw("INDEX"),
-        field("name", $.identifier),
+        field("name", $._identifier),
         kw("ON"),
-        field("table_name", $.identifier),
+        field("table_name", $._identifier),
         optional($.using_clause),
         $.index_table_parameters,
         optional($.create_index_include_clause),
@@ -532,16 +532,16 @@ module.exports = grammar({
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
-    identifier: $ => /[a-zA-Z0-9_]+/,
-    dotted_name: $ => prec.left(1, sep2($.identifier, ".")),
-    _unquoted_identifier: $ =>
-      prec.left(2, choice($.identifier, $.dotted_name)),
+
+    _unquoted_identifier: $ => /[a-zA-Z0-9_]+/,
     _quoted_identifier: $ =>
       choice(
-        seq("`", $._unquoted_identifier, "`"), // MySQL style quoting
-        seq('"', $._unquoted_identifier, '"'), // ANSI QUOTES
+        seq("`", field("name", /[^`]*/), "`"), // MySQL style quoting
+        seq('"', field("name", /[^"]*/), '"'), // ANSI QUOTES
       ),
-    _identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
+    identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
+    dotted_name: $ => prec.left(PREC.primary, sep2($.identifier, ".")),
+    _identifier: $ => choice($.identifier, $.dotted_name),
     type: $ => seq($._identifier, optional(seq("(", $.number, ")"))),
     string: $ =>
       choice(
@@ -616,7 +616,7 @@ module.exports = grammar({
     },
 
     binary_operator: $ => choice("=", "&&", "||"),
-    asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
+    asterisk_expression: $ => choice("*", seq($._identifier, ".*")),
     interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
