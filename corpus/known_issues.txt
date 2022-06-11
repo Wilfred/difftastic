@@ -46,7 +46,8 @@ Handles Invalid Column Declaration With Multiple Attributes
 model User {
 }
 
-id  Int  @id @default(autoincrement())
+id   Int      @id @default(autoincrement())
+id2  String   @default(cuid())               @id
 
 ---
 
@@ -60,5 +61,11 @@ id  Int  @id @default(autoincrement())
     (UNEXPECTED 'i')
     (UNEXPECTED 'e')
     (UNEXPECTED 'a')
+    (UNEXPECTED 'i')
+    (number)
+    (UNEXPECTED 'S')
+    (UNEXPECTED 'e')
+    (UNEXPECTED 'c')
+    (UNEXPECTED 'i')
   )
 )
