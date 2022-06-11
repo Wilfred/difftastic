@@ -10,7 +10,7 @@ This is an **unofficial** Prisma language parsing. More information about the la
 can be found here:
 
 - [vscode-prisma](https://github.com/prisma/vscode-prisma)
-- [prisma2-schema-file](https://github.com/prisma/prisma2/blob/master/docs/prisma-schema-file.md)
+- [prisma2-schema-file](https://www.prisma.io/docs/concepts/components/prisma-schema)
 - [prisma2-data-modeling](https://github.com/prisma/prisma2/blob/master/docs/data-modeling.md)
 
 If you notice any bug or problem, please submit an issue or make a pull request. Any contribution

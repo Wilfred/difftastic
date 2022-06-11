@@ -9,7 +9,7 @@ type UUID String @go.type("uuid.UUID")
 (program
   (type_declaration
     (identifier)
-    (identifier)
+    (type_declaration_type)
     (attribute
       (call_expression
         (member_expression
