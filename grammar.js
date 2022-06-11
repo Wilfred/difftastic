@@ -1,3 +1,28 @@
+const PREC = {
+  primary: 8,
+  unary: 7,
+  exp: 6,
+  multiplicative: 5,
+  additive: 4,
+  comparative: 3,
+  and: 2,
+  or: 1,
+};
+const multiplicative_operators = ["*", "/", "%", "<<", ">>", "&"];
+const additive_operators = ["+", "-", "|", "#"];
+const comparative_operators = [
+  "<",
+  "<=",
+  "<>",
+  "=",
+  ">",
+  ">=",
+  "~",
+  "!~",
+  "~*",
+  "!~*",
+];
+
 // Generate case insentitive match for SQL keyword
 // In case of multiple word keyword provide a seq matcher
 function kw(keyword) {
@@ -458,15 +483,6 @@ module.exports = grammar({
         optional(field("arguments", commaSep1($._expression))),
         ")",
       ),
-    comparison_operator: $ =>
-      prec.left(
-        6,
-        seq(
-          $._expression,
-          field("operator", choice("<", "<=", "<>", "=", ">", ">=")),
-          $._expression,
-        ),
-      ),
     _parenthesized_expression: $ => seq("(", $._expression, ")"),
     is_expression: $ =>
       prec.left(
@@ -481,9 +497,9 @@ module.exports = grammar({
     distinct_from: $ => prec.left(seq(kw("DISTINCT FROM"), $._expression)),
     boolean_expression: $ =>
       choice(
-        prec.left(5, seq(kw("NOT"), $._expression)),
-        prec.left(4, seq($._expression, kw("AND"), $._expression)),
-        prec.left(3, seq($._expression, kw("OR"), $._expression)),
+        prec.left(PREC.unary, seq(kw("NOT"), $._expression)),
+        prec.left(PREC.and, seq($._expression, kw("AND"), $._expression)),
+        prec.left(PREC.or, seq($._expression, kw("OR"), $._expression)),
       ),
     NULL: $ => kw("NULL"),
     TRUE: $ => kw("TRUE"),
@@ -529,13 +545,49 @@ module.exports = grammar({
       ),
     array_element_access: $ =>
       seq(choice($.identifier, $.argument_reference), "[", $._expression, "]"),
-    binary_expression: $ =>
-      prec.left(
-        choice(
-          seq($._expression, "~", $._expression),
-          seq($._expression, "+", $._expression),
+
+    unary_expression: $ =>
+      prec(
+        PREC.unary,
+        seq(
+          field(
+            "operator",
+            choice(
+              "+",
+              "-",
+              "!!", // Factorial op (Removed in Postgres >= 14)
+              "~", // Bitwise not
+              "@", // Absolute value
+              "|/", // square root
+              "||/", // cube root
+            ),
+          ),
+          field("operand", $._expression),
         ),
       ),
+
+    binary_expression: $ => {
+      const table = [
+        [PREC.exp, "^"],
+        [PREC.multiplicative, choice(...multiplicative_operators)],
+        [PREC.additive, choice(...additive_operators)],
+        [PREC.comparative, choice(...comparative_operators)],
+      ];
+
+      return choice(
+        ...table.map(([precedence, operator]) =>
+          prec.left(
+            precedence,
+            seq(
+              field("left", $._expression),
+              field("operator", operator),
+              field("right", $._expression),
+            ),
+          ),
+        ),
+      );
+    },
+
     binary_operator: $ => choice("=", "&&", "||"),
     asterisk_expression: $ => seq(optional(seq($.identifier, ".")), "*"),
     interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
@@ -552,12 +604,12 @@ module.exports = grammar({
         $.asterisk_expression,
         $._identifier,
         $.number,
-        $.comparison_operator,
         $.in_expression,
         $.is_expression,
         $.boolean_expression,
         $._parenthesized_expression,
         $.type_cast,
+        $.unary_expression,
         $.binary_expression,
         $.array_element_access,
         $.argument_reference,
