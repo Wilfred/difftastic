@@ -2102,3 +2102,30 @@ ALTER TABLE foo SET (autovacuum_enabled = false);
           (binary_expression
             (identifier)
             (FALSE)))))))
+
+================================================================================
+Transaction operators
+================================================================================
+
+BEGIN;
+BEGIN WORK;
+BEGIN TRANSACTION;
+COMMIT;
+COMMIT WORK;
+COMMIT TRANSACTION;
+ROLLBACK;
+ROLLBACK WORK;
+ROLLBACK TRANSACTION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (begin_statement)
+  (begin_statement)
+  (begin_statement)
+  (commit_statement)
+  (commit_statement)
+  (commit_statement)
+  (rollback_statement)
+  (rollback_statement)
+  (rollback_statement))
