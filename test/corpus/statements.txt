@@ -2028,6 +2028,7 @@ ALTER TABLE bar
 ALTER TABLE mytable0
     ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
       ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
+ALTER TABLE foo SET (autovacuum_enabled = false);
 
 --------------------------------------------------------------------------------
 
@@ -2070,4 +2071,12 @@ ALTER TABLE mytable0
               (identifier)
               (on_update_action)
               (on_delete_action)))
-          (initial_mode))))))
+          (initial_mode)))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_set
+          (binary_expression
+            (identifier)
+            (FALSE)))))))

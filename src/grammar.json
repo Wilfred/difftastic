@@ -344,6 +344,24 @@
         }
       ]
     },
+    "alter_table_action_set": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[sS][eE][tT]"
+          },
+          "named": false,
+          "value": "SET"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
     "alter_table_action": {
       "type": "CHOICE",
       "members": [
@@ -354,6 +372,10 @@
         {
           "type": "SYMBOL",
           "name": "alter_table_action_alter_column"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "alter_table_action_set"
         }
       ]
     },
@@ -3517,8 +3539,17 @@
           "name": "_identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "values_clause"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "values_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "select_statement"
+            }
+          ]
         }
       ]
     },

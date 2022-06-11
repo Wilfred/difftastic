@@ -123,8 +123,12 @@ module.exports = grammar({
         kw("ADD"),
         choice(seq(kw("COLUMN"), $.table_column), $._table_constraint),
       ),
+    alter_table_action_set: $ => seq(
+      kw("SET"),
+      $._expression
+    ),
     alter_table_action: $ =>
-      choice($.alter_table_action_add, $.alter_table_action_alter_column),
+      choice($.alter_table_action_add, $.alter_table_action_alter_column, $.alter_table_action_set),
     sequence: $ =>
       seq(
         kw("SEQUENCE"),
@@ -439,7 +443,10 @@ module.exports = grammar({
 
     // INSERT
     insert_statement: $ =>
-      seq(kw("INSERT"), kw("INTO"), $._identifier, $.values_clause),
+      seq(kw("INSERT"), kw("INTO"), $._identifier, choice(
+        $.values_clause,
+        $.select_statement
+      )),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
