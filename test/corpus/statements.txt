@@ -276,7 +276,7 @@ SELECT 1 < 2;
   (select_statement
     (select_clause
       (select_clause_body
-        (comparison_operator
+        (binary_expression
           (number)
           (number))))))
 
@@ -321,6 +321,89 @@ SELECT foo.bar FROM a;
       (identifier))))
 
 ================================================================================
+Operator precedence
+================================================================================
+
+SELECT 1 + -1, 1 <= 1;
+SELECT 1 * 2 + 3, 3 + 1 * 2, (3 + 1) * 2;
+SELECT 1 / 2 + 3, 3 + 1 / 2, (3 + 1) / 2;
+SELECT @1, !!2, |/3, ||/4, ~5, -6, +7;
+SELECT @ - 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (number)
+          (unary_expression
+            (number)))
+        (binary_expression
+          (number)
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number))
+        (binary_expression
+          (number)
+          (binary_expression
+            (number)
+            (number)))
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number))
+        (binary_expression
+          (number)
+          (binary_expression
+            (number)
+            (number)))
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (unary_expression
+          (unary_expression
+            (number)))))))
+
+================================================================================
 SELECT statement with comparison expression and is expression
 ================================================================================
 
@@ -333,7 +416,7 @@ SELECT 1 < 2 IS TRUE;
     (select_clause
       (select_clause_body
         (is_expression
-          (comparison_operator
+          (binary_expression
             (number)
             (number))
           (TRUE))))))
@@ -350,7 +433,7 @@ SELECT foo(bar, baz) < 10;
   (select_statement
     (select_clause
       (select_clause_body
-        (comparison_operator
+        (binary_expression
           (function_call
             (identifier)
             (identifier)
@@ -392,12 +475,12 @@ SELECT TRUE AND foo(1) OR FALSE AND NOT a = b.c;
               (number)))
           (boolean_expression
             (FALSE)
-            (boolean_expression
-              (comparison_operator
+            (binary_expression
+              (boolean_expression
+                (identifier))
+              (dotted_name
                 (identifier)
-                (dotted_name
-                  (identifier)
-                  (identifier))))))))))
+                (identifier)))))))))
 
 ================================================================================
 SELECT parenthesized expression
@@ -686,7 +769,7 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 <> 1
     (index_table_parameters
       (identifier))
     (where_clause
-      (comparison_operator
+      (binary_expression
         (identifier)
         (number)))))
 
@@ -1301,12 +1384,12 @@ CREATE TABLE foo(
         (type
           (identifier)))
       (check
-        (comparison_operator
+        (binary_expression
           (identifier)
           (identifier)))
       (identifier)
       (check
-        (comparison_operator
+        (binary_expression
           (function_call
             (identifier)
             (identifier))
@@ -1473,7 +1556,7 @@ CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
         (from_clause
           (identifier))
         (where_clause
-          (comparison_operator
+          (binary_expression
             (identifier)
             (argument_reference)))))
     (language)))
@@ -1506,7 +1589,7 @@ CREATE FUNCTION add(text) RETURNS SETOF int
         (from_clause
           (identifier))
         (where_clause
-          (comparison_operator
+          (binary_expression
             (identifier)
             (argument_reference)))))
     (language)))
@@ -1542,7 +1625,7 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
         (from_clause
           (identifier))
         (where_clause
-          (comparison_operator
+          (binary_expression
             (identifier)
             (argument_reference)))))
     (language)))
