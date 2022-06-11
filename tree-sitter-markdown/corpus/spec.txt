@@ -5151,3 +5151,135 @@ Example 306 - https://github.github.com/gfm/#example-306
           (list_marker_minus)
           (paragraph
             (inline)))))))
+
+================================================================================
+Example 314 - https://github.github.com/gfm/#example-314
+================================================================================
+    \[\]
+
+--------------------------------------------------------------------------------
+
+(document
+  (indented_code_block))
+
+================================================================================
+Example 315 - https://github.github.com/gfm/#example-315
+================================================================================
+~~~
+\[\]
+~~~
+
+--------------------------------------------------------------------------------
+
+(document
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
+
+================================================================================
+Example 319 - https://github.github.com/gfm/#example-319
+================================================================================
+[foo]
+
+[foo]: /bar\* "ti\*tle"
+
+--------------------------------------------------------------------------------
+
+(document
+  (paragraph
+    (inline))
+  (link_reference_definition
+    (link_label)
+    (link_destination
+      (backslash_escape))
+    (link_title
+      (backslash_escape))))
+
+================================================================================
+Example 320 - https://github.github.com/gfm/#example-320
+================================================================================
+``` foo\+bar
+foo
+```
+
+--------------------------------------------------------------------------------
+
+(document
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (info_string
+      (language
+        (backslash_escape)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
+
+================================================================================
+Example 329 - https://github.github.com/gfm/#example-329
+================================================================================
+[foo]
+
+[foo]: /f&ouml;&ouml; "f&ouml;&ouml;"
+
+--------------------------------------------------------------------------------
+
+(document
+  (paragraph
+    (inline))
+  (link_reference_definition
+    (link_label)
+    (link_destination
+      (entity_reference)
+      (entity_reference))
+    (link_title
+      (entity_reference)
+      (entity_reference))))
+
+================================================================================
+Example 330 - https://github.github.com/gfm/#example-330
+================================================================================
+``` f&ouml;&ouml;
+foo
+```
+
+--------------------------------------------------------------------------------
+
+(document
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (info_string
+      (language
+        (entity_reference)
+        (entity_reference)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
+
+================================================================================
+Example 332 - https://github.github.com/gfm/#example-332
+================================================================================
+    f&ouml;f&ouml;
+
+--------------------------------------------------------------------------------
+
+(document
+  (indented_code_block
+    (entity_reference)
+    (entity_reference)))
+
+================================================================================
+Example 334 - https://github.github.com/gfm/#example-334
+================================================================================
+&#42; foo
+
+* foo
+
+--------------------------------------------------------------------------------
+
+(document
+  (paragraph
+    (inline))
+  (list
+    (list_item
+      (list_marker_star)
+      (paragraph
+        (inline)))))
