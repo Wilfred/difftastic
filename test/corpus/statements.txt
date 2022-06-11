@@ -2073,3 +2073,50 @@ ROLLBACK TRANSACTION;
   (rollback_statement)
   (rollback_statement)
   (rollback_statement))
+
+================================================================================
+Quoting identifiers and dotted access
+================================================================================
+
+SELECT "test1s adfadf sf !!@#",
+        "test1s adfadf sf !!@#".*,
+        public."test1s adfadf sf !!@#",
+        "public"."test1s adfadf sf !!@#",
+        "public"."test1s adfadf sf !!@#".*,
+        "my schema".test,
+        "my schema".test.*;
+
+SELECT a.`test 1`;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (asterisk_expression
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (asterisk_expression
+          (dotted_name
+            (identifier)
+            (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (asterisk_expression
+          (dotted_name
+            (identifier)
+            (identifier))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))))))

@@ -202,17 +202,9 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
           {
             "type": "dotted_name",
             "named": true
@@ -660,6 +652,10 @@
       "required": false,
       "types": [
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -685,10 +681,6 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
             "type": "(",
             "named": false
           },
@@ -707,10 +699,6 @@
           {
             "type": "TRUE",
             "named": true
-          },
-          {
-            "type": "`",
-            "named": false
           },
           {
             "type": "argument_reference",
@@ -877,10 +865,6 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
             "type": "(",
             "named": false
           },
@@ -899,10 +883,6 @@
           {
             "type": "TRUE",
             "named": true
-          },
-          {
-            "type": "`",
-            "named": false
           },
           {
             "type": "argument_reference",
@@ -1390,6 +1370,10 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1412,6 +1396,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -1520,6 +1508,10 @@
           "named": true
         },
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
@@ -1578,6 +1570,10 @@
         "required": true,
         "types": [
           {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -1587,6 +1583,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -1755,6 +1755,10 @@
       "required": true,
       "types": [
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -1834,6 +1838,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -2273,10 +2281,6 @@
         "required": false,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
             "type": "(",
             "named": false
           },
@@ -2299,10 +2303,6 @@
           {
             "type": "TRUE",
             "named": true
-          },
-          {
-            "type": "`",
-            "named": false
           },
           {
             "type": "argument_reference",
@@ -2418,6 +2418,10 @@
       "required": true,
       "types": [
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -2529,6 +2533,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "in_expression",
@@ -2963,6 +2972,11 @@
   },
   {
     "type": "join_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "language",
     "named": true,
     "fields": {}
   },
@@ -3823,17 +3837,9 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
           {
             "type": "dotted_name",
             "named": true
@@ -3915,14 +3921,6 @@
         "required": false,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
-          {
             "type": "dotted_name",
             "named": true
           },
@@ -3986,10 +3984,6 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
             "type": "(",
             "named": false
           },
@@ -4012,10 +4006,6 @@
           {
             "type": "TRUE",
             "named": true
-          },
-          {
-            "type": "`",
-            "named": false
           },
           {
             "type": "argument_reference",
@@ -4227,10 +4217,6 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
-          },
-          {
             "type": "(",
             "named": false
           },
@@ -4249,10 +4235,6 @@
           {
             "type": "TRUE",
             "named": true
-          },
-          {
-            "type": "`",
-            "named": false
           },
           {
             "type": "argument_reference",
@@ -4694,6 +4676,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": ".*",
     "named": false
   },
   {
@@ -5254,14 +5240,6 @@
   },
   {
     "type": "comment",
-    "named": true
-  },
-  {
-    "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "language",
     "named": true
   },
   {
