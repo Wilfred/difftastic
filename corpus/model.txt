@@ -5,7 +5,7 @@ Simple Model definition
 model User {
   id         Int
   email      String?
-  posts      Post?[]
+  posts      Post[]
   type       String
   number     Int?
   circle     Unsupported("circle")?
@@ -27,6 +27,7 @@ model User {
         (identifier)
         (column_type
           (identifier)
+          (maybe)
         )
       )
       (column_declaration
@@ -46,6 +47,7 @@ model User {
         (identifier)
         (column_type
           (identifier)
+          (maybe)
         )
       )
       (column_declaration
@@ -57,6 +59,7 @@ model User {
               (string)
             )
           )
+          (maybe)
         )
       )
       (column_declaration
@@ -215,6 +218,7 @@ model User {
               (string)
             )
           )
+          (maybe)
         )
         (attribute
           (call_expression

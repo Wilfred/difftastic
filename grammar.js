@@ -188,8 +188,10 @@ module.exports = grammar({
 
     column_type: $ => seq(
       choice($.identifier, $.call_expression),
-      optional(/\?/),
-      optional($.array),
+      optional(choice(
+        $.maybe,
+        $.array
+      )),
     ),
 
     type_expression: $ => seq(
@@ -289,6 +291,8 @@ module.exports = grammar({
       )),
       ']'
     ),
+
+    maybe: $ => '?',
 
     true: $ => 'true',
     false: $ => 'false',

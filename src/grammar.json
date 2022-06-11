@@ -1016,20 +1016,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "PATTERN",
-              "value": "\\?"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "array"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "maybe"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "array"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -1469,6 +1466,10 @@
           "value": "]"
         }
       ]
+    },
+    "maybe": {
+      "type": "STRING",
+      "value": "?"
     },
     "true": {
       "type": "STRING",

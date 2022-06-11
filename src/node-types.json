@@ -546,6 +546,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "maybe",
+          "named": true
         }
       ]
     }
@@ -988,6 +992,10 @@
   {
     "type": "generator",
     "named": false
+  },
+  {
+    "type": "maybe",
+    "named": true
   },
   {
     "type": "model",
