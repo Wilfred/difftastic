@@ -2258,7 +2258,7 @@
       "required": true,
       "types": [
         {
-          "type": "select_statement",
+          "type": "string",
           "named": true
         }
       ]

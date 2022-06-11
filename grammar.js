@@ -204,14 +204,7 @@ module.exports = grammar({
       ),
     create_function_parameters: $ =>
       seq("(", commaSep1($.create_function_parameter), ")"),
-    function_body: $ =>
-      seq(
-        kw("AS"),
-        choice(
-          seq("$$", $.select_statement, optional(";"), "$$"),
-          seq("'", $.select_statement, optional(";"), "'"),
-        ),
-      ),
+    function_body: $ => seq(kw("AS"), $.string),
     create_extension_statement: $ =>
       seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $.identifier),
     create_role_statement: $ =>
