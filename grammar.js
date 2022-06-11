@@ -123,12 +123,13 @@ module.exports = grammar({
         kw("ADD"),
         choice(seq(kw("COLUMN"), $.table_column), $._table_constraint),
       ),
-    alter_table_action_set: $ => seq(
-      kw("SET"),
-      $._expression
-    ),
+    alter_table_action_set: $ => seq(kw("SET"), $._expression),
     alter_table_action: $ =>
-      choice($.alter_table_action_add, $.alter_table_action_alter_column, $.alter_table_action_set),
+      choice(
+        $.alter_table_action_add,
+        $.alter_table_action_alter_column,
+        $.alter_table_action_set,
+      ),
     sequence: $ =>
       seq(
         kw("SEQUENCE"),
@@ -271,6 +272,18 @@ module.exports = grammar({
       ),
     create_type_statement: $ =>
       seq(kw("CREATE TYPE"), $.identifier, kw("AS"), $.parameters),
+    create_index_with_clause: $ =>
+      seq(
+        kw("WITH"),
+        "(",
+        field("storage_parameter", $.identifier),
+        "=",
+        // TODO: Option value be special set e.g. accepting enum with ON, OFF, VALUE
+        $._expression,
+        ")",
+      ),
+    create_index_include_clause: $ =>
+      seq(kw("INCLUDE"), "(", commaSep1($.identifier), ")"),
     create_index_statement: $ =>
       seq(
         kw("CREATE"),
@@ -278,9 +291,11 @@ module.exports = grammar({
         kw("INDEX"),
         field("name", $.identifier),
         kw("ON"),
-        field("table", $.identifier),
+        field("table_name", $.identifier),
         optional($.using_clause),
         $.index_table_parameters,
+        optional($.create_index_include_clause),
+        optional($.create_index_with_clause),
         optional($.where_clause),
       ),
     table_column: $ =>
@@ -377,7 +392,7 @@ module.exports = grammar({
         $._identifier,
         $.table_parameters,
       ),
-    using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
+    using_clause: $ => seq(kw("USING"), field("method", $.identifier)),
     index_table_parameters: $ =>
       seq(
         "(",
@@ -443,10 +458,12 @@ module.exports = grammar({
 
     // INSERT
     insert_statement: $ =>
-      seq(kw("INSERT"), kw("INTO"), $._identifier, choice(
-        $.values_clause,
-        $.select_statement
-      )),
+      seq(
+        kw("INSERT"),
+        kw("INTO"),
+        $._identifier,
+        choice($.values_clause, $.select_statement),
+      ),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>

@@ -798,6 +798,8 @@ CREATE INDEX using
 ================================================================================
 
 CREATE INDEX foo_idx ON table1 USING gist (col2);
+CREATE INDEX bttest_a_idx ON bttest_a USING btree (id) WITH (deduplicate_items = off);
+CREATE UNIQUE INDEX bttest_multi_idx ON bttest_multi USING btree (id) INCLUDE (data);
 
 --------------------------------------------------------------------------------
 
@@ -808,6 +810,26 @@ CREATE INDEX foo_idx ON table1 USING gist (col2);
     (using_clause
       (identifier))
     (index_table_parameters
+      (identifier)))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_table_parameters
+      (identifier))
+    (create_index_with_clause
+      (identifier)
+      (identifier)))
+  (create_index_statement
+    (unique_constraint)
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_table_parameters
+      (identifier))
+    (create_index_include_clause
       (identifier))))
 
 ================================================================================
