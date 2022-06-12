@@ -116,7 +116,11 @@ module.exports = grammar({
     alter_statement: $ =>
       seq(
         kw("ALTER"),
-        choice(alias($.sequence, $.alter_sequence), $.alter_table),
+        choice(
+          alias($.sequence, $.alter_sequence),
+          $.alter_table,
+          alias($.alter_schema, $.schema),
+        ),
       ),
     alter_table: $ =>
       seq(
@@ -125,6 +129,21 @@ module.exports = grammar({
         optional(kw("ONLY")),
         $._identifier,
         $.alter_table_action,
+      ),
+    alter_schema_rename_action: $ => seq(kw("RENAME TO"), $._identifier),
+    alter_owner_action: $ =>
+      seq(
+        kw("OWNER TO"),
+        choice($._identifier, "CURRENT_USER", "CURRENT_ROLE", "SESSION_USER"),
+      ),
+    alter_schema: $ =>
+      seq(
+        kw("SCHEMA"),
+        $._identifier,
+        choice(
+          alias($.alter_schema_rename_action, $.rename),
+          alias($.alter_owner_action, $.alter_owner),
+        ),
       ),
     alter_table_action_alter_column: $ =>
       seq(
@@ -144,6 +163,7 @@ module.exports = grammar({
         $.alter_table_action_add,
         $.alter_table_action_alter_column,
         $.alter_table_action_set,
+        alias($.alter_owner_action, $.alter_owner),
       ),
     sequence: $ =>
       seq(
@@ -192,7 +212,10 @@ module.exports = grammar({
         kw("STRICT"),
       ),
     _function_language: $ =>
-      seq(kw("LANGUAGE"), alias($.identifier, $.language)),
+      seq(
+        kw("LANGUAGE"),
+        alias(choice(/[a-zA-Z]+/, /'[a-zA-Z]+'/), $.language),
+      ),
     _create_function_return_type: $ =>
       choice($._type, $.setof, $.constrained_type),
     setof: $ => seq(kw("SETOF"), choice($._type, $.constrained_type)),
@@ -208,10 +231,22 @@ module.exports = grammar({
         optional(seq("=", alias($._expression, $.default))),
       ),
     create_function_parameters: $ =>
-      seq("(", commaSep1($.create_function_parameter), ")"),
+      seq("(", optional(commaSep1($.create_function_parameter)), ")"),
     function_body: $ => seq(kw("AS"), $.string),
     create_extension_statement: $ =>
-      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $._identifier),
+      seq(
+        kw("CREATE EXTENSION"),
+        optional(kw("IF NOT EXISTS")),
+        $._identifier,
+        optional(kw("WITH")),
+        repeat(
+          choice(
+            seq(kw("SCHEMA"), alias($._identifier, $.schema)),
+            seq(kw("VERSION"), alias($.string, $.version)),
+            kw("CASCADE"),
+          ),
+        ),
+      ),
     create_role_statement: $ =>
       seq(
         kw("CREATE ROLE"),
@@ -510,7 +545,7 @@ module.exports = grammar({
     parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(
-        field("function", $.identifier),
+        field("function", $._identifier),
         "(",
         optional(field("arguments", commaSep1($._expression))),
         ")",

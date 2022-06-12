@@ -106,6 +106,25 @@
     }
   },
   {
+    "type": "alter_owner",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "alter_sequence",
     "named": true,
     "fields": {},
@@ -147,6 +166,10 @@
         {
           "type": "alter_table",
           "named": true
+        },
+        {
+          "type": "schema",
+          "named": true
         }
       ]
     }
@@ -182,6 +205,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "alter_owner",
+          "named": true
+        },
         {
           "type": "alter_table_action_add",
           "named": true
@@ -1393,7 +1420,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -1402,6 +1429,14 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "schema",
+          "named": true
+        },
+        {
+          "type": "version",
           "named": true
         }
       ]
@@ -1467,7 +1502,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "create_function_parameter",
@@ -2379,6 +2414,10 @@
         "required": true,
         "types": [
           {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -2976,11 +3015,6 @@
     "fields": {}
   },
   {
-    "type": "language",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "mode",
     "named": true,
     "fields": {}
@@ -3413,9 +3447,55 @@
     }
   },
   {
+    "type": "rename",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "rollback_statement",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "schema",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alter_owner",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "rename",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "select_clause",
@@ -4523,6 +4603,22 @@
     }
   },
   {
+    "type": "version",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "content",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "where_clause",
     "named": true,
     "fields": {},
@@ -4834,6 +4930,14 @@
     "named": false
   },
   {
+    "type": "CURRENT_ROLE",
+    "named": false
+  },
+  {
+    "type": "CURRENT_USER",
+    "named": false
+  },
+  {
     "type": "DATABASE",
     "named": false
   },
@@ -5042,6 +5146,10 @@
     "named": false
   },
   {
+    "type": "OWNER_TO",
+    "named": false
+  },
+  {
     "type": "PARALLEL",
     "named": false
   },
@@ -5059,6 +5167,10 @@
   },
   {
     "type": "REFERENCES",
+    "named": false
+  },
+  {
+    "type": "RENAME_TO",
     "named": false
   },
   {
@@ -5103,6 +5215,10 @@
   },
   {
     "type": "SESSION",
+    "named": false
+  },
+  {
+    "type": "SESSION_USER",
     "named": false
   },
   {
@@ -5202,6 +5318,10 @@
     "named": false
   },
   {
+    "type": "VERSION",
+    "named": false
+  },
+  {
     "type": "VIEW",
     "named": false
   },
@@ -5251,6 +5371,10 @@
   },
   {
     "type": "content",
+    "named": true
+  },
+  {
+    "type": "language",
     "named": true
   },
   {

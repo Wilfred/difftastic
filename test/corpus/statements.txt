@@ -449,7 +449,7 @@ SELECT foo(bar, baz) < 10;
 SELECT expression with function without args
 ================================================================================
 
-SELECT foo();
+SELECT foo(), test.bar(1, 2, 3);
 
 --------------------------------------------------------------------------------
 
@@ -458,7 +458,14 @@ SELECT foo();
     (select_clause
       (select_clause_body
         (function_call
-          (identifier))))))
+          (identifier))
+        (function_call
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)
+          (number)
+          (number))))))
 
 ================================================================================
 SELECT comparison expression boolean
@@ -1872,6 +1879,11 @@ CREATE EXTENSION
 
 CREATE EXTENSION postgis;
 CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0';
+CREATE EXTENSION IF NOT EXISTS postgis WITH VERSION '1.0' SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0' SCHEMA bar CASCADE;
 
 --------------------------------------------------------------------------------
 
@@ -1879,7 +1891,31 @@ CREATE EXTENSION IF NOT EXISTS postgis;
   (create_extension_statement
     (identifier))
   (create_extension_statement
-    (identifier)))
+    (identifier))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier))))
 
 ================================================================================
 CREATE ROLE
@@ -2040,6 +2076,7 @@ ALTER TABLE mytable0
     ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
       ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
 ALTER TABLE foo SET (autovacuum_enabled = false);
+ALTER TABLE foo OWNER TO bar;
 
 --------------------------------------------------------------------------------
 
@@ -2091,7 +2128,13 @@ ALTER TABLE foo SET (autovacuum_enabled = false);
         (alter_table_action_set
           (binary_expression
             (identifier)
-            (FALSE)))))))
+            (FALSE))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_owner
+          (identifier))))))
 
 ================================================================================
 Transaction operators
@@ -2212,3 +2255,35 @@ SELECT 'O''Connor', '''', '''''', ' '' ', ' '' a'' ';
           (content))
         (string
           (content))))))
+
+================================================================================
+ALTER SCHEMA
+================================================================================
+
+ALTER SCHEMA bar00 OWNER TO foo;
+ALTER SCHEMA bar01 OWNER TO CURRENT_USER;
+ALTER SCHEMA bar02 RENAME TO bar03;
+CREATE EXTENSION btree_gist
+    SCHEMA test_schema_diff;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner
+        (identifier))))
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner)))
+  (alter_statement
+    (schema
+      (identifier)
+      (rename
+        (identifier))))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier))))
