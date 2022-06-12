@@ -14,6 +14,7 @@ const comparative_operators = [
   "<",
   "<=",
   "<>",
+  "!=",
   "=",
   ">",
   ">=",
@@ -106,7 +107,7 @@ module.exports = grammar({
         kw("COMMENT ON"),
         choice(
           seq(
-            choice(kw("EXTENSION"), kw("SCHEMA"), kw("TABLE")),
+            choice(kw("COLUMN"), kw("EXTENSION"), kw("SCHEMA"), kw("TABLE")),
             $._identifier,
           ),
           seq(kw("FUNCTION"), $.function_call),
@@ -395,7 +396,11 @@ module.exports = grammar({
         choice($._column_default_expression, $.type_cast),
       ),
     table_parameters: $ =>
-      seq("(", commaSep1(choice($.table_column, $._table_constraint)), ")"),
+      seq(
+        "(",
+        optional(commaSep1(choice($.table_column, $._table_constraint))),
+        ")",
+      ),
     mode: $ => choice(kw("NOT DEFERRABLE"), kw("DEFERRABLE")),
     initial_mode: $ =>
       seq(kw("INITIALLY"), choice(kw("DEFERRED"), kw("IMMEDIATE"))),
@@ -449,6 +454,7 @@ module.exports = grammar({
         optional(kw("IF NOT EXISTS")),
         $._identifier,
         $.table_parameters,
+        optional(kw("WITHOUT OIDS")),
       ),
     using_clause: $ => seq(kw("USING"), field("method", $.identifier)),
     index_table_parameters: $ =>
@@ -520,6 +526,7 @@ module.exports = grammar({
         kw("INSERT"),
         kw("INTO"),
         $._identifier,
+        optional(seq("(", commaSep1($._identifier), ")")),
         choice($.values_clause, $.select_statement),
       ),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
@@ -610,7 +617,7 @@ module.exports = grammar({
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
       seq($._expression, field("order", choice(kw("ASC"), kw("DESC")))),
-    array_type: $ => seq($._type, "[", "]"),
+    array_type: $ => seq($._type, "[", optional($.number), "]"),
     _type: $ => choice($.type, $.array_type),
     type_cast: $ =>
       seq(

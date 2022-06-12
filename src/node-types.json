@@ -565,11 +565,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         },
         {
@@ -801,6 +805,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
           {
             "type": "!~",
             "named": false
@@ -4059,7 +4067,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "check",
@@ -4749,6 +4757,10 @@
     "named": false
   },
   {
+    "type": "!=",
+    "named": false
+  },
+  {
     "type": "!~",
     "named": false
   },
@@ -5382,6 +5394,10 @@
   },
   {
     "type": "WITHOUT",
+    "named": false
+  },
+  {
+    "type": "WITHOUT_OIDS",
     "named": false
   },
   {
