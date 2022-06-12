@@ -69,6 +69,13 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
 
 /// Do these bytes look like a binary (non-textual) format?
 pub fn is_probably_binary(bytes: &[u8]) -> bool {
+    // Only consider the first 1,000 bytes, as tree_magic_mini
+    // considers the entire file, which is very slow on large files.
+    let mut bytes = bytes;
+    if bytes.len() > 1000 {
+        bytes = &bytes[..1000];
+    }
+
     let mime = tree_magic_mini::from_u8(bytes);
     match mime {
         // Treat pdf as binary.
