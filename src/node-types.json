@@ -1353,6 +1353,37 @@
     }
   },
   {
+    "type": "comment_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "commit_statement",
     "named": true,
     "fields": {}
@@ -3833,6 +3864,10 @@
           "named": true
         },
         {
+          "type": "comment_statement",
+          "named": true
+        },
+        {
           "type": "commit_statement",
           "named": true
         },
@@ -4894,6 +4929,10 @@
     "named": false
   },
   {
+    "type": "COMMENT_ON",
+    "named": false
+  },
+  {
     "type": "COMMIT",
     "named": false
   },
@@ -4995,6 +5034,10 @@
   },
   {
     "type": "FULL",
+    "named": false
+  },
+  {
+    "type": "FUNCTION",
     "named": false
   },
   {

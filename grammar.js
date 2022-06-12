@@ -96,8 +96,23 @@ module.exports = grammar({
           $.create_schema_statement,
           $.create_role_statement,
           $.create_extension_statement,
+          $.comment_statement,
         ),
         optional(";"),
+      ),
+
+    comment_statement: $ =>
+      seq(
+        kw("COMMENT ON"),
+        choice(
+          seq(
+            choice(kw("EXTENSION"), kw("SCHEMA"), kw("TABLE")),
+            $._identifier,
+          ),
+          seq(kw("FUNCTION"), $.function_call),
+        ),
+        kw("IS"),
+        choice($.string, $.NULL),
       ),
 
     begin_statement: $ =>
@@ -577,7 +592,7 @@ module.exports = grammar({
     _quoted_identifier: $ =>
       choice(
         seq("`", field("name", /[^`]*/), "`"), // MySQL style quoting
-        seq('"', field("name", /[^"]*/), '"'), // ANSI QUOTES
+        seq('"', field("name", /(""|[^"])*/), '"'), // ANSI QUOTES
       ),
     identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
     dotted_name: $ => prec.left(PREC.primary, sep2($.identifier, ".")),
