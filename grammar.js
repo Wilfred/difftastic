@@ -550,7 +550,7 @@ module.exports = grammar({
     type: $ => seq($._identifier, optional(seq("(", $.number, ")"))),
     string: $ =>
       choice(
-        seq("'", field("content", alias(/[^']*/, $.content)), "'"),
+        seq("'", field("content", alias(/(''|[^'])*/, $.content)), "'"),
         seq(
           $._dollar_quoted_string_tag,
           field("content", alias($._dollar_quoted_string_content, $.content)),

@@ -2189,3 +2189,26 @@ SELECT $$a$$, $a$baz$a$, $a$$$$a$, $a$b$$a$, $TAG$afasf    $$TAG$;
           (content))
         (string
           (content))))))
+
+================================================================================
+Escaping quotes
+================================================================================
+
+SELECT 'O''Connor', '''', '''''', ' '' ', ' '' a'' ';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))))))
