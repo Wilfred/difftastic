@@ -327,7 +327,7 @@ module.exports = grammar({
         // https://github.github.com/gfm/#paragraphs
         paragraph: $ => seq(repeat1(choice(alias($._line, $.inline), $._soft_line_break)), $._paragraph_end_newline),
         _soft_line_break: $ => seq(
-            $._newline,
+            $._newline_inline,
             repeat(choice($._split_token, $._soft_line_break_marker)),
             $._soft_line_break_marker,
             optional($._block_interrupt_paragraph), // not actually valid, we will error if it manages to match a block
@@ -428,8 +428,15 @@ module.exports = grammar({
 
         // Newlines as in the spec. Parsing a newline triggers the matching process by making
         // the external parser emit a `$._line_ending`.
+        _newline_token: $ => /\n|\r\n?/,
         _newline: $ => prec.right(seq(
-            /\n|\r\n?/,
+            $._newline_token,
+            optional($._line_ending),
+            optional($._ignore_matching_tokens)
+        )),
+        // Same as newline, but the actual character is marked as inline
+        _newline_inline: $ => prec.right(seq(
+            alias($._newline_token, $.inline),
             optional($._line_ending),
             optional($._ignore_matching_tokens)
         )),
@@ -542,10 +549,11 @@ module.exports = grammar({
         [$.indented_code_block, $._block],
     ],
     conflicts: $ => [
-        [$._soft_line_break, $._paragraph_end_newline],
+        // [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
         [$.link_label, $._line],
         [$.link_reference_definition, $._line],
+        [$._newline, $._newline_inline],
     ],
     extras: $ => [],
 });

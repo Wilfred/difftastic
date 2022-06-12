@@ -371,6 +371,10 @@
           "named": true
         },
         {
+          "type": "inline",
+          "named": true
+        },
+        {
           "type": "link_destination",
           "named": true
         },
@@ -545,7 +549,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "atx_heading",

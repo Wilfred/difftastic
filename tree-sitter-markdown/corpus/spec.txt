@@ -216,6 +216,8 @@ __
   (paragraph
     (inline)
     (inline)
+    (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -252,6 +254,7 @@ Foo
 
 (document
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -564,6 +567,7 @@ foo
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -740,6 +744,7 @@ baz*
   (setext_heading
     (paragraph
       (inline)
+      (inline)
       (inline))
     (setext_h1_underline)))
 
@@ -755,6 +760,7 @@ baz*
 (document
   (setext_heading
     (paragraph
+      (inline)
       (inline)
       (inline))
     (setext_h1_underline)))
@@ -848,6 +854,7 @@ Foo
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -863,6 +870,7 @@ Foo
 
 (document
   (paragraph
+    (inline)
     (inline)
     (inline))
   (paragraph
@@ -954,6 +962,8 @@ bar
     (paragraph
       (inline)
       (inline)
+      (inline)
+      (inline)
       (inline))))
 
 ================================================================================
@@ -984,6 +994,7 @@ Bar
 (document
   (setext_heading
     (paragraph
+      (inline)
       (inline)
       (inline))
     (setext_h2_underline)))
@@ -1130,6 +1141,7 @@ baz
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (thematic_break)
   (paragraph
@@ -1148,6 +1160,7 @@ baz
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (thematic_break)
   (paragraph
@@ -1165,6 +1178,9 @@ baz
 
 (document
   (paragraph
+    (inline)
+    (inline)
+    (inline)
     (inline)
     (inline)
     (inline)
@@ -1272,6 +1288,7 @@ Foo
 
 (document
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -1390,6 +1407,8 @@ foo
 
 (document
   (paragraph
+    (inline)
+    (inline)
     (inline)
     (inline)
     (inline)))
@@ -1650,6 +1669,7 @@ aaa
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -1776,6 +1796,7 @@ foo
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -1826,6 +1847,7 @@ _world_.
 (document
   (html_block)
   (paragraph
+    (inline)
     (inline)
     (inline))
   (html_block))
@@ -2358,6 +2380,8 @@ baz
   (paragraph
     (inline)
     (inline)
+    (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -2468,6 +2492,7 @@ Example 162 - https://github.github.com/gfm/#example-162
 (document
   (link_reference_definition
     (link_label)
+    (inline)
     (link_destination)
     (link_title))
   (paragraph
@@ -2505,6 +2530,7 @@ Example 164 - https://github.github.com/gfm/#example-164
 (document
   (link_reference_definition
     (link_label)
+    (inline)
     (link_destination)
     (link_title))
   (paragraph
@@ -2563,6 +2589,7 @@ Example 167 - https://github.github.com/gfm/#example-167
 (document
   (link_reference_definition
     (link_label)
+    (inline)
     (link_destination))
   (paragraph
     (inline)))
@@ -2801,6 +2828,7 @@ Foo
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (paragraph
     (inline)))
@@ -2862,6 +2890,7 @@ Example 185 - https://github.github.com/gfm/#example-185
     (link_destination))
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -2891,6 +2920,8 @@ Example 186 - https://github.github.com/gfm/#example-186
     (link_label)
     (link_destination))
   (paragraph
+    (inline)
+    (inline)
     (inline)
     (inline)
     (inline)))
@@ -2954,8 +2985,10 @@ ddd
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -2986,6 +3019,7 @@ Example 192 - https://github.github.com/gfm/#example-192
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -3001,6 +3035,8 @@ aaa
   (paragraph
     (inline)
     (inline)
+    (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -3013,6 +3049,7 @@ bbb
 
 (document
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -3039,6 +3076,7 @@ bbb
 
 (document
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -3081,6 +3119,7 @@ Example 206 - https://github.github.com/gfm/#example-206
       (block_quote_marker))
     (paragraph
       (inline)
+      (inline)
       (block_quote_marker)
       (inline))))
 
@@ -3102,6 +3141,7 @@ Example 207 - https://github.github.com/gfm/#example-207
       (block_quote_marker))
     (paragraph
       (inline)
+      (inline)
       (block_quote_marker)
       (inline))))
 
@@ -3122,6 +3162,7 @@ Example 208 - https://github.github.com/gfm/#example-208
       (inline)
       (block_quote_marker))
     (paragraph
+      (inline)
       (inline)
       (block_quote_marker)
       (inline))))
@@ -3156,6 +3197,7 @@ baz
       (block_quote_marker))
     (paragraph
       (inline)
+      (inline)
       (inline))))
 
 ================================================================================
@@ -3171,6 +3213,8 @@ baz
   (block_quote
     (block_quote_marker)
     (paragraph
+      (inline)
+      (inline)
       (inline)
       (inline)
       (block_quote_marker)
@@ -3259,6 +3303,7 @@ Example 216 - https://github.github.com/gfm/#example-216
     (block_quote_marker)
     (paragraph
       (inline)
+      (inline)
       (inline))))
 
 ================================================================================
@@ -3336,6 +3381,7 @@ Example 221 - https://github.github.com/gfm/#example-221
     (block_quote_marker)
     (paragraph
       (inline)
+      (inline)
       (block_quote_marker)
       (inline))))
 
@@ -3407,6 +3453,7 @@ baz
     (block_quote_marker)
     (paragraph
       (inline)
+      (inline)
       (inline))))
 
 ================================================================================
@@ -3461,6 +3508,7 @@ bar
         (block_quote_marker)
         (paragraph
           (inline)
+          (inline)
           (inline))))))
 
 ================================================================================
@@ -3481,7 +3529,9 @@ Example 229 - https://github.github.com/gfm/#example-229
         (block_quote_marker)
         (paragraph
           (inline)
+          (inline)
           (block_quote_marker)
+          (inline)
           (inline)
           (block_quote_marker)
           (block_quote_marker)
@@ -3520,6 +3570,7 @@ with two lines.
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (indented_code_block)
   (block_quote
@@ -3544,6 +3595,7 @@ Example 232 - https://github.github.com/gfm/#example-232
     (list_item
       (list_marker_dot)
       (paragraph
+        (inline)
         (inline)
         (inline))
       (indented_code_block)
@@ -4120,8 +4172,10 @@ foo
 (document
   (paragraph
     (inline)
+    (inline)
     (inline))
   (paragraph
+    (inline)
     (inline)
     (inline)))
 
@@ -4142,6 +4196,7 @@ Example 264 - https://github.github.com/gfm/#example-264
     (list_item
       (list_marker_dot)
       (paragraph
+        (inline)
         (inline)
         (inline))
       (indented_code_block)
@@ -4168,6 +4223,7 @@ Example 265 - https://github.github.com/gfm/#example-265
       (list_marker_dot)
       (paragraph
         (inline)
+        (inline)
         (inline))
       (indented_code_block)
       (block_quote
@@ -4192,6 +4248,7 @@ Example 266 - https://github.github.com/gfm/#example-266
     (list_item
       (list_marker_dot)
       (paragraph
+        (inline)
         (inline)
         (inline))
       (indented_code_block)
@@ -4233,6 +4290,7 @@ with two lines.
       (list_marker_dot)
       (paragraph
         (inline)
+        (inline)
         (inline))
       (indented_code_block)
       (block_quote
@@ -4254,6 +4312,7 @@ Example 269 - https://github.github.com/gfm/#example-269
       (list_marker_dot)
       (paragraph
         (inline)
+        (inline)
         (inline)))))
 
 ================================================================================
@@ -4274,6 +4333,7 @@ continued here.
           (block_quote_marker)
           (paragraph
             (inline)
+            (inline)
             (inline)))))))
 
 ================================================================================
@@ -4293,6 +4353,7 @@ Example 271 - https://github.github.com/gfm/#example-271
         (block_quote
           (block_quote_marker)
           (paragraph
+            (inline)
             (inline)
             (block_quote_marker)
             (inline)))))))
@@ -4544,6 +4605,7 @@ The number of windows in my house is
 (document
   (paragraph
     (inline)
+    (inline)
     (inline)))
 
 ================================================================================
@@ -4783,6 +4845,7 @@ Example 292 - https://github.github.com/gfm/#example-292
     (list_item
       (list_marker_minus)
       (paragraph
+        (inline)
         (inline)
         (inline)))))
 
