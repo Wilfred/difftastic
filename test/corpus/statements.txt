@@ -868,8 +868,9 @@ CREATE INDEX foo_idx ON table1 (col2 DESC);
 CREATE TABLE
 ================================================================================
 
-CREATE TABLE my_table (col1 INT, col2 INT)
-CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT)
+CREATE TABLE my_table (col1 INT, col2 INT);
+CREATE TABLE my_table () WITHOUT OIDS;
+CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT);
 
 --------------------------------------------------------------------------------
 
@@ -2296,6 +2297,7 @@ COMMENT ON TABLE mytable IS 'This is my table.';
 COMMENT ON TABLE mytable IS NULL;
 COMMENT ON SCHEMA myschema IS 'my schema tables';
 COMMENT ON FUNCTION public."Test]()&*^!@""'`\/#"() IS 'some comment';
+COMMENT ON COLUMN foo.bar.baz IS 'This is a comment.';
 
 --------------------------------------------------------------------------------
 
