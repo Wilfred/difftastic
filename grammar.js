@@ -89,6 +89,7 @@ module.exports = grammar({
           $.drop_statement,
           $.create_statement,
           $.alter_statement,
+          $.truncate_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -100,6 +101,14 @@ module.exports = grammar({
           $.comment_statement,
         ),
         optional(";"),
+      ),
+
+    truncate_statement: $ =>
+      seq(
+        kw("TRUNCATE"),
+        optional(kw("TABLE")),
+        optional(kw("ONLY")),
+        commaSep1($._identifier),
       ),
 
     comment_statement: $ =>
@@ -449,7 +458,7 @@ module.exports = grammar({
     create_table_statement: $ =>
       seq(
         kw("CREATE"),
-        optional(kw("TEMPORARY")),
+        optional(choice(kw("TEMPORARY"), kw("TEMP"))),
         kw("TABLE"),
         optional(kw("IF NOT EXISTS")),
         $._identifier,

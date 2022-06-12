@@ -888,6 +888,9 @@ CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT);
           (identifier)))))
   (create_table_statement
     (identifier)
+    (table_parameters))
+  (create_table_statement
+    (identifier)
     (table_parameters
       (table_column
         (identifier)
@@ -2319,4 +2322,37 @@ COMMENT ON COLUMN foo.bar.baz IS 'This is a comment.';
         (identifier)
         (identifier)))
     (string
+      (content)))
+  (comment_statement
+    (dotted_name
+      (identifier)
+      (identifier)
+      (identifier))
+    (string
       (content))))
+
+================================================================================
+TRUNCATE STATEMENT
+================================================================================
+
+TRUNCATE mytable;
+TRUNCATE ONLY mytable;
+TRUNCATE TABLE mytable;
+TRUNCATE TABLE ONLY mytable;
+TRUNCATE mytable1, mytable1, "My Table 3";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (identifier)))
