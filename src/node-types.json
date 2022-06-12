@@ -3944,6 +3944,10 @@
           "named": true
         },
         {
+          "type": "truncate_statement",
+          "named": true
+        },
+        {
           "type": "update_statement",
           "named": true
         }
@@ -4108,6 +4112,25 @@
     "type": "time_zone_constraint",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "truncate_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "tuple",

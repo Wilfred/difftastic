@@ -20,6 +20,26 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
           (content)))))
   (insert_statement
     (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_body
+        (number))))
+  (insert_statement
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_body
+        (number))))
+  (insert_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_body
+        (number)
+        (number))))
+  (insert_statement
+    (identifier)
     (select_statement
       (select_clause
         (select_clause_body
