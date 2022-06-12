@@ -93,6 +93,10 @@
             {
               "type": "SYMBOL",
               "name": "create_extension_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comment_statement"
             }
           ]
         },
@@ -105,6 +109,115 @@
             },
             {
               "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "comment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[cC][oO][mM][mM][eE][nN][tT]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[oO][nN]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "COMMENT_ON"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[eE][xX][tT][eE][nN][sS][iI][oO][nN]"
+                      },
+                      "named": false,
+                      "value": "EXTENSION"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[sS][cC][hH][eE][mM][aA]"
+                      },
+                      "named": false,
+                      "value": "SCHEMA"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[tT][aA][bB][lL][eE]"
+                      },
+                      "named": false,
+                      "value": "TABLE"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_identifier"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[fF][uU][nN][cC][tT][iI][oO][nN]"
+                  },
+                  "named": false,
+                  "value": "FUNCTION"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "function_call"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[iI][sS]"
+          },
+          "named": false,
+          "value": "IS"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "NULL"
             }
           ]
         }
@@ -4751,7 +4864,7 @@
               "name": "name",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\"]*"
+                "value": "(\"\"|[^\"])*"
               }
             },
             {

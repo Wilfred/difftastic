@@ -2287,3 +2287,34 @@ CREATE EXTENSION btree_gist
     (identifier)
     (schema
       (identifier))))
+
+================================================================================
+COMMENT STATEMENT
+================================================================================
+
+COMMENT ON TABLE mytable IS 'This is my table.';
+COMMENT ON TABLE mytable IS NULL;
+COMMENT ON SCHEMA myschema IS 'my schema tables';
+COMMENT ON FUNCTION public."Test]()&*^!@""'`\/#"() IS 'some comment';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (identifier)
+    (NULL))
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (function_call
+      (dotted_name
+        (identifier)
+        (identifier)))
+    (string
+      (content))))
