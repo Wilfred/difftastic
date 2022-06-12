@@ -161,7 +161,7 @@ struct Scanner {
             star_count++;
             lexer->advance(lexer, false);
         }
-        bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
+        bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r' || lexer->eof(lexer);
         if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
             // The desicion made for the first star also counts for all the following stars in the
             // delimiter run. Rembemer how many there are.
@@ -224,7 +224,7 @@ struct Scanner {
             underscore_count++;
             lexer->advance(lexer, false);
         }
-        bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
+        bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r' || lexer->eof(lexer);
         if (valid_symbols[EMPHASIS_OPEN_UNDERSCORE] || valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
             num_emphasis_delimiters_left = underscore_count - 1;
             bool next_symbol_whitespace = line_end || lexer->lookahead == ' ' || lexer->lookahead == '\t';
