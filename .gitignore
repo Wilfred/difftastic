@@ -1,6 +1,7 @@
 /target
 **/*.rs.bk
 perf.data*
+flamegraph.svg
 
 sample_files/compare.result
 
