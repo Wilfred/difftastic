@@ -243,12 +243,6 @@ module.exports = grammar({
             ))),
             $._newline,
         )),
-        _link_text_non_empty: $ => seq('[', alias(repeat1(choice(
-            $._word,
-            $._whitespace,
-            $._newline,
-            punctuation_without($, ['[', ']'])
-        )), $.inline), ']'),
         link_label: $ => seq('[', repeat1(choice(
             $._word,
             punctuation_without($, ['[', ']']),

@@ -261,17 +261,7 @@
   {
     "type": "inline",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "block_quote_marker",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "language",
