@@ -223,7 +223,7 @@ mod tests {
     use itertools::Itertools;
     use typed_arena::Arena;
 
-    fn pos_helper(line: usize) -> Vec<SingleLineSpan> {
+    fn pos_helper(line: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {
             line: line.into(),
             start_col: 0,
@@ -231,7 +231,7 @@ mod tests {
         }]
     }
 
-    fn col_helper(line: usize, col: u32) -> Vec<SingleLineSpan> {
+    fn col_helper(line: u32, col: u32) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {
             line: line.into(),
             start_col: col,

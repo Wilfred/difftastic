@@ -3,7 +3,7 @@
 /// The maximum number of lines that may occur between changed lines in a hunk.
 ///
 /// If we exceed this, the lines are stored in separate hunks.
-const MAX_DISTANCE: usize = 4;
+const MAX_DISTANCE: u32 = 4;
 
 use std::collections::HashSet;
 

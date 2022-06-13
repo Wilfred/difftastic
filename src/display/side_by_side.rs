@@ -85,7 +85,7 @@ fn display_single_column(
     is_lhs: bool,
     display_options: &DisplayOptions,
 ) -> String {
-    let column_width = format_line_num(src.lines().count().into()).len();
+    let column_width = format_line_num((src.lines().count() as u32).into()).len();
 
     let mut result = String::with_capacity(src.len());
     result.push_str(&style::header(
@@ -105,7 +105,7 @@ fn display_single_column(
 
     for (i, line) in src.lines().enumerate() {
         result.push_str(
-            &format_line_num_padded(i.into(), column_width)
+            &format_line_num_padded((i as u32).into(), column_width)
                 .style(style)
                 .to_string(),
         );
@@ -197,11 +197,17 @@ impl SourceDimensions {
         for (lhs_line_num, rhs_line_num) in line_nums {
             if let Some(lhs_line_num) = lhs_line_num {
                 lhs_max_line = max(lhs_max_line, *lhs_line_num);
-                lhs_max_content = max(lhs_max_content, codepoint_len(lhs_lines[lhs_line_num.0]));
+                lhs_max_content = max(
+                    lhs_max_content,
+                    codepoint_len(lhs_lines[lhs_line_num.as_usize()]),
+                );
             }
             if let Some(rhs_line_num) = rhs_line_num {
                 rhs_max_line = max(rhs_max_line, *rhs_line_num);
-                rhs_max_content = max(rhs_max_content, codepoint_len(rhs_lines[rhs_line_num.0]));
+                rhs_max_content = max(
+                    rhs_max_content,
+                    codepoint_len(rhs_lines[rhs_line_num.as_usize()]),
+                );
             }
         }
 
@@ -283,7 +289,7 @@ fn highlight_as_novel(
             return true;
         }
 
-        let line_content = lines.get(line_num.0).map(|s| str::trim(s));
+        let line_content = lines.get(line_num.as_usize()).map(|s| str::trim(s));
         // If this is a blank line without a corresponding line on the
         // other side, highlight it too. This helps highlight novel
         // blank lines.
@@ -437,7 +443,7 @@ pub fn print(
             if no_lhs_changes && !show_both {
                 match rhs_line_num {
                     Some(rhs_line_num) => {
-                        let rhs_line = &rhs_colored_lines[rhs_line_num.0];
+                        let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
                         if same_lines {
                             println!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
@@ -457,7 +463,7 @@ pub fn print(
             } else if no_rhs_changes && !show_both {
                 match lhs_line_num {
                     Some(lhs_line_num) => {
-                        let lhs_line = &lhs_colored_lines[lhs_line_num.0];
+                        let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
                         if same_lines {
                             println!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
@@ -474,7 +480,7 @@ pub fn print(
             } else {
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
-                        lhs_lines[lhs_line_num.0],
+                        lhs_lines[lhs_line_num.as_usize()],
                         source_dims.lhs_content_width,
                         display_options.use_color,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
@@ -484,7 +490,7 @@ pub fn print(
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
-                        rhs_lines[rhs_line_num.0],
+                        rhs_lines[rhs_line_num.as_usize()],
                         source_dims.rhs_content_width,
                         display_options.use_color,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
