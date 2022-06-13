@@ -10,8 +10,8 @@
     "parse": "tree-sitter parse",
     "prettier": "prettier --write .",
     "build-wasm": "tree-sitter build-wasm",
-    "update-playground": "tree-sitter build-wasm",
-    "playground": "rm -f tree-sitter-sql.wasm && npm run update-playground && tree-sitter playground",
+    "update-playground": "rm -f tree-sitter-sql.wasm && npm run gen && tree-sitter build-wasm",
+    "playground": "npm run update-playground && tree-sitter playground",
     "extract-error": "node ./scripts/extract_error.js"
   },
   "keywords": [
