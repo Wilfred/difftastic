@@ -195,6 +195,7 @@ dependencies = [
  "itertools",
  "lazy_static",
  "libc",
+ "libmimalloc-sys",
  "log",
  "mimalloc",
  "owo-colors",
@@ -302,9 +303,9 @@ checksum = "349d5a591cd28b49e1d1037471617a32ddcda5731b99419008085f72d5a53836"
 
 [[package]]
 name = "libmimalloc-sys"
-version = "0.1.25"
+version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11ca136052550448f55df7898c6dbe651c6b574fe38a0d9ea687a9f8088a2e2c"
+checksum = "7705fc40f6ed493f73584abbb324e74f96b358ff60dfe5659a0f8fc12c590a69"
 dependencies = [
  "cc",
 ]
@@ -335,9 +336,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc"
-version = "0.1.29"
+version = "0.1.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f64ad83c969af2e732e907564deb0d0ed393cec4af80776f77dd77a1a427698"
+checksum = "b0dfa131390c2f6bdb3242f65ff271fcdaca5ff7b6c08f28398be7f2280e3926"
 dependencies = [
  "libmimalloc-sys",
 ]
