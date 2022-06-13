@@ -221,7 +221,9 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
     let mut res = String::with_capacity(s.len());
     for (i, line) in s.lines().enumerate() {
-        let ranges = ranges_by_line.remove(&i.into()).unwrap_or_default();
+        let ranges = ranges_by_line
+            .remove(&(i as u32).into())
+            .unwrap_or_default();
         res.push_str(&apply_line(line, &ranges));
         res.push('\n');
     }

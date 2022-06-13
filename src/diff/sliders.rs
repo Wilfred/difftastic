@@ -538,7 +538,7 @@ fn slide_to_next_node<'a>(
 
 /// Return the distance between two syntax nodes, as a tuple of number
 /// of lines and number of columns.
-fn distance_between(prev: &Syntax, next: &Syntax) -> (usize, u32) {
+fn distance_between(prev: &Syntax, next: &Syntax) -> (u32, u32) {
     let prev_pos = prev.last_line_span();
     let next_pos = next.first_line_span();
 

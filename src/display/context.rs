@@ -98,16 +98,16 @@ fn add_ends(
         let mut lhs_line: LineNumber = (lhs_max.0 + 1).into();
         let mut rhs_line: LineNumber = (rhs_max.0 + 1).into();
 
-        while lhs_line.0 < lhs_lines.len() && rhs_line.0 < rhs_lines.len() {
+        while (lhs_line.0 as usize) < lhs_lines.len() && (rhs_line.0 as usize) < rhs_lines.len() {
             res.push((Some(lhs_line), Some(rhs_line)));
             lhs_line = (lhs_line.0 + 1).into();
             rhs_line = (rhs_line.0 + 1).into();
         }
-        while lhs_line.0 < lhs_lines.len() {
+        while (lhs_line.0 as usize) < lhs_lines.len() {
             res.push((Some(lhs_line), None));
             lhs_line = (lhs_line.0 + 1).into();
         }
-        while rhs_line.0 < rhs_lines.len() {
+        while (rhs_line.0 as usize) < rhs_lines.len() {
             res.push((None, Some(rhs_line)));
             rhs_line = (rhs_line.0 + 1).into();
         }
@@ -229,7 +229,7 @@ fn match_blanks_between(
 
     let mut res = vec![];
     while current_lhs > prev.0 && current_rhs > prev.1 {
-        if lhs_lines[current_lhs.0] == "" && rhs_lines[current_rhs.0] == "" {
+        if lhs_lines[current_lhs.as_usize()] == "" && rhs_lines[current_rhs.as_usize()] == "" {
             res.push((Some(current_lhs), Some(current_rhs)));
 
             current_lhs = (current_lhs.0 - 1).into();
@@ -258,7 +258,7 @@ fn match_blanks_before(
 
     let mut res = vec![];
     loop {
-        if lhs_lines[current_lhs.0] == "" && rhs_lines[current_rhs.0] == "" {
+        if lhs_lines[current_lhs.as_usize()] == "" && rhs_lines[current_rhs.as_usize()] == "" {
             res.push((Some(current_lhs), Some(current_rhs)));
 
             if current_lhs.0 == 0 || current_rhs.0 == 0 {
