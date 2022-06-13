@@ -88,6 +88,7 @@ module.exports = grammar({
     inline: $ => [
         $._ambiguous_name,
         $._class_member_definition,
+        $._if_null_expression,
     ],
 
     conflicts: $ => [
