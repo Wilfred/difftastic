@@ -406,27 +406,27 @@ pub fn print(
 
         let source_dims = SourceDimensions::new(
             display_options.display_width,
-            &aligned_lines,
+            aligned_lines,
             &lhs_lines,
             &rhs_lines,
         );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
-                lhs_line_num,
+                *lhs_line_num,
                 &lhs_lines,
-                rhs_line_num,
+                *rhs_line_num,
                 &lhs_lines_with_novel,
             );
             let rhs_line_novel = highlight_as_novel(
-                rhs_line_num,
+                *rhs_line_num,
                 &rhs_lines,
-                lhs_line_num,
+                *lhs_line_num,
                 &rhs_lines_with_novel,
             );
 
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
-                lhs_line_num,
-                rhs_line_num,
+                *lhs_line_num,
+                *rhs_line_num,
                 &source_dims,
                 display_options.use_color,
                 display_options.background_color,
@@ -554,10 +554,10 @@ pub fn print(
             }
 
             if lhs_line_num.is_some() {
-                prev_lhs_line_num = lhs_line_num;
+                prev_lhs_line_num = *lhs_line_num;
             }
             if rhs_line_num.is_some() {
-                prev_rhs_line_num = rhs_line_num;
+                prev_rhs_line_num = *rhs_line_num;
             }
         }
         println!();

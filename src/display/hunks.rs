@@ -595,10 +595,10 @@ fn either_side_equal(
     false
 }
 
-pub fn matched_lines_for_hunk(
-    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+pub fn matched_lines_for_hunk<'a>(
+    matched_lines: &'a [(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+) -> &'a [(Option<LineNumber>, Option<LineNumber>)] {
     let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
     hunk_lhs_novel.sort();
 
@@ -645,7 +645,7 @@ pub fn matched_lines_for_hunk(
         end_i = matched_lines.len();
     }
 
-    matched_lines[start_i..end_i].to_vec()
+    &matched_lines[start_i..end_i]
 }
 
 #[cfg(test)]
