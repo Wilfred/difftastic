@@ -102,12 +102,12 @@ impl NewlinePositions {
                     0
                 } else {
                     region_start - line_start
-                },
+                } as u32,
                 end_col: if region_end < line_end {
                     region_end - line_start
                 } else {
                     line_end - line_start
-                },
+                } as u32,
             });
         }
 

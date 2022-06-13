@@ -109,32 +109,35 @@ pub fn split_and_apply(
         let mut res = String::with_capacity(part.len());
         let mut prev_style_end = 0;
         for (span, style) in styles {
+            let start_col = span.start_col as usize;
+            let end_col = span.end_col as usize;
+
             // The remaining spans are beyond the end of this part.
-            if span.start_col >= part_start + byte_len(&part) {
+            if start_col >= part_start + byte_len(&part) {
                 break;
             }
 
             // If there's an unstyled gap before the next span.
-            if span.start_col > part_start && prev_style_end < span.start_col {
+            if start_col > part_start && prev_style_end < start_col {
                 // Then append that text without styling.
                 let unstyled_start = max(prev_style_end, part_start);
                 res.push_str(substring_by_byte(
                     &part,
                     unstyled_start - part_start,
-                    span.start_col - part_start,
+                    start_col - part_start,
                 ));
             }
 
             // Apply style to the substring in this span.
-            if span.end_col > part_start {
+            if end_col > part_start {
                 let span_s = substring_by_byte(
                     &part,
                     max(0, span.start_col as isize - part_start as isize) as usize,
-                    min(byte_len(&part), span.end_col - part_start),
+                    min(byte_len(&part), end_col - part_start),
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
-            prev_style_end = span.end_col;
+            prev_style_end = end_col;
         }
 
         // Ensure that prev_style_end is at least at the start of this
@@ -167,21 +170,24 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     let mut res = String::with_capacity(line.len());
     let mut i = 0;
     for (span, style) in styles {
+        let start_col = span.start_col as usize;
+        let end_col = span.end_col as usize;
+
         // The remaining spans are beyond the end of this line. This
         // occurs when we truncate the line to fit on the display.
-        if span.start_col >= line_bytes {
+        if start_col >= line_bytes {
             break;
         }
 
         // Unstyled text before the next span.
-        if i < span.start_col {
-            res.push_str(substring_by_byte(line, i, span.start_col));
+        if i < start_col {
+            res.push_str(substring_by_byte(line, i, start_col));
         }
 
         // Apply style to the substring in this span.
-        let span_s = substring_by_byte(line, span.start_col, min(line_bytes, span.end_col));
+        let span_s = substring_by_byte(line, start_col, min(line_bytes, end_col));
         res.push_str(&span_s.style(*style).to_string());
-        i = span.end_col;
+        i = end_col;
     }
 
     // Unstyled text after the last span.

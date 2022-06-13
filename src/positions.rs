@@ -7,6 +7,6 @@ use crate::lines::LineNumber;
 pub struct SingleLineSpan {
     /// All zero-indexed.
     pub line: LineNumber,
-    pub start_col: usize,
-    pub end_col: usize,
+    pub start_col: u32,
+    pub end_col: u32,
 }
