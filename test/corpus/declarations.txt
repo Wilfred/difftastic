@@ -620,8 +620,9 @@ class MyClass {
                 (function_body (block)))))
 
 ======================================
-Get and set identifiers
+Get and set identifiers (ERROR)
 ======================================
+
 class Tree {
   Set toSet() {
     Set set = Set();
@@ -633,6 +634,30 @@ class Tree {
 
 ---
 
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature
+        (function_signature
+          (type_identifier)
+          (identifier)
+          (formal_parameter_list)))
+      (function_body
+        (block
+          (ERROR
+            (function_signature
+              (type_identifier)
+              (identifier)
+              (ERROR
+                (identifier))
+              (formal_parameter_list))
+            (identifier)
+            (identifier)
+            (identifier)
+            (identifier))
+          (return_statement
+            (identifier)))))))
 
 ==================================
 void types
