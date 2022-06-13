@@ -1,5 +1,10 @@
 ## 0.30 (unreleased)
 
+## 0.29.1 (released 13th June 2022)
+
+Fixed a major memory regression in 0.29 when performing large
+line-based diffs (e.g. files of 100 KLOC or more).
+
 ## 0.29 (released 9th June 2022)
 
 Performance has improved in 0.29, and larger files typically see a 30%
