@@ -2,7 +2,7 @@
 
 use crate::{
     constants::Side,
-    lines::{byte_len, codepoint_len, LineNumber, split_on_newlines},
+    lines::{byte_len, codepoint_len, split_on_newlines, LineNumber},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     positions::SingleLineSpan,
