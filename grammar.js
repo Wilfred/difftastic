@@ -63,6 +63,15 @@ function createCaseInsensitiveRegex(word) {
   );
 }
 
+function kv(key, value) {
+  return alias(
+    value === null
+      ? createCaseInsensitiveRegex(key)
+      : seq(createCaseInsensitiveRegex(key), "=", field("value", value)),
+    key.toLowerCase(),
+  );
+}
+
 module.exports = grammar({
   name: "sql",
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
@@ -557,8 +566,81 @@ module.exports = grammar({
           ),
         ),
       ),
+
     create_type_statement: $ =>
-      seq(kw("CREATE TYPE"), $._identifier, kw("AS"), $.parameters),
+      prec.right(
+        seq(
+          kw("CREATE TYPE"),
+          field("type_name", $._identifier),
+          optional(
+            choice(
+              $.type_spec_composite,
+              $.type_spec_enum,
+              $.type_spec_range,
+              $.type_spec_base,
+            ),
+          ),
+        ),
+      ),
+    type_spec_composite: $ =>
+      seq(
+        kw("AS"),
+        "(",
+        commaSep1(seq($.identifier, choice($._type, $.constrained_type))),
+        ")",
+      ),
+    type_spec_enum: $ =>
+      seq(kw("AS"), kw("ENUM"), "(", commaSep($.string), ")"),
+    type_spec_range: $ =>
+      seq(
+        kw("AS"),
+        kw("RANGE"),
+        "(",
+        commaSep(
+          choice(
+            ...[
+              "SUBTYPE",
+              "SUBTYPE_OPCLASS",
+              "COLLATION",
+              "CANONICAL",
+              "SUBTYPE_DIFF",
+              "MULTIRANGE_TYPE_NAME",
+            ].map(k => kv(k, $._identifier)),
+          ),
+        ),
+        ")",
+      ),
+    type_spec_base: $ =>
+      seq(
+        "(",
+        commaSep(
+          choice(
+            ...[
+              ["INPUT", $._identifier],
+              ["OUTPUT", $._identifier],
+              ["RECEIVE", $._identifier],
+              ["SEND", $._identifier],
+              ["TYPMOD_IN", $._identifier],
+              ["TYPMOD_OUT", $._identifier],
+              ["ANALYZE", $._identifier],
+              ["SUBSCRIPT", $._identifier],
+              ["INTERNALLENGTH", choice($.number, kw("VARIABLE"))],
+              ["PASSEDBYVALUE", null],
+              ["ALIGNMENT", $._identifier],
+              ["STORAGE", $._identifier],
+              ["LIKE", $._identifier],
+              ["CATEGORY", $.string],
+              ["PREFERRED", $.string],
+              ["DEFAULT", $._expression],
+              ["ELEMENT", $._identifier],
+              ["DELIMITER", $.string],
+              ["COLLATABLE", $._identifier],
+            ].map(([k, v]) => kv(k, v)),
+          ),
+        ),
+        ")",
+      ),
+
     create_index_with_clause: $ =>
       seq(
         kw("WITH"),
@@ -845,8 +927,6 @@ module.exports = grammar({
         choice($.null_constraint, $.check_constraint),
         optional($.check_constraint),
       ),
-    parameter: $ => seq($.identifier, choice($._type, $.constrained_type)),
-    parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(
         field("function", $._identifier),
@@ -1033,6 +1113,10 @@ module.exports = grammar({
 
 function commaSep1(rule) {
   return sep1(rule, ",");
+}
+
+function commaSep(rule) {
+  return optional(sep1(rule, ","));
 }
 
 function sep1(rule, separator) {

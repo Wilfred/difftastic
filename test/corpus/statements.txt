@@ -644,25 +644,84 @@ SELECT 1 IN (1, 2);
 CREATE TYPE statement
 ================================================================================
 
+CREATE TYPE typename;
 CREATE TYPE xest AS (data TEXT, val INT NOT NULL);
 
 --------------------------------------------------------------------------------
 
 (source_file
   (create_type_statement
+    (identifier))
+  (create_type_statement
     (identifier)
-    (parameters
-      (parameter
-        (identifier)
+    (type_spec_composite
+      (identifier)
+      (type
+        (identifier))
+      (identifier)
+      (constrained_type
         (type
-          (identifier)))
-      (parameter
-        (identifier)
-        (constrained_type
-          (type
-            (identifier))
-          (null_constraint
-            (NULL)))))))
+          (identifier))
+        (null_constraint
+          (NULL))))))
+
+================================================================================
+CREATE TYPE enum
+================================================================================
+
+CREATE TYPE colors AS ENUM ('red', 'green', 'blue');
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_enum
+      (string
+        (content))
+      (string
+        (content))
+      (string
+        (content)))))
+
+================================================================================
+CREATE TYPE range
+================================================================================
+
+CREATE TYPE type_name AS RANGE (
+  SUBTYPE = date,
+  SUBTYPE_DIFF = diff_func,
+  CANONICAL = canonical_func
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_range
+      (identifier)
+      (identifier)
+      (identifier))))
+
+================================================================================
+CREATE TYPE base
+================================================================================
+
+CREATE TYPE type_name (
+  internallength = 16, 
+  input = in_func,
+  output = out_func
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_base
+      (identifier)
+      (identifier))))
 
 ================================================================================
 CREATE DOMAIN
