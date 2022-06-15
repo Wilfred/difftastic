@@ -7,7 +7,7 @@ use std::{cmp::max, collections::HashSet};
 use crate::{
     constants::Side,
     display::context::all_matched_lines_filled,
-    display::hunks::{matched_lines_for_hunk, Hunk},
+    display::hunks::{matched_lines_indexes_for_hunk, Hunk},
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
@@ -385,6 +385,7 @@ pub fn print(
     let mut prev_rhs_line_num = None;
 
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
+    let mut matched_lines_to_print = &matched_lines[..];
 
     for (i, hunk) in hunks.iter().enumerate() {
         println!(
@@ -399,7 +400,15 @@ pub fn print(
             )
         );
 
-        let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines_to_print, hunk);
+        let aligned_lines = &matched_lines_to_print[start_i..end_i];
+        // We iterate through hunks in order, so we know the next hunk
+        // must appear after start_i. This makes
+        // `matched_lines_indexes_for_hunk` faster on later
+        // iterations, and this function is hot on large textual
+        // diffs.
+        matched_lines_to_print = &matched_lines_to_print[start_i..];
+
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);

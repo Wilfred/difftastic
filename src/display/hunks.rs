@@ -595,10 +595,10 @@ fn either_side_equal(
     false
 }
 
-pub fn matched_lines_for_hunk<'a>(
-    matched_lines: &'a [(Option<LineNumber>, Option<LineNumber>)],
+pub fn matched_lines_indexes_for_hunk(
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
-) -> &'a [(Option<LineNumber>, Option<LineNumber>)] {
+) -> (usize, usize) {
     let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
     hunk_lhs_novel.sort();
 
@@ -645,7 +645,7 @@ pub fn matched_lines_for_hunk<'a>(
         end_i = matched_lines.len();
     }
 
-    &matched_lines[start_i..end_i]
+    (start_i, end_i)
 }
 
 #[cfg(test)]
@@ -756,6 +756,14 @@ mod tests {
         let hunks = matched_pos_to_hunks(&lhs_mps, &rhs_mps);
         assert_eq!(hunks.len(), 1);
         assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
+    }
+
+    fn matched_lines_for_hunk<'a>(
+        matched_lines: &'a [(Option<LineNumber>, Option<LineNumber>)],
+        hunk: &Hunk,
+    ) -> &'a [(Option<LineNumber>, Option<LineNumber>)] {
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk);
+        &matched_lines[start_i..end_i]
     }
 
     #[test]
