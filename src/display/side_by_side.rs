@@ -11,7 +11,7 @@ use crate::{
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
-    lines::{codepoint_len, format_line_num, LineNumber, split_on_newlines},
+    lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     positions::SingleLineSpan,

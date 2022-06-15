@@ -4,7 +4,7 @@ use crate::{
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
     display::hunks::Hunk,
     display::style::{self, apply_colors},
-    lines::{format_line_num, MaxLine, split_on_newlines},
+    lines::{format_line_num, split_on_newlines, MaxLine},
     options::DisplayOptions,
     parse::syntax::MatchedPos,
 };
