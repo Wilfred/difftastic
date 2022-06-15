@@ -10,6 +10,8 @@ use crate::{
 };
 use owo_colors::colored::*;
 
+use super::side_by_side::split_on_newlines;
+
 pub fn print(
     lhs_src: &str,
     rhs_src: &str,
@@ -21,7 +23,7 @@ pub fn print(
     rhs_display_path: &str,
     lang_name: &str,
 ) {
-    let (lhs_colored, rhs_colored) = if display_options.use_color {
+    let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
             apply_colors(
                 lhs_src,
@@ -39,11 +41,17 @@ pub fn print(
             ),
         )
     } else {
-        (lhs_src.to_string(), rhs_src.to_string())
+        (
+            split_on_newlines(lhs_src)
+                .iter()
+                .map(|s| (*s).to_owned())
+                .collect(),
+            split_on_newlines(rhs_src)
+                .iter()
+                .map(|s| (*s).to_owned())
+                .collect(),
+        )
     };
-
-    let lhs_lines: Vec<_> = lhs_colored.lines().collect();
-    let rhs_lines: Vec<_> = rhs_colored.lines().collect();
 
     let opposite_to_lhs = opposite_positions(lhs_positions);
     let opposite_to_rhs = opposite_positions(rhs_positions);
@@ -79,7 +87,7 @@ pub fn print(
                 println!(
                     "{}   {}",
                     format_line_num(lhs_line),
-                    lhs_lines[lhs_line.as_usize()]
+                    lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
         }
@@ -89,7 +97,7 @@ pub fn print(
                 println!(
                     "{}   {}",
                     format_line_num(*lhs_line).red().bold(),
-                    lhs_lines[lhs_line.as_usize()]
+                    lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
         }
@@ -98,7 +106,7 @@ pub fn print(
                 println!(
                     "   {}{}",
                     format_line_num(*rhs_line).green().bold(),
-                    rhs_lines[rhs_line.as_usize()]
+                    rhs_colored_lines[rhs_line.as_usize()]
                 );
             }
         }
@@ -108,7 +116,7 @@ pub fn print(
                 println!(
                     "   {}{}",
                     format_line_num(*rhs_line),
-                    rhs_lines[rhs_line.as_usize()]
+                    rhs_colored_lines[rhs_line.as_usize()]
                 );
             }
         }

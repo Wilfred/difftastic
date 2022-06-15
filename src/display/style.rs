@@ -11,6 +11,8 @@ use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
 
+use super::side_by_side::split_on_newlines;
+
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
     Dark,
@@ -216,16 +218,19 @@ fn group_by_line(
 /// Apply the `Style`s to the spans specified.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
-fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
+fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {
     let mut ranges_by_line = group_by_line(styles);
 
-    let mut res = String::with_capacity(s.len());
-    for (i, line) in s.lines().enumerate() {
+    let mut res = Vec::with_capacity(lines.len());
+    for (i, line) in lines.iter().enumerate() {
+        let mut styled_line = String::with_capacity(line.len());
         let ranges = ranges_by_line
             .remove(&(i as u32).into())
             .unwrap_or_default();
-        res.push_str(&apply_line(line, &ranges));
-        res.push('\n');
+
+        styled_line.push_str(&apply_line(line, &ranges));
+        styled_line.push('\n');
+        res.push(styled_line);
     }
     res
 }
@@ -325,9 +330,10 @@ pub fn apply_colors(
     syntax_highlight: bool,
     background: BackgroundColor,
     positions: &[MatchedPos],
-) -> String {
+) -> Vec<String> {
     let styles = color_positions(is_lhs, background, syntax_highlight, positions);
-    apply(s, &styles)
+    let lines = split_on_newlines(s);
+    style_lines(&lines, &styles)
 }
 
 fn apply_header_color(s: &str, use_color: bool, background: BackgroundColor) -> String {

@@ -23,7 +23,7 @@ const SPACER: &str = " ";
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
-fn split_on_newlines(s: &str) -> Vec<&str> {
+pub fn split_on_newlines(s: &str) -> Vec<&str> {
     s.split('\n')
         .map(|l| {
             if let Some(l) = l.strip_suffix('\r') {
@@ -81,14 +81,16 @@ fn display_single_column(
     lhs_display_path: &str,
     rhs_display_path: &str,
     lang_name: &str,
-    src: &str,
+    src_lines: &[String],
     is_lhs: bool,
     display_options: &DisplayOptions,
-) -> String {
-    let column_width = format_line_num((src.lines().count() as u32).into()).len();
+) -> Vec<String> {
+    let column_width = format_line_num((src_lines.len() as u32).into()).len();
 
-    let mut result = String::with_capacity(src.len());
-    result.push_str(&style::header(
+    let mut result = Vec::with_capacity(src_lines.len());
+
+    let mut header_line = String::new();
+    header_line.push_str(&style::header(
         lhs_display_path,
         rhs_display_path,
         1,
@@ -96,21 +98,24 @@ fn display_single_column(
         lang_name,
         display_options,
     ));
-    result.push('\n');
+    header_line.push('\n');
+    result.push(header_line);
 
     let mut style = Style::new();
     if display_options.use_color {
         style = novel_style(Style::new(), is_lhs, display_options.background_color);
     }
 
-    for (i, line) in src.lines().enumerate() {
-        result.push_str(
+    for (i, line) in src_lines.iter().enumerate() {
+        let mut formatted_line = String::with_capacity(line.len());
+        formatted_line.push_str(
             &format_line_num_padded((i as u32).into(), column_width)
                 .style(style)
                 .to_string(),
         );
-        result.push_str(line);
-        result.push('\n');
+        formatted_line.push_str(line);
+        formatted_line.push('\n');
+        result.push(formatted_line);
     }
 
     result
@@ -312,7 +317,7 @@ pub fn print(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) {
-    let (lhs_colored_src, rhs_colored_src) = if display_options.use_color {
+    let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
             apply_colors(
                 lhs_src,
@@ -330,35 +335,44 @@ pub fn print(
             ),
         )
     } else {
-        (lhs_src.to_string(), rhs_src.to_string())
+        (
+            split_on_newlines(lhs_src)
+                .iter()
+                .map(|s| (*s).to_owned())
+                .collect(),
+            split_on_newlines(rhs_src)
+                .iter()
+                .map(|s| (*s).to_owned())
+                .collect(),
+        )
     };
 
     if lhs_src.is_empty() {
-        println!(
-            "{}",
-            display_single_column(
-                lhs_display_path,
-                rhs_display_path,
-                lang_name,
-                &rhs_colored_src,
-                false,
-                display_options
-            )
-        );
+        for line in display_single_column(
+            lhs_display_path,
+            rhs_display_path,
+            lang_name,
+            &rhs_colored_lines,
+            false,
+            display_options,
+        ) {
+            print!("{}", line);
+        }
+        println!();
         return;
     }
     if rhs_src.is_empty() {
-        println!(
-            "{}",
-            display_single_column(
-                lhs_display_path,
-                rhs_display_path,
-                lang_name,
-                &lhs_colored_src,
-                true,
-                display_options
-            )
-        );
+        for line in display_single_column(
+            lhs_display_path,
+            rhs_display_path,
+            lang_name,
+            &lhs_colored_lines,
+            true,
+            display_options,
+        ) {
+            print!("{}", line);
+        }
+        println!();
         return;
     }
 
@@ -374,16 +388,13 @@ pub fn print(
         (FxHashMap::default(), FxHashMap::default())
     };
 
-    let lhs_lines = split_on_newlines(lhs_src);
-    let rhs_lines = split_on_newlines(rhs_src);
-    let lhs_colored_lines = split_on_newlines(&lhs_colored_src);
-    let rhs_colored_lines = split_on_newlines(&rhs_colored_src);
-
     let (lhs_lines_with_novel, rhs_lines_with_novel) = lines_with_novel(lhs_mps, rhs_mps);
 
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
+    let lhs_lines = split_on_newlines(lhs_src);
+    let rhs_lines = split_on_newlines(rhs_src);
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 
@@ -454,9 +465,9 @@ pub fn print(
                     Some(rhs_line_num) => {
                         let rhs_line = &rhs_colored_lines[rhs_line_num.as_usize()];
                         if same_lines {
-                            println!("{}{}", display_rhs_line_num, rhs_line);
+                            print!("{}{}", display_rhs_line_num, rhs_line);
                         } else {
-                            println!(
+                            print!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, rhs_line
                             );
@@ -474,9 +485,9 @@ pub fn print(
                     Some(lhs_line_num) => {
                         let lhs_line = &lhs_colored_lines[lhs_line_num.as_usize()];
                         if same_lines {
-                            println!("{}{}", display_lhs_line_num, lhs_line);
+                            print!("{}{}", display_lhs_line_num, lhs_line);
                         } else {
-                            println!(
+                            print!(
                                 "{}{}{}",
                                 display_lhs_line_num, display_rhs_line_num, lhs_line
                             );
@@ -652,14 +663,15 @@ mod tests {
         };
 
         // Basic smoke test.
-        let res = display_single_column(
+        let res_lines = display_single_column(
             "foo.py",
             "foo.py",
             "Python",
-            "print(123)\n",
+            &["print(123)\n".to_string()],
             false,
             &display_options,
         );
+        let res = res_lines.join("");
         assert!(res.len() > 10);
     }
 
