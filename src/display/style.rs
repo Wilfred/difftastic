@@ -2,7 +2,7 @@
 
 use crate::{
     constants::Side,
-    lines::{byte_len, codepoint_len, LineNumber},
+    lines::{byte_len, codepoint_len, LineNumber, split_on_newlines},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     positions::SingleLineSpan,
@@ -10,8 +10,6 @@ use crate::{
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
-
-use super::side_by_side::split_on_newlines;
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {

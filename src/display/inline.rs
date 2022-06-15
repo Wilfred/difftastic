@@ -4,13 +4,11 @@ use crate::{
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
     display::hunks::Hunk,
     display::style::{self, apply_colors},
-    lines::{format_line_num, MaxLine},
+    lines::{format_line_num, MaxLine, split_on_newlines},
     options::DisplayOptions,
     parse::syntax::MatchedPos,
 };
 use owo_colors::colored::*;
-
-use super::side_by_side::split_on_newlines;
 
 pub fn print(
     lhs_src: &str,
