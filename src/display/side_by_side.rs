@@ -11,30 +11,13 @@ use crate::{
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
-    lines::{codepoint_len, format_line_num, LineNumber},
+    lines::{codepoint_len, format_line_num, LineNumber, split_on_newlines},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     positions::SingleLineSpan,
 };
 
 const SPACER: &str = " ";
-
-/// Split `s` on \n or \r\n. Always returns a non-empty vec. Does not
-/// include the trailing newline.
-///
-/// This differs from `str::lines`, which considers `""` to be zero
-/// lines and `"foo\n"` to be one line.
-pub fn split_on_newlines(s: &str) -> Vec<&str> {
-    s.split('\n')
-        .map(|l| {
-            if let Some(l) = l.strip_suffix('\r') {
-                l
-            } else {
-                l
-            }
-        })
-        .collect()
-}
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!(

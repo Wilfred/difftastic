@@ -177,6 +177,23 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
+/// Split `s` on \n or \r\n. Always returns a non-empty vec. Does not
+/// include the trailing newline.
+///
+/// This differs from `str::lines`, which considers `""` to be zero
+/// lines and `"foo\n"` to be one line.
+pub fn split_on_newlines(s: &str) -> Vec<&str> {
+    s.split('\n')
+        .map(|l| {
+            if let Some(l) = l.strip_suffix('\r') {
+                l
+            } else {
+                l
+            }
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
