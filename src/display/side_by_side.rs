@@ -19,7 +19,8 @@ use crate::{
 
 const SPACER: &str = " ";
 
-/// Split `s` on \n or \r\n. Always returns a non-empty vec.
+/// Split `s` on \n or \r\n. Always returns a non-empty vec. Does not
+/// include the trailing newline.
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
