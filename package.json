@@ -27,7 +27,7 @@
   "devDependencies": {
     "tree-sitter-cli": "^0.20.1",
     "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#fdeb68ac8d2bd5a78b943528bb68ceda3aade2eb",
-    "tree-sitter-typescript": "github:tree-sitter/tree-sitter-typescript#54931b39ae7b197e20c7b06680ceaf576b18ec69"
+    "tree-sitter-typescript": "github:tree-sitter/tree-sitter-typescript#1b3ba31c7538825b05815f4f5bffcca6394edc63"
   },
   "tree-sitter": [
     {
