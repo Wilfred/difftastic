@@ -2,19 +2,6 @@
 // (https://spec.commonmark.org/0.30/#blocks-and-inlines)
 // For more information see README.md
 
-// (https://github.github.com/gfm/#html-blocks)
-// tag names for html blocks of type 1
-const HTML_TAG_NAMES_RULE_1 = ['pre', 'script', 'style'];
-// tag names for html blocks of type 6
-const HTML_TAG_NAMES_RULE_7 = [
-    'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center',
-    'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption',
-    'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head',
-    'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav',
-    'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
-    'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
-];
-
 const PRECEDENCE_LEVEL_LINK = 1;
 
 const PUNCTUATION_CHARACTERS_REGEX = '!-/:-@\\[-`\\{-~';
@@ -164,61 +151,28 @@ module.exports = grammar({
             $._html_block_7,
         ))),
         _html_block_1: $ => build_html_block($,
-            new RegExp(
-                '[ \t]*<' + regex_case_insensitive_list(HTML_TAG_NAMES_RULE_1) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'
-            ),
-            new RegExp('</' + regex_case_insensitive_list(HTML_TAG_NAMES_RULE_1) + '>'),
+            // new RegExp(
+            //     '[ \t]*<' + regex_case_insensitive_list(HTML_TAG_NAMES_RULE_1) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'
+            // ),
+            $._html_block_1_start,
+            $._html_block_1_end,
             true
         ),
-        _html_block_2: $ => build_html_block($, /[ \t]*<!--/, '-->', true),
-        _html_block_3: $ => build_html_block($, /[ \t]*<\?/, '?>', true),
-        _html_block_4: $ => build_html_block($, /[ \t]*<![A-Z]+/, '>', true),
-        _html_block_5: $ => build_html_block($, /[ \t]*<!\[CDATA\[/, ']]>', true),
-        _html_block_6: $ => choice(
-            build_html_block(
-                $,
-                new RegExp(
-                    '[ \t]*</?' + regex_case_insensitive_list(HTML_TAG_NAMES_RULE_7) + '([ \\t>]|/>)'
-                ),
-                seq($._newline, $._blank_line),
-                true
-            ),
-            build_html_block_after_newline(
-                $,
-                new RegExp('[ \t]*</?' + regex_case_insensitive_list(HTML_TAG_NAMES_RULE_7) + '(\\n|\\r\\n?)'),
-                true
-            ),
+        _html_block_2: $ => build_html_block($, $._html_block_2_start, '-->', true),
+        _html_block_3: $ => build_html_block($, $._html_block_3_start, '?>', true),
+        _html_block_4: $ => build_html_block($, $._html_block_4_start, '>', true),
+        _html_block_5: $ => build_html_block($, $._html_block_5_start, ']]>', true),
+        _html_block_6: $ => build_html_block(
+            $,
+            $._html_block_6_start,
+            seq($._newline, $._blank_line),
+            true
         ),
-        _html_block_7: $ => choice(
-            build_html_block(
-                $,
-                choice($._open_tag_html_block, $._closing_tag_html_block),
-                seq($._newline, $._blank_line),
-                false
-            ),
-            build_html_block_after_newline(
-                $,
-                choice($._open_tag_html_block_newline, $._closing_tag_html_block_newline),
-                false
-            ),
-        ),
-        // HTML tags for opening html blocks are parsed differently as they can only cointain one
-        // token.
-        _open_tag_html_block: $ => new RegExp(
-            '[ \t]*<'
-            + negative_regex(HTML_TAG_NAMES_RULE_1.concat(HTML_TAG_NAMES_RULE_7), '0-9\\-', true)
-            + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>[ \\t]'
-        ),
-        _open_tag_html_block_newline: $ => new RegExp(
-            '[ \t]*<'
-            + negative_regex(HTML_TAG_NAMES_RULE_1.concat(HTML_TAG_NAMES_RULE_7), '0-9\\-', true)
-            + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>(\n|\r\n?)'
-        ),
-        _closing_tag_html_block: $ => new RegExp(
-            '</' + negative_regex(HTML_TAG_NAMES_RULE_1.concat(HTML_TAG_NAMES_RULE_7), '0-9\\-', true) + '[ \\t]*>[ \\t]'
-        ),
-        _closing_tag_html_block_newline: $ => new RegExp(
-            '</' + negative_regex(HTML_TAG_NAMES_RULE_1.concat(HTML_TAG_NAMES_RULE_7), '0-9\\-', true) + '[ \\t]*>(\n|\r\n?)'
+        _html_block_7: $ => build_html_block(
+            $,
+            $._html_block_7_start,
+            seq($._newline, $._blank_line),
+            false
         ),
 
         // A link reference definition. We need to make sure that this is not mistaken for a
@@ -510,6 +464,15 @@ module.exports = grammar({
         $._fenced_code_block_end_backtick,
         $._fenced_code_block_end_tilde,
 
+        $._html_block_1_start,
+        $._html_block_1_end,
+        $._html_block_2_start,
+        $._html_block_3_start,
+        $._html_block_4_start,
+        $._html_block_5_start,
+        $._html_block_6_start,
+        $._html_block_7_start,
+
         // This is used in the case that a start token for a block is not parsed by the external
         // parser to properly update the currently open blocks in the external parser.
         $._open_block,
@@ -586,87 +549,6 @@ function build_html_block_after_newline($, open, interrupt_paragraph) {
         $._block_close,
         optional($._ignore_matching_tokens),
     );
-}
-
-// Utility function to create a case insensitive regex.
-function regex_case_insensitive_list(ss) {
-    return "(" + ss.map(x => regex_case_insensitive(x)).join("|") + ")";
-}
-
-// Utility function to create a case insensitive regex matching any of a list of strings.
-function regex_case_insensitive(s) {
-    return Array.from(s).map(x => "[" + x + x.toUpperCase() + "]").join("");
-}
-
-// Used to build a regex that matches html tags that do NOT have a tag name from a list of tag
-// names.
-//
-// In particular this returns a regex that matches any string made up of ascii letters and
-// characters specified in `classExtra`, but that is NOT part of the list of strings `ss`.
-function negative_regex(ss, classExtra, isStart) {
-    let chars = {};
-    let end = true;
-    for (let s of ss) {
-        if (s.length > 1) {
-            end = false;
-        }
-        let char = s.charCodeAt(0);
-        if (!(char in chars)) {
-            chars[char] = [];
-        }
-        chars[char].push(s);
-    }
-    let ranges = [['a'.charCodeAt(0), 'z'.charCodeAt(0)]];
-    if (!isStart) {
-        ranges.splice(0, 0, ['0'.charCodeAt(0), '9'.charCodeAt(0)]);
-    }
-    for (let char in chars) {
-        for (let i = 0; i < ranges.length; i++) {
-            let range = ranges[i];
-            if (range[1] < char) continue;
-            if (range[1] != char && range[0] != char) {
-                ranges.splice(i, 1, [range[0], char - 1], [+char + 1, range[1]]);
-            } else if(range[1] == char && range[0] == char) {
-                ranges.splice(i, 1);
-            } else if (range[1] == char) {
-                range[1]--;
-            } else {
-                range[0]++;
-            }
-            break;
-        }
-    }
-    let alphabet = ranges.map(x => {
-        if (x[0] >= 97) { // is letter
-            if (x[0] == x[1]) {
-                return String.fromCharCode(x[0]) + String.fromCharCode(x[0]).toUpperCase();
-            } else {
-                return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]) + String.fromCharCode(x[0]).toUpperCase() + '-' + String.fromCharCode(x[1]).toUpperCase();
-            }
-        } else {
-            if (x[0] == x[1]) {
-                return String.fromCharCode(x[0]);
-            } else {
-                return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]);
-            }
-        }
-    }).join('');
-    let output = '([' + alphabet + (isStart ? '' : classExtra) + '][a-zA-Z' + classExtra + ']*';
-    if (!end) {
-        for (let char in chars) {
-            output += '|' + String.fromCharCode(char);
-            let new_ss = chars[char].map(x => x.substring(1)).filter(x => x.length != 0)
-            if (new_ss.length > 0) {
-                output += '|' + String.fromCharCode(char) + negative_regex(new_ss, classExtra, false);
-            } else {
-                output += '[a-zA-Z' + classExtra + ']+';
-            }
-        }
-    } else {
-        output += '|[' + Object.keys(chars).map(x => String.fromCharCode(x)).join('') + '][a-zA-Z' + classExtra + ']+';
-    }
-    output += ')';
-    return output;
 }
 
 // Returns a rule that matches all characters that count as punctuation inside markdown, besides
