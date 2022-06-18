@@ -43,7 +43,7 @@
           "named": true
         },
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         }
       ]
@@ -59,6 +59,10 @@
       "types": [
         {
           "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -113,7 +117,7 @@
       "required": false,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         }
       ]
@@ -132,11 +136,11 @@
           "named": true
         },
         {
-          "type": "block_quote",
+          "type": "block_continuation",
           "named": true
         },
         {
-          "type": "block_quote_marker",
+          "type": "block_quote",
           "named": true
         },
         {
@@ -183,7 +187,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -210,7 +214,7 @@
       "required": false,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         }
       ]
@@ -225,7 +229,7 @@
       "required": false,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         }
       ]
@@ -322,7 +326,7 @@
           "named": true
         },
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -345,23 +349,7 @@
       "required": true,
       "types": [
         {
-          "type": "atx_heading",
-          "named": true
-        },
-        {
-          "type": "block_quote",
-          "named": true
-        },
-        {
-          "type": "block_quote_marker",
-          "named": true
-        },
-        {
-          "type": "fenced_code_block",
-          "named": true
-        },
-        {
-          "type": "inline",
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -374,18 +362,6 @@
         },
         {
           "type": "link_title",
-          "named": true
-        },
-        {
-          "type": "setext_h1_underline",
-          "named": true
-        },
-        {
-          "type": "setext_h2_underline",
-          "named": true
-        },
-        {
-          "type": "thematic_break",
           "named": true
         }
       ]
@@ -404,7 +380,7 @@
           "named": true
         },
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -446,11 +422,11 @@
           "named": true
         },
         {
-          "type": "block_quote",
+          "type": "block_continuation",
           "named": true
         },
         {
-          "type": "block_quote_marker",
+          "type": "block_quote",
           "named": true
         },
         {
@@ -539,38 +515,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "atx_heading",
-          "named": true
-        },
-        {
-          "type": "block_quote",
-          "named": true
-        },
-        {
-          "type": "block_quote_marker",
-          "named": true
-        },
-        {
-          "type": "fenced_code_block",
+          "type": "block_continuation",
           "named": true
         },
         {
           "type": "inline",
-          "named": true
-        },
-        {
-          "type": "setext_h1_underline",
-          "named": true
-        },
-        {
-          "type": "setext_h2_underline",
-          "named": true
-        },
-        {
-          "type": "thematic_break",
           "named": true
         }
       ]
@@ -596,7 +548,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         },
         {
@@ -615,11 +567,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "block_quote_marker",
+          "type": "block_continuation",
           "named": true
         }
       ]
@@ -775,6 +727,10 @@
   },
   {
     "type": "backslash_escape",
+    "named": true
+  },
+  {
+    "type": "block_continuation",
     "named": true
   },
   {

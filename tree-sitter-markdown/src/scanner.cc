@@ -14,9 +14,9 @@ namespace TreeSitterMarkdown {
 // For explanation of the tokens see grammar.js
 enum TokenType {
     LINE_ENDING,
+    SOFT_LINE_ENDING,
     BLOCK_CLOSE,
     BLOCK_CONTINUATION,
-    BLOCK_QUOTE_CONTINUATION,
     BLOCK_QUOTE_START,
     INDENTED_CHUNK_START,
     ATX_H1_MARKER,
@@ -55,8 +55,6 @@ enum TokenType {
     OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
     CLOSE_BLOCK,
     NO_INDENTED_CHUNK,
-    SPLIT_TOKEN,
-    SOFT_LINE_BREAK_MARKER,
     ERROR,
     TRIGGER_ERROR,
 };
@@ -101,6 +99,54 @@ const char* HTML_TAG_NAMES_RULE_7[NUM_HTML_TAG_NAMES_RULE_7] = {
     "tbody", "td", "tfoot", "th", "thead", "title", "tr", "track", "ul"
 };
 
+// For explanation of the tokens see grammar.js
+const bool paragraph_interrupt_symbols[] {
+    false, // LINE_ENDING,
+    false, // SOFT_LINE_ENDING,
+    false, // BLOCK_CLOSE,
+    false, // BLOCK_CONTINUATION,
+    true, // BLOCK_QUOTE_START,
+    false, // INDENTED_CHUNK_START,
+    true, // ATX_H1_MARKER,
+    true, // ATX_H2_MARKER,
+    true, // ATX_H3_MARKER,
+    true, // ATX_H4_MARKER,
+    true, // ATX_H5_MARKER,
+    true, // ATX_H6_MARKER,
+    true, // SETEXT_H1_UNDERLINE,
+    true, // SETEXT_H2_UNDERLINE,
+    true, // THEMATIC_BREAK,
+    true, // LIST_MARKER_MINUS,
+    true, // LIST_MARKER_PLUS,
+    true, // LIST_MARKER_STAR,
+    true, // LIST_MARKER_PARENTHESIS,
+    true, // LIST_MARKER_DOT,
+    false, // LIST_MARKER_MINUS_DONT_INTERRUPT,
+    false, // LIST_MARKER_PLUS_DONT_INTERRUPT,
+    false, // LIST_MARKER_STAR_DONT_INTERRUPT,
+    false, // LIST_MARKER_PARENTHESIS_DONT_INTERRUPT,
+    false, // LIST_MARKER_DOT_DONT_INTERRUPT,
+    true, // FENCED_CODE_BLOCK_START_BACKTICK,
+    true, // FENCED_CODE_BLOCK_START_TILDE,
+    true, // BLANK_LINE_START,
+    false, // FENCED_CODE_BLOCK_END_BACKTICK,
+    false, // FENCED_CODE_BLOCK_END_TILDE,
+    true, // HTML_BLOCK_1_START,
+    false, // HTML_BLOCK_1_END,
+    true, // HTML_BLOCK_2_START,
+    true, // HTML_BLOCK_3_START,
+    true, // HTML_BLOCK_4_START,
+    true, // HTML_BLOCK_5_START,
+    true, // HTML_BLOCK_6_START,
+    false, // HTML_BLOCK_7_START,
+    false, // OPEN_BLOCK,
+    false, // OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
+    false, // CLOSE_BLOCK,
+    false, // NO_INDENTED_CHUNK,
+    false, // ERROR,
+    false, // TRIGGER_ERROR,
+};
+
 // State bitflags used with `Scanner.state`
 
 // Currently matching (at the beginning of a line)
@@ -133,6 +179,8 @@ struct Scanner {
     uint8_t column;
     // The delimiter length of the currently open fenced code block
     uint8_t fenced_code_block_delimiter_length;
+
+    bool simulate;
 
     Scanner() {
         assert(sizeof(Block) == sizeof(char));
@@ -194,6 +242,12 @@ struct Scanner {
         return size;
     }
 
+    void mark_end(TSLexer * lexer) {
+        if (!simulate) {
+            lexer->mark_end(lexer);
+        }
+    }
+
     // Convenience function to emit the error token. This is done to stop invalid parse branches.
     // Specifically:
     // 1. When encountering a newline after a line break that ended a paragraph, and no new block
@@ -220,44 +274,16 @@ struct Scanner {
         uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 2;
         if (
             split_token_count == 2 &&
-            !valid_symbols[SOFT_LINE_BREAK_MARKER] &&
             matched == open_blocks.size()
             ) {
             state &= ~STATE_MATCHING;
-        }
-
-        // The parser just encountered a line break. Setup the state correspondingly
-        if (valid_symbols[LINE_ENDING]) {
-            // If the last line break ended a paragraph and no new block opened, the last line
-            // break should have been a soft line break
-            if (state & STATE_NEED_OPEN_BLOCK) return error(lexer);
-            // Reset the counter for matched blocks
-            matched = 0;
-            // If there is at least one open block, we should be in the matching state.
-            // Also set the matching flag if a `$._soft_line_break_marker` can be emitted so it
-            // does get emitted.
-            if (valid_symbols[SOFT_LINE_BREAK_MARKER] || open_blocks.size() > 0) {
-                state |= STATE_MATCHING;
-            } else {
-                state &= (~STATE_MATCHING);
-            }
-            // reset some state variables
-            state &=
-            (~STATE_WAS_SOFT_LINE_BREAK) &
-            (~STATE_SPLIT_TOKEN_COUNT) &
-            (~STATE_NEED_OPEN_BLOCK) &
-            (~STATE_JUST_CLOSED);
-            indentation = 0;
-            column = 0;
-            lexer->result_symbol = LINE_ENDING;
-            return true;
         }
 
         // Open a new (anonymous) block as requested. See `$._open_block` in grammar.js
         if (valid_symbols[OPEN_BLOCK] || valid_symbols[OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH]) {
             if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
             if (valid_symbols[OPEN_BLOCK]) state &= ~STATE_NEED_OPEN_BLOCK;
-            open_blocks.push_back(ANONYMOUS);
+            if (!simulate) open_blocks.push_back(ANONYMOUS);
             lexer->result_symbol =
                 valid_symbols[OPEN_BLOCK] ? OPEN_BLOCK : OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH;
             return true;
@@ -286,7 +312,7 @@ struct Scanner {
             if (open_blocks.size() > 0) {
                 Block block = open_blocks[open_blocks.size() - 1];
                 lexer->result_symbol = BLOCK_CLOSE;
-                open_blocks.pop_back();
+                if (!simulate) open_blocks.pop_back();
                 return true;
             }
             return false;
@@ -298,7 +324,7 @@ struct Scanner {
             if (valid_symbols[INDENTED_CHUNK_START] && !valid_symbols[NO_INDENTED_CHUNK]) {
                 if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
                     lexer->result_symbol = INDENTED_CHUNK_START;
-                    open_blocks.push_back(INDENTED_CODE_BLOCK);
+                    if (!simulate) open_blocks.push_back(INDENTED_CODE_BLOCK);
                     indentation -= 4;
                     return true;
                 }
@@ -377,34 +403,32 @@ struct Scanner {
                     if (!partial_success) state &= ~STATE_CLOSE_BLOCK;
                     break;
                 }
-                // If next block is a block quote and we have already matched stuff then return as
-                // every continuation for block quotes should be its own token.
-                if (open_blocks[matched] == BLOCK_QUOTE && partial_success) {
-                    break;
-                }
                 if (match(lexer, open_blocks[matched])) {
                     partial_success = true;
                     matched++;
-                    // Return after every block quote continuation
-                    if (open_blocks[matched - 1] == BLOCK_QUOTE) {
-                        break;
+                    for (;;) {
+                        if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                            indentation += advance(lexer);
+                        } else {
+                            break;
+                        }
                     }
                 } else {
+                    if (state & STATE_WAS_SOFT_LINE_BREAK) {
+                        state &= (~STATE_MATCHING);
+                    }
                     break;
                 }
             }
             if (partial_success) {
-                if (!valid_symbols[SOFT_LINE_BREAK_MARKER] && matched == open_blocks.size()) {
+                if (matched == open_blocks.size()) {
                     state &= (~STATE_MATCHING);
                 }
-                if (open_blocks[matched - 1] == BLOCK_QUOTE) {
-                    lexer->result_symbol = BLOCK_QUOTE_CONTINUATION;
-                } else {
-                    lexer->result_symbol = BLOCK_CONTINUATION;
-                }
+                lexer->result_symbol = BLOCK_CONTINUATION;
                 return true;
             }
 
+            /*
             uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 2;
             if (valid_symbols[SPLIT_TOKEN] && split_token_count < 2) {
                 split_token_count++;
@@ -414,11 +438,12 @@ struct Scanner {
                 lexer->result_symbol = SPLIT_TOKEN;
                 return true;
             }
-            if (!valid_symbols[SOFT_LINE_BREAK_MARKER]) {
+            */
+            if (!(state & STATE_WAS_SOFT_LINE_BREAK)) {
                 Block block = open_blocks[open_blocks.size() - 1];
                 lexer->result_symbol = BLOCK_CLOSE;
                 if (block == FENCED_CODE_BLOCK) {
-                    lexer->mark_end(lexer);
+                    mark_end(lexer);
                     indentation = 0;
                 }
                 open_blocks.pop_back();
@@ -427,10 +452,91 @@ struct Scanner {
                 }
                 state |= STATE_JUST_CLOSED;
                 return true;
+            }
+        }
+
+        // The parser just encountered a line break. Setup the state correspondingly
+        if ((valid_symbols[LINE_ENDING] || valid_symbols[SOFT_LINE_ENDING]) &&
+            (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+            if (lexer->lookahead == '\r') {
+                advance(lexer);
+                if (lexer->lookahead == '\n') {
+                    advance(lexer);
+                }
             } else {
-                state &= (~STATE_MATCHING) & (~STATE_NEED_OPEN_BLOCK);
-                state |= STATE_WAS_SOFT_LINE_BREAK;
-                lexer->result_symbol = SOFT_LINE_BREAK_MARKER;
+                advance(lexer);
+            }
+            indentation = 0;
+            column = 0;
+            if (!(state & STATE_CLOSE_BLOCK) && valid_symbols[SOFT_LINE_ENDING]) {
+                lexer->mark_end(lexer);
+                for (;;) {
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                        indentation += advance(lexer);
+                    } else {
+                        break;
+                    }
+                }
+                simulate = true;
+                uint8_t matched_temp = matched;
+                matched = 0;
+                bool one_will_be_matched = false;
+                while (matched < open_blocks.size()) {
+                    if (match(lexer, open_blocks[matched])) {
+                        matched++;
+                        one_will_be_matched = true;
+                    } else {
+                        break;
+                    }
+                }
+                matched = matched_temp;
+                if (!lexer->eof(lexer) && !scan(lexer, paragraph_interrupt_symbols)) {
+                    lexer->result_symbol = SOFT_LINE_ENDING;
+                    // If the last line break ended a paragraph and no new block opened, the last line
+                    // break should have been a soft line break
+                    if (state & STATE_NEED_OPEN_BLOCK) return error(lexer);
+                    // Reset the counter for matched blocks
+                    matched = 0;
+                    // If there is at least one open block, we should be in the matching state.
+                    // Also set the matching flag if a `$._soft_line_break_marker` can be emitted so it
+                    // does get emitted.
+                    if (one_will_be_matched) {
+                        state |= STATE_MATCHING;
+                    } else {
+                        state &= (~STATE_MATCHING);
+                    }
+                    // reset some state variables
+                    state &=
+                    (~STATE_SPLIT_TOKEN_COUNT) &
+                    (~STATE_NEED_OPEN_BLOCK) &
+                    (~STATE_JUST_CLOSED);
+                    state |= STATE_WAS_SOFT_LINE_BREAK;
+                    return true;
+                }
+                indentation = 0;
+                column = 0;
+            }
+            if (valid_symbols[LINE_ENDING]) {
+                // If the last line break ended a paragraph and no new block opened, the last line
+                // break should have been a soft line break
+                if (state & STATE_NEED_OPEN_BLOCK) return error(lexer);
+                // Reset the counter for matched blocks
+                matched = 0;
+                // If there is at least one open block, we should be in the matching state.
+                // Also set the matching flag if a `$._soft_line_break_marker` can be emitted so it
+                // does get emitted.
+                if (open_blocks.size() > 0) {
+                    state |= STATE_MATCHING;
+                } else {
+                    state &= (~STATE_MATCHING);
+                }
+                // reset some state variables
+                state &=
+                (~STATE_WAS_SOFT_LINE_BREAK) &
+                (~STATE_SPLIT_TOKEN_COUNT) &
+                (~STATE_NEED_OPEN_BLOCK) &
+                (~STATE_JUST_CLOSED);
+                lexer->result_symbol = LINE_ENDING;
                 return true;
             }
         }
@@ -465,8 +571,8 @@ struct Scanner {
             case LIST_ITEM + 13:
             case LIST_ITEM + 14:
             case LIST_ITEM + 15:
-                if (indentation >= list_item_indentation(open_blocks[matched])) {
-                    indentation -= list_item_indentation(open_blocks[matched]);
+                if (indentation >= list_item_indentation(block)) {
+                    indentation -= list_item_indentation(block);
                     return true;
                 }
                 if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
@@ -498,7 +604,7 @@ struct Scanner {
             advance(lexer);
             level++;
         }
-        lexer->mark_end(lexer);
+        mark_end(lexer);
         // If this is able to close a fenced code block then that is the only valid interpretation.
         // It can only close a fenced code block if the number of backticks is at least the number
         // of backticks of the opening delimiter. Also it cannot be indented more than 3 spaces.
@@ -537,7 +643,7 @@ struct Scanner {
                     FENCED_CODE_BLOCK_START_TILDE;
                 if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                 state &= ~STATE_NEED_OPEN_BLOCK;
-                open_blocks.push_back(FENCED_CODE_BLOCK);
+                if (!simulate) open_blocks.push_back(FENCED_CODE_BLOCK);
                 // Remember the length of the delimiter for later, since we need it to decide
                 // whether a sequence of backticks can close the block.
                 fenced_code_block_delimiter_length = level;
@@ -550,7 +656,7 @@ struct Scanner {
 
     bool parse_star(TSLexer *lexer, const bool *valid_symbols) {
         advance(lexer);
-        lexer->mark_end(lexer);
+        mark_end(lexer);
         // Otherwise count the number of stars permitting whitespaces between them.
         size_t star_count = 1;
         // Also remember how many stars there are before the first whitespace...
@@ -563,7 +669,7 @@ struct Scanner {
                 if (star_count == 1 && extra_indentation >= 1 && valid_symbols[LIST_MARKER_STAR]) {
                     // If we get to this point then the token has to be at least this long. We need
                     // to call `mark_end` here in case we decide later that this is a list item.
-                    lexer->mark_end(lexer);
+                    mark_end(lexer);
                 }
                 if (!had_whitespace) {
                     star_count_before_whitespace++;
@@ -598,7 +704,7 @@ struct Scanner {
             if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
             state &= ~STATE_NEED_OPEN_BLOCK;
             lexer->result_symbol = THEMATIC_BREAK;
-            lexer->mark_end(lexer);
+            mark_end(lexer);
             indentation = 0;
             return true;
         } else if (
@@ -614,7 +720,7 @@ struct Scanner {
             // If star_count > 1 then we already called mark_end at the right point. Otherwise the
             // token should go until this point.
             if (star_count == 1) {
-                lexer->mark_end(lexer);
+                mark_end(lexer);
             }
             // Not counting one space...
             extra_indentation--;
@@ -631,7 +737,7 @@ struct Scanner {
                 indentation = extra_indentation;
                 extra_indentation = temp;
             }
-            open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
+            if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
             lexer->result_symbol =
                 dont_interrupt ? LIST_MARKER_STAR_DONT_INTERRUPT : LIST_MARKER_STAR;
             return true;
@@ -642,7 +748,7 @@ struct Scanner {
 
     bool parse_thematic_break_underscore(TSLexer *lexer, const bool *valid_symbols) {
         advance(lexer);
-        lexer->mark_end(lexer);
+        mark_end(lexer);
         size_t underscore_count = 1;
         for (;;) {
             if (lexer->lookahead == '_') {
@@ -659,7 +765,7 @@ struct Scanner {
             if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
             state &= ~STATE_NEED_OPEN_BLOCK;
             lexer->result_symbol = THEMATIC_BREAK;
-            lexer->mark_end(lexer);
+            mark_end(lexer);
             indentation = 0;
             return true;
         }
@@ -676,7 +782,7 @@ struct Scanner {
                 indentation += advance(lexer) - 1;
             }
             lexer->result_symbol = BLOCK_QUOTE_START;
-            open_blocks.push_back(BLOCK_QUOTE);
+            if (!simulate) open_blocks.push_back(BLOCK_QUOTE);
             return true;
         }
         return false;
@@ -684,7 +790,7 @@ struct Scanner {
 
     bool parse_atx_heading(TSLexer *lexer, const bool *valid_symbols) {
         if (valid_symbols[ATX_H1_MARKER] && indentation <= 3) {
-            lexer->mark_end(lexer);
+            mark_end(lexer);
             size_t level = 0;
             while (lexer->lookahead == '#' && level <= 6) {
                 advance(lexer);
@@ -695,7 +801,7 @@ struct Scanner {
                 state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = ATX_H1_MARKER + (level - 1);
                 indentation = 0;
-                lexer->mark_end(lexer);
+                mark_end(lexer);
                 return true;
             }
         }
@@ -704,7 +810,7 @@ struct Scanner {
 
     bool parse_setext_underline(TSLexer *lexer, const bool *valid_symbols) {
         if (valid_symbols[SETEXT_H1_UNDERLINE] && matched == open_blocks.size()) {
-            lexer->mark_end(lexer);
+            mark_end(lexer);
             while (lexer->lookahead == '=') {
                 advance(lexer);
             }
@@ -715,7 +821,7 @@ struct Scanner {
                 if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                 state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = SETEXT_H1_UNDERLINE;
-                lexer->mark_end(lexer);
+                mark_end(lexer);
                 return true;
             }
         }
@@ -749,7 +855,7 @@ struct Scanner {
                     indentation = extra_indentation;
                     extra_indentation = temp;
                 }
-                open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
+                if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                 return true;
             }
         }
@@ -802,7 +908,7 @@ struct Scanner {
                             indentation = extra_indentation;
                             extra_indentation = temp;
                         }
-                        open_blocks.push_back(Block(LIST_ITEM + extra_indentation + digits));
+                        if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation + digits));
                         return true;
                     }
                 }
@@ -813,7 +919,7 @@ struct Scanner {
 
     bool parse_minus(TSLexer *lexer, const bool *valid_symbols) {
         if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[THEMATIC_BREAK])) {
-            lexer->mark_end(lexer);
+            mark_end(lexer);
             bool whitespace_after_minus = false;
             bool minus_after_whitespace = false;
             size_t minus_count = 0;
@@ -822,7 +928,7 @@ struct Scanner {
             for (;;) {
                 if (lexer->lookahead == '-') {
                     if (minus_count == 1 && extra_indentation >= 1) {
-                        lexer->mark_end(lexer);
+                        mark_end(lexer);
                     }
                     minus_count++;
                     advance(lexer);
@@ -852,14 +958,14 @@ struct Scanner {
                 if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                 state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = SETEXT_H2_UNDERLINE;
-                lexer->mark_end(lexer);
+                mark_end(lexer);
                 indentation = 0;
                 return true;
             } else if (valid_symbols[THEMATIC_BREAK] && thematic_break) { // underline is false if list_marker_minus is true
                 if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                 state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = THEMATIC_BREAK;
-                lexer->mark_end(lexer);
+                mark_end(lexer);
                 indentation = 0;
                 return true;
             } else if ((dont_interrupt ? valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_MINUS]) && list_marker_minus) {
@@ -867,7 +973,7 @@ struct Scanner {
                 if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
                 if (dont_interrupt && (state & STATE_NEED_OPEN_BLOCK)) return error(lexer);
                 if (minus_count == 1) {
-                    lexer->mark_end(lexer);
+                    mark_end(lexer);
                 }
                 extra_indentation--;
                 if (extra_indentation <= 3) {
@@ -878,7 +984,7 @@ struct Scanner {
                     indentation = extra_indentation;
                     extra_indentation = temp;
                 }
-                open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
+                if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                 lexer->result_symbol = dont_interrupt ? LIST_MARKER_MINUS_DONT_INTERRUPT : LIST_MARKER_MINUS;
                 return true;
             }
@@ -1100,6 +1206,7 @@ extern "C" {
         const bool *valid_symbols
     ) {
         TreeSitterMarkdown::Scanner *scanner = static_cast<TreeSitterMarkdown::Scanner *>(payload);
+        scanner->simulate = false;
         return scanner->scan(lexer, valid_symbols);
     }
 

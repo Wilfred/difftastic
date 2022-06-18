@@ -14,7 +14,7 @@ module.exports = grammar({
     name: 'markdown',
 
     rules: {
-        document: $ => seq(optional($._ignore_matching_tokens), repeat($._block)),
+        document: $ => seq(optional($.block_continuation), repeat($._block)),
 
         // BLOCK STRUCTURE
 
@@ -94,7 +94,7 @@ module.exports = grammar({
         //
         // https://github.github.com/gfm/#indented-code-blocks
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
-        _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._line, $._newline)), $._block_close, optional($._ignore_matching_tokens)),
+        _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._line, $._newline)), $._block_close, optional($.block_continuation)),
 
         // A fenced code block. Fenced code blocks are mainly handled by the external scanner. In
         // case of backtick code blocks the external scanner also checks that the info string is
@@ -189,13 +189,13 @@ module.exports = grammar({
             $.link_destination,
             optional(prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
                 choice(
-                    seq($._whitespace, optional(seq($._newline, optional($._whitespace)))),
-                    seq($._newline, optional($._whitespace)),
+                    seq($._whitespace, optional(seq($._soft_line_break, optional($._whitespace)))),
+                    seq($._soft_line_break, optional($._whitespace)),
                 ),
                 optional($._no_indented_chunk),
                 $.link_title
             ))),
-            $._newline,
+            choice($._newline, $._soft_line_break),
         )),
         link_label: $ => seq('[', repeat1(choice(
             $._word,
@@ -204,7 +204,7 @@ module.exports = grammar({
             $.backslash_escape,
             $.entity_reference,
             $.numeric_character_reference,
-            $._newline
+            $._soft_line_break
         )), ']'),
         link_destination: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape, $.entity_reference, $.numeric_character_reference)), '>'),
@@ -233,7 +233,7 @@ module.exports = grammar({
                 $.entity_reference,
                 $.numeric_character_reference,
                 punctuation_without($, ['"']),
-                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+                seq($._soft_line_break, optional(seq($._blank_line, $._trigger_error)))
             )), '"'),
             seq("'", repeat(choice(
                 $._word,
@@ -242,7 +242,7 @@ module.exports = grammar({
                 $.entity_reference,
                 $.numeric_character_reference,
                 punctuation_without($, ["'"]),
-                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+                seq($._soft_line_break, optional(seq($._blank_line, $._trigger_error)))
             )), "'"),
             seq('(', repeat(choice(
                 $._word,
@@ -251,7 +251,7 @@ module.exports = grammar({
                 $.entity_reference,
                 $.numeric_character_reference,
                 punctuation_without($, ['(', ')']),
-                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+                seq($._soft_line_break, optional(seq($._blank_line, $._trigger_error)))
             )), ')'),
         ),
 
@@ -273,14 +273,7 @@ module.exports = grammar({
         // related to paragraphs ending does not grow.
         //
         // https://github.github.com/gfm/#paragraphs
-        paragraph: $ => seq(repeat1(choice(alias($._line, $.inline), $._soft_line_break)), $._paragraph_end_newline),
-        _soft_line_break: $ => seq(
-            $._newline_inline,
-            repeat(choice($._split_token, $._soft_line_break_marker)),
-            $._soft_line_break_marker,
-            optional($._block_interrupt_paragraph), // not actually valid, we will error if it manages to match a block
-        ),
-        _paragraph_end_newline: $ => seq($._newline, repeat($._split_token)),
+        paragraph: $ => seq(repeat1(choice(alias($._line, $.inline), $._soft_line_break)), $._newline),
 
         // A blank line including the following newline.
         //
@@ -296,10 +289,10 @@ module.exports = grammar({
         // https://github.github.com/gfm/#block-quotes
         block_quote: $ => seq(
             alias($._block_quote_start, $.block_quote_marker),
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             repeat($._block),
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
 
         // A list. This grammar does not differentiate between loose and tight lists for efficiency
@@ -330,38 +323,38 @@ module.exports = grammar({
         list_marker_parenthesis: $ => choice($._list_marker_parenthesis, $._list_marker_parenthesis_dont_interrupt),
         _list_item_plus: $ => seq(
             $.list_marker_plus,
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             $._list_item_content,
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
         _list_item_minus: $ => seq(
             $.list_marker_minus,
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             $._list_item_content,
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
         _list_item_star: $ => seq(
             $.list_marker_star,
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             $._list_item_content,
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
         _list_item_dot: $ => seq(
             $.list_marker_dot,
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             $._list_item_content,
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
         _list_item_parenthesis: $ => seq(
             $.list_marker_parenthesis,
-            optional($._ignore_matching_tokens),
+            optional($.block_continuation),
             $._list_item_content,
             $._block_close,
-            optional($._ignore_matching_tokens)
+            optional($.block_continuation)
         ),
         // List items are closed after two consecutive blank lines
         _list_item_content: $ => choice(
@@ -369,7 +362,7 @@ module.exports = grammar({
                 $._blank_line,
                 $._blank_line,
                 $._close_block,
-                optional($._ignore_matching_tokens)
+                optional($.block_continuation)
             )),
             repeat1($._block),
         ),
@@ -377,22 +370,18 @@ module.exports = grammar({
         // Newlines as in the spec. Parsing a newline triggers the matching process by making
         // the external parser emit a `$._line_ending`.
         _newline_token: $ => /\n|\r\n?/,
-        _newline: $ => prec.right(seq(
-            $._newline_token,
-            optional($._line_ending),
-            optional($._ignore_matching_tokens)
-        )),
-        // Same as newline, but the actual character is marked as inline
-        _newline_inline: $ => prec.right(seq(
-            alias($._newline_token, $.inline),
-            optional($._line_ending),
-            optional($._ignore_matching_tokens)
-        )),
+        _newline: $ => seq(
+            $._line_ending,
+            optional($.block_continuation)
+        ),
+        _soft_line_break: $ => seq(
+            $._soft_line_ending,
+            optional($.block_continuation)
+        ),
         // Some symbols get parsed as single tokens so that html blocks get detected properly
         _line: $ => prec.right(repeat1(choice($._word, $._whitespace, punctuation_without($, [])))),
         _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS_REGEX + ' \\t\\n\\r]+'),
         // The external scanner emits some characters that should just be ignored.
-        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, alias($._block_quote_continuation, $.block_quote_marker))),
         _whitespace: $ => /[ \t]+/,
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS_REGEX + ']'),
@@ -413,7 +402,7 @@ module.exports = grammar({
 
         // Block structure gets parsed as follows: After every newline (`$._line_ending`) we try to match
         // as many open blocks as possible. For example if the last line was part of a block quote we look
-        // for a `>` at the beginning of the next line. We emit a `$._block_continuation` for each matched
+        // for a `>` at the beginning of the next line. We emit a `$.block_continuation` for each matched
         // block. For this process the external scanner keeps a stack of currently open blocks.
         //
         // If we are not able to match all blocks that does not necessarily mean that all unmatched blocks
@@ -425,9 +414,9 @@ module.exports = grammar({
         // encountered) we emit a `$._block_close` token
 
         $._line_ending, // this token does not contain the actual newline characters. see `$._newline`
+        $._soft_line_ending,
         $._block_close,
-        $._block_continuation,
-        $._block_quote_continuation,
+        $.block_continuation,
 
         // Tokens signifying the start of a block. Blocks that do not need a `$._block_close` because they
         // always span one line are marked as such.
@@ -488,13 +477,6 @@ module.exports = grammar({
         // parsing a link reference definition.
         $._no_indented_chunk,
 
-        // If we encounter a newline inside a paragraph exactly two `$._split_token` are emitted by
-        // the external scanner. This way the current parser version gets split in two. In one of
-        // the resulting parse versions we then also emit a `$._soft_line_break_marker` to be able
-        // to differntiate the two versions.
-        $._split_token,
-        $._soft_line_break_marker,
-
         // An `$._error` token is never valid  and gets emmited to kill invalid parse branches. Concretely
         // this is used to decide wether a newline closes a paragraph and together and it gets emitted
         // when trying to parse the `$._trigger_error` token in `$.link_title`.
@@ -510,7 +492,6 @@ module.exports = grammar({
         [$.link_reference_definition],
         [$.link_label, $._line],
         [$.link_reference_definition, $._line],
-        [$._newline, $._newline_inline],
     ],
     extras: $ => [],
 });
@@ -528,7 +509,7 @@ function build_html_block($, open, close, interrupt_paragraph) {
             seq(close, $._close_block),
         )),
         $._block_close,
-        optional($._ignore_matching_tokens),
+        optional($.block_continuation),
     );
 }
 
@@ -539,7 +520,7 @@ function build_html_block_after_newline($, open, interrupt_paragraph) {
         open,
         interrupt_paragraph ? $._open_block : $._open_block_dont_interrupt_paragraph,
         $._line_ending,
-        optional($._ignore_matching_tokens),
+        optional($.block_continuation),
         optional(seq($._blank_line, $._close_block)),
         repeat(choice(
             $._line,
@@ -547,7 +528,7 @@ function build_html_block_after_newline($, open, interrupt_paragraph) {
             seq($._newline, $._blank_line, $._close_block),
         )),
         $._block_close,
-        optional($._ignore_matching_tokens),
+        optional($.block_continuation),
     );
 }
 
