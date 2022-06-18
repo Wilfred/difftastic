@@ -224,6 +224,22 @@
             {
               "type": "SYMBOL",
               "name": "export_clause"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_from_clause"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
             }
           ]
         },
@@ -240,7 +256,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "expression"
             },
             {
               "type": "SYMBOL",
@@ -8538,6 +8554,18 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "abstract"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "STRING",
             "value": "new"
           },
@@ -9821,6 +9849,18 @@
     "construct_signature": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "abstract"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "new"
