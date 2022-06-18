@@ -891,10 +891,6 @@
           "name": "_html_block_1_start"
         },
         {
-          "type": "SYMBOL",
-          "name": "_open_block"
-        },
-        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -947,10 +943,6 @@
         {
           "type": "SYMBOL",
           "name": "_html_block_2_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_open_block"
         },
         {
           "type": "REPEAT",
@@ -1007,10 +999,6 @@
           "name": "_html_block_3_start"
         },
         {
-          "type": "SYMBOL",
-          "name": "_open_block"
-        },
-        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -1063,10 +1051,6 @@
         {
           "type": "SYMBOL",
           "name": "_html_block_4_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_open_block"
         },
         {
           "type": "REPEAT",
@@ -1123,10 +1107,6 @@
           "name": "_html_block_5_start"
         },
         {
-          "type": "SYMBOL",
-          "name": "_open_block"
-        },
-        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -1179,10 +1159,6 @@
         {
           "type": "SYMBOL",
           "name": "_html_block_6_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_open_block"
         },
         {
           "type": "REPEAT",
@@ -1246,10 +1222,6 @@
         {
           "type": "SYMBOL",
           "name": "_html_block_7_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_open_block_dont_interrupt_paragraph"
         },
         {
           "type": "REPEAT",
@@ -3721,14 +3693,6 @@
     {
       "type": "SYMBOL",
       "name": "_html_block_7_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_open_block"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_open_block_dont_interrupt_paragraph"
     },
     {
       "type": "SYMBOL",

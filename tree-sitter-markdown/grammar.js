@@ -462,12 +462,6 @@ module.exports = grammar({
         $._html_block_6_start,
         $._html_block_7_start,
 
-        // This is used in the case that a start token for a block is not parsed by the external
-        // parser to properly update the currently open blocks in the external parser.
-        $._open_block,
-        // This is the same as `$._open_block`, but for blocks that cannot interrupt paragraphs
-        $._open_block_dont_interrupt_paragraph,
-
         // Similarly this is used if the closing of a block is not decided by the external parser.
         // A `$._block_close` will be emitted at the beginning of the next line. Notice that a
         // `$._block_close` can also get emitted if the parent block closes.
@@ -488,7 +482,6 @@ module.exports = grammar({
         [$.indented_code_block, $._block],
     ],
     conflicts: $ => [
-        // [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
         [$.link_label, $._line],
         [$.link_reference_definition, $._line],
@@ -502,30 +495,10 @@ module.exports = grammar({
 function build_html_block($, open, close, interrupt_paragraph) {
     return seq(
         open,
-        interrupt_paragraph ? $._open_block : $._open_block_dont_interrupt_paragraph,
         repeat(choice(
             $._line,
             $._newline,
             seq(close, $._close_block),
-        )),
-        $._block_close,
-        optional($.block_continuation),
-    );
-}
-
-// Mostly the same as `build_html_block`, but for the case that the opening token contains a
-// trailing newline.
-function build_html_block_after_newline($, open, interrupt_paragraph) {
-    return seq(
-        open,
-        interrupt_paragraph ? $._open_block : $._open_block_dont_interrupt_paragraph,
-        $._line_ending,
-        optional($.block_continuation),
-        optional(seq($._blank_line, $._close_block)),
-        repeat(choice(
-            $._line,
-            $._newline,
-            seq($._newline, $._blank_line, $._close_block),
         )),
         $._block_close,
         optional($.block_continuation),

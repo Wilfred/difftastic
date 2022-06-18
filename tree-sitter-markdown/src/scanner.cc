@@ -51,8 +51,6 @@ enum TokenType {
     HTML_BLOCK_5_START,
     HTML_BLOCK_6_START,
     HTML_BLOCK_7_START,
-    OPEN_BLOCK,
-    OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
     CLOSE_BLOCK,
     NO_INDENTED_CHUNK,
     ERROR,
@@ -65,8 +63,7 @@ enum TokenType {
 // LIST_ITEM_MAX_INDENTATION represents a list item with maximal indentation without being
 // considered a indented code block.
 //
-// ANONYMOUS represents any block that whose close is not handled by the external scanner. (Usually
-// opened using OPEN_BLOCK and closed using CLOSE_BLOCK).
+// ANONYMOUS represents any block that whose close is not handled by the external scanner.
 enum Block : uint8_t {
     BLOCK_QUOTE,
     INDENTED_CODE_BLOCK,
@@ -139,8 +136,6 @@ const bool paragraph_interrupt_symbols[] {
     true, // HTML_BLOCK_5_START,
     true, // HTML_BLOCK_6_START,
     false, // HTML_BLOCK_7_START,
-    false, // OPEN_BLOCK,
-    false, // OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
     false, // CLOSE_BLOCK,
     false, // NO_INDENTED_CHUNK,
     false, // ERROR,
@@ -153,15 +148,8 @@ const bool paragraph_interrupt_symbols[] {
 const uint8_t STATE_MATCHING = 0x1 << 0;
 // Last line break was inside a paragraph
 const uint8_t STATE_WAS_SOFT_LINE_BREAK = 0x1 << 1;
-// Number of consecutive SPLIT_TOKEN emitted
-const uint8_t STATE_SPLIT_TOKEN_COUNT = 0x3 << 2;
 // Block should be closed after next line break
 const uint8_t STATE_CLOSE_BLOCK = 0x1 << 4;
-// Paragraph was just closed. Error if no new block opens
-const uint8_t STATE_NEED_OPEN_BLOCK = 0x1 << 5; 
-// Basically the same as STATE_NEED_OPEN_BLOCK. I am actually not sure about the difference. This
-// shoudl be investigated.
-const uint8_t STATE_JUST_CLOSED = 0x1 << 6;
 
 struct Scanner {
 
@@ -269,26 +257,6 @@ struct Scanner {
             return error(lexer);
         }
 
-        // If we already matched all currently open blocks and just parsed a
-        // `$._paragraph_end_newline` leave the matching state.
-        uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 2;
-        if (
-            split_token_count == 2 &&
-            matched == open_blocks.size()
-            ) {
-            state &= ~STATE_MATCHING;
-        }
-
-        // Open a new (anonymous) block as requested. See `$._open_block` in grammar.js
-        if (valid_symbols[OPEN_BLOCK] || valid_symbols[OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH]) {
-            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-            if (valid_symbols[OPEN_BLOCK]) state &= ~STATE_NEED_OPEN_BLOCK;
-            if (!simulate) open_blocks.push_back(ANONYMOUS);
-            lexer->result_symbol =
-                valid_symbols[OPEN_BLOCK] ? OPEN_BLOCK : OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH;
-            return true;
-        }
-
         // Close the inner most block after the next line break as requested. See `$._close_block`
         // in grammar.js
         if (valid_symbols[CLOSE_BLOCK]) {
@@ -336,8 +304,6 @@ struct Scanner {
                     if (valid_symbols[BLANK_LINE_START]) {
                         // A blank line token is actually just 0 width, so do not consume the
                         // characters
-                        if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                        state &= ~STATE_NEED_OPEN_BLOCK;
                         lexer->result_symbol = BLANK_LINE_START;
                         return true;
                     }
@@ -428,17 +394,6 @@ struct Scanner {
                 return true;
             }
 
-            /*
-            uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 2;
-            if (valid_symbols[SPLIT_TOKEN] && split_token_count < 2) {
-                split_token_count++;
-                state &= ~STATE_SPLIT_TOKEN_COUNT;
-                state |= split_token_count << 2;
-                state |= STATE_NEED_OPEN_BLOCK;
-                lexer->result_symbol = SPLIT_TOKEN;
-                return true;
-            }
-            */
             if (!(state & STATE_WAS_SOFT_LINE_BREAK)) {
                 Block block = open_blocks[open_blocks.size() - 1];
                 lexer->result_symbol = BLOCK_CLOSE;
@@ -450,7 +405,6 @@ struct Scanner {
                 if (matched == open_blocks.size()) {
                     state &= (~STATE_MATCHING);
                 }
-                state |= STATE_JUST_CLOSED;
                 return true;
             }
         }
@@ -494,7 +448,6 @@ struct Scanner {
                     lexer->result_symbol = SOFT_LINE_ENDING;
                     // If the last line break ended a paragraph and no new block opened, the last line
                     // break should have been a soft line break
-                    if (state & STATE_NEED_OPEN_BLOCK) return error(lexer);
                     // Reset the counter for matched blocks
                     matched = 0;
                     // If there is at least one open block, we should be in the matching state.
@@ -506,10 +459,6 @@ struct Scanner {
                         state &= (~STATE_MATCHING);
                     }
                     // reset some state variables
-                    state &=
-                    (~STATE_SPLIT_TOKEN_COUNT) &
-                    (~STATE_NEED_OPEN_BLOCK) &
-                    (~STATE_JUST_CLOSED);
                     state |= STATE_WAS_SOFT_LINE_BREAK;
                     return true;
                 }
@@ -519,7 +468,6 @@ struct Scanner {
             if (valid_symbols[LINE_ENDING]) {
                 // If the last line break ended a paragraph and no new block opened, the last line
                 // break should have been a soft line break
-                if (state & STATE_NEED_OPEN_BLOCK) return error(lexer);
                 // Reset the counter for matched blocks
                 matched = 0;
                 // If there is at least one open block, we should be in the matching state.
@@ -532,10 +480,7 @@ struct Scanner {
                 }
                 // reset some state variables
                 state &=
-                (~STATE_WAS_SOFT_LINE_BREAK) &
-                (~STATE_SPLIT_TOKEN_COUNT) &
-                (~STATE_NEED_OPEN_BLOCK) &
-                (~STATE_JUST_CLOSED);
+                (~STATE_WAS_SOFT_LINE_BREAK);
                 lexer->result_symbol = LINE_ENDING;
                 return true;
             }
@@ -641,8 +586,6 @@ struct Scanner {
                 lexer->result_symbol = delimiter == '`' ?
                     FENCED_CODE_BLOCK_START_BACKTICK :
                     FENCED_CODE_BLOCK_START_TILDE;
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                state &= ~STATE_NEED_OPEN_BLOCK;
                 if (!simulate) open_blocks.push_back(FENCED_CODE_BLOCK);
                 // Remember the length of the delimiter for later, since we need it to decide
                 // whether a sequence of backticks can close the block.
@@ -692,7 +635,7 @@ struct Scanner {
         if (star_count == 1 && line_end) {
             extra_indentation = 1;
             // line is empty so don't interrupt paragraphs if this is a list marker
-            dont_interrupt = !(state & STATE_JUST_CLOSED) && matched == open_blocks.size();
+            dont_interrupt = matched == open_blocks.size();
         }
         // If there were at least 3 stars then this could be a thematic break
         bool thematic_break = star_count >= 3 && line_end;
@@ -701,8 +644,6 @@ struct Scanner {
         bool list_marker_star = star_count >= 1 && extra_indentation >= 1;
         if (valid_symbols[THEMATIC_BREAK] && thematic_break && indentation < 4) {
             // If a thematic break is valid then it takes precedence
-            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-            state &= ~STATE_NEED_OPEN_BLOCK;
             lexer->result_symbol = THEMATIC_BREAK;
             mark_end(lexer);
             indentation = 0;
@@ -714,9 +655,6 @@ struct Scanner {
             && list_marker_star
             ) {
             // List markers take precedence over emphasis markers
-            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-            if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
-            if (dont_interrupt && (state & STATE_NEED_OPEN_BLOCK)) return error(lexer);
             // If star_count > 1 then we already called mark_end at the right point. Otherwise the
             // token should go until this point.
             if (star_count == 1) {
@@ -762,8 +700,6 @@ struct Scanner {
         }
         bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
         if (underscore_count >= 3 && line_end && valid_symbols[THEMATIC_BREAK]) {
-            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-            state &= ~STATE_NEED_OPEN_BLOCK;
             lexer->result_symbol = THEMATIC_BREAK;
             mark_end(lexer);
             indentation = 0;
@@ -774,8 +710,6 @@ struct Scanner {
 
     bool parse_block_quote(TSLexer *lexer, const bool *valid_symbols) {
         if (valid_symbols[BLOCK_QUOTE_START]) {
-            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-            state &= ~STATE_NEED_OPEN_BLOCK;
             advance(lexer);
             indentation = 0;
             if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
@@ -797,8 +731,6 @@ struct Scanner {
                 level++;
             }
             if (level <= 6 && (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = ATX_H1_MARKER + (level - 1);
                 indentation = 0;
                 mark_end(lexer);
@@ -818,8 +750,6 @@ struct Scanner {
                 advance(lexer);
             }
             if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = SETEXT_H1_UNDERLINE;
                 mark_end(lexer);
                 return true;
@@ -840,11 +770,8 @@ struct Scanner {
                 extra_indentation = 1;
                 dont_interrupt = true;
             }
-            dont_interrupt = dont_interrupt && !(state & STATE_JUST_CLOSED) && matched == open_blocks.size();
+            dont_interrupt = dont_interrupt && matched == open_blocks.size();
             if (extra_indentation >= 1 && (dont_interrupt ? valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PLUS])) {
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
-                if (dont_interrupt && (state & STATE_NEED_OPEN_BLOCK)) return error(lexer);
                 lexer->result_symbol = dont_interrupt ? LIST_MARKER_PLUS_DONT_INTERRUPT : LIST_MARKER_PLUS;
                 extra_indentation--;
                 if (extra_indentation <= 3) {
@@ -893,11 +820,8 @@ struct Scanner {
                         extra_indentation = 1;
                         dont_interrupt = true;
                     }
-                    dont_interrupt = dont_interrupt && !(state & STATE_JUST_CLOSED) && matched == open_blocks.size();
+                    dont_interrupt = dont_interrupt && matched == open_blocks.size();
                     if (extra_indentation >= 1 && (dot ? (dont_interrupt ? valid_symbols[LIST_MARKER_DOT_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_DOT]) : (dont_interrupt ? valid_symbols[LIST_MARKER_PARENTHESIS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PARENTHESIS]))) {
-                        if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                        if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
-                        if (dont_interrupt && (state & STATE_NEED_OPEN_BLOCK)) return error(lexer);
                         lexer->result_symbol = dot ? LIST_MARKER_DOT : LIST_MARKER_PARENTHESIS;
                         extra_indentation--;
                         if (extra_indentation <= 3) {
@@ -950,28 +874,21 @@ struct Scanner {
                 extra_indentation = 1;
                 dont_interrupt = true;
             }
-            dont_interrupt = dont_interrupt && !(state & STATE_JUST_CLOSED) && matched == open_blocks.size();
+            dont_interrupt = dont_interrupt && matched == open_blocks.size();
             bool thematic_break = minus_count >= 3 && line_end;
             bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matched == open_blocks.size(); // setext heading can not break lazy continuation
             bool list_marker_minus = minus_count >= 1 && extra_indentation >= 1;
             if (valid_symbols[SETEXT_H2_UNDERLINE] && underline) {
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = SETEXT_H2_UNDERLINE;
                 mark_end(lexer);
                 indentation = 0;
                 return true;
             } else if (valid_symbols[THEMATIC_BREAK] && thematic_break) { // underline is false if list_marker_minus is true
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                state &= ~STATE_NEED_OPEN_BLOCK;
                 lexer->result_symbol = THEMATIC_BREAK;
                 mark_end(lexer);
                 indentation = 0;
                 return true;
             } else if ((dont_interrupt ? valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_MINUS]) && list_marker_minus) {
-                if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
-                if (dont_interrupt && (state & STATE_NEED_OPEN_BLOCK)) return error(lexer);
                 if (minus_count == 1) {
                     mark_end(lexer);
                 }
@@ -1003,6 +920,7 @@ struct Scanner {
         if (lexer->lookahead == '?' && valid_symbols[HTML_BLOCK_3_START]) {
             advance(lexer);
             lexer->result_symbol = HTML_BLOCK_3_START;
+            if (!simulate) open_blocks.push_back(ANONYMOUS);
             return true;
         }
         if (lexer->lookahead == '!') {
@@ -1013,11 +931,13 @@ struct Scanner {
                 if (lexer->lookahead == '-' && valid_symbols[HTML_BLOCK_2_START]) {
                     advance(lexer);
                     lexer->result_symbol = HTML_BLOCK_2_START;
+                    if (!simulate) open_blocks.push_back(ANONYMOUS);
                     return true;
                 }
             } else if ('A' <= lexer->lookahead && lexer->lookahead <= 'Z' && valid_symbols[HTML_BLOCK_4_START]) {
                 advance(lexer);
                 lexer->result_symbol = HTML_BLOCK_4_START;
+                if (!simulate) open_blocks.push_back(ANONYMOUS);
                 return true;
             } else if (lexer->lookahead == '[') {
                 advance(lexer);
@@ -1034,6 +954,7 @@ struct Scanner {
                 if (lexer->lookahead == '[' && valid_symbols[HTML_BLOCK_5_START]) {
                     advance(lexer);
                     lexer->result_symbol = HTML_BLOCK_5_START;
+                    if (!simulate) open_blocks.push_back(ANONYMOUS);
                     return true;
                 }}}}}}
             }
@@ -1073,6 +994,7 @@ struct Scanner {
                             }
                         } else if (valid_symbols[HTML_BLOCK_1_START]) {
                             lexer->result_symbol = HTML_BLOCK_1_START;
+                            if (!simulate) open_blocks.push_back(ANONYMOUS);
                             return true;
                         }
                     }
@@ -1090,6 +1012,7 @@ struct Scanner {
                 for (size_t i = 0; i < NUM_HTML_TAG_NAMES_RULE_7; i++) {
                     if (strcmp(name, HTML_TAG_NAMES_RULE_7[i]) == 0 && valid_symbols[HTML_BLOCK_6_START]) {
                         lexer->result_symbol = HTML_BLOCK_6_START;
+                        if (!simulate) open_blocks.push_back(ANONYMOUS);
                         return true;
                     }
                 }
@@ -1186,6 +1109,7 @@ struct Scanner {
         }
         if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
             lexer->result_symbol = HTML_BLOCK_7_START;
+            if (!simulate) open_blocks.push_back(ANONYMOUS);
             return true;
         }
         return false;
