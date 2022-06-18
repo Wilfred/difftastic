@@ -5,6 +5,7 @@ Floating attributes
 [@@@id]
 [@@@I.D]
 [@@@id let x = x]
+[@@@id:]
 [@@@id : t]
 [@@@id : type t type t]
 [@@@id ? A x]
@@ -21,6 +22,7 @@ Floating attributes
         (let_binding
           (value_name)
           (value_path (value_name))))))
+  (floating_attribute (attribute_id) (attribute_payload))
   (floating_attribute
     (attribute_id)
     (attribute_payload
