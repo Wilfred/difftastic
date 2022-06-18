@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-ocaml",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "OCaml grammar for tree-sitter",
   "keywords": [
     "parser",
@@ -9,10 +9,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.1"
+    "nan": "^2.16.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.2"
+    "tree-sitter-cli": "^0.20.6"
   },
   "scripts": {
     "build": "npm run build-ocaml && npm run build-interface",
