@@ -20,10 +20,12 @@ module.exports = grammar({
 
         // All blocks. Every block contains a trailing newline.
         _block: $ => choice(
+            $._block_not_section,
+            $.section,
+        ),
+        _block_not_section: $ => choice(
             $.paragraph,
-            $.setext_heading,
             $.indented_code_block,
-            $.atx_heading,
             $.block_quote,
             $.thematic_break,
             $.list,
@@ -32,6 +34,10 @@ module.exports = grammar({
             $.html_block,
             $.link_reference_definition,
         ),
+        section: $ => prec.right(seq(
+            choice($.atx_heading, $.setext_heading),
+            repeat($._block_not_section)
+        )),
 
         // Just the blocks that are able to interrupt a paragraph.
         // This should not end up in the actual output but is used to decide whether a newline
@@ -273,7 +279,7 @@ module.exports = grammar({
         // related to paragraphs ending does not grow.
         //
         // https://github.github.com/gfm/#paragraphs
-        paragraph: $ => seq(repeat1(choice(alias($._line, $.inline), $._soft_line_break)), $._newline),
+        paragraph: $ => seq(alias(repeat1(choice($._line, $._soft_line_break)), $.inline), $._newline),
 
         // A blank line including the following newline.
         //

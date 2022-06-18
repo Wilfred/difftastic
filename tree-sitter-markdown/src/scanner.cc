@@ -800,7 +800,6 @@ struct Scanner {
                 advance(lexer);
             }
             if (digits >= 1 && digits <= 9) {
-                bool success = false;
                 bool dot = false;
                 bool parenthesis = false;
                 if (lexer->lookahead == '.') {

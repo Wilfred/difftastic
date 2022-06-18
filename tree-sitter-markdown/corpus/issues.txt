@@ -27,9 +27,10 @@
           (list_marker_star)
           (block_continuation)
           (block_continuation)))))
-  (atx_heading
-    (atx_h1_marker)
-    (inline)))
+  (section
+    (atx_heading
+      (atx_h1_marker)
+      (inline))))
 
 ================================================================================
 #33 - Fenced code block attributes

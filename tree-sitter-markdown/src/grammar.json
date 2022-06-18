@@ -30,19 +30,24 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_block_not_section"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "section"
+        }
+      ]
+    },
+    "_block_not_section": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "paragraph"
         },
         {
           "type": "SYMBOL",
-          "name": "setext_heading"
-        },
-        {
-          "type": "SYMBOL",
           "name": "indented_code_block"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "atx_heading"
         },
         {
           "type": "SYMBOL",
@@ -73,6 +78,35 @@
           "name": "link_reference_definition"
         }
       ]
+    },
+    "section": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "atx_heading"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "setext_heading"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_block_not_section"
+            }
+          }
+        ]
+      }
     },
     "_block_interrupt_paragraph": {
       "type": "CHOICE",
@@ -2773,25 +2807,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT1",
+          "type": "ALIAS",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "SYMBOL",
                   "name": "_line"
                 },
-                "named": true,
-                "value": "inline"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_soft_line_break"
-              }
-            ]
-          }
+                {
+                  "type": "SYMBOL",
+                  "name": "_soft_line_break"
+                }
+              ]
+            }
+          },
+          "named": true,
+          "value": "inline"
         },
         {
           "type": "SYMBOL",
