@@ -1,6 +1,6 @@
 /*
 Source:
-github:tree-sitter/tree-sitter-typescript#54931b39ae7b197e20c7b06680ceaf576b18ec69
+github:tree-sitter/tree-sitter-typescript#1b3ba31c7538825b05815f4f5bffcca6394edc63
 
 The MIT License (MIT)
 
