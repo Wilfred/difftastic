@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -45,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -68,7 +70,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -77,7 +80,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -86,7 +90,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (primary_key
         (identifier)))))
 
@@ -129,7 +134,8 @@ CREATE TABLE IF NOT EXISTS tblsample
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -138,7 +144,8 @@ CREATE TABLE IF NOT EXISTS tblsample
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -161,7 +168,8 @@ CREATE TABLE IF NOT EXISTS tblsample
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -170,7 +178,8 @@ CREATE TABLE IF NOT EXISTS tblsample
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (table_column
         (identifier)
         (type
@@ -179,6 +188,7 @@ CREATE TABLE IF NOT EXISTS tblsample
         (null_constraint
           (NULL))
         (column_default
-          (string)))
+          (string
+            (content))))
       (primary_key
         (identifier)))))

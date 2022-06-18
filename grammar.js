@@ -65,6 +65,11 @@ function createCaseInsensitiveRegex(word) {
 module.exports = grammar({
   name: "sql",
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
+  externals: $ => [
+    $._dollar_quoted_string_tag,
+    $._dollar_quoted_string_content,
+    $._dollar_quoted_string_end_tag,
+  ],
   rules: {
     source_file: $ => repeat($._statement),
 
@@ -545,8 +550,12 @@ module.exports = grammar({
     type: $ => seq($._identifier, optional(seq("(", $.number, ")"))),
     string: $ =>
       choice(
-        seq("'", field("content", /[^']*/), "'"),
-        seq("$$", field("content", /(\$?[^$]+)+/), "$$"), // FIXME empty string test, maybe read a bit more into c comments answer
+        seq("'", field("content", alias(/(''|[^'])*/, $.content)), "'"),
+        seq(
+          $._dollar_quoted_string_tag,
+          field("content", alias($._dollar_quoted_string_content, $.content)),
+          $._dollar_quoted_string_end_tag,
+        ),
       ),
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
