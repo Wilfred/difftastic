@@ -37,6 +37,9 @@ jobs:
           exit 1
         fi
     - run: npm test
+    - name: Parse real world examples (ignoring errors for now)
+      continue-on-error: true
+      run: npm acceptance
 
   compile:
       strategy:
