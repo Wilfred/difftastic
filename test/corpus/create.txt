@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (primary_key
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS tblsample
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS tblsample
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS tblsample
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS tblsample
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (table_column
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS tblsample
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (string
             (content))))
       (primary_key
@@ -273,3 +273,433 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
         (identifier)
         (type
           (identifier))))))
+
+================================================================================
+CREATE FUNCTION with return statement
+================================================================================
+
+CREATE FUNCTION add(a INTEGER, b INTEGER) RETURNS INTEGER
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT
+    RETURN a + b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (language)
+    (optimizer_hint)
+    (null_hint)
+    (function_body
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION with single statement
+================================================================================
+
+CREATE FUNCTION foo()
+  RETURNS INT
+  DETERMINISTIC
+SELECT 0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters)
+    (type
+      (identifier))
+    (deterministic_hint)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE FUNCTION with compound statement
+================================================================================
+
+CREATE OR REPLACE FUNCTION foo(n int)
+  RETURNS SETOF text
+  LANGUAGE SQL
+  IMMUTABLE STRICT PARALLEL SAFE
+BEGIN ATOMIC
+SELECT repeat('*');
+END;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (setof
+      (type
+        (identifier)))
+    (language)
+    (optimizer_hint)
+    (null_hint)
+    (parallel_hint)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (function_call
+              (identifier)
+              (string
+                (content)))))))))
+
+================================================================================
+CREATE FUNCTION with declare variable
+================================================================================
+
+CREATE FUNCTION foo(IN  a INT)
+RETURNS VARCHAR(20)
+BEGIN
+  DECLARE x DEC(10,2) DEFAULT 0;
+  SELECT c INTO x FROM table1 WHERE col1 = a;
+  RETURN func(x);
+END
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier)
+      (number))
+    (function_body
+      (declare_statement
+        (identifier)
+        (type
+          (identifier)
+          (number)
+          (number))
+        (default_clause
+          (number)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)
+            (identifier)))
+        (from_clause
+          (identifier))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (identifier))))
+      (return_statement
+        (function_call
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION without return type
+================================================================================
+
+CREATE PROCEDURE foo(OUT b VARCHAR(20))
+BEGIN
+  SET b = func(1);
+END
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier)
+          (number))))
+    (function_body
+      (set_statement
+        (identifier)
+        (function_call
+          (identifier)
+          (number))))))
+
+================================================================================
+CREATE PROCEDURE
+================================================================================
+
+CREATE PROCEDURE foo()
+ RETURN SELECT 0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters)
+    (function_body
+      (return_statement
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number))))))))
+
+================================================================================
+CREATE TRIGGER call function
+================================================================================
+
+CREATE TRIGGER trigger1
+    INSTEAD OF INSERT ON table1
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER execute procedure
+================================================================================
+
+CREATE TRIGGER trigger1
+    INSTEAD OF INSERT ON table1
+    FOR EACH ROW
+    EXECUTE PROCEDURE proc();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with preferencing
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    REFERENCING NEW TABLE AS newtab OLD TABLE AS oldtab
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_preferencing
+      (identifier)
+      (identifier))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with condition
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FOR EACH ROW
+    WHEN (OLD.* = NEW.*)
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_condition
+      (binary_expression
+        (asterisk_expression
+          (identifier))
+        (asterisk_expression
+          (identifier))))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with order
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FOR EACH ROW
+    FOLLOWS trigger2
+    UPDATE table1 SET col1 = 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_order
+      (identifier))
+    (trigger_body
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (number))))))))
+
+================================================================================
+CREATE TRIGGER with reference
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FROM table2
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_reference
+      (identifier))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with single statement
+================================================================================
+
+CREATE TRIGGER testref BEFORE INSERT ON test1
+  FOR EACH ROW
+  UPDATE test4 SET b4 = b4 + 1 WHERE a4 = NEW.a1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (number)))))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+CREATE TRIGGER with compound statement
+================================================================================
+
+CREATE TRIGGER testref BEFORE INSERT ON test1
+  FOR EACH ROW
+  BEGIN
+    INSERT INTO test2 SET a2 = NEW.a1, a1 = NEW.a2;
+    DELETE FROM test3 WHERE a3 = NEW.a1;
+    UPDATE test4 SET b4 = b4 + 1 WHERE a4 = NEW.a1;
+  END;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (insert_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (dotted_name
+                (identifier)
+                (identifier)))
+            (assigment_expression
+              (identifier)
+              (dotted_name
+                (identifier)
+                (identifier))))))
+      (delete_statement
+        (from_clause
+          (identifier))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier)))))
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (number)))))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier))))))))

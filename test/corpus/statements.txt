@@ -953,7 +953,7 @@ CREATE TABLE public.my_table (
           (number))
         (null_constraint
           (NULL))
-        (column_default
+        (default_clause
           (binary_expression
             (function_call
               (identifier))
@@ -996,7 +996,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
         (identifier)
         (type
           (identifier))
-        (column_default
+        (default_clause
           (function_call
             (identifier)))))))
 
@@ -1016,7 +1016,7 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
         (identifier)
         (type
           (identifier))
-        (column_default
+        (default_clause
           (string
             (content)))))))
 
@@ -1133,7 +1133,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
         (identifier)
         (type
           (identifier))
-        (column_default
+        (default_clause
           (function_call
             (identifier)))
         (null_constraint
@@ -1295,7 +1295,7 @@ CREATE TABLE foo(
         (identifier)
         (type
           (identifier))
-        (column_default
+        (default_clause
           (identifier))
         (direction_constraint)))))
 
@@ -1583,7 +1583,6 @@ CREATE FUNCTION foo(int) RETURNS integer
     (language)
     (null_hint)
     (optimizer_hint)
-    (parallel_hint)
     (parallel_hint)))
 
 ================================================================================
