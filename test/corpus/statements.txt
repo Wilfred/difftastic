@@ -475,7 +475,7 @@ SELECT foo(bar, baz) < 10;
 SELECT expression with function without args
 ================================================================================
 
-SELECT foo();
+SELECT foo(), test.bar(1, 2, 3);
 
 --------------------------------------------------------------------------------
 
@@ -484,7 +484,14 @@ SELECT foo();
     (select_clause
       (select_clause_body
         (function_call
-          (identifier))))))
+          (identifier))
+        (function_call
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)
+          (number)
+          (number))))))
 
 ================================================================================
 SELECT comparison expression boolean
@@ -887,8 +894,9 @@ CREATE INDEX foo_idx ON table1 (col2 DESC);
 CREATE TABLE
 ================================================================================
 
-CREATE TABLE my_table (col1 INT, col2 INT)
-CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT)
+CREATE TABLE my_table (col1 INT, col2 INT);
+CREATE TABLE my_table () WITHOUT OIDS;
+CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT);
 
 --------------------------------------------------------------------------------
 
@@ -904,6 +912,9 @@ CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT)
         (identifier)
         (type
           (identifier)))))
+  (create_table_statement
+    (identifier)
+    (table_parameters))
   (create_table_statement
     (identifier)
     (table_parameters
@@ -1895,6 +1906,12 @@ CREATE EXTENSION
 
 CREATE EXTENSION postgis;
 CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0';
+CREATE EXTENSION IF NOT EXISTS postgis WITH VERSION '1.0' SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0' SCHEMA bar CASCADE;
+CREATE EXTENSION btree_gist SCHEMA test_schema_diff;
 
 --------------------------------------------------------------------------------
 
@@ -1902,7 +1919,35 @@ CREATE EXTENSION IF NOT EXISTS postgis;
   (create_extension_statement
     (identifier))
   (create_extension_statement
-    (identifier)))
+    (identifier))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier))))
 
 ================================================================================
 CREATE ROLE
@@ -2064,6 +2109,7 @@ ALTER TABLE mytable0
       ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
 ALTER TABLE foo SET (autovacuum_enabled = false);
 ALTER TABLE foo RENAME COLUMN bar TO baz;
+ALTER TABLE foo OWNER TO bar;
 
 --------------------------------------------------------------------------------
 
@@ -2121,7 +2167,13 @@ ALTER TABLE foo RENAME COLUMN bar TO baz;
       (identifier)
       (alter_table_rename_column
         (identifier)
-        (identifier)))))
+        (identifier))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_owner
+          (identifier))))))
 
 ================================================================================
 Transaction operators
@@ -2283,7 +2335,7 @@ AT TIME ZONE
 
 SELECT '2001-02-16 20:38:40'::TIMESTAMP AT TIME ZONE 'America/Denver';
 
---------------------------------------------------------------------------------
+-----
 
 (source_file
   (select_statement
@@ -2299,6 +2351,32 @@ SELECT '2001-02-16 20:38:40'::TIMESTAMP AT TIME ZONE 'America/Denver';
             (content)))))))
 
 ================================================================================
+ALTER SCHEMA
+================================================================================
+
+ALTER SCHEMA bar00 OWNER TO foo;
+ALTER SCHEMA bar01 OWNER TO CURRENT_USER;
+ALTER SCHEMA bar02 RENAME TO bar03;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner
+        (identifier))))
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner)))
+  (alter_statement
+    (schema
+      (identifier)
+      (rename
+        (identifier)))))
+
+================================================================================
 JSON accessing operators
 ================================================================================
 
@@ -2310,7 +2388,7 @@ SELECT
   '{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}',
   '{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}';
 
---------------------------------------------------------------------------------
+----
 
 (source_file
   (select_statement
@@ -2362,3 +2440,68 @@ SELECT
               (identifier)))
           (string
             (content)))))))
+
+================================================================================
+COMMENT STATEMENT
+================================================================================
+
+COMMENT ON TABLE mytable IS 'This is my table.';
+COMMENT ON TABLE mytable IS NULL;
+COMMENT ON SCHEMA myschema IS 'my schema tables';
+COMMENT ON FUNCTION public."Test]()&*^!@""'`\/#"() IS 'some comment';
+COMMENT ON COLUMN foo.bar.baz IS 'This is a comment.';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (identifier)
+    (NULL))
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (function_call
+      (dotted_name
+        (identifier)
+        (identifier)))
+    (string
+      (content)))
+  (comment_statement
+    (dotted_name
+      (identifier)
+      (identifier)
+      (identifier))
+    (string
+      (content))))
+
+================================================================================
+TRUNCATE STATEMENT
+================================================================================
+
+TRUNCATE mytable;
+TRUNCATE ONLY mytable;
+TRUNCATE TABLE mytable;
+TRUNCATE TABLE ONLY mytable;
+TRUNCATE mytable1, mytable1, "My Table 3";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (identifier)))
