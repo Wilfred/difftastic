@@ -10,6 +10,9 @@ You can try out the parser here: [Tree Sitter SQL Playground](https://m-novikov.
 
 ## Development
 
+Install [pre-commit](https://pre-commit.com/#install) and run `pre-commit install` in the root of this repo. This will ensure
+that code follows code style of this repo.
+
 File describing grammar is [grammar.js](./grammar.js)
 
 Every time the grammar file changes code generation needs to be run by invoking `npm run gen`
@@ -43,3 +46,4 @@ This parser is supposed to be used in text editors. As a result:
 
 * https://github.com/DerekStride/tree-sitter-sql
 * https://github.com/dhcmrlchtdj/tree-sitter-sqlite
+* 
