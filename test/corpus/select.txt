@@ -159,3 +159,164 @@ FROM table1 AS t, table2 t2, table3
         (identifier)
         (identifier))
       (identifier))))
+
+================================================================================
+SELECT with limit
+================================================================================
+
+SELECT * FROM foo LIMIT 10;
+SELECT * FROM foo LIMIT 10, 5;
+SELECT * FROM foo LIMIT 10 OFFSET 5;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier))
+    (limit_clause
+      (number)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier))
+    (limit_clause
+      (number)
+      (number)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier))
+    (limit_clause
+      (number)
+      (number))))
+
+================================================================================
+SELECT with CTE
+================================================================================
+
+WITH t AS (
+    SELECT * FROM foo
+)
+SELECT * FROM bar;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (with_clause
+      (cte
+        (identifier)
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (asterisk_expression)))
+          (from_clause
+            (identifier)))))
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT with aliased join
+================================================================================
+
+SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) baz ON baz.id = foo.id;
+SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) AS baz ON baz.id = foo.id;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (from_clause
+      (identifier))
+    (join_clause
+      (join_type)
+      (alias
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)
+                (identifier)))
+            (from_clause
+              (identifier))))
+        (identifier))
+      (binary_expression
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (from_clause
+      (identifier))
+    (join_clause
+      (join_type)
+      (alias
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)
+                (identifier)))
+            (from_clause
+              (identifier))))
+        (identifier))
+      (binary_expression
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))))
+
+================================================================================
+SELECT with LATERAL subexpression
+================================================================================
+
+SELECT * FROM LATERAL (SELECT * FROM foo) bar;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (alias
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (asterisk_expression)))
+            (from_clause
+              (identifier))))
+        (identifier)))))

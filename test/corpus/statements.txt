@@ -121,13 +121,39 @@ GROUP BY lower(a), b;
 SELECT statement with order by
 ================================================================================
 
-SELECT a, b
-FROM table1
-ORDER BY lower(a), b;
+SELECT a, b FROM table1 ORDER BY lower(a), b;
+SELECT a, b FROM table1 ORDER BY lower(a), b ASC;
+SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_by_clause_body
+        (function_call
+          (identifier)
+          (identifier))
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_by_clause_body
+        (function_call
+          (identifier)
+          (identifier))
+        (identifier))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -563,7 +589,7 @@ SELECT foo->>'bar'
   (select_statement
     (select_clause
       (select_clause_body
-        (field_access
+        (json_access
           (identifier)
           (string
             (content)))))))
@@ -797,7 +823,7 @@ CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
       (identifier)
       (function_call
         (identifier)
-        (field_access
+        (json_access
           (identifier)
           (string
             (content)))))))
@@ -918,7 +944,6 @@ CREATE TABLE public.my_table (
         (type
           (identifier)
           (number))
-        (time_zone_constraint)
         (null_constraint
           (NULL)))
       (table_column
@@ -926,7 +951,6 @@ CREATE TABLE public.my_table (
         (type
           (identifier)
           (number))
-        (time_zone_constraint)
         (null_constraint
           (NULL))
         (column_default
@@ -2040,6 +2064,7 @@ ALTER TABLE mytable0
     ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
       ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
 ALTER TABLE foo SET (autovacuum_enabled = false);
+ALTER TABLE foo RENAME COLUMN bar TO baz;
 
 --------------------------------------------------------------------------------
 
@@ -2091,7 +2116,13 @@ ALTER TABLE foo SET (autovacuum_enabled = false);
         (alter_table_action_set
           (binary_expression
             (identifier)
-            (FALSE)))))))
+            (FALSE))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_rename_column
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Transaction operators
@@ -2191,6 +2222,40 @@ SELECT $$a$$, $a$baz$a$, $a$$$$a$, $a$b$$a$, $TAG$afasf    $$TAG$;
           (content))))))
 
 ================================================================================
+CASE
+================================================================================
+
+SELECT a,
+  CASE WHEN a=1 THEN 'one'
+      WHEN a=2 THEN 'two'
+      ELSE 'other'
+  END
+FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (conditional_expression
+          (binary_expression
+            (identifier)
+            (number))
+          (string
+            (content))
+          (binary_expression
+            (identifier)
+            (number))
+          (string
+            (content))
+          (string
+            (content)))))
+    (from_clause
+      (identifier))))
+
+================================================================================
 Escaping quotes
 ================================================================================
 
@@ -2212,3 +2277,89 @@ SELECT 'O''Connor', '''', '''''', ' '' ', ' '' a'' ';
           (content))
         (string
           (content))))))
+
+================================================================================
+AT TIME ZONE
+================================================================================
+
+SELECT '2001-02-16 20:38:40'::TIMESTAMP AT TIME ZONE 'America/Denver';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (at_time_zone_expression
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))))))
+
+================================================================================
+JSON accessing operators
+================================================================================
+
+SELECT
+  '[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json->2,
+  '{"a": {"b":"foo"}}'::json->'a',
+  '[1,2,3]'::json->>2,
+  '{"a":1,"b":2}'::json->>'b',
+  '{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}',
+  '{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (number))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (number))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))))))
