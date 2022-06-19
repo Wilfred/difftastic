@@ -14,6 +14,7 @@ const comparative_operators = [
   "<",
   "<=",
   "<>",
+  "!=",
   "=",
   ">",
   ">=",
@@ -89,6 +90,7 @@ module.exports = grammar({
           $.drop_statement,
           $.create_statement,
           $.alter_statement,
+          $.truncate_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -98,6 +100,7 @@ module.exports = grammar({
           $.create_extension_statement,
           $.create_trigger_statement,
           $.create_function_statement,
+          $.comment_statement,
         ),
         optional(";"),
       ),
@@ -153,6 +156,28 @@ module.exports = grammar({
     update_statement: $ => seq(optional($.with_clause), $._update_statement),
     delete_statement: $ => seq(optional($.with_clause), $._delete_statement),
 
+    truncate_statement: $ =>
+      seq(
+        kw("TRUNCATE"),
+        optional(kw("TABLE")),
+        optional(kw("ONLY")),
+        commaSep1($._identifier),
+      ),
+
+    comment_statement: $ =>
+      seq(
+        kw("COMMENT ON"),
+        choice(
+          seq(
+            choice(kw("COLUMN"), kw("EXTENSION"), kw("SCHEMA"), kw("TABLE")),
+            $._identifier,
+          ),
+          seq(kw("FUNCTION"), $.function_call),
+        ),
+        kw("IS"),
+        choice($.string, $.NULL),
+      ),
+
     begin_statement: $ =>
       seq(kw("BEGIN"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
     commit_statement: $ =>
@@ -192,7 +217,11 @@ module.exports = grammar({
     alter_statement: $ =>
       seq(
         kw("ALTER"),
-        choice(alias($.sequence, $.alter_sequence), $.alter_table),
+        choice(
+          alias($.sequence, $.alter_sequence),
+          $.alter_table,
+          alias($.alter_schema, $.schema),
+        ),
       ),
     alter_table: $ =>
       seq(
@@ -201,6 +230,21 @@ module.exports = grammar({
         optional(kw("ONLY")),
         $._identifier,
         choice($.alter_table_action, $.alter_table_rename_column),
+      ),
+    alter_schema_rename_action: $ => seq(kw("RENAME TO"), $._identifier),
+    alter_owner_action: $ =>
+      seq(
+        kw("OWNER TO"),
+        choice($._identifier, "CURRENT_USER", "CURRENT_ROLE", "SESSION_USER"),
+      ),
+    alter_schema: $ =>
+      seq(
+        kw("SCHEMA"),
+        $._identifier,
+        choice(
+          alias($.alter_schema_rename_action, $.rename),
+          alias($.alter_owner_action, $.alter_owner),
+        ),
       ),
     alter_table_action_alter_column: $ =>
       seq(
@@ -228,6 +272,7 @@ module.exports = grammar({
         $.alter_table_action_add,
         $.alter_table_action_alter_column,
         $.alter_table_action_set,
+        alias($.alter_owner_action, $.alter_owner),
       ),
     sequence: $ =>
       prec.right(
@@ -321,7 +366,10 @@ module.exports = grammar({
       seq(kw("SQL SECURITY"), choice(kw("DEFINER"), kw("INVOKER"))),
 
     _function_language: $ =>
-      seq(kw("LANGUAGE"), alias($.identifier, $.language)),
+      seq(
+        kw("LANGUAGE"),
+        alias(choice(/[a-zA-Z]+/, /'[a-zA-Z]+'/), $.language),
+      ),
     _create_function_return_type: $ =>
       prec.right(choice($.setof, $._type, $.constrained_type)),
     setof: $ =>
@@ -339,6 +387,7 @@ module.exports = grammar({
       ),
     create_function_parameters: $ =>
       seq("(", optional(commaSep1($.create_function_parameter)), ")"),
+
     function_body: $ =>
       choice(
         $._simple_statement,
@@ -421,7 +470,21 @@ module.exports = grammar({
       ),
 
     create_extension_statement: $ =>
-      seq(kw("CREATE EXTENSION"), optional(kw("IF NOT EXISTS")), $._identifier),
+      prec.right(
+        seq(
+          kw("CREATE EXTENSION"),
+          optional(kw("IF NOT EXISTS")),
+          $._identifier,
+          optional(kw("WITH")),
+          repeat(
+            choice(
+              seq(kw("SCHEMA"), alias($._identifier, $.schema)),
+              seq(kw("VERSION"), alias($.string, $.version)),
+              kw("CASCADE"),
+            ),
+          ),
+        ),
+      ),
     create_role_statement: $ =>
       prec.right(
         seq(
@@ -567,7 +630,11 @@ module.exports = grammar({
         choice($._column_default_expression, $.type_cast),
       ),
     table_parameters: $ =>
-      seq("(", commaSep1(choice($.table_column, $._table_constraint)), ")"),
+      seq(
+        "(",
+        optional(commaSep1(choice($.table_column, $._table_constraint))),
+        ")",
+      ),
     mode: $ => choice(kw("NOT DEFERRABLE"), kw("DEFERRABLE")),
     initial_mode: $ =>
       seq(kw("INITIALLY"), choice(kw("DEFERRED"), kw("IMMEDIATE"))),
@@ -618,11 +685,12 @@ module.exports = grammar({
     create_table_statement: $ =>
       seq(
         kw("CREATE"),
-        optional(kw("TEMPORARY")),
+        optional(choice(kw("TEMPORARY"), kw("TEMP"))),
         kw("TABLE"),
         optional(kw("IF NOT EXISTS")),
         $._identifier,
         choice(seq(kw("AS"), $.select_statement), $.table_parameters),
+        optional(kw("WITHOUT OIDS")),
       ),
     using_clause: $ => seq(kw("USING"), field("method", $.identifier)),
     index_table_parameters: $ =>
@@ -723,6 +791,7 @@ module.exports = grammar({
         kw("INSERT"),
         kw("INTO"),
         $._identifier,
+        optional(seq("(", commaSep1($._identifier), ")")),
         choice($.values_clause, $.select_statement, $.set_clause),
       ),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
@@ -780,7 +849,7 @@ module.exports = grammar({
     parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(
-        field("function", $.identifier),
+        field("function", $._identifier),
         "(",
         optional(field("arguments", commaSep1($._expression))),
         ")",
@@ -817,7 +886,7 @@ module.exports = grammar({
     _quoted_identifier: $ =>
       choice(
         seq("`", field("name", /[^`]*/), "`"), // MySQL style quoting
-        seq('"', field("name", /[^"]*/), '"'), // ANSI QUOTES
+        seq('"', field("name", /(""|[^"])*/), '"'), // ANSI QUOTES
       ),
     identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
     dotted_name: $ => prec.left(PREC.primary, sep2($.identifier, ".")),
@@ -839,7 +908,6 @@ module.exports = grammar({
       ),
     ordered_expression: $ =>
       seq($._expression, field("order", choice(kw("ASC"), kw("DESC")))),
-
     type: $ =>
       prec.right(
         seq(
