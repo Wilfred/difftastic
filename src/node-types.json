@@ -47,6 +47,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -55,11 +59,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -80,6 +84,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -161,6 +169,10 @@
       "types": [
         {
           "type": "alter_table_action",
+          "named": true
+        },
+        {
+          "type": "alter_table_rename_column",
           "named": true
         },
         {
@@ -288,6 +300,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -296,11 +312,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -321,6 +337,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -379,6 +399,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -387,11 +411,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -415,6 +439,10 @@
           "named": true
         },
         {
+          "type": "json_access",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -432,6 +460,25 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_table_rename_column",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -475,6 +522,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -483,11 +534,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -508,6 +559,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -538,11 +593,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         },
         {
@@ -585,6 +644,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -593,11 +656,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -618,6 +681,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -657,6 +724,105 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "at_time_zone_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -713,6 +879,10 @@
             "named": true
           },
           {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -721,11 +891,11 @@
             "named": true
           },
           {
-            "type": "dotted_name",
+            "type": "conditional_expression",
             "named": true
           },
           {
-            "type": "field_access",
+            "type": "dotted_name",
             "named": true
           },
           {
@@ -746,6 +916,10 @@
           },
           {
             "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
             "named": true
           },
           {
@@ -897,6 +1071,10 @@
             "named": true
           },
           {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -905,11 +1083,11 @@
             "named": true
           },
           {
-            "type": "dotted_name",
+            "type": "conditional_expression",
             "named": true
           },
           {
-            "type": "field_access",
+            "type": "dotted_name",
             "named": true
           },
           {
@@ -930,6 +1108,10 @@
           },
           {
             "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
             "named": true
           },
           {
@@ -994,6 +1176,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1002,11 +1188,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1027,6 +1213,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -1085,6 +1275,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1093,11 +1287,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1118,6 +1312,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -1176,6 +1374,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1184,11 +1386,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1209,6 +1411,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -1267,6 +1473,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1275,11 +1485,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1300,6 +1510,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -1329,6 +1543,105 @@
     "type": "commit_statement",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "conditional_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "constrained_type",
@@ -1669,6 +1982,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1677,11 +1994,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1702,6 +2019,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -1824,6 +2145,10 @@
           "named": true
         },
         {
+          "type": "select_statement",
+          "named": true
+        },
+        {
           "type": "table_parameters",
           "named": true
         }
@@ -1848,6 +2173,37 @@
         },
         {
           "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "cte",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delete_statement",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "insert_statement",
+          "named": true
+        },
+        {
+          "type": "select_statement",
+          "named": true
+        },
+        {
+          "type": "update_statement",
           "named": true
         }
       ]
@@ -1886,6 +2242,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1894,11 +2254,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -1922,6 +2282,10 @@
           "named": true
         },
         {
+          "type": "json_access",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -1939,6 +2303,29 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "delete_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "from_clause",
+          "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
           "named": true
         }
       ]
@@ -1982,6 +2369,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1990,11 +2381,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2015,6 +2406,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2125,25 +2520,6 @@
     }
   },
   {
-    "type": "field_access",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "foreign_key",
     "named": true,
     "fields": {},
@@ -2199,6 +2575,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2207,11 +2587,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2232,6 +2612,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2317,6 +2701,10 @@
             "named": true
           },
           {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -2325,11 +2713,11 @@
             "named": true
           },
           {
-            "type": "dotted_name",
+            "type": "conditional_expression",
             "named": true
           },
           {
-            "type": "field_access",
+            "type": "dotted_name",
             "named": true
           },
           {
@@ -2350,6 +2738,10 @@
           },
           {
             "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
             "named": true
           },
           {
@@ -2476,6 +2868,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2484,11 +2880,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2509,6 +2905,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2572,6 +2972,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2580,11 +2984,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2605,6 +3009,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2667,6 +3075,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2675,11 +3087,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2700,6 +3112,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2813,6 +3229,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2821,15 +3241,15 @@
           "named": true
         },
         {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "distinct_from",
           "named": true
         },
         {
           "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "field_access",
           "named": true
         },
         {
@@ -2850,6 +3270,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2881,7 +3305,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "FALSE",
@@ -2893,6 +3317,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "alias",
           "named": true
         },
         {
@@ -2908,6 +3336,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2916,11 +3348,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -2945,6 +3377,10 @@
         },
         {
           "type": "join_type",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -2976,9 +3412,123 @@
     "fields": {}
   },
   {
+    "type": "json_access",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "language",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "limit_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "mode",
@@ -3100,7 +3650,22 @@
   {
     "type": "order_by_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "order": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ASC",
+            "named": false
+          },
+          {
+            "type": "DESC",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -3145,6 +3710,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3153,11 +3722,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -3178,6 +3747,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -3251,6 +3824,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3259,11 +3836,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -3284,6 +3861,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -3469,6 +4050,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3477,11 +4062,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -3502,6 +4087,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -3548,6 +4137,10 @@
           "named": true
         },
         {
+          "type": "limit_clause",
+          "named": true
+        },
+        {
           "type": "order_by_clause",
           "named": true
         },
@@ -3557,6 +4150,10 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
           "named": true
         }
       ]
@@ -3655,6 +4252,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -3663,11 +4264,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -3688,6 +4289,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -3790,6 +4395,10 @@
         },
         {
           "type": "create_type_statement",
+          "named": true
+        },
+        {
+          "type": "delete_statement",
           "named": true
         },
         {
@@ -3913,10 +4522,6 @@
           "named": true
         },
         {
-          "type": "time_zone_constraint",
-          "named": true
-        },
-        {
           "type": "unique_constraint",
           "named": true
         }
@@ -3982,11 +4587,6 @@
     }
   },
   {
-    "type": "time_zone_constraint",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "tuple",
     "named": true,
     "fields": {
@@ -4031,6 +4631,10 @@
             "named": true
           },
           {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -4039,11 +4643,11 @@
             "named": true
           },
           {
-            "type": "dotted_name",
+            "type": "conditional_expression",
             "named": true
           },
           {
-            "type": "field_access",
+            "type": "dotted_name",
             "named": true
           },
           {
@@ -4064,6 +4668,10 @@
           },
           {
             "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
             "named": true
           },
           {
@@ -4161,6 +4769,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4169,11 +4781,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -4194,6 +4806,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -4260,6 +4876,10 @@
             "named": true
           },
           {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -4268,11 +4888,11 @@
             "named": true
           },
           {
-            "type": "dotted_name",
+            "type": "conditional_expression",
             "named": true
           },
           {
-            "type": "field_access",
+            "type": "dotted_name",
             "named": true
           },
           {
@@ -4293,6 +4913,10 @@
           },
           {
             "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
             "named": true
           },
           {
@@ -4386,6 +5010,10 @@
       "required": true,
       "types": [
         {
+          "type": "from_clause",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -4395,6 +5023,10 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
           "named": true
         }
       ]
@@ -4464,6 +5096,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4472,11 +5108,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -4497,6 +5133,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -4555,6 +5195,10 @@
           "named": true
         },
         {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4563,11 +5207,11 @@
           "named": true
         },
         {
-          "type": "dotted_name",
+          "type": "conditional_expression",
           "named": true
         },
         {
-          "type": "field_access",
+          "type": "dotted_name",
           "named": true
         },
         {
@@ -4588,6 +5232,10 @@
         },
         {
           "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
           "named": true
         },
         {
@@ -4614,6 +5262,21 @@
     }
   },
   {
+    "type": "with_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "cte",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!!",
     "named": false
   },
@@ -4631,6 +5294,14 @@
   },
   {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "#>",
+    "named": false
+  },
+  {
+    "type": "#>>",
     "named": false
   },
   {
@@ -4675,6 +5346,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "->",
     "named": false
   },
   {
@@ -4766,6 +5441,10 @@
     "named": false
   },
   {
+    "type": "AT_TIME_ZONE",
+    "named": false
+  },
+  {
     "type": "AUTO_INCREMENT",
     "named": false
   },
@@ -4787,6 +5466,10 @@
   },
   {
     "type": "CASCADE",
+    "named": false
+  },
+  {
+    "type": "CASE",
     "named": false
   },
   {
@@ -4863,6 +5546,14 @@
   },
   {
     "type": "DROP",
+    "named": false
+  },
+  {
+    "type": "ELSE",
+    "named": false
+  },
+  {
+    "type": "END",
     "named": false
   },
   {
@@ -4974,11 +5665,23 @@
     "named": false
   },
   {
+    "type": "LATERAL",
+    "named": false
+  },
+  {
     "type": "LEFT",
     "named": false
   },
   {
+    "type": "LIMIT",
+    "named": false
+  },
+  {
     "type": "LOCAL",
+    "named": false
+  },
+  {
+    "type": "MATERIALIZED",
     "named": false
   },
   {
@@ -5003,6 +5706,10 @@
   },
   {
     "type": "NULL",
+    "named": false
+  },
+  {
+    "type": "OFFSET",
     "named": false
   },
   {
@@ -5046,6 +5753,10 @@
     "named": false
   },
   {
+    "type": "PRECISION",
+    "named": false
+  },
+  {
     "type": "PRIMARY_KEY",
     "named": false
   },
@@ -5058,7 +5769,15 @@
     "named": false
   },
   {
+    "type": "RECURSIVE",
+    "named": false
+  },
+  {
     "type": "REFERENCES",
+    "named": false
+  },
+  {
+    "type": "RENAME",
     "named": false
   },
   {
@@ -5150,6 +5869,10 @@
     "named": false
   },
   {
+    "type": "THEN",
+    "named": false
+  },
+  {
     "type": "TIME_ZONE",
     "named": false
   },
@@ -5202,11 +5925,19 @@
     "named": false
   },
   {
+    "type": "VARYING",
+    "named": false
+  },
+  {
     "type": "VIEW",
     "named": false
   },
   {
     "type": "VOLATILE",
+    "named": false
+  },
+  {
+    "type": "WHEN",
     "named": false
   },
   {

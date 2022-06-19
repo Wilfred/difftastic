@@ -192,3 +192,84 @@ CREATE TABLE IF NOT EXISTS tblsample
             (content))))
       (primary_key
         (identifier)))))
+
+================================================================================
+CREATE statement with array type
+================================================================================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  col1 INTEGER[],
+  col2 INTEGER[3],
+  col3 INTEGER[][],
+  col4 INTEGER[3][3]
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))
+          (number)))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))
+          (number)
+          (number))))))
+
+================================================================================
+CREATE statement with VARYING, PRECISION, WITH/WITHOUT TIME ZONE types
+================================================================================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  col1 CHARACTER VARYING,
+  col2 CHARACTER VARYING(10),
+  col3 DOUBLE PRECISION,
+  col4 TIMESTAMP WITH TIME ZONE,
+  col5 TIMESTAMP WITHOUT TIME ZONE
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier))))))

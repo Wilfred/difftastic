@@ -1,0 +1,46 @@
+================================================================================
+DELETE statement
+================================================================================
+
+DELETE FROM foo;
+DELETE FROM foo WHERE name = 'bar';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (delete_statement
+    (from_clause
+      (identifier)))
+  (delete_statement
+    (from_clause
+      (identifier))
+    (where_clause
+      (binary_expression
+        (identifier)
+        (string
+          (content))))))
+
+================================================================================
+DELETE with CTE
+================================================================================
+
+WITH t AS (
+    SELECT * FROM foo
+)
+DELETE FROM bar;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (delete_statement
+    (with_clause
+      (cte
+        (identifier)
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (asterisk_expression)))
+          (from_clause
+            (identifier)))))
+    (from_clause
+      (identifier))))
