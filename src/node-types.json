@@ -3888,11 +3888,6 @@
     "fields": {}
   },
   {
-    "type": "number",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "on_delete_action",
     "named": true,
     "fields": {
@@ -7024,6 +7019,10 @@
   },
   {
     "type": "language",
+    "named": true
+  },
+  {
+    "type": "number",
     "named": true
   },
   {
