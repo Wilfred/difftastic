@@ -880,7 +880,22 @@ module.exports = grammar({
     NULL: $ => kw("NULL"),
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
-    number: $ => /\d+/,
+
+    number: $ => {
+      const digits = repeat1(/[0-9]+_?/);
+      const exponent = seq(/[eE][\+-]?/, digits);
+
+      return token(
+        seq(
+          choice(
+            seq(digits, ".", optional(digits), optional(exponent)),
+            seq(optional(digits), ".", digits, optional(exponent)),
+            seq(digits, exponent),
+            seq(digits),
+          ),
+        ),
+      );
+    },
 
     _unquoted_identifier: $ => /[a-zA-Z0-9_]+/,
     _quoted_identifier: $ =>
