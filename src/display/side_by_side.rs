@@ -660,31 +660,6 @@ mod tests {
     }
 
     #[test]
-    fn test_split_line_empty() {
-        assert_eq!(split_on_newlines(""), vec![""]);
-    }
-
-    #[test]
-    fn test_split_line_single() {
-        assert_eq!(split_on_newlines("foo"), vec!["foo"]);
-    }
-
-    #[test]
-    fn test_split_line_with_newline() {
-        assert_eq!(split_on_newlines("foo\nbar"), vec!["foo", "bar"]);
-    }
-
-    #[test]
-    fn test_split_line_with_crlf() {
-        assert_eq!(split_on_newlines("foo\r\nbar"), vec!["foo", "bar"]);
-    }
-
-    #[test]
-    fn test_split_line_with_trailing_newline() {
-        assert_eq!(split_on_newlines("foo\nbar\n"), vec!["foo", "bar", ""]);
-    }
-
-    #[test]
     fn test_display_hunks() {
         // Simulate diffing:
         //
