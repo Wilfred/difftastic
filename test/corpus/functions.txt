@@ -250,7 +250,7 @@ fn bit_string() {
   <<0:4, 1:3, 1:1>>
 }
 fn return_fun(x) {
-  fn(foo y: Int) { x + y }
+  fn(y: Int) { x + y }
 }
 fn expression_group() {
   {
@@ -400,7 +400,6 @@ fn field_access(x) {
       (anonymous_function
         parameters: (function_parameters
           (function_parameter
-            label: (label)
             name: (identifier)
             type: (type
               name: (type_identifier))))
