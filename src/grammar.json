@@ -3647,27 +3647,91 @@
           "value": "DROP"
         },
         {
+          "type": "FIELD",
+          "name": "kind",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[tT][aA][bB][lL][eE]"
+                },
+                "named": false,
+                "value": "TABLE"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[vV][iI][eE][wW]"
+                },
+                "named": false,
+                "value": "VIEW"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[iI][nN][dD][eE][xX]"
+                },
+                "named": false,
+                "value": "INDEX"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[eE][xX][tT][eE][nN][sS][iI][oO][nN]"
+                },
+                "named": false,
+                "value": "EXTENSION"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[tT][aA][bB][lL][eE][sS][pP][aA][cC][eE]"
+                },
+                "named": false,
+                "value": "TABLESPACE"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[mM][aA][tT][eE][rR][iI][aA][lL][iI][zZ][eE][dD]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[vV][iI][eE][wW]"
+                    }
+                  ]
+                },
+                "named": false,
+                "value": "MATERIALIZED_VIEW"
+              }
+            ]
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "TABLE"
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[cC][oO][nN][cC][uU][rR][rR][eE][nN][tT][lL][yY]"
+              },
+              "named": false,
+              "value": "CONCURRENTLY"
             },
             {
-              "type": "STRING",
-              "value": "VIEW"
-            },
-            {
-              "type": "STRING",
-              "value": "TABLESPACE"
-            },
-            {
-              "type": "STRING",
-              "value": "EXTENSION"
-            },
-            {
-              "type": "STRING",
-              "value": "INDEX"
+              "type": "BLANK"
             }
           ]
         },
@@ -3698,8 +3762,64 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_identifier"
+          "type": "FIELD",
+          "name": "target",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_identifier"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_identifier"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[cC][aA][sS][cC][aA][dD][eE]"
+                  },
+                  "named": false,
+                  "value": "CASCADE"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[rR][eE][sS][tT][rR][iI][cC][tT]"
+                  },
+                  "named": false,
+                  "value": "RESTRICT"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
