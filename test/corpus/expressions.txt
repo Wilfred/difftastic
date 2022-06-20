@@ -436,6 +436,12 @@ a === b
 a <=> b
 a =~ b
 a !~ b
+a==b
+a!=b
+a===b
+a<=>b
+a=~b
+a!~b # not a binary operation
 
 ---
 
@@ -445,8 +451,18 @@ a !~ b
   (binary left: (identifier) right: (identifier))
   (binary left: (identifier) right: (identifier))
   (binary left: (identifier) right: (identifier))
-  (binary left: (identifier) right: (identifier)))
-
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (unary
+        operand: (identifier))))
+  (comment))
 ==========
 comparison
 ==========
