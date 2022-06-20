@@ -66,24 +66,23 @@ module.exports = grammar(add_inline_rules({
         [$._strong_emphasis_star_no_link, $._inline_element_no_star_no_link],
         // [$._strong_emphasis_underscore, $._inline_element_no_underscore],
         [$._strong_emphasis_underscore_no_link, $._inline_element_no_underscore_no_link],
+        [$.hard_line_break, $._whitespace],
+        [$.hard_line_break, $._text_inline],
+        [$.hard_line_break, $._text_inline_no_star],
+        [$.hard_line_break, $._text_inline_no_underscore],
+        [$.hard_line_break, $._text_inline_no_link],
+        [$.hard_line_break, $._text_inline_no_star_no_link],
+        [$.hard_line_break, $._text_inline_no_underscore_no_link],
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
-        [$.link_label, $._closing_tag, $._text_inline_no_link],
-        [$.link_label, $._open_tag, $._text_inline_no_link],
-        [$.link_label, $.hard_line_break, $._text_inline_no_link],
-        [$.link_label, $._inline_element_no_link],
         [$._image_description, $._image_description_non_empty, $._text_inline],
         [$._image_description, $._image_description_non_empty, $._text_inline_no_star],
         [$._image_description, $._image_description_non_empty, $._text_inline_no_underscore],
         [$._image_shortcut_link, $._image_description],
-        [$._image_inline_link, $._image_shortcut_link],
-        [$._image_full_reference_link, $._image_collapsed_reference_link, $._image_shortcut_link],
         [$.shortcut_link, $._link_text],
         [$.link_destination, $.link_title],
         [$._link_destination_parenthesis, $.link_title],
-        [$.hard_line_break, $._whitespace],
-        [$._link_text_non_empty, $.link_label],
     ],
     extras: $ => [],
 
@@ -347,7 +346,7 @@ module.exports = grammar(add_inline_rules({
         // A hard line break.
         //
         // https://github.github.com/gfm/#hard-line-breaks
-        hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
+        hard_line_break: $ => seq(choice('\\', $._whitespace_ge_2), $._soft_line_break),
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
 
         // Whitespace is divided into single whitespaces and multiple whitespaces as wee need this
@@ -425,11 +424,8 @@ function add_inline_rules(grammar) {
             conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter + suffix_link]);
             conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter + suffix_link]);
             conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter + suffix_link]);
-            conflicts.push(['_link_text_non_empty', 'link_label', '_text_inline' + suffix_delimiter + suffix_link]);
             conflicts.push(['_link_text_non_empty', '_text_inline' + suffix_delimiter + suffix_link]);
             conflicts.push(['_link_text', '_text_inline' + suffix_delimiter + suffix_link]);
-            conflicts.push(['link_label', '_text_inline' + suffix_delimiter + suffix_link]);
-            conflicts.push(['hard_line_break', '_text_inline' + suffix_delimiter + suffix_link]);
             grammar.rules['_text_inline' + suffix_delimiter + suffix_link] = $ => {
                 let elements = [
                     $._word,
