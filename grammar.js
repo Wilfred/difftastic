@@ -109,6 +109,7 @@ module.exports = grammar({
           $.create_trigger_statement,
           $.create_function_statement,
           $.comment_statement,
+          $.create_view_statement,
         ),
         optional(";"),
       ),
@@ -136,6 +137,7 @@ module.exports = grammar({
             $.create_extension_statement,
             $.return_statement,
             $.declare_statement,
+            $.create_view_statement,
           ),
           optional(";"),
         ),
@@ -797,6 +799,32 @@ module.exports = grammar({
         ),
         ")",
       ),
+
+    create_view_statement: $ =>
+      prec.right(
+        seq(
+          kw("CREATE"),
+          optional(createCaseInsensitiveRegex("OR REPLACE")),
+          optional(choice(kw("TEMPORARY"), kw("TEMP"))),
+          kw("VIEW"),
+          $._identifier,
+          optional($.view_columns),
+          optional($.view_options),
+          $.view_body,
+          optional($.view_check_option),
+        ),
+      ),
+    view_columns: $ => seq("(", commaSep1($._identifier), ")"),
+    // PostgreSQL currently only support the SECURITY_BARRIER option
+    view_options: $ => seq(kw("WITH"), "(", commaSep1($.identifier), ")"),
+    // MySQL support
+    view_check_option: $ =>
+      seq(
+        kw("WITH"),
+        optional(choice(kw("CASCADED"), kw("LOCAL"))),
+        kw("CHECK OPTION"),
+      ),
+    view_body: $ => seq(kw("AS"), choice($.select_statement, $.values_clause)),
 
     // SELECT
     _select_statement: $ =>

@@ -2364,6 +2364,41 @@
     }
   },
   {
+    "type": "create_view_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "view_body",
+          "named": true
+        },
+        {
+          "type": "view_check_option",
+          "named": true
+        },
+        {
+          "type": "view_columns",
+          "named": true
+        },
+        {
+          "type": "view_options",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "cte",
     "named": true,
     "fields": {},
@@ -3125,6 +3160,10 @@
         },
         {
           "type": "create_type_statement",
+          "named": true
+        },
+        {
+          "type": "create_view_statement",
           "named": true
         },
         {
@@ -5166,6 +5205,10 @@
           "named": true
         },
         {
+          "type": "create_view_statement",
+          "named": true
+        },
+        {
           "type": "delete_statement",
           "named": true
         },
@@ -5550,6 +5593,10 @@
         },
         {
           "type": "create_type_statement",
+          "named": true
+        },
+        {
+          "type": "create_view_statement",
           "named": true
         },
         {
@@ -6587,6 +6634,64 @@
     }
   },
   {
+    "type": "view_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "select_statement",
+          "named": true
+        },
+        {
+          "type": "values_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "view_check_option",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "view_columns",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "view_options",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "where_clause",
     "named": true,
     "fields": {},
@@ -6913,11 +7018,19 @@
     "named": false
   },
   {
+    "type": "CASCADED",
+    "named": false
+  },
+  {
     "type": "CASE",
     "named": false
   },
   {
     "type": "CHECK",
+    "named": false
+  },
+  {
+    "type": "CHECK_OPTION",
     "named": false
   },
   {
