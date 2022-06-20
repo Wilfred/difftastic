@@ -128,6 +128,7 @@ namespace TreeSitterMarkdownInline {
             }
             lexer->mark_end(lexer);
             if (level == code_span_delimiter_length && valid_symbols[CODE_SPAN_CLOSE]) {
+                code_span_delimiter_length = 0;
                 lexer->result_symbol = CODE_SPAN_CLOSE;
                 return true;
             } else if (valid_symbols[CODE_SPAN_START]) {
@@ -146,6 +147,7 @@ namespace TreeSitterMarkdownInline {
                 // The `STATE_EMPHASIS_DELIMITER_IS_OPEN` state flag tells us wether it should be open
                 // or close.
                 if ((state & STATE_EMPHASIS_DELIMITER_IS_OPEN) && valid_symbols[EMPHASIS_OPEN_STAR]) {
+                    state &= (~STATE_EMPHASIS_DELIMITER_IS_OPEN);
                     lexer->result_symbol = EMPHASIS_OPEN_STAR;
                     num_emphasis_delimiters_left--;
                     return true;

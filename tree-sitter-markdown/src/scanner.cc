@@ -223,9 +223,11 @@ struct Scanner {
     size_t advance(TSLexer *lexer) {
         size_t size = 1;
         if (lexer->lookahead == '\t') {
-            size = (column % 4 == 0) ? 4 : (4 - column % 4);
+            size = 4 - column;
+            column = 0;
+        } else {
+            column = (column + 1) % 4;
         }
-        column += size;
         lexer->advance(lexer, false);
         return size;
     }
@@ -561,6 +563,7 @@ struct Scanner {
             level >= fenced_code_block_delimiter_length &&
             (lexer->lookahead == '\n' || lexer->lookahead == '\r')
             ) {
+            fenced_code_block_delimiter_length = 0;
             lexer->result_symbol = delimiter == '`' ?
                 FENCED_CODE_BLOCK_END_BACKTICK :
                 FENCED_CODE_BLOCK_END_TILDE;
