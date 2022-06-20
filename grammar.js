@@ -330,11 +330,30 @@ module.exports = grammar({
     anonymous_function: ($) =>
       seq(
         "fn",
-        field("parameters", $.function_parameters),
+        field(
+          "parameters",
+          alias($.anonymous_function_parameters, $.function_parameters)
+        ),
         optional(seq("->", field("return_type", $._type))),
         "{",
         field("body", alias($._expression_seq, $.function_body)),
         "}"
+      ),
+    anonymous_function_parameters: ($) =>
+      seq(
+        "(",
+        optional(
+          series_of(
+            alias($.anonymous_function_parameter, $.function_parameter),
+            ","
+          )
+        ),
+        ")"
+      ),
+    anonymous_function_parameter: ($) =>
+      seq(
+        choice($._discard_param, $._name_param),
+        optional($._type_annotation)
       ),
     expression_group: ($) => seq("{", $._expression_seq, "}"),
     case: ($) =>
