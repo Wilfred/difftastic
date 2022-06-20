@@ -14,7 +14,7 @@ module.exports = grammar({
     name: 'markdown',
 
     rules: {
-        document: $ => seq(optional($.block_continuation), repeat($._block)),
+        document: $ => seq(alias(prec.right(repeat($._block_not_section)), $.section), repeat($.section)),
 
         // BLOCK STRUCTURE
 
