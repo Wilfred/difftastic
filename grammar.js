@@ -110,6 +110,7 @@ module.exports = grammar({
           $.create_function_statement,
           $.comment_statement,
           $.create_view_statement,
+          $.create_materialized_view_statement,
         ),
         optional(";"),
       ),
@@ -138,6 +139,7 @@ module.exports = grammar({
             $.return_statement,
             $.declare_statement,
             $.create_view_statement,
+            $.create_materialized_view_statement,
           ),
           optional(";"),
         ),
@@ -816,7 +818,8 @@ module.exports = grammar({
       ),
     view_columns: $ => seq("(", commaSep1($._identifier), ")"),
     // PostgreSQL currently only support the SECURITY_BARRIER option
-    view_options: $ => seq(kw("WITH"), "(", commaSep1($.identifier), ")"),
+    view_option: $ => choice($._identifier, $.assigment_expression),
+    view_options: $ => seq(kw("WITH"), "(", commaSep1($.view_option), ")"),
     // MySQL support
     view_check_option: $ =>
       seq(
@@ -825,6 +828,23 @@ module.exports = grammar({
         kw("CHECK OPTION"),
       ),
     view_body: $ => seq(kw("AS"), choice($.select_statement, $.values_clause)),
+
+    create_materialized_view_statement: $ =>
+      prec.right(
+        seq(
+          kw("CREATE MATERIALIZED VIEW"),
+          optional(kw("IF NOT EXISTS")),
+          $._identifier,
+          optional($.view_columns),
+          optional($.using_clause),
+          optional($.view_options),
+          optional($.tablespace_hint),
+          $.view_body,
+          optional($.data_hint),
+        ),
+      ),
+    tablespace_hint: $ => seq(kw("TABLESPACE"), $._identifier),
+    data_hint: $ => seq(kw("WITH"), optional(kw("NO")), kw("DATA")),
 
     // SELECT
     _select_statement: $ =>
@@ -904,7 +924,7 @@ module.exports = grammar({
       ),
     set_clause: $ => seq(kw("SET"), $.set_clause_body),
     set_clause_body: $ => seq(commaSep1($.assigment_expression)),
-    assigment_expression: $ => seq($.identifier, "=", $._expression),
+    assigment_expression: $ => seq($._identifier, "=", $._expression),
 
     // INSERT
     insert_statement: $ =>
