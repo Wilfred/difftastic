@@ -1,7 +1,7 @@
 use tree_sitter_md::*;
 
 fn main() {
-    let mut parser = MarkdownParser::new().unwrap();
+    let mut parser = MarkdownParser::default();
     let filename = std::env::args().nth(1).unwrap();
     let source = std::fs::read(filename).unwrap();
     let mut tree = parser.parse(&source, None).unwrap();

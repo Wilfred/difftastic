@@ -15,7 +15,7 @@
 use std::collections::HashMap;
 
 use tree_sitter::{
-    InputEdit, Language, LanguageError, Node, Parser, Query, QueryCursor, QueryError, Tree,
+    InputEdit, Language, Node, Parser, Query, QueryCursor, Tree,
 };
 
 extern "C" {
@@ -55,29 +55,11 @@ pub const INLINE_INJECTION_QUERY: &str = "(_ (inline)+ @inline) @parent";
 ///
 /// This is a convenience wrapper around [`language`] and [`inline_language`].
 pub struct MarkdownParser {
-    block_parser: Parser,
-    inline_parser: Parser,
+    parser: Parser,
+    block_language: Language,
+    inline_language: Language,
     inline_injection_query: Query,
     query_cursor: QueryCursor,
-}
-
-/// The error for creating a [`MarkdownParser`]
-#[derive(Debug)]
-pub enum Error {
-    QueryError(QueryError),
-    LanguageError(LanguageError),
-}
-
-impl From<QueryError> for Error {
-    fn from(err: QueryError) -> Self {
-        Self::QueryError(err)
-    }
-}
-
-impl From<LanguageError> for Error {
-    fn from(err: LanguageError) -> Self {
-        Self::LanguageError(err)
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -119,31 +101,24 @@ impl MarkdownTree {
     }
 }
 
-impl MarkdownParser {
-    /// Creates a new parser
-    ///
-    /// # Errors
-    ///
-    /// This will return an error if either the block or the inline grammar or the injection query
-    /// could not be loaded.
-    ///
-    /// See also [tree_sitter::Parser::set_language] and [tree_sitter::Query::new]
-    pub fn new() -> Result<Self, Error> {
+impl Default for MarkdownParser {
+    fn default() -> Self {
         let block_language = language();
         let inline_language = inline_language();
-        let mut block_parser = Parser::new();
-        block_parser.set_language(block_language)?;
-        let mut inline_parser = Parser::new();
-        inline_parser.set_language(inline_language)?;
-        let inline_injection_query = Query::new(block_language, INLINE_INJECTION_QUERY)?;
+        let parser = Parser::new();
+        let inline_injection_query = Query::new(block_language, INLINE_INJECTION_QUERY).expect("Could not load injection query");
         let query_cursor = QueryCursor::new();
-        Ok(MarkdownParser {
-            block_parser,
-            inline_parser,
+        MarkdownParser {
+            parser,
+            block_language,
+            inline_language,
             inline_injection_query,
             query_cursor,
-        })
+        }
     }
+}
+
+impl MarkdownParser {
 
     /// Parse a slice of UTF8 text.
     ///
@@ -159,12 +134,15 @@ impl MarkdownParser {
     ///  * The cancellation flag set with [tree_sitter::Parser::set_cancellation_flag] was flipped
     pub fn parse(&mut self, text: &[u8], old_tree: Option<&MarkdownTree>) -> Option<MarkdownTree> {
         let MarkdownParser {
-            block_parser,
-            inline_parser,
+            parser,
+            block_language,
+            inline_language,
             inline_injection_query,
             query_cursor,
         } = self;
-        let block_tree = block_parser.parse(text, old_tree.map(|tree| &tree.block_tree))?;
+        parser.set_included_ranges(&[]).expect("Can not set included ranges to whole document");
+        parser.set_language(*block_language).expect("Could not load block grammar");
+        let block_tree = parser.parse(text, old_tree.map(|tree| &tree.block_tree))?;
         let inline_capture_index = inline_injection_query
             .capture_index_for_name("inline")
             .unwrap();
@@ -177,6 +155,7 @@ impl MarkdownParser {
         } else {
             (Vec::new(), HashMap::new())
         };
+        parser.set_language(*inline_language).expect("Could not load inline grammar");
         for (i, query_match) in query_cursor
             .matches(inline_injection_query, block_tree.root_node(), text)
             .enumerate()
@@ -200,8 +179,8 @@ impl MarkdownParser {
                 .unwrap()
                 .node;
             let parent_id = parent.id();
-            inline_parser.set_included_ranges(&ranges).ok()?;
-            let inline_tree = inline_parser.parse(
+            parser.set_included_ranges(&ranges).ok()?;
+            let inline_tree = parser.parse(
                 text,
                 old_tree
             )?;
@@ -239,7 +218,7 @@ mod tests {
     #[test]
     fn inline_ranges() {
         let code = "# title\n\nInline [content].\n";
-        let mut parser = MarkdownParser::new().unwrap();
+        let mut parser = MarkdownParser::default();
         let mut tree = parser.parse(code.as_bytes(), None).unwrap();
         dbg!(&tree);
 
