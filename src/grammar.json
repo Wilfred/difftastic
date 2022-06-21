@@ -7461,6 +7461,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "select_subexpression"
+            },
+            {
+              "type": "SYMBOL",
               "name": "values_clause"
             }
           ]

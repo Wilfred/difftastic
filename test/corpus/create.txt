@@ -709,6 +709,7 @@ CREATE VIEW
 ================================================================================
 
 CREATE VIEW foo AS SELECT 1;
+CREATE VIEW foo AS (SELECT 1);
 CREATE OR REPLACE VIEW foo AS SELECT 1;
 CREATE TEMPORARY VIEW foo AS SELECT 1;
 CREATE TEMP VIEW foo AS SELECT 1;
@@ -723,6 +724,14 @@ CREATE TEMP VIEW foo AS SELECT 1;
         (select_clause
           (select_clause_body
             (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_subexpression
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number)))))))
   (create_view_statement
     (identifier)
     (view_body
