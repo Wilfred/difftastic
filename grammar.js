@@ -1322,9 +1322,9 @@ module.exports = grammar({
     nowdoc_body: $ => seq($._new_line,
       choice(
         repeat1(
-          $.nowdoc_string,
+          $.nowdoc_string
         ),
-        "",
+        alias("", $.nowdoc_string)
       )
     ),
 
@@ -1333,8 +1333,17 @@ module.exports = grammar({
       "'",
       field('identifier', $.heredoc_start),
       token.immediate("'"),
-      field('value', $.nowdoc_body),
-      seq($._new_line, field('end_tag', $.heredoc_end)),
+      choice(
+        seq(
+          field('value', $.nowdoc_body),
+          $._new_line,
+          field('end_tag', $.heredoc_end),
+        ),
+        seq(
+          field('value', optional($.nowdoc_body)),
+          field('end_tag', $.heredoc_end),
+        )
+      ),
     ),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
