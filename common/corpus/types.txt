@@ -1407,3 +1407,32 @@ type Foo<T> = abstract new () => T;
 ---
 
 (program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier)))) 
+
+=========================
+Indexed Access Precedence
+=========================
+
+// These should generate the same AST aside from the parenthesized_type node
+type X1 = typeof Y[keyof typeof Z];
+type X2 = (typeof Y)[keyof typeof Z];
+
+---
+
+(program
+  (comment)
+  (type_alias_declaration
+    (type_identifier)
+    (type_query
+      (identifier))
+    (ERROR
+      (identifier)
+      (identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (parenthesized_type
+        (type_query
+          (identifier)))
+      (index_type_query
+        (type_query
+          (identifier))))))
