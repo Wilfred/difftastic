@@ -11,5 +11,5 @@
 
 foreach (($array as vec[]) as $item) {}
 
-# Our expectation test for the code below intentionally includes an ERROR.
+// Our expectation test for the code below intentionally includes an ERROR.
 foreach ($array as vec[] as $item) {}

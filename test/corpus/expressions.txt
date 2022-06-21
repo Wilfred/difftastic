@@ -888,13 +888,11 @@ Set {'foo', 'bar'};
 Comments
 ==========================
 
-// a ? : / */ # + re""
+// a ? : / */ // + re""
 
-# a ? : / */ # + re""
+/* a ? : / */ 1 + 1; // + re""
 
-/* a ? : / */ 1 + 1; # + re""
-
-/* # \
+/*\
 *\/ 1 + 1
 */
 
@@ -902,7 +900,6 @@ Comments
 ---
 
 (script
-  (comment)
   (comment)
   (comment)
   (expression_statement
@@ -1313,7 +1310,7 @@ $x ==> $x + 1;
 Lambda attribute
 ==========================
 
-# HHVM requires parens to parse correctly 🤔 Tree-sitter doesn't.
+// HHVM requires parens to parse correctly 🤔 Tree-sitter doesn't.
 (<<A3(1), A2(2,3,)>>(int $x): int ==> $x + 1);
 
 (<<Attr, Bttr(1)>> $x ==> {});
@@ -2423,9 +2420,9 @@ funcshion<>();
 
 new Cluss<int>();
 
-# Weird. Hack allows empty type arguments on function calls but not class instantiation.
-# new Cluss<>();
-# new Cluss<Cluss<>>();
+// Weird. Hack allows empty type arguments on function calls but not class instantiation.
+// new Cluss<>();
+// new Cluss<Cluss<>>();
 
 ---
 
