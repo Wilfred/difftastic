@@ -974,10 +974,136 @@ Nowdocs
 <?php echo phpversion().PHP_SAPI;
 PHP;
 
+<<< 'EOF'
+
+EOF;
+
+<<< 'EOF'
+ 
+EOF;
+
+<<< 'EOF'
+EOF;
+
+<<< 'EOF'
+\x0b, \x0c or \x0d
+EOF;
+
+<<< 'EOF'
+\x0b
+EOF;
+
+<<< 'EOF'
+\x0c
+EOF;
+
+<<< 'EOF'
+\x0d
+EOF;
+
+<<< 'EOF'
+This is a test
+
+with multiple
+     
+     lines
+EOF;
+
+<<< 'EOF'
+b'asdfasdf'
+EOF;
+
+<<< 'EOF'
+$this->atlas?->go();
+EOF;
+
 ---
 
 (program
   (php_tag)
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+        (nowdoc_string)
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
+  (expression_statement
+    (nowdoc
+      identifier: (heredoc_start)
+      value: (nowdoc_body
+        (nowdoc_string)
+      )
+      end_tag: (heredoc_end)
+    )
+  )
   (expression_statement
     (nowdoc
       identifier: (heredoc_start)
