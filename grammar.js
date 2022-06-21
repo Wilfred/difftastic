@@ -200,6 +200,7 @@ const rules = {
       $.anonymous_function_expression,
       $.xhp_expression,
       $.function_pointer,
+      $.enum_class_label,
     ),
 
   // Statements
@@ -1023,6 +1024,9 @@ const rules = {
       '}',
     ),
 
+  enum_class_label: $ =>
+    seq(field('enum_class', opt($.qualified_identifier)), '#', $.identifier),
+
   enumerator: $ => seq($.identifier, '=', $._expression, ';'),
 
   typed_enumerator: $ => seq($._type, $.enumerator),
@@ -1164,13 +1168,7 @@ const rules = {
   // Misc
 
   comment: $ =>
-    token(
-      choice(
-        seq('#', /.*/),
-        seq('//', /.*/),
-        seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
-      ),
-    ),
+    token(choice(seq('//', /.*/), seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'))),
 
   // Future Deprecations
 

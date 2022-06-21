@@ -956,6 +956,30 @@ dict[false => null, 2.3 => 1];
         (integer)))))
 
 ==========================
+Enum class labels
+==========================
+
+E#B;
+f(#B);
+
+---
+
+(script
+  (expression_statement
+    (enum_class_label
+      (qualified_identifier
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (call_expression
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (enum_class_label
+            (identifier)))))))
+
+==========================
 Function call
 ==========================
 
