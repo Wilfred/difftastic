@@ -2151,6 +2151,49 @@
     }
   },
   {
+    "type": "create_materialized_view_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "data_hint",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "tablespace_hint",
+          "named": true
+        },
+        {
+          "type": "using_clause",
+          "named": true
+        },
+        {
+          "type": "view_body",
+          "named": true
+        },
+        {
+          "type": "view_columns",
+          "named": true
+        },
+        {
+          "type": "view_options",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_role_statement",
     "named": true,
     "fields": {},
@@ -2428,6 +2471,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "data_hint",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "declare_statement",
@@ -3140,6 +3188,10 @@
         },
         {
           "type": "create_index_statement",
+          "named": true
+        },
+        {
+          "type": "create_materialized_view_statement",
           "named": true
         },
         {
@@ -5181,6 +5233,10 @@
           "named": true
         },
         {
+          "type": "create_materialized_view_statement",
+          "named": true
+        },
+        {
           "type": "create_role_statement",
           "named": true
         },
@@ -5507,6 +5563,25 @@
     }
   },
   {
+    "type": "tablespace_hint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "trigger_body",
     "named": true,
     "fields": {
@@ -5573,6 +5648,10 @@
         },
         {
           "type": "create_index_statement",
+          "named": true
+        },
+        {
+          "type": "create_materialized_view_statement",
           "named": true
         },
         {
@@ -6677,6 +6756,29 @@
     }
   },
   {
+    "type": "view_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "assigment_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "view_options",
     "named": true,
     "fields": {},
@@ -6685,7 +6787,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "view_option",
           "named": true
         }
       ]
@@ -7074,6 +7176,10 @@
     "named": false
   },
   {
+    "type": "CREATE_MATERIALIZED_VIEW",
+    "named": false
+  },
+  {
     "type": "CREATE_OR_REPLACE_FUNCTION",
     "named": false
   },
@@ -7099,6 +7205,10 @@
   },
   {
     "type": "CURRENT_USER",
+    "named": false
+  },
+  {
+    "type": "DATA",
     "named": false
   },
   {
