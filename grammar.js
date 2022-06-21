@@ -827,7 +827,11 @@ module.exports = grammar({
         optional(choice(kw("CASCADED"), kw("LOCAL"))),
         kw("CHECK OPTION"),
       ),
-    view_body: $ => seq(kw("AS"), choice($.select_statement, $.values_clause)),
+    view_body: $ =>
+      seq(
+        kw("AS"),
+        choice($.select_statement, $.select_subexpression, $.values_clause),
+      ),
 
     create_materialized_view_statement: $ =>
       prec.right(

@@ -6725,6 +6725,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "values_clause",
           "named": true
         }
