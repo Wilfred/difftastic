@@ -767,7 +767,7 @@ type T = typeof array[number];
   (type_alias_declaration (type_identifier)
     (intersection_type (index_type_query (type_identifier)) (type_identifier)))
   (type_alias_declaration (type_identifier)
-    (type_query (subscript_expression (identifier) (predefined_type)))))
+    (lookup_type (type_query (identifier)) (predefined_type))))
 
 =======================================
 Lookup types
@@ -1318,9 +1318,10 @@ type T = Foo<Bar<typeof bar["baz"]>>
         (generic_type
           (type_identifier)
           (type_arguments
-            (type_query
-              (subscript_expression
-                (identifier)
+            (lookup_type
+              (type_query
+                (identifier))
+              (literal_type
                 (string
                   (string_fragment))))))))))
 
@@ -1422,11 +1423,12 @@ type X2 = (typeof Y)[keyof typeof Z];
   (comment)
   (type_alias_declaration
     (type_identifier)
-    (type_query
-      (identifier))
-    (ERROR
-      (identifier)
-      (identifier)))
+    (lookup_type
+      (type_query
+        (identifier))
+      (index_type_query
+        (type_query
+          (identifier)))))
   (type_alias_declaration
     (type_identifier)
     (lookup_type
