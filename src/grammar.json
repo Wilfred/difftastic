@@ -626,6 +626,10 @@
         {
           "type": "SYMBOL",
           "name": "function_pointer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_class_label"
         }
       ]
     },
@@ -7450,6 +7454,35 @@
         }
       ]
     },
+    "enum_class_label": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "enum_class",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "qualified_identifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
     "enumerator": {
       "type": "SEQ",
       "members": [
@@ -8214,19 +8247,6 @@
       "content": {
         "type": "CHOICE",
         "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "#"
-              },
-              {
-                "type": "PATTERN",
-                "value": ".*"
-              }
-            ]
-          },
           {
             "type": "SEQ",
             "members": [

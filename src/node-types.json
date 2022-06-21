@@ -86,6 +86,10 @@
         "named": true
       },
       {
+        "type": "enum_class_label",
+        "named": true
+      },
+      {
         "type": "function_pointer",
         "named": true
       },
@@ -1444,6 +1448,32 @@
         },
         {
           "type": "typed_enumerator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_class_label",
+    "named": true,
+    "fields": {
+      "enum_class": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "qualified_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -4082,6 +4112,10 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -4479,11 +4513,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "for",
