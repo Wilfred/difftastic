@@ -6893,24 +6893,33 @@
       }
     },
     "constant_suffix": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[A-Z]"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[?!]"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[A-Z]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[?]"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_constant_suffix"
+        }
+      ]
     },
     "identifier": {
       "type": "TOKEN",
@@ -6929,24 +6938,33 @@
       }
     },
     "identifier_suffix": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[^\\x00-\\x1F\\sA-Z0-9:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[?!]"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\x00-\\x1F\\sA-Z0-9:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^\\x00-\\x1F\\s:;`\"'@$#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}]*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[?]"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_identifier_suffix"
+        }
+      ]
     },
     "instance_variable": {
       "type": "TOKEN",
@@ -7892,6 +7910,14 @@
     {
       "type": "SYMBOL",
       "name": "hash_key_symbol"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_identifier_suffix"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_constant_suffix"
     },
     {
       "type": "SYMBOL",

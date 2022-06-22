@@ -62,6 +62,8 @@ module.exports = grammar({
     $._binary_star,
     $._singleton_class_left_angle_left_langle,
     $.hash_key_symbol,
+    $._identifier_suffix,
+    $._constant_suffix,
     $._hash_splat_star_star,
     $._binary_star_star,
     $._element_reference_bracket,
@@ -1054,9 +1056,9 @@ module.exports = grammar({
     nil: $ => 'nil',
 
     constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS)),
-    constant_suffix: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?!]/)),
+    constant_suffix: $ => choice(token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?]/)), $._constant_suffix),
     identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS)),
-    identifier_suffix: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /[?!]/)),
+    identifier_suffix: $ => choice(token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /[?]/)), $._identifier_suffix),
     instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
     class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
 
