@@ -132,10 +132,11 @@ GROUP BY lower(a), b;
     (from_clause
       (identifier))
     (group_by_clause
-      (group_by_clause_body
+      (group_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (group_expression
         (identifier)))))
 
 ================================================================================
