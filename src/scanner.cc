@@ -37,6 +37,8 @@ enum TokenType {
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
   HASH_KEY_SYMBOL,
+  IDENTIFIER_SUFFIX,
+  CONSTANT_SUFFIX,
   HASH_SPLAT_STAR_STAR,
   BINARY_STAR_STAR,
   ELEMENT_REFERENCE_BRACKET,
@@ -923,17 +925,32 @@ struct Scanner {
     }
 
     // Open delimiters for literals
-    if (valid_symbols[HASH_KEY_SYMBOL]
-        && (iswalpha(lexer->lookahead) || lexer->lookahead == '_')) {
+    if ((valid_symbols[HASH_KEY_SYMBOL] || valid_symbols[IDENTIFIER_SUFFIX])
+          && (iswalpha(lexer->lookahead) || lexer->lookahead == '_') ||
+        valid_symbols[CONSTANT_SUFFIX] && iswupper(lexer->lookahead) 
+        ) {
+      TokenType validIdentifierSymbol = iswupper(lexer->lookahead)? CONSTANT_SUFFIX : IDENTIFIER_SUFFIX;
+      char word[8];
+      int index = 0;
       while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
+        if (index < 8 ) {
+          word[index] = lexer->lookahead;
+        }
+        index++;        
         advance(lexer);
       }
-      lexer->mark_end(lexer);
 
-      if (lexer->lookahead == ':') {
+      if (valid_symbols[HASH_KEY_SYMBOL] && lexer->lookahead == ':') {
+        lexer->mark_end(lexer);
         advance(lexer);
         if (lexer->lookahead != ':') {
           lexer->result_symbol = HASH_KEY_SYMBOL;
+          return true;
+        }
+      } else if (valid_symbols[validIdentifierSymbol] && lexer->lookahead == '!') {
+        advance(lexer);
+        if (lexer->lookahead != '=') {
+          lexer->result_symbol = validIdentifierSymbol;
           return true;
         }
       }
