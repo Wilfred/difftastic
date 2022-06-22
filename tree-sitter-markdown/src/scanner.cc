@@ -97,7 +97,7 @@ const char* HTML_TAG_NAMES_RULE_7[NUM_HTML_TAG_NAMES_RULE_7] = {
 };
 
 // For explanation of the tokens see grammar.js
-const bool paragraph_interrupt_symbols[] {
+const bool paragraph_interrupt_symbols[] = {
     false, // LINE_ENDING,
     false, // SOFT_LINE_ENDING,
     false, // BLOCK_CLOSE,
