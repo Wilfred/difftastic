@@ -33,7 +33,7 @@ class Exception_foo implements ThrowableInterface {
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
-        (property_element (variable_name (name)) (property_initializer (encapsed_string (string)))))
+        (property_element (variable_name (name)) (property_initializer (encapsed_string (string_value)))))
       (method_declaration
         (visibility_modifier)
         name: (name)
@@ -141,7 +141,7 @@ class foo {
 					name: (variable_name (name))))
 	    body: (compound_statement
 				(expression_statement (reference_assignment_expression
-	        left: (subscript_expression (variable_name (name)) (string))
+	        left: (subscript_expression (variable_name (name)) (string (string_value)))
 	        right: (variable_name (name))))
 				(expression_statement (assignment_expression
 	        left: (member_access_expression
@@ -149,7 +149,7 @@ class foo {
 						name: (name))
 	        right: (variable_name (name))))
 				(expression_statement (member_call_expression
-	        object: (subscript_expression (variable_name (name)) (string))
+	        object: (subscript_expression (variable_name (name)) (string (string_value)))
 	        name: (name)
 	        arguments: (arguments)))))
 	  (method_declaration
@@ -157,7 +157,7 @@ class foo {
 	    parameters: (formal_parameters)
 	    body: (compound_statement
 	      (expression_statement (assignment_expression
-	        left: (subscript_expression (subscript_expression (variable_name (name)) (string)))
+	        left: (subscript_expression (subscript_expression (variable_name (name)) (string (string_value))))
 	        right: (member_access_expression
 						object: (variable_name (name))
 						name: (name)))))))))
@@ -271,15 +271,15 @@ define('ANIMALS', array(
     (function_call_expression
       (name)
       (arguments
-        (argument (encapsed_string (string)))
-        (argument (encapsed_string (string)))
+        (argument (encapsed_string (string_value)))
+        (argument (encapsed_string (string_value)))
       )
     )
   )
   (const_declaration
     (const_element
       (name)
-      (string)
+      (string (string_value))
     )
   )
   (const_declaration
@@ -287,7 +287,7 @@ define('ANIMALS', array(
       (name)
       (binary_expression
         (name)
-        (string)
+        (string (string_value))
       )
     )
   )
@@ -295,9 +295,9 @@ define('ANIMALS', array(
     (const_element
       (name)
       (array_creation_expression
-        (array_element_initializer (string))
-        (array_element_initializer (string))
-        (array_element_initializer (string))
+        (array_element_initializer (string (string_value)))
+        (array_element_initializer (string (string_value)))
+        (array_element_initializer (string (string_value)))
       )
     )
   )
@@ -305,12 +305,12 @@ define('ANIMALS', array(
     (function_call_expression
       (name)
       (arguments
-        (argument (string))
+        (argument (string (string_value)))
         (argument
           (array_creation_expression
-            (array_element_initializer (string))
-            (array_element_initializer (string))
-            (array_element_initializer (string))
+            (array_element_initializer (string (string_value)))
+            (array_element_initializer (string (string_value)))
+            (array_element_initializer (string (string_value)))
           )
         )
       )
@@ -397,7 +397,7 @@ function a() {
     body: (declaration_list
       (const_declaration
         attributes: (attribute_list (attribute_group (attribute (name))))
-        (const_element (name) (string))
+        (const_element (name) (string (string_value)))
       )
 
       (property_declaration
@@ -405,7 +405,7 @@ function a() {
         (visibility_modifier)
         type: (union_type (primitive_type))
         (property_element (variable_name (name))
-          (property_initializer (string))
+          (property_initializer (string (string_value)))
         )
       )
       (method_declaration
@@ -414,10 +414,10 @@ function a() {
             (attribute
               (name)
               parameters: (arguments
-                (argument (encapsed_string (string)))
+                (argument (encapsed_string (string_value)))
                 (argument
                   (array_creation_expression
-                    (array_element_initializer (encapsed_string (string)))
+                    (array_element_initializer (encapsed_string (string_value)))
                   )
                 )
               )
@@ -477,8 +477,8 @@ function a() {
             (argument
               (array_creation_expression
                 (array_element_initializer
-                  (encapsed_string (string))
-                  (encapsed_string (string))
+                  (encapsed_string (string_value))
+                  (encapsed_string (string_value))
                 )
               )
             )
@@ -580,7 +580,7 @@ function a() {
         type: (union_type (primitive_type))
         (property_element
           (variable_name (name))
-          (property_initializer (string))
+          (property_initializer (string (string_value)))
         )
       )
     )
@@ -663,10 +663,10 @@ enum Suit: string
     (name)
     (union_type (primitive_type))
     (enum_declaration_list 
-      (enum_case (name) (string))
+      (enum_case (name) (string (string_value)))
       (enum_case (name))
-      (enum_case (name) (string))
-      (enum_case (name) (string))
+      (enum_case (name) (string (string_value)))
+      (enum_case (name) (string (string_value)))
       
       (comment)
       
@@ -687,14 +687,14 @@ enum Suit: string
                     (class_constant_access_expression (name) (name))
                     (class_constant_access_expression (name) (name))
                   )
-                  (string)
+                  (string (string_value))
                 )
                 (match_conditional_expression
                   (match_condition_list
                     (class_constant_access_expression (name) (name))
                     (class_constant_access_expression (name) (name))
                   )
-                  (string)
+                  (string (string_value))
                 )
               )
             )

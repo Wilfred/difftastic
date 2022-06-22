@@ -34,10 +34,14 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
-    $.heredoc,
     $.encapsed_string_chars,
     $.encapsed_string_chars_after_variable,
+    $.encapsed_string_chars_heredoc,
+    $.encapsed_string_chars_after_variable_heredoc,
     $._eof,
+    $.heredoc_start,
+    $.heredoc_end,
+    $.nowdoc_string,
     $.sentinel_error, // Unused token used to indicate error recovery mode
   ],
 
@@ -64,6 +68,7 @@ module.exports = grammar({
     [$.if_statement],
 
     [$.namespace_name],
+    [$.heredoc_body],
 
     [$.namespace_name_as_prefix],
     [$.namespace_use_declaration, $.namespace_name_as_prefix]
@@ -1241,22 +1246,38 @@ module.exports = grammar({
       )
     )),
 
+    _interpolated_string_body: $ => repeat1(
+      choice(
+        $.escape_sequence,
+        seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string_value)),
+        alias($.encapsed_string_chars, $.string_value),
+        $._simple_string_part,
+        $._complex_string_part,
+        alias('\\u', $.string_value),
+        alias("'", $.string_value) // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
+      ),
+    ),
+
+    _interpolated_string_body_heredoc: $ => repeat1(
+      choice(
+        $.escape_sequence,
+        seq($.variable_name, alias($.encapsed_string_chars_after_variable_heredoc, $.string_value)),
+        alias($.encapsed_string_chars_heredoc, $.string_value),
+        $._simple_string_part,
+        $._complex_string_part,
+        alias('\\u', $.string_value),
+        alias("'", $.string_value), // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
+        alias('<?', $.string_value),
+        alias(token(prec(1, '?>')), $.string_value),
+      ),
+    ),
+
     encapsed_string: $ => prec.right(seq(
       choice(
         /[bB]"/,
         '"',
       ),
-      repeat(
-        choice(
-          $.escape_sequence,
-          seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
-          alias($.encapsed_string_chars, $.string),
-          $._simple_string_part,
-          $._complex_string_part,
-          alias('\\u', $.string),
-          alias("'", $.string) // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
-        ),
-      ),
+      optional($._interpolated_string_body),
       '"',
     )),
 
@@ -1265,15 +1286,71 @@ module.exports = grammar({
         /[bB]'/,
         "'"
       ),
-      token(prec(1, repeat(/\\'|\\\\|\\?[^'\\]/))), // prec(1, ...) is needed to avoid conflict with $.comment
+      $.string_value,
       "'",
+    ),
+
+    string_value: $ => token(prec(1, repeat(/\\'|\\\\|\\?[^'\\]/))), // prec(1, ...) is needed to avoid conflict with $.comment
+
+    heredoc_body: $ => seq($._new_line,
+      repeat1(prec.right(
+        seq(optional($._new_line), $._interpolated_string_body_heredoc),
+      )),
+    ),
+
+    heredoc: $ => seq(
+      token('<<<'),
+      field('identifier', choice(
+        $.heredoc_start,
+        seq('"', $.heredoc_start, token.immediate('"'))
+      )),
+      choice(
+        seq(
+          field('value', $.heredoc_body),
+          $._new_line,
+          field('end_tag', $.heredoc_end),
+        ),
+        seq(
+          field('value', optional($.heredoc_body)),
+          field('end_tag', $.heredoc_end),
+        )
+      ),
+    ),
+
+    _new_line: $ => choice(token(/\r?\n/), token(/\r/)),
+
+    nowdoc_body: $ => seq($._new_line,
+      choice(
+        repeat1(
+          $.nowdoc_string
+        ),
+        alias("", $.nowdoc_string)
+      )
+    ),
+
+    nowdoc: $ => seq(
+      token('<<<'),
+      "'",
+      field('identifier', $.heredoc_start),
+      token.immediate("'"),
+      choice(
+        seq(
+          field('value', $.nowdoc_body),
+          $._new_line,
+          field('end_tag', $.heredoc_end),
+        ),
+        seq(
+          field('value', optional($.nowdoc_body)),
+          field('end_tag', $.heredoc_end),
+        )
+      ),
     ),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
 
     null: $ => keyword('null', false),
 
-    _string: $ => choice($.encapsed_string, $.string, $.heredoc),
+    _string: $ => choice($.encapsed_string, $.string, $.heredoc, $.nowdoc),
 
     dynamic_variable_name: $ => choice(
       seq('$', $._variable_name),
