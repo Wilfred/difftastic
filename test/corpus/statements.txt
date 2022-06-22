@@ -145,6 +145,8 @@ SELECT statement with order by
 SELECT a, b FROM table1 ORDER BY lower(a), b;
 SELECT a, b FROM table1 ORDER BY lower(a), b ASC;
 SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC, b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
 
 --------------------------------------------------------------------------------
 
@@ -157,10 +159,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -170,10 +173,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -183,10 +187,35 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
         (identifier)))))
 
 ================================================================================
