@@ -34,38 +34,52 @@ module.exports = grammar({
             $.html_block,
             $.link_reference_definition,
         ),
-        section: $ => prec.right(seq(
-            choice($.atx_heading, $.setext_heading),
+        section: $ => choice($._section1, $._section2, $._section3, $._section4, $._section5, $._section6),
+        _section1: $ => prec.right(seq(
+            choice(
+                alias($._atx_heading1, $.atx_heading),
+                alias($._setext_heading1, $.setext_heading),
+            ),
+            repeat(choice(
+                alias(choice($._section6, $._section5, $._section4, $._section3, $._section2), $.section),
+                $._block_not_section
+            ))
+        )),
+        _section2: $ => prec.right(seq(
+            choice(
+                alias($._atx_heading2, $.atx_heading),
+                alias($._setext_heading2, $.setext_heading),
+            ),
+            repeat(choice(
+                alias(choice($._section6, $._section5, $._section4, $._section3), $.section),
+                $._block_not_section
+            ))
+        )),
+        _section3: $ => prec.right(seq(
+            alias($._atx_heading3, $.atx_heading),
+            repeat(choice(
+                alias(choice($._section6, $._section5, $._section4), $.section),
+                $._block_not_section
+            ))
+        )),
+        _section4: $ => prec.right(seq(
+            alias($._atx_heading4, $.atx_heading),
+            repeat(choice(
+                alias(choice($._section6, $._section5), $.section),
+                $._block_not_section
+            ))
+        )),
+        _section5: $ => prec.right(seq(
+            alias($._atx_heading5, $.atx_heading),
+            repeat(choice(
+                alias($._section6, $.section),
+                $._block_not_section
+            ))
+        )),
+        _section6: $ => prec.right(seq(
+            alias($._atx_heading6, $.atx_heading),
             repeat($._block_not_section)
         )),
-
-        // Just the blocks that are able to interrupt a paragraph.
-        // This should not end up in the actual output but is used to decide whether a newline
-        // is a lazy continuation.
-        _block_interrupt_paragraph: $ => choice(
-            $.atx_heading,
-            $.block_quote,
-            $.thematic_break,
-            choice( // some list items do not interrupt paragraphs
-                $._list_marker_plus,
-                $._list_marker_minus,
-                $._list_marker_star,
-                $._list_marker_dot,
-                $._list_marker_parenthesis,
-            ),
-            $.fenced_code_block,
-            $._blank_line,
-            choice( // _html_block_7 cannot interrupt a paragraph
-                $._html_block_1,
-                $._html_block_2,
-                $._html_block_3,
-                $._html_block_4,
-                $._html_block_5,
-                $._html_block_6,
-            ),
-            $.setext_h1_underline,
-            $.setext_h2_underline,
-        ),
 
         // LEAF BLOCKS
 
@@ -79,8 +93,33 @@ module.exports = grammar({
         // parsed using normal tree-sitter rules.
         //
         // https://github.github.com/gfm/#atx-headings
-        atx_heading: $ => prec(1, seq(
-            choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
+        _atx_heading1: $ => prec(1, seq(
+            $.atx_h1_marker,
+            optional(field('heading_content', alias($._line, $.inline))),
+            $._newline
+        )),
+        _atx_heading2: $ => prec(1, seq(
+            $.atx_h2_marker,
+            optional(field('heading_content', alias($._line, $.inline))),
+            $._newline
+        )),
+        _atx_heading3: $ => prec(1, seq(
+            $.atx_h3_marker,
+            optional(field('heading_content', alias($._line, $.inline))),
+            $._newline
+        )),
+        _atx_heading4: $ => prec(1, seq(
+            $.atx_h4_marker,
+            optional(field('heading_content', alias($._line, $.inline))),
+            $._newline
+        )),
+        _atx_heading5: $ => prec(1, seq(
+            $.atx_h5_marker,
+            optional(field('heading_content', alias($._line, $.inline))),
+            $._newline
+        )),
+        _atx_heading6: $ => prec(1, seq(
+            $.atx_h6_marker,
             optional(field('heading_content', alias($._line, $.inline))),
             $._newline
         )),
@@ -89,9 +128,14 @@ module.exports = grammar({
         // could be parsed using normal tree-sitter rules.
         //
         // https://github.github.com/gfm/#setext-headings
-        setext_heading: $ => seq(
+        _setext_heading1: $ => seq(
             field('heading_content', $.paragraph),
-            choice($.setext_h1_underline, $.setext_h2_underline),
+            $.setext_h1_underline,
+            $._newline
+        ),
+        _setext_heading2: $ => seq(
+            field('heading_content', $.paragraph),
+            $.setext_h2_underline,
             $._newline
         ),
 
@@ -484,7 +528,8 @@ module.exports = grammar({
         $._trigger_error,
     ],
     precedences: $ => [
-        [$.setext_heading, $._block],
+        [$._setext_heading1, $._block],
+        [$._setext_heading2, $._block],
         [$.indented_code_block, $._block],
     ],
     conflicts: $ => [

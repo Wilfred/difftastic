@@ -482,27 +482,27 @@ Example 32 - https://github.github.com/gfm/#example-32
   (section
     (atx_heading
       (atx_h1_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h2_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h3_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h4_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h5_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h6_marker)
-      (inline))))
+      (inline))
+    (section
+      (atx_heading
+        (atx_h2_marker)
+        (inline))
+      (section
+        (atx_heading
+          (atx_h3_marker)
+          (inline))
+        (section
+          (atx_heading
+            (atx_h4_marker)
+            (inline))
+          (section
+            (atx_heading
+              (atx_h5_marker)
+              (inline))
+            (section
+              (atx_heading
+                (atx_h6_marker)
+                (inline)))))))))
 
 ================================================================================
 Example 33 - https://github.github.com/gfm/#example-33
@@ -629,11 +629,11 @@ Example 41 - https://github.github.com/gfm/#example-41
   (section
     (atx_heading
       (atx_h2_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h3_marker)
-      (inline))))
+      (inline))
+    (section
+      (atx_heading
+        (atx_h3_marker)
+        (inline)))))
 
 ================================================================================
 Example 42 - https://github.github.com/gfm/#example-42
@@ -647,11 +647,11 @@ Example 42 - https://github.github.com/gfm/#example-42
   (section
     (atx_heading
       (atx_h1_marker)
-      (inline)))
-  (section
-    (atx_heading
-      (atx_h5_marker)
-      (inline))))
+      (inline))
+    (section
+      (atx_heading
+        (atx_h5_marker)
+        (inline)))))
 
 ================================================================================
 Example 43 - https://github.github.com/gfm/#example-43
@@ -768,11 +768,11 @@ Example 49 - https://github.github.com/gfm/#example-49
       (atx_h2_marker)))
   (section
     (atx_heading
-      (atx_h1_marker)))
-  (section
-    (atx_heading
-      (atx_h3_marker)
-      (inline))))
+      (atx_h1_marker))
+    (section
+      (atx_heading
+        (atx_h3_marker)
+        (inline)))))
 
 ================================================================================
 Example 50 - https://github.github.com/gfm/#example-50
@@ -791,9 +791,11 @@ Foo *bar*
       (paragraph
         (inline))
       (setext_h1_underline))
-    (paragraph
-      (inline))
-    (thematic_break)))
+    (section
+      (setext_heading
+        (paragraph
+          (inline))
+        (setext_h2_underline)))))
 
 ================================================================================
 Example 51 - https://github.github.com/gfm/#example-51
@@ -1401,11 +1403,13 @@ Heading
       (atx_h1_marker)
       (inline))
     (indented_code_block)
-    (paragraph
-      (inline))
-    (thematic_break)
-    (indented_code_block)
-    (thematic_break)))
+    (section
+      (setext_heading
+        (paragraph
+          (inline))
+        (setext_h2_underline))
+      (indented_code_block)
+      (thematic_break))))
 
 ================================================================================
 Example 86 - https://github.github.com/gfm/#example-86
