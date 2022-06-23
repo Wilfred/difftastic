@@ -877,6 +877,30 @@ function isT(t: T): t is T {
     (statement_block (return_statement (true)))))
 
 ==================================
+Type predicate and predefined types
+==================================
+
+function isFish(pet: Fish): pet is Fish {
+}
+
+function isFish(object: Fish): object is Fish {
+}
+
+---
+(program
+  (function_declaration (identifier)
+    (formal_parameters
+       (required_parameter (identifier) (type_annotation (type_identifier))))
+    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
+    (statement_block))
+  (function_declaration (identifier)
+    (formal_parameters
+      (required_parameter (identifier) (type_annotation (type_identifier))))
+    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
+    (statement_block))
+)
+
+==================================
 Read-only arrays
 ==================================
 
