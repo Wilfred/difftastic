@@ -13,15 +13,4 @@ It also helps managing complexity, which was a problem with earlier versions of 
 
 ## Usage
 
-To use the two grammars, first parse the document with the block grammar. Then perform a second parse with the inline grammar using `ts_parser_set_included_ranges` to specify which parts are inline content. These parts are marked as `inline` nodes.
-Nodes of that type that are children of the same node should be grouped together meaning each node that _contains_ `inline` nodes corresponds to one call to `ts_parser_set_included_ranges`.
-This should look something like
-```
-block_tree := ts_parser_parse_string(block_parser, NULL, input, input_length)
-parents := nodes of block_tree that contain nodes of type "inline"
-for parent in parents do
-    ranges := children of parent of type "inline"
-    ts_parser_set_included_ranges(inline_parser, ranges, range_count)
-end
-inline_tree := ts_parser_parse_string(inline_parser, NULL, input, input_length)
-```
+To use the two grammars, first parse the document with the block grammar. Then perform a second parse with the inline grammar using `ts_parser_set_included_ranges` to specify which parts are inline content. These parts are marked as `inline` nodes. Children of those inline nodes should be excluded from these ranges. For an example implementation see `lib.rs` in the `bindings` folder.
