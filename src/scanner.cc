@@ -11,7 +11,8 @@ using std::string;
 
 enum TokenType {
   LINE_BREAK,
-
+  NO_LINE_BREAK,
+  
   // Delimited literals
   SIMPLE_SYMBOL,
   STRING_START,
@@ -194,7 +195,7 @@ struct Scanner {
     bool crossed_newline = false;
 
     for (;;) {
-      if (valid_symbols[LINE_BREAK] && lexer->is_at_included_range_start(lexer)) {
+      if (!valid_symbols[NO_LINE_BREAK] && valid_symbols[LINE_BREAK] && lexer->is_at_included_range_start(lexer)) {
         lexer->mark_end(lexer);
         lexer->result_symbol = LINE_BREAK;
         return true;
@@ -219,7 +220,7 @@ struct Scanner {
             lexer->result_symbol = HEREDOC_BODY_START;
             open_heredocs[0].started = true;
             return true;
-          } else if (valid_symbols[LINE_BREAK] && !crossed_newline) {
+          } else if (!valid_symbols[NO_LINE_BREAK] && valid_symbols[LINE_BREAK] && !crossed_newline) {
             lexer->mark_end(lexer);
             advance(lexer);
             crossed_newline = true;

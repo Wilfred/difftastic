@@ -7695,20 +7695,29 @@
                 }
               },
               {
-                "type": "FIELD",
-                "name": "value",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_arg"
-                    },
-                    {
-                      "type": "BLANK"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "FIELD",
+                    "name": "value",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_arg"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_no_line_break"
+                  }
+                ]
               }
             ]
           }
@@ -7822,6 +7831,10 @@
     {
       "type": "SYMBOL",
       "name": "_line_break"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_no_line_break"
     },
     {
       "type": "SYMBOL",
