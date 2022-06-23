@@ -149,7 +149,9 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[STRING_CONTENT] && !valid_symbols[INDENT] && !delimiter_stack.empty()) {
+    bool error_recovery_mode = valid_symbols[STRING_CONTENT] && valid_symbols[INDENT];
+
+    if (valid_symbols[STRING_CONTENT] && !delimiter_stack.empty() && !error_recovery_mode) {
       Delimiter delimiter = delimiter_stack.back();
       int32_t end_character = delimiter.end_character();
       bool has_content = false;
@@ -272,7 +274,7 @@ struct Scanner {
       }
     }
 
-    if (found_end_of_line) {
+    if (found_end_of_line && !error_recovery_mode) {
       if (!indent_length_stack.empty()) {
         uint16_t current_indent_length = indent_length_stack.back();
 
