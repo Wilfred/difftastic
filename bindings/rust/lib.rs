@@ -14,9 +14,7 @@
 
 use std::collections::HashMap;
 
-use tree_sitter::{
-    InputEdit, Language, Node, Parser, Query, QueryCursor, Tree,
-};
+use tree_sitter::{InputEdit, Language, Node, Parser, Query, QueryCursor, Tree, Range};
 
 extern "C" {
     fn tree_sitter_markdown() -> Language;
@@ -49,7 +47,7 @@ pub const NODE_TYPES_INLINE: &str =
     include_str!("../../tree-sitter-markdown-inline/src/node-types.json");
 
 /// The matches of this query are the ranges that should be passed to the inline grammar
-pub const INLINE_INJECTION_QUERY: &str = "(_ (inline)+ @inline) @parent";
+pub const INLINE_INJECTION_QUERY: &str = "(inline) @inline";
 
 /// A parser that produces [`MarkdownTree`]s.
 ///
@@ -87,14 +85,10 @@ impl MarkdownTree {
         &self.block_tree
     }
 
-    /// Returns the inline tree for the given parent node.
+    /// Returns the inline tree for the given inline node.
     ///
     /// Returns `None` if the given node does not have an associated inline tree. Either because
-    /// nodes with the given type do not have inline content or because the inline content is empty
-    ///
-    /// Node types that can have inline content are:
-    /// * `paragraph`
-    /// * `atx_heading`
+    /// the nodes type is not `inline` or because the inline content is empty.
     pub fn inline_tree(&self, parent: &Node) -> Option<&Tree> {
         let index = *self.inline_indices.get(&parent.id())?;
         Some(&self.inline_trees[index])
@@ -106,7 +100,8 @@ impl Default for MarkdownParser {
         let block_language = language();
         let inline_language = inline_language();
         let parser = Parser::new();
-        let inline_injection_query = Query::new(block_language, INLINE_INJECTION_QUERY).expect("Could not load injection query");
+        let inline_injection_query = Query::new(block_language, INLINE_INJECTION_QUERY)
+            .expect("Could not load injection query");
         let query_cursor = QueryCursor::new();
         MarkdownParser {
             parser,
@@ -119,7 +114,6 @@ impl Default for MarkdownParser {
 }
 
 impl MarkdownParser {
-
     /// Parse a slice of UTF8 text.
     ///
     /// # Arguments:
@@ -140,59 +134,55 @@ impl MarkdownParser {
             inline_injection_query,
             query_cursor,
         } = self;
-        parser.set_included_ranges(&[]).expect("Can not set included ranges to whole document");
-        parser.set_language(*block_language).expect("Could not load block grammar");
+        parser
+            .set_included_ranges(&[])
+            .expect("Can not set included ranges to whole document");
+        parser
+            .set_language(*block_language)
+            .expect("Could not load block grammar");
         let block_tree = parser.parse(text, old_tree.map(|tree| &tree.block_tree))?;
-        let inline_capture_index = inline_injection_query
-            .capture_index_for_name("inline")
-            .unwrap();
-        let parent_capture_index = inline_injection_query
-            .capture_index_for_name("parent")
-            .unwrap();
         let (mut inline_trees, mut inline_indices) = if let Some(old_tree) = old_tree {
             let len = old_tree.inline_trees.len();
             (Vec::with_capacity(len), HashMap::with_capacity(len))
         } else {
             (Vec::new(), HashMap::new())
         };
-        parser.set_language(*inline_language).expect("Could not load inline grammar");
-        for (i, query_match) in query_cursor
+        let mut tree_cursor = block_tree.walk();
+        parser
+            .set_language(*inline_language)
+            .expect("Could not load inline grammar");
+        for (i, capture) in query_cursor
             .matches(inline_injection_query, block_tree.root_node(), text)
+            .flat_map(|query_match| query_match.captures)
             .enumerate()
         {
-            let old_tree = old_tree.and_then(|old_tree| old_tree.inline_trees.get(i));
-            let ranges = query_match
-                .captures
-                .iter()
-                .filter_map(|capture| {
-                    if capture.index == inline_capture_index {
-                        Some(capture.node.range())
-                    } else {
-                        None
-                    }
-                })
-                .collect::<Vec<_>>();
-            let parent = query_match
-                .captures
-                .iter()
-                .find(|capture| capture.index == parent_capture_index)
-                .unwrap()
-                .node;
-            let parent_id = parent.id();
+            let mut range = capture.node.range();
+            let children_iter = capture.node.named_children(&mut tree_cursor);
+            let mut ranges = Vec::with_capacity(children_iter.size_hint().0 + 1);
+            for child in children_iter {
+                let child_range = child.range();
+                ranges.push(Range {
+                    start_byte: range.start_byte,
+                    start_point: range.start_point,
+                    end_byte: child_range.start_byte,
+                    end_point: child_range.start_point,
+                });
+                range.start_byte = child_range.end_byte;
+                range.start_point = child_range.end_point;
+            }
+            ranges.push(range);
             parser.set_included_ranges(&ranges).ok()?;
-            let inline_tree = parser.parse(
-                text,
-                old_tree
-            )?;
+            let inline_tree = parser.parse(text, old_tree.and_then(|old_tree| old_tree.inline_trees.get(i)))?;
             inline_trees.push(inline_tree);
-            inline_indices.insert(parent_id, i);
+            inline_indices.insert(capture.node.id(), i);
         }
+        drop(tree_cursor);
         inline_trees.shrink_to_fit();
         inline_indices.shrink_to_fit();
         Some(MarkdownTree {
             block_tree,
             inline_trees,
-            inline_indices
+            inline_indices,
         })
     }
 }
@@ -222,18 +212,16 @@ mod tests {
         let mut tree = parser.parse(code.as_bytes(), None).unwrap();
         dbg!(&tree);
 
-        let heading = tree.block_tree().root_node().child(0).unwrap();
+        let section = tree.block_tree().root_node().child(0).unwrap();
+        assert_eq!(section.kind(), "section");
+        let heading = section.child(0).unwrap();
         assert_eq!(heading.kind(), "atx_heading");
-        let paragraph = tree
-            .block_tree()
-            .root_node()
-            .child(1)
-            .unwrap();
+        let paragraph = section.child(1).unwrap();
         assert_eq!(paragraph.kind(), "paragraph");
         let inline = paragraph.child(0).unwrap();
         assert_eq!(inline.kind(), "inline");
         assert_eq!(
-            tree.inline_tree(&paragraph)
+            tree.inline_tree(&inline)
                 .unwrap()
                 .root_node()
                 .child(0)
@@ -253,23 +241,19 @@ mod tests {
         });
         let tree = parser.parse(code.as_bytes(), Some(&tree)).unwrap();
 
-        let heading = tree.block_tree().root_node().child(0).unwrap();
+        let section = tree.block_tree().root_node().child(0).unwrap();
+        assert_eq!(section.kind(), "section");
+        let heading = section.child(0).unwrap();
         assert_eq!(heading.kind(), "atx_heading");
-        let paragraph = tree
-            .block_tree()
-            .root_node()
-            .child(1)
-            .unwrap();
+        let paragraph = section.child(1).unwrap();
         assert_eq!(paragraph.kind(), "paragraph");
         let inline = paragraph.child(0).unwrap();
         assert_eq!(inline.kind(), "inline");
-        dbg!(tree.inline_tree(&paragraph));
-        dbg!(tree.inline_tree(&paragraph).unwrap().root_node().child(1));
         assert_eq!(
-            tree.inline_tree(&paragraph)
+            tree.inline_tree(&inline)
                 .unwrap()
                 .root_node()
-                .child(0)
+                .named_child(0)
                 .unwrap()
                 .kind(),
             "shortcut_link"
