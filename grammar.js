@@ -59,6 +59,15 @@ module.exports = grammar({
 		memory_reservation: ($) =>
 			seq('/memreserve/', $.integer_literal, $.integer_literal, ';'),
 
+		// http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
+		comment: ($) =>
+			token(
+				choice(
+					seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
+					seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/')
+				)
+			),
+
 		_label_name: ($) => /[a-zA-Z_][0-9a-zA-Z_]*/,
 		_node_path: ($) => /\/[0-9a-zA-Z/,._+-]*/,
 		_node_or_property: ($) => /[a-zA-Z][0-9a-zA-Z,._+-]*/,
@@ -338,15 +347,6 @@ module.exports = grammar({
 			),
 
 		preproc_arg: ($) => token(prec(-1, repeat1(/.|\\\r?\n/))),
-
-		// http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-		comment: ($) =>
-			token(
-				choice(
-					seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
-					seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/')
-				)
-			),
 	},
 });
 
