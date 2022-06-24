@@ -8815,6 +8815,15 @@
               {
                 "type": "SYMBOL",
                 "name": "this"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "predefined_type"
+                },
+                "named": true,
+                "value": "identifier"
               }
             ]
           }
