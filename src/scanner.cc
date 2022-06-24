@@ -198,6 +198,7 @@ struct Scanner {
         case '\r':
           return has_content;
         default:
+          if (lexer->eof(lexer)) return false;
           advance(lexer);
       }
     }
@@ -313,6 +314,7 @@ struct Scanner {
           }
           break;
         default:
+          if (lexer->eof(lexer)) return false;
           advance(lexer);
       }
 
