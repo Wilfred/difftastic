@@ -2735,6 +2735,11 @@
     }
   },
   {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -6120,10 +6125,6 @@
   },
   {
     "type": "hash_bang_line",
-    "named": true
-  },
-  {
-    "type": "identifier",
     "named": true
   },
   {
