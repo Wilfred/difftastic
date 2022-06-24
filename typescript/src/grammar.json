@@ -10813,6 +10813,16 @@
     [
       {
         "type": "SYMBOL",
+        "name": "type_query"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_type_query_subscript_expression"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
         "name": "nested_type_identifier"
       },
       {

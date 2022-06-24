@@ -45,6 +45,7 @@ module.exports = function defineGrammar(dialect) {
       [$.readonly_type, $.pattern],
       [$.readonly_type, $.primary_expression],
       [$.type_query, $.subscript_expression, $.expression],
+      [$.type_query, $._type_query_subscript_expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
       [$.as_expression, $._primary_type],
       [$._type_query_member_expression, $.member_expression],
