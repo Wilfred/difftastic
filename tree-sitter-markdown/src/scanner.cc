@@ -67,8 +67,22 @@ enum TokenType {
 enum Block : uint8_t {
     BLOCK_QUOTE,
     INDENTED_CODE_BLOCK,
-    LIST_ITEM = 2,
-    LIST_ITEM_MAX_INDENTATION = 17,
+    LIST_ITEM,
+    LIST_ITEM_1_INDENTATION,
+    LIST_ITEM_2_INDENTATION,
+    LIST_ITEM_3_INDENTATION,
+    LIST_ITEM_4_INDENTATION,
+    LIST_ITEM_5_INDENTATION,
+    LIST_ITEM_6_INDENTATION,
+    LIST_ITEM_7_INDENTATION,
+    LIST_ITEM_8_INDENTATION,
+    LIST_ITEM_9_INDENTATION,
+    LIST_ITEM_10_INDENTATION,
+    LIST_ITEM_11_INDENTATION,
+    LIST_ITEM_12_INDENTATION,
+    LIST_ITEM_13_INDENTATION,
+    LIST_ITEM_14_INDENTATION,
+    LIST_ITEM_MAX_INDENTATION,
     FENCED_CODE_BLOCK,
     ANONYMOUS
 };
@@ -280,7 +294,6 @@ struct Scanner {
         // if we are at the end of the file and there are still open blocks close them all
         if (lexer->eof(lexer)) {
             if (open_blocks.size() > 0) {
-                Block block = open_blocks[open_blocks.size() - 1];
                 lexer->result_symbol = BLOCK_CLOSE;
                 if (!simulate) open_blocks.pop_back();
                 return true;
@@ -503,21 +516,21 @@ struct Scanner {
                 }
                 break;
             case LIST_ITEM:
-            case LIST_ITEM + 1:
-            case LIST_ITEM + 2:
-            case LIST_ITEM + 3:
-            case LIST_ITEM + 4:
-            case LIST_ITEM + 5:
-            case LIST_ITEM + 6:
-            case LIST_ITEM + 7:
-            case LIST_ITEM + 8:
-            case LIST_ITEM + 9:
-            case LIST_ITEM + 10:
-            case LIST_ITEM + 11:
-            case LIST_ITEM + 12:
-            case LIST_ITEM + 13:
-            case LIST_ITEM + 14:
-            case LIST_ITEM + 15:
+            case LIST_ITEM_1_INDENTATION:
+            case LIST_ITEM_2_INDENTATION:
+            case LIST_ITEM_3_INDENTATION:
+            case LIST_ITEM_4_INDENTATION:
+            case LIST_ITEM_5_INDENTATION:
+            case LIST_ITEM_6_INDENTATION:
+            case LIST_ITEM_7_INDENTATION:
+            case LIST_ITEM_8_INDENTATION:
+            case LIST_ITEM_9_INDENTATION:
+            case LIST_ITEM_10_INDENTATION:
+            case LIST_ITEM_11_INDENTATION:
+            case LIST_ITEM_12_INDENTATION:
+            case LIST_ITEM_13_INDENTATION:
+            case LIST_ITEM_14_INDENTATION:
+            case LIST_ITEM_MAX_INDENTATION:
                 if (indentation >= list_item_indentation(block)) {
                     indentation -= list_item_indentation(block);
                     return true;
