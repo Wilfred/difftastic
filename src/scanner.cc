@@ -274,7 +274,7 @@ struct Scanner {
       }
     }
 
-    if (found_end_of_line && !error_recovery_mode) {
+    if (found_end_of_line) {
       if (!indent_length_stack.empty()) {
         uint16_t current_indent_length = indent_length_stack.back();
 
@@ -301,7 +301,7 @@ struct Scanner {
         }
       }
 
-      if (valid_symbols[NEWLINE]) {
+      if (valid_symbols[NEWLINE] && !error_recovery_mode) {
         lexer->result_symbol = NEWLINE;
         return true;
       }
