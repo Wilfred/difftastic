@@ -7,19 +7,19 @@ const PREC = {
 
   parenthesized_expression: 1,
   parenthesized_list_splat: 1,
-  or:          10,
-  and:         11,
-  not:         12,
-  compare:     13,
-  bitwise_or:  14,
+  or: 10,
+  and: 11,
+  not: 12,
+  compare: 13,
+  bitwise_or: 14,
   bitwise_and: 15,
-  xor:         16,
-  shift:       17,
-  plus:        18,
-  times:       19,
-  unary:       20,
-  power:       21,
-  call:        22,
+  xor: 16,
+  shift: 17,
+  plus: 18,
+  times: 19,
+  unary: 20,
+  power: 21,
+  call: 22,
 }
 
 const SEMICOLON = ';'
@@ -58,6 +58,19 @@ module.exports = grammar({
     $._string_start,
     $._string_content,
     $._string_end,
+
+    // Mark comments as external tokens so that the external scanner is always
+    // invoked, even if no external token is expected. This allows for better
+    // error recovery, because the external scanner can maintain the overall
+    // structure by returning dedent tokens whenever a dedent occurs, even
+    // if no dedent is expected.
+    $.comment,
+
+    // Allow the external scanner to check for the validity of closing brackets
+    // so that it can avoid returning dedent tokens between brackets.
+    ']',
+    ')',
+    '}',
   ],
 
   inline: $ => [

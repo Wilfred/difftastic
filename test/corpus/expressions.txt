@@ -968,3 +968,36 @@ async with a as b:
               (for_in_clause
                 left: (identifier)
                 right: (identifier)))))))))
+
+===========================================
+Arbitrary indentation between brackets
+==========================================
+
+def a():
+    b(
+1,
+2
+    )
+    
+    c = [
+3
+    ]
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (expression_statement
+        (call
+          (identifier)
+          (argument_list
+            (integer)
+            (integer))))
+      (expression_statement
+        (assignment
+          (identifier)
+          (list
+            (integer)))))))
