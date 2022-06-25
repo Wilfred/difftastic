@@ -114,6 +114,25 @@
     }
   },
   {
+    "type": "alignment",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "alter_owner",
     "named": true,
     "fields": {},
@@ -498,6 +517,25 @@
     "fields": {},
     "children": {
       "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "analyze",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1274,6 +1312,41 @@
     }
   },
   {
+    "type": "canonical",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "category",
+    "named": false,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "content",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "check",
     "named": true,
     "fields": {},
@@ -1466,6 +1539,44 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "collatable",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "collation",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -2213,21 +2324,40 @@
   {
     "type": "create_type_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "type_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "dotted_name",
+          "type": "type_spec_base",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "type_spec_composite",
           "named": true
         },
         {
-          "type": "parameters",
+          "type": "type_spec_enum",
+          "named": true
+        },
+        {
+          "type": "type_spec_range",
           "named": true
         }
       ]
@@ -2293,7 +2423,7 @@
   },
   {
     "type": "default",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
@@ -2513,6 +2643,22 @@
     }
   },
   {
+    "type": "delimiter",
+    "named": false,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "content",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "deterministic_hint",
     "named": true,
     "fields": {}
@@ -2639,6 +2785,25 @@
   {
     "type": "drop_statement",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "element",
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
@@ -3473,6 +3638,25 @@
     "fields": {}
   },
   {
+    "type": "input",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "insert_statement",
     "named": true,
     "fields": {},
@@ -3833,6 +4017,25 @@
     }
   },
   {
+    "type": "like",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "limit_clause",
     "named": true,
     "fields": {},
@@ -3851,6 +4054,25 @@
     "type": "mode",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "multirange_type_name",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "named_constraint",
@@ -4203,56 +4425,49 @@
     }
   },
   {
-    "type": "parallel_hint",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "parameter",
-    "named": true,
+    "type": "output",
+    "named": false,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "constrained_type",
+          "type": "dotted_name",
           "named": true
         },
         {
           "type": "identifier",
           "named": true
-        },
-        {
-          "type": "type",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "parameters",
+    "type": "parallel_hint",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "parameter",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "pg_command",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "preferred",
+    "named": false,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "content",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "primary_key",
@@ -4277,6 +4492,25 @@
     "type": "primary_key_constraint",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "receive",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "references_constraint",
@@ -4647,6 +4881,25 @@
     }
   },
   {
+    "type": "send",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "set_clause",
     "named": true,
     "fields": {},
@@ -4931,6 +5184,25 @@
     "fields": {}
   },
   {
+    "type": "storage",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {
@@ -4944,6 +5216,82 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "subscript",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subtype",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subtype_diff",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subtype_opclass",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -5651,6 +5999,210 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_spec_base",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "VARIABLE",
+            "named": false
+          },
+          {
+            "type": "alignment",
+            "named": false
+          },
+          {
+            "type": "analyze",
+            "named": false
+          },
+          {
+            "type": "category",
+            "named": false
+          },
+          {
+            "type": "collatable",
+            "named": false
+          },
+          {
+            "type": "default",
+            "named": false
+          },
+          {
+            "type": "delimiter",
+            "named": false
+          },
+          {
+            "type": "element",
+            "named": false
+          },
+          {
+            "type": "input",
+            "named": false
+          },
+          {
+            "type": "internallength",
+            "named": false
+          },
+          {
+            "type": "like",
+            "named": false
+          },
+          {
+            "type": "output",
+            "named": false
+          },
+          {
+            "type": "preferred",
+            "named": false
+          },
+          {
+            "type": "receive",
+            "named": false
+          },
+          {
+            "type": "send",
+            "named": false
+          },
+          {
+            "type": "storage",
+            "named": false
+          },
+          {
+            "type": "subscript",
+            "named": false
+          },
+          {
+            "type": "typmod_in",
+            "named": false
+          },
+          {
+            "type": "typmod_out",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "type_spec_composite",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "constrained_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_spec_enum",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_spec_range",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "canonical",
+            "named": false
+          },
+          {
+            "type": "collation",
+            "named": false
+          },
+          {
+            "type": "multirange_type_name",
+            "named": false
+          },
+          {
+            "type": "subtype",
+            "named": false
+          },
+          {
+            "type": "subtype_diff",
+            "named": false
+          },
+          {
+            "type": "subtype_opclass",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "typmod_in",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typmod_out",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -6458,6 +7010,10 @@
     "named": false
   },
   {
+    "type": "ENUM",
+    "named": false
+  },
+  {
     "type": "EXCLUDE",
     "named": false
   },
@@ -6738,6 +7294,10 @@
     "named": false
   },
   {
+    "type": "RANGE",
+    "named": false
+  },
+  {
     "type": "READS_SQL_DATA",
     "named": false
   },
@@ -6942,6 +7502,10 @@
     "named": false
   },
   {
+    "type": "VARIABLE",
+    "named": false
+  },
+  {
     "type": "VARIADIC",
     "named": false
   },
@@ -7010,6 +7574,30 @@
     "named": false
   },
   {
+    "type": "alignment",
+    "named": false
+  },
+  {
+    "type": "analyze",
+    "named": false
+  },
+  {
+    "type": "canonical",
+    "named": false
+  },
+  {
+    "type": "category",
+    "named": false
+  },
+  {
+    "type": "collatable",
+    "named": false
+  },
+  {
+    "type": "collation",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -7018,12 +7606,88 @@
     "named": true
   },
   {
+    "type": "default",
+    "named": false
+  },
+  {
+    "type": "delimiter",
+    "named": false
+  },
+  {
+    "type": "element",
+    "named": false
+  },
+  {
+    "type": "input",
+    "named": false
+  },
+  {
+    "type": "internallength",
+    "named": false
+  },
+  {
     "type": "language",
     "named": true
   },
   {
+    "type": "like",
+    "named": false
+  },
+  {
+    "type": "multirange_type_name",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "output",
+    "named": false
+  },
+  {
+    "type": "passedbyvalue",
+    "named": false
+  },
+  {
+    "type": "preferred",
+    "named": false
+  },
+  {
+    "type": "receive",
+    "named": false
+  },
+  {
+    "type": "send",
+    "named": false
+  },
+  {
+    "type": "storage",
+    "named": false
+  },
+  {
+    "type": "subscript",
+    "named": false
+  },
+  {
+    "type": "subtype",
+    "named": false
+  },
+  {
+    "type": "subtype_diff",
+    "named": false
+  },
+  {
+    "type": "subtype_opclass",
+    "named": false
+  },
+  {
+    "type": "typmod_in",
+    "named": false
+  },
+  {
+    "type": "typmod_out",
+    "named": false
   },
   {
     "type": "|",
