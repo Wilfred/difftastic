@@ -2062,6 +2062,12 @@ DROP TABLE foo;
 DROP VIEW bar;
 DROP TABLESPACE bar;
 DROP EXTENSION postgis;
+DROP TABLE foo CASCADE;
+DROP TABLE foo RESTRICT;
+DROP TABLE tb1, tb2, tb3;
+DROP MATERIALIZED VIEW bar;
+DROP INDEX idx;
+DROP INDEX CONCURRENTLY idx;
 
 --------------------------------------------------------------------------------
 
@@ -2069,6 +2075,20 @@ DROP EXTENSION postgis;
   (drop_statement
     (identifier))
   (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)
+    (identifier)
     (identifier))
   (drop_statement
     (identifier))

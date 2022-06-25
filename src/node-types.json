@@ -2423,7 +2423,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -2785,20 +2785,55 @@
   {
     "type": "drop_statement",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "kind": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "EXTENSION",
+            "named": false
+          },
+          {
+            "type": "INDEX",
+            "named": false
+          },
+          {
+            "type": "MATERIALIZED_VIEW",
+            "named": false
+          },
+          {
+            "type": "TABLE",
+            "named": false
+          },
+          {
+            "type": "TABLESPACE",
+            "named": false
+          },
+          {
+            "type": "VIEW",
+            "named": false
+          }
+        ]
+      },
+      "target": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7171,6 +7206,10 @@
   },
   {
     "type": "MATERIALIZED",
+    "named": false
+  },
+  {
+    "type": "MATERIALIZED_VIEW",
     "named": false
   },
   {
