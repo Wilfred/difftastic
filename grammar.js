@@ -33,11 +33,9 @@ function kw(keyword) {
   const words = keyword.split(" ");
   const regExps = words.map(createCaseInsensitiveRegex);
 
-  if (regExps.length == 1) {
-    return alias(regExps[0], keyword);
-  } else {
-    return alias(seq(...regExps), keyword.replace(/ /g, "_"));
-  }
+  return regExps.length == 1
+    ? alias(regExps[0], keyword)
+    : alias(seq(...regExps), keyword.replace(/ /g, "_"));
 }
 
 function createOrReplace(item) {
@@ -80,6 +78,7 @@ module.exports = grammar({
     $._dollar_quoted_string_content,
     $._dollar_quoted_string_end_tag,
   ],
+
   rules: {
     source_file: $ => repeat($._statement),
 
@@ -508,9 +507,21 @@ module.exports = grammar({
     drop_statement: $ =>
       seq(
         kw("DROP"),
-        choice("TABLE", "VIEW", "TABLESPACE", "EXTENSION", "INDEX"),
+        field(
+          "kind",
+          choice(
+            kw("TABLE"),
+            kw("VIEW"),
+            kw("INDEX"),
+            kw("EXTENSION"),
+            kw("TABLESPACE"),
+            kw("MATERIALIZED VIEW"),
+          ),
+        ),
+        optional(kw("CONCURRENTLY")),
         optional(kw("IF EXISTS")),
-        $._identifier,
+        field("target", commaSep1($._identifier)),
+        optional(choice(kw("CASCADE"), kw("RESTRICT"))),
       ),
     set_statement: $ =>
       seq(
