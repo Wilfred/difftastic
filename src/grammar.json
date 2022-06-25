@@ -5205,6 +5205,22 @@
     {
       "type": "SYMBOL",
       "name": "_string_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    },
+    {
+      "type": "STRING",
+      "value": "]"
+    },
+    {
+      "type": "STRING",
+      "value": ")"
+    },
+    {
+      "type": "STRING",
+      "value": "}"
     }
   ],
   "inline": [
