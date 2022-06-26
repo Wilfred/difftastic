@@ -2,7 +2,7 @@
 
 use crate::{
     constants::Side,
-    lines::{byte_len, codepoint_len, split_on_newlines, LineNumber},
+    lines::{byte_len, split_on_newlines, LineNumber},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     positions::SingleLineSpan,
@@ -10,6 +10,7 @@ use crate::{
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
+use unicode_width::{UnicodeWidthStr, UnicodeWidthChar};
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
@@ -23,22 +24,26 @@ impl BackgroundColor {
     }
 }
 
-/// Slice `s` from `start` inclusive to `end` exclusive by codepoint. This is safer than
-/// slicing by bytes, which panics if the byte isn't on a codepoint
-/// boundary.
-fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
+/// Slice `s` from `start` inclusive to `end` exclusive by width.
+fn substring_by_width(s: &str, start: usize, end: usize) -> &str {
     if start == end {
         return &s[0..0];
     }
 
     assert!(end > start);
 
-    let mut char_idx_iter = s.char_indices();
-    let byte_start = char_idx_iter
-        .nth(start)
-        .expect("Expected a codepoint index inside `s`.")
+    let mut idx_width_iter = s.char_indices()
+        .scan(0, |w, (idx, ch)| {
+          let before = *w;
+          *w += ch.width().unwrap_or(0);
+          Some((idx, before, *w))
+        })
+        .skip_while(|(_, before, _)| *before < start);
+    let byte_start = idx_width_iter
+        .nth(0)
+        .expect("Expected a width index inside `s`.")
         .0;
-    match char_idx_iter.nth(end - start - 1) {
+    match idx_width_iter.skip_while(|(_, _, after)| *after <= end).nth(0) {
         Some(byte_end) => &s[byte_start..byte_end.0],
         None => &s[byte_start..],
     }
@@ -48,27 +53,33 @@ fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
     &s[start..end]
 }
 
-/// Split a string into equal length parts, padding the last part if
-/// necessary.
+/// Split a string into equal length parts, padding if necessary.
 ///
 /// ```
-/// split_string_by_codepoint("fooba", 3) // vec!["foo", "ba "]
+/// split_string_by_width("fooba", 3, true) // vec!["foo", "ba "]
+/// split_string_by_width("一个汉字两列宽", 8, false) // vec!["一个汉字", "两列宽"]
 /// ```
-fn split_string_by_codepoint(s: &str, max_len: usize, pad_last: bool) -> Vec<String> {
+fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<String> {
     let mut res = vec![];
     let mut s = s;
 
-    while codepoint_len(s) > max_len {
-        res.push(substring_by_codepoint(s, 0, max_len).into());
-        s = substring_by_codepoint(s, max_len, codepoint_len(s));
+    while s.width() > max_width {
+        let mut l = substring_by_width(s, 0, max_width).to_owned();
+        let used = l.width();
+        if pad && used < max_width {
+          // a fullwidth char is followed
+          l.push(' ');
+        }
+        res.push(l);
+        s = substring_by_width(s, used, s.width());
     }
 
     if res.is_empty() || !s.is_empty() {
-        if pad_last {
-            res.push(format!("{:width$}", s, width = max_len));
-        } else {
-            res.push(s.to_string());
+        let mut string = s.to_string();
+        if pad {
+            string.push_str(&" ".repeat(max_width - s.width()));
         }
+        res.push(string);
     }
 
     res
@@ -90,7 +101,7 @@ pub fn split_and_apply(
 ) -> Vec<String> {
     if styles.is_empty() && !line.trim().is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
-        return split_string_by_codepoint(line, max_len, matches!(side, Side::Left))
+        return split_string_by_width(line, max_len, matches!(side, Side::Left))
             .into_iter()
             .map(|part| {
                 if use_color {
@@ -105,7 +116,7 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for part in split_string_by_codepoint(line, max_len, matches!(side, Side::Left)) {
+    for part in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
         let mut res = String::with_capacity(part.len());
         let mut prev_style_end = 0;
         for (span, style) in styles {
@@ -147,7 +158,7 @@ pub fn split_and_apply(
         }
 
         // Unstyled text after the last span.
-        if prev_style_end < part_start + codepoint_len(&part) {
+        if prev_style_end < part_start + byte_len(&part) {
             let span_s = substring_by_byte(&part, prev_style_end - part_start, byte_len(&part));
             res.push_str(span_s);
         }
@@ -389,19 +400,9 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn test_substring_by_codepoint() {
-        assert_eq!(substring_by_codepoint("abcd", 0, 2), "ab");
-    }
-
-    #[test]
-    fn test_substring_by_codepoint_empty() {
-        assert_eq!(substring_by_codepoint("abcd", 0, 0), "");
-    }
-
-    #[test]
     fn split_string_simple() {
         assert_eq!(
-            split_string_by_codepoint("fooba", 3, true),
+            split_string_by_width("fooba", 3, true),
             vec!["foo", "ba "]
         );
     }
@@ -409,7 +410,7 @@ mod tests {
     #[test]
     fn split_string_simple_no_pad() {
         assert_eq!(
-            split_string_by_codepoint("fooba", 3, false),
+            split_string_by_width("fooba", 3, false),
             vec!["foo", "ba"]
         );
     }
@@ -417,8 +418,24 @@ mod tests {
     #[test]
     fn split_string_unicode() {
         assert_eq!(
-            split_string_by_codepoint("ab📦def", 3, true),
-            vec!["ab📦", "def"]
+            split_string_by_width("ab📦def", 4, true),
+            vec!["ab📦", "def "]
+        );
+    }
+
+    #[test]
+    fn split_string_cjk() {
+        assert_eq!(
+            split_string_by_width("一个汉字两列宽", 8, false),
+            vec!["一个汉字", "两列宽"]
+        );
+    }
+
+    #[test]
+    fn split_string_cjk2() {
+        assert_eq!(
+            split_string_by_width("你好啊", 5, true),
+            vec!["你好 ", "啊   "]
         );
     }
 
