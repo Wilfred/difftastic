@@ -35,6 +35,8 @@ pub fn inline_language() -> Language {
     unsafe { tree_sitter_markdown_inline() }
 }
 
+pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../tree-sitter-markdown/queries/highlights.scm");
+
 /// The content of the [`node-types.json`][] file for the block grammar.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
