@@ -347,6 +347,51 @@ SELECT a, b FROM foo GROUP BY a + 1, b;
         (identifier)))))
 
 ================================================================================
+SELECT aggregate expressions
+================================================================================
+
+SELECT array_agg(a ORDER BY b DESC) FROM foo;
+SELECT array_agg(ALL a ORDER BY b DESC) FROM foo;
+SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
 SELECT GROUP BY GROUPING SETS
 ================================================================================
 
@@ -549,3 +594,103 @@ SELECT a, b FROM foo GROUP BY
         (binary_expression
           (identifier)
           (identifier))))))
+
+================================================================================
+SELECT aggregate expressions within group
+================================================================================
+
+SELECT array_agg(a) WITHIN GROUP (ORDER BY b DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (within_group_clause
+            (order_by_clause
+              (order_expression
+                (identifier)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT aggregate expressions filter
+================================================================================
+
+SELECT array_agg(a) FILTER (WHERE a <> '') FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (filter_clause
+            (where_clause
+              (binary_expression
+                (identifier)
+                (string
+                  (content))))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT aggregate expressions complex
+================================================================================
+
+SELECT
+    count(*) AS unfiltered,
+    count(DISTINCT *) AS distincted,
+    count(DISTINCT * ORDER BY i DESC) AS ordered,
+    count(*) FILTER (WHERE i < 5) AS filtered
+FROM generate_series(1,10) AS s(i);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (alias
+          (function_call
+            (identifier)
+            (asterisk_expression))
+          (identifier))
+        (alias
+          (function_call
+            (identifier)
+            (asterisk_expression))
+          (identifier))
+        (alias
+          (function_call
+            (identifier)
+            (asterisk_expression)
+            (order_by_clause
+              (order_expression
+                (identifier))))
+          (identifier))
+        (alias
+          (function_call
+            (identifier)
+            (asterisk_expression)
+            (filter_clause
+              (where_clause
+                (binary_expression
+                  (identifier)
+                  (number)))))
+          (identifier))))
+    (from_clause
+      (alias
+        (function_call
+          (identifier)
+          (number)
+          (number))
+        (identifier)
+        (identifier)))))
