@@ -1446,6 +1446,11 @@
     }
   },
   {
+    "type": "constant",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "delimited_symbol",
     "named": true,
     "fields": {},
@@ -1897,6 +1902,11 @@
     }
   },
   {
+    "type": "hash_key_symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "hash_pattern",
     "named": true,
     "fields": {
@@ -1992,6 +2002,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "if",
@@ -3838,10 +3853,6 @@
     "named": true
   },
   {
-    "type": "constant",
-    "named": true
-  },
-  {
     "type": "def",
     "named": false
   },
@@ -3898,10 +3909,6 @@
     "named": true
   },
   {
-    "type": "hash_key_symbol",
-    "named": true
-  },
-  {
     "type": "heredoc_beginning",
     "named": true
   },
@@ -3916,10 +3923,6 @@
   {
     "type": "i",
     "named": false
-  },
-  {
-    "type": "identifier",
-    "named": true
   },
   {
     "type": "if",

@@ -36,6 +36,7 @@ module.exports = grammar({
   inline: $ => [$._arg_rhs, $._call_operator],
   externals: $ => [
     $._line_break,
+    $._no_line_break,
 
     // Delimited literals
     $.simple_symbol,
@@ -62,6 +63,8 @@ module.exports = grammar({
     $._binary_star,
     $._singleton_class_left_angle_left_langle,
     $.hash_key_symbol,
+    $._identifier_suffix,
+    $._constant_suffix,
     $._hash_splat_star_star,
     $._binary_star_star,
     $._element_reference_bracket,
@@ -1054,9 +1057,9 @@ module.exports = grammar({
     nil: $ => 'nil',
 
     constant: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS)),
-    constant_suffix: $ => token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?!]/)),
+    constant_suffix: $ => choice(token(seq(/[A-Z]/, IDENTIFIER_CHARS, /[?]/)), $._constant_suffix),
     identifier: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS)),
-    identifier_suffix: $ => token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /[?!]/)),
+    identifier_suffix: $ => choice(token(seq(LOWER_ALPHA_CHAR, IDENTIFIER_CHARS, /[?]/)), $._identifier_suffix),
     instance_variable: $ => token(seq('@', ALPHA_CHAR, IDENTIFIER_CHARS)),
     class_variable: $ => token(seq('@@', ALPHA_CHAR, IDENTIFIER_CHARS)),
 
@@ -1175,7 +1178,12 @@ module.exports = grammar({
           alias($.constant_suffix, $.hash_key_symbol),
         )),
         token.immediate(':'),
-        field('value', optional($._arg))
+        choice(
+          field('value', optional($._arg)),
+          // This alternative never matches, because '_no_line_break' tokens do not exist.
+          // The purpose is give a hint to the scanner that it should not produce any line-break
+          // terminators at this point.
+          $._no_line_break)
       )
     )),
 
