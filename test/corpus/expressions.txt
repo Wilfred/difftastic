@@ -436,6 +436,12 @@ a === b
 a <=> b
 a =~ b
 a !~ b
+a==b
+a!=b
+a===b
+a<=>b
+a=~b
+a!~b # not a binary operation
 
 ---
 
@@ -445,8 +451,18 @@ a !~ b
   (binary left: (identifier) right: (identifier))
   (binary left: (identifier) right: (identifier))
   (binary left: (identifier) right: (identifier))
-  (binary left: (identifier) right: (identifier)))
-
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (binary left: (identifier) right: (identifier))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (unary
+        operand: (identifier))))
+  (comment))
 ==========
 comparison
 ==========
@@ -982,7 +998,7 @@ method call with keyword args
 foo(a: true)
 foo a: true
 foo B: true
-foo a:
+foo a: ;
 foo B:
 
 ---
@@ -1548,6 +1564,86 @@ render "foo/bars/show", locals: { display_text: dt, safe_text: "hello" }
   (call (identifier) (argument_list (string (string_content)) (pair (hash_key_symbol) (hash))))
   (call (identifier) (argument_list (string (string_content)) (pair (hash_key_symbol) (hash (pair (hash_key_symbol) (identifier)) (pair (hash_key_symbol) (string (string_content)))))))
 )
+
+========================================================================
+call with keyword argument on different lines
+========================================================================
+
+render :show_details, 5,
+    description:
+      "Some long " \
+      "piece of text.",
+    dark_mode: false
+
+render "/foo/bar", params:
+    {
+        id: 3,
+        title: "Hello world"
+    },
+    headers: { Accept: "text/html" }
+
+render "/foo/bar", params:
+    {
+        id: 3,
+        title: "Hello world"
+    }
+
+---
+
+(program
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (simple_symbol)
+      (integer)
+      (pair
+        key: (hash_key_symbol)
+        value: (chained_string
+          (string
+            (string_content))
+          (string
+            (string_content))))
+      (pair
+        key: (hash_key_symbol)
+        value: (false))))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (string
+        (string_content))
+      (pair
+        key: (hash_key_symbol)
+        value: (hash
+          (pair
+            key: (hash_key_symbol)
+            value: (integer))
+          (pair
+            key: (hash_key_symbol)
+            value: (string
+              (string_content)))))
+      (pair
+        key: (hash_key_symbol)
+        value: (hash
+          (pair
+            key: (hash_key_symbol)
+            value: (string
+              (string_content)))))))
+  (call
+    method: (identifier)
+    arguments: (argument_list
+      (string
+        (string_content))
+      (pair
+        key: (hash_key_symbol)
+        value: (hash
+          (pair
+            key: (hash_key_symbol)
+            value: (integer))
+          (pair
+            key: (hash_key_symbol)
+            value: (string
+              (string_content))))))))
+
 
 ==============
 empty lambda expression
