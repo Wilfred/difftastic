@@ -792,7 +792,7 @@ CREATE VIEW foo AS VALUES (1, 2);
     (identifier)
     (view_body
       (values_clause
-        (values_clause_body
+        (values_clause_item
           (number)
           (number))))))
 

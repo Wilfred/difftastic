@@ -7806,7 +7806,7 @@
         }
       ]
     },
-    "order_by_clause_body": {
+    "order_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -7814,20 +7814,90 @@
           "name": "_expression"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[aA][sS][cC]"
+                    },
+                    "named": false,
+                    "value": "ASC"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[dD][eE][sS][cC]"
+                    },
+                    "named": false,
+                    "value": "DESC"
+                  }
+                ]
               },
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
-            ]
-          }
+              "named": true,
+              "value": "order"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[nN][uU][lL][lL][sS]"
+                    },
+                    "named": false,
+                    "value": "NULLS"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "[fF][iI][rR][sS][tT]"
+                        },
+                        "named": false,
+                        "value": "FIRST"
+                      },
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "[lL][aA][sS][tT]"
+                        },
+                        "named": false,
+                        "value": "LAST"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": true,
+              "value": "nulls_order"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -7853,41 +7923,27 @@
           "value": "ORDER_BY"
         },
         {
-          "type": "SYMBOL",
-          "name": "order_by_clause_body"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "FIELD",
-              "name": "order",
+              "type": "SYMBOL",
+              "name": "order_expression"
+            },
+            {
+              "type": "REPEAT",
               "content": {
-                "type": "CHOICE",
+                "type": "SEQ",
                 "members": [
                   {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[aA][sS][cC]"
-                    },
-                    "named": false,
-                    "value": "ASC"
+                    "type": "STRING",
+                    "value": ","
                   },
                   {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[dD][eE][sS][cC]"
-                    },
-                    "named": false,
-                    "value": "DESC"
+                    "type": "SYMBOL",
+                    "name": "order_expression"
                   }
                 ]
               }
-            },
-            {
-              "type": "BLANK"
             }
           ]
         }

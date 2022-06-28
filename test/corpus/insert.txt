@@ -95,8 +95,9 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
         (string
           (content)))
       (order_by_clause
-        (order_by_clause_body
-          (identifier)
+        (order_expression
+          (identifier))
+        (order_expression
           (identifier))))))
 
 ================================================================================
