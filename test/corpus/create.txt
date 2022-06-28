@@ -703,3 +703,352 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
             (dotted_name
               (identifier)
               (identifier))))))))
+
+================================================================================
+CREATE VIEW
+================================================================================
+
+CREATE VIEW foo AS SELECT 1;
+CREATE VIEW foo AS (SELECT 1);
+CREATE OR REPLACE VIEW foo AS SELECT 1;
+CREATE TEMPORARY VIEW foo AS SELECT 1;
+CREATE TEMP VIEW foo AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_subexpression
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number)))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE VIEW with columns
+================================================================================
+
+CREATE VIEW foo(a, b) AS SELECT 1 a, 2 b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))))
+
+================================================================================
+CREATE VIEW by value clause
+================================================================================
+
+CREATE VIEW foo AS VALUES (1, 2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (values_clause
+        (values_clause_body
+          (number)
+          (number))))))
+
+================================================================================
+CREATE VIEW with options
+================================================================================
+
+CREATE VIEW foo WITH(security_barrier) AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_options
+      (view_option
+        (identifier)))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE VIEW with check option
+================================================================================
+
+CREATE VIEW foo AS SELECT 1 WITH CHECK OPTION;
+CREATE VIEW foo AS SELECT 1 WITH LOCAL CHECK OPTION;
+CREATE VIEW foo AS SELECT 1 WITH CASCADED CHECK OPTION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option)))
+
+================================================================================
+CREATE MATERIALIZED VIEW
+================================================================================
+
+CREATE MATERIALIZED VIEW foo AS SELECT 1;
+CREATE MATERIALIZED VIEW IF NOT EXISTS foo AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with columns
+================================================================================
+
+CREATE MATERIALIZED VIEW foo(a, b) AS SELECT 1 a, 2 b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with using clause
+================================================================================
+
+CREATE MATERIALIZED VIEW foo USING method1 AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (using_clause
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with options
+================================================================================
+
+CREATE MATERIALIZED VIEW foo WITH (
+  toast.log_autovacuum_min_duration=1,
+  user_catalog_table,
+  autovacuum_vacuum_scale_factor=1.5
+) AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_options
+      (view_option
+        (assigment_expression
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)))
+      (view_option
+        (identifier))
+      (view_option
+        (assigment_expression
+          (identifier)
+          (number))))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with tablespace
+================================================================================
+
+CREATE MATERIALIZED VIEW foo TABLESPACE tbsp AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (tablespace_hint
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with data hint
+================================================================================
+
+CREATE MATERIALIZED VIEW foo AS SELECT 1 WITH DATA;
+CREATE MATERIALIZED VIEW foo AS SELECT 1 WITH NO DATA;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (data_hint))
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (data_hint)))
+
+================================================================================
+CREATE MATERIALIZED VIEW complex
+================================================================================
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
+  USING method1
+  WITH (
+    toast.log_autovacuum_min_duration=1,
+    user_catalog_table,
+    autovacuum_vacuum_scale_factor=1.5
+  )
+  TABLESPACE tbsp
+  AS SELECT 1 a, 2 b
+  WITH NO DATA;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (using_clause
+      (identifier))
+    (view_options
+      (view_option
+        (assigment_expression
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)))
+      (view_option
+        (identifier))
+      (view_option
+        (assigment_expression
+          (identifier)
+          (number))))
+    (tablespace_hint
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))
+    (data_hint)))
