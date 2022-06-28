@@ -13,6 +13,8 @@ include = [
   "bindings/rust/*",
   "tree-sitter-markdown/src/*",
   "tree-sitter-markdown-inline/src/*",
+  "tree-sitter-markdown/queries/*",
+  "tree-sitter-markdown-inline/queries/*",
 ]
 
 [lib]
