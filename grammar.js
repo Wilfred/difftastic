@@ -862,8 +862,38 @@ module.exports = grammar({
         optional($.limit_clause),
         optional($.offset_clause),
       ),
-    group_by_clause_body: $ => commaSep1($._expression),
-    group_by_clause: $ => seq(kw("GROUP BY"), $.group_by_clause_body),
+
+    group_by_clause: $ =>
+      seq(
+        kw("GROUP BY"),
+        commaSep1($.group_expression),
+        optional($.having_clause),
+      ),
+    having_clause: $ => seq(kw("HAVING"), $._expression),
+    group_expression: $ =>
+      choice(
+        $._expression,
+        $.grouping_sets_clause,
+        $.rollup_clause,
+        $.cube_clause,
+      ),
+    grouping_sets_clause: $ =>
+      seq(kw("GROUPING SETS"), "(", commaSep1($.expression_list), ")"),
+    rollup_clause: $ =>
+      seq(
+        kw("ROLLUP"),
+        "(",
+        commaSep1(choice($._expression, $.expression_list)),
+        ")",
+      ),
+    cube_clause: $ =>
+      seq(
+        kw("CUBE"),
+        "(",
+        commaSep1(choice($._expression, $.expression_list)),
+        ")",
+      ),
+    expression_list: $ => seq("(", optional(commaSep1($._expression)), ")"),
     order_expression: $ =>
       seq(
         $._expression,
@@ -1018,7 +1048,8 @@ module.exports = grammar({
         optional(field("arguments", commaSep1($._expression))),
         ")",
       ),
-    _parenthesized_expression: $ => seq("(", $._expression, ")"),
+    _parenthesized_expression: $ =>
+      prec.left(PREC.unary, seq("(", $._expression, ")")),
     is_expression: $ =>
       prec.left(
         PREC.comparative,
