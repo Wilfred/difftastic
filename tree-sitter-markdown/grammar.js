@@ -364,6 +364,12 @@ module.exports = grammar({
                 optional($.block_continuation)
             )),
             repeat1($._block),
+            common.FEATURE_GFM ? prec(1, seq(
+                choice($.task_list_marker_checked, $.task_list_marker_unchecked),
+                $._whitespace,
+                $.paragraph,
+                repeat($._block)
+            )) : choice()
         ),
 
         // Newlines as in the spec. Parsing a newline triggers the matching process by making
@@ -378,11 +384,20 @@ module.exports = grammar({
         ),
         // Some symbols get parsed as single tokens so that html blocks get detected properly
         _line: $ => prec.right(repeat1(choice($._word, $._whitespace, common.punctuation_without($, [])))),
-        _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS_REGEX + ' \\t\\n\\r]+'),
+        _word: $ => choice(
+            new RegExp('[^' + PUNCTUATION_CHARACTERS_REGEX + ' \\t\\n\\r]+'),
+            common.FEATURE_GFM ? choice(
+                '[x]',
+                /\[[ \t]\]/,
+            ) : choice()
+        ),
         // The external scanner emits some characters that should just be ignored.
         _whitespace: $ => /[ \t]+/,
 
-
+        ...(common.FEATURE_GFM ? {
+            task_list_marker_checked: $ => prec(1, '[x]'),
+            task_list_marker_unchecked: $ => prec(1, /\[[ \t]\]/),
+        } : {})
     },
 
     externals: $ => [

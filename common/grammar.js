@@ -1,3 +1,5 @@
+exports.FEATURE_GFM = process.env.FEATURE_GFM;
+
 const PUNCTUATION_CHARACTERS_REGEX = '!-/:-@\\[-`\\{-~';
 const PUNCTUATION_CHARACTERS_ARRAY = [
     '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<',

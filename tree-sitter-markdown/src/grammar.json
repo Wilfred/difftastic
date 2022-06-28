@@ -3890,6 +3890,10 @@
             "type": "SYMBOL",
             "name": "_block"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": []
         }
       ]
     },
@@ -4106,8 +4110,17 @@
       }
     },
     "_word": {
-      "type": "PATTERN",
-      "value": "[^!-/:-@\\[-`\\{-~ \\t\\n\\r]+"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^!-/:-@\\[-`\\{-~ \\t\\n\\r]+"
+        },
+        {
+          "type": "CHOICE",
+          "members": []
+        }
+      ]
     },
     "_whitespace": {
       "type": "PATTERN",
