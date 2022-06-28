@@ -864,13 +864,18 @@ module.exports = grammar({
       ),
     group_by_clause_body: $ => commaSep1($._expression),
     group_by_clause: $ => seq(kw("GROUP BY"), $.group_by_clause_body),
-    order_by_clause_body: $ => commaSep1($._expression),
-    order_by_clause: $ =>
+    order_expression: $ =>
       seq(
-        kw("ORDER BY"),
-        $.order_by_clause_body,
-        optional(field("order", choice(kw("ASC"), kw("DESC")))),
+        $._expression,
+        optional(alias(choice(kw("ASC"), kw("DESC")), $.order)),
+        optional(
+          alias(
+            seq(kw("NULLS"), choice(kw("FIRST"), kw("LAST"))),
+            $.nulls_order,
+          ),
+        ),
       ),
+    order_by_clause: $ => seq(kw("ORDER BY"), commaSep1($.order_expression)),
     limit_clause: $ =>
       seq(
         kw("LIMIT"),

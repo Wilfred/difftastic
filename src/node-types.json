@@ -4340,39 +4340,24 @@
   {
     "type": "order_by_clause",
     "named": true,
-    "fields": {
-      "order": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "ASC",
-            "named": false
-          },
-          {
-            "type": "DESC",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "order_by_clause_body",
+          "type": "order_expression",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "order_by_clause_body",
+    "type": "order_expression",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -7470,6 +7455,10 @@
     "named": false
   },
   {
+    "type": "LAST",
+    "named": false
+  },
+  {
     "type": "LATERAL",
     "named": false
   },
@@ -7535,6 +7524,10 @@
   },
   {
     "type": "NULL",
+    "named": false
+  },
+  {
+    "type": "NULLS",
     "named": false
   },
   {
