@@ -1,4 +1,4 @@
-;; From MDeiml/tree-sitter-markdown
+;From nvim-treesitter/nvim-treesitter
 (atx_heading (inline) @text.title)
 (setext_heading (paragraph) @text.title)
 
@@ -23,12 +23,11 @@
   (fenced_code_block_delimiter)
 ] @punctuation.delimiter
 
-(fenced_code_block
-  (info_string
-    (language))
-  (code_fence_content) @none)
+(code_fence_content) @none
 
-(link_destination) @text.uri
+[
+  (link_destination)
+] @text.uri
 
 [
   (link_label)
@@ -43,7 +42,10 @@
   (thematic_break)
 ] @punctuation.special
 
-(block_quote_marker) @punctuation.special
+[
+  (block_continuation)
+  (block_quote_marker)
+] @punctuation.special
 
 [
   (backslash_escape)

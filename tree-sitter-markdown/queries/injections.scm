@@ -1,39 +1,12 @@
-[
-  (
-      (inline)+
-      .
-      (inline) @markdown_inline @combined
-  )
-  (inline) @markdown_inline
-]
+; From nvim-treesitter/nvim-treesitter
 
-[
-  (
-    (info_string
-      (language) @language)
-    .
-    (code_fence_content) @content)
-  (
-    (info_string
-      (language) @language)
-    (code_fence_content)+
-    .
-    (code_fence_content) @content @combined)
-]
-; [
-;   (fenced_code_block
-;     (info_string
-;       (language) @language)
-;     .
-;     (code_fence_content) @content)
-;   (fenced_code_block
-;     (info_string
-;       (language) @language)
-;     (code_fence_content)+
-;     .
-;     (code_fence_content) @content @combined)
-; ]
+(fenced_code_block
+  (info_string
+    (language) @injection.language)
+  (code_fence_content) @injection.content)
 
-((html_block) @html)
+((html_block) @injction.content (#set! @injection.language "html"))
 
-((thematic_break) (_) @yaml @combined (thematic_break))
+(document . (section . (thematic_break) (_) @injection.content (thematic_break)) (#set! @injection.language "yaml"))
+((inline) @injection.content (#set! @injection.language "markdown_inline"))
+
