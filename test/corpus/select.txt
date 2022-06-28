@@ -195,7 +195,8 @@ SELECT * FROM foo LIMIT 10 OFFSET 5;
     (from_clause
       (identifier))
     (limit_clause
-      (number)
+      (number))
+    (offset_clause
       (number))))
 
 ================================================================================

@@ -860,6 +860,7 @@ module.exports = grammar({
         optional($.group_by_clause),
         optional($.order_by_clause),
         optional($.limit_clause),
+        optional($.offset_clause),
       ),
     group_by_clause_body: $ => commaSep1($._expression),
     group_by_clause: $ => seq(kw("GROUP BY"), $.group_by_clause_body),
@@ -873,13 +874,20 @@ module.exports = grammar({
     limit_clause: $ =>
       seq(
         kw("LIMIT"),
-        $.number,
-        optional(
-          seq(
-            choice(kw("OFFSET"), ","), // MySQL LIMIT a, b
-            $.number,
-          ),
-        ),
+        choice($.number, kw("ALL")),
+        optional(seq(",", $.number)), // MySQL LIMIT a, b
+      ),
+    offset_clause: $ =>
+      prec.right(
+        seq(kw("OFFSET"), $.number, optional(choice(kw("ROW"), kw("ROWS")))),
+      ),
+    fetch_clause: $ =>
+      seq(
+        kw("FETCH"),
+        choice(kw("FIRST"), kw("NEXT")),
+        optional($.number),
+        choice(kw("ROW"), kw("ROWS")),
+        kw("ONLY"),
       ),
     where_clause: $ => seq(kw("WHERE"), $._expression),
     _aliased_expression: $ =>
@@ -939,8 +947,16 @@ module.exports = grammar({
         optional(seq("(", commaSep1($._identifier), ")")),
         choice($.values_clause, $.select_statement, $.set_clause),
       ),
-    values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
-    values_clause_body: $ => commaSep1($._expression),
+    values_clause: $ =>
+      seq(
+        kw("VALUES"),
+        commaSep1($.values_clause_item),
+        optional($.order_by_clause),
+        optional($.limit_clause),
+        optional($.offset_clause),
+        optional($.fetch_clause),
+      ),
+    values_clause_item: $ => seq("(", commaSep1($._expression), ")"),
 
     // DELETE
     // TODO: support returning clauses
