@@ -2506,7 +2506,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -2992,6 +2992,21 @@
     "type": "external_hint",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "fetch_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "foreign_key",
@@ -4167,7 +4182,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "number",
@@ -4234,6 +4249,21 @@
     "type": "null_hint",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "offset_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "on_delete_action",
@@ -4970,6 +5000,10 @@
         },
         {
           "type": "limit_clause",
+          "named": true
+        },
+        {
+          "type": "offset_clause",
           "named": true
         },
         {
@@ -6587,18 +6621,34 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "values_clause_body",
+          "type": "fetch_clause",
+          "named": true
+        },
+        {
+          "type": "limit_clause",
+          "named": true
+        },
+        {
+          "type": "offset_clause",
+          "named": true
+        },
+        {
+          "type": "order_by_clause",
+          "named": true
+        },
+        {
+          "type": "values_clause_item",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "values_clause_body",
+    "type": "values_clause_item",
     "named": true,
     "fields": {},
     "children": {
@@ -7300,6 +7350,14 @@
     "named": false
   },
   {
+    "type": "FETCH",
+    "named": false
+  },
+  {
+    "type": "FIRST",
+    "named": false
+  },
+  {
     "type": "FOLLOWS",
     "named": false
   },
@@ -7453,6 +7511,10 @@
   },
   {
     "type": "NEW",
+    "named": false
+  },
+  {
+    "type": "NEXT",
     "named": false
   },
   {
