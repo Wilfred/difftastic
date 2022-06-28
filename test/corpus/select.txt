@@ -321,3 +321,231 @@ SELECT * FROM LATERAL (SELECT * FROM foo) bar;
             (from_clause
               (identifier))))
         (identifier)))))
+
+================================================================================
+SELECT GROUP BY
+================================================================================
+
+SELECT a, b FROM foo GROUP BY a + 1, b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (binary_expression
+          (identifier)
+          (number)))
+      (group_expression
+        (identifier)))))
+
+================================================================================
+SELECT GROUP BY GROUPING SETS
+================================================================================
+
+SELECT a, b FROM foo GROUP BY GROUPING SETS ((), (a), (b), (a, b), (a + 1, b + 1));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (grouping_sets_clause
+          (expression_list)
+          (expression_list
+            (identifier))
+          (expression_list
+            (identifier))
+          (expression_list
+            (identifier)
+            (identifier))
+          (expression_list
+            (binary_expression
+              (identifier)
+              (number))
+            (binary_expression
+              (identifier)
+              (number))))))))
+
+================================================================================
+SELECT GROUP BY ROLLUP
+================================================================================
+
+SELECT a, b FROM foo GROUP BY ROLLUP (a, (a, b), a + 1, b + 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (rollup_clause
+          (identifier)
+          (expression_list
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+SELECT GROUP BY CUBE
+================================================================================
+
+SELECT a, b FROM foo GROUP BY CUBE (a, (a, b), a + 1, b + 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (cube_clause
+          (identifier)
+          (expression_list
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+SELECT GROUP BY CUBE
+================================================================================
+
+SELECT a, b FROM foo GROUP BY CUBE (a, (a, b), a + 1, b + 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (cube_clause
+          (identifier)
+          (expression_list
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+SELECT GROUP BY HAVING
+================================================================================
+
+SELECT a, b FROM foo GROUP BY a, b HAVING a > b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (identifier))
+      (group_expression
+        (identifier))
+      (having_clause
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+SELECT GROUP BY complex
+================================================================================
+
+SELECT a, b FROM foo GROUP BY
+  a + 1,
+  GROUPING SETS ((), (a, b)),
+  ROLLUP (a + 1, (a, b)),
+  CUBE (a + 1, (a, b))
+  HAVING a > b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (binary_expression
+          (identifier)
+          (number)))
+      (group_expression
+        (grouping_sets_clause
+          (expression_list)
+          (expression_list
+            (identifier)
+            (identifier))))
+      (group_expression
+        (rollup_clause
+          (binary_expression
+            (identifier)
+            (number))
+          (expression_list
+            (identifier)
+            (identifier))))
+      (group_expression
+        (cube_clause
+          (binary_expression
+            (identifier)
+            (number))
+          (expression_list
+            (identifier)
+            (identifier))))
+      (having_clause
+        (binary_expression
+          (identifier)
+          (identifier))))))
