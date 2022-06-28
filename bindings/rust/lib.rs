@@ -14,7 +14,7 @@
 
 use std::collections::HashMap;
 
-use tree_sitter::{InputEdit, Language, Node, Parser, Query, QueryCursor, Tree, Range};
+use tree_sitter::{InputEdit, Language, Node, Parser, Query, QueryCursor, Range, Tree};
 
 extern "C" {
     fn tree_sitter_markdown() -> Language;
@@ -35,7 +35,14 @@ pub fn inline_language() -> Language {
     unsafe { tree_sitter_markdown_inline() }
 }
 
-pub const HIGHLIGHT_QUERY: &'static str = include_str!("../../tree-sitter-markdown/queries/highlights.scm");
+pub const HIGHLIGHT_QUERY_BLOCK: &str =
+    include_str!("../../tree-sitter-markdown/queries/highlights.scm");
+pub const INJECTION_QUERY_BLOCK: &str =
+    include_str!("../../tree-sitter-markdown/queries/injections.scm");
+pub const HIGHLIGHT_QUERY_INLINE: &str =
+    include_str!("../../tree-sitter-markdown-inline/queries/highlights.scm");
+pub const INJECTION_QUERY_INLINE: &str =
+    include_str!("../../tree-sitter-markdown-inline/queries/injections.scm");
 
 /// The content of the [`node-types.json`][] file for the block grammar.
 ///
@@ -174,7 +181,10 @@ impl MarkdownParser {
             }
             ranges.push(range);
             parser.set_included_ranges(&ranges).ok()?;
-            let inline_tree = parser.parse(text, old_tree.and_then(|old_tree| old_tree.inline_trees.get(i)))?;
+            let inline_tree = parser.parse(
+                text,
+                old_tree.and_then(|old_tree| old_tree.inline_trees.get(i)),
+            )?;
             inline_trees.push(inline_tree);
             inline_indices.insert(capture.node.id(), i);
         }
