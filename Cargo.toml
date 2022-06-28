@@ -15,6 +15,7 @@ include = [
   "tree-sitter-markdown-inline/src/*",
   "tree-sitter-markdown/queries/*",
   "tree-sitter-markdown-inline/queries/*",
+  "benchmark/main.rs",
 ]
 
 [lib]
