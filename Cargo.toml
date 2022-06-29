@@ -4,7 +4,7 @@ description = "markdown grammar for the tree-sitter parsing library"
 version = "0.1.0"
 keywords = ["incremental", "parsing", "markdown"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-markdown"
+repository = "https://github.com/MDeiml/tree-sitter-markdown"
 edition = "2018"
 license = "MIT"
 
