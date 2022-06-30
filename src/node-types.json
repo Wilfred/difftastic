@@ -2609,7 +2609,7 @@
   },
   {
     "type": "default",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
@@ -3211,6 +3211,21 @@
     }
   },
   {
+    "type": "filter_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "foreign_key",
     "named": true,
     "fields": {},
@@ -3499,6 +3514,14 @@
             "named": false
           },
           {
+            "type": "ALL",
+            "named": false
+          },
+          {
+            "type": "DISTINCT",
+            "named": false
+          },
+          {
             "type": "FALSE",
             "named": true
           },
@@ -3571,6 +3594,10 @@
             "named": true
           },
           {
+            "type": "order_by_clause",
+            "named": true
+          },
+          {
             "type": "select_subexpression",
             "named": true
           },
@@ -3602,6 +3629,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "filter_clause",
+          "named": true
+        },
+        {
+          "type": "within_group_clause",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4155,6 +4196,10 @@
         },
         {
           "type": "values_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
           "named": true
         }
       ]
@@ -7382,6 +7427,21 @@
     }
   },
   {
+    "type": "within_group_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "order_by_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!!",
     "named": false
   },
@@ -7726,6 +7786,10 @@
     "named": false
   },
   {
+    "type": "DISTINCT",
+    "named": false
+  },
+  {
     "type": "DISTINCT_FROM",
     "named": false
   },
@@ -7775,6 +7839,10 @@
   },
   {
     "type": "FETCH",
+    "named": false
+  },
+  {
+    "type": "FILTER",
     "named": false
   },
   {
@@ -8311,6 +8379,10 @@
   },
   {
     "type": "WITH",
+    "named": false
+  },
+  {
+    "type": "WITHIN_GROUP",
     "named": false
   },
   {
