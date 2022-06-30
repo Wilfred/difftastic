@@ -52,6 +52,7 @@ pub struct SyntaxInfo<'a> {
     prev_is_contiguous: Cell<bool>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
+    pub num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -71,6 +72,7 @@ impl<'a> SyntaxInfo<'a> {
             parent: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
             num_ancestors: Cell::new(0),
+            num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
         }
@@ -260,6 +262,10 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
+    pub fn num_after(&self) -> usize {
+        self.info().num_after.get()
+    }
+
     pub fn prev_is_contiguous(&self) -> bool {
         self.info().prev_is_contiguous.get()
     }
@@ -395,6 +401,16 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     }
 }
 
+fn set_num_after<'a>(nodes: &[&Syntax<'a>], parent_num_after: usize) {
+    for (i, node) in nodes.iter().enumerate() {
+        let num_after = parent_num_after + nodes.len() - 1 - i;
+        node.info().num_after.set(num_after);
+
+        if let List { children, .. } = node {
+            set_num_after(children, num_after);
+        }
+    }
+}
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
@@ -405,6 +421,7 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
+    set_num_after(roots, 0);
     set_unique_id(roots, next_id);
 }
 
