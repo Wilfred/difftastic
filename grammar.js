@@ -829,15 +829,18 @@ module.exports = grammar({
 
     // SELECT
     _select_statement: $ =>
-      seq(
-        $.select_clause,
-        optional($.from_clause),
-        optional(repeat($.join_clause)),
-        optional($.where_clause),
-        optional($.group_by_clause),
-        optional($.order_by_clause),
-        optional($.limit_clause),
-        optional($.offset_clause),
+      prec.right(
+        seq(
+          $.select_clause,
+          optional($.from_clause),
+          optional(repeat($.join_clause)),
+          optional($.where_clause),
+          optional($.group_by_clause),
+          optional(commaSep1($.window_clause)),
+          optional($.order_by_clause),
+          optional($.limit_clause),
+          optional($.offset_clause),
+        ),
       ),
 
     group_by_clause: $ =>
@@ -882,6 +885,8 @@ module.exports = grammar({
           ),
         ),
       ),
+    window_clause: $ =>
+      seq(kw("WINDOW"), $.identifier, kw("AS"), $.window_definition),
     order_by_clause: $ => seq(kw("ORDER BY"), commaSep1($.order_expression)),
     limit_clause: $ =>
       seq(
@@ -1032,6 +1037,7 @@ module.exports = grammar({
         ")",
         optional($.within_group_clause),
         optional($.filter_clause),
+        optional($.over_clause),
       ),
     _function_call_arguments: $ =>
       seq(
@@ -1042,6 +1048,49 @@ module.exports = grammar({
     within_group_clause: $ =>
       seq(kw("WITHIN GROUP"), "(", $.order_by_clause, ")"),
     filter_clause: $ => seq(kw("FILTER"), "(", $.where_clause, ")"),
+    over_clause: $ =>
+      seq(kw("OVER"), choice($.identifier, $.window_definition)),
+    window_definition: $ =>
+      seq(
+        "(",
+        optional($.partition_by_clause),
+        optional($.order_by_clause),
+        optional($.frame_clause),
+        ")",
+      ),
+    partition_by_clause: $ => seq(kw("PARTITION BY"), commaSep1($._expression)),
+    frame_clause: $ =>
+      choice(
+        seq(
+          $.frame_kind,
+          field("frame_start", $.frame_bound),
+          optional($.frame_exclusion),
+        ),
+        seq(
+          $.frame_kind,
+          kw("BETWEEN"),
+          field("frame_start", $.frame_bound),
+          kw("AND"),
+          field("frame_end", $.frame_bound),
+          optional($.frame_exclusion),
+        ),
+      ),
+    frame_kind: $ => choice(kw("RANGE"), kw("ROWS"), kw("GROUPS")),
+    frame_bound: $ =>
+      choice(
+        kw("UNBOUNDED PRECEDING"),
+        seq($._expression, kw("PRECEDING")),
+        kw("CURRENT ROW"),
+        seq($._expression, kw("FOLLOWING")),
+        kw("UNBOUNDED FOLLOWING"),
+      ),
+    frame_exclusion: $ =>
+      choice(
+        kw("EXCLUDE CURRENT ROW"),
+        kw("EXCLUDE GROUP"),
+        kw("EXCLUDE TIES"),
+        kw("EXCLUDE NO OTHERS"),
+      ),
 
     _parenthesized_expression: $ =>
       prec.left(PREC.unary, seq("(", $._expression, ")")),
