@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, collections::BinaryHeap, env};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -11,10 +11,54 @@ use crate::{
 };
 use bumpalo::Bump;
 use itertools::Itertools;
-use radix_heap::RadixHeapMap;
 
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
+
+#[derive(Eq)]
+struct OrdByFirst<T>(u32, T);
+
+impl<T> PartialOrd for OrdByFirst<T> {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.0.partial_cmp(&other.0)
+    }
+}
+
+impl<T: Eq> Ord for OrdByFirst<T> {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
+impl<T> PartialEq for OrdByFirst<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
+/// The estimated cost from `v` to the end node.
+///
+/// This heuristic is admissible (it never overestimates), but it is
+/// not consistent (not monotone).
+fn estimated_distance_remaining(v: &Vertex) -> u32 {
+    let lhs_num_after = match v.lhs_syntax {
+        Some(lhs_syntax) => lhs_syntax.num_after() as u32,
+        None => 0,
+    };
+    let rhs_num_after = match v.rhs_syntax {
+        Some(rhs_syntax) => rhs_syntax.num_after() as u32,
+        None => 0,
+    };
+    // Best case scenario: we match up all of these.
+    let max_common = std::cmp::max(lhs_num_after, rhs_num_after);
+
+    max_common
+        * Edge::UnchangedNode {
+            probably_punctuation: false,
+            depth_difference: 0,
+        }
+        .cost()
+}
 
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'a, 'b>(
@@ -26,16 +70,21 @@ fn shortest_vertex_path<'a, 'b>(
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'a, 'b>> = RadixHeapMap::new();
+    let mut heap: BinaryHeap<Reverse<OrdByFirst<(u32, &Vertex)>>> = BinaryHeap::new();
+    // let mut heap: RadixHeapMap<Reverse<_>, (u64, &Vertex)> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    let o = OrdByFirst(
+        0 + estimated_distance_remaining(&start),
+        (0, vertex_arena.alloc(start.clone()) as &Vertex),
+    );
+    heap.push(Reverse(o));
 
     let mut seen = DftHashMap::default();
     seen.reserve(size_hint);
 
     let end: &'b Vertex<'a, 'b> = loop {
         match heap.pop() {
-            Some((Reverse(distance), current)) => {
+            Some(Reverse(OrdByFirst(_, (distance, current)))) => {
                 if current.is_end() {
                     break current;
                 }
@@ -52,7 +101,12 @@ fn shortest_vertex_path<'a, 'b>(
 
                     if found_shorter_route {
                         next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+
+                        let o = OrdByFirst(
+                            distance_to_next + estimated_distance_remaining(next),
+                            (distance_to_next, *next),
+                        );
+                        heap.push(Reverse(o));
                     }
                 }
 
@@ -405,8 +459,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS {},
                 EnterNovelDelimiterLHS {},
+                EnterNovelDelimiterRHS {},
                 UnchangedNode {
                     probably_punctuation: false,
                     depth_difference: 0

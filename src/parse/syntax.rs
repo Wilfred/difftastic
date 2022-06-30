@@ -57,7 +57,9 @@ pub struct SyntaxInfo<'a> {
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
-    pub num_after: Cell<usize>,
+    /// The number of nodes that occur after this one, when walking
+    /// the whole tree in a depth-first traversal
+    num_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -279,6 +281,10 @@ impl<'a> Syntax<'a> {
 
     pub fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
         self.info().next_sibling.get()
+    }
+
+    pub fn num_after(&self) -> usize {
+        self.info().num_after.get()
     }
 
     /// A unique ID of this syntax node. Every node is guaranteed to
