@@ -392,6 +392,51 @@ SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
       (identifier))))
 
 ================================================================================
+SELECT aggregate expressions
+================================================================================
+
+SELECT array_agg(a ORDER BY b DESC) FROM foo;
+SELECT array_agg(ALL a ORDER BY b DESC) FROM foo;
+SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
 SELECT GROUP BY GROUPING SETS
 ================================================================================
 
@@ -694,3 +739,482 @@ FROM generate_series(1,10) AS s(i);
           (number))
         (identifier)
         (identifier)))))
+
+================================================================================
+SELECT window function call
+================================================================================
+
+SELECT avg(a) OVER () FROM foo;
+SELECT avg(a) OVER win FROM foo WINDOW win AS ();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition)))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (identifier)))))
+    (from_clause
+      (identifier))
+    (window_clause
+      (identifier)
+      (window_definition))))
+
+================================================================================
+SELECT window function call with window definition
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b, c + 1) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b, c + 1 ORDER BY b ASC, c DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (number))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (number)))
+              (order_by_clause
+                (order_expression
+                  (identifier))
+                (order_expression
+                  (identifier))))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_kind
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b ROWS CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b GROUPS CURRENT ROW) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_start
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE UNBOUNDED PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE b + 1 PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE b + 1 FOLLOWING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE UNBOUNDED FOLLOWING) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_end
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING EXCLUDE GROUP) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_exclusion
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE GROUP) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE TIES) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE NO OTHERS) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_end
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING EXCLUDE GROUP) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition complex
+================================================================================
+
+SELECT
+  avg(a) FILTER (WHERE a > b) OVER (
+    PARTITION BY b, c + 1
+    ORDER BY a - 1 ASC, c + 1 DESC NULLS FIRST
+    RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING
+    EXCLUDE GROUP
+  ) AS v1,
+  max(a) FILTER (WHERE a > b) OVER (
+    PARTITION BY c
+    ORDER BY a DESC, b NULLS FIRST
+    RANGE BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+    EXCLUDE NO OTHERS
+  ) AS v2
+FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (alias
+          (function_call
+            (identifier)
+            (identifier)
+            (filter_clause
+              (where_clause
+                (binary_expression
+                  (identifier)
+                  (identifier))))
+            (over_clause
+              (window_definition
+                (partition_by_clause
+                  (identifier)
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (order_by_clause
+                  (order_expression
+                    (binary_expression
+                      (identifier)
+                      (number)))
+                  (order_expression
+                    (binary_expression
+                      (identifier)
+                      (number))))
+                (frame_clause
+                  (frame_kind)
+                  (frame_bound)
+                  (frame_bound
+                    (binary_expression
+                      (identifier)
+                      (number)))
+                  (frame_exclusion)))))
+          (identifier))
+        (alias
+          (function_call
+            (identifier)
+            (identifier)
+            (filter_clause
+              (where_clause
+                (binary_expression
+                  (identifier)
+                  (identifier))))
+            (over_clause
+              (window_definition
+                (partition_by_clause
+                  (identifier))
+                (order_by_clause
+                  (order_expression
+                    (identifier))
+                  (order_expression
+                    (identifier)))
+                (frame_clause
+                  (frame_kind)
+                  (frame_bound)
+                  (frame_bound)
+                  (frame_exclusion)))))
+          (identifier))))
+    (from_clause
+      (identifier))))
