@@ -98,7 +98,6 @@ fn display_single_column(
                 .to_string(),
         );
         formatted_line.push_str(line);
-        formatted_line.push('\n');
         result.push(formatted_line);
     }
 
