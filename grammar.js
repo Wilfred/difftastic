@@ -197,29 +197,6 @@ module.exports = grammar({
     rollback_statement: $ =>
       seq(kw("ROLLBACK"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
 
-    with_clause: $ =>
-      seq(kw("WITH"), optional(kw("RECURSIVE")), commaSep1($.cte)),
-
-    cte: $ =>
-      seq(
-        $.identifier,
-        kw("AS"),
-        optional(seq(optional(kw("NOT")), kw("MATERIALIZED"))),
-        "(",
-        choice(
-          $.select_statement,
-          $.delete_statement,
-          $.insert_statement,
-          $.update_statement,
-        ),
-        ")",
-      ),
-
-    select_statement: $ => seq(optional($.with_clause), $._select_statement),
-    insert_statement: $ => seq(optional($.with_clause), $._insert_statement),
-    update_statement: $ => seq(optional($.with_clause), $._update_statement),
-    delete_statement: $ => seq(optional($.with_clause), $._delete_statement),
-
     create_statement: $ =>
       seq(
         kw("CREATE"),
@@ -926,7 +903,12 @@ module.exports = grammar({
       ),
     where_clause: $ => seq(kw("WHERE"), $._expression),
     _aliased_expression: $ =>
-      seq($._expression, optional(kw("AS")), $.identifier),
+      seq(
+        $._expression,
+        optional(kw("AS")),
+        $.identifier,
+        optional(seq("(", commaSep1($.identifier), ")")),
+      ),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, alias($._aliased_expression, $.alias))),
     select_clause_body: $ =>
@@ -974,7 +956,7 @@ module.exports = grammar({
     assigment_expression: $ => seq($._identifier, "=", $._expression),
 
     // INSERT
-    insert_statement: $ =>
+    _insert_statement: $ =>
       seq(
         kw("INSERT"),
         kw("INTO"),
@@ -1043,11 +1025,24 @@ module.exports = grammar({
       ),
     function_call: $ =>
       seq(
+        optional(kw("LATERAL")),
         field("function", $._identifier),
         "(",
-        optional(field("arguments", commaSep1($._expression))),
+        optional(field("arguments", $._function_call_arguments)),
         ")",
+        optional($.within_group_clause),
+        optional($.filter_clause),
       ),
+    _function_call_arguments: $ =>
+      seq(
+        optional(choice(kw("ALL"), kw("DISTINCT"))),
+        commaSep1($._expression),
+        optional($.order_by_clause),
+      ),
+    within_group_clause: $ =>
+      seq(kw("WITHIN GROUP"), "(", $.order_by_clause, ")"),
+    filter_clause: $ => seq(kw("FILTER"), "(", $.where_clause, ")"),
+
     _parenthesized_expression: $ =>
       prec.left(PREC.unary, seq("(", $._expression, ")")),
     is_expression: $ =>
