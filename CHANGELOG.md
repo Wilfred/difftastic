@@ -1,5 +1,9 @@
 ## 0.30 (unreleased)
 
+### Parsing
+
+Added support for HTML.
+
 ## 0.29.1 (released 13th June 2022)
 
 Fixed a major memory regression in 0.29 when performing large
