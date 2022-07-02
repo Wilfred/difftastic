@@ -28,7 +28,9 @@ fn estimated_distance_remaining(v: &Vertex) -> u64 {
         None => 0,
     };
     // Best case scenario: we match up all of these.
-    let max_common = std::cmp::min(lhs_num_after, rhs_num_after);
+    let max_common = std::cmp::max(lhs_num_after, rhs_num_after);
+
+    // TODO: Needs num parents too.
 
     max_common
         * Edge::UnchangedNode {
