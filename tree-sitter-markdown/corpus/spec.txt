@@ -1068,6 +1068,8 @@ Bar
 ================================================================================
 Example 66 - https://github.github.com/gfm/#example-66
 ================================================================================
+Extra text so this is not parsed as metadata.
+
 ---
 Foo
 ---
@@ -1079,6 +1081,8 @@ Baz
 
 (document
   (section
+    (paragraph
+      (inline))
     (thematic_break))
   (section
     (setext_heading
@@ -1107,6 +1111,8 @@ Example 67 - https://github.github.com/gfm/#example-67
 ================================================================================
 Example 68 - https://github.github.com/gfm/#example-68
 ================================================================================
+Extra text so this is not parsed as metadata.
+
 ---
 ---
 
@@ -1114,6 +1120,8 @@ Example 68 - https://github.github.com/gfm/#example-68
 
 (document
   (section
+    (paragraph
+      (inline))
     (thematic_break)
     (thematic_break)))
 

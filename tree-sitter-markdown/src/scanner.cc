@@ -55,6 +55,8 @@ enum TokenType {
     NO_INDENTED_CHUNK,
     ERROR,
     TRIGGER_ERROR,
+    MINUS_METADATA,
+    PLUS_METADATA,
 };
 
 // Description of a block on the block stack.
@@ -353,7 +355,7 @@ struct Scanner {
                     break;
                 case '+':
                     // A '+' could be a list marker
-                    return parse_list_marker_plus(lexer, valid_symbols);
+                    return parse_plus(lexer, valid_symbols);
                     break;
                 case '0':
                 case '1':
@@ -774,32 +776,92 @@ struct Scanner {
         return false;
     }
 
-    bool parse_list_marker_plus(TSLexer *lexer, const bool *valid_symbols) {
-        if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT])) {
+    bool parse_plus(TSLexer *lexer, const bool *valid_symbols) {
+        if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT]) || valid_symbols[PLUS_METADATA]) {
             advance(lexer);
-            size_t extra_indentation = 0;
-            while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                extra_indentation += advance(lexer);
-            }
-            bool dont_interrupt = false;
-            if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
-                extra_indentation = 1;
-                dont_interrupt = true;
-            }
-            dont_interrupt = dont_interrupt && matched == open_blocks.size();
-            if (extra_indentation >= 1 && (dont_interrupt ? valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PLUS])) {
-                lexer->result_symbol = dont_interrupt ? LIST_MARKER_PLUS_DONT_INTERRUPT : LIST_MARKER_PLUS;
-                extra_indentation--;
-                if (extra_indentation <= 3) {
-                    extra_indentation += indentation;
-                    indentation = 0;
-                } else {
-                    size_t temp = indentation;
-                    indentation = extra_indentation;
-                    extra_indentation = temp;
+            if (valid_symbols[PLUS_METADATA] && lexer->lookahead == '+') {
+                advance(lexer);
+                if (lexer->lookahead != '+') {
+                    return false;
                 }
-                if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
-                return true;
+                advance(lexer);
+                while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                    advance(lexer);
+                }
+                if (lexer->lookahead != '\n' && lexer->lookahead != '\r') {
+                    return false;
+                }
+                for (;;) {
+                    // advance over newline
+                    if (lexer->lookahead == '\r') {
+                        advance(lexer);
+                        if (lexer->lookahead == '\n') {
+                            advance(lexer);
+                        }
+                    } else {
+                        advance(lexer);
+                    }
+                    // check for pluses
+                    size_t plus_count = 0;
+                    while (lexer->lookahead == '+') {
+                        plus_count++;
+                        advance(lexer);
+                    }
+                    if (plus_count == 3) {
+                        // if exactly 3 check if next symbol (after eventual
+                        // whitespace) is newline
+                        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                            advance(lexer);
+                        }
+                        if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+                            // if so also consume newline
+                            if (lexer->lookahead == '\r') {
+                                advance(lexer);
+                                if (lexer->lookahead == '\n') {
+                                    advance(lexer);
+                                }
+                            } else {
+                                advance(lexer);
+                            }
+                            mark_end(lexer);
+                            lexer->result_symbol = PLUS_METADATA;
+                            return true;
+                        }
+                    }
+                    // otherwise consume rest of line
+                    while (lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
+                        advance(lexer);
+                    }
+                    // if end of file is reached, then this is not metadata
+                    if (lexer->eof(lexer)) {
+                        break;
+                    }
+                }
+            } else {
+                size_t extra_indentation = 0;
+                while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                    extra_indentation += advance(lexer);
+                }
+                bool dont_interrupt = false;
+                if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+                    extra_indentation = 1;
+                    dont_interrupt = true;
+                }
+                dont_interrupt = dont_interrupt && matched == open_blocks.size();
+                if (extra_indentation >= 1 && (dont_interrupt ? valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PLUS])) {
+                    lexer->result_symbol = dont_interrupt ? LIST_MARKER_PLUS_DONT_INTERRUPT : LIST_MARKER_PLUS;
+                    extra_indentation--;
+                    if (extra_indentation <= 3) {
+                        extra_indentation += indentation;
+                        indentation = 0;
+                    } else {
+                        size_t temp = indentation;
+                        indentation = extra_indentation;
+                        extra_indentation = temp;
+                    }
+                    if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
+                    return true;
+                }
             }
         }
         return false;
@@ -857,7 +919,7 @@ struct Scanner {
     }
 
     bool parse_minus(TSLexer *lexer, const bool *valid_symbols) {
-        if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[THEMATIC_BREAK])) {
+        if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[THEMATIC_BREAK] || valid_symbols[MINUS_METADATA])) {
             mark_end(lexer);
             bool whitespace_after_minus = false;
             bool minus_after_whitespace = false;
@@ -893,16 +955,17 @@ struct Scanner {
             bool thematic_break = minus_count >= 3 && line_end;
             bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matched == open_blocks.size(); // setext heading can not break lazy continuation
             bool list_marker_minus = minus_count >= 1 && extra_indentation >= 1;
+            bool success = false;
             if (valid_symbols[SETEXT_H2_UNDERLINE] && underline) {
                 lexer->result_symbol = SETEXT_H2_UNDERLINE;
                 mark_end(lexer);
                 indentation = 0;
-                return true;
+                success = true;
             } else if (valid_symbols[THEMATIC_BREAK] && thematic_break) { // underline is false if list_marker_minus is true
                 lexer->result_symbol = THEMATIC_BREAK;
                 mark_end(lexer);
                 indentation = 0;
-                return true;
+                success = true;
             } else if ((dont_interrupt ? valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_MINUS]) && list_marker_minus) {
                 if (minus_count == 1) {
                     mark_end(lexer);
@@ -918,6 +981,57 @@ struct Scanner {
                 }
                 if (!simulate) open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                 lexer->result_symbol = dont_interrupt ? LIST_MARKER_MINUS_DONT_INTERRUPT : LIST_MARKER_MINUS;
+                return true;
+            }
+            if (minus_count == 3 && (!minus_after_whitespace) && line_end && valid_symbols[MINUS_METADATA]) {
+                for (;;) {
+                    // advance over newline
+                    if (lexer->lookahead == '\r') {
+                        advance(lexer);
+                        if (lexer->lookahead == '\n') {
+                            advance(lexer);
+                        }
+                    } else {
+                        advance(lexer);
+                    }
+                    // check for minuses 
+                    minus_count = 0;
+                    while (lexer->lookahead == '-') {
+                        minus_count++;
+                        advance(lexer);
+                    }
+                    if (minus_count == 3) {
+                        // if exactly 3 check if next symbol (after eventual
+                        // whitespace) is newline
+                        while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                            advance(lexer);
+                        }
+                        if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+                            // if so also consume newline
+                            if (lexer->lookahead == '\r') {
+                                advance(lexer);
+                                if (lexer->lookahead == '\n') {
+                                    advance(lexer);
+                                }
+                            } else {
+                                advance(lexer);
+                            }
+                            mark_end(lexer);
+                            lexer->result_symbol = MINUS_METADATA;
+                            return true;
+                        }
+                    }
+                    // otherwise consume rest of line
+                    while (lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
+                        advance(lexer);
+                    }
+                    // if end of file is reached, then this is not metadata
+                    if (lexer->eof(lexer)) {
+                        break;
+                    }
+                }
+            }
+            if (success) {
                 return true;
             }
         }

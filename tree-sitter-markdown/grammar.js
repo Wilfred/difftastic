@@ -16,7 +16,14 @@ module.exports = grammar({
     name: 'markdown',
 
     rules: {
-        document: $ => seq(alias(prec.right(repeat($._block_not_section)), $.section), repeat($.section)),
+        document: $ => seq(
+            optional(choice(
+                common.EXTENSION_MINUS_METADATA ? $.minus_metadata : choice(),
+                common.EXTENSION_PLUS_METADATA ? $.plus_metadata : choice(),
+            )),
+            alias(prec.right(repeat($._block_not_section)), $.section),
+            repeat($.section),
+        ),
 
         ...common.rules,
         _last_token_punctuation: $ => choice(), // needed for compatability wiht common rules
@@ -364,7 +371,7 @@ module.exports = grammar({
                 optional($.block_continuation)
             )),
             repeat1($._block),
-            common.FEATURE_GFM ? prec(1, seq(
+            common.EXTENSION_TASK_LIST ? prec(1, seq(
                 choice($.task_list_marker_checked, $.task_list_marker_unchecked),
                 $._whitespace,
                 $.paragraph,
@@ -386,7 +393,7 @@ module.exports = grammar({
         _line: $ => prec.right(repeat1(choice($._word, $._whitespace, common.punctuation_without($, [])))),
         _word: $ => choice(
             new RegExp('[^' + PUNCTUATION_CHARACTERS_REGEX + ' \\t\\n\\r]+'),
-            common.FEATURE_GFM ? choice(
+            common.EXTENSION_TASK_LIST ? choice(
                 '[x]',
                 /\[[ \t]\]/,
             ) : choice()
@@ -394,10 +401,10 @@ module.exports = grammar({
         // The external scanner emits some characters that should just be ignored.
         _whitespace: $ => /[ \t]+/,
 
-        ...(common.FEATURE_GFM ? {
+        ...(common.EXTENSION_TASK_LIST ? {
             task_list_marker_checked: $ => prec(1, '[x]'),
             task_list_marker_unchecked: $ => prec(1, /\[[ \t]\]/),
-        } : {})
+        } : {}),
     },
 
     externals: $ => [
@@ -481,6 +488,9 @@ module.exports = grammar({
         // when trying to parse the `$._trigger_error` token in `$.link_title`.
         $._error,
         $._trigger_error,
+
+        $.minus_metadata,
+        $.plus_metadata,
     ],
     precedences: $ => [
         [$._setext_heading1, $._block],

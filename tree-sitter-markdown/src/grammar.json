@@ -5,6 +5,27 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "minus_metadata"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "plus_metadata"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "ALIAS",
           "content": {
             "type": "PREC_RIGHT",
@@ -3892,8 +3913,41 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": []
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "task_list_marker_checked"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "task_list_marker_unchecked"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_whitespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "paragraph"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_block"
+                }
+              }
+            ]
+          }
         }
       ]
     },
@@ -4118,13 +4172,38 @@
         },
         {
           "type": "CHOICE",
-          "members": []
+          "members": [
+            {
+              "type": "STRING",
+              "value": "[x]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\[[ \\t]\\]"
+            }
+          ]
         }
       ]
     },
     "_whitespace": {
       "type": "PATTERN",
       "value": "[ \\t]+"
+    },
+    "task_list_marker_checked": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "STRING",
+        "value": "[x]"
+      }
+    },
+    "task_list_marker_unchecked": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "PATTERN",
+        "value": "\\[[ \\t]\\]"
+      }
     }
   },
   "extras": [],
@@ -4341,6 +4420,14 @@
     {
       "type": "SYMBOL",
       "name": "_trigger_error"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "minus_metadata"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "plus_metadata"
     }
   ],
   "inline": [],
