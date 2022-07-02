@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, collections::BinaryHeap, env};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -10,7 +10,6 @@ use crate::{
 };
 use bumpalo::Bump;
 use itertools::Itertools;
-use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
 type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>);
@@ -18,6 +17,28 @@ type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>);
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
 
+#[derive(Eq)]
+struct OrdByFirst<T>(u64, T);
+
+impl<T> PartialOrd for OrdByFirst<T> {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.0.partial_cmp(&other.0)
+    }
+}
+
+impl<T: Eq> Ord for OrdByFirst<T> {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
+impl<T> PartialEq for OrdByFirst<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
+// Admissible, but not consistent (not monotone).
 fn estimated_distance_remaining(v: &Vertex) -> u64 {
     let lhs_num_after = match v.lhs_syntax {
         Some(lhs_syntax) => lhs_syntax.num_after() as u64,
@@ -50,13 +71,15 @@ fn shortest_vertex_path(
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, (u64, &Vertex)> = RadixHeapMap::new();
+    let mut heap: BinaryHeap<Reverse<OrdByFirst<(u64, &Vertex)>>> = BinaryHeap::new();
+    // let mut heap: RadixHeapMap<Reverse<_>, (u64, &Vertex)> = RadixHeapMap::new();
 
     let vertex_arena = Bump::new();
-    heap.push(
-        Reverse(0 + estimated_distance_remaining(&start)),
-        (0, vertex_arena.alloc(start.clone())),
+    let o = OrdByFirst(
+        0 + estimated_distance_remaining(&start),
+        (0, vertex_arena.alloc(start.clone()) as &Vertex),
     );
+    heap.push(Reverse(o));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
@@ -68,7 +91,7 @@ fn shortest_vertex_path(
     ];
     let end = loop {
         match heap.pop() {
-            Some((Reverse(_estimated_total_distance), (distance, current))) => {
+            Some(Reverse(OrdByFirst(_, (distance, current)))) => {
                 if current.is_end() {
                     break current;
                 }
@@ -85,10 +108,11 @@ fn shortest_vertex_path(
                         if found_shorter_route {
                             predecessors.insert(next, (distance_to_next, current));
 
-                            heap.push(
-                                Reverse(distance_to_next + estimated_distance_remaining(next)),
+                            let o = OrdByFirst(
+                                distance_to_next + estimated_distance_remaining(next),
                                 (distance_to_next, next),
                             );
+                            heap.push(Reverse(o));
                         }
                     }
                 }
