@@ -31,12 +31,14 @@ fn estimated_distance_remaining(v: &Vertex) -> u64 {
     let max_common = std::cmp::max(lhs_num_after, rhs_num_after);
 
     // TODO: Needs num parents too.
+    let exit_costs = v.num_parents() as u64 * Edge::ExitDelimiterBoth.cost();
 
     max_common
         * Edge::UnchangedNode {
             depth_difference: 0,
         }
         .cost()
+        + exit_costs
 }
 
 /// Return the shortest route from `start` to the end vertex.
