@@ -21,6 +21,8 @@ namespace TreeSitterMarkdownInline {
         EMPHASIS_CLOSE_UNDERSCORE,
         LAST_TOKEN_WHITESPACE,
         LAST_TOKEN_PUNCTUATION,
+        STRIKETHROUGH_OPEN,
+        STRIKETHROUGH_CLOSE,
     };
 
     // Determines if a character is punctuation as defined by the markdown spec.
@@ -116,6 +118,9 @@ namespace TreeSitterMarkdownInline {
                 case '_':
                     return parse_underscore(lexer, valid_symbols);
                     break;
+                case '~':
+                    return parse_tilde(lexer, valid_symbols);
+                    break;
             }
             return false;
         }
@@ -196,6 +201,69 @@ namespace TreeSitterMarkdownInline {
                 ) {
                     state |= STATE_EMPHASIS_DELIMITER_IS_OPEN;
                     lexer->result_symbol = EMPHASIS_OPEN_STAR;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        bool parse_tilde(TSLexer *lexer, const bool *valid_symbols) {
+            lexer->advance(lexer, false);
+            // If `num_emphasis_delimiters_left` is not zero then we already decided that this should be
+            // part of an emphasis delimiter run, so interpret it as such.
+            if (num_emphasis_delimiters_left > 0) {
+                // The `STATE_EMPHASIS_DELIMITER_IS_OPEN` state flag tells us wether it should be open
+                // or close.
+                if ((state & STATE_EMPHASIS_DELIMITER_IS_OPEN) && valid_symbols[STRIKETHROUGH_OPEN]) {
+                    state &= (~STATE_EMPHASIS_DELIMITER_IS_OPEN);
+                    lexer->result_symbol = STRIKETHROUGH_OPEN;
+                    num_emphasis_delimiters_left--;
+                    return true;
+                } else if (valid_symbols[STRIKETHROUGH_CLOSE]) {
+                    lexer->result_symbol = STRIKETHROUGH_CLOSE;
+                    num_emphasis_delimiters_left--;
+                    return true;
+                }
+            }
+            lexer->mark_end(lexer);
+            // Otherwise count the number of tildes
+            size_t star_count = 1;
+            while (lexer->lookahead == '~') {
+                star_count++;
+                lexer->advance(lexer, false);
+            }
+            bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r' || lexer->eof(lexer);
+            if (valid_symbols[STRIKETHROUGH_OPEN] || valid_symbols[STRIKETHROUGH_CLOSE]) {
+                // The desicion made for the first star also counts for all the following stars in the
+                // delimiter run. Rembemer how many there are.
+                num_emphasis_delimiters_left = star_count - 1;
+                // Look ahead to the next symbol (after the last star) to find out if it is whitespace
+                // punctuation or other.
+                bool next_symbol_whitespace = line_end || lexer->lookahead == ' ' || lexer->lookahead == '\t';
+                bool next_symbol_punctuation = is_punctuation(lexer->lookahead);
+                // Information about the last token is in valid_symbols. See grammar.js for these
+                // tokens for how this is done.
+                if (
+                    valid_symbols[STRIKETHROUGH_CLOSE] &&
+                    !valid_symbols[LAST_TOKEN_WHITESPACE] && (
+                        !valid_symbols[LAST_TOKEN_PUNCTUATION] ||
+                        next_symbol_punctuation ||
+                        next_symbol_whitespace
+                    )
+                ) {
+                    // Closing delimiters take precedence
+                    state &= ~STATE_EMPHASIS_DELIMITER_IS_OPEN;
+                    lexer->result_symbol = STRIKETHROUGH_CLOSE;
+                    return true;
+                } else if (
+                    !next_symbol_whitespace && (
+                        !next_symbol_punctuation ||
+                        valid_symbols[LAST_TOKEN_PUNCTUATION] ||
+                        valid_symbols[LAST_TOKEN_WHITESPACE]
+                    )
+                ) {
+                    state |= STATE_EMPHASIS_DELIMITER_IS_OPEN;
+                    lexer->result_symbol = STRIKETHROUGH_OPEN;
                     return true;
                 }
             }

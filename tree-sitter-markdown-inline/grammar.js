@@ -61,6 +61,9 @@ module.exports = grammar(add_inline_rules({
         // beginning of a line) or a punctuation. These tokens never actually get emitted.
         $._last_token_whitespace,
         $._last_token_punctuation,
+
+        $._strikethrough_open,
+        $._strikethrough_close,
     ],
     precedences: $ => [
         // [$._strong_emphasis_star, $._inline_element_no_star],
@@ -84,9 +87,11 @@ module.exports = grammar(add_inline_rules({
         [$._link_text_non_empty, $._inline_element],
         [$._link_text_non_empty, $._inline_element_no_star],
         [$._link_text_non_empty, $._inline_element_no_underscore],
+        [$._link_text_non_empty, $._inline_element_no_tilde],
         [$._link_text, $._inline_element],
         [$._link_text, $._inline_element_no_star],
         [$._link_text, $._inline_element_no_underscore],
+        [$._link_text, $._inline_element_no_tilde],
 
         [$._image_description, $._image_description_non_empty, $._text_base],
         // [$._image_description, $._image_description_non_empty, $._text_inline],
@@ -349,7 +354,7 @@ function add_inline_rules(grammar) {
     let conflicts = [];
     for (let link of [true, false]) {
         let suffix_link = link ? "" : "_no_link";
-        for (let delimiter of [false, "star", "underscore"]) {
+        for (let delimiter of [false, "star", "underscore", "tilde"]) {
             let suffix_delimiter = delimiter ? "_no_" + delimiter : "";
             let suffix = suffix_delimiter + suffix_link;
             grammar.rules["_inline_element" + suffix] = $ => {
@@ -360,11 +365,17 @@ function add_inline_rules(grammar) {
                     alias($['_emphasis_underscore' + suffix_link], $.emphasis),
                     alias($['_strong_emphasis_underscore' + suffix_link], $.strong_emphasis),
                 ];
+                if (common.EXTENSION_STRIKETHROUGH) {
+                    elements.push(alias($['_strikethrough' + suffix_link], $.strikethrough));
+                }
                 if (delimiter !== "star") {
                     elements.push($._emphasis_open_star);
                 }
                 if (delimiter !== "underscore") {
                     elements.push($._emphasis_open_underscore);
+                }
+                if (delimiter !== "tilde") {
+                    elements.push($._strikethrough_open);
                 }
                 if (link) {
                     elements = elements.concat([
@@ -382,15 +393,21 @@ function add_inline_rules(grammar) {
                 conflicts.push(['_emphasis_star' + suffix_link, '_inline_element' + suffix_delimiter + suffix_link]);
                 conflicts.push(['_emphasis_star' + suffix_link, '_strong_emphasis_star' + suffix_link, '_inline_element' + suffix_delimiter + suffix_link]);
             }
-            if (delimiter !== false) {
+            if (delimiter == 'star' || delimiter == 'underscore') {
                 conflicts.push(['_strong_emphasis_' + delimiter + suffix_link, '_inline_element_no_' + delimiter]);
             }
             if (delimiter !== "underscore") {
                 conflicts.push(['_emphasis_underscore' + suffix_link, '_inline_element' + suffix_delimiter + suffix_link]);
                 conflicts.push(['_emphasis_underscore' + suffix_link, '_strong_emphasis_underscore' + suffix_link, '_inline_element' + suffix_delimiter + suffix_link]);
             }
+            if (delimiter !== "tilde") {
+                conflicts.push(['_strikethrough' + suffix_link, '_inline_element' + suffix_delimiter + suffix_link]);
+            }
         }
         
+        if (common.EXTENSION_STRIKETHROUGH) {
+            grammar.rules['_strikethrough' + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._strikethrough_open, $.emphasis_delimiter), optional($._last_token_punctuation), $['_inline' + '_no_tilde' + suffix_link], alias($._strikethrough_close, $.emphasis_delimiter)));
+        }
         grammar.rules['_emphasis_star' + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_star, $.emphasis_delimiter), optional($._last_token_punctuation), $['_inline' + '_no_star' + suffix_link], alias($._emphasis_close_star, $.emphasis_delimiter)));
         grammar.rules['_strong_emphasis_star' + suffix_link] = $ => prec.dynamic(2 * PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_star, $.emphasis_delimiter), $['_emphasis_star' + suffix_link], alias($._emphasis_close_star, $.emphasis_delimiter)));
         grammar.rules['_emphasis_underscore' + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_underscore, $.emphasis_delimiter), optional($._last_token_punctuation), $['_inline' + '_no_underscore' + suffix_link], alias($._emphasis_close_underscore, $.emphasis_delimiter)));
