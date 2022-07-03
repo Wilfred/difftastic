@@ -48,17 +48,20 @@ fn estimated_distance_remaining(v: &Vertex) -> u64 {
         Some(rhs_syntax) => rhs_syntax.num_after() as u64,
         None => 0,
     };
-    // Best case scenario: we match up all of these.
-    let max_common = std::cmp::max(lhs_num_after, rhs_num_after);
 
-    // TODO: Needs num parents too.
     let exit_costs = v.num_parents() as u64 * Edge::ExitDelimiterBoth.cost();
+
+    // Best case scenario: we match up all of these.
+    let max_common = std::cmp::min(lhs_num_after, rhs_num_after);
+    // For the remaining, they must be novel in some form.
+    let min_novel = std::cmp::max(lhs_num_after, rhs_num_after) - max_common;
 
     max_common
         * Edge::UnchangedNode {
             depth_difference: 0,
         }
         .cost()
+        + min_novel * Edge::NovelAtomLHS { contiguous: true }.cost()
         + exit_costs
 }
 
