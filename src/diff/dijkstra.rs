@@ -113,12 +113,27 @@ fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
 
     let vertex_arena = Bump::new();
     neighbours(before, &mut neighbour_buf, &vertex_arena);
+
+    let mut shortest_edge: Option<Edge> = None;
     for neighbour in &mut neighbour_buf {
         if let Some((edge, next)) = neighbour.take() {
+            // If there are multiple edges that can take us to `next`,
+            // prefer the shortest.
             if next == after {
-                return edge;
+                let is_shorter = match shortest_edge {
+                    Some(prev_edge) => edge.cost() < prev_edge.cost(),
+                    None => true,
+                };
+
+                if is_shorter {
+                    shortest_edge = Some(edge);
+                }
             }
         }
+    }
+
+    if let Some(edge) = shortest_edge {
+        return edge;
     }
 
     panic!(
