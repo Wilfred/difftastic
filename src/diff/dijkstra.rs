@@ -50,18 +50,37 @@ fn estimated_distance_remaining(v: &Vertex) -> u32 {
         None => 0,
     };
 
-    // Best case scenario: we match up all of these.
-    let max_common = std::cmp::min(lhs_num_after, rhs_num_after);
-    // For the remaining, they must be novel in some form.
-    let min_novel = std::cmp::max(lhs_num_after, rhs_num_after) - max_common;
+    let lhs_num_siblings_after = match v.lhs_syntax {
+        Some(lhs_syntax) => lhs_syntax.num_siblings_after() as u32,
+        None => 0,
+    };
+    let rhs_num_siblings_after = match v.rhs_syntax {
+        Some(rhs_syntax) => rhs_syntax.num_siblings_after() as u32,
+        None => 0,
+    };
 
-    max_common
+    let max_common_this_level = std::cmp::min(lhs_num_siblings_after, rhs_num_siblings_after);
+    let min_novel_this_level =
+        std::cmp::max(lhs_num_siblings_after, rhs_num_siblings_after) - max_common_this_level;
+
+    // Best case scenario: we match up all of these.
+    let max_other_levels = std::cmp::min(
+        lhs_num_after - lhs_num_siblings_after,
+        rhs_num_after - rhs_num_siblings_after,
+    );
+    // For the remaining, they must be novel in some form.
+    let min_novel_other_levels = std::cmp::max(
+        lhs_num_after - lhs_num_siblings_after,
+        rhs_num_after - rhs_num_siblings_after,
+    ) - max_other_levels;
+
+    (max_common_this_level + max_other_levels)
         * Edge::UnchangedNode {
             probably_punctuation: false,
             depth_difference: 0,
         }
         .cost()
-        + (min_novel / 2)
+        + ((min_novel_this_level + min_novel_other_levels) / 2)
             * Edge::ReplacedString {
                 levenshtein_pct: 100,
             }

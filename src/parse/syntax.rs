@@ -60,6 +60,7 @@ pub struct SyntaxInfo<'a> {
     /// The number of nodes that occur after this one, when walking
     /// the whole tree in a depth-first traversal
     num_after: Cell<usize>,
+    num_siblings_after: Cell<usize>,
     /// A number that uniquely identifies this syntax node.
     unique_id: Cell<SyntaxId>,
     /// A number that uniquely identifies the content of this syntax
@@ -82,6 +83,7 @@ impl<'a> SyntaxInfo<'a> {
             parent: Cell::new(None),
             num_ancestors: Cell::new(0),
             num_after: Cell::new(0),
+            num_siblings_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique: Cell::new(false),
@@ -287,6 +289,10 @@ impl<'a> Syntax<'a> {
         self.info().num_after.get()
     }
 
+    pub fn num_siblings_after(&self) -> usize {
+        self.info().num_siblings_after.get()
+    }
+
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
     pub fn id(&self) -> SyntaxId {
@@ -443,6 +449,16 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
         }
     }
 }
+fn set_num_siblings_after<'a>(nodes: &[&Syntax<'a>]) {
+    for (i, node) in nodes.iter().enumerate() {
+        let num_siblings_after = nodes.len() - 1 - i;
+        node.info().num_siblings_after.set(num_siblings_after);
+
+        if let List { children, .. } = node {
+            set_num_siblings_after(children);
+        }
+    }
+}
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_sibling(roots);
     set_next_sibling(roots);
@@ -455,6 +471,7 @@ fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
+    set_num_siblings_after(roots);
     set_unique_id(roots, next_id);
 }
 
