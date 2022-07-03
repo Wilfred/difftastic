@@ -49,8 +49,11 @@ fn estimated_distance_remaining(v: &Vertex) -> u32 {
         Some(rhs_syntax) => rhs_syntax.num_after() as u32,
         None => 0,
     };
+
     // Best case scenario: we match up all of these.
-    let max_common = std::cmp::max(lhs_num_after, rhs_num_after);
+    let max_common = std::cmp::min(lhs_num_after, rhs_num_after);
+    // For the remaining, they must be novel in some form.
+    let min_novel = std::cmp::max(lhs_num_after, rhs_num_after) - max_common;
 
     max_common
         * Edge::UnchangedNode {
@@ -58,6 +61,11 @@ fn estimated_distance_remaining(v: &Vertex) -> u32 {
             depth_difference: 0,
         }
         .cost()
+        + (min_novel / 2)
+            * Edge::ReplacedString {
+                levenshtein_pct: 100,
+            }
+            .cost()
 }
 
 /// Return the shortest route from `start` to the end vertex.
