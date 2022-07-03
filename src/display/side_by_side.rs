@@ -486,7 +486,7 @@ pub fn print(
                         lhs_lines[lhs_line_num.as_usize()],
                         source_dims.lhs_content_width,
                         display_options.use_color,
-                        lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
+                        lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
                     None => vec![" ".repeat(source_dims.lhs_content_width)],
@@ -496,7 +496,7 @@ pub fn print(
                         rhs_lines[rhs_line_num.as_usize()],
                         source_dims.rhs_content_width,
                         display_options.use_color,
-                        rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
+                        rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
                     ),
                     None => vec!["".into()],
@@ -520,7 +520,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
-                            if lhs_lines_with_novel.contains(&line_num) {
+                            if lhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_red().to_string()
                                 } else {
@@ -541,7 +541,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
-                            if rhs_lines_with_novel.contains(&line_num) {
+                            if rhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_green().to_string()
                                 } else {
