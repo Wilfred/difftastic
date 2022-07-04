@@ -31,6 +31,7 @@ use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
+use diff::dijkstra::ExceededGraphLimit;
 use display::context::opposite_positions;
 use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
 use log::info;
@@ -121,7 +122,7 @@ fn main() {
             }
         }
         Mode::Diff {
-            node_limit,
+            graph_limit,
             byte_limit,
             display_options,
             missing_as_empty,
@@ -150,7 +151,7 @@ fn main() {
                     lhs_path,
                     rhs_path,
                     &display_options,
-                    node_limit,
+                    graph_limit,
                     byte_limit,
                     language_override,
                 )
@@ -165,7 +166,7 @@ fn main() {
                     rhs_path,
                     &display_options,
                     missing_as_empty,
-                    node_limit,
+                    graph_limit,
                     byte_limit,
                     language_override,
                 );
@@ -183,7 +184,7 @@ fn diff_file(
     rhs_path: &Path,
     display_options: &DisplayOptions,
     missing_as_empty: bool,
-    node_limit: u32,
+    graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
@@ -194,7 +195,7 @@ fn diff_file(
         &lhs_bytes,
         &rhs_bytes,
         display_options.tab_width,
-        node_limit,
+        graph_limit,
         byte_limit,
         language_override,
     )
@@ -206,7 +207,7 @@ fn diff_file_content(
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
     tab_width: usize,
-    node_limit: u32,
+    graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
@@ -293,36 +294,39 @@ fn diff_file_content(
                 unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
             };
 
-            let possibly_changed_max = max_num_nodes(&possibly_changed);
-            if possibly_changed_max > node_limit {
-                info!(
-                    "Found {} nodes, exceeding the limit {}",
-                    possibly_changed_max, node_limit
-                );
+            let mut exceeded_graph_limit = false;
 
+            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
+                init_next_prev(&lhs_section_nodes);
+                init_next_prev(&rhs_section_nodes);
+
+                match mark_syntax(
+                    lhs_section_nodes.get(0).copied(),
+                    rhs_section_nodes.get(0).copied(),
+                    &mut change_map,
+                    graph_limit,
+                ) {
+                    Ok(()) => {}
+                    Err(ExceededGraphLimit {}) => {
+                        exceeded_graph_limit = true;
+                        break;
+                    }
+                }
+
+                let language = language.unwrap();
+                fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
+                fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
+            }
+
+            if exceeded_graph_limit {
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
                 (
-                    Some("Text (exceeded DFT_NODE_LIMIT)".into()),
+                    Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
                     lhs_positions,
                     rhs_positions,
                 )
             } else {
-                for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                    init_next_prev(&lhs_section_nodes);
-                    init_next_prev(&rhs_section_nodes);
-
-                    mark_syntax(
-                        lhs_section_nodes.get(0).copied(),
-                        rhs_section_nodes.get(0).copied(),
-                        &mut change_map,
-                    );
-
-                    let language = language.unwrap();
-                    fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
-                    fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
-                }
-
                 let lhs_positions = syntax::change_positions(&lhs, &change_map);
                 let rhs_positions = syntax::change_positions(&rhs, &change_map);
                 (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
@@ -356,7 +360,7 @@ fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
-    node_limit: u32,
+    graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
@@ -380,7 +384,7 @@ fn diff_directories<'a>(
             &rhs_path,
             &display_options,
             true,
-            node_limit,
+            graph_limit,
             byte_limit,
             language_override,
         )
@@ -495,33 +499,10 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
     }
 }
 
-/// What is the total number of nodes in `roots`?
-fn num_nodes(roots: &[&syntax::Syntax]) -> u32 {
-    roots
-        .iter()
-        .map(|n| {
-            1 + match n {
-                syntax::Syntax::List {
-                    num_descendants, ..
-                } => *num_descendants,
-                syntax::Syntax::Atom { .. } => 0,
-            }
-        })
-        .sum()
-}
-
-fn max_num_nodes(roots_vec: &[(Vec<&syntax::Syntax>, Vec<&syntax::Syntax>)]) -> u32 {
-    roots_vec
-        .iter()
-        .map(|(lhs, rhs)| num_nodes(lhs) + num_nodes(rhs))
-        .max()
-        .unwrap_or(0)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_NODE_LIMIT, DEFAULT_TAB_WIDTH};
+    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT, DEFAULT_TAB_WIDTH};
 
     #[test]
     fn test_diff_identical_content() {
@@ -532,7 +513,7 @@ mod tests {
             s.as_bytes(),
             s.as_bytes(),
             DEFAULT_TAB_WIDTH,
-            DEFAULT_NODE_LIMIT,
+            DEFAULT_GRAPH_LIMIT,
             DEFAULT_BYTE_LIMIT,
             None,
         );

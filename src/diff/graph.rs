@@ -408,7 +408,7 @@ pub fn neighbours<'a, 'b>(
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
-                .abs() as u32;
+                .unsigned_abs();
 
             // Both nodes are equal, the happy case.
             buf[i] = Some((
@@ -450,7 +450,7 @@ pub fn neighbours<'a, 'b>(
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
-                    .abs() as u32;
+                    .unsigned_abs();
 
                 buf[i] = Some((
                     EnterUnchangedDelimiter { depth_difference },
