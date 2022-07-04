@@ -1,5 +1,22 @@
 ## 0.30 (unreleased)
 
+### Command Line Interface
+
+`--node-limit` has been replaced by `--graph-limit`, and the
+corresponding environment variable `DFT_NODE_LIMIT` has been replaced
+with `DFT_GRAPH_LIMIT`.
+
+`--graph-limit` makes difftastic give up on structural diffs after
+traversing this many graph nodes. `--node-limit` applied a limit based
+on an estimate of how big the graph would be, leading to very slow
+diffs when the estimate was wrong.
+
+This new setting sets a more accurate limit on difftastic
+performance. It also means that difftastic will always try a
+structural diff first. This will be slower for files that exceed
+`--graph-limit`, but guarantees that files with a small number of
+changes will always get a structural diff.
+
 ## 0.29.1 (released 13th June 2022)
 
 Fixed a major memory regression in 0.29 when performing large
