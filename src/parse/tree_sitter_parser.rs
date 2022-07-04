@@ -351,9 +351,15 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "HTML",
                 language,
-                atom_nodes: vec!["attribute_value", "comment", "raw_text", "tag_name", "text"]
-                    .into_iter()
-                    .collect(),
+                atom_nodes: vec![
+                    "quoted_attribute_value",
+                    "comment",
+                    "raw_text",
+                    "tag_name",
+                    "text",
+                ]
+                .into_iter()
+                .collect(),
                 delimiter_tokens: vec![("<", ">"), ("<!", ">"), ("<!--", "-->")]
                     .into_iter()
                     .collect(),
