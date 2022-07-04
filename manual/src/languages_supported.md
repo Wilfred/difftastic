@@ -40,6 +40,7 @@ Difftastic also supports the following structured text formats.
 |----------|-----------------------------------------------------------------------------------|
 | CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)     |
 | HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) |
+| HTML     | [tree-sitter/tree-sitter-html](https://github.com/tree-sitter/tree-sitter-html)   |
 | JSON     | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)   |
 | TOML     | [ikatyang/tree-sitter-toml](https://github.com/ikatyang/tree-sitter-toml)         |
 | YAML     | [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)         |

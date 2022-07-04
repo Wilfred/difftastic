@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-html",
+  "version": "0.19.0",
+  "description": "HTML grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-html.git"
+  },
+  "authors": [
+    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+    "Ashi Krishnan <queerviolet@github.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.1"
+  },
+  "scripts": {
+    "test": "tree-sitter test && tree-sitter parse examples/*.html --quiet --time",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "text.html.basic",
+      "file-types": [
+        "html"
+      ],
+      "injection-regex": "html"
+    }
+  ]
+}
