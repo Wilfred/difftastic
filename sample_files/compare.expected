@@ -58,6 +58,9 @@ fdd3357ab16aa2c60a5f4f52912b91fa  -
 sample_files/html_simple_before.html sample_files/html_simple_after.html
 2c5a14df5b793bc136e37f263733b26f  -
 
+sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
+6e600de835a85de7f463d32c07f40b59  -
+
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
 
