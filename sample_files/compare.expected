@@ -7,11 +7,14 @@ sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 sample_files/change_outer_before.el sample_files/change_outer_after.el
 1857b63ba1bfa0ccc0a4243db6b1c5c2  -
 
+sample_files/chinese_before.po sample_files/chinese_after.po
+56f0af341fd86727dbac522293e8e013  -
+
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b916e224f289888252cd7597bab339e6  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-f7b56285b9db37d84405f647fb15412f  -
+0b2756c60659993310f899b131cca84f  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 ef267b3bbea4b56a111427a11b24cc6a  -
@@ -71,7 +74,7 @@ sample_files/janet_before.janet sample_files/janet_after.janet
 677604a16ef62f6b6252d76d76e86265  -
 
 sample_files/java_before.java sample_files/java_after.java
-22c27b91fd67d2b894de9a620bcf5c35  -
+d7cdb754cc9311e39c7aa402a8c51ab9  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
 f4bfe92df94f89942bacc73e4a9db882  -
@@ -167,7 +170,7 @@ sample_files/text_before.txt sample_files/text_after.txt
 dfc3495b8d5931029b479f0c878a3219  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
-c1d8b44875121d81c583dd3a8fb43232  -
+6f2f2b3905fbff7e283a2d3b312dc658  -
 
 sample_files/toml_before.toml sample_files/toml_after.toml
 1e2de7235c339b07a0784498453e896c  -
