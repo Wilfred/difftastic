@@ -39,6 +39,7 @@ pub enum Language {
     Java,
     JavaScript,
     Json,
+    Julia,
     Jsx,
     Kotlin,
     Lua,
@@ -232,6 +233,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         | "mcmeta" | "tfstate" | "tfstate.backup" | "topojson" | "webapp" | "webmanifest" => {
             Some(Json)
         }
+        "jl" => Some(Julia),
         "kt" | "ktm" | "kts" => Some(Kotlin),
         "lua" => Some(Lua),
         "nix" => Some(Nix),

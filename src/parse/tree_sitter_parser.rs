@@ -64,6 +64,7 @@ extern "C" {
     fn tree_sitter_java() -> ts::Language;
     fn tree_sitter_javascript() -> ts::Language;
     fn tree_sitter_json() -> ts::Language;
+    fn tree_sitter_julia() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
@@ -443,6 +444,23 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/json.scm"),
                 )
                 .unwrap(),
+            }
+        }
+        Julia => {
+            let language = unsafe { tree_sitter_julia() };
+            TreeSitterConfig {
+                name: "Julia",
+                language,
+                atom_nodes: vec![
+                    "string_literal",
+                    "prefixed_string_literal",
+                    "command_literal",
+                    "character_literal",
+                ]
+                .into_iter()
+                .collect(),
+                delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         Kotlin => {
