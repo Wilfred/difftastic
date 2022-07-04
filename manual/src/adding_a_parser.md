@@ -87,6 +87,10 @@ You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
 
+## Configure sliders
+
+Add an entry to `sliders.rs` for your language.
+
 ## Configure language detection
 
 Update `from_extension` in `guess_language.rs` to detect your new

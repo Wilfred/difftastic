@@ -1,5 +1,9 @@
 ## 0.30 (unreleased)
 
+### Parsing
+
+Added support for HTML.
+
 ### Command Line Interface
 
 `--node-limit` has been replaced by `--graph-limit`, and the

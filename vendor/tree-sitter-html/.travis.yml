@@ -1,0 +1,10 @@
+language: node_js
+
+node_js: 10
+
+env:
+  - CXX=clang++
+
+branches:
+  only:
+    - master
