@@ -4,6 +4,14 @@
 
 Added support for HTML.
 
+### Display
+
+Fixed an issue where line numbers were coloured even when colour was
+disabled.
+
+Improved alignment when files contain Unicode characters that are more
+than one column wide.
+
 ### Command Line Interface
 
 `--node-limit` has been replaced by `--graph-limit`, and the
