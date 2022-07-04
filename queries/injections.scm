@@ -29,5 +29,4 @@
 
 ; Ember Unified <template> syntax
 ; e.g.: <template><SomeComponent @arg={{double @value}} /></template>
-((glimmer_template @glimmer)
-
+((glimmer_template) @glimmer)
