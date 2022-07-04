@@ -286,15 +286,15 @@ pub fn color_positions(
             }
             MatchKind::Novel { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                if syntax_highlight {
-                    if matches!(
+                if syntax_highlight
+                    && matches!(
                         highlight,
                         TokenKind::Delimiter
                             | TokenKind::Atom(AtomKind::Keyword)
                             | TokenKind::Atom(AtomKind::Type)
-                    ) {
-                        style = style.bold();
-                    }
+                    )
+                {
+                    style = style.bold();
                 }
                 if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
@@ -302,18 +302,14 @@ pub fn color_positions(
             }
             MatchKind::NovelWord { highlight } => {
                 style = novel_style(style, is_lhs, background).bold();
-                if syntax_highlight {
-                    if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                        style = style.italic();
-                    }
+                if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                    style = style.italic();
                 }
             }
             MatchKind::NovelLinePart { highlight, .. } => {
                 style = novel_style(style, is_lhs, background);
-                if syntax_highlight {
-                    if matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
-                        style = style.italic();
-                    }
+                if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
+                    style = style.italic();
                 }
             }
         };
