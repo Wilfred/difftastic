@@ -283,16 +283,6 @@ struct Scanner {
             return true;
         }
 
-        // Parse any preceeding whitespace and remember its length. This makes a lot of parsing
-        // quite a bit easier.
-        for (;;) {
-            if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                indentation += advance(lexer);
-            } else {
-                break;
-            }
-        }
-
         // if we are at the end of the file and there are still open blocks close them all
         if (lexer->eof(lexer)) {
             if (open_blocks.size() > 0) {
@@ -304,6 +294,15 @@ struct Scanner {
         }
 
         if (!(state & STATE_MATCHING)) {
+            // Parse any preceeding whitespace and remember its length. This makes a lot of parsing
+            // quite a bit easier.
+            for (;;) {
+                if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                    indentation += advance(lexer);
+                } else {
+                    break;
+                }
+            }
             // We are not matching. This is where the parsing logic for most "normal" token is.
             // Most importantly parsing logic for the start of new blocks.
             if (valid_symbols[INDENTED_CHUNK_START] && !valid_symbols[NO_INDENTED_CHUNK]) {
@@ -389,13 +388,6 @@ struct Scanner {
                 if (match(lexer, open_blocks[matched])) {
                     partial_success = true;
                     matched++;
-                    for (;;) {
-                        if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                            indentation += advance(lexer);
-                        } else {
-                            break;
-                        }
-                    }
                 } else {
                     if (state & STATE_WAS_SOFT_LINE_BREAK) {
                         state &= (~STATE_MATCHING);
@@ -512,6 +504,13 @@ struct Scanner {
     bool match(TSLexer *lexer, Block block) {
         switch (block) {
             case INDENTED_CODE_BLOCK:
+                while (indentation < 4) {
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                        indentation += advance(lexer);
+                    } else {
+                        break;
+                    }
+                }
                 if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
                     indentation -= 4;
                     return true;
@@ -533,6 +532,13 @@ struct Scanner {
             case LIST_ITEM_13_INDENTATION:
             case LIST_ITEM_14_INDENTATION:
             case LIST_ITEM_MAX_INDENTATION:
+                while (indentation < list_item_indentation(block)) {
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                        indentation += advance(lexer);
+                    } else {
+                        break;
+                    }
+                }
                 if (indentation >= list_item_indentation(block)) {
                     indentation -= list_item_indentation(block);
                     return true;
@@ -543,6 +549,9 @@ struct Scanner {
                 }
                 break;
             case BLOCK_QUOTE:
+                while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                    indentation += advance(lexer);
+                }
                 if (lexer->lookahead == '>') {
                     advance(lexer);
                     indentation = 0;
