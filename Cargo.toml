@@ -1,10 +1,10 @@
 [package]
-name = "tree-sitter-CMake"
-description = "CMake grammar for the tree-sitter parsing library"
+name = "tree-sitter-cmake"
+description = "cmake grammar for the tree-sitter parsing library"
 version = "0.0.1"
-keywords = ["incremental", "parsing", "CMake"]
+keywords = ["incremental", "parsing", "cmake"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-javascript"
+repository = "https://github.com/tree-sitter/tree-sitter-cmake"
 edition = "2018"
 license = "MIT"
 
@@ -20,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.20"
+tree-sitter = "~0.20"
 
 [build-dependencies]
 cc = "1.0"
