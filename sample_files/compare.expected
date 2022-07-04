@@ -53,10 +53,10 @@ sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 79597af48ff80bcf9f5d02d20c51606d  -
 
 sample_files/html_before.html sample_files/html_after.html
-949b14014822274f3578636275c8e6d6  -
+fdd3357ab16aa2c60a5f4f52912b91fa  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
-13b374996a2b449f79638b2ddcf0c5d8  -
+2c5a14df5b793bc136e37f263733b26f  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
