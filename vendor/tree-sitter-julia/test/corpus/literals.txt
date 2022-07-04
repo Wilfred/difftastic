@@ -1,0 +1,181 @@
+==============================
+integer number literals
+==============================
+
+0b01
+0o01234567
+0123456789
+123_456_789
+0x0123456789_abcdef_ABCDEF
+
+---
+
+(source_file
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal))
+
+
+==============================
+float number literals
+==============================
+
+0123456789.
+.0123456789
+0123456789.0123456789
+9e10
+9E-1
+9f10
+9f-1
+
+0x0123456789_abcdef.ABCDEFp0
+0x0123456789_abcdef_ABCDEF.p-1
+0x.0123456789_abcdef_ABCDEFp1
+
+----
+
+(source_file
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal)
+  (float_literal))
+
+
+==============================
+character literals
+==============================
+
+' '
+'o'
+'\t'
+'\uffff'
+'\U10ffff'
+
+---
+
+(source_file
+  (character_literal)
+  (character_literal)
+  (character_literal (escape_sequence))
+  (character_literal (escape_sequence))
+  (character_literal (escape_sequence)))
+
+
+==============================
+string literals
+==============================
+
+""
+"\""
+"foo
+ bar"
+"this is a \"string\"."
+"""this is also a "string"."""
+band = "Interpol"
+"$band is a cool band"
+"$(2π) is a cool number"
+"cells interlinked within $("cells interlinked whithin $("cells interlinked whithin one stem")")"
+
+---
+
+(source_file
+  (string_literal)
+  (string_literal (escape_sequence))
+  (string_literal)
+  (string_literal (escape_sequence) (escape_sequence))
+  (string_literal)
+  (assignment_expression
+    (identifier)
+    (operator)
+    (string_literal))
+  (string_literal
+    (string_interpolation (identifier)))
+  (string_literal
+    (string_interpolation (coefficient_expression (integer_literal) (identifier))))
+  (string_literal
+    (string_interpolation
+      (string_literal
+        (string_interpolation
+          (string_literal))))))
+
+
+==============================
+command string literals
+==============================
+
+`pwd`
+m`pwd`
+`cd $dir`
+`echo \`cmd\``
+```
+echo "\033[31mred\033[m"
+```
+
+---
+
+(source_file
+  (command_literal)
+  (prefixed_command_literal
+    prefix: (identifier))
+  (command_literal (string_interpolation (identifier)))
+  (command_literal (escape_sequence) (escape_sequence))
+  (command_literal
+   (escape_sequence)
+   (escape_sequence)))
+
+
+==============================
+non-standard string literals
+==============================
+
+trailing_ws = r"\s+$"
+version = v"1.0"
+
+---
+
+(source_file
+  (assignment_expression
+    (identifier)
+    (operator)
+    (prefixed_string_literal 
+        prefix: (identifier)))
+  (assignment_expression
+    (identifier)
+    (operator)
+    (prefixed_string_literal 
+        prefix: (identifier))))
+
+
+==============================
+comments
+==============================
+
+# comment
+#= comment =#
+#=
+comment
+=#
+x = #= comment =# 1
+
+#=
+nested #= comments =# =#
+#==#
+
+---
+
+(source_file
+  (line_comment)
+  (block_comment)
+  (block_comment)
+  (assignment_expression (identifier) (operator) (block_comment) (integer_literal))
+  (block_comment)
+  (block_comment))
+
