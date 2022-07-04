@@ -10,7 +10,7 @@ use crate::{
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
-use unicode_width::{UnicodeWidthStr, UnicodeWidthChar};
+use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {
@@ -32,18 +32,22 @@ fn substring_by_width(s: &str, start: usize, end: usize) -> &str {
 
     assert!(end > start);
 
-    let mut idx_width_iter = s.char_indices()
+    let mut idx_width_iter = s
+        .char_indices()
         .scan(0, |w, (idx, ch)| {
-          let before = *w;
-          *w += ch.width().unwrap_or(0);
-          Some((idx, before, *w))
+            let before = *w;
+            *w += ch.width().unwrap_or(0);
+            Some((idx, before, *w))
         })
         .skip_while(|(_, before, _)| *before < start);
     let byte_start = idx_width_iter
         .next()
         .expect("Expected a width index inside `s`.")
         .0;
-    match idx_width_iter.skip_while(|(_, _, after)| *after <= end).next() {
+    match idx_width_iter
+        .skip_while(|(_, _, after)| *after <= end)
+        .next()
+    {
         Some(byte_end) => &s[byte_start..byte_end.0],
         None => &s[byte_start..],
     }
@@ -69,21 +73,17 @@ fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(&str, usi
         let l = substring_by_width(s, 0, max_width);
         let used = l.width();
         let padding = if pad && used < max_width {
-          // a fullwidth char is followed
-          1
+            // a fullwidth char is followed
+            1
         } else {
-          0
+            0
         };
         res.push((l, padding));
         s = substring_by_width(s, used, s.width());
     }
 
     if res.is_empty() || !s.is_empty() {
-        let padding = if pad {
-            max_width - s.width()
-        } else {
-            0
-        };
+        let padding = if pad { max_width - s.width() } else { 0 };
         res.push((s, padding));
     }
 
