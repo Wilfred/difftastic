@@ -40,10 +40,10 @@ fn substring_by_width(s: &str, start: usize, end: usize) -> &str {
         })
         .skip_while(|(_, before, _)| *before < start);
     let byte_start = idx_width_iter
-        .nth(0)
+        .next()
         .expect("Expected a width index inside `s`.")
         .0;
-    match idx_width_iter.skip_while(|(_, _, after)| *after <= end).nth(0) {
+    match idx_width_iter.skip_while(|(_, _, after)| *after <= end).next() {
         Some(byte_end) => &s[byte_start..byte_end.0],
         None => &s[byte_start..],
     }
@@ -53,43 +53,38 @@ fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
     &s[start..end]
 }
 
-/// Split a string into equal length parts, padding if necessary.
+/// Split a string into equal length parts and how many spaces should be padded.
 ///
-/// Return splitted strings and how many spaces each has been padded with.
+/// Return splitted strings and how many spaces each should be padded with.
 ///
 /// ```
-/// split_string_by_width("fooba", 3, true) // vec![("foo", 0), ("ba ", 1)]
+/// split_string_by_width("fooba", 3, true) // vec![("foo", 0), ("ba", 1)]
 /// split_string_by_width("一个汉字两列宽", 8, false) // vec![("一个汉字", 0), ("两列宽", 0)]
 /// ```
-fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(String, usize)> {
+fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(&str, usize)> {
     let mut res = vec![];
     let mut s = s;
 
     while s.width() > max_width {
-        let mut l = substring_by_width(s, 0, max_width).to_owned();
+        let l = substring_by_width(s, 0, max_width);
         let used = l.width();
-        let padded;
-        if pad && used < max_width {
+        let padding = if pad && used < max_width {
           // a fullwidth char is followed
-          l.push(' ');
-          padded = 1;
+          1
         } else {
-          padded = 0;
-        }
-        res.push((l, padded));
+          0
+        };
+        res.push((l, padding));
         s = substring_by_width(s, used, s.width());
     }
 
     if res.is_empty() || !s.is_empty() {
-        let mut string = s.to_string();
-        let padded;
-        if pad {
-            padded = max_width - s.width();
-            string.push_str(&" ".repeat(padded));
+        let padding = if pad {
+            max_width - s.width()
         } else {
-            padded = 0;
-        }
-        res.push((string, padded));
+            0
+        };
+        res.push((s, padding));
     }
 
     res
@@ -115,9 +110,9 @@ pub fn split_and_apply(
             .into_iter()
             .map(|(part, _)| {
                 if use_color {
-                    highlight_missing_style_bug(&part)
+                    highlight_missing_style_bug(part)
                 } else {
-                    part
+                    part.to_owned()
                 }
             })
             .collect();
@@ -126,8 +121,8 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for (part, padded) in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
-        let mut res = String::with_capacity(part.len());
+    for (part, pad) in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
+        let mut res = String::with_capacity(part.len() + pad);
         let mut prev_style_end = 0;
         for (span, style) in styles {
             let start_col = span.start_col as usize;
@@ -143,7 +138,7 @@ pub fn split_and_apply(
                 // Then append that text without styling.
                 let unstyled_start = max(prev_style_end, part_start);
                 res.push_str(substring_by_byte(
-                    &part,
+                    part,
                     unstyled_start - part_start,
                     start_col - part_start,
                 ));
@@ -152,9 +147,9 @@ pub fn split_and_apply(
             // Apply style to the substring in this span.
             if end_col > part_start {
                 let span_s = substring_by_byte(
-                    &part,
+                    part,
                     max(0, span.start_col as isize - part_start as isize) as usize,
-                    min(byte_len(&part), end_col - part_start),
+                    min(byte_len(part), end_col - part_start),
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
@@ -168,13 +163,14 @@ pub fn split_and_apply(
         }
 
         // Unstyled text after the last span.
-        if prev_style_end < part_start + byte_len(&part) {
-            let span_s = substring_by_byte(&part, prev_style_end - part_start, byte_len(&part));
+        if prev_style_end < part_start + byte_len(part) {
+            let span_s = substring_by_byte(part, prev_style_end - part_start, byte_len(part));
             res.push_str(span_s);
         }
+        res.push_str(&" ".repeat(pad));
 
         styled_parts.push(res);
-        part_start += byte_len(&part) - padded;
+        part_start += byte_len(part);
     }
 
     styled_parts
@@ -409,7 +405,7 @@ mod tests {
     fn split_string_simple() {
         assert_eq!(
             split_string_by_width("fooba", 3, true),
-            vec![(String::from("foo"), 0), (String::from("ba "), 1)]
+            vec![("foo", 0), ("ba", 1)]
         );
     }
 
@@ -417,7 +413,7 @@ mod tests {
     fn split_string_simple_no_pad() {
         assert_eq!(
             split_string_by_width("fooba", 3, false),
-            vec![(String::from("foo"), 0), (String::from("ba"), 0)]
+            vec![("foo", 0), ("ba", 0)]
         );
     }
 
@@ -425,7 +421,7 @@ mod tests {
     fn split_string_unicode() {
         assert_eq!(
             split_string_by_width("ab📦def", 4, true),
-            vec![(String::from("ab📦"), 0), (String::from("def "), 1)]
+            vec![("ab📦", 0), ("def", 1)]
         );
     }
 
@@ -433,7 +429,7 @@ mod tests {
     fn split_string_cjk() {
         assert_eq!(
             split_string_by_width("一个汉字两列宽", 8, false),
-            vec![(String::from("一个汉字"), 0), (String::from("两列宽"), 0)]
+            vec![("一个汉字", 0), ("两列宽", 0)]
         );
     }
 
@@ -441,7 +437,7 @@ mod tests {
     fn split_string_cjk2() {
         assert_eq!(
             split_string_by_width("你好啊", 5, true),
-            vec![(String::from("你好 "), 1), (String::from("啊   "), 3)]
+            vec![("你好", 1), ("啊", 3)]
         );
     }
 
