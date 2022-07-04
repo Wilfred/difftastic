@@ -37,6 +37,8 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-implicit-fallthrough")
                 .flag_if_supported("-Wno-unused-parameter")
                 .flag_if_supported("-Wno-ignored-qualifiers")
+                // Ignore warning from tree-sitter-html.
+                .flag_if_supported("-Wno-sign-compare")
                 // Workaround for: https://github.com/ganezdragon/tree-sitter-perl/issues/16
                 // should be removed after fixed.
                 .flag_if_supported("-Wno-return-type");
