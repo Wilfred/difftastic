@@ -98,7 +98,6 @@ fn display_single_column(
                 .to_string(),
         );
         formatted_line.push_str(line);
-        formatted_line.push('\n');
         result.push(formatted_line);
     }
 
@@ -487,7 +486,7 @@ pub fn print(
                         lhs_lines[lhs_line_num.as_usize()],
                         source_dims.lhs_content_width,
                         display_options.use_color,
-                        lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
+                        lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
                     None => vec![" ".repeat(source_dims.lhs_content_width)],
@@ -497,7 +496,7 @@ pub fn print(
                         rhs_lines[rhs_line_num.as_usize()],
                         source_dims.rhs_content_width,
                         display_options.use_color,
-                        rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
+                        rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
                     ),
                     None => vec!["".into()],
@@ -521,7 +520,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
-                            if display_options.use_color && lhs_lines_with_novel.contains(&line_num) {
+                            if display_options.use_color && lhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_red().to_string()
                                 } else {
@@ -542,7 +541,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
-                            if display_options.use_color && rhs_lines_with_novel.contains(&line_num) {
+                            if display_options.use_color && rhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_green().to_string()
                                 } else {
@@ -657,31 +656,6 @@ mod tests {
         );
         let res = res_lines.join("");
         assert!(res.len() > 10);
-    }
-
-    #[test]
-    fn test_split_line_empty() {
-        assert_eq!(split_on_newlines(""), vec![""]);
-    }
-
-    #[test]
-    fn test_split_line_single() {
-        assert_eq!(split_on_newlines("foo"), vec!["foo"]);
-    }
-
-    #[test]
-    fn test_split_line_with_newline() {
-        assert_eq!(split_on_newlines("foo\nbar"), vec!["foo", "bar"]);
-    }
-
-    #[test]
-    fn test_split_line_with_crlf() {
-        assert_eq!(split_on_newlines("foo\r\nbar"), vec!["foo", "bar"]);
-    }
-
-    #[test]
-    fn test_split_line_with_trailing_newline() {
-        assert_eq!(split_on_newlines("foo\nbar\n"), vec!["foo", "bar", ""]);
     }
 
     #[test]
