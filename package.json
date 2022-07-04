@@ -6,7 +6,7 @@
   "author": "Uy Ha",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.2"
+    "nan": "^2.16.0"
   },
   "tree-sitter": [
     {
@@ -16,5 +16,8 @@
         "CMakeLists.txt"
       ]
     }
-  ]
+  ],
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  }
 }
