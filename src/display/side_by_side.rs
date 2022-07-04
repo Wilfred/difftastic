@@ -520,7 +520,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
-                            if lhs_lines_with_novel.contains(line_num) {
+                            if display_options.use_color && lhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_red().to_string()
                                 } else {
@@ -541,7 +541,7 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
-                            if rhs_lines_with_novel.contains(line_num) {
+                            if display_options.use_color && rhs_lines_with_novel.contains(line_num) {
                                 s = if display_options.background_color.is_dark() {
                                     s.bright_green().to_string()
                                 } else {
