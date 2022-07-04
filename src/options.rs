@@ -8,8 +8,11 @@ use const_format::formatcp;
 
 use crate::{display::style::BackgroundColor, parse::guess_language};
 
-pub const DEFAULT_NODE_LIMIT: u32 = 30_000;
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
+// Chosen experimentally: this is sufficiently many for all the sample
+// files (the highest is slow_before/after.rs at 1.3M nodes), but
+// small enough to terminate in ~5 seconds like the test file in #306.
+pub const DEFAULT_GRAPH_LIMIT: usize = 3_000_000;
 pub const DEFAULT_TAB_WIDTH: usize = 8;
 
 const USAGE: &str = concat!(env!("CARGO_BIN_NAME"), " [OPTIONS] OLD-PATH NEW-PATH");
@@ -134,22 +137,22 @@ fn app() -> clap::Command<'static> {
                 // TODO: support DFT_LANGUAGE for consistency
         )
         .arg(
-            Arg::new("node-limit").long("node-limit")
-                .takes_value(true)
-                .value_name("LIMIT")
-                .help(concat!("Use a text diff if the number of syntax nodes exceeds this number."))
-                .default_value(formatcp!("{}", DEFAULT_NODE_LIMIT))
-                .env("DFT_NODE_LIMIT")
-                .validator(|s| s.parse::<u32>())
-                .required(false),
-        )
-        .arg(
             Arg::new("byte-limit").long("byte-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
                 .help(concat!("Use a text diff if either input file exceeds this size."))
                 .default_value(formatcp!("{}", DEFAULT_BYTE_LIMIT))
                 .env("DFT_BYTE_LIMIT")
+                .validator(|s| s.parse::<usize>())
+                .required(false),
+        )
+        .arg(
+            Arg::new("graph-limit").long("graph-limit")
+                .takes_value(true)
+                .value_name("LIMIT")
+                .help(concat!("Use a text diff if the structural graph exceed this number of nodes in memory."))
+                .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
+                .env("DFT_GRAPH_LIMIT")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
@@ -172,7 +175,7 @@ pub enum DisplayMode {
 
 pub enum Mode {
     Diff {
-        node_limit: u32,
+        graph_limit: usize,
         byte_limit: usize,
         display_options: DisplayOptions,
         missing_as_empty: bool,
@@ -324,10 +327,10 @@ pub fn parse_args() -> Mode {
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
 
-    let node_limit = matches
-        .value_of("node-limit")
+    let graph_limit = matches
+        .value_of("graph-limit")
         .expect("Always present as we've given clap a default")
-        .parse::<u32>()
+        .parse::<usize>()
         .expect("Value already validated by clap");
 
     let byte_limit = matches
@@ -359,7 +362,7 @@ pub fn parse_args() -> Mode {
     };
 
     Mode::Diff {
-        node_limit,
+        graph_limit,
         byte_limit,
         display_options,
         missing_as_empty,
