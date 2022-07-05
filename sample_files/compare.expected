@@ -26,7 +26,7 @@ sample_files/css_before.css sample_files/css_after.css
 76e37e865774d0d17e73b71f627b62d7  -
 
 sample_files/dart_before.dart sample_files/dart_after.dart
-7a18450edf0db2ff3868f46a2d4e277c  -
+a13ab6e933b145d3f948b640caf38968  -
 
 sample_files/elisp_before.el sample_files/elisp_after.el
 f4233ebbe6c46a7c07bc88eca20e4856  -
@@ -38,7 +38,7 @@ sample_files/elm_before.elm sample_files/elm_after.elm
 1fe758b3148056d9c744f75640e7cd83  -
 
 sample_files/elvish_before.elv sample_files/elvish_after.elv
-0107abd4d8c25034207bedd407a499ac  -
+bfb410815de1fb0fd47fa078fbd8e329  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 b8c51005df7e1eaaeaf738a4353ac88f  -
@@ -47,7 +47,7 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 9c668c79e56f1e1cecf1c02759c195a9  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-f8a18b1f0b50c1a1736e13306cf3db52  -
+ab9338158b9e1fc2db1150406dc353b5  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
 bce74573e003cc6b729a63a4bc34c4af  -
