@@ -460,7 +460,11 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .into_iter()
                 .collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
-                highlight_query: ts::Query::new(language, "").unwrap(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendor/highlights/julia.scm"),
+                )
+                .unwrap(),
             }
         }
         Kotlin => {
@@ -796,6 +800,7 @@ fn tree_highlights(
             || name.starts_with("constant.")
             || name == "operator"
             || name == "repeat"
+            || name == "conditional"
             || name == "boolean"
         {
             keyword_ish_capture_ids.push(idx as u32);
