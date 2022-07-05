@@ -12,7 +12,7 @@ Difftastic supports the following programming languages.
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)                                                                        |
 | Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)                                                                              |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)                                                                            |
-| Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                                                                 |
+| Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                                                                                        |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                                                                      |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                                                                |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                                                                    |
@@ -20,6 +20,7 @@ Difftastic supports the following programming languages.
 | Janet           | [sogaiu/tree-sitter-janet-simple](https://github.com/sogaiu/tree-sitter-janet-simple)                                                                          |
 | Java            | [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)                                                                                |
 | JavaScript, JSX | [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)                                                                    |
+| Julia           | [tree-sitter/tree-sitter-julia](https://github.com/tree-sitter/tree-sitter-julia)                                                                              |
 | Kotlin          | [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)                                                                                          |
 | Lua             | [nvim-treesitter/tree-sitter-lua](https://github.com/nvim-treesitter/tree-sitter-lua)                                                                          |
 | Nix             | [cstrahan/tree-sitter-nix](https://github.com/cstrahan/tree-sitter-nix)                                                                                        |
