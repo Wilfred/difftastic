@@ -107,8 +107,8 @@ is a useful source of common file extensions.
 
 ## Syntax highlighting (Optional)
 
-To add syntax highlighting to the package, you'll also need a symlink
-to the `highlights.scm`, if available.
+To add syntax highlighting for your language, you'll also need a symlink
+to the `queries/highlights.scm` file, if available.
 
 ```
 $ cd vendor/highlights
