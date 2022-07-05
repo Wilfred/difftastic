@@ -14,6 +14,9 @@ disabled.
 Improved alignment when files contain Unicode characters that are more
 than one column wide.
 
+Improved syntax highlighting for conditionals, particularly for Dart,
+Elvish and HCL.
+
 ### Command Line Interface
 
 `--node-limit` has been replaced by `--graph-limit`, and the
