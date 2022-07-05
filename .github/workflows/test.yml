@@ -38,7 +38,7 @@ jobs:
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
-        run: diff sample_files/compare.result sample_files/compare.expected
+        run: diff -C2 sample_files/compare.result sample_files/compare.expected
 
   package:
     name: Check Linux Packaging
