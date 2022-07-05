@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for HTML.
+Added support for HTML and Julia.
 
 ### Display
 
