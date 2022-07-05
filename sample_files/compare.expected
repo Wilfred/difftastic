@@ -88,6 +88,9 @@ sample_files/json_before.json sample_files/json_after.json
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
 f6211fad4ccff5b7a92dbe52d25470e8  -
 
+sample_files/julia_before.jl sample_files/julia_after.jl
+3ec05dbce1270267e621c58134a05e86  -
+
 sample_files/load_before.js sample_files/load_after.js
 58df6bfac4f237d3a1dd9201e7873f1c  -
 
