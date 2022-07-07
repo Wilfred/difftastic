@@ -87,6 +87,9 @@ exp(
   'string',
   "a\
   b",
+  'a\z',
+  'a\z
+  ',
   'a\z
   b',
   "'a\z\
@@ -128,6 +131,8 @@ exp(
   (function_call
     name: (identifier)
     arguments: (arguments
+      (string)
+      (string)
       (string)
       (string)
       (string)

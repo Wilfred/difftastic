@@ -183,7 +183,12 @@ static bool scan_string_content(TSLexer *lexer) {
   }
 
   while (lexer->lookahead != '\n' && lexer->lookahead != 0 && lexer->lookahead != ending_char) {
-    while (consume_char('\\', lexer) && consume_char('z', lexer)) continue;
+    if (consume_char('\\', lexer) && consume_char('z', lexer)) {
+      while (iswspace(lexer->lookahead)) {
+        consume(lexer);
+      }
+      continue;
+    };
 
     if (lexer->lookahead == 0) {
       return true;
