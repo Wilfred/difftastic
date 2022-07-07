@@ -1,6 +1,8 @@
 #*#
 *.orig
 *~
+.#*
+\#*#
 
 /Cargo.lock
 /build/
