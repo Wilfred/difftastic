@@ -7,6 +7,4 @@
 /examples/qtdeclarative
 /node_modules/
 /package-lock.json
-/queries/highlights-javascript.scm
-/queries/highlights-typescript.scm
 /target/
