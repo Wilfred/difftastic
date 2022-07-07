@@ -5,6 +5,7 @@ TREE_SITTER = node_modules/.bin/tree-sitter
 help:
 	@echo 'Make targets:'
 	@echo '  generate   - generate parser sources'
+	@echo '  clean      - remove build directory and intermediate files'
 	@echo '  tests      - run all tests'
 	@echo '  fetch-examples - fetch example repositories'
 	@echo '  parse-examples - parse example files'
@@ -35,6 +36,18 @@ src/typescript-scanner.h: \
 		echo; \
 		cat $<; \
 	) > $@
+
+.PHONY: clean
+clean:
+	$(RM) -R build target
+	$(RM) \
+		queries/highlights-javascript.scm \
+		queries/highlights-typescript.scm \
+		src/grammar.json \
+		src/node-types.json \
+		src/parser.c \
+		src/tree_sitter/parser.h \
+		src/typescript-scanner.h
 
 .PHONY: tests
 tests:
