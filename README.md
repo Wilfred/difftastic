@@ -24,3 +24,36 @@ Button {
     icon { source: "foo.png"; color: "transparent" }
 }
 ```
+
+Building
+--------
+
+Use the `master` branch, which contains all generated files.
+
+```
+$ git checkout master
+$ npm install
+$ cargo build --release
+```
+
+Hacking
+-------
+
+Use the `dev` branch, but you'll first need to run `npm install` in the
+`master` branch.
+
+```
+$ git checkout master
+$ npm install
+$ git checkout dev
+```
+
+Generate code and run tests:
+```
+$ make generate tests
+```
+
+Make sure example QML files can be parsed:
+```
+$ make fetch-examples parse-examples
+```

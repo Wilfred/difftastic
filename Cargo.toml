@@ -1,11 +1,11 @@
 [package]
 name = "tree-sitter-qmljs"
 description = "QML grammar for the tree-sitter parsing library"
-version = "0.1.0"
+version = "0.1.1"
 keywords = ["incremental", "parsing", "qml"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/yuja/tree-sitter-qmljs"
-edition = "2018"
+edition = "2021"
 license = "MIT"
 
 build = "bindings/rust/build.rs"
