@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-lua"
 description = "Lua grammar for the tree-sitter parsing library"
-version = "0.0.10"
+version = "0.0.11"
 authors = [
   "Munif Tanjim <hello@muniftanjim.dev>",
 ]
