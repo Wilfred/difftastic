@@ -4,7 +4,7 @@ description = "cmake grammar for the tree-sitter parsing library"
 version = "0.0.1"
 keywords = ["incremental", "parsing", "cmake"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-cmake"
+repository = "https://github.com/uyha/tree-sitter-cmake"
 edition = "2018"
 license = "MIT"
 
