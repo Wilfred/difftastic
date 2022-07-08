@@ -694,7 +694,7 @@ module.exports = grammar({
       field('condition', optional($._expression)), ';',
       field('update', optional(choice($._expression, $.comma_expression))),
       ')',
-      $._statement
+      field('body', $._statement)
     ),
 
     return_statement: $ => seq(

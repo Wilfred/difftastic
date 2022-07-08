@@ -1512,6 +1512,16 @@
     "type": "for_statement",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_statement",
+            "named": true
+          }
+        ]
+      },
       "condition": {
         "multiple": false,
         "required": false,
@@ -1554,16 +1564,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_statement",
-          "named": true
-        }
-      ]
     }
   },
   {

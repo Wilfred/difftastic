@@ -117,7 +117,7 @@ void MyFunction(char * __uptr myValue);
           right: (identifier))
         update: (update_expression
           argument: (identifier))
-        (compound_statement
+        body: (compound_statement
           (expression_statement
             (assignment_expression
               left: (subscript_expression
