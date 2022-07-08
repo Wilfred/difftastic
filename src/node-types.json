@@ -50,7 +50,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "else",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -142,7 +150,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "endif",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]

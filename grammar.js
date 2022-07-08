@@ -50,8 +50,8 @@ module.exports = grammar({
 
     if_command: ($) => command($.if, repeat($._untrimmed_argument)),
     elseif_command: ($) => command($.elseif, repeat($._untrimmed_argument)),
-    else_command: ($) => command($.else, optional(seq(/\s*/, $.argument, /\s*/))),
-    endif_command: ($) => command($.endif, optional(seq(/\s*/, $.argument, /\s*/))),
+    else_command: ($) => command($.else, repeat($._untrimmed_argument)),
+    endif_command: ($) => command($.endif, repeat($._untrimmed_argument)),
     if_condition: ($) =>
       seq(
         $.if_command,

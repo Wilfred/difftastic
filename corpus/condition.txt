@@ -106,3 +106,42 @@ endif()
   (endif_command (endif))
  )
 )
+
+==============================================
+Condition with not and parentheses [condition]
+==============================================
+if(NOT (A AND B) OR C)
+else(NOT (A AND B) OR C)
+endif(NOT (A AND B) OR C)
+---
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (else_command
+   (else)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (endif_command 
+   (endif)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+ )
+)
