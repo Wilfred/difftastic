@@ -27,7 +27,5 @@ Parsed syntax
   - Environment and cache variables
   - Normal variables
 
-TODO
-====
-
 - Generator expression
+

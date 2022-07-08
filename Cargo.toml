@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-cmake"
 description = "cmake grammar for the tree-sitter parsing library"
-version = "0.0.1"
+version = "0.1.0"
 keywords = ["incremental", "parsing", "cmake"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/uyha/tree-sitter-cmake"
