@@ -246,6 +246,10 @@ fn push_rhs_delimiter<'a>(
 }
 
 impl<'a> Vertex<'a> {
+    pub fn num_parents(&self) -> usize {
+        self.parents.size()
+    }
+
     pub fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
