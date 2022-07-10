@@ -1525,6 +1525,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "comma_expression",
+            "named": true
           }
         ]
       },
