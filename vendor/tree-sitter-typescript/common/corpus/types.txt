@@ -767,7 +767,7 @@ type T = typeof array[number];
   (type_alias_declaration (type_identifier)
     (intersection_type (index_type_query (type_identifier)) (type_identifier)))
   (type_alias_declaration (type_identifier)
-    (type_query (subscript_expression (identifier) (predefined_type)))))
+    (lookup_type (type_query (identifier)) (predefined_type))))
 
 =======================================
 Lookup types
@@ -875,6 +875,30 @@ function isT(t: T): t is T {
         (identifier)
         (type_identifier)))
     (statement_block (return_statement (true)))))
+
+==================================
+Type predicate and predefined types
+==================================
+
+function isFish(pet: Fish): pet is Fish {
+}
+
+function isFish(object: Fish): object is Fish {
+}
+
+---
+(program
+  (function_declaration (identifier)
+    (formal_parameters
+       (required_parameter (identifier) (type_annotation (type_identifier))))
+    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
+    (statement_block))
+  (function_declaration (identifier)
+    (formal_parameters
+      (required_parameter (identifier) (type_annotation (type_identifier))))
+    (type_predicate_annotation (type_predicate (identifier) (type_identifier)))
+    (statement_block))
+)
 
 ==================================
 Read-only arrays
@@ -1318,9 +1342,10 @@ type T = Foo<Bar<typeof bar["baz"]>>
         (generic_type
           (type_identifier)
           (type_arguments
-            (type_query
-              (subscript_expression
-                (identifier)
+            (lookup_type
+              (type_query
+                (identifier))
+              (literal_type
                 (string
                   (string_fragment))))))))))
 
@@ -1356,3 +1381,84 @@ type T = Foo<any, unknown, number, string, void, true, false, null, undefined, 0
         (literal_type
           (string
             (string_fragment)))))))
+
+==================================
+Extends
+==================================
+
+type Foo<T extends abstract new (...args: any) => any> = T;
+type Foo<T extends new (...args: any) => any> = T;
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (constructor_type
+            (formal_parameters
+              (required_parameter
+                (rest_pattern
+                  (identifier))
+                (type_annotation
+                  (predefined_type))))
+            (predefined_type)))))
+    (type_identifier))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (constructor_type
+            (formal_parameters
+              (required_parameter
+                (rest_pattern
+                  (identifier))
+                (type_annotation
+                  (predefined_type))))
+            (predefined_type)))))
+    (type_identifier)))
+
+========
+Abstract
+========
+
+type Foo<T> = abstract new () => T;
+
+---
+
+(program (type_alias_declaration (type_identifier) (type_parameters (type_parameter (type_identifier))) (constructor_type (formal_parameters) (type_identifier)))) 
+
+=========================
+Indexed Access Precedence
+=========================
+
+// These should generate the same AST aside from the parenthesized_type node
+type X1 = typeof Y[keyof typeof Z];
+type X2 = (typeof Y)[keyof typeof Z];
+
+---
+
+(program
+  (comment)
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (type_query
+        (identifier))
+      (index_type_query
+        (type_query
+          (identifier)))))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (parenthesized_type
+        (type_query
+          (identifier)))
+      (index_type_query
+        (type_query
+          (identifier))))))
