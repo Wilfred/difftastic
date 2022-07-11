@@ -3,12 +3,14 @@ comment
 ====
 
 // This is a comment
+// comment with a link made in https://github.com/flutter/flutter/pull/48547
+// Changes made in https://github.com/flutter/flutter/pull/48547
 /* This is also a comment */
 /* this comment /* // /** ends here: */
 
 ---
 
-(program (comment) (comment) (comment))
+(program (comment) (comment) (comment) (comment) (comment))
 
 ======================
 comments and literals
@@ -46,6 +48,7 @@ documentation comment 1
 
 ---
 
+(program (documentation_comment))
 
 ======================
 documentation comment 2
@@ -60,8 +63,10 @@ documentation comment 2
 
 ---
 
+(program (documentation_comment))
+
 ======================
-documentation comment 3
+fake documentation comment
 ======================
 
 /*
@@ -72,3 +77,47 @@ documentation comment 3
   */
 
 ---
+
+(program (comment))
+
+
+======================
+documentation comment 3
+======================
+
+/**
+  * Is this comment is a documentation comment.
+  *
+  * That is, that the comment i
+
+  */
+
+---
+
+(program (documentation_comment))
+
+
+
+======================
+regular comment 2
+======================
+
+/*
+  
+   Nested comment /* ... */ bbbbbbbbbbbb
+
+  */
+
+---
+
+(program (comment))
+
+======================
+regular comment 3
+======================
+
+/*/* ... */*/
+
+---
+
+(program (comment))
