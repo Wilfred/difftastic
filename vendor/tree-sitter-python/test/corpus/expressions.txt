@@ -503,6 +503,8 @@ Boolean operators
 
 a or b and c
 not d
+not a and b or c
+a and not b and c
 
 --------------------------------------------------------------------------------
 
@@ -515,6 +517,20 @@ not d
         (identifier))))
   (expression_statement
     (not_operator
+      (identifier)))
+  (expression_statement
+    (boolean_operator
+      (boolean_operator
+        (not_operator
+          (identifier))
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (boolean_operator
+      (boolean_operator
+        (identifier)
+        (not_operator
+          (identifier)))
       (identifier))))
 
 ================================================================================
@@ -523,6 +539,8 @@ Comparison operators
 
 a < b <= c == d >= e > f
 not a == b or c == d
+a not in b
+a is not b
 
 --------------------------------------------------------------------------------
 
@@ -536,14 +554,22 @@ not a == b or c == d
       (identifier)
       (identifier)))
   (expression_statement
-    (not_operator
-      (boolean_operator
+    (boolean_operator
+      (not_operator
         (comparison_operator
           (identifier)
-          (identifier))
-        (comparison_operator
-          (identifier)
-          (identifier))))))
+          (identifier)))
+      (comparison_operator
+        (identifier)
+        (identifier))))
+  (expression_statement
+    (comparison_operator
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (comparison_operator
+      (identifier)
+      (identifier))))
 
 ================================================================================
 Assignments
@@ -942,3 +968,36 @@ async with a as b:
               (for_in_clause
                 left: (identifier)
                 right: (identifier)))))))))
+
+===========================================
+Arbitrary indentation between brackets
+==========================================
+
+def a():
+    b(
+1,
+2
+    )
+    
+    c = [
+3
+    ]
+
+---
+
+(module
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (expression_statement
+        (call
+          (identifier)
+          (argument_list
+            (integer)
+            (integer))))
+      (expression_statement
+        (assignment
+          (identifier)
+          (list
+            (integer)))))))
