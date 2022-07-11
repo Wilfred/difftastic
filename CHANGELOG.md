@@ -1,5 +1,10 @@
 ## 0.31 (unreleased)
 
+### Display
+
+Fixed an issue with inline mode where there was a blank line between
+every line.
+
 ## 0.30 (released 4th July 2022)
 
 ### Parsing

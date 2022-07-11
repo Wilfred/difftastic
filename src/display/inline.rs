@@ -82,7 +82,7 @@ pub fn print(
 
         for (lhs_line, _) in before_lines {
             if let Some(lhs_line) = lhs_line {
-                println!(
+                print!(
                     "{}   {}",
                     format_line_num(lhs_line),
                     lhs_colored_lines[lhs_line.as_usize()]
@@ -92,7 +92,7 @@ pub fn print(
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
-                println!(
+                print!(
                     "{}   {}",
                     format_line_num(*lhs_line).red().bold(),
                     lhs_colored_lines[lhs_line.as_usize()]
@@ -101,7 +101,7 @@ pub fn print(
         }
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
-                println!(
+                print!(
                     "   {}{}",
                     format_line_num(*rhs_line).green().bold(),
                     rhs_colored_lines[rhs_line.as_usize()]
@@ -111,7 +111,7 @@ pub fn print(
 
         for (_, rhs_line) in &after_lines {
             if let Some(rhs_line) = rhs_line {
-                println!(
+                print!(
                     "   {}{}",
                     format_line_num(*rhs_line),
                     rhs_colored_lines[rhs_line.as_usize()]
