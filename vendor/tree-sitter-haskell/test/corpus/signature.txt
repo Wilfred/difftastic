@@ -102,6 +102,20 @@ signature: parenthesized operator fun
 (haskell (function (operator) (exp_name (variable))))
 
 ================================================================================
+signature: operator starting with hash
+================================================================================
+
+(#!) :: a
+
+---
+
+(haskell
+ (signature
+  (operator)
+  (type_name (type_variable))))
+
+
+================================================================================
 signature: HKT annotation
 ================================================================================
 

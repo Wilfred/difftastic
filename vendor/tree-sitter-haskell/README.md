@@ -6,8 +6,8 @@ Haskell grammar for [tree-sitter].
 
 # References
 
-* [Haskell 2010 Language Report – Syntax References](ref)
-* [GHC Language Extensions](ext)
+* [Haskell 2010 Language Report – Syntax References][ref]
+* [GHC Language Extensions][ext]
 
 # Building with nvim-treesitter
 

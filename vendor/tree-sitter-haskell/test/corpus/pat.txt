@@ -352,6 +352,21 @@ a (# a, a, a #) = a
   (exp_name (variable))))
 
 ================================================================================
+pat: unboxed sum, nullary tuple
+================================================================================
+
+a (# (# #) | | #) = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (patterns
+   (pat_unboxed_sum (pat_unboxed_tuple)))
+  (exp_name (variable))))
+
+================================================================================
 pat: signature
 ================================================================================
 
@@ -452,3 +467,19 @@ a (++) = a
 ---
 
 (haskell (function (variable) (patterns (pat_name (operator))) (exp_name (variable))))
+
+================================================================================
+pat: negation with parens
+================================================================================
+
+f (-(a)) = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (patterns
+   (pat_parens
+    (pat_negation (pat_parens (pat_name (variable))))))
+  (exp_name (variable))))
