@@ -4,15 +4,16 @@ fn main() {
     let interface_dir = root_dir.join("interface").join("src");
 
     let mut c_config = cc::Build::new();
+    c_config.include(&ocaml_dir);
     c_config
-        .include(&ocaml_dir)
         .flag_if_supported("-Wno-unused-parameter")
-        .flag_if_supported("-Wno-unused-but-set-variable");
+        .flag_if_supported("-Wno-unused-but-set-variable")
+        .flag_if_supported("-Wno-trigraphs");
 
     let mut cpp_config = cc::Build::new();
+    cpp_config.cpp(true);
+    cpp_config.include(&ocaml_dir);
     cpp_config
-        .cpp(true)
-        .include(&ocaml_dir)
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-unused-but-set-variable");
 

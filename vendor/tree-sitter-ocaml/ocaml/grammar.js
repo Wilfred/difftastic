@@ -1726,7 +1726,7 @@ module.exports = grammar({
 
     attribute_payload: $ => choice(
       $._structure,
-      seq(':', choice($._type_ext, $._signature)),
+      seq(':', optional(choice($._type_ext, $._signature))),
       seq(
         '?',
         $._pattern_ext,

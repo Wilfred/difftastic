@@ -8711,12 +8711,20 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_type_ext"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_type_ext"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_signature"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_signature"
+                  "type": "BLANK"
                 }
               ]
             }
