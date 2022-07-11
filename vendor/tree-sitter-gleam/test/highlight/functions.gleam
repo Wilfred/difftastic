@@ -43,6 +43,7 @@ pub fn replace(
 
 fn record_with_fun_field(record) {
   let foo = Bar(baz: fn(x) { x + 1 })
+  //        ^ constructor
   foo.baz(41)
   // <- variable
   //  ^ property
@@ -59,13 +60,20 @@ fn trial(uri) {
   case uri {
     //  ^ variable.parameter
     Uri(scheme: None) -> True
-    // <- type
+    // <- constructor
     //  ^ property
-    //          ^ type
-    //                   ^ type
+    //          ^ constructor
+    //                   ^ constructor
     _ -> False
     // <- comment.unused
   }
+}
+
+fn my_uri_to_string(my_uri) -> String {
+  uri.to_string(my_uri)
+  // <- module
+  //   ^ function
+  //             ^ variable.parameter
 }
 
 fn myfun(argument) {
@@ -86,4 +94,17 @@ fn myfun(argument) {
   // ^ function
   //         ^ variable
   //                   ^ variable.parameter
+}
+
+fn negate(arg) {
+  !arg
+  // <- operator
+  // ^ variable.parameter
+}
+
+fn comment_string_test() {
+  io.println("// hello world!")
+  // <- module
+  // ^ function
+  //            ^ string
 }

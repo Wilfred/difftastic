@@ -32,9 +32,10 @@
 (type_definition
   (data_constructors
     (data_constructor
-      name: (type_identifier) @name))) @definition.type
+      name: (constructor_name) @name))) @definition.constructor
 (external_type
   (type_name
     name: (type_identifier) @name)) @definition.type
 
 (type_identifier) @name @reference.type
+(constructor_name) @name @reference.constructor

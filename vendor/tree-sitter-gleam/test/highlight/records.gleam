@@ -1,6 +1,7 @@
 pub type User {
+  //     ^ type
   User(name: String)
-  // <- type
+  // <- constructor
   //    ^ property
   //          ^ type
 }

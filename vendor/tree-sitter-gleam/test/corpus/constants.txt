@@ -3,13 +3,14 @@ Constants
 ================================================================================
 
 const a = "hello"
-const a = "hello\nworld\!"
+const a = "hello\nworld!"
 const a = 1_234
 const a = 0b110
 const a = 0o7224
 const a = 0xBEef
 const a: Int = 1234
 const a: Float = -1_234.53__23
+const a: Float = 0.
 const a: #(Int, String) = #(1, "Hello!")
 const a: #() = #()
 const a: List(Int) = [1, 2]
@@ -56,6 +57,11 @@ const a: option.Option(String) = option.Some("Hello, World!")
     type: (type
       name: (type_identifier))
     value: (integer))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (float))
   (constant
     name: (identifier)
     type: (type
@@ -144,16 +150,16 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (record
-      name: (type_identifier)))
+      name: (constructor_name)))
   (constant
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments)))
   (constant
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments
         (argument
           value: (string
@@ -163,7 +169,7 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments
         (argument
           label: (label)
@@ -175,9 +181,9 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (record
-      name: (remote_type_identifier
+      name: (remote_constructor_name
         module: (identifier)
-        name: (type_identifier))
+        name: (constructor_name))
       arguments: (arguments
         (argument
           label: (label)
@@ -194,9 +200,9 @@ const a: option.Option(String) = option.Some("Hello, World!")
           (type
             name: (type_identifier)))))
     value: (record
-      name: (remote_type_identifier
+      name: (remote_constructor_name
         module: (identifier)
-        name: (type_identifier))
+        name: (constructor_name))
       arguments: (arguments
         (argument
           value: (string
@@ -337,18 +343,18 @@ pub const a = uri.Uri(host: "github.com")
     (visibility_modifier)
     name: (identifier)
     value: (record
-      name: (type_identifier)))
+      name: (constructor_name)))
   (constant
     (visibility_modifier)
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments)))
   (constant
     (visibility_modifier)
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments
         (argument
           value: (string
@@ -359,7 +365,7 @@ pub const a = uri.Uri(host: "github.com")
     (visibility_modifier)
     name: (identifier)
     value: (record
-      name: (type_identifier)
+      name: (constructor_name)
       arguments: (arguments
         (argument
           label: (label)
@@ -372,9 +378,9 @@ pub const a = uri.Uri(host: "github.com")
     (visibility_modifier)
     name: (identifier)
     value: (record
-      name: (remote_type_identifier
+      name: (remote_constructor_name
         module: (identifier)
-        name: (type_identifier))
+        name: (constructor_name))
       arguments: (arguments
         (argument
           label: (label)
