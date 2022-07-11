@@ -122,7 +122,7 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-gleam",
             src_dir: "vendor/tree-sitter-gleam-src",
-            extra_files: vec![],
+            extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
             name: "tree-sitter-go",

@@ -173,7 +173,7 @@ sample_files/text_before.txt sample_files/text_after.txt
 dfc3495b8d5931029b479f0c878a3219  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
-6f2f2b3905fbff7e283a2d3b312dc658  -
+45baae0b84cfc5c1dc91d59be315762b  -
 
 sample_files/toml_before.toml sample_files/toml_after.toml
 1e2de7235c339b07a0784498453e896c  -
