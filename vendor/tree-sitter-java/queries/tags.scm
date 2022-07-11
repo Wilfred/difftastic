@@ -11,7 +11,7 @@
 (interface_declaration
   name: (identifier) @name) @definition.interface
 
-(interface_type_list
+(type_list
   (type_identifier) @name) @reference.implementation
 
 (object_creation_expression
