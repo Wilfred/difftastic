@@ -8,7 +8,7 @@ echo "hi";
 
 (program
   (php_tag)
-  (echo_statement (encapsed_string (string))))
+  (echo_statement (encapsed_string (string_value))))
 
 ===============================
 interpolated text at beginning
@@ -22,7 +22,7 @@ echo "hi";
 (program
   (text)
   (php_tag)
-  (echo_statement (encapsed_string (string))))
+  (echo_statement (encapsed_string (string_value))))
 
 ===============================
 interpolated text at end
@@ -38,7 +38,7 @@ echo "hi";
 
 (program
   (php_tag)
-  (echo_statement (encapsed_string (string)))
+  (echo_statement (encapsed_string (string_value)))
   (text_interpolation (text)))
 
 ===============================
@@ -59,11 +59,11 @@ echo "bye";
 
 (program
   (php_tag)
-  (echo_statement (encapsed_string (string)))
+  (echo_statement (encapsed_string (string_value)))
   (text_interpolation
     (text)
     (php_tag))
-  (echo_statement (encapsed_string (string)))
+  (echo_statement (encapsed_string (string_value)))
   (text_interpolation))
 
 ==============================
@@ -79,7 +79,7 @@ Finished
 
 (program
   (php_tag)
-  (echo_statement (encapsed_string (string) (escape_sequence)))
+  (echo_statement (encapsed_string (string_value) (escape_sequence)))
   (text_interpolation (text)))
 
 ==============================
@@ -109,7 +109,7 @@ $a = 'This gets echoed twice';
 (program
   (text)
   (php_tag)
-  (expression_statement (assignment_expression (variable_name (name)) (string)))
+  (expression_statement (assignment_expression (variable_name (name)) (string (string_value))))
   (text_interpolation (php_tag))
   (expression_statement (variable_name (name)))
   (text_interpolation (text) (php_tag))
@@ -140,7 +140,7 @@ echo "hi";
   (text_interpolation (text) (php_tag))
   (comment)
   (comment)
-  (echo_statement (encapsed_string (string))))
+  (echo_statement (encapsed_string (string_value))))
 
 
 =======================================
@@ -165,7 +165,7 @@ if ( ! function_exists('xml_parser_create') ) {
       (unary_op_expression
         (function_call_expression
           function: (name)
-          arguments: (arguments (argument (string)))
+          arguments: (arguments (argument (string (string_value))))
         )
       )
     )

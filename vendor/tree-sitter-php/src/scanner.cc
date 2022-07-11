@@ -10,10 +10,14 @@ using std::string;
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  HEREDOC,
   ENCAPSED_STRING_CHARS,
   ENCAPSED_STRING_CHARS_AFTER_VARIABLE,
+  ENCAPSED_STRING_CHARS_HEREDOC,
+  ENCAPSED_STRING_CHARS_AFTER_VARIABLE_HEREDOC,
   EOF_TOKEN,
+  HEREDOC_START,
+  HEREDOC_END,
+  NOWDOC_STRING,
   SENTINEL_ERROR, // Unused token used to indicate error recovery mode
 };
 
@@ -118,7 +122,7 @@ struct Scanner {
   static bool is_escapable_sequence(TSLexer *lexer) {
     // Note: remember to also update the escape_sequence rule in the
     // main grammar whenever changing this method
-    auto letter = lexer->lookahead;
+    int32_t letter = lexer->lookahead;
 
     if (letter == 'n' ||
         letter == 'r' ||
@@ -147,23 +151,129 @@ struct Scanner {
     return iswdigit(lexer->lookahead) && lexer->lookahead >= '0' && lexer->lookahead <= '7';
   }
 
-  bool scan_encapsed_part_string(TSLexer *lexer, bool is_after_variable) {
-    lexer->result_symbol = ENCAPSED_STRING_CHARS;
+  bool scan_nowdoc_string(TSLexer *lexer) {
+    bool has_consumed_content = false;
+    if (open_heredocs.empty()) {
+      return false;
+    }
+      
+    // While PHP requires the nowdoc end tag to be the very first on a new line, there may be an
+    // arbitrary amount of whitespace before the closing token
+    while (iswspace(lexer->lookahead)) {
+      advance(lexer);
+      has_consumed_content = true;
+    }
 
-    for (bool has_content = false;; has_content = true) {
+    string heredoc_tag = open_heredocs.back().word;
+
+    bool end_tag_matched = false;
+
+    for (int i = 0; i < heredoc_tag.length(); i++) {
+      if (lexer->lookahead != heredoc_tag[i]) break;
+      advance(lexer);
+      has_consumed_content = true;
+
+      end_tag_matched = (i == heredoc_tag.length() - 1 && (iswspace(lexer->lookahead) || lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')'));
+    }
+
+    if (end_tag_matched) {
+      // There may be an arbitrary amount of white space after the end tag
+      while (iswspace(lexer->lookahead) && lexer->lookahead != '\r' && lexer->lookahead != '\n') {
+        advance(lexer);
+        has_consumed_content = true;
+      }
+
+      // Return to allow the end tag parsing if we've encountered an end tag at a valid position
+      if (lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+        // , and ) is needed to support heredoc in function arguments
+        return false;
+      }
+    }
+
+    for (bool has_content = has_consumed_content;; has_content = true) {
+      lexer->mark_end(lexer);
+
+      switch (lexer->lookahead) {
+        case '\n':
+        case '\r':
+          return has_content;
+        default:
+          if (lexer->eof(lexer)) return false;
+          advance(lexer);
+      }
+    }
+
+    return false;
+  }
+
+  bool scan_encapsed_part_string(TSLexer *lexer, bool is_after_variable, bool is_heredoc) {
+    bool has_consumed_content = false;
+
+    if (is_heredoc && !open_heredocs.empty()) {
+      // While PHP requires the heredoc end tag to be the very first on a new line, there may be an
+      // arbitrary amount of whitespace before the closing token
+      // However, we should not consume \r or \n
+      while (iswspace(lexer->lookahead) && lexer->lookahead != '\r' && lexer->lookahead != '\n') {
+        advance(lexer);
+        has_consumed_content = true;
+      }
+
+      string heredoc_tag = open_heredocs.back().word;
+
+      bool end_tag_matched = false;
+
+      for (int i = 0; i < heredoc_tag.length(); i++) {
+        if (lexer->lookahead != heredoc_tag[i]) break;
+        has_consumed_content = true;
+        advance(lexer);
+
+        end_tag_matched = (i == heredoc_tag.length() - 1 && (iswspace(lexer->lookahead) || lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')'));
+      }
+
+      if (end_tag_matched) {
+        // There may be an arbitrary amount of white space after the end tag
+        // However, we should not consume \r or \n
+        while (iswspace(lexer->lookahead) && lexer->lookahead != '\r' && lexer->lookahead != '\n') {
+          advance(lexer);
+          has_consumed_content = true;
+        }
+
+        // Return to allow the end tag parsing if we've encountered an end tag at a valid position
+        if (lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+          // , and ) is needed to support heredoc in function arguments
+          return false;
+        }
+      }
+    }
+
+    for (bool has_content = has_consumed_content;; has_content = true) {
       lexer->mark_end(lexer);
 
       switch (lexer->lookahead) {
         case '"':
-          return has_content;
-        case '\0':
-          return false;
+          if (!is_heredoc) {
+            return has_content;
+          }
+          advance(lexer);
+          break;
+        case '\n':
+        case '\r':
+          if (is_heredoc) {
+            return has_content;
+          }
+          advance(lexer);
+          break;
         case '\\':
           advance(lexer);
 
           // \{ should not be interprented as an escape sequence, but both
           // should be consumed as normal characters
           if (lexer->lookahead == '{') {
+            advance(lexer);
+            break;
+          }
+
+          if (is_heredoc && lexer->lookahead == '\\') {
             advance(lexer);
             break;
           }
@@ -204,84 +314,33 @@ struct Scanner {
           }
           break;
         default:
+          if (lexer->eof(lexer)) return false;
           advance(lexer);
       }
 
       is_after_variable = false;
     }
+
+    return false;
   }
 
   string scan_heredoc_word(TSLexer *lexer) {
     string result;
-    int32_t quote;
 
-    switch (lexer->lookahead) {
-      case '\'':
-        quote = lexer->lookahead;
-        advance(lexer);
-        while (lexer->lookahead != quote && lexer->lookahead != 0) {
-          result += lexer->lookahead;
-          advance(lexer);
-        }
-        advance(lexer);
-        break;
-
-      default:
-        if (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
-          result += lexer->lookahead;
-          advance(lexer);
-          while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
-            result += lexer->lookahead;
-            advance(lexer);
-          }
-        }
-        break;
+    while (is_valid_name_char(lexer)) {
+      result += lexer->lookahead;
+      advance(lexer);
     }
-
+  
     return result;
   }
 
-
-  ScanContentResult scan_heredoc_content(TSLexer *lexer) {
-    if (open_heredocs.empty()) return Error;
-    Heredoc heredoc = open_heredocs.front();
-    size_t position_in_word = 0;
-
-    for (;;) {
-      if (position_in_word == heredoc.word.size()) {
-        // While PHP requires the heredoc end tag to be the very first on a new line, there may be an
-        // arbitrary amount of whitespace before the closing token
-        while (lexer->lookahead == ' ') {
-          advance(lexer);
-        }
-
-        // , and ) is needed to support heredoc in function arguments
-        if (lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
-          open_heredocs.erase(open_heredocs.begin());
-          return End;
-        }
-
-        position_in_word = 0;
-      }
-      if (lexer->lookahead == 0) {
-        open_heredocs.erase(open_heredocs.begin());
-        return Error;
-      }
-
-      if (lexer->lookahead == heredoc.word[position_in_word]) {
-        advance(lexer);
-        position_in_word++;
-      } else {
-        position_in_word = 0;
-        advance(lexer);
-      }
-    }
-  }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     const bool is_error_recovery = valid_symbols[SENTINEL_ERROR];
 
     if (is_error_recovery) {
+      // Consider if we should clear the heredoc list on error
       return false;
     }
 
@@ -290,11 +349,47 @@ struct Scanner {
     lexer->mark_end(lexer);
 
     if (valid_symbols[ENCAPSED_STRING_CHARS_AFTER_VARIABLE]) {
-      return scan_encapsed_part_string(lexer, true);
+      lexer->result_symbol = ENCAPSED_STRING_CHARS_AFTER_VARIABLE;
+      return scan_encapsed_part_string(lexer, /* is_after_variable */ true, /* is_heredoc */ false);
     }
 
     if (valid_symbols[ENCAPSED_STRING_CHARS]) {
-      return scan_encapsed_part_string(lexer, false);
+      lexer->result_symbol = ENCAPSED_STRING_CHARS;
+      return scan_encapsed_part_string(lexer, /* is_after_variable */ false, /* is_heredoc */ false);
+    }
+
+    if (valid_symbols[ENCAPSED_STRING_CHARS_AFTER_VARIABLE_HEREDOC]) {
+      lexer->result_symbol = ENCAPSED_STRING_CHARS_AFTER_VARIABLE_HEREDOC;
+      return scan_encapsed_part_string(lexer, /* is_after_variable */ true, /* is_heredoc */ true);
+    }
+
+    if (valid_symbols[ENCAPSED_STRING_CHARS_HEREDOC]) {
+      lexer->result_symbol = ENCAPSED_STRING_CHARS_HEREDOC;
+      return scan_encapsed_part_string(lexer, /* is_after_variable */ false, /* is_heredoc */ true);
+    }
+
+    if (valid_symbols[NOWDOC_STRING]) {
+      lexer->result_symbol = NOWDOC_STRING;
+      return scan_nowdoc_string(lexer);
+    }
+
+    if (valid_symbols[HEREDOC_END]) {
+      lexer->result_symbol = HEREDOC_END;
+      if (open_heredocs.empty()) return false;
+
+      Heredoc heredoc = open_heredocs.back();
+
+      while (iswspace(lexer->lookahead)) {
+        advance(lexer);
+      }
+
+      if (heredoc.word != scan_heredoc_word(lexer)) {
+        return false;
+      }
+
+      lexer->mark_end(lexer);
+      open_heredocs.pop_back();
+      return true;
     }
 
     if (!scan_whitespace(lexer)) return false;
@@ -305,31 +400,20 @@ struct Scanner {
     }
 
 
-    if (valid_symbols[HEREDOC]) {
-      if (lexer->lookahead == '<') {
-        advance(lexer);
-        if (lexer->lookahead != '<') return false;
-        advance(lexer);
-        if (lexer->lookahead != '<') return false;
-        advance(lexer);
+    if (valid_symbols[HEREDOC_START]) {
+      lexer->result_symbol = HEREDOC_START;
+      Heredoc heredoc;
 
-        if (!scan_whitespace(lexer)) return false;
-
-        // Found a heredoc
-        Heredoc heredoc;
-        heredoc.word = scan_heredoc_word(lexer);
-        if (heredoc.word.empty()) return false;
-        open_heredocs.push_back(heredoc);
-
-        switch (scan_heredoc_content(lexer)) {
-          case Error:
-            return false;
-          case End:
-            lexer->result_symbol = HEREDOC;
-            lexer->mark_end(lexer);
-            return true;
-        }
+      while (iswspace(lexer->lookahead)) {
+        skip(lexer);
       }
+
+      heredoc.word = scan_heredoc_word(lexer);
+      if (heredoc.word.empty()) return false;
+      lexer->mark_end(lexer);
+
+      open_heredocs.push_back(heredoc);
+      return true;
     }
 
     if (valid_symbols[AUTOMATIC_SEMICOLON]) {

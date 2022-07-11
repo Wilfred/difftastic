@@ -161,7 +161,7 @@ $a = (array) include 'some.php';
       left: (variable_name (name))
       right: (cast_expression
         type: (cast_type)
-        value: (include_expression (string))
+        value: (include_expression (string (string_value)))
       )
     )
   )
@@ -244,13 +244,13 @@ list(, $name1) = $data[0];
         (array_element_initializer
           (array_creation_expression
             (array_element_initializer (integer))
-            (array_element_initializer (string))
+            (array_element_initializer (string (string_value)))
           )
         )
         (array_element_initializer
           (array_creation_expression
             (array_element_initializer (integer))
-            (array_element_initializer (string))
+            (array_element_initializer (string (string_value)))
           )
         )
       )
@@ -414,8 +414,8 @@ true ? false : true ? "a" : "b";
         (boolean)
         (boolean)
         (boolean))
-      (encapsed_string (string))
-      (encapsed_string (string))))
+      (encapsed_string (string_value))
+      (encapsed_string (string_value))))
   (text_interpolation))
 
 =================================================
@@ -487,7 +487,7 @@ $i .= "a" . "b";
       (assignment_expression
         (variable_name
           (name))
-        (encapsed_string (string)))))
+        (encapsed_string (string_value)))))
   (expression_statement
     (augmented_assignment_expression
       (variable_name
@@ -501,15 +501,15 @@ $i .= "a" . "b";
       (variable_name
         (name))
       (binary_expression
-        (encapsed_string (string))
-        (encapsed_string (string)))))
+        (encapsed_string (string_value))
+        (encapsed_string (string_value)))))
   (expression_statement
     (binary_expression
-      (encapsed_string (string))
+      (encapsed_string (string_value))
       (augmented_assignment_expression
         (variable_name
           (name))
-        (encapsed_string (string)))))
+        (encapsed_string (string_value)))))
   (text_interpolation))
 
 =======================================
@@ -632,9 +632,9 @@ Concatenation precedence
   (php_tag)
   (expression_statement
     (binary_expression
-      (encapsed_string (string))
+      (encapsed_string (string_value))
       (binary_expression
-        (encapsed_string (string))
+        (encapsed_string (string_value))
         (integer)
       )
     )
@@ -669,9 +669,9 @@ $a = [...$values];
       (arguments
         (argument
           (array_creation_expression
-            (array_element_initializer (encapsed_string (string)) (encapsed_string (string)))
-            (array_element_initializer (encapsed_string (string)) (encapsed_string (string)))
-            (array_element_initializer (encapsed_string (string)) (encapsed_string (string))))))))
+            (array_element_initializer (encapsed_string (string_value)) (encapsed_string (string_value)))
+            (array_element_initializer (encapsed_string (string_value)) (encapsed_string (string_value)))
+            (array_element_initializer (encapsed_string (string_value)) (encapsed_string (string_value))))))))
   (expression_statement
     (assignment_expression
       (variable_name (name))
@@ -710,7 +710,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
           (anonymous_function_creation_expression
             parameters: (formal_parameters)
             body: (compound_statement
-              (echo_statement (encapsed_string (string)))))))))
+              (echo_statement (encapsed_string (string_value)))))))))
   (expression_statement
     (function_call_expression
       function: (name)
@@ -876,8 +876,8 @@ throw $exception ??= new Exception();
   (expression_statement
     (throw_expression
       (binary_expression
-        (variable_name (name))
-        (object_creation_expression
+        left: (variable_name (name))
+        right: (object_creation_expression
           (name)
           (arguments)
         )
@@ -980,6 +980,71 @@ $country = $session?->user?->getAddress()?->country;
   )
 )
 
+
+===============================================
+First class callable syntax
+===============================================
+
+<?php
+foo(...);
+$this->foo(...);
+A::foo(...);
+
+// These are invalid, but accepted on the parser level.
+new Foo(...);
+
+#[Foo(...)]
+function foo() {}
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (function_call_expression
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  (expression_statement
+    (member_call_expression
+      (variable_name (name))
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  (expression_statement
+    (scoped_call_expression
+      (name)
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  
+  (comment)
+  (expression_statement
+    (object_creation_expression
+      (name)
+      (arguments (variadic_placeholder))
+    )
+  )
+  
+  (function_definition
+    (attribute_list
+      (attribute_group
+        (attribute
+          (name)
+          (arguments (variadic_placeholder))
+        )
+      )
+    )
+    (name)
+    (formal_parameters)
+    (compound_statement)
+  )
+)
+
+
 ===============================================
 Match expressions
 ===============================================
@@ -1039,7 +1104,7 @@ $statement = match ($a) {
             (member_call_expression
               (variable_name (name))
               (name)
-              (arguments (argument (string)))
+              (arguments (argument (string (string_value))))
             )
           )
         )
@@ -1372,7 +1437,7 @@ class A {
       (subscript_expression
         (variable_name (name))
         (binary_expression
-          (string)
+          (string (string_value))
           (function_call_expression
             (qualified_name
               (namespace_name_as_prefix)
@@ -1388,10 +1453,10 @@ class A {
   )
   (expression_statement
     (array_creation_expression
-      (array_element_initializer (string))
+      (array_element_initializer (string (string_value)))
       (array_element_initializer (by_ref (variable_name (name))))
-      (array_element_initializer (string) (string))
-      (array_element_initializer (string) (by_ref (variable_name (name))))
+      (array_element_initializer (string (string_value)) (string (string_value)))
+      (array_element_initializer (string (string_value)) (by_ref (variable_name (name))))
     )
   )
   (expression_statement
@@ -1412,7 +1477,7 @@ class A {
   (expression_statement
     (assignment_expression
       (list_literal
-        (string)
+        (string (string_value))
         (by_ref (variable_name (name)))
       )
       (variable_name (name))
@@ -1429,7 +1494,7 @@ class A {
   (expression_statement
     (assignment_expression
       (list_literal
-        (string)
+        (string (string_value))
         (by_ref (variable_name (name)))
       )
       (variable_name (name))

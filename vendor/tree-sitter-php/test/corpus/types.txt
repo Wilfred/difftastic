@@ -29,6 +29,7 @@ Primitive types
 function a(): int {}
 function b(): callable {}
 function c(): iterable {}
+function d(): never {}
 
 ---
 
@@ -45,6 +46,10 @@ function c(): iterable {}
   (function_definition
     (name) (formal_parameters)
     (union_type (primitive_type))
+    (compound_statement))
+  (function_definition
+    (name) (formal_parameters)
+    (bottom_type)
     (compound_statement)))
 
 =======================

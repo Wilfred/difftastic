@@ -33,7 +33,7 @@ class Exception_foo implements ThrowableInterface {
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
-        (property_element (variable_name (name)) (property_initializer (encapsed_string (string)))))
+        (property_element (variable_name (name)) (property_initializer (encapsed_string (string_value)))))
       (method_declaration
         (visibility_modifier)
         name: (name)
@@ -141,7 +141,7 @@ class foo {
 					name: (variable_name (name))))
 	    body: (compound_statement
 				(expression_statement (reference_assignment_expression
-	        left: (subscript_expression (variable_name (name)) (string))
+	        left: (subscript_expression (variable_name (name)) (string (string_value)))
 	        right: (variable_name (name))))
 				(expression_statement (assignment_expression
 	        left: (member_access_expression
@@ -149,7 +149,7 @@ class foo {
 						name: (name))
 	        right: (variable_name (name))))
 				(expression_statement (member_call_expression
-	        object: (subscript_expression (variable_name (name)) (string))
+	        object: (subscript_expression (variable_name (name)) (string (string_value)))
 	        name: (name)
 	        arguments: (arguments)))))
 	  (method_declaration
@@ -157,7 +157,7 @@ class foo {
 	    parameters: (formal_parameters)
 	    body: (compound_statement
 	      (expression_statement (assignment_expression
-	        left: (subscript_expression (subscript_expression (variable_name (name)) (string)))
+	        left: (subscript_expression (subscript_expression (variable_name (name)) (string (string_value))))
 	        right: (member_access_expression
 						object: (variable_name (name))
 						name: (name)))))))))
@@ -271,15 +271,15 @@ define('ANIMALS', array(
     (function_call_expression
       (name)
       (arguments
-        (argument (encapsed_string (string)))
-        (argument (encapsed_string (string)))
+        (argument (encapsed_string (string_value)))
+        (argument (encapsed_string (string_value)))
       )
     )
   )
   (const_declaration
     (const_element
       (name)
-      (string)
+      (string (string_value))
     )
   )
   (const_declaration
@@ -287,7 +287,7 @@ define('ANIMALS', array(
       (name)
       (binary_expression
         (name)
-        (string)
+        (string (string_value))
       )
     )
   )
@@ -295,9 +295,9 @@ define('ANIMALS', array(
     (const_element
       (name)
       (array_creation_expression
-        (array_element_initializer (string))
-        (array_element_initializer (string))
-        (array_element_initializer (string))
+        (array_element_initializer (string (string_value)))
+        (array_element_initializer (string (string_value)))
+        (array_element_initializer (string (string_value)))
       )
     )
   )
@@ -305,12 +305,12 @@ define('ANIMALS', array(
     (function_call_expression
       (name)
       (arguments
-        (argument (string))
+        (argument (string (string_value)))
         (argument
           (array_creation_expression
-            (array_element_initializer (string))
-            (array_element_initializer (string))
-            (array_element_initializer (string))
+            (array_element_initializer (string (string_value)))
+            (array_element_initializer (string (string_value)))
+            (array_element_initializer (string (string_value)))
           )
         )
       )
@@ -355,17 +355,37 @@ new #[ExampleAttribute] class() {};
 #[ExampleAttribute] fn($x) => $x;
 $baz = #[ExampleAttribute] function($x) {return $x;};
 
+class A {
+  #[\Assert\All(
+      new \Assert\NotNull,
+      new \Assert\Length(min: 5))
+  ]
+  public string $name = '';
+
+}
+
+#[
+    A1,
+    A2(),
+    A3(0),
+    A4(x: 1),
+]
+function a() {
+}
+
 ---
 
 (program
   (php_tag)
 
   (function_definition
-    attributes: (attribute_list (attribute (name)))
+    attributes: (attribute_list (attribute_group (attribute (name))))
     name: (name)
     parameters: (formal_parameters
       (simple_parameter
-        attributes: (attribute_list (attribute (name)))
+        attributes: (attribute_list 
+          (attribute_group (attribute (name)))
+        )
         name: (variable_name (name))
       )
     )
@@ -376,27 +396,29 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
     name: (name)
     body: (declaration_list
       (const_declaration
-        attributes: (attribute_list (attribute (name)))
-        (const_element (name) (string))
+        attributes: (attribute_list (attribute_group (attribute (name))))
+        (const_element (name) (string (string_value)))
       )
 
       (property_declaration
-        attributes: (attribute_list (attribute (name)))
+        attributes: (attribute_list (attribute_group (attribute (name))))
         (visibility_modifier)
         type: (union_type (primitive_type))
         (property_element (variable_name (name))
-          (property_initializer (string))
+          (property_initializer (string (string_value)))
         )
       )
       (method_declaration
         attributes: (attribute_list
-          (attribute
-            (name)
-            parameters: (arguments
-              (argument (encapsed_string (string)))
-              (argument
-                (array_creation_expression
-                  (array_element_initializer (encapsed_string (string)))
+          (attribute_group
+            (attribute
+              (name)
+              parameters: (arguments
+                (argument (encapsed_string (string_value)))
+                (argument
+                  (array_creation_expression
+                    (array_element_initializer (encapsed_string (string_value)))
+                  )
                 )
               )
             )
@@ -406,7 +428,7 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
         name: (name)
         parameters: (formal_parameters
           (simple_parameter
-            attributes: (attribute_list (attribute (name)))
+            attributes: (attribute_list (attribute_group (attribute (name))))
             name: (variable_name (name))
           )
         )
@@ -416,50 +438,62 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
   )
   (class_declaration
     attributes: (attribute_list
-      (attribute (name))
-      (attribute
-        (qualified_name
-          (namespace_name_as_prefix
-            (namespace_name (name))
-          )
-          (name)
-        )
+      (attribute_group
+        (attribute (name))
       )
-      (attribute
-        (name)
-        parameters: (arguments (argument (integer)))
-      )
-      (attribute
-        (name)
-        parameters: (arguments
-          (argument
-            (class_constant_access_expression
-              (name)
-              (name)
+      (attribute_group
+        (attribute
+          (qualified_name
+            (namespace_name_as_prefix
+              (namespace_name (name))
             )
+            (name)
           )
         )
       )
-      (attribute
-        (name)
-        parameters: (arguments
-          (argument
-            (array_creation_expression
-              (array_element_initializer
-                (encapsed_string (string))
-                (encapsed_string (string))
+      (attribute_group
+        (attribute
+          (name)
+          parameters: (arguments (argument (integer)))
+        )
+      )
+      (attribute_group
+        (attribute
+          (name)
+          parameters: (arguments
+            (argument
+              (class_constant_access_expression
+                (name)
+                (name)
               )
             )
           )
         )
       )
-      (attribute
-        (name)
-        parameters: (arguments
-          (argument
-            (binary_expression
-              left: (integer)
-              right: (integer)
+      (attribute_group
+        (attribute
+          (name)
+          parameters: (arguments
+            (argument
+              (array_creation_expression
+                (array_element_initializer
+                  (encapsed_string (string_value))
+                  (encapsed_string (string_value))
+                )
+              )
+            )
+          )
+        )
+      )
+      (attribute_group
+        (attribute
+          (name)
+          parameters: (arguments
+            (argument
+              (binary_expression
+                left: (integer)
+                right: (integer)
+              )
             )
           )
         )
@@ -470,14 +504,14 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
   )
   (expression_statement
     (object_creation_expression
-      attributes: (attribute_list (attribute (name)))
+      attributes: (attribute_list (attribute_group (attribute (name))))
       (arguments)
       (declaration_list)
     )
   )
   (expression_statement
     (arrow_function
-      attributes: (attribute_list (attribute (name)))
+      attributes: (attribute_list (attribute_group (attribute (name))))
       parameters: (formal_parameters
         (simple_parameter
           name: (variable_name (name))
@@ -490,7 +524,7 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
     (assignment_expression
       left: (variable_name (name))
       right: (anonymous_function_creation_expression
-        attributes: (attribute_list (attribute (name)))
+        attributes: (attribute_list (attribute_group (attribute (name))))
         parameters: (formal_parameters
           (simple_parameter
             name: (variable_name (name))
@@ -503,6 +537,75 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
         )
       )
     )
+  )
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (property_declaration
+        attributes: (attribute_list
+          (attribute_group
+            (attribute
+              (qualified_name
+                (namespace_name_as_prefix (namespace_name (name)))
+                (name)
+              )
+              parameters: (arguments
+                (argument
+                  (object_creation_expression
+                    (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)
+                    )
+                  )
+                )
+                (argument
+                  (object_creation_expression
+                    (qualified_name
+                      (namespace_name_as_prefix (namespace_name (name)))
+                      (name)
+                    )
+                    (arguments
+                      (argument
+                        name: (name)
+                        (integer)
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+        (visibility_modifier)
+        type: (union_type (primitive_type))
+        (property_element
+          (variable_name (name))
+          (property_initializer (string (string_value)))
+        )
+      )
+    )
+  )
+  (function_definition
+    attributes: (attribute_list
+      (attribute_group
+        (attribute (name))
+        (attribute
+          (name)
+          parameters: (arguments)
+        )
+        (attribute
+          (name)
+          parameters: (arguments (argument (integer)))
+        )
+        (attribute
+          (name)
+          parameters: (arguments (argument name: (name) (integer)))
+        )
+      )
+    )
+    name: (name)
+    parameters: (formal_parameters)
+    body: (compound_statement)
   )
 )
 
@@ -560,10 +663,10 @@ enum Suit: string
     (name)
     (union_type (primitive_type))
     (enum_declaration_list 
-      (enum_case (name) (string))
+      (enum_case (name) (string (string_value)))
       (enum_case (name))
-      (enum_case (name) (string))
-      (enum_case (name) (string))
+      (enum_case (name) (string (string_value)))
+      (enum_case (name) (string (string_value)))
       
       (comment)
       
@@ -584,14 +687,14 @@ enum Suit: string
                     (class_constant_access_expression (name) (name))
                     (class_constant_access_expression (name) (name))
                   )
-                  (string)
+                  (string (string_value))
                 )
                 (match_conditional_expression
                   (match_condition_list
                     (class_constant_access_expression (name) (name))
                     (class_constant_access_expression (name) (name))
                   )
-                  (string)
+                  (string (string_value))
                 )
               )
             )
