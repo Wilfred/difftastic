@@ -42,6 +42,16 @@ block comment with comment after begin
 
 (program (comment))
 
+======================================
+block comment with comment after end
+======================================
+
+=begin 
+=end rdoc
+
+---
+
+(program (comment))
 
 =========================
 multi-line block comments
