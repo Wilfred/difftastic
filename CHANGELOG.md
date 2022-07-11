@@ -1,5 +1,9 @@
 ## 0.31 (unreleased)
 
+### Parsing
+
+Updated to latest tree-sitter C# parser.
+
 ### Display
 
 Fixed an issue with inline mode where there was a blank line between
