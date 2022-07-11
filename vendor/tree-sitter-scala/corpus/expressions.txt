@@ -429,6 +429,7 @@ object O {
   val b = (x: Int, y: Int) => { x * y }
   val f = _ => 2
   (a, b, _) => a - b
+  foo { i => val x = 2 + i }
 }
 
 --------------------------------------------------------------------------------
@@ -454,7 +455,12 @@ object O {
           (binding (identifier)))
         (infix_expression (identifier)
           (operator_identifier)
-          (identifier))))))
+          (identifier)))
+      (call_expression
+        (identifier)
+        (block (lambda_expression
+          (identifier)
+          (val_definition (identifier) (infix_expression (integer_literal) (operator_identifier) (identifier)))))))))
 
 ===============================
 Unit expressions
