@@ -3,7 +3,7 @@
 ### Parsing
 
 Updated to the latest tree-sitter parsers for C#, Dart, Elm, Gleam,
-Haskell, HCL, Java, JSON, OCaml, PHP, Python and Ruby.
+Haskell, HCL, Java, JSON, OCaml, PHP, Python, Ruby and Scala.
 
 ### Display
 
