@@ -12,6 +12,8 @@
 (import alias: (identifier) @module)
 (remote_type_identifier
   module: (identifier) @module)
+(remote_constructor_name
+  module: (identifier) @module)
 ((field_access
   record: (identifier) @module
   field: (label) @function)
@@ -45,6 +47,9 @@
 (remote_type_identifier) @type
 (type_identifier) @type
 
+; Data constructors
+(constructor_name) @constructor
+
 ; Literals
 (string) @string
 (bit_string_segment_option) @function.builtin
@@ -58,6 +63,7 @@
 ; Operators
 (binary_expression
   operator: _ @operator)
+"!" @operator
 
 ; Keywords
 [

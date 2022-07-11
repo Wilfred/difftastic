@@ -250,7 +250,7 @@ fn bit_string() {
   <<0:4, 1:3, 1:1>>
 }
 fn return_fun(x) {
-  fn(foo y: Int) { x + y }
+  fn(y: Int) { x + y }
 }
 fn expression_group() {
   {
@@ -315,7 +315,7 @@ fn field_access(x) {
     parameters: (function_parameters)
     body: (function_body
       (record
-        name: (type_identifier)
+        name: (constructor_name)
         arguments: (arguments
           (argument
             label: (label)
@@ -326,9 +326,9 @@ fn field_access(x) {
     parameters: (function_parameters)
     body: (function_body
       (record
-        name: (remote_type_identifier
+        name: (remote_constructor_name
           module: (identifier)
-          name: (type_identifier))
+          name: (constructor_name))
         arguments: (arguments
           (argument
             label: (label)
@@ -400,7 +400,6 @@ fn field_access(x) {
       (anonymous_function
         parameters: (function_parameters
           (function_parameter
-            label: (label)
             name: (identifier)
             type: (type
               name: (type_identifier))))
@@ -440,13 +439,13 @@ fn field_access(x) {
                 (integer)
                 (integer)))
             value: (record
-              name: (type_identifier)))
+              name: (constructor_name)))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (discard)))
             value: (record
-              name: (type_identifier)))))))
+              name: (constructor_name)))))))
   (function
     name: (identifier)
     parameters: (function_parameters)
@@ -498,7 +497,7 @@ fn field_access(x) {
         name: (identifier)))
     body: (function_body
       (record_update
-        constructor: (type_identifier)
+        constructor: (constructor_name)
         spread: (identifier)
         arguments: (record_update_arguments
           (record_update_argument
@@ -511,9 +510,9 @@ fn field_access(x) {
               left: (integer)
               right: (integer)))))
       (record_update
-        constructor: (remote_type_identifier
+        constructor: (remote_constructor_name
           module: (identifier)
-          name: (type_identifier))
+          name: (constructor_name))
         spread: (function_call
           function: (identifier)
           arguments: (arguments))
@@ -624,7 +623,7 @@ fn trial(x, y, z) {
                   index: (integer))
                 right: (integer)))
             value: (record
-              name: (type_identifier)))
+              name: (constructor_name)))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
@@ -646,7 +645,7 @@ fn trial(x, y, z) {
                     index: (integer))
                   right: (integer))))
             value: (record
-              name: (type_identifier)))))
+              name: (constructor_name)))))
       (case
         subjects: (case_subjects
           (tuple
@@ -677,25 +676,25 @@ fn trial(x, y, z) {
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (record_pattern
-                  name: (type_identifier)
+                  name: (constructor_name)
                   arguments: (record_pattern_arguments
                     (record_pattern_argument
                       label: (label)
                       pattern: (record_pattern
-                        name: (type_identifier)
+                        name: (constructor_name)
                         arguments: (record_pattern_arguments
                           (record_pattern_argument
                             pattern: (string
                               (quoted_content))))))
                     (pattern_spread)))))
             value: (record
-              name: (type_identifier)))
+              name: (constructor_name)))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (discard)))
             value: (record
-              name: (type_identifier))))))))
+              name: (constructor_name))))))))
 
 ================================================================================
 Try patterns
@@ -735,14 +734,14 @@ fn try_try_again(x, y) -> Int {
         value: (todo))
       (try
         pattern: (record_pattern
-          name: (remote_type_identifier
+          name: (remote_constructor_name
             module: (identifier)
-            name: (type_identifier))
+            name: (constructor_name))
           arguments: (record_pattern_arguments))
         value: (todo))
       (try
         pattern: (record_pattern
-          name: (type_identifier))
+          name: (constructor_name))
         value: (todo))
       (try
         pattern: (string
@@ -1032,3 +1031,22 @@ fn lists(x) {
       (list
         (integer)
         spread: (identifier)))))
+
+================================================================================
+Comment in string
+================================================================================
+
+io.println("// hello world!\n")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_call
+    function: (field_access
+      record: (identifier)
+      field: (label))
+    arguments: (arguments
+      (argument
+        value: (string
+	  (quoted_content)
+	  (escape_sequence))))))

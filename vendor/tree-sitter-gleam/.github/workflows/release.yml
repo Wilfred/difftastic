@@ -32,7 +32,7 @@ jobs:
         run: npx tree-sitter test
 
       - name: Compile library file
-        run: cc -shared -fPIC -g -O2 -I src src/parser.c -o tree-sitter-gleam.so
+        run: cc -shared -fPIC -g -O2 -I src src/parser.c src/scanner.c -o tree-sitter-gleam.so
 
       - name: Create archive
         run: |

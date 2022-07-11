@@ -2,6 +2,7 @@ const NEWLINE = /\r?\n/;
 
 module.exports = grammar({
   name: "gleam",
+  externals: ($) => [$.quoted_content],
   extras: ($) => [
     ";",
     NEWLINE,
@@ -16,6 +17,11 @@ module.exports = grammar({
       $._maybe_record_expression,
       $._maybe_tuple_expression,
       $.remote_type_identifier,
+    ],
+    [
+      $._maybe_record_expression,
+      $._maybe_tuple_expression,
+      $.remote_constructor_name,
     ],
     [$.case_subjects],
     [$.source_file],
@@ -96,7 +102,7 @@ module.exports = grammar({
     ...bit_string_rules("constant", "_constant_value", "integer"),
     constant_record: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(
           field("arguments", alias($.constant_record_arguments, $.arguments))
         )
@@ -293,6 +299,7 @@ module.exports = grammar({
         $.case,
         $.let,
         $.assert,
+        $.negation,
         $.record_update,
         $.tuple_access,
         $.field_access,
@@ -300,7 +307,7 @@ module.exports = grammar({
       ),
     record: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
@@ -323,11 +330,30 @@ module.exports = grammar({
     anonymous_function: ($) =>
       seq(
         "fn",
-        field("parameters", $.function_parameters),
+        field(
+          "parameters",
+          alias($.anonymous_function_parameters, $.function_parameters)
+        ),
         optional(seq("->", field("return_type", $._type))),
         "{",
         field("body", alias($._expression_seq, $.function_body)),
         "}"
+      ),
+    anonymous_function_parameters: ($) =>
+      seq(
+        "(",
+        optional(
+          series_of(
+            alias($.anonymous_function_parameter, $.function_parameter),
+            ","
+          )
+        ),
+        ")"
+      ),
+    anonymous_function_parameter: ($) =>
+      seq(
+        choice($._discard_param, $._name_param),
+        optional($._type_annotation)
       ),
     expression_group: ($) => seq("{", $._expression_seq, "}"),
     case: ($) =>
@@ -387,6 +413,7 @@ module.exports = grammar({
       seq(field("tuple", $.identifier), ".", field("index", $.integer)),
     let: ($) => seq("let", $._assignment),
     assert: ($) => seq("assert", $._assignment),
+    negation: ($) => seq("!", $._expression_unit),
     _assignment: ($) =>
       seq(
         field("pattern", $._pattern),
@@ -398,7 +425,7 @@ module.exports = grammar({
       seq(
         field(
           "constructor",
-          choice($.type_identifier, $.remote_type_identifier)
+          choice($.constructor_name, $.remote_constructor_name)
         ),
         "(",
         "..",
@@ -504,7 +531,7 @@ module.exports = grammar({
       ),
     record_pattern: ($) =>
       seq(
-        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("name", choice($.constructor_name, $.remote_constructor_name)),
         optional(field("arguments", $.record_pattern_arguments))
       ),
     record_pattern_arguments: ($) =>
@@ -559,7 +586,7 @@ module.exports = grammar({
     data_constructors: ($) => repeat1($.data_constructor),
     data_constructor: ($) =>
       seq(
-        field("name", $.type_identifier),
+        field("name", $.constructor_name),
         optional(field("arguments", $.data_constructor_arguments))
       ),
     data_constructor_arguments: ($) =>
@@ -579,11 +606,14 @@ module.exports = grammar({
       ),
 
     /* Literals */
-    string: ($) => seq('"', repeat($._string_part), '"'),
-    _string_part: ($) => choice($.escape_sequence, $.quoted_content),
-    escape_sequence: ($) => /\\[efnrt\"\\]/,
-    quoted_content: ($) => /(?:[^\\\"]|\\[^efnrt\"\\])+/,
-    float: ($) => /-?[0-9_]+\.[0-9_]+/,
+    string: ($) =>
+      seq(
+        '"',
+        repeat(choice($.escape_sequence, $.quoted_content)),
+        token.immediate('"')
+      ),
+    escape_sequence: ($) => token.immediate(/\\[efnrt\"\\]/),
+    float: ($) => /-?[0-9_]+\.[0-9_]*/,
     integer: ($) =>
       seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),
     _hex: ($) => /0[xX][0-9a-fA-F_]+/,
@@ -661,6 +691,13 @@ module.exports = grammar({
     type_identifier: ($) => $._upname,
     remote_type_identifier: ($) =>
       seq(field("module", $.identifier), ".", field("name", $.type_identifier)),
+    constructor_name: ($) => $._upname,
+    remote_constructor_name: ($) =>
+      seq(
+        field("module", $.identifier),
+        ".",
+        field("name", $.constructor_name)
+      ),
 
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,

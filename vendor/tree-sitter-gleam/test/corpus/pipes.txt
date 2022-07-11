@@ -1,0 +1,20 @@
+================================================================================
+Pipes
+================================================================================
+
+string
+|> iodata.new
+|> iodata.reverse
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (binary_expression
+    (binary_expression
+      (identifier)
+      (field_access
+        (identifier)
+        (label)))
+    (field_access
+      (identifier)
+      (label))))
