@@ -17,6 +17,10 @@ enum TokenType {
   STRING_START,
   STRING_CONTENT,
   STRING_END,
+  COMMENT,
+  CLOSE_PAREN,
+  CLOSE_BRACKET,
+  CLOSE_BRACE,
 };
 
 struct Delimiter {
@@ -149,7 +153,10 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[STRING_CONTENT] && !valid_symbols[INDENT] && !delimiter_stack.empty()) {
+    bool error_recovery_mode = valid_symbols[STRING_CONTENT] && valid_symbols[INDENT];
+    bool within_brackets = valid_symbols[CLOSE_BRACE] || valid_symbols[CLOSE_PAREN] || valid_symbols[CLOSE_BRACKET];
+    
+    if (valid_symbols[STRING_CONTENT] && !delimiter_stack.empty() && !error_recovery_mode) {
       Delimiter delimiter = delimiter_stack.back();
       int32_t end_character = delimiter.end_character();
       bool has_content = false;
@@ -286,7 +293,7 @@ struct Scanner {
         }
 
         if (
-          valid_symbols[DEDENT] &&
+          (valid_symbols[DEDENT] || (!valid_symbols[NEWLINE] && !within_brackets)) &&
           indent_length < current_indent_length &&
 
           // Wait to create a dedent token until we've consumed any comments
@@ -299,7 +306,7 @@ struct Scanner {
         }
       }
 
-      if (valid_symbols[NEWLINE]) {
+      if (valid_symbols[NEWLINE] && !error_recovery_mode) {
         lexer->result_symbol = NEWLINE;
         return true;
       }
