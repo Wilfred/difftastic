@@ -30,26 +30,26 @@ if ($a==0) {
     condition: (parenthesized_expression (binary_expression
       left: (variable_name (name))
       right: (integer)))
-    body: (compound_statement (echo_statement (encapsed_string (string)))))
+    body: (compound_statement (echo_statement (encapsed_string (string_value)))))
   (if_statement
     condition: (parenthesized_expression (binary_expression
       left: (variable_name (name))
       right: (integer)))
-    body: (compound_statement (echo_statement (encapsed_string (string))))
+    body: (compound_statement (echo_statement (encapsed_string (string_value))))
     alternative: (else_clause
-      body: (compound_statement (echo_statement (encapsed_string (string))))))
+      body: (compound_statement (echo_statement (encapsed_string (string_value))))))
   (if_statement
     condition: (parenthesized_expression (binary_expression
       left: (variable_name (name))
       right: (integer)))
-    body: (compound_statement (echo_statement (encapsed_string (string))))
+    body: (compound_statement (echo_statement (encapsed_string (string_value))))
     alternative: (else_if_clause
       condition: (parenthesized_expression (binary_expression
         left: (variable_name (name))
         right: (integer)))
-      body: (compound_statement (echo_statement (encapsed_string (string)))))
+      body: (compound_statement (echo_statement (encapsed_string (string_value)))))
     alternative: (else_clause
-      body: (compound_statement (echo_statement (encapsed_string (string)))))))
+      body: (compound_statement (echo_statement (encapsed_string (string_value)))))))
 
 ==============================
 Alternative if statements
@@ -233,12 +233,12 @@ switch ($a) {
     body: (switch_block
       (case_statement
         value: (integer)
-        (echo_statement (encapsed_string (string))) (break_statement))
+        (echo_statement (encapsed_string (string_value))) (break_statement))
       (case_statement
         value: (integer)
-        (echo_statement (encapsed_string (string))) (break_statement))
+        (echo_statement (encapsed_string (string_value))) (break_statement))
       (default_statement
-        (echo_statement (encapsed_string (string))) (break_statement))))
+        (echo_statement (encapsed_string (string_value))) (break_statement))))
   (text_interpolation))
 
 ==============================
@@ -289,7 +289,7 @@ include "015.inc";
 
 (program
   (php_tag)
-  (expression_statement (include_expression (encapsed_string (string)))))
+  (expression_statement (include_expression (encapsed_string (string_value)))))
 
 ==============================
 Do-while statements
@@ -364,7 +364,7 @@ try {
       name: (variable_name (name))
       body: (compound_statement
         (expression_statement (print_intrinsic (binary_expression
-          left: (encapsed_string (string))
+          left: (encapsed_string (string_value))
           right: (member_call_expression
             object: (variable_name (name))
             name: (name)
