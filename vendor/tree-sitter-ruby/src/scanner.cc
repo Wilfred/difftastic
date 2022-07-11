@@ -11,7 +11,8 @@ using std::string;
 
 enum TokenType {
   LINE_BREAK,
-
+  NO_LINE_BREAK,
+  
   // Delimited literals
   SIMPLE_SYMBOL,
   STRING_START,
@@ -32,10 +33,13 @@ enum TokenType {
   BLOCK_AMPERSAND,
   SPLAT_STAR,
   UNARY_MINUS,
+  UNARY_MINUS_NUM,
   BINARY_MINUS,
   BINARY_STAR,
   SINGLETON_CLASS_LEFT_ANGLE_LEFT_ANGLE,
   HASH_KEY_SYMBOL,
+  IDENTIFIER_SUFFIX,
+  CONSTANT_SUFFIX,
   HASH_SPLAT_STAR_STAR,
   BINARY_STAR_STAR,
   ELEMENT_REFERENCE_BRACKET,
@@ -191,7 +195,7 @@ struct Scanner {
     bool crossed_newline = false;
 
     for (;;) {
-      if (valid_symbols[LINE_BREAK] && lexer->is_at_included_range_start(lexer)) {
+      if (!valid_symbols[NO_LINE_BREAK] && valid_symbols[LINE_BREAK] && lexer->is_at_included_range_start(lexer)) {
         lexer->mark_end(lexer);
         lexer->result_symbol = LINE_BREAK;
         return true;
@@ -216,7 +220,7 @@ struct Scanner {
             lexer->result_symbol = HEREDOC_BODY_START;
             open_heredocs[0].started = true;
             return true;
-          } else if (valid_symbols[LINE_BREAK] && !crossed_newline) {
+          } else if (!valid_symbols[NO_LINE_BREAK] && valid_symbols[LINE_BREAK] && !crossed_newline) {
             lexer->mark_end(lexer);
             advance(lexer);
             crossed_newline = true;
@@ -807,7 +811,10 @@ struct Scanner {
             if (valid_symbols[HASH_SPLAT_STAR_STAR] || valid_symbols[BINARY_STAR_STAR]) {
               advance(lexer);
               if (lexer->lookahead == '=') return false;
-              if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
+              if (valid_symbols[BINARY_STAR_STAR] && !has_leading_whitespace) {
+                lexer->result_symbol = BINARY_STAR_STAR;
+                return true;
+              } else if (valid_symbols[HASH_SPLAT_STAR_STAR] && !iswspace(lexer->lookahead)) {
                 lexer->result_symbol = HASH_SPLAT_STAR_STAR;
                 return true;
               } else if (valid_symbols[BINARY_STAR_STAR]) {
@@ -823,7 +830,10 @@ struct Scanner {
               return false;
             }
           } else {
-            if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[BINARY_STAR] && !has_leading_whitespace) {
+              lexer->result_symbol = BINARY_STAR;
+              return true;
+            } else if (valid_symbols[SPLAT_STAR] && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = SPLAT_STAR;
               return true;
             } else if (valid_symbols[BINARY_STAR]) {
@@ -840,10 +850,13 @@ struct Scanner {
         break;
 
       case '-':
-        if (valid_symbols[UNARY_MINUS] || valid_symbols[BINARY_MINUS]) {
+        if (valid_symbols[UNARY_MINUS] || valid_symbols[UNARY_MINUS_NUM] || valid_symbols[BINARY_MINUS]) {
           advance(lexer);
           if (lexer->lookahead != '=' && lexer->lookahead != '>') {
-            if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
+            if (valid_symbols[UNARY_MINUS_NUM] && (!valid_symbols[BINARY_STAR] || has_leading_whitespace) && iswdigit(lexer->lookahead)) {
+              lexer->result_symbol = UNARY_MINUS_NUM;
+              return true;
+            } else if (valid_symbols[UNARY_MINUS] && has_leading_whitespace && !iswspace(lexer->lookahead)) {
               lexer->result_symbol = UNARY_MINUS;
             } else if (valid_symbols[BINARY_MINUS]) {
               lexer->result_symbol = BINARY_MINUS;
@@ -913,17 +926,32 @@ struct Scanner {
     }
 
     // Open delimiters for literals
-    if (valid_symbols[HASH_KEY_SYMBOL]
-        && (iswalpha(lexer->lookahead) || lexer->lookahead == '_')) {
+    if ((valid_symbols[HASH_KEY_SYMBOL] || valid_symbols[IDENTIFIER_SUFFIX])
+          && (iswalpha(lexer->lookahead) || lexer->lookahead == '_') ||
+        valid_symbols[CONSTANT_SUFFIX] && iswupper(lexer->lookahead) 
+        ) {
+      TokenType validIdentifierSymbol = iswupper(lexer->lookahead)? CONSTANT_SUFFIX : IDENTIFIER_SUFFIX;
+      char word[8];
+      int index = 0;
       while (iswalnum(lexer->lookahead) || lexer->lookahead == '_') {
+        if (index < 8 ) {
+          word[index] = lexer->lookahead;
+        }
+        index++;        
         advance(lexer);
       }
-      lexer->mark_end(lexer);
 
-      if (lexer->lookahead == ':') {
+      if (valid_symbols[HASH_KEY_SYMBOL] && lexer->lookahead == ':') {
+        lexer->mark_end(lexer);
         advance(lexer);
         if (lexer->lookahead != ':') {
           lexer->result_symbol = HASH_KEY_SYMBOL;
+          return true;
+        }
+      } else if (valid_symbols[validIdentifierSymbol] && lexer->lookahead == '!') {
+        advance(lexer);
+        if (lexer->lookahead != '=') {
+          lexer->result_symbol = validIdentifierSymbol;
           return true;
         }
       }

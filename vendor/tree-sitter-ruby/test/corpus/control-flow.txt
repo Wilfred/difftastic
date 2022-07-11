@@ -464,6 +464,61 @@ end
   (if (rescue_modifier (identifier) (nil)) (elsif (rescue_modifier (identifier) (nil))))
   (unless (rescue_modifier (identifier) (nil))))
 
+=================
+rescue modifier in assignments
+=================
+
+x = foo rescue 1
+x += foo rescue 1
+x, y = foo rescue 1
+x = bar, foo rescue 1
+x = foo 1 rescue 2
+x += foo 1 rescue 2
+
+---
+
+(program
+  (assignment
+    left: (identifier)
+    right: (rescue_modifier
+      body: (identifier)
+      handler: (integer)))
+  (operator_assignment
+    left: (identifier)
+    right: (rescue_modifier
+      body: (identifier)
+      handler: (integer)))
+  (assignment
+    left: (left_assignment_list
+      (identifier)
+      (identifier))
+    right: (rescue_modifier
+      body: (identifier)
+      handler: (integer)))
+  (rescue_modifier
+    body: (assignment
+      left: (identifier)
+      right: (right_assignment_list
+        (identifier)
+        (identifier)))
+    handler: (integer))
+  (assignment
+    left: (identifier)
+    right: (rescue_modifier
+      body: (call
+        method: (identifier)
+        arguments: (argument_list
+          (integer)))
+      handler: (integer)))
+  (operator_assignment
+    left: (identifier)
+    right: (rescue_modifier
+      body: (call
+        method: (identifier)
+        arguments: (argument_list
+          (integer)))
+      handler: (integer))))
+
 ============================
 begin with all the trimmings
 ============================

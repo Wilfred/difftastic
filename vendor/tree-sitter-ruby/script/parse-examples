@@ -15,7 +15,7 @@ function checkout_at() {
   popd
 }
 
-checkout_at "examples/ruby_spec" "ruby/spec" "c3e6b9017926f44a76e2b966c4dd35fa84c4cd3b"
+checkout_at "examples/ruby_spec" "ruby/spec" "aaf998fb8c92c4e63ad423a2e7ca6e6921818c6e"
 
 # TODO: Fix these known issues:
 #   - [ ] String literals delimited with `=`, e.g. `%=hi=`
@@ -23,9 +23,11 @@ checkout_at "examples/ruby_spec" "ruby/spec" "c3e6b9017926f44a76e2b966c4dd35fa84
 #   - [ ] defined as local var, e.g. `defn.send(@method, defined)`
 #   - [ ] Unicode character in symbols, variables, etc, e.g. `:êad`
 #   - [ ] Unicode characters in constants, e.g. `CS_CONSTλ = :const_unicode`
+#   - [ ] Keyword arguments in lambda `-> a: { }`
+#   - [ ] Lambda with call as default argument `-> a=a() { a }`
 known_failures="$(cat script/known_failures.txt)"
 
-tree-sitter parse -q \
+node_modules/tree-sitter-cli/cli.js parse -q \
   'examples/**/*.rb' \
   $(for file in $known_failures; do echo "!${file}"; done)
 

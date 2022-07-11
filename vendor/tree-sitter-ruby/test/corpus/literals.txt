@@ -368,9 +368,95 @@ complex
 10+3i
 12-34i
 
+-2.2i
++2.2i
+1+1.2i
+1-10.2i
+10+3.2i
+12-34.2i
+
+-2ri
++2.2ri
+1+1ri
+1-10.2ri
+10+3ri
+12-34.2ri
+
 ---
 
-(program (unary (complex)) (complex) (complex) (complex) (complex) (complex))
+(program
+  (unary
+    operand: (complex
+      (integer)))
+  (unary
+    operand: (complex
+      (integer)))
+  (binary
+    left: (integer)
+    right: (complex
+      (integer)))
+  (binary
+    left: (integer)
+    right: (complex
+      (integer)))
+  (binary
+    left: (integer)
+    right: (complex
+      (integer)))
+  (binary
+    left: (integer)
+    right: (complex
+      (integer)))
+  (unary
+    operand: (complex
+      (float)))
+  (unary
+    operand: (complex
+      (float)))
+  (binary
+    left: (integer)
+    right: (complex
+      (float)))
+  (binary
+    left: (integer)
+    right: (complex
+      (float)))
+  (binary
+    left: (integer)
+    right: (complex
+      (float)))
+  (binary
+    left: (integer)
+    right: (complex
+      (float)))
+  (unary
+    operand: (complex
+      (rational
+        (integer))))
+  (unary
+    operand: (complex
+      (rational
+        (float))))
+  (binary
+    left: (integer)
+    right: (complex
+      (rational
+        (integer))))
+  (binary
+    left: (integer)
+    right: (complex
+      (rational
+        (float))))
+  (binary
+    left: (integer)
+    right: (complex
+      (rational
+        (integer))))
+  (binary
+    left: (integer)
+    right: (complex
+      (rational
+        (float)))))
 
 ========
 rational
@@ -378,6 +464,8 @@ rational
 
 2/3r
 1.2r
++1.2r
+-2r
 0b01r
 0o7r
 0d1r
@@ -388,6 +476,8 @@ rational
 (program
   (binary (integer) (rational (integer)))
   (rational (float))
+  (unary (rational (float)))
+  (unary (rational (integer)))
   (rational (integer))
   (rational (integer))
   (rational (integer))
@@ -718,7 +808,7 @@ heredoc content
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
   (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
-  (if (identifier) (then
+  (if (call (identifier)) (then
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))
     (heredoc_beginning) (heredoc_body (heredoc_content) (heredoc_end))))
@@ -1314,8 +1404,10 @@ hash with keyword keys
 ======================
 
 { a: 1, b: 2, "c": 3 }
-{a:1, B:2, "c":3 }
-{ a:, B: }
+{a:
+  1, B:2, "c":3 }
+{ a:, B:
+}
 
 ---
 

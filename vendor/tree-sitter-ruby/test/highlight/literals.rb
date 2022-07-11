@@ -29,8 +29,8 @@ nil
 true
 # ^ constant.builtin
 TRUE
-# ^ constant.builtin
+# ^ constant
 false
 # ^ constant.builtin
 FALSE
-# ^ constant.builtin
+# ^ constant
