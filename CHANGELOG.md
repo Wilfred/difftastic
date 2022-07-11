@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated to latest tree-sitter C#, Dart and Elm parsers.
+Updated to latest tree-sitter C#, Dart, Elm and Gleam parsers.
 
 ### Display
 
