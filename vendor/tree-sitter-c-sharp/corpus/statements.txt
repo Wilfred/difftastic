@@ -181,9 +181,9 @@ class A {
       (identifier)
       (parameter_list)
       (block
-        (goto_statement (label_name))
+        (goto_statement (identifier))
         (labeled_statement
-          (label_name) (return_statement)))))))
+          (identifier) (return_statement)))))))
 
 =====================================
 If statement

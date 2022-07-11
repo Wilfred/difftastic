@@ -38,7 +38,7 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Target-typed new
 - [x] Top-level statements
 
-#### C# 10.0 (complete?)
+#### C# 10.0
 
 - [x] global using directives
 - [x] File-scoped namespace declaration
@@ -48,6 +48,15 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Allow both assignment and declaration in the same deconstruction
 - [x] Allow AsyncMethodBuilder attribute on methods
 - [x] Record structs
+- [ ] Lambda improvements
+
+#### C# 11.0 (under development)
+
+- [x] Generic attributes
+- [x] Static abstract members in interfaces
+- [x] Newlines in string interpolations
+- [ ] List patterns
+- [ ] Raw string literals
 
 ### References
 

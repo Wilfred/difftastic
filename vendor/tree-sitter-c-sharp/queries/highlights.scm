@@ -10,6 +10,7 @@
 (namespace_declaration name: (identifier) @type)
 
 (constructor_declaration name: (identifier) @type)
+(destructor_declaration name: (identifier) @type)
 
 [
   (implicit_type)
