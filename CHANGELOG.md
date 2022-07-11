@@ -2,8 +2,8 @@
 
 ### Parsing
 
-Updated to latest tree-sitter C#, Dart, Elm, Gleam and Haskell
-parsers.
+Updated to the latest tree-sitter parsers for C#, Dart, Elm, Gleam,
+Haskell and HCL.
 
 ### Display
 
