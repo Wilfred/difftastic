@@ -63,7 +63,68 @@ import tools.nsc.classpath._
 (compilation_unit
   (import_declaration
     (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
-    (wildcard)))
+    (import_wildcard)))
+
+================================
+Imports: Wildcard (Scala 3 syntax)
+================================
+
+import tools.nsc.classpath.*
+
+---
+
+(compilation_unit
+  (import_declaration
+    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (import_wildcard)))
+
+================================
+Imports: Wildcard and wildcard givens (Scala 3 syntax)
+================================
+
+import tools.nsc.classpath.{*, given}
+import tools.given
+
+---
+
+(compilation_unit
+  (import_declaration
+    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (import_selectors 
+      (import_wildcard)
+      (import_wildcard)))
+  (import_declaration
+    (identifier)
+    (import_wildcard))) 
+
+================================
+Imports: Givens by type (Scala 3 syntax)
+================================
+
+import tools.nsc.classpath.{given Test, given Test2, Test3}
+
+---
+
+(compilation_unit
+  (import_declaration
+    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (import_selectors 
+      (type_identifier)
+      (type_identifier)
+      (identifier))))
+
+================================
+Imports: Rename (Scala 3 Syntax)
+================================
+
+import lang.System.{lineSeparator as EOL}
+
+---
+
+(compilation_unit
+  (import_declaration
+    (stable_identifier (identifier) (identifier))
+    (import_selectors (renamed_identifier (identifier) (identifier)))))
 
 ================================
 Imports: Rename
@@ -77,6 +138,7 @@ import lang.System.{lineSeparator => EOL}
   (import_declaration
     (stable_identifier (identifier) (identifier))
     (import_selectors (renamed_identifier (identifier) (identifier)))))
+
 
 =================================
 Object definitions

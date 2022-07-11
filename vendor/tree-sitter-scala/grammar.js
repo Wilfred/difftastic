@@ -1,18 +1,19 @@
 const PREC = {
   stable_type_id: 1,
-  binding: 1,
   lambda: 1,
-  stable_id: 2,
-  assign: 2,
-  unit: 2,
-  ascription: 2,
-  postfix: 3,
-  infix: 4,
-  new: 5,
-  prefix: 5,
-  compound: 5,
-  call: 6,
-  field: 6,
+  binding_decl: 1,
+  binding_def: 2,
+  stable_id: 3,
+  assign: 3,
+  unit: 3,
+  ascription: 3,
+  postfix: 4,
+  infix: 5,
+  new: 6,
+  prefix: 6,
+  compound: 6,
+  call: 7,
+  field: 7,
 }
 
 module.exports = grammar({
@@ -61,11 +62,15 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   rules: {
-    compilation_unit: $ => repeat($._definition),
+    compilation_unit: $ => repeat($._top_level_definition),
 
-    _definition: $ => choice(
+    _top_level_definition: $ => choice(
       $.package_clause,
       $.package_object,
+      $._definition,
+    ),
+
+    _definition: $ => choice(
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -89,9 +94,9 @@ module.exports = grammar({
       field('body', optional($.template_body))
     ),
 
-    package_identifier: $ => sep1(
+    package_identifier: $ => prec.right(sep1(
       '.', $.identifier
-    ),
+    )),
 
     package_object: $ => seq(
       'package',
@@ -99,34 +104,37 @@ module.exports = grammar({
       $._object_definition
     ),
 
-    import_declaration: $ => seq(
+    import_declaration: $ => prec.left(seq(
       'import',
       sep1(',', $._import_expression)
-    ),
+    )),
 
     _import_expression: $ => seq(
       field('path', choice($.stable_identifier, $.identifier)),
       optional(seq(
         '.',
         choice(
-          $.wildcard,
+          $.import_wildcard,
           $.import_selectors
         )
       ))
     ),
-
+    import_wildcard: $ => choice('*', '_', 'given'),
+    _import_given_by_type: $ => seq('given', $._type),
     import_selectors: $ => seq(
       '{',
-      commaSep1(choice(
-        $.identifier,
-        $.renamed_identifier
-      )),
+        commaSep1(choice(
+          $._import_given_by_type,
+          $.import_wildcard,
+          $.identifier,
+          $.renamed_identifier
+        )),
       '}'
     ),
 
     renamed_identifier: $ => seq(
       field('name', $.identifier),
-      '=>',
+      choice('=>', 'as'),
       field('alias', choice($.identifier, $.wildcard))
     ),
 
@@ -138,11 +146,11 @@ module.exports = grammar({
       $._object_definition
     ),
 
-    _object_definition: $ => seq(
+    _object_definition: $ => prec.left(seq(
       field('name', $.identifier),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body)),
-    ),
+    )),
 
     class_definition: $ => prec.right(seq(
       repeat($.annotation),
@@ -157,7 +165,7 @@ module.exports = grammar({
       field('body', optional($.template_body))
     )),
 
-    trait_definition: $ => seq(
+    trait_definition: $ => prec.left(seq(
       repeat($.annotation),
        optional($.modifiers),
       'trait',
@@ -165,7 +173,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body))
-    ),
+    )),
 
     // The EBNF makes a distinction between function type parameters and other
     // type parameters as you can't specify variance on function type
@@ -226,42 +234,46 @@ module.exports = grammar({
       field('arguments', repeat($.arguments)),
     )),
 
-    val_definition: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'val',
+    val_definition: $ => prec(PREC.binding_def, seq(
+      $._start_val,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
       field('value', $.expression)
-    ),
+    )),
 
-    val_declaration: $ => seq(
+    val_declaration: $ => prec(PREC.binding_decl, seq(
+      $._start_val,
+      commaSep1(field('name', $.identifier)),
+      ':',
+      field('type', $._type)
+    )),
+
+    _start_val: $ => seq(
       repeat($.annotation),
       optional($.modifiers),
       'val',
+    ),
+
+    var_declaration: $ => prec(PREC.binding_decl, seq(
+      $._start_var,
       commaSep1(field('name', $.identifier)),
       ':',
       field('type', $._type)
-    ),
+    )),
 
-    var_declaration: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'var',
-      commaSep1(field('name', $.identifier)),
-      ':',
-      field('type', $._type)
-    ),
-
-    var_definition: $ => seq(
-      repeat($.annotation),
-      optional($.modifiers),
-      'var',
+    var_definition: $ => prec(PREC.binding_def, seq(
+      $._start_var,
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
       field('value', $.expression)
+    )),
+
+    _start_var: $ => seq(
+      repeat($.annotation),
+      optional($.modifiers),
+      'var',
     ),
 
     type_definition: $ => seq(
@@ -288,7 +300,7 @@ module.exports = grammar({
       )
     ),
 
-    function_declaration: $ => seq(
+    function_declaration: $ => prec.left(seq(
       repeat($.annotation),
       optional($.modifiers),
       'def',
@@ -296,7 +308,7 @@ module.exports = grammar({
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type)))
-    ),
+    )),
 
     modifiers: $ => repeat1(choice(
       'abstract',
@@ -308,10 +320,10 @@ module.exports = grammar({
       $.access_modifier,
     )),
 
-    access_modifier: $ => seq(
+    access_modifier: $ => prec.left(seq(
       choice('private', 'protected'),
       optional($.access_qualifier),
-    ),
+    )),
 
     access_qualifier: $ => seq(
       '[',
@@ -319,11 +331,11 @@ module.exports = grammar({
       ']',
     ),
 
-    extends_clause: $ => seq(
+    extends_clause: $ => prec.left(seq(
       'extends',
       field('type', $._type),
       optional($.arguments)
-    ),
+    )),
 
     // TODO: Allow only the last parameter list to be implicit.
     class_parameters: $ => prec(1, seq(
@@ -566,11 +578,11 @@ module.exports = grammar({
       ))
     )),
 
-    match_expression: $ => seq(
+    match_expression: $ => prec.left(PREC.postfix, seq(
       field('value', $.expression),
       'match',
       field('body', $.case_block)
-    ),
+    )),
 
     try_expression: $ => prec.right(seq(
       'try',
@@ -583,7 +595,7 @@ module.exports = grammar({
 
     finally_clause: $ => prec.right(seq('finally', $.expression)),
 
-    binding: $ => prec.dynamic(PREC.binding, seq(
+    binding: $ => prec.dynamic(PREC.binding_decl, seq(
       field('name', $.identifier),
       optional(seq(':', field('type', $._param_type))),
     )),
@@ -600,7 +612,7 @@ module.exports = grammar({
           $.identifier,
       ),
       '=>',
-      $.expression,
+      optional($._block),
     )),
 
     case_block: $ => choice(
@@ -806,7 +818,7 @@ module.exports = grammar({
       )
     ),
 
-    string :$ => 
+    string :$ =>
       choice(
         $._simple_string,
         $._simple_multiline_string
@@ -877,10 +889,6 @@ function commaSep(rule) {
 
 function commaSep1(rule) {
   return sep1(',', rule)
-}
-
-function sep(delimiter, rule) {
-  return optional(sep1(delimiter, rule))
 }
 
 function sep1(delimiter, rule) {
