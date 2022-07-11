@@ -3,7 +3,7 @@
 ### Parsing
 
 Updated to the latest tree-sitter parsers for C#, Dart, Elm, Gleam,
-Haskell, HCL and Java.
+Haskell, HCL, Java and JSON.
 
 ### Display
 
