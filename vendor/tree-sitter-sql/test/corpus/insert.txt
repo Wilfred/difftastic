@@ -1,0 +1,320 @@
+================================================================================
+INSERT statement
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'test')
+INSERT INTO table1 (col1) VALUES (1)
+INSERT INTO table1 ("Foo 1") VALUES (1)
+INSERT INTO table1 ("Foo 1", bar) VALUES (1, 2)
+INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))))
+  (insert_statement
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number))))
+  (insert_statement
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number))))
+  (insert_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (number))))
+  (insert_statement
+    (identifier)
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (asterisk_expression)))
+      (from_clause
+        (function_call
+          (identifier)
+          (number)
+          (number)
+          (number))))))
+
+================================================================================
+INSERT statement values with multiple items
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b');
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content))))))
+
+================================================================================
+INSERT statement values with order
+================================================================================
+
+INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (identifier)
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (order_by_clause
+        (order_expression
+          (identifier))
+        (order_expression
+          (identifier))))))
+
+================================================================================
+INSERT statement values with limit
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT 1;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT ALL;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT 1, 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (limit_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (limit_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (limit_clause
+        (number)
+        (number)))))
+
+================================================================================
+INSERT statement values with offset
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') OFFSET 1;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') OFFSET 1 ROW;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') OFFSET 1 ROWS;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (offset_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (offset_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (offset_clause
+        (number)))))
+
+================================================================================
+INSERT statement values with fetch
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH FIRST ROW ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH FIRST ROWS ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT ROW ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT ROWS ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH FIRST 1 ROW ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH FIRST 1 ROWS ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROW ONLY;
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause
+        (number)))))

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tree Sitter SQL Playground</title>
+    <style>
+      #playground-container {
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #playground-container .CodeMirror {
+        border: 1px solid;
+      }
+      #create-issue-btn {
+        padding: 0.2em;
+        float: right;
+        font-size: 1.5em;
+      }
+      #checkboxes {
+        padding-bottom: 1em;
+      }
+      #output-container {
+        border: 1px solid;
+      }
+      .highlight {
+        background-color: #f8f8f8;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      This file is licensed under MIT license
+      Copyright (c) 2018 Max Brunsfeld
+      Taken from https://github.com/tree-sitter/tree-sitter/docs/section-7-playground.html
+    -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css"
+    />
+
+    <div id="playground-container">
+      <h1>Tree Sitter SQL Playground</h1>
+      <h4>Code</h4>
+      <div id="checkboxes">
+        <input id="logging-checkbox" type="checkbox" />
+        <label for="logging-checkbox">Log</label>
+
+        <input id="query-checkbox" type="checkbox" />
+        <label for="query-checkbox">Query</label>
+      </div>
+
+      <textarea id="code-input">
+SELECT a, b
+FROM foo
+WHERE a &gt; b
+GROUP BY b;</textarea
+      >
+
+      <div id="query-container" style="visibility: hidden; position: absolute">
+        <h4>Query</h4>
+        <textarea id="query-input"></textarea>
+      </div>
+
+      <h4>Tree</h4>
+      <span id="update-time"></span>
+      <div id="output-container-scroll">
+        <pre id="output-container" class="highlight"></pre>
+      </div>
+      <button id="create-issue-btn" type="button">Create Issue</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
+    <script src="./vendor/tree-sitter.js"></script>
+    <script id="playground-script" src="./playground.js?v=3"></script>
+  </body>
+</html>
