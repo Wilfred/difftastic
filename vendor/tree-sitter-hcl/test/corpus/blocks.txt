@@ -30,6 +30,25 @@ block_1 {}
       (block_end))))
 
 ================================================================================
+basic block with empty type
+================================================================================
+
+block_1 "" {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (quoted_template_end))
+      (block_start)
+      (block_end))))
+
+================================================================================
 block with attribute
 ================================================================================
 
@@ -166,8 +185,8 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
                       (template_literal)
                       (quoted_template_end))))
                 (expression
-                  (template_expr
-                    (quoted_template
+                  (literal_value
+                    (string_lit
                       (quoted_template_start)
                       (quoted_template_end)))))))))
       (block_end))))

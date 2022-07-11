@@ -2,13 +2,9 @@ node_modules
 queries
 package-lock.json
 build
+target
+Cargo.lock
 npm-debug.log
 log.html
-tree-sitter-hcl.wasm
 .env
 .DS_Store
-
-fuzz/fuzzer
-fuzz/*.o
-fuzz/*.a
-fuzz/fuzz-*.log

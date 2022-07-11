@@ -1,11 +1,14 @@
 # Changelog
 
-## 0.7.0 - not yet released
+## 0.7.0 - 2022-06-02
 
 housekeeping:
 * bump tree-sitter dependency to 0.20.6
 * regenerate parser
 * fix clang+windows CI job
+
+fix:
+* allow empty string literals
 
 ## 0.6.0 - 2021-09-20
 
