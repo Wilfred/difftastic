@@ -100,11 +100,7 @@
         "named": true
       },
       {
-        "type": "labeled_statement",
-        "named": true
-      },
-      {
-        "type": "lambda_expression",
+        "type": "local_function_declaration",
         "named": true
       },
       {
@@ -749,27 +745,35 @@
         ]
       },
       "operator": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "%",
+            "type": "%=",
             "named": false
           },
           {
-            "type": "&",
+            "type": "&=",
             "named": false
           },
           {
-            "type": "*",
+            "type": "*=",
             "named": false
           },
           {
-            "type": "/",
+            "type": "+=",
             "named": false
           },
           {
-            "type": "<<",
+            "type": "-=",
+            "named": false
+          },
+          {
+            "type": "/=",
+            "named": false
+          },
+          {
+            "type": "<<=",
             "named": false
           },
           {
@@ -777,27 +781,27 @@
             "named": false
           },
           {
-            "type": ">>",
+            "type": ">>=",
             "named": false
           },
           {
-            "type": ">>>",
+            "type": ">>>=",
             "named": false
           },
           {
-            "type": "??",
+            "type": "??=",
             "named": false
           },
           {
-            "type": "^",
+            "type": "^=",
             "named": false
           },
           {
-            "type": "|",
+            "type": "|=",
             "named": false
           },
           {
-            "type": "~/",
+            "type": "~/=",
             "named": false
           }
         ]
@@ -945,27 +949,35 @@
         ]
       },
       "operator": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "%",
+            "type": "%=",
             "named": false
           },
           {
-            "type": "&",
+            "type": "&=",
             "named": false
           },
           {
-            "type": "*",
+            "type": "*=",
             "named": false
           },
           {
-            "type": "/",
+            "type": "+=",
             "named": false
           },
           {
-            "type": "<<",
+            "type": "-=",
+            "named": false
+          },
+          {
+            "type": "/=",
+            "named": false
+          },
+          {
+            "type": "<<=",
             "named": false
           },
           {
@@ -973,27 +985,27 @@
             "named": false
           },
           {
-            "type": ">>",
+            "type": ">>=",
             "named": false
           },
           {
-            "type": ">>>",
+            "type": ">>>=",
             "named": false
           },
           {
-            "type": "??",
+            "type": "??=",
             "named": false
           },
           {
-            "type": "^",
+            "type": "^=",
             "named": false
           },
           {
-            "type": "|",
+            "type": "|=",
             "named": false
           },
           {
-            "type": "~/",
+            "type": "~/=",
             "named": false
           }
         ]
@@ -2094,6 +2106,11 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "conditional_assignable_selector",
     "named": true,
     "fields": {},
@@ -2764,6 +2781,10 @@
           "named": true
         },
         {
+          "type": "identifier_list",
+          "named": true
+        },
+        {
           "type": "inferred_type",
           "named": true
         },
@@ -2858,6 +2879,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "documentation_comment",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "dotted_identifier_list",
@@ -4981,6 +5007,10 @@
           "named": true
         },
         {
+          "type": "super_formal_parameter",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -5429,6 +5459,21 @@
     "type": "identifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "identifier_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "if_element",
@@ -6487,25 +6532,6 @@
     }
   },
   {
-    "type": "labeled_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_statement",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "lambda_expression",
     "named": true,
     "fields": {
@@ -6746,6 +6772,29 @@
         },
         {
           "type": "unconditional_assignable_selector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "local_function_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "lambda_expression",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
           "named": true
         }
       ]
@@ -7474,6 +7523,14 @@
       "required": true,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
           "type": "typed_identifier",
           "named": true
         }
@@ -7525,7 +7582,15 @@
       "required": false,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
           "named": true
         },
         {
@@ -9383,6 +9448,61 @@
     "fields": {}
   },
   {
+    "type": "super_formal_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "const_builtin",
+          "named": true
+        },
+        {
+          "type": "final_builtin",
+          "named": true
+        },
+        {
+          "type": "formal_parameter_list",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inferred_type",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "void_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "superclass",
     "named": true,
     "fields": {},
@@ -9490,6 +9610,10 @@
         },
         {
           "type": "if_null_expression",
+          "named": true
+        },
+        {
+          "type": "label",
           "named": true
         },
         {
@@ -10509,19 +10633,11 @@
       "required": true,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
           "type": "function_type",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "marker_annotation",
           "named": true
         },
         {
@@ -11144,11 +11260,19 @@
     "named": false
   },
   {
+    "type": "%=",
+    "named": false
+  },
+  {
     "type": "&",
     "named": false
   },
   {
     "type": "&&",
+    "named": false
+  },
+  {
+    "type": "&=",
     "named": false
   },
   {
@@ -11172,7 +11296,19 @@
     "named": false
   },
   {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-=",
     "named": false
   },
   {
@@ -11192,6 +11328,22 @@
     "named": false
   },
   {
+    "type": "/*",
+    "named": false
+  },
+  {
+    "type": "//",
+    "named": false
+  },
+  {
+    "type": "///",
+    "named": false
+  },
+  {
+    "type": "/=",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -11205,6 +11357,10 @@
   },
   {
     "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
     "named": false
   },
   {
@@ -11236,7 +11392,15 @@
     "named": false
   },
   {
+    "type": ">>=",
+    "named": false
+  },
+  {
     "type": ">>>",
+    "named": false
+  },
+  {
+    "type": ">>>=",
     "named": false
   },
   {
@@ -11248,7 +11412,15 @@
     "named": false
   },
   {
+    "type": "?..",
+    "named": false
+  },
+  {
     "type": "??",
+    "named": false
+  },
+  {
+    "type": "??=",
     "named": false
   },
   {
@@ -11277,6 +11449,10 @@
   },
   {
     "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
     "named": false
   },
   {
@@ -11316,10 +11492,6 @@
     "named": false
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
     "type": "const_builtin",
     "named": true
   },
@@ -11350,10 +11522,6 @@
   {
     "type": "do",
     "named": false
-  },
-  {
-    "type": "documentation_comment",
-    "named": true
   },
   {
     "type": "dynamic",
@@ -11604,6 +11772,10 @@
     "named": false
   },
   {
+    "type": "|=",
+    "named": false
+  },
+  {
     "type": "||",
     "named": false
   },
@@ -11617,6 +11789,10 @@
   },
   {
     "type": "~/",
+    "named": false
+  },
+  {
+    "type": "~/=",
     "named": false
   }
 ]

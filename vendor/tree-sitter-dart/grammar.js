@@ -63,13 +63,14 @@ module.exports = grammar({
         $._template_chars_single,
         $._template_chars_double_single,
         $._template_chars_single_single,
-        $._template_chars_raw_slash
+        $._template_chars_raw_slash,
+        $._block_comment,
+        $._documentation_block_comment,
     ],
 
     extras: $ => [
         $.comment,
         $.documentation_comment,
-        // $.multiline_comment,
         /\s/
     ],
 
@@ -117,6 +118,11 @@ module.exports = grammar({
         // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
         [$._top_level_definition, $.lambda_expression],
+        [$._top_level_definition, $._var_or_type, $.function_signature],
+        [$._var_or_type, $.function_signature],
+        [$._var_or_type, $._function_formal_parameter],
+        [$._var_or_type],
+        [$._top_level_definition, $._var_or_type],
         [$._top_level_definition, $._final_const_var_or_type],
         [$._top_level_definition, $.const_object_expression, $._final_const_var_or_type],
         [$._final_const_var_or_type, $.const_object_expression],
@@ -155,6 +161,7 @@ module.exports = grammar({
         [$._type_not_void_not_function, $._function_type_tail],
         [$._type_not_void],
         [$._type_not_void_not_function],
+        [$.super_formal_parameter, $.unconditional_assignable_selector],
         [$.function_signature]
     ],
 
@@ -237,7 +244,7 @@ module.exports = grammar({
             ),
             seq(
                 optional($._late_builtin),
-                choice($._type, $.inferred_type),
+                choice($._type, seq($.inferred_type, optional($._type))),
                 $.initialized_identifier_list,
                 $._semicolon
             )
@@ -642,16 +649,22 @@ module.exports = grammar({
         //todo: use the op names in place of these.
         _assignment_operator: $ => choice(
                     '=',
-                    seq(
-                        choice(
-                            $._multiplicative_operator,
-                            $._shift_operator,
-                            $._bitwise_operator,
-                            $._additive_operator,
-                            '??'
-                        ),
-                        '='
-                    )
+                    // additive operator
+                    '+=',
+                    '-=',
+                    // multiplicative operator
+                    '*=',
+                    '/=',
+                    '%=',
+                    '~/=',
+                    // shift operator
+                    '<<=',
+                    '>>=',
+                    '>>>=',
+                    '&=',
+                    '^=',
+                    '|=',
+                    '??=',
                 ),
 
         // binary_expression: $ => choice(
@@ -1089,7 +1102,7 @@ module.exports = grammar({
         cascade_section: $ => prec.left(
             DART_PREC.Cascade,
             seq(
-                '..',
+                choice('..', '?..'),
                 $.cascade_selector,
                 repeat($.argument_part),
                 repeat(
@@ -1171,7 +1184,8 @@ module.exports = grammar({
         // Statements
         _statement: $ => choice(
             $.block,
-            $.local_variable_declaration,
+            prec.dynamic(1, $.local_function_declaration),
+            prec.dynamic(2, $.local_variable_declaration),
             $.for_statement,
             $.while_statement,
             $.do_statement,
@@ -1188,7 +1202,11 @@ module.exports = grammar({
             $.yield_each_statement,
             $.expression_statement,
             $.assert_statement,
-            $.labeled_statement,
+            // $.labeled_statement,
+        ),
+
+        local_function_declaration: $ => seq(
+            optional($._metadata),
             $.lambda_expression
         ),
 
@@ -1207,11 +1225,15 @@ module.exports = grammar({
 
         assert_statement: $ => seq($.assertion, ';'),
 
-        assertion: $ => seq($._assert_builtin, '(', $._expression, optional(seq(
-            ',',
-            $._expression,
-            optional(',')
-        )), ')'),
+        assertion: $ => seq($._assert_builtin, '(', $._expression, 
+            optional(
+                seq(
+                    ',',
+                    $._expression
+                )
+            ),
+            optional(','),
+            ')'),
 
         switch_statement: $ => seq(
             'switch',
@@ -1225,10 +1247,20 @@ module.exports = grammar({
             '}'
         ),
 
-        switch_label: $ => choice(
+        switch_case: $ => choice(
+            seq(repeat($.label), $.case_builtin, $._expression, ':', repeat1($._statement)),
+        ),
+
+        default_case: $ => choice(
+            seq(repeat($.label), 'default', ':', repeat1($._statement)),
+        ),
+
+        switch_label: $ => seq(
+            repeat($.label),
+            choice(
             seq($.case_builtin, $._expression, ':'),
             seq('default', ':')
-        ),
+        )),
 
         do_statement: $ => seq(
             'do',
@@ -1593,6 +1625,12 @@ module.exports = grammar({
             alias(
                 $.identifier,
                 $.type_identifier),
+                // This is a comment
+                // comment with a link made in https://github.com/flutter/flutter/pull/48547
+                // Changes made in https://github.com/flutter/flutter/pull/48547
+                /* This is also a comment */
+                /* this comment /* // /** ends here: */
+                
             optional($._nullable_type),
             optional($.type_bound)
         ),
@@ -1751,11 +1789,74 @@ module.exports = grammar({
                 $._static,
                 $.function_signature,
             ),
+            // | static const 〈type〉? 〈staticFinalDeclarationList〉
+            // | static final 〈type〉? 〈staticFinalDeclarationList〉
+            // | static late final 〈type〉? 〈initializedIdentifierList〉
+            // | static late? 〈varOrType〉 〈initializedIdentifierList
             seq(
                 $._static,
-                $._final_or_const,
-                optional($._type),
-                $.static_final_declaration_list
+                choice(
+                    seq(
+                        $._final_or_const,
+                        optional($._type),
+                        $.static_final_declaration_list
+                    ),
+                    seq(
+                        $._late_builtin,
+                        choice(
+                            seq(
+                                $.final_builtin,
+                                optional($._type),
+                                $.initialized_identifier_list
+                            ),
+                            seq(
+                                choice(
+                                    $._type,
+                                    $.inferred_type,
+                                ),
+                                $.initialized_identifier_list
+                            )
+                        )
+                    ),
+                    seq(
+                        choice(
+                            $._type,
+                            $.inferred_type,
+                        ),
+                        $.initialized_identifier_list
+                    )
+                )
+            ),
+            // | covariant late final 〈type〉? 〈identifierList〉
+            // | covariant late? 〈varOrType〉 〈initializedIdentifierList〉
+            seq(
+                $._covariant,
+                choice(
+                    seq(
+                        $._late_builtin,
+                        choice(
+                            seq(
+                                $.final_builtin,
+                                optional($._type),
+                                $.identifier_list
+                            ),
+                            seq(
+                                choice(
+                                    $._type,
+                                    $.inferred_type,
+                                ),
+                                $.initialized_identifier_list
+                            )
+                        )
+                    ),
+                    seq(
+                        choice(
+                            $._type,
+                            $.inferred_type,
+                        ),
+                        $.initialized_identifier_list
+                    )
+                )
             ),
             seq(
                 optional($._late_builtin), $.final_builtin,
@@ -1763,12 +1864,8 @@ module.exports = grammar({
                 $.initialized_identifier_list
             ),
             seq(
-                optional($._static_or_covariant),
                 optional($._late_builtin),
-                choice(
-                    $._type,
-                    $.inferred_type
-                ),
+                $._var_or_type,
                 $.initialized_identifier_list
             )
         //    TODO: add in the 'late' keyword from the informal draft spec:
@@ -1777,6 +1874,10 @@ module.exports = grammar({
         //    |covariant late?〈varOrType〉 〈initializedIdentifierList〉
         //    |late?final〈type〉?〈initializedIdentifierList〉
         //    |late?〈varOrType〉 〈initializedIdentifierList〉
+        ),
+
+        identifier_list: $ => commaSep1(
+            $.identifier
         ),
         initialized_identifier_list: $ => commaSep1(
             $.initialized_identifier
@@ -1841,10 +1942,6 @@ module.exports = grammar({
         initializer_list_entry: $ => choice(
             seq('super',
                 optional(seq('.', $.qualified)),
-                //$.arguements
-                $.arguments
-            ),
-            seq('super',
                 //$.arguements
                 $.arguments
             ),
@@ -1984,10 +2081,7 @@ module.exports = grammar({
                 $._type
             )),
             seq(optional($._late_builtin),
-                choice(
-                    $.inferred_type,
-                    $._type
-                ))
+                $._var_or_type)
         ),
 
         _type: $ => choice(
@@ -2053,9 +2147,12 @@ module.exports = grammar({
             ')'
         ),
 
-        normal_parameter_type: $ => choice(
-            $.typed_identifier,
-            $._type
+        normal_parameter_type: $ => seq(
+            optional($._metadata),
+            choice(
+                $.typed_identifier,
+                $._type
+            )
         ),
 
         optional_parameter_types: $ => choice(
@@ -2070,8 +2167,14 @@ module.exports = grammar({
         ),
         named_parameter_types: $ => seq(
             '{',
-            commaSep1TrailingComma($.typed_identifier),
+            commaSep1TrailingComma($._named_parameter_type),
             '}'
+        ),
+
+        _named_parameter_type: $ => seq(
+            optional($._metadata),
+            optional($._required),
+            $.typed_identifier
         ),
 
         _type_not_void: $ => choice(
@@ -2126,7 +2229,6 @@ module.exports = grammar({
         ),
 
         typed_identifier: $ => seq(
-            optional($._metadata),
             $._type,
             $.identifier
         ),
@@ -2143,6 +2245,14 @@ module.exports = grammar({
         ),
 
         void_type: $ => token('void'),
+
+        _var_or_type: $ => choice(
+            $._type,
+            seq(
+                $.inferred_type,
+                optional($._type)
+            )
+        ),
 
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
@@ -2300,7 +2410,7 @@ module.exports = grammar({
         _default_named_parameter: $ => choice(
             seq(
                 optional(
-                    'required'
+                    $._required
                 ),
                 $.formal_parameter,
                 optional(
@@ -2312,7 +2422,7 @@ module.exports = grammar({
             ),
             seq(
                 optional(
-                    'required'
+                    $._required
                 ),
                 $.formal_parameter,
                 optional(
@@ -2331,8 +2441,8 @@ module.exports = grammar({
             choice(
                 $._function_formal_parameter,
                 $._simple_formal_parameter,
-                $.constructor_param
-                // $.field_formal_parameter
+                $.constructor_param,
+                $.super_formal_parameter
             )
         ),
 
@@ -2357,6 +2467,16 @@ module.exports = grammar({
                 $.identifier
             )
         ),
+
+        // see https://github.com/dart-lang/language/blob/31f3d2bd6fd83b2e5f5019adb276c23fd2900941/working/1855%20-%20super%20parameters/proposal.md
+        super_formal_parameter: $ => seq(
+            optional($._final_const_var_or_type),
+            $.super,
+            '.',
+            $.identifier,
+            optional($._formal_parameter_part)
+        ),
+
         //constructor param = field formal parameter
         constructor_param: $ => seq(
             optional($._final_const_var_or_type),
@@ -2501,6 +2621,10 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'part',
         ),
+        _required: $ => prec(
+            DART_PREC.BUILTIN,
+            'required',
+        ),
         _set: $ => prec(
             DART_PREC.BUILTIN,
             'set',
@@ -2564,83 +2688,35 @@ module.exports = grammar({
 
         label: $ => seq($.identifier, ':'),
 
-        _semicolon: $ => seq(';', optional($._automatic_semicolon)),
+        _semicolon: $ => seq(';'),
 
         identifier: $ => /[a-zA-Z_$][\w$]*/,
         identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]|(\\\$))*/,
         //TODO: add support for triple-slash comments as a special category.
         // Trying to add support for nested multiline comments.
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-        comment: $ => token(choice(
-            seq('//', /[^/].*/),
+        
+        // _line_comment: $ => token(seq(
+        //     '//', /[^\/].*/
+        //   )),
+        // _documentation_line_comment: $ => token(seq('///', /.*/)),
+
+        comment: $ => choice(
+            $._block_comment,
+            seq('//', /([^/\n].*)?/),
             seq(
                 '/*',
                 /[^*]*\*+([^/*][^*]*\*+)*/,
                 '/'
             )
-        )),
-        //added nesting comments.
-        documentation_comment: $ => token(
-            choice(
-                seq('///', /.*/),
-                // seq(
-                //     '/**',
-                //     repeat(
-                //         choice(
-                //             /[^*]*\*+([^/*][^*]*\*+)*/,
-                //             // $.comment
-                //             // ,
-                //             /.*/,
-                //             $._multiline_comment,
-                //             $.documentation_comment
-                //         )
-                //     ),
-                //     '*/'
-                // )
-            )
         ),
-        // multiline_comment: $ => seq(
-        //     $._multiline_comment_begin,
-        //     $._multiline_comment_core,
-        //     // repeat(
-        //     //     choice(
-        //     //         $._multiline_comment_core,
-        //     //         $.multiline_comment
-        //     //     )
-        //     // ),
-        //     $._multiline_comment_end
-        // ),
-        // _multiline_comment_end: $ => token('*/'),
-        // _multiline_comment_begin: $ => token('/*'),
-        //
-        // _nested_multiline_comment: $ => seq(
-        //     $._multiline_comment_begin,
-        //     repeat(
-        //         choice(
-        //             /([^\/*]*|\/[^*]|\*[^\/])+/,
-        //             $._nested_multiline_comment
-        //             // seq(
-        //             //     $._multiline_comment_begin,
-        //             //     $._multiline_comment_core,
-        //             // )
-        //         )
-        //     ),
-        //     $._multiline_comment_end
-        // ),
-        //
-        // _multiline_comment_core: $ => seq(
-        //     repeat1(
-        //         choice(
-        //             /([^\/*]*|\/[^*]|\*[^\/])+/,
-        //             $._nested_multiline_comment
-        //             // seq(
-        //             //     $._multiline_comment_begin,
-        //             //     $._multiline_comment_core,
-        //             // )
-        //         )
-        //     ),
-        //     // $._multiline_comment_end
-        // ),
+        //added nesting comments.
+        documentation_comment: $ => 
+            choice(
+                $._documentation_block_comment,
+                seq('///', /.*/),
+            )
+        ,
     }
 });
 

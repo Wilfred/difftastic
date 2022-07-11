@@ -435,7 +435,7 @@ typedef DismissMethod = Future<void> Function(WidgetTester tester, Finder finder
     (type_identifier) 
     (function_type (type_identifier) (type_arguments (void_type)) 
       (parameter_type_list (normal_parameter_type (typed_identifier (type_identifier) (identifier))) (normal_parameter_type (typed_identifier (type_identifier) (identifier))) 
-      (optional_parameter_types (named_parameter_types (typed_identifier (marker_annotation (identifier)) (type_identifier) (identifier))))))))
+      (optional_parameter_types (named_parameter_types (marker_annotation (identifier)) (typed_identifier (type_identifier) (identifier))))))))
 
 =================
 script tag
@@ -541,7 +541,8 @@ if (blah) {
 ---
 
 (program
-     (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier) (identifier) (selector
+     (final_builtin) (type_identifier) (type_identifier)
+     (static_final_declaration_list (static_final_declaration (identifier) (identifier) (selector
         (unconditional_assignable_selector (identifier))) (selector (argument_part (arguments)))))
     (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
     (if_statement (parenthesized_expression (identifier))
