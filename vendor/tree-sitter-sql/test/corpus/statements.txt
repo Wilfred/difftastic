@@ -1,0 +1,2637 @@
+================================================================================
+Numbers
+================================================================================
+
+SELECT 1, 1.2, -5, -1.3, 1E-37, 1E+37;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (number)
+        (number)
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (number)
+        (number)))))
+
+================================================================================
+SELECT statement
+================================================================================
+
+SELECT;
+SELECT interval '1 minute';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (interval_expression
+          (string
+            (content)))))))
+
+================================================================================
+SELECT statement with distinct expression
+================================================================================
+
+SELECT 1 IS DISTINCT FROM NULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (is_expression
+          (number)
+          (distinct_from
+            (NULL)))))))
+
+================================================================================
+SELECT statement FROM clause
+================================================================================
+
+SELECT a, b FROM table1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT statement with SELECT subexpression
+================================================================================
+
+SELECT (SELECT 1) AS a
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (alias
+          (select_subexpression
+            (select_statement
+              (select_clause
+                (select_clause_body
+                  (number)))))
+          (identifier))))))
+
+================================================================================
+SELECT statement with aliases
+================================================================================
+
+SELECT a, b AS c FROM table1 AS t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier)
+          (identifier))))
+    (from_clause
+      (alias
+        (identifier)
+        (identifier)))))
+
+================================================================================
+SELECT statement with group by
+================================================================================
+
+SELECT a, b
+FROM table1
+GROUP BY lower(a), b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (function_call
+          (identifier)
+          (identifier)))
+      (group_expression
+        (identifier)))))
+
+================================================================================
+SELECT statement with order by
+================================================================================
+
+SELECT a, b FROM table1 ORDER BY lower(a), b;
+SELECT a, b FROM table1 ORDER BY lower(a), b ASC;
+SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC, b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (function_call
+          (identifier)
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (function_call
+          (identifier)
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (function_call
+          (identifier)
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
+        (identifier)))))
+
+================================================================================
+SELECT statement FROM multiple tables
+================================================================================
+
+SELECT a, b FROM table1, table2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier)
+      (identifier))))
+
+================================================================================
+SELECT statement with numbers
+================================================================================
+
+SELECT 1, 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (number)
+        (number)))))
+
+================================================================================
+SELECT statement with expression
+================================================================================
+
+SELECT 1 + 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (number)
+          (number))))))
+
+================================================================================
+SELECT statement with empty string
+================================================================================
+
+SELECT '';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))))))
+
+================================================================================
+SELECT statement with dollar quoted string
+================================================================================
+
+SELECT $$hey$$;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))))))
+
+================================================================================
+SELECT statement with dollar quoted brackets inside
+================================================================================
+
+SELECT $$(a + b)$$;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))))))
+
+================================================================================
+SELECT statement with type cast
+================================================================================
+
+SELECT ''::JSONB;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (type_cast
+          (string
+            (content))
+          (type
+            (identifier)))))))
+
+================================================================================
+SELECT statement with columns
+================================================================================
+
+SELECT a, b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))))
+
+================================================================================
+SELECT statement with comparison expression
+================================================================================
+
+SELECT 1 < 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (number)
+          (number))))))
+
+================================================================================
+SELECT statement with is expression
+================================================================================
+
+SELECT a IS TRUE, b IS NOT NULL, c IS FALSE;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (is_expression
+          (identifier)
+          (TRUE))
+        (is_expression
+          (identifier)
+          (NULL))
+        (is_expression
+          (identifier)
+          (FALSE))))))
+
+================================================================================
+SELECT field
+================================================================================
+
+SELECT foo.bar FROM a;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+Operator precedence
+================================================================================
+
+SELECT 1 + -1, 1 <= 1;
+SELECT 1 * 2 + 3, 3 + 1 * 2, (3 + 1) * 2;
+SELECT 1 / 2 + 3, 3 + 1 / 2, (3 + 1) / 2;
+SELECT @1, !!2, |/3, ||/4, ~5, -6, +7;
+SELECT @ - 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (number)
+          (unary_expression
+            (number)))
+        (binary_expression
+          (number)
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number))
+        (binary_expression
+          (number)
+          (binary_expression
+            (number)
+            (number)))
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number))
+        (binary_expression
+          (number)
+          (binary_expression
+            (number)
+            (number)))
+        (binary_expression
+          (binary_expression
+            (number)
+            (number))
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number))
+        (unary_expression
+          (number)))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (unary_expression
+          (unary_expression
+            (number)))))))
+
+================================================================================
+SELECT statement with comparison expression and is expression
+================================================================================
+
+SELECT 1 < 2 IS TRUE;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (is_expression
+          (binary_expression
+            (number)
+            (number))
+          (TRUE))))))
+
+================================================================================
+SELECT expression with function
+================================================================================
+
+SELECT foo(bar, baz) < 10;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (function_call
+            (identifier)
+            (identifier)
+            (identifier))
+          (number))))))
+
+================================================================================
+SELECT expression with function without args
+================================================================================
+
+SELECT foo(), test.bar(1, 2, 3);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier))
+        (function_call
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)
+          (number)
+          (number))))))
+
+================================================================================
+SELECT comparison expression boolean
+================================================================================
+
+SELECT TRUE AND foo(1) OR FALSE AND NOT a = b.c;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (boolean_expression
+          (boolean_expression
+            (TRUE)
+            (function_call
+              (identifier)
+              (number)))
+          (boolean_expression
+            (FALSE)
+            (binary_expression
+              (boolean_expression
+                (identifier))
+              (dotted_name
+                (identifier)
+                (identifier)))))))))
+
+================================================================================
+SELECT parenthesized expression
+================================================================================
+
+SELECT (TRUE);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (TRUE)))))
+
+================================================================================
+SELECT parenthesized expression 2
+================================================================================
+
+SELECT TRUE AND (foo(1) OR FALSE);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (boolean_expression
+          (TRUE)
+          (boolean_expression
+            (function_call
+              (identifier)
+              (number))
+            (FALSE)))))))
+
+================================================================================
+SELECT string
+================================================================================
+
+SELECT 'aaaa'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))))))
+
+================================================================================
+SELECT weird_string
+================================================================================
+
+SELECT '%{a.b}'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))))))
+
+================================================================================
+SELECT field_access
+================================================================================
+
+SELECT foo->>'bar'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (json_access
+          (identifier)
+          (string
+            (content)))))))
+
+================================================================================
+SELECT in clause
+================================================================================
+
+SELECT 1 IN (1, 2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (in_expression
+          (number)
+          (tuple
+            (number)
+            (number)))))))
+
+================================================================================
+CREATE TYPE statement
+================================================================================
+
+CREATE TYPE typename;
+CREATE TYPE xest AS (data TEXT, val INT NOT NULL);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier))
+  (create_type_statement
+    (identifier)
+    (type_spec_composite
+      (identifier)
+      (type
+        (identifier))
+      (identifier)
+      (constrained_type
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))))))
+
+================================================================================
+CREATE TYPE enum
+================================================================================
+
+CREATE TYPE colors AS ENUM ('red', 'green', 'blue');
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_enum
+      (string
+        (content))
+      (string
+        (content))
+      (string
+        (content)))))
+
+================================================================================
+CREATE TYPE range
+================================================================================
+
+CREATE TYPE type_name AS RANGE (
+  SUBTYPE = date,
+  SUBTYPE_DIFF = diff_func,
+  CANONICAL = canonical_func
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_range
+      (identifier)
+      (identifier)
+      (identifier))))
+
+================================================================================
+CREATE TYPE base
+================================================================================
+
+CREATE TYPE type_name (
+  internallength = 16, 
+  input = in_func,
+  output = out_func
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_type_statement
+    (identifier)
+    (type_spec_base
+      (identifier)
+      (identifier))))
+
+================================================================================
+CREATE DOMAIN
+================================================================================
+
+CREATE DOMAIN test;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_domain_statement
+    (identifier)))
+
+================================================================================
+CREATE DOMAIN with type
+================================================================================
+
+CREATE DOMAIN test AS text;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_domain_statement
+    (identifier)
+    (type
+      (identifier))))
+
+================================================================================
+CREATE DOMAIN with array type
+================================================================================
+
+CREATE DOMAIN test_arr AS text[];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_domain_statement
+    (identifier)
+    (array_type
+      (type
+        (identifier)))))
+
+================================================================================
+CREATE DOMAIN type with constraint
+================================================================================
+
+CREATE DOMAIN test AS text NOT NULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_domain_statement
+    (identifier)
+    (type
+      (identifier))
+    (null_constraint
+      (NULL))))
+
+================================================================================
+CREATE DOMAIN array type with constraint
+================================================================================
+
+CREATE DOMAIN test AS text[] NOT NULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_domain_statement
+    (identifier)
+    (array_type
+      (type
+        (identifier)))
+    (null_constraint
+      (NULL))))
+
+================================================================================
+CREATE INDEX
+================================================================================
+
+CREATE INDEX test_idx ON table(col1, col2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier)
+      (identifier))))
+
+================================================================================
+CREATE UNIQUE INDEX
+================================================================================
+
+CREATE UNIQUE INDEX test_idx ON table(col1, col2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (unique_constraint)
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier)
+      (identifier))))
+
+================================================================================
+CREATE INDEX with function
+================================================================================
+
+CREATE INDEX test_idx ON table(lower(col1), col2);
+CREATE INDEX text_idx2 ON table(col2 text_pattern_ops);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (function_call
+        (identifier)
+        (identifier))
+      (identifier)))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier)
+      (op_class
+        (identifier)))))
+
+================================================================================
+CREATE INDEX where clause
+================================================================================
+
+CREATE INDEX test_idx ON table(col1) WHERE col1 IS NOT NULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier))
+    (where_clause
+      (is_expression
+        (identifier)
+        (NULL)))))
+
+================================================================================
+CREATE INDEX where clause not equal
+================================================================================
+
+CREATE INDEX test_idx ON table(col1) WHERE col1 <> 1
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier))
+    (where_clause
+      (binary_expression
+        (identifier)
+        (number)))))
+
+================================================================================
+CREATE INDEX complex
+================================================================================
+
+CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (identifier)
+      (function_call
+        (identifier)
+        (json_access
+          (identifier)
+          (string
+            (content)))))))
+
+================================================================================
+CREATE INDEX using
+================================================================================
+
+CREATE INDEX foo_idx ON table1 USING gist (col2);
+CREATE INDEX bttest_a_idx ON bttest_a USING btree (id) WITH (deduplicate_items = off);
+CREATE UNIQUE INDEX bttest_multi_idx ON bttest_multi USING btree (id) INCLUDE (data);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_table_parameters
+      (identifier)))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_table_parameters
+      (identifier))
+    (create_index_with_clause
+      (identifier)
+      (identifier)))
+  (create_index_statement
+    (unique_constraint)
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_table_parameters
+      (identifier))
+    (create_index_include_clause
+      (identifier))))
+
+================================================================================
+CREATE INDEX with order
+================================================================================
+
+CREATE INDEX foo_idx ON table1 (col2 DESC);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_table_parameters
+      (ordered_expression
+        (identifier)))))
+
+================================================================================
+CREATE TABLE
+================================================================================
+
+CREATE TABLE my_table (col1 INT, col2 INT);
+CREATE TABLE my_table () WITHOUT OIDS;
+CREATE TEMPORARY TABLE my_table2 (col1 INT, col2 INT);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))))
+  (create_table_statement
+    (identifier)
+    (table_parameters))
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with timestamp
+================================================================================
+
+CREATE TABLE public.my_table (
+    col1 INT PRIMARY KEY,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL DEFAULT (now() + INTERVAL '1 second')
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (dotted_name
+      (identifier)
+      (identifier))
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (primary_key_constraint))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (binary_expression
+            (function_call
+              (identifier))
+            (interval_expression
+              (string
+                (content)))))))))
+
+================================================================================
+CREATE TABLE with not null constraint
+================================================================================
+
+CREATE TABLE my_table (col1 INT NOT NULL)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))))))
+
+================================================================================
+CREATE TABLE with default
+================================================================================
+
+CREATE TABLE my_table (col1 INT DEFAULT get_num())
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (default_clause
+          (function_call
+            (identifier)))))))
+
+================================================================================
+CREATE TABLE with default string
+================================================================================
+
+CREATE TABLE my_table (col1 INT DEFAULT 'hey')
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (default_clause
+          (string
+            (content)))))))
+
+================================================================================
+CREATE TABLE with primary key constraint
+================================================================================
+
+CREATE TABLE my_table (col1 INT PRIMARY KEY)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (primary_key_constraint)))))
+
+================================================================================
+CREATE TABLE with references constraint
+================================================================================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (references_constraint
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with references constraint with column specified
+================================================================================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (references_constraint
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with references constraint with actions
+================================================================================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UPDATE RESTRICT)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (references_constraint
+          (identifier)
+          (identifier)
+          (on_delete_action)
+          (on_update_action))))))
+
+================================================================================
+CREATE TABLE with unique constraint
+================================================================================
+
+CREATE TABLE my_table (col1 INT UNIQUE)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (unique_constraint)))))
+
+================================================================================
+CREATE TABLE with multiple constaints
+================================================================================
+
+CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (default_clause
+          (function_call
+            (identifier)))
+        (null_constraint
+          (NULL))))))
+
+================================================================================
+CREATE TABLE with check in constaint, rule precedence
+================================================================================
+
+CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (check_constraint
+          (in_expression
+            (identifier)
+            (tuple
+              (number)
+              (number))))))))
+
+================================================================================
+CREATE TABLE with foreign key constraint
+================================================================================
+
+CREATE TABLE my_table (
+    col1 INT,
+    col2 INT,
+    FOREIGN KEY (col1, col2) REFERENCES mytable2,
+    CONSTRAINT my_key FOREIGN KEY (col1, col2) REFERENCES mytable2
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (foreign_key
+        (identifier)
+        (identifier)
+        (references_constraint
+          (identifier)))
+      (identifier)
+      (foreign_key
+        (identifier)
+        (identifier)
+        (references_constraint
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with multiple constraints
+================================================================================
+
+CREATE TABLE foo(
+  col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DELETE CASCADE,
+  col2 INT NOT NULL REFERENCES bar ON UPDATE CASCADE,
+  col3 INT NOT NULL REFERENCES bar ON DELETE CASCADE
+)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))
+        (references_constraint
+          (identifier)
+          (identifier)
+          (on_update_action)
+          (on_delete_action)))
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))
+        (references_constraint
+          (identifier)
+          (on_update_action)))
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))
+        (references_constraint
+          (identifier)
+          (on_delete_action))))))
+
+================================================================================
+CREATE TABLE with unique constraint
+================================================================================
+
+CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (unique
+        (identifier)
+        (identifier)))))
+
+================================================================================
+CREATE TABLE with direction
+================================================================================
+
+CREATE TABLE foo(
+  id BIGINT NOT NULL PRIMARY KEY,
+	date DATE DEFAULT NULL ASC
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))
+        (primary_key_constraint))
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (default_clause
+          (identifier))
+        (direction_constraint)))))
+
+================================================================================
+Comment
+================================================================================
+
+-- Smile and wave
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment))
+
+================================================================================
+Multiline comment
+================================================================================
+
+/*
+Smile and wave
+*/
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment))
+
+================================================================================
+CREATE TABLE with named constraint
+================================================================================
+
+CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (named_constraint
+          (identifier))))))
+
+================================================================================
+CREATE TABLE with composite primary key
+================================================================================
+
+CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (primary_key
+        (identifier)
+        (identifier)))))
+
+================================================================================
+CREATE TABLE with exclude contraint
+================================================================================
+
+CREATE TABLE foo(col1 INT, col2 VARCHAR, EXCLUDE USING GIST (col1 WITH =, col2 varchar_pattern_ops WITH &&))
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (exclude
+        (identifier)
+        (exclude_entry
+          (identifier)
+          (binary_operator))
+        (exclude_entry
+          (identifier)
+          (op_class
+            (identifier))
+          (binary_operator))))))
+
+================================================================================
+CREATE TABLE with array type column
+================================================================================
+
+CREATE TABLE foo(col1 INT[])
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier)))))))
+
+================================================================================
+CREATE TABLE with check constraint
+================================================================================
+
+CREATE TABLE foo(
+  col1 INT,
+  col2 INT,
+  CHECK(col1 > col2),
+  CONSTRAINT mycheck CHECK (func(start) = interval '5 minutes')
+)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (check
+        (binary_expression
+          (identifier)
+          (identifier)))
+      (identifier)
+      (check
+        (binary_expression
+          (function_call
+            (identifier)
+            (identifier))
+          (interval_expression
+            (string
+              (content))))))))
+
+================================================================================
+CREATE TABLE with foreign key constraint with columns specified
+================================================================================
+
+CREATE TABLE my_table (
+    col1 INT,
+    col2 INT,
+    FOREIGN KEY (col1, col2) REFERENCES mytable2(col1, col2)
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (foreign_key
+        (identifier)
+        (identifier)
+        (references_constraint
+          (identifier)
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION
+================================================================================
+
+CREATE FUNCTION add(integer, integer) RETURNS integer
+    AS 'select $1 + $2;'
+    LANGUAGE SQL;
+CREATE FUNCTION add(integer, integer) RETURNS integer
+    AS $BODY$select $1 + $2;$BODY$
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
+    (language))
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
+    (language)))
+
+================================================================================
+CREATE OR REPLACE FUNCTION
+================================================================================
+
+CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
+    AS 'select $1 + $2;'
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
+    (language)))
+
+================================================================================
+CREATE FUNCTION hints
+================================================================================
+
+CREATE FUNCTION foo(int) RETURNS integer
+    AS 'select 1'
+    LANGUAGE SQL STRICT IMMUTABLE PARALLEL SAFE;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
+    (language)
+    (null_hint)
+    (optimizer_hint)
+    (parallel_hint)))
+
+================================================================================
+CREATE FUNCTION argmode
+================================================================================
+
+CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
+    AS 'select col2 from table where col1 = $1;'
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier)))
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (function_body
+      (string
+        (content)))
+    (language)))
+
+================================================================================
+CREATE FUNCTION returns setof
+================================================================================
+
+CREATE FUNCTION add(text) RETURNS SETOF int
+    AS 'select col2 from table where col1 = $1;'
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (setof
+      (type
+        (identifier)))
+    (function_body
+      (string
+        (content)))
+    (language)))
+
+================================================================================
+CREATE FUNCTION returns constrained setof
+================================================================================
+
+CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
+    AS 'select col2 from table where col1 = $1;'
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (setof
+      (constrained_type
+        (type
+          (identifier))
+        (null_constraint
+          (NULL))))
+    (function_body
+      (string
+        (content)))
+    (language)))
+
+================================================================================
+CREATE FUNCTION Language in first pos
+================================================================================
+
+CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (language)
+    (function_body
+      (string
+        (content)))))
+
+================================================================================
+CREATE FUNCTION with optimizer hint
+================================================================================
+
+CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (optimizer_hint)
+    (language)
+    (function_body
+      (string
+        (content)))))
+
+================================================================================
+CREATE FUNCTION with constrained args
+================================================================================
+
+CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (constrained_type
+          (type
+            (identifier))
+          (null_constraint
+            (NULL)))))
+    (type
+      (identifier))
+    (optimizer_hint)
+    (language)
+    (function_body
+      (string
+        (content)))))
+
+================================================================================
+CREATE FUNCTION lowercase
+================================================================================
+
+create function add(integer) returns integer language sql as 'select $1';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (language)
+    (function_body
+      (string
+        (content)))))
+
+================================================================================
+CREATE FUNCTION highlight function body
+================================================================================
+
+create function add(integer) returns integer language sql as 'select a, b';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (language)
+    (function_body
+      (string
+        (content)))))
+
+================================================================================
+CREATE SCHEMA schema
+================================================================================
+
+CREATE SCHEMA information_schema;
+CREATE SCHEMA IF NOT EXISTS information_schema;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_schema_statement
+    (identifier))
+  (create_schema_statement
+    (identifier)))
+
+================================================================================
+GRANT
+================================================================================
+
+GRANT USAGE ON SCHEMA information_schema TO PUBLIC;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (grant_statement
+    (identifier)))
+
+================================================================================
+SET
+================================================================================
+
+SET search_path TO information_schema;
+SET search_path TO 'test';
+SET LOCAL search_path TO 'test';
+SET SESSION search_path TO 'test';
+SET SESSION search_path = 'test';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (set_statement
+    (identifier)
+    (identifier))
+  (set_statement
+    (identifier)
+    (string
+      (content)))
+  (set_statement
+    (identifier)
+    (string
+      (content)))
+  (set_statement
+    (identifier)
+    (string
+      (content)))
+  (set_statement
+    (identifier)
+    (string
+      (content))))
+
+================================================================================
+SELECT asterisk expressions
+================================================================================
+
+SELECT * FROM Customers;
+SELECT a.* FROM Customers;
+SELECT COUNT(*) FROM Customers;
+SELECT COUNT(a.*) FROM Customers;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression
+          (identifier))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (asterisk_expression))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (asterisk_expression
+            (identifier)))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+CREATE EXTENSION
+================================================================================
+
+CREATE EXTENSION postgis;
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0';
+CREATE EXTENSION IF NOT EXISTS postgis WITH VERSION '1.0' SCHEMA bar;
+CREATE EXTENSION IF NOT EXISTS postgis VERSION '1.0' SCHEMA bar CASCADE;
+CREATE EXTENSION btree_gist SCHEMA test_schema_diff;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_extension_statement
+    (identifier))
+  (create_extension_statement
+    (identifier))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (version
+      (content))
+    (schema
+      (identifier)))
+  (create_extension_statement
+    (identifier)
+    (schema
+      (identifier))))
+
+================================================================================
+CREATE ROLE
+================================================================================
+
+CREATE ROLE regress_lr_normal;
+CREATE ROLE regress_lr_superuser SUPERUSER;
+CREATE ROLE regress_lr_replication REPLICATION;
+CREATE ROLE regress_origin_replication REPLICATION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_role_statement
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier))
+  (create_role_statement
+    (identifier)
+    (identifier)))
+
+================================================================================
+DROP
+================================================================================
+
+DROP TABLE IF EXISTS foo;
+DROP TABLE foo;
+DROP VIEW bar;
+DROP TABLESPACE bar;
+DROP EXTENSION postgis;
+DROP TABLE foo CASCADE;
+DROP TABLE foo RESTRICT;
+DROP TABLE tb1, tb2, tb3;
+DROP MATERIALIZED VIEW bar;
+DROP INDEX idx;
+DROP INDEX CONCURRENTLY idx;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)
+    (identifier)
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)))
+
+================================================================================
+DROP
+================================================================================
+
+DROP TABLE IF EXISTS foo;
+DROP TABLE foo;
+DROP VIEW bar;
+DROP INDEX baz;
+DROP TABLESPACE bar;
+DROP EXTENSION postgis;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier))
+  (drop_statement
+    (identifier)))
+
+================================================================================
+Postgres command
+================================================================================
+
+\echo Use "CREATE EXTENSION foo" to load this file.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pg_command))
+
+================================================================================
+SEQUENCE
+================================================================================
+
+CREATE TEMP SEQUENCE myseq0;
+CREATE TEMPORARY SEQUENCE myseq1;
+CREATE SEQUENCE IF NOT EXISTS myseq2;
+CREATE SEQUENCE myseq3;
+CREATE SEQUENCE myseq4 AS integer;
+CREATE SEQUENCE myseq5 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE myseq6 OWNED BY user;
+CREATE SEQUENCE myseq6 OWNED BY foo.bar;
+ALTER SEQUENCE myseq3 OWNED BY user;
+ALTER SEQUENCE IF EXISTS myseq2 START WITH 10 INCREMENT BY 10 NO MINVALUE NO MAXVALUE CACHE 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_statement
+    (create_sequence
+      (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)
+      (type
+        (identifier))))
+  (create_statement
+    (create_sequence
+      (identifier)
+      (number)
+      (number)
+      (number)))
+  (create_statement
+    (create_sequence
+      (identifier)
+      (identifier)))
+  (create_statement
+    (create_sequence
+      (identifier)
+      (dotted_name
+        (identifier)
+        (identifier))))
+  (alter_statement
+    (alter_sequence
+      (identifier)
+      (identifier)))
+  (alter_statement
+    (alter_sequence
+      (identifier)
+      (number)
+      (number)
+      (number))))
+
+================================================================================
+ALTER TABLE
+================================================================================
+
+ALTER TABLE ONLY foo ALTER COLUMN myid SET DEFAULT nextval('myseq0'::regclass);
+ALTER TABLE bar
+    ADD COLUMN col1 UUID REFERENCES baz (col1) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE mytable0
+    ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
+      ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
+ALTER TABLE foo SET (autovacuum_enabled = false);
+ALTER TABLE foo RENAME COLUMN bar TO baz;
+ALTER TABLE foo OWNER TO bar;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_alter_column
+          (identifier)
+          (function_call
+            (identifier)
+            (type_cast
+              (string
+                (content))
+              (type
+                (identifier))))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_add
+          (table_column
+            (identifier)
+            (type
+              (identifier))
+            (references_constraint
+              (identifier)
+              (identifier)
+              (on_update_action)
+              (on_delete_action)))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_add
+          (foreign_key
+            (identifier)
+            (references_constraint
+              (identifier)
+              (identifier)
+              (on_update_action)
+              (on_delete_action)))
+          (initial_mode)))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_table_action_set
+          (binary_expression
+            (identifier)
+            (FALSE))))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_rename_column
+        (identifier)
+        (identifier))))
+  (alter_statement
+    (alter_table
+      (identifier)
+      (alter_table_action
+        (alter_owner
+          (identifier))))))
+
+================================================================================
+Transaction operators
+================================================================================
+
+BEGIN;
+BEGIN WORK;
+BEGIN TRANSACTION;
+COMMIT;
+COMMIT WORK;
+COMMIT TRANSACTION;
+ROLLBACK;
+ROLLBACK WORK;
+ROLLBACK TRANSACTION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (begin_statement)
+  (begin_statement)
+  (begin_statement)
+  (commit_statement)
+  (commit_statement)
+  (commit_statement)
+  (rollback_statement)
+  (rollback_statement)
+  (rollback_statement))
+
+================================================================================
+Quoting identifiers and dotted access
+================================================================================
+
+SELECT "test1s adfadf sf !!@#",
+        "test1s adfadf sf !!@#".*,
+        public."test1s adfadf sf !!@#",
+        "public"."test1s adfadf sf !!@#",
+        "public"."test1s adfadf sf !!@#".*,
+        "my schema".test,
+        "my schema".test.*;
+
+SELECT a.`test 1`;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (asterisk_expression
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (asterisk_expression
+          (dotted_name
+            (identifier)
+            (identifier)))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (asterisk_expression
+          (dotted_name
+            (identifier)
+            (identifier))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Dollar quoted strings
+================================================================================
+
+SELECT $$a$$, $a$baz$a$, $a$$$$a$, $a$b$$a$, $TAG$afasf    $$TAG$;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))))))
+
+================================================================================
+CASE
+================================================================================
+
+SELECT a,
+  CASE WHEN a=1 THEN 'one'
+      WHEN a=2 THEN 'two'
+      ELSE 'other'
+  END
+FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (conditional_expression
+          (binary_expression
+            (identifier)
+            (number))
+          (string
+            (content))
+          (binary_expression
+            (identifier)
+            (number))
+          (string
+            (content))
+          (string
+            (content)))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+Escaping quotes
+================================================================================
+
+SELECT 'O''Connor', '''', '''''', ' '' ', ' '' a'' ';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))
+        (string
+          (content))))))
+
+================================================================================
+AT TIME ZONE
+================================================================================
+
+SELECT '2001-02-16 20:38:40'::TIMESTAMP AT TIME ZONE 'America/Denver';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (at_time_zone_expression
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))))))
+
+================================================================================
+ALTER SCHEMA
+================================================================================
+
+ALTER SCHEMA bar00 OWNER TO foo;
+ALTER SCHEMA bar01 OWNER TO CURRENT_USER;
+ALTER SCHEMA bar02 RENAME TO bar03;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner
+        (identifier))))
+  (alter_statement
+    (schema
+      (identifier)
+      (alter_owner)))
+  (alter_statement
+    (schema
+      (identifier)
+      (rename
+        (identifier)))))
+
+================================================================================
+JSON accessing operators
+================================================================================
+
+SELECT
+  '[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json->2,
+  '{"a": {"b":"foo"}}'::json->'a',
+  '[1,2,3]'::json->>2,
+  '{"a":1,"b":2}'::json->>'b',
+  '{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}',
+  '{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (number))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (number))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))
+        (json_access
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (string
+            (content)))))))
+
+================================================================================
+COMMENT STATEMENT
+================================================================================
+
+COMMENT ON TABLE mytable IS 'This is my table.';
+COMMENT ON TABLE mytable IS NULL;
+COMMENT ON SCHEMA myschema IS 'my schema tables';
+COMMENT ON FUNCTION public."Test]()&*^!@""'`\/#"() IS 'some comment';
+COMMENT ON COLUMN foo.bar.baz IS 'This is a comment.';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (identifier)
+    (NULL))
+  (comment_statement
+    (identifier)
+    (string
+      (content)))
+  (comment_statement
+    (function_call
+      (dotted_name
+        (identifier)
+        (identifier)))
+    (string
+      (content)))
+  (comment_statement
+    (dotted_name
+      (identifier)
+      (identifier)
+      (identifier))
+    (string
+      (content))))
+
+================================================================================
+TRUNCATE STATEMENT
+================================================================================
+
+TRUNCATE mytable;
+TRUNCATE ONLY mytable;
+TRUNCATE TABLE mytable;
+TRUNCATE TABLE ONLY mytable;
+TRUNCATE mytable1, mytable1, "My Table 3";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (identifier)))
