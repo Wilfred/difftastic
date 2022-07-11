@@ -763,6 +763,7 @@ module.exports = grammar({
       optional(field('type_parameters', $.type_parameters)),
       optional(field('superclass', $.superclass)),
       optional(field('interfaces', $.super_interfaces)),
+      optional(field('permits', $.permits)),
       field('body', $.class_body)
     ),
 
@@ -779,7 +780,9 @@ module.exports = grammar({
       'synchronized',
       'native',
       'transient',
-      'volatile'
+      'volatile',
+      'sealed',
+      'non-sealed',
     )),
 
     type_parameters: $ => seq(
@@ -801,12 +804,17 @@ module.exports = grammar({
 
     super_interfaces: $ => seq(
       'implements',
-      $.interface_type_list
+      $.type_list
     ),
 
-    interface_type_list: $ => seq(
+    type_list: $ => seq(
       $._type,
       repeat(seq(',', $._type))
+    ),
+
+    permits: $ => seq(
+      'permits',
+      $.type_list
     ),
 
     class_body: $ => seq(
@@ -937,12 +945,13 @@ module.exports = grammar({
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
       optional($.extends_interfaces),
+      optional(field('permits', $.permits)),
       field('body', $.interface_body)
     ),
 
     extends_interfaces: $ => seq(
       'extends',
-      $.interface_type_list
+      $.type_list
     ),
 
     interface_body: $ => seq(

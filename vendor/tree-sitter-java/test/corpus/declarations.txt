@@ -324,7 +324,7 @@ public class Dog implements ISpeak {
 (program
   (class_declaration
      (modifiers) (identifier)
-     (super_interfaces (interface_type_list (type_identifier))) (class_body)))
+     (super_interfaces (type_list (type_identifier))) (class_body)))
 
 ============================
 class declaration with body
@@ -383,11 +383,11 @@ interface Bottom extends Left, Right {}
 (program
   (interface_declaration
     (identifier)
-    (extends_interfaces (interface_type_list (type_identifier)))
+    (extends_interfaces (type_list (type_identifier)))
     (interface_body))
   (interface_declaration
     (identifier)
-    (extends_interfaces (interface_type_list (type_identifier) (type_identifier))) (interface_body)))
+    (extends_interfaces (type_list (type_identifier) (type_identifier))) (interface_body)))
 
 ===========================================
 interface with annotation type declaration
@@ -668,3 +668,40 @@ class A$B {
             (method_invocation
               (identifier)
               (argument_list))))))))
+
+================
+ Sealed classes
+================
+
+sealed interface A permits B, C {
+
+}
+
+final class B implements A {}
+non-sealed interface C extends A {}
+
+---
+
+(program
+      (interface_declaration
+        (modifiers)
+        (identifier)
+        (permits
+          (type_list
+            (type_identifier)
+            (type_identifier)))
+        (interface_body))
+      (class_declaration
+        (modifiers)
+        (identifier)
+        (super_interfaces
+          (type_list
+            (type_identifier)))
+        (class_body))
+      (interface_declaration
+        (modifiers)
+        (identifier)
+        (extends_interfaces
+          (type_list
+            (type_identifier)))
+        (interface_body)))
