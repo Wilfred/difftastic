@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "5.5.1",
+  "version": "5.6.0",
   "description": "Tree sitter definitions for elm",
   "main": "bindings/node",
   "publishConfig": {
@@ -16,19 +16,14 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.15.0",
-    "prebuild-install": "^6.1.4"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
-    "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.20.4"
+    "tree-sitter-cli": "^0.20.6"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build --debug",
-    "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron --all --strip --verbose",
-    "prebuild:upload": "prebuild --upload-all",
+    "build": "tree-sitter generate",
     "parse-basic": "tree-sitter parse ./examples/Basic.elm",
     "parse-test": "tree-sitter parse --debug ./examples/test.elm",
     "test": "tree-sitter test && script/parse-examples",

@@ -227,7 +227,7 @@ namespace
                 {
 
                     advance(lexer);
-                    auto lookahead = lexer->lookahead;
+                    int32_t lookahead = lexer->lookahead;
 
                     // Handle minus without a whitespace for negate
                     if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE]
