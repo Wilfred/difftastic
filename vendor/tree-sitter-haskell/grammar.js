@@ -49,7 +49,7 @@ module.exports = grammar({
     $.quasiquote_bar,
     $.quasiquote_body,
     $._strict,
-    $._unboxed_tuple_close,
+    $._unboxed_close,
     '|',
     'in',
     /\n/,
@@ -202,6 +202,16 @@ module.exports = grammar({
      * Implicit parameters have slightly weird restrictions.
      */
     [$._type_or_implicit, $._context_constraints],
+
+    /**
+     * `(# | | ...` can start both `pat` and `exp`.
+     */
+    [$._pat_unboxed_sum, $._exp_unboxed_sum],
+
+    /**
+     * The nullary unboxed tuple `(# #)` is indistinguishable between exp and pat.
+     */
+    [$.exp_unboxed_tuple, $.pat_unboxed_tuple],
 
     [$.exp_lambda_case],
   ],

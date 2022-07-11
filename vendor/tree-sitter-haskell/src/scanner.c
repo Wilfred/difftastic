@@ -87,7 +87,7 @@
  *     when the quasiquote body starts with an operator character.
  *   - qq_body: Prevent extras, like comments, from breaking quasiquotes
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
- *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
+ *   - unboxed_close: Disambiguate the closing parens for unboxed tuples/sums `#)` from symbolic operators
  *   - bar: The vertical bar `|`, used for guards and list comprehension
  *   - in: Closes the layout of a `let` and consumes the token `in`
  *   - indent: Used as a dummy symbol for initialization; uses newline in the grammar to ensure the scanner is called
@@ -138,7 +138,7 @@ static char *sym_names[] = {
   "qq_bar",
   "qq_body",
   "strict",
-  "unboxed_tuple_close",
+  "unboxed_close",
   "bar",
   "in",
   "indent",
@@ -237,7 +237,7 @@ void debug_state(State *state) {
   debug_valid(state->symbols);
   DEBUG_PRINTF(", indents = ");
   debug_indents(state->indents);
-  DEBUG_PRINTF("\n");
+  DEBUG_PRINTF(" }\n");
 }
 #endif
 
@@ -365,7 +365,7 @@ static bool isws(uint32_t c) {
 }
 
 /**
- * A token like a varsym can be terminated by whitespace of brackets.
+ * A token like a varsym can be terminated by whitespace or brackets.
  */
 static bool token_end(uint32_t c) {
   switch (c) {
@@ -857,9 +857,9 @@ static Result cpp_workaround(State *state) {
 }
 
 /**
- * If the current column i 0, a cpp directive may begin.
+ * If the current column is 0, a cpp directive may begin.
  */
-static Result cpp_init(State *state) {
+static Result cpp(State *state) {
   if (column(state) == 0) {
     return cpp_workaround(state);
   }
@@ -1008,12 +1008,12 @@ static Result splice(State *state) {
   return res_cont;
 }
 
-static Result unboxed_tuple_close(State *state) {
+static Result unboxed_close(State *state) {
   if (state->symbols[UNBOXED_TUPLE_CLOSE]) {
     if (PEEK == ')') {
       S_ADVANCE;
-      MARK("unboxed_tuple_close", false, state);
-      return finish(UNBOXED_TUPLE_CLOSE, "unboxed_tuple_close");
+      MARK("unboxed_close", false, state);
+      return finish(UNBOXED_TUPLE_CLOSE, "unboxed_close");
     }
   }
   return res_cont;
@@ -1079,7 +1079,7 @@ static Result symop_marked(Symbolic type, State *state) {
       return res_fail;
     }
     case S_UNBOXED_TUPLE_CLOSE:
-      return unboxed_tuple_close(state);
+      return unboxed_close(state);
     default:
       return res_cont;
   }
@@ -1415,7 +1415,7 @@ static Result newline(uint32_t indent, State *state) {
   SHORT_SCANNER;
   res = initialize(indent, state);
   SHORT_SCANNER;
-  res = cpp_workaround(state);
+  res = cpp(state);
   SHORT_SCANNER;
   res = comment(state);
   SHORT_SCANNER;
@@ -1461,7 +1461,7 @@ static Result init(State *state) {
   SHORT_SCANNER;
   res = dot(state);
   SHORT_SCANNER;
-  res = cpp_init(state);
+  res = cpp(state);
   SHORT_SCANNER;
   if (state->symbols[QQ_BODY]) {
     return qq_body(state);
@@ -1591,7 +1591,9 @@ bool tree_sitter_haskell_external_scanner_scan(void *indents_v, TSLexer *lexer, 
 unsigned tree_sitter_haskell_external_scanner_serialize(void *indents_v, char *buffer) {
   indent_vec *indents = (indent_vec*) indents_v;
   unsigned to_copy = sizeof(indents->data[0]) * indents->len;
-  assert(to_copy <= TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
+  if (to_copy > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+    return 0;
+  }
   memcpy(buffer, indents->data, to_copy);
   return to_copy;
 }

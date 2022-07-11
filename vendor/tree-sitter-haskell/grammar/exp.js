@@ -24,15 +24,27 @@ module.exports = {
     repeat(seq($.comma, optional($._exp)))
   ),
 
-  exp_sum_empty: _ => ' ',
-
-  _exp_sum: $ => sep2('|', choice($._exp, $.exp_sum_empty)),
-
   exp_tuple: $ => parens($._exp_tuple),
 
-  exp_unboxed_tuple: $ => seq('(# ', $._exp_tuple, $._unboxed_tuple_close),
+  /**
+  * Unlike their boxed variants, unboxed tuples may be nullary and unary, making it simpler to parse them.
+  * The nullary tuple may even have no space between the hashes, but this format coincides with the prefix notation of
+  * the `##` symop. Since the latter is already parsed by other rules and is valid in the same positions, it is left out
+  * here.
+  *
+  * The opening lexeme, `(#`, is parsed with a hardcoded trailing space in exp, pat and type. This is a hack that works
+  * around some peculiarities of the interactions with some features like TH and symbolic operators that would most
+  * likely be significantly more complex to implement correctly. As it stands, the grammar can't parse an unboxed sum
+  * exp without a leading space, as in `(#| x #)`.
+  */
+  exp_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, optional($._exp)), $._unboxed_close),
 
-  exp_unboxed_sum: $ => seq('(# ', $._exp_sum, $._unboxed_tuple_close),
+  /**
+  * Unboxed sums must have at least one separating `|`, otherwise the expression would be a unary or nullary tuple.
+  */
+  _exp_unboxed_sum: $ => sep2('|', optional($._exp)),
+
+  exp_unboxed_sum: $ => seq($._unboxed_open, $._exp_unboxed_sum, $._unboxed_close),
 
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 

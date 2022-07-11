@@ -1124,11 +1124,74 @@ a = (# a, a #)
  (function (variable) (exp_unboxed_tuple (exp_name (variable)) (comma) (exp_name (variable)))))
 
 ================================================================================
+exp: unboxed nullary tuple
+================================================================================
+
+a = (# #)
+a = (##)
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_unboxed_tuple))
+ (function
+  (variable)
+  (exp_name
+   (operator))))
+
+
+================================================================================
+exp: unboxed unary tuple
+================================================================================
+
+a = (# A a + a #)
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_unboxed_tuple
+   (exp_infix
+    (exp_apply
+     (exp_name (constructor))
+     (exp_name (variable)))
+    (operator)
+    (exp_name (variable))))))
+
+================================================================================
+exp: section of unboxed tuple
+================================================================================
+
+a = (# ,,a, #)
+a = (# a,, #)
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_unboxed_tuple
+   (comma)
+   (comma)
+   (exp_name (variable))
+   (comma)))
+ (function
+  (variable)
+  (exp_unboxed_tuple
+   (exp_name (variable))
+   (comma)
+   (comma))))
+
+================================================================================
 exp: unboxed sum
 ================================================================================
 
 a :: (# A | (# A, A #) | A #)
 a = (# a | | #)
+a = (# | a #)
 
 ---
 
@@ -1142,9 +1205,30 @@ a = (# a | | #)
  (function
   (variable)
   (exp_unboxed_sum
-   (exp_name (variable))
-   (exp_sum_empty)
-   (exp_sum_empty))))
+   (exp_name (variable))))
+ (function
+  (variable)
+  (exp_unboxed_sum
+   (exp_name (variable)))))
+
+================================================================================
+exp: error: unboxed sum without space
+================================================================================
+
+a = (#| 5 #)
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_section_right
+   (operator)
+   (exp_infix
+    (exp_literal (integer))
+    (operator)
+    (exp_name
+     (variable (MISSING _varid)))))))
 
 ================================================================================
 exp: label

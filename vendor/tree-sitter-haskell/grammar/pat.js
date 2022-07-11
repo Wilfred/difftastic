@@ -16,7 +16,11 @@ module.exports = {
 
   pat_tuple: $ => parens(sep2($.comma, $._nested_pat)),
 
-  pat_unboxed_tuple: $ => seq('(# ', sep1($.comma, $._nested_pat), $._unboxed_tuple_close),
+  pat_unboxed_tuple: $ => seq($._unboxed_open, sep($.comma, $._nested_pat), $._unboxed_close),
+
+  _pat_unboxed_sum: $ => sep2('|', optional($._nested_pat)),
+
+  pat_unboxed_sum: $ => seq($._unboxed_open, $._pat_unboxed_sum, $._unboxed_close),
 
   pat_list: $ => brackets(sep1($.comma, $._nested_pat)),
 
@@ -24,7 +28,7 @@ module.exports = {
 
   pat_irrefutable: $ => seq('~', $._apat),
 
-  pat_negation: $ => seq('-', $._number),
+  pat_negation: $ => seq('-', $._apat),
 
   pat_name: $ => $._var,
 
@@ -47,6 +51,7 @@ module.exports = {
     $.pat_parens,
     $.pat_tuple,
     $.pat_unboxed_tuple,
+    $.pat_unboxed_sum,
     $.pat_list,
     $.pat_strict,
     $.pat_irrefutable,
