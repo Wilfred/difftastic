@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-json",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "JSON grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [

@@ -2,7 +2,8 @@ module.exports = grammar({
   name: 'json',
 
   extras: $ => [
-    /\s/
+    /\s/,
+    $.comment,
   ],
 
   supertypes: $ => [
@@ -42,7 +43,7 @@ module.exports = grammar({
     ),
 
     string_content: $ => repeat1(choice(
-      token.immediate(/[^\\"\n]+/),
+      token.immediate(prec(1, /[^\\"\n]+/)),
       $.escape_sequence
     )),
 
@@ -58,7 +59,7 @@ module.exports = grammar({
       )
 
       const decimal_digits = /\d+/
-      const signed_integer = seq(optional(choice('-','+')), decimal_digits)
+      const signed_integer = seq(optional(choice('-', '+')), decimal_digits)
       const exponent_part = seq(choice('e', 'E'), signed_integer)
 
       const binary_literal = seq(choice('0b', '0B'), /[0-1]+/)
@@ -66,7 +67,7 @@ module.exports = grammar({
       const octal_literal = seq(choice('0o', '0O'), /[0-7]+/)
 
       const decimal_integer_literal = seq(
-        optional(choice('-','+')),
+        optional(choice('-', '+')),
         choice(
           '0',
           seq(/[1-9]/, optional(decimal_digits))
@@ -91,14 +92,23 @@ module.exports = grammar({
 
     false: $ => "false",
 
-    null: $ => "null"
+    null: $ => "null",
+
+    comment: $ => token(choice(
+      seq('//', /.*/),
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/'
+      )
+    )),
   }
 });
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)))
 }
 
-function commaSep (rule) {
+function commaSep(rule) {
   return optional(commaSep1(rule))
 }
