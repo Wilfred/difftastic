@@ -568,15 +568,17 @@ void a()
       (block
         (expression_statement (invocation_expression (identifier)
         (argument_list
-          (argument (lambda_expression (parameter_list) (initializer_expression))))))))))
+          (argument (lambda_expression (modifier) (parameter_list) (initializer_expression))))))))))
 
 ============================
-Lambda expression with qualifiers
+Lambda expression with modifiers
 ============================
 
 void a() {
   var lam = static x => x + 1;
   var bda = async x => x + 1;
+  var syn = async static x => x + 1;
+  var txt = static async x => x + 1;
 }
 
 ---
@@ -591,8 +593,7 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression
-                  (identifier)
+                (lambda_expression (modifier) (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))
@@ -602,8 +603,27 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression
-                  (identifier)
+                (lambda_expression (modifier) (identifier)
+                  (binary_expression
+                    (identifier)
+                    (integer_literal)))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression (modifier) (modifier) (identifier)
+                  (binary_expression
+                    (identifier)
+                    (integer_literal)))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression (modifier) (modifier) (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))))))

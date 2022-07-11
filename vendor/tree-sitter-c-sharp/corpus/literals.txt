@@ -315,6 +315,30 @@ class A {
           (equals_value_clause (string_literal (escape_sequence)))))))))
 
 ==================================================
+string literals containing newline
+==================================================
+
+class A {
+  string s = $"This contains {
+    abc
+  }";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text) (interpolation (identifier))))))))))
+
+==================================================
 string literals containing block comment
 ==================================================
 
