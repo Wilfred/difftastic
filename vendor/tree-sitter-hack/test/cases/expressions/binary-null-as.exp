@@ -1,0 +1,17 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (as_expression
+        left: (integer)
+        right: (type_specifier))))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (as_expression
+        left: (null)
+        right: (type_specifier)))))

@@ -1,0 +1,10 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      right: (scoped_identifier
+        (pipe_variable)
+        (identifier)))))

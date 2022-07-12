@@ -1,0 +1,64 @@
+(script
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (lambda_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (call_expression
+          function: (awaitable_expression
+            (compound_statement
+              (return_statement
+                (variable))))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (variadic_modifier)
+              (array
+                (array_type)
+                (integer)
+                (integer)
+                (integer))))))))
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (call_expression
+        function: (lambda_expression
+          (async_modifier)
+          (parameters
+            (parameter
+              name: (variable)))
+          body: (compound_statement
+            (return_statement
+              (variable))))
+        (arguments
+          (argument
+            (integer))
+          (argument
+            (variadic_modifier)
+            (array
+              (array_type)
+              (integer)
+              (integer)
+              (integer)))))))
+  (expression_statement
+    (call_expression
+      function: (parenthesized_expression
+        (lambda_expression
+          (parameters
+            (parameter
+              name: (variable)))
+          body: (variable)))
+      (arguments
+        (argument
+          (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (argument
+          (inout_modifier)
+          (variable))))))

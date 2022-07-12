@@ -1,0 +1,90 @@
+(script
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (selection_expression
+          (variable)
+          (variable))
+        (arguments))))
+  (comment)
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (scoped_identifier
+          (qualified_identifier
+            (identifier))
+          (variable))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (scoped_identifier
+          (scope_identifier)
+          (variable))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (variable)
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (parenthesized_expression
+          (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (binary_expression
+        left: (string)
+        right: (new_expression
+          (pipe_variable)
+          (arguments
+            (argument
+              (integer))))))))

@@ -1,0 +1,16 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement
+      (using_statement
+        (expression_statement
+          (binary_expression
+            left: (variable)
+            right: (call_expression
+              function: (scoped_identifier
+                (qualified_identifier
+                  (identifier))
+                (identifier))
+              (arguments))))))))

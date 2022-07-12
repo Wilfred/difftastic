@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_fd
+
+# Also see test-dir
+
+# Note: By default, fd ignores hidden directories,
+#       hidden files, and .gitignore patterns
+# To change this behavior, use --hidden and/or --no-ignore with fd calls
+
+{ fd . -e php "$@" | xargs -r egrep -l "^<\?hh" & fd . -e hack "$@"; } | xargs -r -n 256 npx tree-sitter parse --quiet

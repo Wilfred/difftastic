@@ -1,0 +1,14 @@
+(script
+  (expression_statement
+    (enum_class_label
+      (qualified_identifier
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (call_expression
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (enum_class_label
+            (identifier)))))))

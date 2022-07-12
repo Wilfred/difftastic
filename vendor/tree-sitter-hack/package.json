@@ -1,0 +1,47 @@
+{
+  "name": "tree-sitter-hacklang",
+  "version": "0.0.4",
+  "description": "Hack grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer",
+    "hacklang",
+    "hhvm"
+  ],
+  "author": "Antonio de Jesus Ochoa Solano",
+  "license": "MIT",
+  "homepage": "https://github.com/slackhq/tree-sitter-hack#readme",
+  "bugs": {
+    "url": "https://github.com/slackhq/tree-sitter-hack/issues"
+  },
+  "engines": {
+    "node": ">=14.7.0"
+  },
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "~0.20.6"
+  },
+  "scripts": {
+    "build": "bin/generate-parser --force && node-gyp build",
+    "test": "bin/generate-corpus && tree-sitter test",
+    "test-corpus": "bin/test-corpus",
+    "test-examples": "bin/test-examples",
+    "reset": "rm -rf build node_modules package-lock.json tmp/grammar.js.sha && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackhq/tree-sitter-hack.git"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.hack",
+      "file-types": [
+        "hack"
+      ],
+      "first-line-regex": "^((<\\?hh.*)|(#!.+ hhvm))"
+    }
+  ]
+}

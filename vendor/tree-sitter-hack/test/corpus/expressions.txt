@@ -1,0 +1,3027 @@
+==========================
+Anonymous function
+==========================
+
+$f1 = function($p1) {};
+
+$f2 = function($p1, $p2): int {};
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (compound_statement))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable))
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier)
+        body: (compound_statement)))))
+
+==========================
+Anonymous function type
+==========================
+
+function((function(int...): int) $function): ((function(int): int), (function(): void)) use ($function)  {};
+
+---
+
+(script
+  (expression_statement
+    (anonymous_function_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (type_specifier)
+            (variadic_modifier)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (tuple_type_specifier
+        (function_type_specifier
+          (type_specifier)
+          return_type: (type_specifier))
+        (function_type_specifier
+          return_type: (type_specifier)))
+      (use_clause
+        (variable))
+      body: (compound_statement))))
+
+==========================
+Anonymous function use
+==========================
+
+$f3 = function($p1) use ($p2,) {};
+
+$f4 = function($p1): int use ($p2, $p3) {};
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        (use_clause
+          (variable))
+        body: (compound_statement))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (anonymous_function_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        return_type: (type_specifier)
+        (use_clause
+          (variable)
+          (variable))
+        body: (compound_statement)))))
+
+==========================
+Anonymous function with capabilities
+==========================
+
+function()[C]: void {};
+
+---
+
+(script
+  (expression_statement
+    (anonymous_function_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (type_specifier)
+      (compound_statement))))
+
+==========================
+As
+==========================
+
+$var as int;
+$var ?as int;
+
+---
+
+(script
+  (expression_statement
+    (as_expression
+      left: (variable)
+      right: (type_specifier)))
+  (expression_statement
+    (as_expression
+      left: (variable)
+      right: (type_specifier))))
+
+==========================
+Assignment
+==========================
+
+$var = 1;
+$var[] = 1;
+$var[1] = 1;
+$var['key'] = 1;
+$var[$var['key']] = 1;
+$var[$var['key']][] = 1;
+$var[][$var['key']] = 1;
+
+list($var, $bar) = tuple(1, 1);
+list($var[], $bar) = tuple(1, 1);
+list($var[1], $bar[]) = tuple(1, 1);
+list($var['key'], $bar[1]) = tuple(1, 1);
+list($var[$var['key']], $bar['key']) = tuple(1, 1);
+list($var[$var['key']][], $var[$var['key']],) = tuple(1, 1);
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (integer))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable)
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable))
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (integer))
+        (subscript_expression
+          (variable)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (string))
+        (subscript_expression
+          (variable)
+          (integer)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string)))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (subscript_expression
+              (variable)
+              (string))))
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (tuple
+        (integer)
+        (integer)))))
+
+==========================
+Async
+==========================
+
+async {
+};
+
+async {
+  concurrent {
+    await func1();
+    await func2();
+  }
+};
+
+---
+
+(script
+  (expression_statement
+    (awaitable_expression
+      (compound_statement)))
+  (expression_statement
+    (awaitable_expression
+      (compound_statement
+        (concurrent_statement
+          (compound_statement
+            (expression_statement
+              (prefix_unary_expression
+                operand: (call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))
+            (expression_statement
+              (prefix_unary_expression
+                operand: (call_expression
+                  function: (qualified_identifier
+                    (identifier))
+                  (arguments))))))))))
+
+==========================
+Augmented assignment
+==========================
+
+$var ??= 1;
+$var[] .= 'stringgg';
+$var[1] |= 1;
+$var['key'] ^= 1;
+$var[$var['key']] &= 1;
+$var[$var['key']][] <<= 1;
+$var[][$var['key']] >>= 1;
+
+list($var, $bar) += tuple(1, 1);
+list($var[], $bar) -= tuple(1, 1);
+list($var[1], $bar[]) *= tuple(1, 1);
+list($var['key'], $bar[1]) /= tuple(1, 1);
+list($var[$var['key']], $bar['key']) %= tuple(1, 1);
+list($var[$var['key']][], $var[$var['key']],) **= tuple(1, 1);
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable))
+      right: (string)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (integer))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable)
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable))
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (integer))
+        (subscript_expression
+          (variable)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (string))
+        (subscript_expression
+          (variable)
+          (integer)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string)))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (subscript_expression
+              (variable)
+              (string))))
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (tuple
+        (integer)
+        (integer)))))
+
+==========================
+Await
+==========================
+
+function func(): void {
+  await 'await';
+}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement
+      (expression_statement
+        (prefix_unary_expression
+          operand: (string))))))
+
+==========================
+Binary
+==========================
+
+1 ?? 1;
+1 || 1;
+1 && 1;
+1 | 1;
+1 ^ 1;
+1 & 1;
+1 == 1;
+1 != 1;
+1 === 1;
+1 !== 1;
+1 < 1;
+1 > 1;
+1 <= 1;
+1 >= 1;
+1 <=> 1;
+1 << 1;
+1 >> 1;
+1 + 1;
+1 - 1;
+1 . 1;
+1 * 1;
+1 / 1;
+1 % 1;
+1 ** 1;
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer))))
+
+==========================
+Binary combined
+==========================
+
+1 ??
+1 ||
+1 &&
+1 |
+1 ^
+~ 1 &
+1 ==
+1 !=
+1 ===
+! 1 !==
+1 <
+1 >
+1 <=
+1 >=
+1 <=>
+1 <<
+1 >>
++ 1 +
+- 1 -
+1 .
+1 *
+1 /
+1 %
+1 ** 1;
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (binary_expression
+        left: (binary_expression
+          left: (integer)
+          right: (binary_expression
+            left: (integer)
+            right: (integer)))
+        right: (binary_expression
+          left: (binary_expression
+            left: (integer)
+            right: (prefix_unary_expression
+              operand: (integer)))
+          right: (binary_expression
+            left: (binary_expression
+              left: (binary_expression
+                left: (binary_expression
+                  left: (integer)
+                  right: (integer))
+                right: (integer))
+              right: (prefix_unary_expression
+                operand: (integer)))
+            right: (binary_expression
+              left: (binary_expression
+                left: (binary_expression
+                  left: (binary_expression
+                    left: (binary_expression
+                      left: (integer)
+                      right: (integer))
+                    right: (integer))
+                  right: (integer))
+                right: (integer))
+              right: (binary_expression
+                left: (binary_expression
+                  left: (integer)
+                  right: (integer))
+                right: (binary_expression
+                  left: (binary_expression
+                    left: (binary_expression
+                      left: (prefix_unary_expression
+                        operand: (integer))
+                      right: (prefix_unary_expression
+                        operand: (integer)))
+                    right: (integer))
+                  right: (binary_expression
+                    left: (binary_expression
+                      left: (binary_expression
+                        left: (integer)
+                        right: (integer))
+                      right: (integer))
+                    right: (binary_expression
+                      left: (integer)
+                      right: (integer))))))))))))
+
+==========================
+Binary null as
+==========================
+
+$var['key'] ?? 1 as nonnull;
+
+$var['key'] ?? null as nonnull;
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (as_expression
+        left: (integer)
+        right: (type_specifier))))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (as_expression
+        left: (null)
+        right: (type_specifier)))))
+
+==========================
+Binary with strings
+==========================
+
+'??' ??
+'||' ||
+'&&' &&
+'|' |
+'^' ^
+'&' &
+'==' ==
+'!=' !=
+'===' ===
+'!==' !==
+'<' <
+'>' >
+'<=' <=
+'>=' >=
+'<=>' <=>
+'<<' <<
+'>>' >>
+'+' +
+'-' -
+'.' .
+'*' *
+'/' /
+'%' %
+'**' ** '??';
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (string)
+      right: (binary_expression
+        left: (binary_expression
+          left: (string)
+          right: (binary_expression
+            left: (string)
+            right: (string)))
+        right: (binary_expression
+          left: (binary_expression
+            left: (string)
+            right: (string))
+          right: (binary_expression
+            left: (binary_expression
+              left: (binary_expression
+                left: (binary_expression
+                  left: (string)
+                  right: (string))
+                right: (string))
+              right: (string))
+            right: (binary_expression
+              left: (binary_expression
+                left: (binary_expression
+                  left: (binary_expression
+                    left: (binary_expression
+                      left: (string)
+                      right: (string))
+                    right: (string))
+                  right: (string))
+                right: (string))
+              right: (binary_expression
+                left: (binary_expression
+                  left: (string)
+                  right: (string))
+                right: (binary_expression
+                  left: (binary_expression
+                    left: (binary_expression
+                      left: (string)
+                      right: (string))
+                    right: (string))
+                  right: (binary_expression
+                    left: (binary_expression
+                      left: (binary_expression
+                        left: (string)
+                        right: (string))
+                      right: (string))
+                    right: (binary_expression
+                      left: (string)
+                      right: (string))))))))))))
+
+==========================
+Cast
+==========================
+
+(int)'int';
+(float)'float';
+(string)'string';
+(array)'array';
+
+---
+
+(script
+  (expression_statement
+    (cast_expression
+      value: (string)))
+  (expression_statement
+    (cast_expression
+      value: (string)))
+  (expression_statement
+    (cast_expression
+      value: (string)))
+  (expression_statement
+    (cast_expression
+      value: (string))))
+
+==========================
+Clone
+==========================
+
+clone 'clone';
+
+---
+
+(script
+  (expression_statement
+    (prefix_unary_expression
+      operand: (string))))
+
+==========================
+Collection
+==========================
+
+Vector {};
+HH\Vector {1, 2, 3};
+
+\HH\Map {};
+Map {'foo' => 1};
+
+Set {};
+Set {'foo', 'bar'};
+
+---
+
+(script
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier)
+        (identifier))
+      (integer)
+      (integer)
+      (integer)))
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier)
+        (identifier))))
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier))
+      (element_initializer
+        (string)
+        (integer))))
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (collection
+      (qualified_identifier
+        (identifier))
+      (string)
+      (string))))
+
+==========================
+Comments
+==========================
+
+// a ? : / */ // + re""
+
+/* a ? : / */ 1 + 1; // + re""
+
+/*\
+*\/ 1 + 1
+*/
+
+
+---
+
+(script
+  (comment)
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (comment)
+  (comment))
+
+==========================
+Darray
+==========================
+
+darray[];
+darray[false => null, 2 => 1];
+
+---
+
+(script
+  (expression_statement
+    (array
+      (array_type)))
+  (expression_statement
+    (array
+      (array_type)
+      (element_initializer
+        (false)
+        (null))
+      (element_initializer
+        (integer)
+        (integer)))))
+
+==========================
+Dict
+==========================
+
+dict[];
+dict[false => null, 2.3 => 1];
+
+---
+
+(script
+  (expression_statement
+    (array
+      (array_type)))
+  (expression_statement
+    (array
+      (array_type)
+      (element_initializer
+        (false)
+        (null))
+      (element_initializer
+        (float)
+        (integer)))))
+
+==========================
+Enum class labels
+==========================
+
+E#B;
+f(#B);
+
+---
+
+(script
+  (expression_statement
+    (enum_class_label
+      (qualified_identifier
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (call_expression
+      (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (enum_class_label
+            (identifier)))))))
+
+==========================
+Function call
+==========================
+
+func();
+
+func<int>(1, inout $arg, ...null);
+
+$arg[func()]();
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier))
+      (arguments
+        (argument
+          (integer))
+        (argument
+          (inout_modifier)
+          (variable))
+        (argument
+          (variadic_modifier)
+          (null)))))
+  (expression_statement
+    (call_expression
+      function: (subscript_expression
+        (variable)
+        (call_expression
+          function: (qualified_identifier
+            (identifier))
+          (arguments)))
+      (arguments))))
+
+==========================
+Function call lambda
+==========================
+
+// (lambda (call (awaitable)))
+$var = $arg ==> async { return $arg; }(1, ...vec[1,2,3]);
+
+// (call (lambda))
+$var = async $arg ==> { return $arg; }(1, ...vec[1,2,3]);
+
+($arg ==> $arg)(func(), inout $arg);
+
+---
+
+(script
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (lambda_expression
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (call_expression
+          function: (awaitable_expression
+            (compound_statement
+              (return_statement
+                (variable))))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (variadic_modifier)
+              (array
+                (array_type)
+                (integer)
+                (integer)
+                (integer))))))))
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (call_expression
+        function: (lambda_expression
+          (async_modifier)
+          (parameters
+            (parameter
+              name: (variable)))
+          body: (compound_statement
+            (return_statement
+              (variable))))
+        (arguments
+          (argument
+            (integer))
+          (argument
+            (variadic_modifier)
+            (array
+              (array_type)
+              (integer)
+              (integer)
+              (integer)))))))
+  (expression_statement
+    (call_expression
+      function: (parenthesized_expression
+        (lambda_expression
+          (parameters
+            (parameter
+              name: (variable)))
+          body: (variable)))
+      (arguments
+        (argument
+          (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (argument
+          (inout_modifier)
+          (variable))))))
+
+==========================
+Function call pipe
+==========================
+
+$$();
+
+func() |> $$($$);
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (pipe_variable)
+      (arguments)))
+  (expression_statement
+    (binary_expression
+      left: (call_expression
+        function: (qualified_identifier
+          (identifier))
+        (arguments))
+      right: (call_expression
+        function: (pipe_variable)
+        (arguments
+          (argument
+            (pipe_variable)))))))
+
+==========================
+Function call scoped
+==========================
+
+arg::$arg();
+
+arg::arg();
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (variable))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (arguments))))
+
+==========================
+Function call selection
+==========================
+
+$arg?->$arg();
+
+arg->arg();
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (variable))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (qualified_identifier
+          (identifier))
+        (qualified_identifier
+          (identifier)))
+      (arguments))))
+
+==========================
+Function pointers
+==========================
+
+MyClass::bar<>;
+foo<>;
+\Foo\Bar\Baz\derp<>;
+fizz<int, _>;
+
+---
+
+  (script
+    (expression_statement
+      (function_pointer
+        (scoped_identifier
+          (qualified_identifier
+            (identifier))
+          (identifier))
+        (type_arguments)))
+    (expression_statement
+      (function_pointer
+        (qualified_identifier
+          (identifier))
+        (type_arguments)))
+    (expression_statement
+      (function_pointer
+        (qualified_identifier
+          (identifier)
+          (identifier)
+          (identifier)
+          (identifier))
+        (type_arguments)))
+    (expression_statement
+      (function_pointer
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier)
+          (type_specifier
+            (qualified_identifier
+              (identifier)))))))
+
+==========================
+Include
+==========================
+
+include_once(__DIR__.'/../vendor/autoload.hack');
+include(__DIR__.'/../vendor/autoload.hack');
+
+---
+
+(script
+  (expression_statement
+    (include_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string)))))
+  (expression_statement
+    (include_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string))))))
+
+==========================
+Is
+==========================
+
+$var is int;
+
+---
+
+(script
+  (expression_statement
+    (is_expression
+      left: (variable)
+      right: (type_specifier))))
+
+==========================
+Keyset
+==========================
+
+keyset[];
+keyset[1, null, .1, true];
+
+---
+
+(script
+  (expression_statement
+    (array
+      (array_type)))
+  (expression_statement
+    (array
+      (array_type)
+      (integer)
+      (null)
+      (float)
+      (true))))
+
+==========================
+Lambda
+==========================
+
+(int $x): int ==> $x + 1;
+(int $x) ==> $x + 1;
+($x) ==> $x + 1;
+$x ==> $x + 1;
+
+---
+
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (type_specifier)
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (type_specifier)
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          name: (variable)))
+      body: (binary_expression
+        left: (variable)
+        right: (integer)))))
+
+==========================
+Lambda attribute
+==========================
+
+// HHVM requires parens to parse correctly 🤔 Tree-sitter doesn't.
+(<<A3(1), A2(2,3,)>>(int $x): int ==> $x + 1);
+
+(<<Attr, Bttr(1)>> $x ==> {});
+
+---
+
+(script
+  (comment)
+  (expression_statement
+    (parenthesized_expression
+      (lambda_expression
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer)))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        (parameters
+          (parameter
+            type: (type_specifier)
+            name: (variable)))
+        return_type: (type_specifier)
+        body: (binary_expression
+          left: (variable)
+          right: (integer)))))
+  (expression_statement
+    (parenthesized_expression
+      (lambda_expression
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))))
+        (parameters
+          (parameter
+            name: (variable)))
+        body: (compound_statement)))))
+
+==========================
+Lambda with capabilities
+==========================
+
+()[] ==> {};
+()[io] ==> {echo "output"; };
+
+---
+
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list)
+      (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (compound_statement
+        (echo_statement
+          (string))))))
+
+==========================
+Lambda with lambda arg
+==========================
+
+((function(): void) $test): void ==> {
+};
+
+(  ( /*test*/ function ( ) : void ) $test ) : void ==> {
+};
+
+(  ( function (  )  /*test*/  : void ) $test ) : void ==> {
+};
+
+// TODO: The line below should not error as it is valid Hack.
+//       See PR #8 for details.
+// (  ( function /*test*/ (  )  : void ) $test ) : void ==> {
+// };
+
+---
+
+(script
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (comment)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (comment)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (type_specifier)
+      body: (compound_statement)))
+  (comment)
+  (comment)
+  (comment)
+  (comment))
+
+==========================
+List
+==========================
+
+list($a) = tuple('a');
+list($a,) = tuple('a','b');
+list($a,,$c) = tuple('a','b','c');
+list(,$b,,,$e,) = tuple('a','b','c','d','e','f');
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable))
+      right: (tuple
+        (string))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable))
+      right: (tuple
+        (string)
+        (string))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable)
+        (variable))
+      right: (tuple
+        (string)
+        (string)
+        (string))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable)
+        (variable))
+      right: (tuple
+        (string)
+        (string)
+        (string)
+        (string)
+        (string)
+        (string)))))
+
+==========================
+Namespace keyword
+==========================
+
+function func1(namespace\a\b $arg): namespace\a\b {}
+function func2(a\namespace\b $arg): a\namespace\b {}
+namespace\a\b();
+a\namespace\b();
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        name: (variable)))
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)
+        (identifier)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)
+            (identifier)))
+        name: (variable)))
+    return_type: (type_specifier
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier)))
+    body: (compound_statement))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      (arguments))))
+
+==========================
+New
+==========================
+
+// https://github.com/facebook/hhvm/blob/a114ef79b4673c35755297ed570d23a72969ba5f/hphp/hack/test/full_fidelity/cases/test_object_creation_errors.php
+
+$p1 = new Point();
+$p1 = new Point(12);
+$p1 = new $PointClassVar->$pointClassName();
+
+// Fails in Hack but not in Tree-sitter. Should fail in Tree-sitter.
+// $p1 = new Point::Point(12);
+
+$p1 = new Point::$pointVar(12);
+$p1 = new self::$pointVar(12);
+$p1 = new $point(12);
+$p1 = new Point<int>(12);
+$p1 = new (function_that_returns_class_name())(12);
+$p1 = "Point" |> new $$(12);
+
+---
+
+(script
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (selection_expression
+          (variable)
+          (variable))
+        (arguments))))
+  (comment)
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (scoped_identifier
+          (qualified_identifier
+            (identifier))
+          (variable))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (scoped_identifier
+          (scope_identifier)
+          (variable))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (variable)
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (type_arguments
+          (type_specifier))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (parenthesized_expression
+          (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments)))
+        (arguments
+          (argument
+            (integer))))))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (binary_expression
+        left: (string)
+        right: (new_expression
+          (pipe_variable)
+          (arguments
+            (argument
+              (integer))))))))
+
+==========================
+Pipe
+==========================
+
+vec[1, 2]
+  |> Vec\map($$, $var ==> $var + 1)
+  |> $_ ==> {
+    return $$;
+  }($$);
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (binary_expression
+        left: (array
+          (array_type)
+          (integer)
+          (integer))
+        right: (call_expression
+          function: (qualified_identifier
+            (identifier)
+            (identifier))
+          (arguments
+            (argument
+              (pipe_variable))
+            (argument
+              (lambda_expression
+                (parameters
+                  (parameter
+                    name: (variable)))
+                body: (binary_expression
+                  left: (variable)
+                  right: (integer)))))))
+      right: (call_expression
+        function: (lambda_expression
+          (parameters
+            (parameter
+              name: (variable)))
+          body: (compound_statement
+            (return_statement
+              (pipe_variable))))
+        (arguments
+          (argument
+            (pipe_variable)))))))
+
+==========================
+Pipe scoped
+==========================
+
+C::class |> $$::CONST;
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      right: (scoped_identifier
+        (pipe_variable)
+        (identifier)))))
+
+==========================
+Prefix unary
+==========================
+
+!1;
+~1;
+-1;
++1;
+
+! ~ - +1;
+
+---
+
+(script
+  (expression_statement
+    (prefix_unary_expression
+      operand: (integer)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (integer)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (integer)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (integer)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (prefix_unary_expression
+        operand: (prefix_unary_expression
+          operand: (prefix_unary_expression
+            operand: (integer)))))))
+
+==========================
+Prefixed strings
+==========================
+
+re"re";
+
+b"b";
+
+r0eb " r 0 eb ";
+
+---
+
+(script
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string))))
+
+==========================
+Print
+==========================
+
+print 'print';
+
+---
+
+(script
+  (expression_statement
+    (prefix_unary_expression
+      operand: (string))))
+
+==========================
+Require
+==========================
+
+require_once(__DIR__.'/../vendor/autoload.hack');
+require(__DIR__.'/../vendor/autoload.hack');
+
+---
+
+(script
+  (expression_statement
+    (require_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string)))))
+  (expression_statement
+    (require_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string))))))
+
+==========================
+Safe selection
+==========================
+
+$var?->$var ?? $var ?->$var ? $var?-> $var : $var ?-> $var;
+
+$var[$var?->$var]?->$var[$var?->$var] ??
+$var[$var ?->$var] ?->$var[$var ?->$var]
+  ? $var[$var?-> $var]?-> $var[$var?-> $var]
+  : $var[$var ?-> $var] ?-> $var[$var ?-> $var];
+
+---
+
+(script
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (selection_expression
+          (variable)
+          (variable))
+        right: (selection_expression
+          (variable)
+          (variable)))
+      consequence: (selection_expression
+        (variable)
+        (variable))
+      alternative: (selection_expression
+        (variable)
+        (variable))))
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable)
+              (selection_expression
+                (variable)
+                (variable)))
+            (variable))
+          (selection_expression
+            (variable)
+            (variable)))
+        right: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable)
+              (selection_expression
+                (variable)
+                (variable)))
+            (variable))
+          (selection_expression
+            (variable)
+            (variable))))
+      consequence: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable)
+            (selection_expression
+              (variable)
+              (variable)))
+          (variable))
+        (selection_expression
+          (variable)
+          (variable)))
+      alternative: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable)
+            (selection_expression
+              (variable)
+              (variable)))
+          (variable))
+        (selection_expression
+          (variable)
+          (variable))))))
+
+==========================
+Selection
+==========================
+
+$var->$var;
+C->$var;
+C->C;
+C\C->$var[1]->C;
+$var[0]->$var[0];
+$var[0]->var[0];
+
+---
+
+(script
+  (expression_statement
+    (selection_expression
+      (variable)
+      (variable)))
+  (expression_statement
+    (selection_expression
+      (qualified_identifier
+        (identifier))
+      (variable)))
+  (expression_statement
+    (selection_expression
+      (qualified_identifier
+        (identifier))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (subscript_expression
+        (selection_expression
+          (qualified_identifier
+            (identifier)
+            (identifier))
+          (variable))
+        (integer))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (subscript_expression
+      (selection_expression
+        (subscript_expression
+          (variable)
+          (integer))
+        (variable))
+      (integer)))
+  (expression_statement
+    (subscript_expression
+      (selection_expression
+        (subscript_expression
+          (variable)
+          (integer))
+        (qualified_identifier
+          (identifier)))
+      (integer))))
+
+==========================
+Selection brace
+==========================
+
+$dynamic_item->{$primary_key};
+
+$dynamic_item->{$fun->test()};
+
+$dynamic_item->{$primary_key}->{$primary_key2}->{$primary_key3};
+
+$dynamic_item->{$primary_key}->$primary_key2->{$primary_key3};
+
+---
+
+(script
+  (expression_statement
+    (selection_expression
+      (variable)
+      (braced_expression
+        (variable))))
+  (expression_statement
+    (selection_expression
+      (variable)
+      (braced_expression
+        (call_expression
+          function: (selection_expression
+            (variable)
+            (qualified_identifier
+              (identifier)))
+          (arguments)))))
+  (expression_statement
+    (selection_expression
+      (selection_expression
+        (selection_expression
+          (variable)
+          (braced_expression
+            (variable)))
+        (braced_expression
+          (variable)))
+      (braced_expression
+        (variable))))
+  (expression_statement
+    (selection_expression
+      (selection_expression
+        (selection_expression
+          (variable)
+          (braced_expression
+            (variable)))
+        (variable))
+      (braced_expression
+        (variable)))))
+
+==========================
+Selection with as
+==========================
+
+$var as nonnull->test;
+
+$var as nonnull->test();
+
+($var as nonnull)->test;
+
+$var->test as nonnull;
+
+$var->test as nonnull->test2;
+
+---
+
+(script
+  (expression_statement
+    (selection_expression
+      (as_expression
+        left: (variable)
+        right: (type_specifier))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier))
+        (qualified_identifier
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (selection_expression
+      (parenthesized_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier)))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (as_expression
+      left: (selection_expression
+        (variable)
+        (qualified_identifier
+          (identifier)))
+      right: (type_specifier)))
+  (expression_statement
+    (selection_expression
+      (as_expression
+        left: (selection_expression
+          (variable)
+          (qualified_identifier
+            (identifier)))
+        right: (type_specifier))
+      (qualified_identifier
+        (identifier)))))
+
+==========================
+Selection with keyword
+==========================
+
+$this->type();
+
+$this->newtype();
+
+$this->shape();
+
+$this->tuple;
+
+$this->clone();
+
+$this->print();
+
+$this->new();
+
+$this->namespace();
+
+$this->clone()->new()->print()->$item;
+
+$this->bool();
+$this->float();
+$this->int();
+$this->string();
+$this->arraykey();
+$this->void();
+$this->nonnull();
+$this->null();
+$this->mixed();
+$this->dynamic();
+$this->noreturn();
+
+$this->array();
+$this->varray();
+$this->darray();
+$this->vect();
+$this->dict();
+$this->keyset();
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (selection_expression
+      (variable)
+      (identifier)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (selection_expression
+      (call_expression
+        function: (selection_expression
+          (call_expression
+            function: (selection_expression
+              (call_expression
+                function: (selection_expression
+                  (variable)
+                  (identifier))
+                (arguments))
+              (identifier))
+            (arguments))
+          (identifier))
+        (arguments))
+      (variable)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (qualified_identifier
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (variable)
+        (identifier))
+      (arguments))))
+
+==========================
+Shape
+==========================
+
+shape(
+  'field' => 1,
+);
+
+---
+
+(script
+  (expression_statement
+    (shape
+      (field_initializer
+        (string)
+        (integer)))))
+
+==========================
+Shape type keys
+==========================
+
+type square = shape(
+  new C() => C,
+  fun() => int,
+  'streng' => string,
+  (() ==> $var ==> $var)() => string,
+);
+
+---
+
+(script
+  (alias_declaration
+    (identifier)
+    (shape_type_specifier
+      (field_specifier
+        (new_expression
+          (qualified_identifier
+            (identifier))
+          (arguments))
+        (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (field_specifier
+        (call_expression
+          function: (qualified_identifier
+            (identifier))
+          (arguments))
+        (type_specifier))
+      (field_specifier
+        (string)
+        (type_specifier))
+      (field_specifier
+        (call_expression
+          function: (parenthesized_expression
+            (lambda_expression
+              (parameters)
+              body: (lambda_expression
+                (parameters
+                  (parameter
+                    name: (variable)))
+                body: (variable))))
+          (arguments))
+        (type_specifier)))))
+
+==========================
+Subscript as
+==========================
+
+vec[] as int[0];
+
+1 as int[0];
+
+---
+
+(script
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (array
+          (array_type))
+        right: (type_specifier))
+      (integer)))
+  (expression_statement
+    (subscript_expression
+      (as_expression
+        left: (integer)
+        right: (type_specifier))
+      (integer))))
+
+==========================
+Ternary
+==========================
+
+$var ? true : false;
+$var ?: false;
+$var == 1 ? $var ?: 3 : $var > 2 ? 2 : 1;
+$var == 1 ?: $var < 3 ? 3 : 2;
+
+---
+
+(script
+  (expression_statement
+    (ternary_expression
+      condition: (variable)
+      consequence: (true)
+      alternative: (false)))
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (false)))
+  (expression_statement
+    (ternary_expression
+      condition: (ternary_expression
+        condition: (binary_expression
+          left: (variable)
+          right: (integer))
+        consequence: (binary_expression
+          left: (variable)
+          right: (integer))
+        alternative: (binary_expression
+          left: (variable)
+          right: (integer)))
+      consequence: (integer)
+      alternative: (integer)))
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (binary_expression
+          left: (variable)
+          right: (integer))
+        right: (binary_expression
+          left: (variable)
+          right: (integer)))
+      consequence: (integer)
+      alternative: (integer))))
+
+==========================
+Type arguments
+==========================
+
+funcshion<Cluss<int>, int>();
+
+funcshion<>();
+
+new Cluss<int>();
+
+// Weird. Hack allows empty type arguments on function calls but not class instantiation.
+// new Cluss<>();
+// new Cluss<Cluss<>>();
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier))
+          (type_arguments
+            (type_specifier)))
+        (type_specifier))
+      (arguments)))
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (type_arguments)
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier))
+      (arguments)))
+  (comment)
+  (comment)
+  (comment))
+
+==========================
+Update
+==========================
+
+++$var;
+--$var;
+$var++;
+$var--;
+
+---
+
+(script
+  (expression_statement
+    (prefix_unary_expression
+      operand: (variable)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (variable)))
+  (expression_statement
+    (postfix_unary_expression
+      (variable)))
+  (expression_statement
+    (postfix_unary_expression
+      (variable))))
+
+==========================
+Vec
+==========================
+
+vec[];
+vec[1, 1., true];
+
+---
+
+(script
+  (expression_statement
+    (array
+      (array_type)))
+  (expression_statement
+    (array
+      (array_type)
+      (integer)
+      (float)
+      (true))))
+
+==========================
+Weird selection
+==========================
+
+c::c?->c;
+
+($var + $var)?->c;
+
+$func()?->c;
+
+---
+
+(script
+  (expression_statement
+    (selection_expression
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (variable)
+          right: (variable)))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (call_expression
+        function: (variable)
+        (arguments))
+      (qualified_identifier
+        (identifier)))))
+
+==========================
+Xhp as arg v3
+==========================
+
+TestXHP::display(<:page:subpage:test />);
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (arguments
+        (argument
+          (xhp_expression
+            (xhp_open_close
+              (xhp_class_identifier))))))))
+
+==========================
+Xhp as arg v4
+==========================
+
+TestXHP::display(<page:subpage:test />);
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (arguments
+        (argument
+          (xhp_expression
+            (xhp_open_close
+              (xhp_identifier))))))))
+
+==========================
+Xhp attribute
+==========================
+
+<frag info={get_str('info')} />;
+
+<frag info={get_str('info')}> </frag>;
+
+<test:attribute_types
+        mystring="foo"
+        mybool={true}
+        myint={123}
+        myarray={varray[1, 2, 3]}
+        myobject={new stdClass()}
+        myenum={'foo'}
+        myfloat={1.23}
+        myvector={Vector {'1', '2', '3'}}
+        mymap={Map {'herp' => 'derp'}}
+        myshape={shape('foo' => 'herp', 'bar' => 'derp')}
+      />;
+
+---
+
+(script
+  (expression_statement
+    (xhp_expression
+      (xhp_open_close
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (call_expression
+              function: (qualified_identifier
+                (identifier))
+              (arguments
+                (argument
+                  (string)))))))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (call_expression
+              function: (qualified_identifier
+                (identifier))
+              (arguments
+                (argument
+                  (string)))))))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open_close
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_identifier)
+          (string))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (true)))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (integer)))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (array
+              (array_type)
+              (integer)
+              (integer)
+              (integer))))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (new_expression
+              (qualified_identifier
+                (identifier))
+              (arguments))))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (string)))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (float)))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (collection
+              (qualified_identifier
+                (identifier))
+              (string)
+              (string)
+              (string))))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (collection
+              (qualified_identifier
+                (identifier))
+              (element_initializer
+                (string)
+                (string)))))
+        (xhp_attribute
+          (xhp_identifier)
+          (braced_expression
+            (shape
+              (field_initializer
+                (string)
+                (string))
+              (field_initializer
+                (string)
+                (string)))))))))
+
+==========================
+Xhp brace
+==========================
+
+return <frag>
+    Hi! {$this} is a {$this->test()}!
+</frag>;
+
+---
+
+(script
+  (return_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (braced_expression
+        (variable))
+      (xhp_string)
+      (braced_expression
+        (call_expression
+          function: (selection_expression
+            (variable)
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier)))))
+
+==========================
+Xhp class v3
+==========================
+
+xhp class :a:m_b {
+}
+
+new :a:m_b:b_m();
+
+---
+
+(script
+  (class_declaration
+    (xhp_modifier)
+    name: (xhp_class_identifier)
+    body: (member_declarations))
+  (expression_statement
+    (new_expression
+      (xhp_class_identifier)
+      (arguments))))
+
+==========================
+Xhp class v4
+==========================
+
+xhp class a:m_b {
+}
+
+new a:m_b:b_m();
+
+---
+
+(script
+  (class_declaration
+    (xhp_modifier)
+    name: (xhp_identifier)
+    body: (member_declarations))
+  (expression_statement
+    (new_expression
+      (xhp_identifier)
+      (arguments))))
+
+==========================
+Xhp classname
+==========================
+
+assert_func(:page:subpage:test::class);
+
+---
+
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (xhp_class_identifier)
+            (identifier)))))))
+
+==========================
+Xhp comment
+==========================
+
+return <frag>
+    <!--  co--mm->e>nt
+    one  -->
+    Te{$this}st
+    <!--  comment two  -->
+</frag>;
+
+---
+
+(script
+  (return_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_comment)
+      (xhp_string)
+      (braced_expression
+        (variable))
+      (xhp_string)
+      (xhp_comment)
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier)))))
+
+==========================
+Xhp enum
+==========================
+
+class :a {
+  attribute enum {'a', 'b', 1} denum = 1 @required;
+}
+
+---
+
+(script
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (xhp_enum_type
+            (string)
+            (string)
+            (integer))
+          name: (xhp_identifier)
+          default: (integer))))))
+
+==========================
+Xhp spread
+==========================
+
+<div {...$this}></div>;
+<div {...$this} id="id1" class="class1"></div>;
+<div id="id1" {...$this} class="class1">{$this}</div>;
+<div id="id1" class="class1" {...$this}>{$this}</div>;
+
+---
+
+(script
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_spread_expression
+            (variable))))
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_spread_expression
+            (variable)))
+        (xhp_attribute
+          (xhp_identifier)
+          (string))
+        (xhp_attribute
+          (xhp_identifier)
+          (string)))
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_identifier)
+          (string))
+        (xhp_attribute
+          (xhp_spread_expression
+            (variable)))
+        (xhp_attribute
+          (xhp_identifier)
+          (string)))
+      (braced_expression
+        (variable))
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier)
+        (xhp_attribute
+          (xhp_identifier)
+          (string))
+        (xhp_attribute
+          (xhp_identifier)
+          (string))
+        (xhp_attribute
+          (xhp_spread_expression
+            (variable))))
+      (braced_expression
+        (variable))
+      (xhp_close
+        (xhp_identifier)))))
+
+==========================
+Xhp string not comment
+==========================
+
+<body> # </body>;
+
+<body> 
+# 
+</body>;
+
+<body> // </body>;
+
+<body> #hello </body>;
+
+<body>#hello</body>;
+
+---
+
+(script
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier))))
+  (expression_statement
+    (xhp_expression
+      (xhp_open
+        (xhp_identifier))
+      (xhp_string)
+      (xhp_close
+        (xhp_identifier)))))
+
+==========================
+Yield
+==========================
+
+function func(): void {
+  yield 'yield';
+  yield yield 'yield' => 1;
+  yield 1 => 'yield';
+}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement
+      (expression_statement
+        (yield_expression
+          (string)))
+      (expression_statement
+        (yield_expression
+          (yield_expression
+            (element_initializer
+              (string)
+              (integer)))))
+      (expression_statement
+        (yield_expression
+          (element_initializer
+            (integer)
+            (string)))))))

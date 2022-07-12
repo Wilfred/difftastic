@@ -1,0 +1,1004 @@
+==========================
+As foreach
+==========================
+
+/**
+ * This test captures that without parenthesis, you might expect this test's code to
+ * parse like this
+ *
+ *     foreach (($array as vec[]) as $item) {}
+ *
+ * but ends up parsing like this (which makes it a parse error).
+ *
+ *     foreach ($array as (vec[] as $item)) {}
+ */
+
+foreach (($array as vec[]) as $item) {}
+
+// Our expectation test for the code below intentionally includes an ERROR.
+foreach ($array as vec[] as $item) {}
+
+---
+
+(script
+  (comment)
+  (foreach_statement
+    collection: (parenthesized_expression
+      (subscript_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier))))
+    value: (variable)
+    body: (compound_statement))
+  (comment)
+  (foreach_statement
+    collection: (variable)
+    (ERROR
+      (array
+        (array_type)))
+    value: (variable)
+    body: (compound_statement)))
+
+==========================
+Binary foreach
+==========================
+
+foreach ($array ?? vec[] as $item) {}
+
+---
+
+(script
+  (foreach_statement
+    collection: (binary_expression
+      left: (variable)
+      right: (array
+        (array_type)))
+    value: (variable)
+    body: (compound_statement)))
+
+==========================
+Concurrent
+==========================
+
+concurrent {
+  await func1();
+  await func2();
+}
+
+concurrent {
+  await func1();
+  await async {
+    await func2();
+  };
+}
+
+---
+
+(script
+  (concurrent_statement
+    (compound_statement
+      (expression_statement
+        (prefix_unary_expression
+          operand: (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments))))
+      (expression_statement
+        (prefix_unary_expression
+          operand: (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments))))))
+  (concurrent_statement
+    (compound_statement
+      (expression_statement
+        (prefix_unary_expression
+          operand: (call_expression
+            function: (qualified_identifier
+              (identifier))
+            (arguments))))
+      (expression_statement
+        (prefix_unary_expression
+          operand: (awaitable_expression
+            (compound_statement
+              (expression_statement
+                (prefix_unary_expression
+                  operand: (call_expression
+                    function: (qualified_identifier
+                      (identifier))
+                    (arguments)))))))))))
+
+==========================
+Do
+==========================
+
+do 1; while (0);
+
+do { 1; } while (0);
+
+---
+
+(script
+  (do_statement
+    body: (expression_statement
+      (integer))
+    condition: (parenthesized_expression
+      (integer)))
+  (do_statement
+    body: (compound_statement
+      (expression_statement
+        (integer)))
+    condition: (parenthesized_expression
+      (integer))))
+
+==========================
+Do nested
+==========================
+
+do do 1; while (0); while (0);
+
+do { do 1; while (0); } while (0);
+
+do { do { 1; } while (0); } while (0);
+
+---
+
+(script
+  (do_statement
+    body: (do_statement
+      body: (expression_statement
+        (integer))
+      condition: (parenthesized_expression
+        (integer)))
+    condition: (parenthesized_expression
+      (integer)))
+  (do_statement
+    body: (compound_statement
+      (do_statement
+        body: (expression_statement
+          (integer))
+        condition: (parenthesized_expression
+          (integer))))
+    condition: (parenthesized_expression
+      (integer)))
+  (do_statement
+    body: (compound_statement
+      (do_statement
+        body: (compound_statement
+          (expression_statement
+            (integer)))
+        condition: (parenthesized_expression
+          (integer))))
+    condition: (parenthesized_expression
+      (integer))))
+
+==========================
+Echo
+==========================
+
+echo 1;
+
+echo 1, 2, 3;
+
+---
+
+(script
+  (echo_statement
+    (integer))
+  (echo_statement
+    (integer)
+    (integer)
+    (integer)))
+
+==========================
+For
+==========================
+
+for (;;) 1;
+
+for ($var = 1; $var > 0; $var++) 1;
+
+for ($var = 1, $var / 0; $var++, $var > 0; $var--, $var = rand()) 1;
+
+---
+
+(script
+  (for_statement
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    body: (expression_statement
+      (integer)))
+  (for_statement
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    (binary_expression
+      left: (variable)
+      right: (integer))
+    (postfix_unary_expression
+      (variable))
+    (binary_expression
+      left: (variable)
+      right: (call_expression
+        function: (qualified_identifier
+          (identifier))
+        (arguments)))
+    body: (expression_statement
+      (integer))))
+
+==========================
+Foreach
+==========================
+
+foreach ($c as $v) {}
+
+foreach (varray[] as $k => $v[0]) {}
+
+foreach (darray<int, int>[] as list($a[vec[] as int[0]], $b)) {}
+
+// HHVM can't parse an as-expression in the collection position, but
+// tree-sitter-hack can 💪. Commenting out because bin/test-corpus runs tests for both.
+// foreach (darray<int, int>[] as dict<int, int> as $v) {}
+
+---
+
+(script
+  (foreach_statement
+    collection: (variable)
+    value: (variable)
+    body: (compound_statement))
+  (foreach_statement
+    collection: (array
+      (array_type))
+    key: (variable)
+    value: (subscript_expression
+      (variable)
+      (integer))
+    body: (compound_statement))
+  (foreach_statement
+    collection: (array
+      (array_type)
+      (type_arguments
+        (type_specifier)
+        (type_specifier)))
+    value: (list_expression
+      (subscript_expression
+        (variable)
+        (subscript_expression
+          (as_expression
+            left: (array
+              (array_type))
+            right: (type_specifier))
+          (integer)))
+      (variable))
+    body: (compound_statement))
+  (comment)
+  (comment)
+  (comment))
+
+==========================
+Foreach await
+==========================
+
+foreach ($c await as $v) {}
+
+foreach ($c await as $k => $v) {}
+
+---
+
+(script
+  (foreach_statement
+    collection: (variable)
+    (await_modifier)
+    value: (variable)
+    body: (compound_statement))
+  (foreach_statement
+    collection: (variable)
+    (await_modifier)
+    key: (variable)
+    value: (variable)
+    body: (compound_statement)))
+
+==========================
+If
+==========================
+
+if (0) 1;
+
+if (0) { 1; }
+
+---
+
+(script
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer)))
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (expression_statement
+        (integer)))))
+
+==========================
+If else
+==========================
+
+if (0) 1; else 0;
+
+if (0) {
+  1;
+} else {
+  0;
+}
+
+---
+
+(script
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer))
+    else: (expression_statement
+      (integer)))
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (expression_statement
+        (integer)))
+    else: (compound_statement
+      (expression_statement
+        (integer)))))
+
+==========================
+If else if
+==========================
+
+if (0) 1; else if (1) 0; elseif (0) 1; else 0;
+
+if (0) {
+} else if (1) {
+} elseif (1) {
+} else {
+}
+
+---
+
+(script
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer))
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer))
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer))
+    else: (expression_statement
+      (integer)))
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement)
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement)
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement)
+    else: (compound_statement)))
+
+==========================
+If nested
+==========================
+
+if (0) if (1) 0; else 0;
+
+if (0) {
+  if (1) 0;
+} else {
+  if (1) { 0; }
+}
+
+---
+
+(script
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (if_statement
+      condition: (parenthesized_expression
+        (integer))
+      body: (expression_statement
+        (integer))
+      else: (expression_statement
+        (integer))))
+  (if_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (expression_statement
+          (integer))))
+    else: (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (compound_statement
+          (expression_statement
+            (integer)))))))
+
+==========================
+Switch
+==========================
+
+switch ($arg) {default:}
+
+---
+
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable))
+    (switch_default)))
+
+==========================
+Switch case
+==========================
+
+switch ($arg) {
+  case 1 + 1:
+    return 1 + 1;
+    break;
+}
+
+---
+
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable))
+    (switch_case
+      value: (binary_expression
+        left: (integer)
+        right: (integer))
+      (return_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (break_statement))))
+
+==========================
+Switch default
+==========================
+
+switch ($arg) {
+  default:
+    break;
+  case 1:
+    break;
+}
+
+---
+
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable))
+    (switch_default
+      (break_statement))
+    (switch_case
+      value: (integer)
+      (break_statement))))
+
+==========================
+Throw
+==========================
+
+throw 1;
+
+---
+
+(script
+  (throw_statement
+    (integer)))
+
+==========================
+Try
+==========================
+
+try {
+} catch (Type $var) {
+}
+
+try {
+} catch (Type $var1) {
+} catch (Type $var2) {
+}
+
+---
+
+(script
+  (try_statement
+    body: (compound_statement)
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement)))
+  (try_statement
+    body: (compound_statement)
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement))
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement))))
+
+==========================
+Try catch finally
+==========================
+
+try {
+} catch (Type $var) {
+} finally {
+}
+
+try {
+} catch (Type $var1) {
+} catch (Type $var2) {
+} finally {
+}
+
+---
+
+(script
+  (try_statement
+    body: (compound_statement)
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement))
+    (finally_clause
+      body: (compound_statement)))
+  (try_statement
+    body: (compound_statement)
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement))
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)))
+      name: (variable)
+      body: (compound_statement))
+    (finally_clause
+      body: (compound_statement))))
+
+==========================
+Try finally
+==========================
+
+try {
+} finally {
+}
+
+---
+
+(script
+  (try_statement
+    body: (compound_statement)
+    (finally_clause
+      body: (compound_statement))))
+
+==========================
+Try nested
+==========================
+
+try {
+  try {
+  } catch (Namespce\Type $var) {
+  } finally {
+  }
+} catch (Namespce\Type $var) {
+  try {
+  } catch (Namespce\Type $var) {
+  } finally {
+  }
+} finally {
+  try {
+  } catch (Namespce\Type $var) {
+  } finally {
+  }
+}
+
+---
+
+(script
+  (try_statement
+    body: (compound_statement
+      (try_statement
+        body: (compound_statement)
+        (catch_clause
+          type: (type_specifier
+            (qualified_identifier
+              (identifier)
+              (identifier)))
+          name: (variable)
+          body: (compound_statement))
+        (finally_clause
+          body: (compound_statement))))
+    (catch_clause
+      type: (type_specifier
+        (qualified_identifier
+          (identifier)
+          (identifier)))
+      name: (variable)
+      body: (compound_statement
+        (try_statement
+          body: (compound_statement)
+          (catch_clause
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)
+                (identifier)))
+            name: (variable)
+            body: (compound_statement))
+          (finally_clause
+            body: (compound_statement)))))
+    (finally_clause
+      body: (compound_statement
+        (try_statement
+          body: (compound_statement)
+          (catch_clause
+            type: (type_specifier
+              (qualified_identifier
+                (identifier)
+                (identifier)))
+            name: (variable)
+            body: (compound_statement))
+          (finally_clause
+            body: (compound_statement)))))))
+
+==========================
+Unset
+==========================
+
+unset();
+
+unset($dict['a'], $vec[1]);
+
+---
+
+(script
+  (unset_statement)
+  (unset_statement
+    (subscript_expression
+      (variable)
+      (string))
+    (subscript_expression
+      (variable)
+      (integer))))
+
+==========================
+Use
+==========================
+
+use const Space\Const\C;
+use function Space\Func\F as E;
+use type Space\Type\T;
+use namespace Space\Name\N as M;
+
+use namespace Space\Name2\N2, Space\Nothing\N3 as N8, type Space\Type2\N4,;
+
+use namespace Space\Name\N10\{A as A2, B\};
+use namespace Space\Name\{\C, Slash as Forward};
+
+use \What\Is\This\{function A as A2, B, const H\S\L as stdlib, function F};
+
+use type \{kind,};
+use Q\B\{kind2,};
+use type Q\B\{kind3,};
+
+
+---
+
+(script
+  (use_statement
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))))
+  (use_statement
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      alias: (identifier)))
+  (use_statement
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))))
+  (use_statement
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      alias: (identifier)))
+  (use_statement
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier)))
+    (use_clause
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      alias: (identifier))
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))))
+  (use_statement
+    (use_type)
+    (qualified_identifier
+      (identifier)
+      (identifier)
+      (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier))
+      alias: (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier))))
+  (use_statement
+    (use_type)
+    (qualified_identifier
+      (identifier)
+      (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier)))
+    (use_clause
+      (qualified_identifier
+        (identifier))
+      alias: (identifier)))
+  (use_statement
+    (qualified_identifier
+      (identifier)
+      (identifier)
+      (identifier))
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier))
+      alias: (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier)))
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier)
+        (identifier)
+        (identifier))
+      alias: (identifier))
+    (use_clause
+      (use_type)
+      (qualified_identifier
+        (identifier))))
+  (use_statement
+    (use_type)
+    (use_clause
+      (qualified_identifier
+        (identifier))))
+  (use_statement
+    (qualified_identifier
+      (identifier)
+      (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier))))
+  (use_statement
+    (use_type)
+    (qualified_identifier
+      (identifier)
+      (identifier))
+    (use_clause
+      (qualified_identifier
+        (identifier)))))
+
+==========================
+Using
+==========================
+
+using (0) {}
+
+await using (0) {}
+
+---
+
+(script
+  (using_statement
+    (integer)
+    (compound_statement))
+  (using_statement
+    (await_modifier)
+    (integer)
+    (compound_statement)))
+
+==========================
+Using sequence
+==========================
+
+using ($new = new Object(), $file = new File('using', '+using')) {}
+
+---
+
+(script
+  (using_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments)))
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (string))
+          (argument
+            (string)))))
+    (compound_statement)))
+
+==========================
+Using simple
+==========================
+
+function func(): void {
+  using $new = Object::new();
+}
+
+---
+
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement
+      (using_statement
+        (expression_statement
+          (binary_expression
+            left: (variable)
+            right: (call_expression
+              function: (scoped_identifier
+                (qualified_identifier
+                  (identifier))
+                (identifier))
+              (arguments))))))))
+
+==========================
+While
+==========================
+
+while (0) 1;
+
+while (0) { 1; }
+
+---
+
+(script
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (expression_statement
+      (integer)))
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (expression_statement
+        (integer)))))
+
+==========================
+While identifier
+==========================
+
+while (id < 1) {}
+
+---
+
+(script
+  (while_statement
+    condition: (parenthesized_expression
+      (binary_expression
+        left: (qualified_identifier
+          (identifier))
+        right: (integer)))
+    body: (compound_statement)))
+
+==========================
+While nested
+==========================
+
+while (0) while (1) 0;
+
+while (0) { while (1) { 0; } }
+
+---
+
+(script
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (while_statement
+      condition: (parenthesized_expression
+        (integer))
+      body: (expression_statement
+        (integer))))
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (while_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (compound_statement
+          (expression_statement
+            (integer)))))))

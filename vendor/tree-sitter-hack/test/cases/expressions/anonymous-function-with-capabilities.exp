@@ -1,0 +1,9 @@
+(script
+  (expression_statement
+    (anonymous_function_expression
+      (parameters)
+      (capability_list
+        (capability
+          (identifier)))
+      (type_specifier)
+      (compound_statement))))

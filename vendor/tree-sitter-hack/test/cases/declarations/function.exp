@@ -1,0 +1,43 @@
+(script
+  (function_declaration
+    name: (identifier)
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (variadic_modifier))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        name: (variable)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    return_type: (type_specifier)
+    body: (compound_statement))
+  (function_declaration
+    name: (identifier)
+    (parameters
+      (parameter
+        type: (type_specifier)
+        name: (variable))
+      (parameter
+        type: (type_specifier)
+        name: (variable)))
+    return_type: (type_specifier)
+    body: (compound_statement)))

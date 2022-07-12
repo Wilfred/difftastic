@@ -1,0 +1,11 @@
+test
+build
+bin
+examples
+tmp
+
+.vscode
+.prettierignore
+.prettierrc
+.rubocop.yml
+.clang-format

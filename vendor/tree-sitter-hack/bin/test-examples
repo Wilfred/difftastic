@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_fd
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  --filter)
+    filter=$2
+    shift
+    shift
+    ;;
+  --count)
+    count=1
+    shift
+    ;;
+  --name-only)
+    name_only=1
+    shift
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+function filter-hack() {
+  grep -E --color=never '.*\.(hack|php)$' | sort -u
+}
+
+function find-hack() {
+  $fd '\.(hack|php)$' "$@" | sort -u
+}
+
+function print-results() {
+  if [[ "$count" -eq 1 ]]; then
+    failures="$(cat /dev/stdin | filter-hack | wc -l | tr -d ' ')"
+
+    # Very important
+    if [[ "$filures" -eq 1 ]]; then
+      echo "$failures failure"
+    else
+      echo "$failures failures"
+    fi
+
+  elif [[ "$name_only" -eq 1 ]]; then
+    filter-hack
+  else
+    cat /dev/stdin
+  fi
+}
+
+hhvm_failures="examples/hhvm-failures.txt"
+
+hhvm_tests="examples/hhvm/hphp/hack/test"
+
+# The HHVM repo has tests that verify intentional errors. We aren't doing that (yet).
+# Filter out intentionally failing Hack files.
+if ! test -f "$hhvm_failures"; then
+  printf "\033[1mGetting known HHVM failures...\033[0m\n"
+
+  find-hack $hhvm_tests |
+    xargs -n 256 bin/hh-errors 2>/dev/null |
+    filter-hack >$hhvm_failures
+
+  echo "$(wc -l <$hhvm_failures | tr -d ' ') known HHVM failures"
+fi
+
+printf "\033[1mGetting Tree-sitter examples errors...\033[0m\n"
+
+find-hack $(ls -d examples/*/ | grep -v 'examples/hhvm') |
+  xargs -r bin/ts-errors |
+  print-results
+
+comm -13 <(sort $hhvm_failures) <(find-hack $hhvm_tests | grep -E "$filter") |
+  # Looks interesting, but I think too experimental to support yet?
+  grep -v 'examples/hhvm/hphp/hack/test/pocket_universes' |
+  grep -v 'examples/hhvm/hphp/hack/test/typecheck/goto' |
+  xargs -r -n 256 bin/ts-errors |
+  print-results

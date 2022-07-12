@@ -1,0 +1,13 @@
+(script
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string))))

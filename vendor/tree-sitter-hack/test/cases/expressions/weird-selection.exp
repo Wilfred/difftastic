@@ -1,0 +1,24 @@
+(script
+  (expression_statement
+    (selection_expression
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (variable)
+          right: (variable)))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (selection_expression
+      (call_expression
+        function: (variable)
+        (arguments))
+      (qualified_identifier
+        (identifier)))))

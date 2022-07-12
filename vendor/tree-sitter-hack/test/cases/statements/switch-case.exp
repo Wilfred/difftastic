@@ -1,0 +1,13 @@
+(script
+  (switch_statement
+    value: (parenthesized_expression
+      (variable))
+    (switch_case
+      value: (binary_expression
+        left: (integer)
+        right: (integer))
+      (return_statement
+        (binary_expression
+          left: (integer)
+          right: (integer)))
+      (break_statement))))

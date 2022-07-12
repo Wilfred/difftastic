@@ -1,0 +1,5 @@
+(script
+  (expression_statement
+    (is_expression
+      left: (variable)
+      right: (type_specifier))))

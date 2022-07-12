@@ -1,0 +1,79 @@
+(script
+  (class_declaration
+    (abstract_modifier)
+    name: (identifier)
+    body: (member_declarations
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        type: (type_specifier
+          (qualified_identifier
+            (identifier)
+            (identifier)))
+        (const_declarator
+          name: (identifier)
+          value: (scoped_identifier
+            (qualified_identifier
+              (identifier)
+              (identifier))
+            (identifier))))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (scoped_identifier
+            (qualified_identifier
+              (identifier)
+              (identifier))
+            (identifier))))
+      (const_declaration
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)
+          value: (integer))
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (const_declarator
+          name: (identifier)
+          value: (integer))
+        (const_declarator
+          name: (identifier)
+          value: (integer)))
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        type: (type_specifier)
+        (const_declarator
+          name: (identifier))
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declarator
+          name: (identifier)))
+      (const_declaration
+        (abstract_modifier)
+        (const_declarator
+          name: (identifier))
+        (const_declarator
+          name: (identifier))))))

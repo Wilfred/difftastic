@@ -1,0 +1,119 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (variable)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable))
+      right: (string)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (integer))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (string))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (variable)
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (subscript_expression
+        (subscript_expression
+          (variable))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (variable)
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable))
+        (variable))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (integer))
+        (subscript_expression
+          (variable)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (string))
+        (subscript_expression
+          (variable)
+          (integer)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string)))
+        (subscript_expression
+          (variable)
+          (string)))
+      right: (tuple
+        (integer)
+        (integer))))
+  (expression_statement
+    (binary_expression
+      left: (list_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (subscript_expression
+              (variable)
+              (string))))
+        (subscript_expression
+          (variable)
+          (subscript_expression
+            (variable)
+            (string))))
+      right: (tuple
+        (integer)
+        (integer)))))
