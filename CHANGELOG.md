@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added SQL support.
+Added Hacklang and SQL support.
 
 Updated to the latest tree-sitter parsers for C#, Dart, Elm, Gleam,
 Haskell, HCL, Java, JSON, OCaml, PHP, Python, Ruby, Scala and

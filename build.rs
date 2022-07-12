@@ -134,6 +134,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-hack",
+            src_dir: "vendor/tree-sitter-hack-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-haskell",
             src_dir: "vendor/tree-sitter-haskell-src",
             extra_files: vec!["scanner.c"],
