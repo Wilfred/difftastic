@@ -242,16 +242,14 @@ fn diff_file_content(
         rhs_src.pop();
     }
 
-    // TODO: take a Path directly instead.
-    let guess_path = Path::new(&rhs_display_path);
-
     // Take the larger of the two files when guessing the
     // language. This is useful when we've added or removed a whole
     // file.
-    let guess_src = if lhs_src.len() > rhs_src.len() {
-        &lhs_src
+    let (guess_src, guess_path) = if lhs_src.len() > rhs_src.len() {
+        // TODO: take a Path directly instead.
+        (&lhs_src, Path::new(&lhs_display_path))
     } else {
-        &rhs_src
+        (&rhs_src, Path::new(&rhs_display_path))
     };
     let language = language_override.or_else(|| guess(guess_path, guess_src));
     let lang_config = language.map(tsp::from_language);

@@ -380,19 +380,24 @@ pub fn header(
         display_options.use_color,
         display_options.background_color,
     );
+    let lhs_path_pretty = apply_header_color(
+        lhs_display_path,
+        display_options.use_color,
+        display_options.background_color,
+    );
     if hunk_num == 1 && lhs_display_path != rhs_display_path && display_options.in_vcs {
-        let lhs_path_pretty = apply_header_color(
-            lhs_display_path,
-            display_options.use_color,
-            display_options.background_color,
-        );
         let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty,);
         format!(
             "{}\n{} --- {}{}",
             renamed, rhs_path_pretty, divider, language_name
         )
     } else {
-        format!("{} --- {}{}", rhs_path_pretty, divider, language_name)
+        let path_pretty = if lhs_display_path == "/dev/null" {
+            rhs_path_pretty
+        } else {
+            lhs_path_pretty
+        };
+        format!("{} --- {}{}", path_pretty, divider, language_name)
     }
 }
 
