@@ -13,6 +13,11 @@ TypeScript.
 Fixed an issue with inline mode where there was a blank line between
 every line.
 
+### Command Line Interface
+
+Fixed language detection and filename display when one path was
+`/dev/null` and difftastic was invoked with two arguments.
+
 ## 0.30 (released 4th July 2022)
 
 ### Parsing
