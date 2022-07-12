@@ -1,0 +1,6 @@
+(script
+  (expression_statement
+    (shape
+      (field_initializer
+        (string)
+        (integer)))))

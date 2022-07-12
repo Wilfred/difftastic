@@ -1,0 +1,9 @@
+(script
+  (comment)
+  (comment)
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (comment)
+  (comment))

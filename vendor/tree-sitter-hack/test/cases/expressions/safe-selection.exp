@@ -1,0 +1,63 @@
+(script
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (selection_expression
+          (variable)
+          (variable))
+        right: (selection_expression
+          (variable)
+          (variable)))
+      consequence: (selection_expression
+        (variable)
+        (variable))
+      alternative: (selection_expression
+        (variable)
+        (variable))))
+  (expression_statement
+    (ternary_expression
+      condition: (binary_expression
+        left: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable)
+              (selection_expression
+                (variable)
+                (variable)))
+            (variable))
+          (selection_expression
+            (variable)
+            (variable)))
+        right: (subscript_expression
+          (selection_expression
+            (subscript_expression
+              (variable)
+              (selection_expression
+                (variable)
+                (variable)))
+            (variable))
+          (selection_expression
+            (variable)
+            (variable))))
+      consequence: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable)
+            (selection_expression
+              (variable)
+              (variable)))
+          (variable))
+        (selection_expression
+          (variable)
+          (variable)))
+      alternative: (subscript_expression
+        (selection_expression
+          (subscript_expression
+            (variable)
+            (selection_expression
+              (variable)
+              (variable)))
+          (variable))
+        (selection_expression
+          (variable)
+          (variable))))))

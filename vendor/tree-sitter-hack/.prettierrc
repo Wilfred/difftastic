@@ -1,0 +1,27 @@
+{
+  "arrowParens": "avoid",
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["*.json", ".prettierrc"],
+      "options": {
+        "parser": "json5",
+        "quoteProps": "preserve",
+        "singleQuote": false,
+        "trailingComma": "all",
+      },
+    },
+    {
+      "files": [".vscode/tasks.json"],
+      "options": {
+        "parser": "json",
+        "quoteProps": "preserve",
+        "singleQuote": false,
+      },
+    },
+  ],
+}

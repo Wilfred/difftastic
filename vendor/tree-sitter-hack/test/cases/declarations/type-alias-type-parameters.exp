@@ -1,0 +1,45 @@
+(script
+  (alias_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier))))))
+  (comment)
+  (alias_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        name: (identifier)
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))
+        constraint_type: (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    as: (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier)))))
+    (type_specifier
+      (qualified_identifier
+        (identifier))
+      (type_arguments
+        (type_specifier
+          (qualified_identifier
+            (identifier)))))))

@@ -1,0 +1,22 @@
+(script
+  (class_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        (reify_modifier)
+        name: (identifier)))
+    body: (member_declarations))
+  (function_declaration
+    name: (identifier)
+    (type_parameters
+      (type_parameter
+        (attribute_modifier
+          (qualified_identifier
+            (identifier)))
+        name: (identifier)))
+    (parameters)
+    return_type: (type_specifier)
+    body: (compound_statement)))

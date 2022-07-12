@@ -1,0 +1,10 @@
+(script
+  (expression_statement
+    (call_expression
+      function: (qualified_identifier
+        (identifier))
+      (arguments
+        (argument
+          (scoped_identifier
+            (xhp_class_identifier)
+            (identifier)))))))

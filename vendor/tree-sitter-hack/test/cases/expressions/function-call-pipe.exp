@@ -1,0 +1,16 @@
+(script
+  (expression_statement
+    (call_expression
+      function: (pipe_variable)
+      (arguments)))
+  (expression_statement
+    (binary_expression
+      left: (call_expression
+        function: (qualified_identifier
+          (identifier))
+        (arguments))
+      right: (call_expression
+        function: (pipe_variable)
+        (arguments
+          (argument
+            (pipe_variable)))))))

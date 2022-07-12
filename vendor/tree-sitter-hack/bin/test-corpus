@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_fd
+
+bin/generate-parser
+bin/generate-corpus
+
+printf "\033[1mRunning Tree-sitter corpus tests...\033[0m\n"
+npx tree-sitter test
+
+printf "\n"
+
+printf "\033[1mGetting Hacklang corpus errors...\033[0m\n"
+bin/hh-errors "$($fd '\.(hack|php)$' test/cases)"

@@ -1,0 +1,75 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_ruby
+
+# Find errors in `tree-sitter parse` output and print them in a format easily consumable
+# by VSCode. The Hacklang parser already has an error format easily consumable by VSCode
+# so we match that format.
+#
+#     $ bin/ts-error $@
+#     examples/hack-sql-fake/src/QueryContext.php
+#     (5,1)-(5,8) ERROR
+#     (10,3)-(10,6) MISING
+#     examples/hack-sql-fake/src/SQLCommandProcessor.php
+#     (2,3)-(2,4) ERROR
+#
+
+bin/generate-parser
+
+# Filter down to files with errors.
+npx tree-sitter parse --quiet $@ |
+  cut -f1 |
+
+  # Get full errors for failing files.
+  xargs -r npx tree-sitter parse |
+
+  # Format errors and print file paths first followed by errors.
+  ruby -e "
+    errors = []
+
+    ARGF.each_line do |line|
+      # (ERROR [101, 0] - [101, 14]
+      # file.hack    0 ms    (MISSING \";\" [229, 19] - [229, 19])
+      next if line !~ /\((ERROR|MISSING)( .*)? \[(\d+), (\d+)\] - \[(\d+), (\d+)\]/
+
+      errors << [
+        \$1, # type
+        \$2, # message
+        \$3.to_i, # line
+        \$4.to_i, # column
+        \$5.to_i, # endLine
+        \$6.to_i, # endColumn
+      ]
+
+      # Tree-sitter includes the file path at the end of the parser output.
+      next if line !~ /(^.*\.(php|hack))\s/
+
+      puts \$1
+
+      source = File.read(\$1).split(\"\n\") << [''] # In case of trailing newline.
+
+      errors.uniq.each do |type, message, line, column, endLine, endColumn|
+        # Use source code as the error message for now.
+        if message.nil?
+          if line == endLine
+            message = source[line][column..endColumn]
+          else
+            message = [
+              source[line][column..],
+              *source[line + 1...endLine],
+              source[endLine][..endColumn]
+            ].join('\n')[0..90]
+          end
+        else
+          message = \"#{type} #{message&.strip}\".strip
+        end
+
+        # Increment numbers to match VSCode's 1-indexing. Use Hack error format.
+        puts \"(#{line + 1},#{column + 1})-(#{endLine + 1},#{endColumn + 1}) #{message}\"
+      end
+
+      errors = []
+    end
+"

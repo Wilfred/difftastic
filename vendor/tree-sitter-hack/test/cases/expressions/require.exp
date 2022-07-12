@@ -1,0 +1,15 @@
+(script
+  (expression_statement
+    (require_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string)))))
+  (expression_statement
+    (require_expression
+      (parenthesized_expression
+        (binary_expression
+          left: (qualified_identifier
+            (identifier))
+          right: (string))))))

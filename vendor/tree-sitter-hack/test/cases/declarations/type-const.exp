@@ -1,0 +1,42 @@
+(script
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations
+      (type_const_declaration
+        name: (identifier))
+      (type_const_declaration
+        name: (identifier)
+        type: (type_specifier))
+      (type_const_declaration
+        (attribute_modifier
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer)))
+          (qualified_identifier
+            (identifier))
+          (arguments
+            (argument
+              (integer))
+            (argument
+              (integer))))
+        name: (identifier)
+        as: (type_specifier))
+      (type_const_declaration
+        name: (identifier)
+        (type_parameters
+          (type_parameter
+            (attribute_modifier
+              (qualified_identifier
+                (identifier)))
+            name: (identifier)))
+        as: (type_specifier)
+        type: (type_specifier))
+      (type_const_declaration
+        (abstract_modifier)
+        name: (identifier)
+        as: (type_specifier
+          (nullable_modifier))
+        type: (type_specifier
+          (nullable_modifier))))))

@@ -1,0 +1,25 @@
+(script
+  (const_declaration
+    type: (type_specifier)
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    type: (type_specifier)
+    (const_declarator
+      name: (identifier)
+      value: (integer))
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer)))
+  (const_declaration
+    (const_declarator
+      name: (identifier)
+      value: (integer))
+    (const_declarator
+      name: (identifier)
+      value: (integer))))

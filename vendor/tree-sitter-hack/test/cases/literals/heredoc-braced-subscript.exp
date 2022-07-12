@@ -1,0 +1,47 @@
+(script
+  (expression_statement
+    (heredoc
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)))
+      (embedded_braced_expression
+        (subscript_expression
+          (variable)
+          (string)))
+      (embedded_braced_expression
+        (selection_expression
+          (call_expression
+            function: (subscript_expression
+              (variable)
+              (string))
+            (arguments))
+          (qualified_identifier
+            (identifier))))
+      (embedded_braced_expression
+        (call_expression
+          function: (selection_expression
+            (subscript_expression
+              (variable)
+              (string))
+            (qualified_identifier
+              (identifier)))
+          (arguments)))
+      (embedded_braced_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (string))
+          (variable)))
+      (embedded_braced_expression
+        (subscript_expression
+          (subscript_expression
+            (variable)
+            (call_expression
+              function: (selection_expression
+                (variable)
+                (qualified_identifier
+                  (identifier)))
+              (arguments)))
+          (call_expression
+            function: (variable)
+            (arguments)))))))

@@ -1,0 +1,97 @@
+(script
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer)))
+  (expression_statement
+    (binary_expression
+      left: (integer)
+      right: (integer))))

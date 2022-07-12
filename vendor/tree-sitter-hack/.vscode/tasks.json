@@ -1,0 +1,153 @@
+{
+  "version": "2.0.0",
+  "presentation": {
+    "showReuseMessage": false,
+    "clear": true,
+    "focus": false,
+    "reveal": "silent"
+  },
+  "tasks": [
+    {
+      "label": "ts-parse",
+      "type": "shell",
+      "command": "F=${file}; bin/generate-parser && { npx tree-sitter parse $F>\"${F%.*}.exp\"; code -r \"${F%.*}.exp\"; }",
+      "detail": "npx tree-sitter generate && tree-sitter parse ${file}",
+      "problemMatcher": []
+    },
+    {
+      "label": "ts-query",
+      "type": "shell",
+      "command": "F=${file}; parsed=$(bin/ts-query $F) && echo \"$parsed\">\"${F%.*}.exp\" && code -r \"${F%.*}.exp\"",
+      "detail": "bin/ts-query ${file} (implictly runs `npx tree-sitter generate`)",
+      "problemMatcher": []
+    },
+    {
+      "label": "hh-json",
+      "type": "shell",
+      "command": "F=${file}; bin/hh-json $F>\"${F%.*}.json\"; code -r \"${F%.*}.json\"",
+      "detail": "bin/hh-json ${file}",
+      "problemMatcher": []
+    },
+    {
+      "label": "hh-errors",
+      "type": "shell",
+      "command": "bin/hh-errors ${file}",
+      "detail": "bin/hh-errors ${file}",
+      "problemMatcher": {
+        "fileLocation": "absolute",
+        "pattern": [
+          {
+            "regexp": "^([^\\s].*)$",
+            "file": 1
+          },
+          {
+            "regexp": "^\\((\\d+),(\\d+)\\)-\\((\\d+),(\\d+)\\) (.*)$",
+            "loop": true,
+            "line": 1,
+            "column": 2,
+            "endLine": 3,
+            "endColumn": 4,
+            "message": 5
+          }
+        ]
+      }
+    },
+    {
+      "label": "ts-errors",
+      "type": "shell",
+      "command": "bin/ts-errors ${file}",
+      "detail": "bin/ts-errors ${file}",
+      "problemMatcher": {
+        "fileLocation": "absolute",
+        "pattern": [
+          {
+            "regexp": "^([^\\s].*)$",
+            "file": 1
+          },
+          {
+            "regexp": "^\\((\\d+),(\\d+)\\)-\\((\\d+),(\\d+)\\) (.*)$",
+            "loop": true,
+            "line": 1,
+            "column": 2,
+            "endLine": 3,
+            "endColumn": 4,
+            "message": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "group": "test",
+      "label": "npm: test",
+      "detail": "bin/test-corpus && bin/test-examples",
+      "problemMatcher": {
+        "fileLocation": "relative",
+        "pattern": [
+          {
+            "regexp": "^([^\\s].*)$",
+            "file": 1
+          },
+          {
+            "regexp": "^\\((\\d+),(\\d+)\\)-\\((\\d+),(\\d+)\\) (.*)$",
+            "loop": true,
+            "line": 1,
+            "column": 2,
+            "endLine": 3,
+            "endColumn": 4,
+            "message": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test-corpus",
+      "label": "npm: test-corpus",
+      "detail": "bin/test-corpus",
+      "problemMatcher": {
+        "fileLocation": "relative",
+        "pattern": [
+          {
+            "regexp": "^([^\\s].*)$",
+            "file": 1
+          },
+          {
+            "regexp": "^\\((\\d+),(\\d+)\\)-\\((\\d+),(\\d+)\\) (.*)$",
+            "loop": true,
+            "line": 1,
+            "column": 2,
+            "endLine": 3,
+            "endColumn": 4,
+            "message": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test-examples",
+      "label": "npm: test-examples",
+      "detail": "bin/test-examples",
+      "problemMatcher": {
+        "fileLocation": "relative",
+        "pattern": [
+          {
+            "regexp": "^([^\\s].*)$",
+            "file": 1
+          },
+          {
+            "regexp": "^\\((\\d+),(\\d+)\\)-\\((\\d+),(\\d+)\\) (.*)$",
+            "loop": true,
+            "line": 1,
+            "column": 2,
+            "endLine": 3,
+            "endColumn": 4,
+            "message": 5
+          }
+        ]
+      }
+    }
+  ]
+}

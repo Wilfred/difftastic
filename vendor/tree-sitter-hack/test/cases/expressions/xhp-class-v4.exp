@@ -1,0 +1,9 @@
+(script
+  (class_declaration
+    (xhp_modifier)
+    name: (xhp_identifier)
+    body: (member_declarations))
+  (expression_statement
+    (new_expression
+      (xhp_identifier)
+      (arguments))))

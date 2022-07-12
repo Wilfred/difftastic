@@ -1,0 +1,7 @@
+/examples/* linguist-vendored
+
+# Explicitly list files in src so scanner.cc and scanner.c are not included.
+/src/tree_sitter/* -diff linguist-vendored
+/src/grammar.json -diff linguist-generated
+/src/node-types.json -diff linguist-generated
+/src/parser.c -diff linguist-generated

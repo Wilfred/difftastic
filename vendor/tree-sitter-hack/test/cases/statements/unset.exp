@@ -1,0 +1,9 @@
+(script
+  (unset_statement)
+  (unset_statement
+    (subscript_expression
+      (variable)
+      (string))
+    (subscript_expression
+      (variable)
+      (integer))))

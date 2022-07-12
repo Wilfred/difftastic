@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e
+
+source bin/require_sed
+
+# This script creates corpus *.txt files expected by `tree-sitter test` in the format
+# expected [0] based on *.php and *.exp files in test/cases.
+#
+# [0] https://tree-sitter.github.io/tree-sitter/creating-parsers#:~:text=Return%20statements
+
+export LC_ALL="C" # Necessary for sorting in a consistent fashion
+
+for cases_path in test/cases/*; do
+  corpus_name=$(basename $cases_path)
+  corpus_path="test/corpus/$corpus_name.txt"
+
+  echo "Generating $corpus_path"
+
+  cases="$(ls -d $cases_path/* | grep -E '^[^.]*\.exp$' | $sed -Ee 's/.exp$//' | sort -bu)"
+
+  printf "" >$corpus_path
+  first=1
+
+  for case in $cases; do
+    exp="$case.exp"
+
+    if [[ -f "$case.php" ]]; then
+      code="$case.php"
+    elif [[ -f "$case.hack" ]]; then
+      code="$case.hack"
+    elif [[ -f "$case.hhi" ]]; then
+      code="$case.hhi"
+    else
+      printf "Source file not found for $exp\n"
+      exit 1
+    fi
+
+    # Use the test case file name as the description
+    description=$(printf "$(basename $case)" | $sed -e 's/^\(.\)/\u\1/g' -e 's/-/ /g')
+
+    if [[ $first -eq 0 ]]; then
+      printf "\n" >>$corpus_path
+    else
+      first=0
+    fi
+
+    printf "==========================\n" >>$corpus_path
+    printf "$description\n" >>$corpus_path
+    printf "==========================\n\n" >>$corpus_path
+
+    cat $code >>$corpus_path
+
+    printf "\n---\n\n" >>$corpus_path
+
+    cat $exp >>$corpus_path
+  done
+done

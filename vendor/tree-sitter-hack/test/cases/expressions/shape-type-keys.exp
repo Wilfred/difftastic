@@ -1,0 +1,33 @@
+(script
+  (alias_declaration
+    (identifier)
+    (shape_type_specifier
+      (field_specifier
+        (new_expression
+          (qualified_identifier
+            (identifier))
+          (arguments))
+        (type_specifier
+          (qualified_identifier
+            (identifier))))
+      (field_specifier
+        (call_expression
+          function: (qualified_identifier
+            (identifier))
+          (arguments))
+        (type_specifier))
+      (field_specifier
+        (string)
+        (type_specifier))
+      (field_specifier
+        (call_expression
+          function: (parenthesized_expression
+            (lambda_expression
+              (parameters)
+              body: (lambda_expression
+                (parameters
+                  (parameter
+                    name: (variable)))
+                body: (variable))))
+          (arguments))
+        (type_specifier)))))
