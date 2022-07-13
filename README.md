@@ -46,27 +46,29 @@ textual diff with word highlighting.
 
 ## Known Issues
 
-Performance. Difftastic scales relatively poorly on files with a large
-number of changes, and can use a lot of memory.
+Performance
+ * scales relatively poorly on files with a large number of changes
+ * can use a lot of memory
 
-Display. Difftastic has a side-by-side display which usually works well, but can
-be confusing.
+Display
+ * has a side-by-side display which usually works well but can be confusing
 
-Robustness. Difftastic regularly has releases that fix crashes.
+Robustness
+ * regularly has releases that fix crashes.
 
 ## Non-goals
 
-Patching. Difftastic output is intended for human consumption, and it
-does not generate patches that you can apply later. Use `diff` if you
-need a patch.
+Patching
+ * output is intended for human consumption and does not generate patches that you can apply later
+   * use `diff` if you need a patch
 
 (Patch files are also line-oriented, which is too limited for
 difftastic. Difftastic might find additions and removals on the same
 line, and it tracks the relationship between line numbers in the old
 and new file.)
 
-Merging. AST merging is a hard problem that difftastic does not
-address.
+Merging
+ * AST merging is a hard problem that difftastic does not address
 
 ## FAQ
 
