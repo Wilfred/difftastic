@@ -38,7 +38,7 @@ git clone https://github.com/sogaiu/tree-sitter-clojure
 cd tree-sitter-clojure
 
 # ensure tree-sitter-cli is avaliable as a dev dependency
-npm install --save-dev tree-sitter-cli
+npm install --save-dev --save-exact tree-sitter-cli
 
 # create `src` and populate with tree-sitter `.c` goodness
 npx tree-sitter generate
