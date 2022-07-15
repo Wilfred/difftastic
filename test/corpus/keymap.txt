@@ -2,7 +2,7 @@
 ZMK keymap
 ========================================================================
 
-// https://github.com/zmkfirmware/zmk/blob/main/app/boards/shields/kyria/kyria.keymap
+//https://github.com/zmkfirmware/zmk/blob/main/app/boards/shields/kyria/kyria.keymap
 /*
  * Copyright (c) 2020 The ZMK Contributors
  *
