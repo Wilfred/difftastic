@@ -42,32 +42,25 @@ static inline void skip_whitespaces(TSLexer *lexer) {
 void *tree_sitter_lua_external_scanner_create() { return NULL; }
 void tree_sitter_lua_external_scanner_destroy(void *payload) {}
 
-enum InsideNode { INSIDE_NONE, INSIDE_COMMENT, INSIDE_STRING };
-
-uint8_t inside_node = INSIDE_NONE;
 char ending_char = 0;
 uint8_t level_count = 0;
 
 static inline void reset_state() {
-  inside_node = INSIDE_NONE;
   ending_char = 0;
   level_count = 0;
 }
 
 unsigned tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer) {
-  buffer[0] = inside_node;
-  buffer[1] = ending_char;
-  buffer[2] = level_count;
-  return 3;
+  buffer[0] = ending_char;
+  buffer[1] = level_count;
+  return 2;
 }
 
 void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
   if (length == 0) return;
-  inside_node = buffer[0];
+  ending_char = buffer[0];
   if (length == 1) return;
-  ending_char = buffer[1];
-  if (length == 2) return;
-  level_count = buffer[2];
+  level_count = buffer[1];
 }
 
 static bool scan_block_start(TSLexer *lexer) {
@@ -117,7 +110,6 @@ static bool scan_comment_start(TSLexer *lexer) {
 
     if (scan_block_start(lexer)) {
       lexer->mark_end(lexer);
-      inside_node = INSIDE_COMMENT;
       lexer->result_symbol = BLOCK_COMMENT_START;
       return true;
     }
@@ -151,14 +143,12 @@ static bool scan_comment_content(TSLexer *lexer) {
 
 static bool scan_string_start(TSLexer *lexer) {
   if (lexer->lookahead == '"' || lexer->lookahead == '\'') {
-    inside_node = INSIDE_STRING;
     ending_char = lexer->lookahead;
     consume(lexer);
     return true;
   }
 
   if (scan_block_start(lexer)) {
-    inside_node = INSIDE_STRING;
     return true;
   }
 
@@ -201,33 +191,25 @@ static bool scan_string_content(TSLexer *lexer) {
 }
 
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  if (inside_node == INSIDE_STRING) {
-    if (valid_symbols[STRING_END] && scan_string_end(lexer)) {
-      reset_state();
-      lexer->result_symbol = STRING_END;
-      return true;
-    }
-
-    if (valid_symbols[STRING_CONTENT] && scan_string_content(lexer)) {
-      lexer->result_symbol = STRING_CONTENT;
-      return true;
-    }
-
-    return false;
+  if (valid_symbols[STRING_END] && scan_string_end(lexer)) {
+    reset_state();
+    lexer->result_symbol = STRING_END;
+    return true;
   }
 
-  if (inside_node == INSIDE_COMMENT) {
-    if (valid_symbols[BLOCK_COMMENT_END] && ending_char == 0 && scan_block_end(lexer)) {
-      reset_state();
-      lexer->result_symbol = BLOCK_COMMENT_END;
-      return true;
-    }
+  if (valid_symbols[STRING_CONTENT] && scan_string_content(lexer)) {
+    lexer->result_symbol = STRING_CONTENT;
+    return true;
+  }
 
-    if (valid_symbols[BLOCK_COMMENT_CONTENT] && scan_comment_content(lexer)) {
-      return true;
-    }
+  if (valid_symbols[BLOCK_COMMENT_END] && ending_char == 0 && scan_block_end(lexer)) {
+    reset_state();
+    lexer->result_symbol = BLOCK_COMMENT_END;
+    return true;
+  }
 
-    return false;
+  if (valid_symbols[BLOCK_COMMENT_CONTENT] && scan_comment_content(lexer)) {
+    return true;
   }
 
   skip_whitespaces(lexer);
