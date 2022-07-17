@@ -262,10 +262,6 @@ impl<'a> Syntax<'a> {
         self.info().next_sibling.get()
     }
 
-    pub fn num_after(&self) -> usize {
-        self.info().num_after.get()
-    }
-
     pub fn prev_is_contiguous(&self) -> bool {
         self.info().prev_is_contiguous.get()
     }
