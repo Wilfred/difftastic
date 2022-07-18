@@ -1,7 +1,11 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, collections::BinaryHeap, env};
+use std::{
+    cmp::Reverse,
+    collections::{BinaryHeap, VecDeque},
+    env,
+};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -83,6 +87,88 @@ fn estimated_distance_remaining(v: &Vertex) -> u64 {
         + (min_novel_this_level + min_novel_other_levels)
             * Edge::NovelAtomLHS { contiguous: true }.cost()
         + exit_costs
+}
+
+fn fringe_search(start: Vertex, size_hint: usize) -> Vec<Vertex> {
+    let mut threshold: u64 = estimated_distance_remaining(&start);
+    let mut threshold_next: u64 = u64::MAX;
+
+    let mut now = VecDeque::new();
+    let mut later = VecDeque::new();
+    now.push_front((threshold, &start));
+
+    let vertex_arena = Bump::new();
+    let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
+    predecessors.reserve(size_hint);
+
+    let mut neighbour_buf = [
+        None, None, None, None, None, None, None, None, None, None, None, None,
+    ];
+
+    let end = loop {
+        if let Some((distance, current)) = now.pop_front() {
+            if current.is_end() {
+                break current;
+            }
+
+            neighbours(current, &mut neighbour_buf, &vertex_arena);
+            for neighbour in &mut neighbour_buf {
+                if let Some((edge, next)) = neighbour.take() {
+                    let distance_to_next = distance + edge.cost();
+                    let found_shorter_route = match predecessors.get(&next) {
+                        Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
+                        _ => true,
+                    };
+
+                    if found_shorter_route {
+                        predecessors.insert(next, (distance_to_next, current));
+
+                        let h_next = distance_to_next + estimated_distance_remaining(next);
+                        if h_next <= threshold {
+                            now.push_front((distance_to_next, next));
+                        } else {
+                            later.push_front((distance_to_next, next));
+
+                            if h_next < threshold_next {
+                                threshold_next = h_next;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            if later.is_empty() {
+                panic!("Ran out of nodes");
+            } else {
+                now = later;
+                threshold = threshold_next;
+                threshold_next = u64::MAX;
+
+                // TODO: consider reusing the original `now` to avoid
+                // reallocating?
+                later = VecDeque::new();
+            }
+        }
+    };
+
+    debug!(
+        "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on now and {} left on later.",
+        predecessors.len(),
+        std::mem::size_of::<&Vertex>(),
+        std::mem::size_of::<PredecessorInfo>(),
+        now.len(),
+        later.len(),
+    );
+    let mut current = end;
+
+    let mut vertex_route: Vec<Vertex> = vec![end.clone()];
+    while let Some((_, node)) = predecessors.remove(&current) {
+        vertex_route.push(node.clone());
+        current = node;
+    }
+
+    vertex_route.reverse();
+    vertex_route
 }
 
 /// Return the shortest route from `start` to the end vertex.
@@ -190,9 +276,9 @@ fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)>
 fn shortest_path(
     start: Vertex,
     size_hint: usize,
-    graph_limit: usize,
+    _graph_limit: usize,
 ) -> Result<Vec<(Edge, Vertex)>, ExceededGraphLimit> {
-    let vertex_path = shortest_vertex_path(start, size_hint, graph_limit)?;
+    let vertex_path = fringe_search(start, size_hint);
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
