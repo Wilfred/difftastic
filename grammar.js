@@ -598,10 +598,16 @@ module.exports = grammar({
     ),
     prototype: $ => /[\[\]$@%&*\\]+/, // (\[$@%&*])
  
-    function_attribute: $ => repeat1(seq(
+    // sub test2 : Path('/') Args(0) {}
+    // colon and space are separators
+    function_attribute: $ => seq(
       ':',
       $.identifier,
-    )),
+      repeat(seq(
+        optional(':'),
+        $.identifier,
+      )),
+    ),
     function_signature: $ => seq(
       '(',
       commaSeparated(choice(
