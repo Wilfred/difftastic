@@ -125,9 +125,9 @@ fn fringe_search(start: Vertex, size_hint: usize) -> Vec<Vertex> {
 
                         let h_next = distance_to_next + estimated_distance_remaining(next);
                         if h_next <= threshold {
-                            now.push_front((distance_to_next, next));
+                            now.push_back((distance_to_next, next));
                         } else {
-                            later.push_front((distance_to_next, next));
+                            later.push_back((distance_to_next, next));
 
                             if h_next < threshold_next {
                                 threshold_next = h_next;
