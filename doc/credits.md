@@ -48,5 +48,5 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * tonsky - sublime-clojure work with test data, clojure north talk, alabaster theme
 * ubolonton - emacs-tree-sitter
 * vigoux - nvim-treesitter and related
-* Wilfred - bug reporting and discussion
+* Wilfred - difftastic, bug reporting, and discussion
 
