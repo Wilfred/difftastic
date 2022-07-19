@@ -397,7 +397,7 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     }
 }
 
-fn set_num_after<'a>(nodes: &[&Syntax<'a>], parent_num_after: usize) {
+fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
     for (i, node) in nodes.iter().enumerate() {
         let num_after = parent_num_after + nodes.len() - 1 - i;
         node.info().num_after.set(num_after);
@@ -480,7 +480,7 @@ fn set_parent<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
     }
 }
 
-fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u32) {
+fn set_num_ancestors(nodes: &[&Syntax], num_ancestors: u32) {
     for node in nodes {
         node.info().num_ancestors.set(num_ancestors);
 
@@ -490,7 +490,7 @@ fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u32) {
     }
 }
 
-fn set_prev_is_contiguous<'a>(roots: &[&Syntax<'a>]) {
+fn set_prev_is_contiguous(roots: &[&Syntax]) {
     for node in roots {
         let is_contiguous = if let Some(prev) = node.info().prev.get() {
             match prev {
