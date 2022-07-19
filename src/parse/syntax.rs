@@ -14,7 +14,7 @@ use crate::{
 };
 use Syntax::*;
 
-/// A Debug implementation that does not reucurse into the
+/// A Debug implementation that does not recurse into the
 /// corresponding node mentioned for Unchanged. Otherwise we will
 /// infinitely loop on unchanged nodes, which both point to the other.
 impl<'a> fmt::Debug for ChangeKind<'a> {
