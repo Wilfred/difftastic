@@ -1,13 +1,14 @@
 //! Find nodes that are obviously unchanged, so we can run the main
 //! diff on smaller inputs.
 
+use std::collections::HashSet;
+
 use crate::diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap};
 use crate::diff::myers_diff;
 
 use crate::parse::syntax::Syntax;
 
 const TINY_TREE_THRESHOLD: u32 = 10;
-const MOSTLY_UNCHANGED_MIN_NODES: usize = 4;
 const MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN: usize = 4;
 
 /// Set [`ChangeKind`] on nodes that are obviously unchanged, and return a
@@ -122,44 +123,55 @@ fn split_unchanged_singleton_list<'a>(
     res
 }
 
+fn find_unique_content_ids(node: &Syntax, unique_ids: &mut HashSet<u32>) {
+    if node.content_is_unique() {
+        unique_ids.insert(node.content_id());
+    }
+    if let Syntax::List { children, .. } = node {
+        for child in children {
+            find_unique_content_ids(child, unique_ids);
+        }
+    }
+}
+
+fn find_all_unique_content_ids(node: &Syntax) -> HashSet<u32> {
+    let mut unique_ids = HashSet::new();
+    find_unique_content_ids(node, &mut unique_ids);
+    unique_ids
+}
+
+fn count_unique_subtrees(node: &Syntax, opposite_unique_ids: &HashSet<u32>) -> usize {
+    if node.content_is_unique() && opposite_unique_ids.contains(&node.content_id()) {
+        // Ignore children as soon as find a unique node, to avoid
+        // overcounting.
+        return 1;
+    }
+
+    if let Syntax::List { children, .. } = node {
+        return children
+            .iter()
+            .map(|child| count_unique_subtrees(child, opposite_unique_ids))
+            .sum();
+    }
+
+    0
+}
+
+/// Count the nodes in `lhs` that are unique to the LHS input, but are
+/// also present in `rhs`.
+///
+/// Ignores children of unique nodes, so we don't overcount.
+fn count_common_unique(lhs: &Syntax, rhs: &Syntax) -> usize {
+    let rhs_unique_ids = find_all_unique_content_ids(rhs);
+    count_unique_subtrees(lhs, &rhs_unique_ids)
+}
+
 /// Return true if both nodes are lists with same delimiters and have
 /// the same start and end children.
 fn is_mostly_unchanged_list(lhs: &Syntax, rhs: &Syntax) -> bool {
     match (lhs, rhs) {
-        (
-            Syntax::List {
-                open_content: lhs_open_content,
-                close_content: lhs_close_content,
-                children: lhs_children,
-                ..
-            },
-            Syntax::List {
-                open_content: rhs_open_content,
-                close_content: rhs_close_content,
-                children: rhs_children,
-                ..
-            },
-        ) if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content => {
-            if lhs_children.len() < MOSTLY_UNCHANGED_MIN_NODES
-                || rhs_children.len() < MOSTLY_UNCHANGED_MIN_NODES
-            {
-                return false;
-            }
-
-            let first_children_unchanged = lhs_children
-                .iter()
-                .zip(rhs_children.iter())
-                .take(MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN)
-                .all(|(lhs, rhs)| lhs.content_id() == rhs.content_id());
-
-            let last_children_unchanged = lhs_children
-                .iter()
-                .rev()
-                .zip(rhs_children.iter().rev())
-                .take(MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN)
-                .all(|(lhs, rhs)| lhs.content_id() == rhs.content_id());
-
-            first_children_unchanged || last_children_unchanged
+        (Syntax::List { .. }, Syntax::List { .. }) => {
+            count_common_unique(lhs, rhs) >= MOSTLY_UNCHANGED_MIN_COMMON_CHILDREN
         }
         _ => false,
     }
@@ -710,5 +722,59 @@ mod tests {
 
         let split = split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes);
         assert_eq!(split.len(), 2);
+    }
+
+    #[test]
+    fn test_count_common_unique() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        // There are two subtrees that are unique on both sides and
+        // shared between the two sides here:
+        //
+        // 1: shared-1
+        // 2: (shared-2a shared-2b)
+        let lhs_nodes = parse(
+            &arena,
+            "(shared-1 (shared-2a shared-2b) not-unique not-unique)",
+            &config,
+        );
+        let rhs_nodes = parse(
+            &arena,
+            "(shared-1 (shared-2a shared-2b) not-unique)",
+            &config,
+        );
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        assert_eq!(count_common_unique(lhs_nodes[0], rhs_nodes[0]), 2);
+    }
+
+    #[test]
+    fn test_similar_with_common_grandchildren() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(&arena, "((novel-lhs 1 2 3 4 5)) x", &config);
+        let rhs_nodes = parse(&arena, "((novel-rhs 1 2 3 4 5)) y", &config);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        assert_eq!(
+            split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes).len(),
+            2
+        );
+    }
+    #[test]
+    fn test_similar_ignore_delimiter() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs_nodes = parse(&arena, "(novel-lhs 1 2 3 4 5) x", &config);
+        let rhs_nodes = parse(&arena, "[novel-rhs 1 2 3 4 5] y", &config);
+        init_all_info(&lhs_nodes, &rhs_nodes);
+
+        assert_eq!(
+            split_mostly_unchanged_toplevel(&lhs_nodes, &rhs_nodes).len(),
+            2
+        );
     }
 }
