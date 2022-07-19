@@ -336,8 +336,8 @@ pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'
 
 fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = NonZeroU32::new(1).unwrap();
-    init_info_single(lhs_roots, &mut id);
-    init_info_single(rhs_roots, &mut id);
+    init_info_on_side(lhs_roots, &mut id);
+    init_info_on_side(rhs_roots, &mut id);
 
     let mut existing = HashMap::new();
     set_content_id(lhs_roots, &mut existing);
@@ -414,7 +414,7 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_is_contiguous(roots);
 }
 
-fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
+fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
