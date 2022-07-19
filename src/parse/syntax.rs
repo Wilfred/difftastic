@@ -346,6 +346,9 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut existing = HashMap::new();
     set_content_id(lhs_roots, &mut existing);
     set_content_id(rhs_roots, &mut existing);
+
+    set_content_is_unique(lhs_roots);
+    set_content_is_unique(rhs_roots);
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -425,7 +428,6 @@ fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
     set_unique_id(roots, next_id);
-    set_content_is_unique(roots);
 }
 
 fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
