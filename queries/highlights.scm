@@ -12,10 +12,24 @@
   path: (scoped_identifier
     name: (identifier) @type))
  (#match? @type "^[A-Z]"))
+((scoped_type_identifier
+  path: (identifier) @type)
+ (#match? @type "^[A-Z]"))
+((scoped_type_identifier
+  path: (scoped_identifier
+    name: (identifier) @type))
+ (#match? @type "^[A-Z]"))
 
 ; Assume other uppercase names are enum constructors
 ((identifier) @constructor
  (#match? @constructor "^[A-Z]"))
+
+; Assume all qualified names in struct patterns are enum constructors. (They're
+; either that, or struct names; highlighting both as constructors seems to be
+; the less glaring choice of error, visually.)
+(struct_pattern
+  type: (scoped_type_identifier
+    name: (type_identifier) @constructor))
 
 ; Function calls
 
@@ -80,6 +94,9 @@
 
 (lifetime (identifier) @label)
 
+"as" @keyword
+"async" @keyword
+"await" @keyword
 "break" @keyword
 "const" @keyword
 "continue" @keyword
@@ -93,7 +110,6 @@
 "if" @keyword
 "impl" @keyword
 "in" @keyword
-"let" @keyword
 "let" @keyword
 "loop" @keyword
 "macro_rules!" @keyword
@@ -112,6 +128,7 @@
 "use" @keyword
 "where" @keyword
 "while" @keyword
+(crate) @keyword
 (mutable_specifier) @keyword
 (use_list (self) @keyword)
 (scoped_use_list (self) @keyword)
@@ -133,7 +150,6 @@
 (attribute_item) @attribute
 (inner_attribute_item) @attribute
 
-"as" @operator
 "*" @operator
 "&" @operator
 "'" @operator
