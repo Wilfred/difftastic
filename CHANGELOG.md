@@ -1,5 +1,10 @@
 ## 0.32 (unreleased)
 
+### Diffing
+
+Improved performance in many cases, particularly for files with a
+fairly flat structure.
+
 ## 0.31 (released 11th July 2022)
 
 ### Parsing

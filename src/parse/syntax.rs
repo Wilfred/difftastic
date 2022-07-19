@@ -283,6 +283,10 @@ impl<'a> Syntax<'a> {
         self.info().content_id.get()
     }
 
+    pub fn content_is_unique(&self) -> bool {
+        self.info().content_is_unique.get()
+    }
+
     pub fn num_ancestors(&self) -> u32 {
         self.info().num_ancestors.get()
     }
