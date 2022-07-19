@@ -25,6 +25,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * mauricioszabo - clover and repl-tooling
 * maxbrunsfeld - tree-sitter and related
 * monnier - emacs-tree-sitter related
+* NoahTheDuke - discussion and suggestions
 * nwjsmith - tree-sitter upgrade
 * oakmac - tree-sitter-clojure.oakmac, conj 2018 unsession, advice, etc.
 * p00f - nvim-ts-rainbow
@@ -38,6 +39,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * SergeevPavel - tree-sitter-clojure.SergeevPavel (fork of tree-sitter-clojure.Tavistock with further work)
 * SevereOverfl0w - tree-sitter and vim info
 * shackra - tree-sitter-query.el
+* SignSpice - discussion
 * snoe - discussions
 * Tavistock - tree-sitter-clojure.Tavistock
 * th0rex - emacs-tree-sitter related
@@ -46,3 +48,5 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * tonsky - sublime-clojure work with test data, clojure north talk, alabaster theme
 * ubolonton - emacs-tree-sitter
 * vigoux - nvim-treesitter and related
+* Wilfred - bug reporting and discussion
+
