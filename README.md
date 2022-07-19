@@ -31,6 +31,20 @@ Note that there may be an upside to using emsdk though -- it may figure out and 
 
 Suppose typical development sources are stored under `~/src`.
 
+### Short Version
+
+```
+# clone repository
+cd ~/src
+git clone https://github.com/sogaiu/tree-sitter-clojure
+cd tree-sitter-clojure
+
+# install tree-sitter-cli and dependencies, then build
+npm ci
+```
+
+### Long Version
+
 ```
 # clone repository
 cd ~/src
