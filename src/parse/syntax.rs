@@ -61,6 +61,9 @@ pub struct SyntaxInfo<'a> {
     ///
     /// Values are sequential, not hashes. Collisions never occur.
     content_id: Cell<u32>,
+    /// Is this the only node with this content? Ignores nodes on the
+    /// other side.
+    content_is_unique: Cell<bool>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -75,6 +78,7 @@ impl<'a> SyntaxInfo<'a> {
             num_after: Cell::new(0),
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
+            content_is_unique: Cell::new(false),
         }
     }
 }
@@ -421,6 +425,7 @@ fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
     set_unique_id(roots, next_id);
+    set_content_is_unique(roots);
 }
 
 fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
@@ -432,6 +437,35 @@ fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
             set_unique_id(children, next_id);
         }
     }
+}
+
+/// Assumes that `set_content_id` has already run.
+fn find_nodes_with_unique_content(nodes: &[&Syntax], counts: &mut HashMap<u32, usize>) {
+    for node in nodes {
+        *counts.entry(node.content_id()).or_insert(0) += 1;
+        if let List { children, .. } = node {
+            find_nodes_with_unique_content(children, counts);
+        }
+    }
+}
+
+fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &HashMap<u32, usize>) {
+    for node in nodes {
+        let count = counts
+            .get(&node.content_id())
+            .expect("Count should be present");
+        node.info().content_is_unique.set(*count == 1);
+
+        if let List { children, .. } = node {
+            set_content_is_unique_from_counts(children, counts);
+        }
+    }
+}
+
+fn set_content_is_unique(nodes: &[&Syntax]) {
+    let mut counts = HashMap::new();
+    find_nodes_with_unique_content(nodes, &mut counts);
+    set_content_is_unique_from_counts(nodes, &counts);
 }
 
 fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
