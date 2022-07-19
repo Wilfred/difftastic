@@ -414,6 +414,8 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_is_contiguous(roots);
 }
 
+/// Set all the `SyntaxInfo` values for all the `roots` on a single
+/// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
