@@ -421,7 +421,7 @@ fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_unique_id(roots, next_id);
 }
 
-fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
+fn set_unique_id(nodes: &[&Syntax], next_id: &mut SyntaxId) {
     for node in nodes {
         node.info().unique_id.set(*next_id);
         *next_id = NonZeroU32::new(u32::from(*next_id) + 1)
