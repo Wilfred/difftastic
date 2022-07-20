@@ -902,6 +902,7 @@ i--;
 i + j * 3 - j % 5;
 2 ** i * 3;
 2 * i ** 3;
+2 ** i ** 3;
 +x;
 -x;
 
@@ -918,6 +919,9 @@ i + j * 3 - j % 5;
   (expression_statement (binary_expression
     (binary_expression (number) (identifier))
     (number)))
+  (expression_statement (binary_expression
+    (number)
+    (binary_expression (identifier) (number))))
   (expression_statement (binary_expression
     (number)
     (binary_expression (identifier) (number))))

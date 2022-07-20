@@ -810,7 +810,7 @@ module.exports = grammar({
         ['*', 'binary_times'],
         ['/', 'binary_times'],
         ['%', 'binary_times'],
-        ['**', 'binary_exp'],
+        ['**', 'binary_exp', 'right'],
         ['<', 'binary_relation'],
         ['<=', 'binary_relation'],
         ['==', 'binary_equality'],
@@ -822,8 +822,8 @@ module.exports = grammar({
         ['??', 'ternary'],
         ['instanceof', 'binary_relation'],
         ['in', 'binary_relation'],
-      ].map(([operator, precedence]) =>
-        prec.left(precedence, seq(
+      ].map(([operator, precedence, associativity]) =>
+        (associativity === 'right' ? prec.right : prec.left)(precedence, seq(
           field('left', $.expression),
           field('operator', operator),
           field('right', $.expression)
