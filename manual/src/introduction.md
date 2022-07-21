@@ -28,6 +28,7 @@ let ts_lang = language_override
 ```
 
 <pre><code style="display:block">$ difft old.rs new.rs
+
 1 <span style="background-color: PaleGreen">1</span> let ts_lang = <span style="background-color: PaleGreen">language_override</span>
 . <span style="background-color: PaleGreen">2</span>     <span style="background-color: PaleGreen">.or_else(||</span> guess(path, guess_src)<span style="background-color: PaleGreen">)</span>
 . 3     .map(tsp::from_language);
@@ -40,6 +41,7 @@ it's now on a new line with whitespace.
 A line-oriented diff does a much worse job here.
 
 <pre><code style="display:block">$ diff -u old.rs new.rs
+
 @@ -1 +1,3 @@
 <span style="background-color: #fbbd98">-let ts_lang = guess(path, guess_src).map(tsp::from_language);</span>
 <span style="background-color: PaleGreen">+let ts_lang = language_override
