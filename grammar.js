@@ -299,14 +299,14 @@ module.exports = grammar({
     template_body: $ => choice(
       prec.left(PREC.control, seq(
         ':',
-        // TODO: self type
+        optional($.self_type),
         $._indent,
         $._block,
         $._outdent,
       )),
       seq(
         '{',
-        // TODO: self type
+        optional($.self_type),
         optional($._block),
         '}',
       ),
@@ -316,8 +316,8 @@ module.exports = grammar({
      * WithTemplateBody  ::=  <<< [SelfType] TemplateStat {semi TemplateStat} >>>
      */
     with_template_body: $ => prec.left(PREC.control, seq(
-      // TODO: self type
       $._indent,
+      optional($.self_type),
       $._block,
       $._outdent,
     )),
@@ -338,6 +338,12 @@ module.exports = grammar({
         alias($.identifier, '_end_ident'),
       ),
     )),
+
+    self_type: $ => prec(4, seq(
+      $.identifier, optional($._self_type_ascription), '=>'
+    )),
+
+    _self_type_ascription: $ => seq(':', $._type),
 
     annotation: $ => prec.right(seq(
       '@',

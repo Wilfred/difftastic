@@ -785,3 +785,45 @@ enum Hello[Y] extends java.Enumeration derives Codec, Eq {
       )
     )
   )
+
+================================
+Self types
+================================
+
+trait A {
+  self => 
+  def f: Int
+}
+
+class B {
+  self: Something[A] => 
+
+  case class Hello(a: Int)
+}
+
+---
+
+(compilation_unit
+  (trait_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier))
+      (function_declaration
+        (identifier)
+        (type_identifier))))
+  (class_definition
+    (identifier)
+    (template_body
+      (self_type
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))
+      (class_definition
+        (identifier)
+        (class_parameters
+          (class_parameter
+            (identifier)
+            (type_identifier)))))))
