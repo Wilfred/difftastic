@@ -34,6 +34,8 @@ T::T() : f1(0), f2(1, 2) {
 
 T::T() : Base<T>() {}
 
+T::T() : f1(0) try {} catch(...) {}
+
 ---
 
 (translation_unit
@@ -61,7 +63,23 @@ T::T() : Base<T>() {}
           (field_identifier)
           (template_argument_list (type_descriptor (type_identifier))))
         (argument_list)))
-    (compound_statement)))
+    (compound_statement))
+  (function_definition
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list))
+    (field_initializer_list
+      (field_initializer
+        (field_identifier)
+        (argument_list
+          (number_literal))))
+    (try_statement
+      (compound_statement)
+      (catch_clause
+        (parameter_list)
+        (compound_statement)))))
 
 =====================================
 Explicit constructor definitions
@@ -175,3 +193,24 @@ T::~T() {}
     (function_declarator
       (qualified_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
     (compound_statement)))
+
+
+=====================================
+Function-try-block definitions
+=====================================
+
+void foo() try {} catch(...) {}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (try_statement
+      (compound_statement)
+      (catch_clause
+        (parameter_list)
+        (compound_statement)))))

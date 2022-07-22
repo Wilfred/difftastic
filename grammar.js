@@ -170,6 +170,13 @@ module.exports = grammar(C, {
       alias($.qualified_type_identifier, $.qualified_identifier)
     )),
 
+    function_definition: ($, original) => ({
+      ...original,
+      members: original.members.map(
+        e => e.name !== 'body'
+          ? e
+          : field('body', choice(e.content, $.try_statement))) }),
+
     virtual_specifier: $ => choice(
       'final', // the only legal value here for classes
       'override' // legal for functions in addition to final, plus permutations.
@@ -443,7 +450,9 @@ module.exports = grammar(C, {
       field('declarator', $.function_declarator),
       optional($.field_initializer_list),
       choice(
-        field('body', $.compound_statement),
+        field('body', choice(
+          $.compound_statement,
+          $.try_statement)),
         $.default_method_clause,
         $.delete_method_clause
       )
