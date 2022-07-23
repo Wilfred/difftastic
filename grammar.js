@@ -46,6 +46,8 @@ module.exports = grammar(C, {
     [$._declaration_modifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._binary_fold_operator, $._fold_operator],
+    [$.expression_statement, $.for_statement],
+    [$.init_statement, $.for_statement],
   ]),
 
   inline: ($, original) => original.concat([
@@ -716,21 +718,36 @@ module.exports = grammar(C, {
       ))
     )),
 
+    for_range_loop: $ => seq(
+      'for',
+      '(',
+      field('initializer', optional($.init_statement)),
+      $._declaration_specifiers,
+      field('declarator', $._declarator),
+      ':',
+      field('right', choice(
+        $._expression,
+        $.initializer_list,
+      )),
+      ')',
+      field('body', $._statement)
+    ),
+
+    init_statement: $ => choice(
+      $.alias_declaration,
+      $.type_definition,
+      $.declaration,
+      $.expression_statement,
+    ),
+
     condition_clause: $ => seq(
       '(',
-      choice(
-        seq(
-          field('initializer', optional(choice(
-            $.declaration,
-            $.expression_statement
-          ))),
-          field('value', choice(
-            $._expression,
-            $.comma_expression
-          )),
-        ),
-        field('value', alias($.condition_declaration, $.declaration))
-      ),
+      field('initializer', optional($.init_statement)),
+      field('value', choice(
+        $._expression,
+        $.comma_expression,
+        alias($.condition_declaration, $.declaration),
+      )),
       ')',
     ),
 
@@ -744,20 +761,6 @@ module.exports = grammar(C, {
         ),
         field('value', $.initializer_list),
       )
-    ),
-
-    for_range_loop: $ => seq(
-      'for',
-      '(',
-      $._declaration_specifiers,
-      field('declarator', $._declarator),
-      ':',
-      field('right', choice(
-        $._expression,
-        $.initializer_list,
-      )),
-      ')',
-      field('body', $._statement)
     ),
 
     return_statement: ($, original) => seq(
