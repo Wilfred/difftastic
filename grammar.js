@@ -46,8 +46,8 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
+    [$.attributed_statement],
     [$._declaration_modifiers, $.attributed_statement],
-    [$._declaration_modifiers, $.attributed_non_case_statement],
   ],
 
   word: $ => $.identifier,
@@ -601,17 +601,13 @@ module.exports = grammar({
       $._statement
     ),
 
-    attributed_non_case_statement: $ => seq(
-      repeat1($.attribute_declaration),
-      $._non_case_statement
-    ),
-
     _statement: $ => choice(
       $.case_statement,
       $._non_case_statement
     ),
 
     _non_case_statement: $ => choice(
+      $.attributed_statement,
       $.labeled_statement,
       $.compound_statement,
       $.expression_statement,
@@ -663,7 +659,6 @@ module.exports = grammar({
       ),
       ':',
       repeat(choice(
-        alias($.attributed_non_case_statement, $.attributed_statement),
         $._non_case_statement,
         $.declaration,
         $.type_definition

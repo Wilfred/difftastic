@@ -176,6 +176,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "attributed_statement",
+        "named": true
+      },
+      {
         "type": "break_statement",
         "named": true
       },
@@ -1029,10 +1033,6 @@
           "named": true
         },
         {
-          "type": "attributed_statement",
-          "named": true
-        },
-        {
           "type": "declaration",
           "named": true
         },
@@ -1201,10 +1201,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "attributed_statement",
           "named": true
         },
         {
@@ -2298,10 +2294,6 @@
           "named": true
         },
         {
-          "type": "attributed_statement",
-          "named": true
-        },
-        {
           "type": "declaration",
           "named": true
         },
@@ -2362,10 +2354,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "attributed_statement",
           "named": true
         },
         {
@@ -2521,10 +2509,6 @@
           "named": true
         },
         {
-          "type": "attributed_statement",
-          "named": true
-        },
-        {
           "type": "declaration",
           "named": true
         },
@@ -2610,10 +2594,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "attributed_statement",
           "named": true
         },
         {
@@ -2908,10 +2888,6 @@
         },
         {
           "type": "_type_specifier",
-          "named": true
-        },
-        {
-          "type": "attributed_statement",
           "named": true
         },
         {
