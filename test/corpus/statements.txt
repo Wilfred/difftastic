@@ -43,7 +43,7 @@ int main() {
   for (start(); check(); step())
     3;
 
-  for (i = 0, j = 0, k = 0, l = 0; i < 1; i++, j++, k++, l++)
+  for (i = 0, j = 0, k = 0, l = 0; i < 1, j < 1; i++, j++, k++, l++)
     1;
 }
 
@@ -76,9 +76,13 @@ int main() {
             (comma_expression
               (assignment_expression (identifier) (number_literal))
               (assignment_expression (identifier) (number_literal)))))
-        (binary_expression
-          (identifier)
-          (number_literal))
+        (comma_expression
+          (binary_expression
+            (identifier)
+            (number_literal))
+          (binary_expression
+            (identifier)
+            (number_literal)))
         (comma_expression
           (update_expression (identifier))
           (comma_expression
