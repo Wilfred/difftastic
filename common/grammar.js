@@ -61,7 +61,14 @@ exports.rules = {
             )),
         )
     )),
-    _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $.entity_reference, $.numeric_character_reference, $._link_destination_parenthesis)), ')'),
+    _link_destination_parenthesis: $ => seq('(', repeat(choice(
+        $._word,
+        punctuation_without($, ['(', ')']),
+        $.backslash_escape,
+        $.entity_reference,
+        $.numeric_character_reference,
+        $._link_destination_parenthesis
+    )), ')'),
     _text_no_angle: $ => choice($._word, punctuation_without($, ['<', '>']), $._whitespace),
     link_title: $ => choice(
         seq('"', repeat(choice(
