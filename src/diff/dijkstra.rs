@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, collections::hash_map::Entry, env};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -51,16 +51,20 @@ fn shortest_vertex_path(
                 for neighbour in &mut neighbour_buf {
                     if let Some((edge, next)) = neighbour.take() {
                         let distance_to_next = distance + edge.cost();
-                        let found_shorter_route = match predecessors.get(&next) {
-                            Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
-                            _ => true,
+
+                        match predecessors.entry(next) {
+                            Entry::Occupied(mut o) => {
+                                let prev_shortest: u64 = o.get().0;
+                                if distance_to_next < prev_shortest {
+                                    *o.get_mut() = (distance_to_next, current);
+                                    heap.push(Reverse(distance_to_next), next);
+                                }
+                            }
+                            Entry::Vacant(v) => {
+                                v.insert((distance_to_next, current));
+                                heap.push(Reverse(distance_to_next), next);
+                            }
                         };
-
-                        if found_shorter_route {
-                            predecessors.insert(next, (distance_to_next, current));
-
-                            heap.push(Reverse(distance_to_next), next);
-                        }
                     }
                 }
                 if predecessors.len() > graph_limit {
