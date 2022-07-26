@@ -2,7 +2,9 @@
 
 use bumpalo::Bump;
 use rpds::Stack;
+use rustc_hash::FxHashMap;
 use std::{
+    cell::RefCell,
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
@@ -44,7 +46,9 @@ use Edge::*;
 ///      ^              ^
 /// ```
 #[derive(Debug, Clone)]
-pub struct Vertex<'a> {
+pub struct Vertex<'a, 'b> {
+    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
+    pub predecessor: RefCell<Option<(u64, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
@@ -53,7 +57,7 @@ pub struct Vertex<'a> {
     can_pop_either: bool,
 }
 
-impl<'a> PartialEq for Vertex<'a> {
+impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
@@ -83,9 +87,9 @@ impl<'a> PartialEq for Vertex<'a> {
             && self.can_pop_either == other.can_pop_either
     }
 }
-impl<'a> Eq for Vertex<'a> {}
+impl<'a, 'b> Eq for Vertex<'a, 'b> {}
 
-impl<'a> Hash for Vertex<'a> {
+impl<'a, 'b> Hash for Vertex<'a, 'b> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
@@ -245,7 +249,7 @@ fn push_rhs_delimiter<'a>(
     entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
 }
 
-impl<'a> Vertex<'a> {
+impl<'a, 'b> Vertex<'a, 'b> {
     pub fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
@@ -253,6 +257,8 @@ impl<'a> Vertex<'a> {
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         let parents = Stack::new();
         Vertex {
+            neighbours: RefCell::new(None),
+            predecessor: RefCell::new(None),
             lhs_syntax,
             rhs_syntax,
             parents,
@@ -331,17 +337,34 @@ impl Edge {
     }
 }
 
-/// Calculate all the neighbours from `v` and write them to `buf`.
-pub fn neighbours<'a, 'b>(
-    v: &Vertex<'a>,
-    buf: &mut [Option<(Edge, &'b Vertex<'a>)>],
+fn allocate_if_new<'syn, 'b>(
+    v: Vertex<'syn, 'b>,
     alloc: &'b Bump,
-) {
-    for item in &mut *buf {
-        *item = None;
+    seen: &mut FxHashMap<&Vertex<'syn, 'b>, &'b Vertex<'syn, 'b>>,
+) -> &'b Vertex<'syn, 'b> {
+    match seen.get(&v) {
+        Some(existing) => *existing,
+        None => {
+            let allocated = alloc.alloc(v);
+            seen.insert(allocated, allocated);
+            allocated
+        }
+    }
+}
+
+/// Compute the neighbours of `v` if we haven't previously done so,
+/// write them to the .neighbours cell inside `v`, and return them.
+pub fn get_set_neighbours<'syn, 'b>(
+    v: &Vertex<'syn, 'b>,
+    alloc: &'b Bump,
+    seen: &mut FxHashMap<&Vertex<'syn, 'b>, &'b Vertex<'syn, 'b>>,
+) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
+    match &*v.neighbours.borrow() {
+        Some(neighbours) => return neighbours.clone(),
+        None => {}
     }
 
-    let mut i = 0;
+    let mut res: Vec<(Edge, &Vertex)> = vec![];
 
     if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() {
         if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&v.parents) {
@@ -349,18 +372,23 @@ pub fn neighbours<'a, 'b>(
             // move up to the parent node.
 
             // Continue from sibling of parent.
-            buf[i] = Some((
+            res.push((
                 ExitDelimiterBoth,
-                alloc.alloc(Vertex {
-                    lhs_syntax: lhs_parent.next_sibling(),
-                    rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
-                    parents: parents_next,
-                    lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                    rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                }),
+                allocate_if_new(
+                    Vertex {
+                        neighbours: RefCell::new(None),
+                        predecessor: RefCell::new(None),
+                        lhs_syntax: lhs_parent.next_sibling(),
+                        rhs_syntax: rhs_parent.next_sibling(),
+                        can_pop_either: can_pop_either_parent(&parents_next),
+                        parents: parents_next,
+                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
+                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
+                    },
+                    alloc,
+                    seen,
+                ),
             ));
-            i += 1;
         }
     }
 
@@ -369,18 +397,23 @@ pub fn neighbours<'a, 'b>(
             // Move to next after LHS parent.
 
             // Continue from sibling of parent.
-            buf[i] = Some((
+            res.push((
                 ExitDelimiterLHS,
-                alloc.alloc(Vertex {
-                    lhs_syntax: lhs_parent.next_sibling(),
-                    rhs_syntax: v.rhs_syntax,
-                    can_pop_either: can_pop_either_parent(&parents_next),
-                    parents: parents_next,
-                    lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                    rhs_parent_id: v.rhs_parent_id,
-                }),
+                allocate_if_new(
+                    Vertex {
+                        neighbours: RefCell::new(None),
+                        predecessor: RefCell::new(None),
+                        lhs_syntax: lhs_parent.next_sibling(),
+                        rhs_syntax: v.rhs_syntax,
+                        can_pop_either: can_pop_either_parent(&parents_next),
+                        parents: parents_next,
+                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
+                        rhs_parent_id: v.rhs_parent_id,
+                    },
+                    alloc,
+                    seen,
+                ),
             ));
-            i += 1;
         }
     }
 
@@ -389,18 +422,23 @@ pub fn neighbours<'a, 'b>(
             // Move to next after RHS parent.
 
             // Continue from sibling of parent.
-            buf[i] = Some((
+            res.push((
                 ExitDelimiterRHS,
-                alloc.alloc(Vertex {
-                    lhs_syntax: v.lhs_syntax,
-                    rhs_syntax: rhs_parent.next_sibling(),
-                    can_pop_either: can_pop_either_parent(&parents_next),
-                    parents: parents_next,
-                    lhs_parent_id: v.lhs_parent_id,
-                    rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                }),
+                allocate_if_new(
+                    Vertex {
+                        neighbours: RefCell::new(None),
+                        predecessor: RefCell::new(None),
+                        lhs_syntax: v.lhs_syntax,
+                        rhs_syntax: rhs_parent.next_sibling(),
+                        can_pop_either: can_pop_either_parent(&parents_next),
+                        parents: parents_next,
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
+                    },
+                    alloc,
+                    seen,
+                ),
             ));
-            i += 1;
         }
     }
 
@@ -411,18 +449,23 @@ pub fn neighbours<'a, 'b>(
                 .unsigned_abs();
 
             // Both nodes are equal, the happy case.
-            buf[i] = Some((
+            res.push((
                 UnchangedNode { depth_difference },
-                alloc.alloc(Vertex {
-                    lhs_syntax: lhs_syntax.next_sibling(),
-                    rhs_syntax: rhs_syntax.next_sibling(),
-                    parents: v.parents.clone(),
-                    lhs_parent_id: v.lhs_parent_id,
-                    rhs_parent_id: v.rhs_parent_id,
-                    can_pop_either: v.can_pop_either,
-                }),
+                allocate_if_new(
+                    Vertex {
+                        neighbours: RefCell::new(None),
+                        predecessor: RefCell::new(None),
+                        lhs_syntax: lhs_syntax.next_sibling(),
+                        rhs_syntax: rhs_syntax.next_sibling(),
+                        parents: v.parents.clone(),
+                        lhs_parent_id: v.lhs_parent_id,
+                        rhs_parent_id: v.rhs_parent_id,
+                        can_pop_either: v.can_pop_either,
+                    },
+                    alloc,
+                    seen,
+                ),
             ));
-            i += 1;
         }
 
         if let (
@@ -452,18 +495,23 @@ pub fn neighbours<'a, 'b>(
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
 
-                buf[i] = Some((
+                res.push((
                     EnterUnchangedDelimiter { depth_difference },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: lhs_next,
-                        rhs_syntax: rhs_next,
-                        parents: parents_next,
-                        lhs_parent_id: Some(lhs_syntax.id()),
-                        rhs_parent_id: Some(rhs_syntax.id()),
-                        can_pop_either: false,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: lhs_next,
+                            rhs_syntax: rhs_next,
+                            parents: parents_next,
+                            lhs_parent_id: Some(lhs_syntax.id()),
+                            rhs_parent_id: Some(rhs_syntax.id()),
+                            can_pop_either: false,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
         }
 
@@ -485,18 +533,23 @@ pub fn neighbours<'a, 'b>(
             if lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
-                buf[i] = Some((
+                res.push((
                     ReplacedComment { levenshtein_pct },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: lhs_syntax.next_sibling(),
-                        rhs_syntax: rhs_syntax.next_sibling(),
-                        parents: v.parents.clone(),
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: lhs_syntax.next_sibling(),
+                            rhs_syntax: rhs_syntax.next_sibling(),
+                            parents: v.parents.clone(),
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: v.rhs_parent_id,
+                            can_pop_either: v.can_pop_either,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
         }
     }
@@ -505,22 +558,27 @@ pub fn neighbours<'a, 'b>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                buf[i] = Some((
+                res.push((
                     NovelAtomLHS {
                         // TODO: should this apply if prev is a parent
                         // node rather than a sibling?
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: lhs_syntax.next_sibling(),
-                        rhs_syntax: v.rhs_syntax,
-                        parents: v.parents.clone(),
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: lhs_syntax.next_sibling(),
+                            rhs_syntax: v.rhs_syntax,
+                            parents: v.parents.clone(),
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: v.rhs_parent_id,
+                            can_pop_either: v.can_pop_either,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
@@ -528,20 +586,25 @@ pub fn neighbours<'a, 'b>(
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
-                buf[i] = Some((
+                res.push((
                     EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: lhs_next,
-                        rhs_syntax: v.rhs_syntax,
-                        parents: parents_next,
-                        lhs_parent_id: Some(lhs_syntax.id()),
-                        rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: true,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: lhs_next,
+                            rhs_syntax: v.rhs_syntax,
+                            parents: parents_next,
+                            lhs_parent_id: Some(lhs_syntax.id()),
+                            rhs_parent_id: v.rhs_parent_id,
+                            can_pop_either: true,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
         }
     }
@@ -550,20 +613,25 @@ pub fn neighbours<'a, 'b>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                buf[i] = Some((
+                res.push((
                     NovelAtomRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_syntax.next_sibling(),
-                        parents: v.parents.clone(),
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: v.lhs_syntax,
+                            rhs_syntax: rhs_syntax.next_sibling(),
+                            parents: v.parents.clone(),
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: v.rhs_parent_id,
+                            can_pop_either: v.can_pop_either,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
@@ -571,30 +639,41 @@ pub fn neighbours<'a, 'b>(
 
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
-                buf[i] = Some((
+                res.push((
                     EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
-                    alloc.alloc(Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_next,
-                        parents: parents_next,
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: Some(rhs_syntax.id()),
-                        can_pop_either: true,
-                    }),
+                    allocate_if_new(
+                        Vertex {
+                            neighbours: RefCell::new(None),
+                            predecessor: RefCell::new(None),
+                            lhs_syntax: v.lhs_syntax,
+                            rhs_syntax: rhs_next,
+                            parents: parents_next,
+                            lhs_parent_id: v.lhs_parent_id,
+                            rhs_parent_id: Some(rhs_syntax.id()),
+                            can_pop_either: true,
+                        },
+                        alloc,
+                        seen,
+                    ),
                 ));
-                i += 1;
             }
         }
     }
     assert!(
-        i > 0,
+        res.len() > 0,
         "Must always find some next steps if node is not the end"
     );
+
+    v.neighbours.replace(Some(res.clone()));
+    res
 }
 
-pub fn populate_change_map<'a>(route: &[(Edge, Vertex<'a>)], change_map: &mut ChangeMap<'a>) {
+pub fn populate_change_map<'a, 'b>(
+    route: &[(Edge, &'b Vertex<'a, 'b>)],
+    change_map: &mut ChangeMap<'a>,
+) {
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
