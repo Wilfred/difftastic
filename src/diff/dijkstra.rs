@@ -1,11 +1,11 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, collections::hash_map::Entry, env};
+use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{get_set_neighbours, populate_change_map, Edge, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -13,61 +13,49 @@ use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
-type PredecessorInfo<'a, 'b> = (u64, &'b Vertex<'a>);
-
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
-fn shortest_vertex_path(
-    start: Vertex,
+fn shortest_vertex_path<'a, 'b>(
+    start: &'b Vertex<'a, 'b>,
+    vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<Vertex>, ExceededGraphLimit> {
+) -> Result<Vec<&'b Vertex<'a, 'b>>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &Vertex> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'a, 'b>> = RadixHeapMap::new();
 
-    let vertex_arena = Bump::new();
-    heap.push(Reverse(0), vertex_arena.alloc(start.clone()));
+    heap.push(Reverse(0), start);
 
-    // TODO: this grows very big. Consider using IDA* to reduce memory
-    // usage.
-    let mut predecessors: FxHashMap<&Vertex, PredecessorInfo> = FxHashMap::default();
-    predecessors.reserve(size_hint);
+    let mut seen = FxHashMap::default();
+    seen.reserve(size_hint);
 
-    let mut neighbour_buf = [
-        None, None, None, None, None, None, None, None, None, None, None, None,
-    ];
-    let end = loop {
+    let end: &'b Vertex<'a, 'b> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
                 if current.is_end() {
                     break current;
                 }
 
-                neighbours(current, &mut neighbour_buf, &vertex_arena);
-                for neighbour in &mut neighbour_buf {
-                    if let Some((edge, next)) = neighbour.take() {
-                        let distance_to_next = distance + edge.cost();
+                for neighbour in &get_set_neighbours(current, vertex_arena, &mut seen) {
+                    let (edge, next) = neighbour;
+                    let distance_to_next = distance + edge.cost();
 
-                        match predecessors.entry(next) {
-                            Entry::Occupied(mut o) => {
-                                let prev_shortest: u64 = o.get().0;
-                                if distance_to_next < prev_shortest {
-                                    *o.get_mut() = (distance_to_next, current);
-                                    heap.push(Reverse(distance_to_next), next);
-                                }
-                            }
-                            Entry::Vacant(v) => {
-                                v.insert((distance_to_next, current));
-                                heap.push(Reverse(distance_to_next), next);
-                            }
-                        };
+                    let found_shorter_route = match &*next.predecessor.borrow() {
+                        Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
+                        None => true,
+                    };
+
+                    if found_shorter_route {
+                        next.predecessor.replace(Some((distance_to_next, current)));
+                        heap.push(Reverse(distance_to_next), next);
                     }
                 }
-                if predecessors.len() > graph_limit {
+
+                if seen.len() > graph_limit {
                     return Err(ExceededGraphLimit {});
                 }
             }
@@ -76,29 +64,31 @@ fn shortest_vertex_path(
     };
 
     debug!(
-        "Found predecessors for {} vertices (hashmap key: {} bytes, value: {} bytes), with {} left on heap.",
-        predecessors.len(),
-        std::mem::size_of::<&Vertex>(),
-        std::mem::size_of::<PredecessorInfo>(),
+        "Saw {} vertices (a Vertex is {} bytes), with {} left on heap.",
+        seen.len(),
+        std::mem::size_of::<Vertex>(),
         heap.len(),
     );
-    let mut current = end;
 
-    let mut vertex_route: Vec<Vertex> = vec![end.clone()];
-    while let Some((_, node)) = predecessors.remove(&current) {
-        vertex_route.push(node.clone());
-        current = node;
+    let mut current = Some((0, end));
+    let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
+    while let Some((_, node)) = current {
+        vertex_route.push(node);
+        current = *node.predecessor.borrow();
     }
 
     vertex_route.reverse();
     Ok(vertex_route)
 }
 
-fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)> {
+fn shortest_path_with_edges<'a, 'b>(
+    route: &[&'b Vertex<'a, 'b>],
+) -> Vec<(Edge, &'b Vertex<'a, 'b>)> {
     let mut prev = route.first().expect("Expected non-empty route");
 
     let mut cost = 0;
     let mut res = vec![];
+
     for vertex in route.iter().skip(1) {
         let edge = edge_between(prev, vertex);
         res.push((edge, prev.clone()));
@@ -115,29 +105,27 @@ fn shortest_path_with_edges<'a>(route: &[Vertex<'a>]) -> Vec<(Edge, Vertex<'a>)>
 ///
 /// The vec returned does not return the very last vertex. This is
 /// necessary because a route of N vertices only has N-1 edges.
-fn shortest_path(
-    start: Vertex,
+fn shortest_path<'a, 'b>(
+    start: Vertex<'a, 'b>,
+    vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<(Edge, Vertex)>, ExceededGraphLimit> {
-    let vertex_path = shortest_vertex_path(start, size_hint, graph_limit)?;
+) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
+    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
+    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
-fn edge_between<'a>(before: &Vertex<'a>, after: &Vertex<'a>) -> Edge {
-    let mut neighbour_buf = [
-        None, None, None, None, None, None, None, None, None, None, None, None,
-    ];
-
-    let vertex_arena = Bump::new();
-    neighbours(before, &mut neighbour_buf, &vertex_arena);
+fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge {
+    assert_ne!(before, after);
 
     let mut shortest_edge: Option<Edge> = None;
-    for neighbour in &mut neighbour_buf {
-        if let Some((edge, next)) = neighbour.take() {
+    if let Some(neighbours) = &*before.neighbours.borrow() {
+        for neighbour in neighbours {
+            let (edge, next) = *neighbour;
             // If there are multiple edges that can take us to `next`,
             // prefer the shortest.
-            if next == after {
+            if *next == *after {
                 let is_shorter = match shortest_edge {
                     Some(prev_edge) => edge.cost() < prev_edge.cost(),
                     None => true,
@@ -214,7 +202,9 @@ pub fn mark_syntax<'a>(
     let size_hint = lhs_node_count * rhs_node_count;
 
     let start = Vertex::new(lhs_syntax, rhs_syntax);
-    let route = shortest_path(start, size_hint, graph_limit)?;
+    let vertex_arena = Bump::new();
+
+    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -285,7 +275,8 @@ mod tests {
         init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex::new(Some(lhs), Some(rhs));
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -325,7 +316,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -367,7 +359,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -413,7 +406,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -452,7 +446,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -489,7 +484,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -527,7 +523,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -561,7 +558,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -592,7 +590,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
@@ -631,7 +630,8 @@ mod tests {
         init_all_info(&lhs, &rhs);
 
         let start = Vertex::new(lhs.get(0).copied(), rhs.get(0).copied());
-        let route = shortest_path(start, 0, DEFAULT_GRAPH_LIMIT).unwrap();
+        let vertex_arena = Bump::new();
+        let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
