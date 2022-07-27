@@ -23,6 +23,10 @@
       ]
     },
     "backslash_escape": {
+      "type": "SYMBOL",
+      "name": "_backslash_escape"
+    },
+    "_backslash_escape": {
       "type": "PATTERN",
       "value": "\\\\[!-/:-@\\[-`\\{-~]"
     },

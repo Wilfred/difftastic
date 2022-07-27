@@ -2,6 +2,7 @@ exports.EXTENSION_DEFAULT = !process.env.NO_DEFAULT_EXTENSIONS;
 exports.EXTENSION_GFM = process.env.EXTENSION_GFM || exports.EXTENSION_DEFAULT;
 exports.EXTENSION_TASK_LIST = process.env.EXTENSION_TASK_LIST || exports.EXTENSION_GFM;
 exports.EXTENSION_STRIKETHROUGH = process.env.EXTENSION_STRIKETHROUGH || exports.EXTENSION_GFM;
+exports.EXTENSION_PIPE_TABLE = process.env.EXTENSION_PIPE_TABLE || exports.EXTENSION_GFM;
 exports.EXTENSION_MINUS_METADATA = process.env.EXTENSION_MINUS_METADATA || exports.EXTENSION_DEFAULT;
 exports.EXTENSION_PLUS_METADATA = process.env.EXTENSION_PLUS_METADATA || exports.EXTENSION_DEFAULT;
 
@@ -22,7 +23,8 @@ exports.rules = {
     // A backslash escape. This can often be part of different nodes like link labels
     //
     // https://github.github.com/gfm/#backslash-escapes
-    backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS_REGEX + ']'),
+    backslash_escape: $ => $._backslash_escape,
+    _backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS_REGEX + ']'),
 
     // HTML entity and numeric character references.
     //

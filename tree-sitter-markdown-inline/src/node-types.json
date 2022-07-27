@@ -1,5 +1,10 @@
 [
   {
+    "type": "backslash_escape",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "code_span",
     "named": true,
     "fields": {},
@@ -773,10 +778,6 @@
   {
     "type": "`",
     "named": false
-  },
-  {
-    "type": "backslash_escape",
-    "named": true
   },
   {
     "type": "code_span_delimiter",

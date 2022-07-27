@@ -45,6 +45,7 @@ module.exports = grammar({
             $._blank_line,
             $.html_block,
             $.link_reference_definition,
+            common.EXTENSION_PIPE_TABLE ? $.pipe_table : choice(),
         ),
         section: $ => choice($._section1, $._section2, $._section3, $._section4, $._section5, $._section6),
         _section1: $ => prec.right(seq(
@@ -405,6 +406,87 @@ module.exports = grammar({
             task_list_marker_checked: $ => prec(1, '[x]'),
             task_list_marker_unchecked: $ => prec(1, /\[[ \t]\]/),
         } : {}),
+        
+        ...(common.EXTENSION_PIPE_TABLE ? {
+            pipe_table: $ => prec.right(seq(
+                $._pipe_table_start,
+                alias($.pipe_table_row, $.pipe_table_header),
+                $._newline,
+                $.pipe_table_delimiter_row,
+                repeat(seq($._pipe_table_newline, optional($.pipe_table_row))),
+                $._newline,
+            )),
+            
+            _pipe_table_newline: $ => seq(
+                $._pipe_table_line_ending,
+                optional($.block_continuation)
+            ),
+            
+            pipe_table_delimiter_row: $ => seq(
+                optional(seq(
+                    optional($._whitespace),
+                    '|',
+                )),
+                repeat1(prec.right(seq(
+                    optional($._whitespace),
+                    $.pipe_table_delimiter_cell,
+                    optional($._whitespace),
+                    '|',
+                ))),
+                optional($._whitespace),
+                optional(seq(
+                    $.pipe_table_delimiter_cell,
+                    optional($._whitespace)
+                )),
+            ),
+            
+            pipe_table_delimiter_cell: $ => seq(
+                optional(alias(':', $.pipe_table_align_left)),
+                repeat1('-'),
+                optional(alias(':', $.pipe_table_align_right)),
+            ),
+            
+            pipe_table_row: $ => seq(
+                optional(seq(
+                    optional($._whitespace),
+                    '|',
+                )),
+                choice(
+                    seq(
+                        repeat1(prec.right(seq(
+                            optional($._whitespace),
+                            optional($.pipe_table_cell),
+                            optional($._whitespace),
+                            '|',
+                        ))),
+                        optional($._whitespace),
+                        optional(seq(
+                            $.pipe_table_cell,
+                            optional($._whitespace)
+                        )),
+                    ),
+                    seq(
+                        optional($._whitespace),
+                        $.pipe_table_cell,
+                        optional($._whitespace)
+                    )
+                ),
+            ),
+
+            pipe_table_cell: $ => prec.right(seq(
+                choice(
+                    $._word,
+                    $._backslash_escape,
+                    common.punctuation_without($, ['|']),
+                ),
+                repeat(choice(
+                    $._word,
+                    $._whitespace,
+                    $._backslash_escape,
+                    common.punctuation_without($, ['|']),
+                )),
+            )),
+        } : {}),
     },
 
     externals: $ => [
@@ -491,6 +573,9 @@ module.exports = grammar({
 
         $.minus_metadata,
         $.plus_metadata,
+        
+        $._pipe_table_start,
+        $._pipe_table_line_ending,
     ],
     precedences: $ => [
         [$._setext_heading1, $._block],

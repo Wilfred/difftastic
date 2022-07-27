@@ -57,6 +57,8 @@ enum TokenType {
     TRIGGER_ERROR,
     MINUS_METADATA,
     PLUS_METADATA,
+    PIPE_TABLE_START,
+    PIPE_TABLE_LINE_ENDING,
 };
 
 // Description of a block on the block stack.
@@ -86,8 +88,17 @@ enum Block : uint8_t {
     LIST_ITEM_14_INDENTATION,
     LIST_ITEM_MAX_INDENTATION,
     FENCED_CODE_BLOCK,
-    ANONYMOUS
+    ANONYMOUS,
 };
+
+// Determines if a character is punctuation as defined by the markdown spec.
+bool is_punctuation(char c) {
+    return
+        (c >= '!' && c <= '/') ||
+        (c >= ':' && c <= '@') ||
+        (c >= '[' && c <= '`') ||
+        (c >= '{' && c <= '~');
+}
 
 // Returns true if the block represents a list item
 bool is_list_item(Block block) {
@@ -156,6 +167,8 @@ const bool paragraph_interrupt_symbols[] = {
     false, // NO_INDENTED_CHUNK,
     false, // ERROR,
     false, // TRIGGER_ERROR,
+    true, // PIPE_TABLE_START,
+    false, // PIPE_TABLE_LINE_ENDING,
 };
 
 // State bitflags used with `Scanner.state`
@@ -378,6 +391,9 @@ struct Scanner {
                     return parse_html_block(lexer, valid_symbols);
                     break;
             }
+            if (lexer->lookahead != '\r' && lexer->lookahead != '\n' && valid_symbols[PIPE_TABLE_START]) {
+                return parse_pipe_table(lexer, valid_symbols);
+            }
         } else { // we are in the state of trying to match all currently open blocks
             bool partial_success = false;
             while (matched < open_blocks.size()) {
@@ -419,7 +435,7 @@ struct Scanner {
         }
 
         // The parser just encountered a line break. Setup the state correspondingly
-        if ((valid_symbols[LINE_ENDING] || valid_symbols[SOFT_LINE_ENDING]) &&
+        if ((valid_symbols[LINE_ENDING] || valid_symbols[SOFT_LINE_ENDING] || valid_symbols[PIPE_TABLE_LINE_ENDING]) &&
             (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
             if (lexer->lookahead == '\r') {
                 advance(lexer);
@@ -431,7 +447,7 @@ struct Scanner {
             }
             indentation = 0;
             column = 0;
-            if (!(state & STATE_CLOSE_BLOCK) && valid_symbols[SOFT_LINE_ENDING]) {
+            if (!(state & STATE_CLOSE_BLOCK) && (valid_symbols[SOFT_LINE_ENDING] || valid_symbols[PIPE_TABLE_LINE_ENDING])) {
                 lexer->mark_end(lexer);
                 for (;;) {
                     if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
@@ -452,9 +468,9 @@ struct Scanner {
                         break;
                     }
                 }
+                bool all_will_be_matched = matched == open_blocks.size();
                 matched = matched_temp;
                 if (!lexer->eof(lexer) && !scan(lexer, paragraph_interrupt_symbols)) {
-                    lexer->result_symbol = SOFT_LINE_ENDING;
                     // If the last line break ended a paragraph and no new block opened, the last line
                     // break should have been a soft line break
                     // Reset the counter for matched blocks
@@ -467,9 +483,17 @@ struct Scanner {
                     } else {
                         state &= (~STATE_MATCHING);
                     }
-                    // reset some state variables
-                    state |= STATE_WAS_SOFT_LINE_BREAK;
-                    return true;
+                    if (valid_symbols[PIPE_TABLE_LINE_ENDING]) {
+                        if (all_will_be_matched) {
+                            lexer->result_symbol = PIPE_TABLE_LINE_ENDING;
+                            return true;
+                        }
+                    } else {
+                        lexer->result_symbol = SOFT_LINE_ENDING;
+                        // reset some state variables
+                        state |= STATE_WAS_SOFT_LINE_BREAK;
+                        return true;
+                    }
                 }
                 indentation = 0;
                 column = 0;
@@ -1251,6 +1275,136 @@ struct Scanner {
             return true;
         }
         return false;
+    }
+    
+    bool parse_pipe_table(TSLexer *lexer, const bool *valid_symbols) {
+        // PIPE_TABLE_START is zero width
+        mark_end(lexer);
+        // count number of cells
+        size_t cell_count = 0;
+        // also remember if we see starting and ending pipes, as empty headers have to have both
+        bool starting_pipe = false;
+        bool ending_pipe = false;
+        bool empty = true;
+        if (lexer->lookahead == '|') {
+            starting_pipe = true;
+            advance(lexer);
+        }
+        while (lexer->lookahead != '\r' && lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+            if (lexer->lookahead == '|') {
+                cell_count++;
+                ending_pipe = true;
+                advance(lexer);
+            } else {
+                if (lexer->lookahead != ' ' && lexer->lookahead != '\t') {
+                    ending_pipe = false;
+                }
+                if (lexer->lookahead == '\\') {
+                    advance(lexer);
+                    if (is_punctuation(lexer->lookahead)) {
+                        advance(lexer);
+                    }
+                } else {
+                    advance(lexer);
+                }
+            }
+        }
+        if (empty && cell_count == 0 && !(starting_pipe && ending_pipe)) {
+            return false;
+        }
+        if (!ending_pipe) {
+            cell_count++;
+        }
+        
+        // check the following line for a delimiter row
+        // parse a newline
+        if (lexer->lookahead == '\n') {
+            advance(lexer);
+        } else if (lexer->lookahead == '\r') {
+            advance(lexer);
+            if (lexer->lookahead == '\n') {
+                advance(lexer);
+            }
+        } else {
+            return false;
+        }
+        indentation = 0;
+        column = 0;
+        for (;;) {
+            if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                indentation += advance(lexer);
+            } else {
+                break;
+            }
+        }
+        simulate = true;
+        uint8_t matched_temp = matched;
+        matched = 0;
+        while (matched < open_blocks.size()) {
+            if (match(lexer, open_blocks[matched])) {
+                matched++;
+            } else {
+                return false;
+            }
+        }
+       
+        // check if delimiter row has the same number of cells and at least one pipe
+        size_t delimiter_cell_count = 0;
+        if (lexer->lookahead == '|') {
+            advance(lexer);
+        }
+        for (;;) {
+            while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                advance(lexer);
+            }
+            if (lexer->lookahead == '|') {
+                delimiter_cell_count++;
+                advance(lexer);
+                continue;
+            }
+            if (lexer->lookahead == ':') {
+                advance(lexer);
+                if (lexer->lookahead != '-') {
+                    return false;
+                }
+            }
+            bool had_one_minus = false;
+            while (lexer->lookahead == '-') {
+                had_one_minus = true;
+                advance(lexer);
+            }
+            if (had_one_minus) {
+                delimiter_cell_count++;
+            }
+            if (lexer->lookahead == ':') {
+                if (!had_one_minus) {
+                    return false;
+                }
+                advance(lexer);
+            }
+            while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                advance(lexer);
+            }
+            if (lexer->lookahead == '|') {
+                if (!had_one_minus) {
+                    delimiter_cell_count++;
+                }
+                advance(lexer);
+                continue;
+            }
+            if (lexer->lookahead != '\r' && lexer->lookahead != '\n') {
+                return false;
+            } else {
+                break;
+            }
+        }
+        // if the cell counts are not equal then this is not a table
+        if (cell_count != delimiter_cell_count) {
+            return false;
+        }
+        
+        lexer->result_symbol = PIPE_TABLE_START;
+        return true;
     }
 
 };
