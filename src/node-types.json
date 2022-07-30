@@ -491,6 +491,10 @@
         "required": true,
         "types": [
           {
+            "type": "labeled_item",
+            "named": true
+          },
+          {
             "type": "node",
             "named": true
           },
