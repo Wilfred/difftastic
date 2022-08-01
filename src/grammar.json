@@ -84,6 +84,22 @@
             "type": "SYMBOL",
             "name": "_statement"
           }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_automatic_semicolon"
+              }
+            ]
+          }
         }
       ]
     },
@@ -10052,6 +10068,18 @@
         {
           "type": "STRING",
           "value": ";"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -10140,6 +10168,9 @@
     }
   ],
   "conflicts": [
+    [
+      "string_literal"
+    ],
     [
       "block",
       "set_or_map_literal"

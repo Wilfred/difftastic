@@ -92,6 +92,7 @@ module.exports = grammar({
     ],
 
     conflicts: $ => [
+        [$.string_literal],
         [$.block, $.set_or_map_literal],
         [$._primary, $.function_signature],
         [$._type_name, $._primary, $.function_signature],
@@ -180,7 +181,10 @@ module.exports = grammar({
             // The precedence here is to make sure that this rule is matched before any of the _statement rules are matched for testing.
             repeat(prec.dynamic(22, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
-            repeat($._statement)
+            repeat($._statement),
+            repeat(
+                seq($._expression, $._automatic_semicolon)
+            )
         ),
 
         // Page 187 topLevelDefinition
@@ -2689,7 +2693,7 @@ module.exports = grammar({
 
         label: $ => seq($.identifier, ':'),
 
-        _semicolon: $ => seq(';'),
+        _semicolon: $ => seq(';', optional($._automatic_semicolon)),
 
         identifier: $ => /[a-zA-Z_$][\w$]*/,
         identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]|(\\\$))*/,
