@@ -57,8 +57,6 @@ Before submitting any code please check the following:
   `grammar.js` file.
 * When running `tree-sitter test` only the cases defined in `failing.txt` or
   `extension_<>.txt` for not activated extensions fail for **both** gramars.
-  (I have not yet set up CI. Contributions in this regard are also very
-  welcome.)
 * If you implemented new behavior please add tests. (In most cases these belong
   in a `extension_<>.txt`.)
 * You deleted any auto-generated bindings and files for debugging purposes
