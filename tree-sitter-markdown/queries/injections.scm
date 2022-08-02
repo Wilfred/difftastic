@@ -5,8 +5,8 @@
     (language) @injection.language)
   (code_fence_content) @injection.content)
 
-((html_block) @injction.content (#set! @injection.language "html"))
+((html_block) @injction.content (#set! injection.language "html"))
 
-(document . (section . (thematic_break) (_) @injection.content (thematic_break)) (#set! @injection.language "yaml"))
-((inline) @injection.content (#set! @injection.language "markdown_inline"))
+(document . (section . (thematic_break) (_) @injection.content (thematic_break)) (#set! injection.language "yaml"))
+((inline) @injection.content (#set! injection.language "markdown_inline"))
 
