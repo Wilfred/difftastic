@@ -202,7 +202,7 @@ literals.
 
 ### Parsing
 
-Added Gleam, YAML and Zig support.
+Added Gleam, Elm, YAML and Zig support.
 
 Improved Clojure parsing with `^Metadata`.
 

@@ -12,6 +12,7 @@ Difftastic supports the following programming languages.
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)                                                                        |
 | Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)                                                                              |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)                                                                            |
+| Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                                                                                  |
 | Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                                                                                        |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                                                                      |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                                                                |
