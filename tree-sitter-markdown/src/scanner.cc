@@ -480,6 +480,8 @@ struct Scanner {
                     // break should have been a soft line break
                     // Reset the counter for matched blocks
                     matched = 0;
+                    indentation = 0;
+                    column = 0;
                     // If there is at least one open block, we should be in the matching state.
                     // Also set the matching flag if a `$._soft_line_break_marker` can be emitted so it
                     // does get emitted.
