@@ -55,6 +55,7 @@ enum TokenType {
     NO_INDENTED_CHUNK,
     ERROR,
     TRIGGER_ERROR,
+    TOKEN_EOF,
     MINUS_METADATA,
     PLUS_METADATA,
     PIPE_TABLE_START,
@@ -298,6 +299,10 @@ struct Scanner {
 
         // if we are at the end of the file and there are still open blocks close them all
         if (lexer->eof(lexer)) {
+            if (valid_symbols[TOKEN_EOF]) {
+                lexer->result_symbol = TOKEN_EOF;
+                return true;
+            }
             if (open_blocks.size() > 0) {
                 lexer->result_symbol = BLOCK_CLOSE;
                 if (!simulate) open_blocks.pop_back();
@@ -810,7 +815,7 @@ struct Scanner {
     }
 
     bool parse_plus(TSLexer *lexer, const bool *valid_symbols) {
-        if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT]) || valid_symbols[PLUS_METADATA]) {
+        if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT] || valid_symbols[PLUS_METADATA])) {
             advance(lexer);
             if (valid_symbols[PLUS_METADATA] && lexer->lookahead == '+') {
                 advance(lexer);
@@ -1338,11 +1343,10 @@ struct Scanner {
             }
         }
         simulate = true;
-        uint8_t matched_temp = matched;
-        matched = 0;
-        while (matched < open_blocks.size()) {
-            if (match(lexer, open_blocks[matched])) {
-                matched++;
+        uint8_t matched_temp = 0;
+        while (matched_temp < open_blocks.size()) {
+            if (match(lexer, open_blocks[matched_temp])) {
+                matched_temp++;
             } else {
                 return false;
             }

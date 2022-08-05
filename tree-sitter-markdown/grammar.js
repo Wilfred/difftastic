@@ -100,7 +100,7 @@ module.exports = grammar({
         // parsed using normal tree-sitter rules.
         //
         // https://github.github.com/gfm/#thematic-breaks
-        thematic_break: $ => seq($._thematic_break, $._newline),
+        thematic_break: $ => seq($._thematic_break, choice($._newline, $._eof)),
 
         // An ATX heading. This is currently handled by the external scanner but maybe could be
         // parsed using normal tree-sitter rules.
@@ -144,12 +144,12 @@ module.exports = grammar({
         _setext_heading1: $ => seq(
             field('heading_content', $.paragraph),
             $.setext_h1_underline,
-            $._newline
+            choice($._newline, $._eof),
         ),
         _setext_heading2: $ => seq(
             field('heading_content', $.paragraph),
             $.setext_h2_underline,
-            $._newline
+            choice($._newline, $._eof),
         ),
 
         // An indented code block. An indented code block is made up of indented chunks and blank
@@ -258,7 +258,7 @@ module.exports = grammar({
                 optional($._no_indented_chunk),
                 $.link_title
             ))),
-            choice($._newline, $._soft_line_break),
+            choice($._newline, $._soft_line_break, $._eof),
         )),
         _text_inline_no_link: $ => choice($._word, $._whitespace, common.punctuation_without($, ['[', ']'])),
 
@@ -280,12 +280,12 @@ module.exports = grammar({
         // related to paragraphs ending does not grow.
         //
         // https://github.github.com/gfm/#paragraphs
-        paragraph: $ => seq(alias(repeat1(choice($._line, $._soft_line_break)), $.inline), $._newline),
+        paragraph: $ => seq(alias(repeat1(choice($._line, $._soft_line_break)), $.inline), choice($._newline, $._eof)),
 
         // A blank line including the following newline.
         //
         // https://github.github.com/gfm/#blank-lines
-        _blank_line: $ => seq($._blank_line_start, $._newline),
+        _blank_line: $ => seq($._blank_line_start, choice($._newline, $._eof)),
 
         
         // CONTAINER BLOCKS
@@ -414,7 +414,7 @@ module.exports = grammar({
                 $._newline,
                 $.pipe_table_delimiter_row,
                 repeat(seq($._pipe_table_newline, optional($.pipe_table_row))),
-                $._newline,
+                choice($._newline, $._eof),
             )),
             
             _pipe_table_newline: $ => seq(
@@ -570,6 +570,7 @@ module.exports = grammar({
         // when trying to parse the `$._trigger_error` token in `$.link_title`.
         $._error,
         $._trigger_error,
+        $._eof,
 
         $.minus_metadata,
         $.plus_metadata,
