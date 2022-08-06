@@ -117,7 +117,7 @@ var a;
               )
                (type_identifier)
               (catch_clause
-                (identifier))
+                 (catch_parameters (identifier)))
                  (block
                     (expression_statement
                         (identifier)
