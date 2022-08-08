@@ -442,6 +442,28 @@ class Quack {
     (class_body)))
 
 ==================================
+annotation in array creation
+==================================
+
+String[] allMyStrings = new @Nullable String[5];
+
+---
+
+    (program
+      (local_variable_declaration
+        (array_type
+          (type_identifier)
+          (dimensions))
+        (variable_declarator
+          (identifier)
+          (array_creation_expression
+            (marker_annotation
+              (identifier))
+            (type_identifier)
+            (dimensions_expr
+              (decimal_integer_literal))))))
+
+==================================
 lambda expression
 ==================================
 

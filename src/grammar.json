@@ -2377,6 +2377,13 @@
             "value": "new"
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_annotation"
+            }
+          },
+          {
             "type": "FIELD",
             "name": "type",
             "content": {
