@@ -27,7 +27,7 @@ function clone_repo {
 
 clone_repo elastic elasticsearch 4d62640bf116af7e825d89c7319a39c3f2f325b4
 clone_repo google guava v31.1
-clone_repo ReactiveX RxJava 8a6bf14fc9a61f7c1c0016ca217be02ca86211d2
+clone_repo ReactiveX RxJava v3.1.5
 
 known_failures="$(cat script/known-failures.txt)"
 
