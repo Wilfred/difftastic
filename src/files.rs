@@ -20,11 +20,19 @@ pub fn read_files_or_die(
     match (lhs_res, rhs_res) {
         // Both files exist, the happy case.
         (Ok(lhs_src), Ok(rhs_src)) => (lhs_src, rhs_src),
+
         // Proceed if we've been given two paths and only one
         // exists. This is important for mercurial diffs when a file
         // has been removed.
         (Ok(lhs_src), Err(e)) if missing_as_empty && e.kind() == NotFound => (lhs_src, vec![]),
         (Err(e), Ok(rhs_src)) if missing_as_empty && e.kind() == NotFound => (vec![], rhs_src),
+
+        // Treat /dev/null as an empty file, even on platforms like
+        // Windows where this path doesn't exist. Git uses /dev/null
+        // regardless of the platform.
+        (Ok(lhs_src), Err(_)) if rhs_path == Path::new("/dev/null") => (lhs_src, vec![]),
+        (Err(_), Ok(rhs_src)) if lhs_path == Path::new("/dev/null") => (vec![], rhs_src),
+
         (lhs_res, rhs_res) => {
             // Something else went wrong. Print both errors
             // encountered.
