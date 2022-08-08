@@ -5,6 +5,12 @@
 Improved performance in many cases, particularly for files with a
 fairly flat structure.
 
+### Command Line Interface
+
+Difftastic now treats the path `/dev/null` as an empty file, even if
+that path doesn't exist on the current machine. This fixes a crash
+when using difftastic with git on Windows.
+
 ## 0.31 (released 11th July 2022)
 
 ### Parsing
