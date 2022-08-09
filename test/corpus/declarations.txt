@@ -597,6 +597,33 @@ enum HandSign {
 
 
 =================
+enum declaration inside an interface
+=================
+
+public @interface Foo {
+  enum HandSign {
+     SCISSOR, PAPER, STONE
+  }
+}
+
+---
+
+    (program
+      (annotation_type_declaration
+        (modifiers)
+        name: (identifier)
+        body: (annotation_type_body
+          (enum_declaration
+            name: (identifier)
+            body: (enum_body
+              (enum_constant
+                name: (identifier))
+              (enum_constant
+                name: (identifier))
+              (enum_constant
+                name: (identifier)))))))
+
+=================
 record declaration
 =================
 

@@ -1194,12 +1194,8 @@
           "name": "cast_expression"
         },
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "switch_expression"
-          }
+          "type": "SYMBOL",
+          "name": "switch_expression"
         }
       ]
     },
@@ -2041,6 +2037,10 @@
               {
                 "type": "SYMBOL",
                 "name": "inferred_parameters"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_reserved_identifier"
               }
             ]
           }
@@ -5816,6 +5816,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "enum_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "annotation_type_declaration"
               }
             ]
@@ -7016,6 +7020,10 @@
     [
       "generic_type",
       "primary_expression"
+    ],
+    [
+      "expression",
+      "statement"
     ],
     [
       "lambda_expression",
