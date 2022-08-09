@@ -22,13 +22,6 @@ impl TreeSitterParser {
             }
         }
 
-        let mut build = cc::Build::new();
-        build.include(&dir).warnings(false); // ignore unused parameter warnings
-        for file in c_files {
-            build.file(dir.join(file));
-        }
-        build.compile(self.name);
-
         if !cpp_files.is_empty() {
             let mut cpp_build = cc::Build::new();
             cpp_build
@@ -58,6 +51,13 @@ impl TreeSitterParser {
             }
             cpp_build.compile(&format!("{}-cpp", self.name));
         }
+
+        let mut build = cc::Build::new();
+        build.include(&dir).warnings(false); // ignore unused parameter warnings
+        for file in c_files {
+            build.file(dir.join(file));
+        }
+        build.compile(self.name);
     }
 }
 
