@@ -285,35 +285,46 @@ fn diff_file_content(
 
             init_all_info(&lhs, &rhs);
 
-            let mut change_map = ChangeMap::default();
+            let mut merged_change_map = ChangeMap::default();
             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                 vec![(lhs.clone(), rhs.clone())]
             } else {
-                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
+                unchanged::mark_unchanged(&lhs, &rhs, &mut merged_change_map)
             };
 
+            let language = language.unwrap();
+            for (lhs_section_nodes, rhs_section_nodes) in &possibly_changed {
+                init_next_prev(lhs_section_nodes);
+                init_next_prev(rhs_section_nodes);
+            }
+
+            let diff_res: Vec<_> = possibly_changed.into_par_iter().map(
+                |(lhs_section_nodes, rhs_section_nodes)| -> Result<ChangeMap, ExceededGraphLimit> {
+                    let mut change_map = ChangeMap::default();
+                    mark_syntax(
+                        lhs_section_nodes.get(0).copied(),
+                        rhs_section_nodes.get(0).copied(),
+                        &mut change_map,
+                        graph_limit,
+                    )?;
+                    fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
+                    fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
+
+                    Ok(change_map)
+                },
+            ).collect();
+
             let mut exceeded_graph_limit = false;
-
-            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                init_next_prev(&lhs_section_nodes);
-                init_next_prev(&rhs_section_nodes);
-
-                match mark_syntax(
-                    lhs_section_nodes.get(0).copied(),
-                    rhs_section_nodes.get(0).copied(),
-                    &mut change_map,
-                    graph_limit,
-                ) {
-                    Ok(()) => {}
-                    Err(ExceededGraphLimit {}) => {
+            for res in diff_res {
+                match res {
+                    Ok(change_map) => {
+                        merged_change_map.extend(change_map);
+                    }
+                    Err(_) => {
                         exceeded_graph_limit = true;
                         break;
                     }
                 }
-
-                let language = language.unwrap();
-                fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
-                fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
             }
 
             if exceeded_graph_limit {
@@ -325,8 +336,8 @@ fn diff_file_content(
                     rhs_positions,
                 )
             } else {
-                let lhs_positions = syntax::change_positions(&lhs, &change_map);
-                let rhs_positions = syntax::change_positions(&rhs, &change_map);
+                let lhs_positions = syntax::change_positions(&lhs, &merged_change_map);
+                let rhs_positions = syntax::change_positions(&rhs, &merged_change_map);
                 (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
             }
         }

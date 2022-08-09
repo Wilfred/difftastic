@@ -107,6 +107,10 @@ pub enum Syntax<'a> {
     },
 }
 
+// TODOC
+unsafe impl Send for Syntax<'_> {}
+unsafe impl Sync for Syntax<'_> {}
+
 fn dbg_pos(pos: &[SingleLineSpan]) -> String {
     match pos {
         [] => "-".into(),
