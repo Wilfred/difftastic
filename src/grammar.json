@@ -84,22 +84,6 @@
             "type": "SYMBOL",
             "name": "_statement"
           }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_automatic_semicolon"
-              }
-            ]
-          }
         }
       ]
     },
@@ -10079,25 +10063,11 @@
       ]
     },
     "_semicolon": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ";"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_automatic_semicolon"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": ";"
+      }
     },
     "identifier": {
       "type": "PATTERN",
@@ -10437,6 +10407,9 @@
     ],
     [
       "function_signature"
+    ],
+    [
+      "_semicolon"
     ]
   ],
   "precedences": [],

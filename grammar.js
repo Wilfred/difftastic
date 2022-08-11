@@ -164,7 +164,8 @@ module.exports = grammar({
         [$._type_not_void],
         [$._type_not_void_not_function],
         [$.super_formal_parameter, $.unconditional_assignable_selector],
-        [$.function_signature]
+        [$.function_signature],
+        [$._semicolon]
     ],
 
     word: $ => $.identifier,
@@ -182,9 +183,9 @@ module.exports = grammar({
             repeat(prec.dynamic(22, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
             repeat($._statement),
-            repeat(
-                seq($._expression, $._automatic_semicolon)
-            )
+            // repeat(
+            //     seq($._expression, $._automatic_semicolon)
+            // )
         ),
 
         // Page 187 topLevelDefinition
@@ -2708,7 +2709,7 @@ module.exports = grammar({
 
         label: $ => seq($.identifier, ':'),
 
-        _semicolon: $ => seq(';', optional($._automatic_semicolon)),
+        _semicolon: $ => token(';'),
 
         identifier: $ => /[a-zA-Z_$][\w$]*/,
         identifier_dollar_escaped: $ => /([a-zA-Z_]|(\\\$))([\w]|(\\\$))*/,
