@@ -84,6 +84,18 @@
             "type": "SYMBOL",
             "name": "_statement"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -10155,9 +10167,6 @@
   ],
   "conflicts": [
     [
-      "string_literal"
-    ],
-    [
       "block",
       "set_or_map_literal"
     ],
@@ -10407,17 +10416,10 @@
     ],
     [
       "function_signature"
-    ],
-    [
-      "_semicolon"
     ]
   ],
   "precedences": [],
   "externals": [
-    {
-      "type": "SYMBOL",
-      "name": "_automatic_semicolon"
-    },
     {
       "type": "SYMBOL",
       "name": "_template_chars_double"

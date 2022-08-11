@@ -2,7 +2,6 @@
 #include <wctype.h>
 
 enum TokenType {
-  AUTOMATIC_SEMICOLON,
   TEMPLATE_CHARS_SINGLE,
   TEMPLATE_CHARS_DOUBLE,
   TEMPLATE_CHARS_SINGLE_SINGLE,
@@ -20,42 +19,6 @@ void tree_sitter_dart_external_scanner_deserialize(void *p, const char *b, unsig
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
-
-static bool scan_whitespace_and_comments(TSLexer *lexer) {
-  for (;;) {
-    while (iswspace(lexer->lookahead)) {
-      skip(lexer);
-    }
-
-    if (lexer->lookahead == '/') {
-      skip(lexer);
-
-      if (lexer->lookahead == '/') {
-        skip(lexer);
-        while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
-          skip(lexer);
-        }
-      } else if (lexer->lookahead == '*') {
-        skip(lexer);
-        while (lexer->lookahead != 0) {
-          if (lexer->lookahead == '*') {
-            skip(lexer);
-            if (lexer->lookahead == '/') {
-              skip(lexer);
-              break;
-            }
-          } else {
-            skip(lexer);
-          }
-        }
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  }
-}
 
 static bool scan_multiline_comments(TSLexer *lexer) {
 
@@ -106,84 +69,8 @@ static bool scan_multiline_comments(TSLexer *lexer) {
   return false;
 }
 
-static bool scan_automatic_semicolon(TSLexer *lexer) {
 
-if (lexer->lookahead == ';') {
-  lexer->result_symbol = AUTOMATIC_SEMICOLON;
-  lexer->mark_end(lexer);
-  return true;
-}
-
-  // for (;;) {
-  //   if (lexer->lookahead == 0) return true;
-  //   // if (lexer->lookahead == '}') return true;
-  //   if (lexer->is_at_included_range_start(lexer)) return true;
-  //   if (lexer->lookahead == '\n') break;
-  //   if (!iswspace(lexer->lookahead)) return false;
-  //   skip(lexer);
-  // }
-
-  // skip(lexer);
-
-  // if (!scan_whitespace_and_comments(lexer)) return false;
-
-  // switch (lexer->lookahead) {
-  //   case ',':
-  //   case '.':
-  //   case ':':
-  //   case ';':
-  //   case '*':
-  //   case '%':
-  //   case '>':
-  //   case '<':
-  //   case '=':
-  //   case '[':
-  //   case '(':
-  //   case '?':
-  //   case '^':
-  //   case '|':
-  //   case '&':
-  //   case '/':
-  //     return false;
-
-  //   // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
-  //   case '+':
-  //     skip(lexer);
-  //     return lexer->lookahead == '+';
-  //   case '-':
-  //     skip(lexer);
-  //     return lexer->lookahead == '-';
-
-  //   // Don't insert a semicolon before `!=`, but do insert one before a unary `!`.
-  //   case '!':
-  //     skip(lexer);
-  //     return lexer->lookahead != '=';
-
-  //   // Don't insert a semicolon before `in` or `instanceof`, but do insert one
-  //   // before an identifier.
-  //   case 'i':
-  //     skip(lexer);
-
-  //     if (lexer->lookahead != 'n') return true;
-  //     skip(lexer);
-
-  //     if (!iswalpha(lexer->lookahead)) return false;
-
-  //     for (unsigned i = 0; i < 8; i++) {
-  //       if (lexer->lookahead != "stanceof"[i]) return true;
-  //       skip(lexer);
-  //     }
-
-  //     if (!iswalpha(lexer->lookahead)) return false;
-  //     break;
-  // }
-
-  // return true;
-  return false;
-  
-}
 static bool scan_templates(TSLexer *lexer, const bool *valid_symbols) {
-    // if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
   if(valid_symbols[TEMPLATE_CHARS_DOUBLE]) {
               lexer->result_symbol = TEMPLATE_CHARS_DOUBLE;
   } else if (valid_symbols[TEMPLATE_CHARS_SINGLE]) {
@@ -226,21 +113,13 @@ static bool scan_templates(TSLexer *lexer, const bool *valid_symbols) {
 
 bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  // bool ret = false;
-  // if (lexer->lookahead == '/') {
-  //   return scan_multiline_comments(lexer);
-  // }
   if (
       valid_symbols[TEMPLATE_CHARS_DOUBLE] ||
       valid_symbols[TEMPLATE_CHARS_SINGLE] ||
       valid_symbols[TEMPLATE_CHARS_DOUBLE_SINGLE] ||
       valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]
   ) {
-    if (valid_symbols[AUTOMATIC_SEMICOLON]) return scan_automatic_semicolon(lexer);
     return scan_templates(lexer, valid_symbols);
-  } else if (valid_symbols[AUTOMATIC_SEMICOLON]) {
-      bool ret = scan_automatic_semicolon(lexer);
-      return ret;
   }
   while (iswspace(lexer->lookahead)) lexer->advance(lexer, true);
 

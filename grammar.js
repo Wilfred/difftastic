@@ -58,7 +58,6 @@ module.exports = grammar({
     name: 'dart',
 
     externals: $ => [
-        $._automatic_semicolon,
         $._template_chars_double,
         $._template_chars_single,
         $._template_chars_double_single,
@@ -92,7 +91,6 @@ module.exports = grammar({
     ],
 
     conflicts: $ => [
-        [$.string_literal],
         [$.block, $.set_or_map_literal],
         [$._primary, $.function_signature],
         [$._type_name, $._primary, $.function_signature],
@@ -165,7 +163,6 @@ module.exports = grammar({
         [$._type_not_void_not_function],
         [$.super_formal_parameter, $.unconditional_assignable_selector],
         [$.function_signature],
-        [$._semicolon]
     ],
 
     word: $ => $.identifier,
@@ -183,9 +180,7 @@ module.exports = grammar({
             repeat(prec.dynamic(22, seq(optional($._metadata), $._top_level_definition))),
             //for testing:
             repeat($._statement),
-            // repeat(
-            //     seq($._expression, $._automatic_semicolon)
-            // )
+            optional($._expression),
         ),
 
         // Page 187 topLevelDefinition
