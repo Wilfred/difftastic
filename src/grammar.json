@@ -3242,21 +3242,8 @@
           "name": "const_object_expression"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
         },
         {
           "type": "SYMBOL",
@@ -3569,6 +3556,23 @@
         }
       ]
     },
+    "index_selector": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
     "cascade_selector": {
       "type": "CHOICE",
       "members": [
@@ -3588,16 +3592,8 @@
               ]
             },
             {
-              "type": "STRING",
-              "value": "["
-            },
-            {
               "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": "]"
+              "name": "index_selector"
             }
           ]
         },
@@ -3647,16 +3643,8 @@
               ]
             },
             {
-              "type": "STRING",
-              "value": "["
-            },
-            {
               "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": "]"
+              "name": "index_selector"
             }
           ]
         },
@@ -4016,6 +4004,15 @@
           "type": "SYMBOL",
           "name": "_assert_builtin"
         },
+        {
+          "type": "SYMBOL",
+          "name": "assertion_arguments"
+        }
+      ]
+    },
+    "assertion_arguments": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "STRING",
           "value": "("
@@ -4509,6 +4506,15 @@
           "value": "catch"
         },
         {
+          "type": "SYMBOL",
+          "name": "catch_parameters"
+        }
+      ]
+    },
+    "catch_parameters": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "("
         },
@@ -4734,6 +4740,23 @@
           "value": "for"
         },
         {
+          "type": "SYMBOL",
+          "name": "for_loop_parts"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        }
+      ]
+    },
+    "for_loop_parts": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "("
         },
@@ -4744,14 +4767,6 @@
         {
           "type": "STRING",
           "value": ")"
-        },
-        {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_statement"
-          }
         }
       ]
     },
@@ -4947,16 +4962,8 @@
           "value": "for"
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "SYMBOL",
-          "name": "_for_loop_parts"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "name": "for_loop_parts"
         },
         {
           "type": "FIELD",
@@ -5360,6 +5367,19 @@
           "value": "if"
         },
         {
+          "type": "SYMBOL",
+          "name": "configuration_uri_condition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "uri"
+        }
+      ]
+    },
+    "configuration_uri_condition": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "STRING",
           "value": "("
         },
@@ -5370,10 +5390,6 @@
         {
           "type": "STRING",
           "value": ")"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "uri"
         }
       ]
     },
@@ -10460,7 +10476,8 @@
   ],
   "inline": [
     "_ambiguous_name",
-    "_class_member_definition"
+    "_class_member_definition",
+    "_if_null_expression"
   ],
   "supertypes": [
     "_declaration",

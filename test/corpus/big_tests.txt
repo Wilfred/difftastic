@@ -240,7 +240,7 @@ more tests2
     ) 
       (function_body (block (local_variable_declaration 
       (initialized_variable_definition (final_builtin) (type_identifier) (identifier)
-        (identifier) (selector (unconditional_assignable_selector (identifier))))) 
+        (identifier) (selector (unconditional_assignable_selector (index_selector (identifier)))))) 
         (if_statement (parenthesized_expression (equality_expression (identifier) (equality_operator) 
         (null_literal))) (block (return_statement (null_literal)))) 
         (if_statement (parenthesized_expression (logical_and_expression 
@@ -390,7 +390,7 @@ more tests 4
 (function_signature (type_identifier) (identifier) (formal_parameter_list)) 
 (function_body (block (assert_statement 
 (assertion 
-  (logical_and_expression 
+  (assertion_arguments (logical_and_expression 
     (equality_expression (identifier) (equality_operator) (null_literal)) 
     (logical_and_expression 
       (equality_expression (identifier) (equality_operator) (null_literal)) 
@@ -409,7 +409,7 @@ more tests 4
                 )
               )
             )
-          )
+          ))
         )
       ) (return_statement (true)))))
 
@@ -471,14 +471,15 @@ more tests 6
           (block 
             (expression_statement 
               (assignment_expression (assignable_expression (identifier)) 
-              (type_cast_expression (identifier) 
-              (type_cast (as_operator) (type_identifier) (type_arguments (type_identifier)))) 
+              (parenthesized_expression 
+                (type_cast_expression (identifier) 
+                  (type_cast (as_operator) (type_identifier) (type_arguments (type_identifier))))) 
               (selector (unconditional_assignable_selector (identifier))) 
               (selector (argument_part (arguments (argument (this)) (argument (identifier))))))) 
             (expression_statement 
               (identifier) (selector 
               (argument_part (arguments (argument (identifier)) (argument (identifier))))))) 
-        (catch_clause (identifier) (identifier)) 
+        (catch_clause (catch_parameters (identifier) (identifier))) 
           (block 
               (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier) 
                   (selector (unconditional_assignable_selector (identifier))) 
@@ -653,8 +654,8 @@ class Placeholder {
     (class_body (declaration (constructor_signature (identifier) (formal_parameter_list 
     (formal_parameter (constructor_param (this) (identifier))) (formal_parameter (constructor_param (this) (identifier))) 
     (formal_parameter (type_identifier) (type_arguments (type_identifier) (type_identifier)) (identifier)))) (initializers 
-    (initializer_list_entry (assertion (equality_expression (identifier) (equality_operator) (null_literal)))) 
-    (initializer_list_entry (assertion (equality_expression (identifier) (equality_operator) (null_literal)))) 
+    (initializer_list_entry (assertion (assertion_arguments (equality_expression (identifier) (equality_operator) (null_literal))))) 
+    (initializer_list_entry (assertion (assertion_arguments (equality_expression (identifier) (equality_operator) (null_literal))))) 
     (initializer_list_entry (field_initializer (identifier) (identifier) (selector (argument_part (arguments (argument (identifier)) 
     (argument (identifier)) (argument (identifier)) (argument (string_literal))))))) 
     (initializer_list_entry (field_initializer (identifier) 
