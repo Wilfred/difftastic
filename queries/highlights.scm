@@ -195,18 +195,7 @@
 [
  (preproc_arg)
  (preproc_defined)
-]  @function.macro
-
-declarator: (identifier) @property
-(cast_expression value: (identifier) @property)
-
-(((field_expression
-     (field_identifier) @property)) @_parent
- (#not-has-parent? @_parent function_declarator call_expression))
-
-(((field_identifier) @property)
- (#has-ancestor? @property field_declaration)
- (#not-has-ancestor? @property function_declarator))
+] @function.macro
 
 [
  (type_identifier)
@@ -231,6 +220,7 @@ declarator: (identifier) @property
 (cast_expression type: (type_descriptor) @type)
 (sizeof_expression value: (parenthesized_expression (identifier) @type))
 
+;; Type Class & Category & Protocol
 (class_interface name: (identifier) @type.class)
 (category_interface name: (identifier) @type.class)
 (category_interface category: (identifier) @type.category)
@@ -239,6 +229,7 @@ declarator: (identifier) @property
 (class_implementation name: (identifier) @type.class)
 (category_implementation name: (identifier) @type.class)
 (compatibility_alias_declaration (identifier) @type.class)
+(parameterized_class_type_arguments (identifier) @type.class)
 (category_implementation category: (identifier) @type.category)
 (class_forward_declaration name: (identifier) @type.class)
 (protocol_forward_declaration name: (identifier) @type.protocol)
@@ -254,18 +245,47 @@ declarator: (identifier) @property
   argument: (_) @constant
   (#eq? @_u "#undef"))
 
+;; Property
+(property_declaration
+  type: _ @type
+  declarator: (identifier) @property)
+
+(property_declaration
+  type: _ @type
+  declarator: (_
+    declarator: (identifier) @property))
+
+(property_declaration
+  type: _ @type
+  declarator: (_
+    declarator: (_
+      declarator: (identifier) @property)))
+
+(((field_expression
+ (field_identifier) @property)) @_parent
+ (#not-has-parent? @_parent function_declarator call_expression))
+
+(field_expression
+  field: (field_identifier) @property)
+
+(((field_identifier) @property)
+ (#has-ancestor? @property field_declaration)
+ (#not-has-ancestor? @property function_declarator))
+
+;; Variable
+declarator: (identifier) @variable
+
+(cast_expression value: (identifier) @variable)
+
+;; Function
 (call_expression
   function: (identifier) @function)
-(field_expression
-    field: (field_identifier) @function)
 (function_declarator
   declarator: (identifier) @function)
 (preproc_function_def
   name: (identifier) @function.macro)
 (selector_expression 
   name: (identifier) @function)
-
-
 (method_declaration
   selector: (identifier) @function)
 
@@ -277,14 +297,20 @@ declarator: (identifier) @property
 (method_declaration
   (keyword_selector
     (keyword_declarator
-      name: (identifier) @function)))
+      name: (identifier) @variable.parameter)))
 
 (message_expression
   receiver: (field_expression
-    field: (field_identifier) @variable))
+    field: (field_identifier) @function))
 
 (method_definition
   selector: (identifier) @function)
+
+(swift_name_attribute_sepcifier
+  method: (identifier) @function)
+
+(setter
+  name: (identifier) @function)
 
 (method_definition
   (keyword_selector
@@ -297,7 +323,7 @@ declarator: (identifier) @property
 (method_definition
   (keyword_selector
     (keyword_declarator
-      name: (identifier) @property)))
+      name: (identifier) @variable.parameter)))
 
 (message_expression
   selector: (keyword_argument_list
@@ -307,12 +333,12 @@ declarator: (identifier) @property
 (message_expression
   selector: (keyword_argument_list
     (keyword_argument
-      argument: (identifier) @property)))
+      argument: (identifier) @variable.parameter)))
 
 (unary_expression argument: (identifier) @function)
 (va_arg_expression) @function
-(va_arg_expression va_list: (identifier) @property)
-(enumerator name: (identifier) @property)
+(va_arg_expression va_list: (identifier) @variable)
+(enumerator name: (identifier) @variable)
 
 
 ;; Parameters
@@ -327,20 +353,19 @@ declarator: (identifier) @property
     declarator: (identifier) @variable.parameter))
 
 (for_in_statement
-  loop: (identifier) @variable.parameter)
+  loop: (identifier) @variable)
 
 (dictionary_expression
-  key:(_expression) @property)
+  key: (_expression) @variable)
 (dictionary_expression
-  value: (_expression) @property)
+  value: (_expression) @variable)
 (array_expression
-  (identifier) @property)
+  (identifier) @variable)
 (argument_list
-  (identifier) @property)
+  (identifier) @variable)
 (expression_statement
-  (identifier) @property)
-
-(_expression (identifier) @property)
+  (identifier) @variable)
+(_expression (identifier) @variable)
 
 [
   "__attribute"
