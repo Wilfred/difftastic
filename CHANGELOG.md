@@ -1,5 +1,10 @@
 ## 0.33 (unreleased)
 
+### Build
+
+Fixed build on Windows. Previously it would fail
+non-deterministically.
+
 ## 0.32 (released 7th August 2022)
 
 ### Diffing
