@@ -9,7 +9,7 @@ authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
 edition = "2018"
-rust-version = "1.56.0"
+rust-version = "1.57.0"
 include = [
         "/build.rs",
         "/src/",

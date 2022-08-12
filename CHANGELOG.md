@@ -2,6 +2,8 @@
 
 ### Build
 
+Difftastic now requires Rust 1.57 to build.
+
 Fixed build on Windows. Previously it would fail
 non-deterministically.
 
