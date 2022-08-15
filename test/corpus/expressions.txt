@@ -65,6 +65,7 @@ instanceof expressions
 a instanceof C.D;
 a instanceof List<B>;
 c instanceof C[];
+c instanceof C foo;
 
 ---
 
@@ -77,7 +78,12 @@ c instanceof C[];
     (generic_type (type_identifier) (type_arguments (type_identifier)))))
   (expression_statement (instanceof_expression
     (identifier)
-    (array_type (type_identifier) (dimensions)))))
+    (array_type (type_identifier) (dimensions))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (type_identifier)
+    (identifier))))
+
 
 ===========================================================
 if statements

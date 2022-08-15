@@ -595,10 +595,50 @@ enum HandSign {
       (enum_constant name: (identifier))
       (enum_constant name: (identifier)))))
 
-
-=================
+==================
 record declaration
-=================
+==================
+
+public record Foo(int bar) {
+}
+
+---
+
+(program
+  (record_declaration
+        (modifiers)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (class_body)))
+
+================================
+record declaration with generics
+================================
+
+public record Foo<T>(T bar) {
+}
+
+---
+
+(program
+  (record_declaration
+        (modifiers)
+        name: (identifier)
+        type_parameters: (type_parameters
+          (type_parameter
+            (type_identifier)))
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier)
+            name: (identifier)))
+        body: (class_body)))
+
+=================================
+record declaration inside a class
+=================================
 
 public class Usecase {
     public static record Commande(@NotNull String param) {

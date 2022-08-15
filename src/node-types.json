@@ -160,6 +160,10 @@
       {
         "type": "package_declaration",
         "named": true
+      },
+      {
+        "type": "record_declaration",
+        "named": true
       }
     ]
   },
@@ -2150,6 +2154,16 @@
           }
         ]
       },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "right": {
         "multiple": false,
         "required": true,
@@ -2893,6 +2907,16 @@
         "types": [
           {
             "type": "formal_parameters",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameters",
             "named": true
           }
         ]
