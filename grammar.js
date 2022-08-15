@@ -68,6 +68,7 @@ module.exports = grammar({
     [$.expression, $.statement],
     // Only conflicts in switch expressions
     [$.lambda_expression, $.primary_expression],
+    [$.inferred_parameters, $.primary_expression],
   ],
 
   word: $ => $.identifier,
@@ -241,7 +242,7 @@ module.exports = grammar({
 
     inferred_parameters: $ => seq(
       '(',
-      commaSep1($.identifier),
+      commaSep1(choice($.identifier, $._reserved_identifier)),
       ')'
     ),
 

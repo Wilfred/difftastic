@@ -2104,8 +2104,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_reserved_identifier"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -2117,8 +2126,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_reserved_identifier"
+                      }
+                    ]
                   }
                 ]
               }
@@ -7076,6 +7094,10 @@
     ],
     [
       "lambda_expression",
+      "primary_expression"
+    ],
+    [
+      "inferred_parameters",
       "primary_expression"
     ]
   ],
