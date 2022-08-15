@@ -227,7 +227,8 @@ module.exports = grammar({
     instanceof_expression: $ => prec(PREC.REL, seq(
       field('left', $.expression),
       'instanceof',
-      field('right', $._type)
+      field('right', $._type),
+      field('name', optional(choice($.identifier, $._reserved_identifier)))
     )),
 
     lambda_expression: $ => seq(
@@ -636,6 +637,7 @@ module.exports = grammar({
       $.package_declaration,
       $.import_declaration,
       $.class_declaration,
+      $.record_declaration,
       $.interface_declaration,
       $.annotation_type_declaration,
       $.enum_declaration,
@@ -903,6 +905,7 @@ module.exports = grammar({
       optional($.modifiers),
       'record',
       field('name', $.identifier),
+      optional(field('type_parameters', $.type_parameters)),
       field('parameters', $.formal_parameters),
       field('body', $.class_body)
     ),
@@ -1133,7 +1136,8 @@ module.exports = grammar({
 
     _reserved_identifier: $ => alias(choice(
       'open',
-      'module'
+      'module',
+      'record'
     ), $.identifier),
 
     this: $ => 'this',
