@@ -2,7 +2,8 @@ const PREC = {
   range: 15,
   call: 14,
   field: 13,
-  unary: 11,
+  unary: 12,
+  cast: 11,
   multiplicative: 10,
   additive: 9,
   shift: 8,
@@ -1074,11 +1075,11 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
-    type_cast_expression: $ => seq(
+    type_cast_expression: $ => prec.left(PREC.cast, seq(
       field('value', $._expression),
       'as',
       field('type', $._type)
-    ),
+    )),
 
     return_expression: $ => choice(
       prec.left(seq('return', $._expression)),
