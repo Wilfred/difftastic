@@ -386,16 +386,19 @@ pub fn header(
         display_options.background_color,
     );
     if hunk_num == 1 && lhs_display_path != rhs_display_path && display_options.in_vcs {
-        let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty,);
+        let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty);
         format!(
             "{}\n{} --- {}{}",
             renamed, rhs_path_pretty, divider, language_name
         )
     } else {
-        let path_pretty = if lhs_display_path == "/dev/null" {
-            rhs_path_pretty
-        } else {
+        // Prefer showing the RHS path in the header unless it's
+        // /dev/null. Note that git calls the difftool with
+        // `DIFFTOOL /tmp/git-blob-abc/foo.py foo.py` in some cases.
+        let path_pretty = if rhs_display_path == "/dev/null" {
             lhs_path_pretty
+        } else {
+            rhs_path_pretty
         };
         format!("{} --- {}{}", path_pretty, divider, language_name)
     }
