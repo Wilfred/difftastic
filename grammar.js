@@ -4,7 +4,6 @@ const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
   COMMENT: 0,      // //  /*  */
   ASSIGN: 1,       // =  += -=  *=  /=  %=  &=  ^=  |=  <<=  >>=  >>>=
-  SWITCH_EXP: 1,   // always prefer to parse switch as expression over statement
   DECL: 2,
   ELEMENT_VAL: 2,
   TERNARY: 3,      // ?:
@@ -66,8 +65,10 @@ module.exports = grammar({
     [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
     [$.generic_type, $.primary_expression],
+    [$.expression, $.statement],
     // Only conflicts in switch expressions
     [$.lambda_expression, $.primary_expression],
+    [$.inferred_parameters, $.primary_expression],
   ],
 
   word: $ => $.identifier,
@@ -174,7 +175,7 @@ module.exports = grammar({
       $.primary_expression,
       $.unary_expression,
       $.cast_expression,
-      prec(PREC.SWITCH_EXP, $.switch_expression),
+      $.switch_expression,
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
@@ -233,7 +234,7 @@ module.exports = grammar({
 
     lambda_expression: $ => seq(
       field('parameters', choice(
-        $.identifier, $.formal_parameters, $.inferred_parameters
+        $.identifier, $.formal_parameters, $.inferred_parameters, $._reserved_identifier
       )),
       '->',
       field('body', choice($.expression, $.block))
@@ -241,7 +242,7 @@ module.exports = grammar({
 
     inferred_parameters: $ => seq(
       '(',
-      commaSep1($.identifier),
+      commaSep1(choice($.identifier, $._reserved_identifier)),
       ')'
     ),
 
@@ -290,6 +291,7 @@ module.exports = grammar({
 
     array_creation_expression: $ => prec.right(seq(
       'new',
+      repeat($._annotation),
       field('type', $._simple_type),
       choice(
         seq(
@@ -922,6 +924,7 @@ module.exports = grammar({
         $.constant_declaration,
         $.class_declaration,
         $.interface_declaration,
+        $.enum_declaration,
         $.annotation_type_declaration
       )),
       '}'

@@ -1194,12 +1194,8 @@
           "name": "cast_expression"
         },
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "switch_expression"
-          }
+          "type": "SYMBOL",
+          "name": "switch_expression"
         }
       ]
     },
@@ -2066,6 +2062,10 @@
               {
                 "type": "SYMBOL",
                 "name": "inferred_parameters"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_reserved_identifier"
               }
             ]
           }
@@ -2104,8 +2104,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_reserved_identifier"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -2117,8 +2126,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "identifier"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_reserved_identifier"
+                      }
+                    ]
                   }
                 ]
               }
@@ -2400,6 +2418,13 @@
           {
             "type": "STRING",
             "value": "new"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_annotation"
+            }
           },
           {
             "type": "FIELD",
@@ -5854,6 +5879,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "enum_declaration"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "annotation_type_declaration"
               }
             ]
@@ -7060,7 +7089,15 @@
       "primary_expression"
     ],
     [
+      "expression",
+      "statement"
+    ],
+    [
       "lambda_expression",
+      "primary_expression"
+    ],
+    [
+      "inferred_parameters",
       "primary_expression"
     ]
   ],

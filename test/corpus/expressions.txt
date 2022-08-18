@@ -448,13 +448,35 @@ class Quack {
     (class_body)))
 
 ==================================
+annotation in array creation
+==================================
+
+String[] allMyStrings = new @Nullable String[5];
+
+---
+
+    (program
+      (local_variable_declaration
+        (array_type
+          (type_identifier)
+          (dimensions))
+        (variable_declarator
+          (identifier)
+          (array_creation_expression
+            (marker_annotation
+              (identifier))
+            (type_identifier)
+            (dimensions_expr
+              (decimal_integer_literal))))))
+
+==================================
 lambda expression
 ==================================
 
 class LambdaTest {
   void singleton() {
     version -> create;
-    (a, b) -> a + b;
+    (record, b) -> record + b;
   }
 }
 
@@ -902,6 +924,58 @@ class Test {
                       (expression_statement
                         (decimal_integer_literal)))))))))))))
 
+==================================
+switch statement and pre-increment
+==================================
+
+class Test {
+    int i;
+    static void foo(boolean bar) {
+      int ddsd;
+      switch(bar) {
+        default:
+          i = 3;
+      }
+     ++ddsd;
+    }
+}
+
+---
+
+    (program
+      (class_declaration
+        (identifier)
+        (class_body
+          (field_declaration
+            (integral_type)
+            (variable_declarator
+              (identifier)))
+          (method_declaration
+            (modifiers)
+            (void_type)
+            (identifier)
+            (formal_parameters
+              (formal_parameter
+                (boolean_type)
+                (identifier)))
+            (block
+              (local_variable_declaration
+                (integral_type)
+                (variable_declarator
+                  (identifier)))
+              (switch_expression
+                (parenthesized_expression
+                  (identifier))
+                (switch_block
+                  (switch_block_statement_group
+                    (switch_label)
+                    (expression_statement
+                      (assignment_expression
+                        (identifier)
+                        (decimal_integer_literal))))))
+              (expression_statement
+                (update_expression
+                  (identifier))))))))
 ==================================
 type arguments
 ==================================
