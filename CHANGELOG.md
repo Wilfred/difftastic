@@ -1,5 +1,11 @@
 ## 0.33 (unreleased)
 
+### Command Line Interface
+
+Difftastic prefers to show the second path when called with two
+arguments. This fixes an issue (broken in 0.31) where the path would
+be shown as `/tmp/git-blob-abc/file_name`.
+
 ## 0.32 (released 7th August 2022)
 
 ### Diffing
