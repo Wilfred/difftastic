@@ -767,7 +767,7 @@ a ?. b;
   (expression_statement
     (member_expression (identifier) (property_identifier)))
   (expression_statement
-    (member_expression (identifier) (property_identifier))))
+    (member_expression (identifier) (optional_chain) (property_identifier))))
 
 ============================================
 Optional chaining array access
@@ -782,7 +782,7 @@ a ?. [b];
   (expression_statement
     (subscript_expression (identifier) (identifier)))
   (expression_statement
-    (subscript_expression (identifier) (identifier))))
+    (subscript_expression (identifier) (optional_chain) (identifier))))
 
 ============================================
 Optional function calls
@@ -796,14 +796,16 @@ d.e?.(f);
 
 (program
   (expression_statement
-    (call_expression (identifier) (arguments (identifier))))
+    (call_expression (identifier) (optional_chain) (arguments (identifier))))
   (expression_statement
     (call_expression
       (subscript_expression (identifier) (identifier))
+      (optional_chain)
       (arguments (identifier))))
   (expression_statement
     (call_expression
       (member_expression (identifier) (property_identifier))
+      (optional_chain)
       (arguments (identifier)))))
 
 ============================================

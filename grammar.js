@@ -728,6 +728,8 @@ module.exports = grammar({
     _call_signature: $ => field('parameters', $.formal_parameters),
     _formal_parameter: $ => choice($.pattern, $.assignment_pattern),
 
+    optional_chain: $ => '?.',
+
     call_expression: $ => choice(
       prec('call', seq(
         field('function', $.expression),
@@ -735,7 +737,7 @@ module.exports = grammar({
       )),
       prec('member', seq(
         field('function', $.primary_expression),
-        '?.',
+        field('optional_chain', $.optional_chain),
         field('arguments', $.arguments)
       ))
     ),
@@ -753,7 +755,7 @@ module.exports = grammar({
 
     member_expression: $ => prec('member', seq(
       field('object', choice($.expression, $.primary_expression)),
-      choice('.', '?.'),
+      choice('.', field('optional_chain', $.optional_chain)),
       field('property', choice(
         $.private_property_identifier,
         alias($.identifier, $.property_identifier)))
@@ -761,7 +763,7 @@ module.exports = grammar({
 
     subscript_expression: $ => prec.right('member', seq(
       field('object', choice($.expression, $.primary_expression)),
-      optional('?.'),
+      optional(field('optional_chain', $.optional_chain)),
       '[', field('index', $._expressions), ']'
     )),
 
