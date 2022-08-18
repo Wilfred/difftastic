@@ -285,7 +285,7 @@ Type cast expressions
 
 1000 as u8;
 let character = integer as char;
-let size: f64 = len(values) as f64;
+let size: f64 = 1.0 + -len(values) as f64 + 1.0;
 
 --------------------------------------------------------------------------------
 
@@ -302,12 +302,17 @@ let size: f64 = len(values) as f64;
   (let_declaration
     pattern: (identifier)
     type: (primitive_type)
-    value: (type_cast_expression
-      value: (call_expression
-        function: (identifier)
-        arguments: (arguments
-          (identifier)))
-      type: (primitive_type))))
+    value: (binary_expression
+      left: (binary_expression
+        left: (float_literal)
+        right: (type_cast_expression
+          value: (unary_expression
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier))))
+          type: (primitive_type)))
+      right: (float_literal))))
 
 ================================================================================
 Call expressions
