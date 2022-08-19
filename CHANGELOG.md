@@ -1,5 +1,10 @@
 ## 0.33 (unreleased)
 
+### Parsing
+
+Fixed an issue with language detection when file names were very
+short.
+
 ### Command Line Interface
 
 Difftastic prefers to show the second path when called with two
