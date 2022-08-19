@@ -89,6 +89,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-cmake",
+            src_dir: "vendor/tree-sitter-cmake-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-commonlisp",
             src_dir: "vendor/tree-sitter-commonlisp-src",
             extra_files: vec![],

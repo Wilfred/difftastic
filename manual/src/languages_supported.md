@@ -9,6 +9,7 @@ Difftastic supports the following programming languages.
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                                                                                  |
 | C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)                                                                          |
 | Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) ([branched](https://github.com/sogaiu/tree-sitter-clojure/tree/issue-21))          |
+| CMake           | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake)                                                                                            |
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)                                                                        |
 | Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)                                                                              |
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)                                                                            |
