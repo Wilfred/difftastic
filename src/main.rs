@@ -242,10 +242,8 @@ fn diff_file_content(
         rhs_src.pop();
     }
 
-    // Take the larger of the two files when guessing the
-    // language. This is useful when we've added or removed a whole
-    // file.
-    let (guess_src, guess_path) = if lhs_src.len() > rhs_src.len() {
+    // Prefer the RHS path for language detection, unless it's /dev/null.
+    let (guess_src, guess_path) = if rhs_display_path == "/dev/null" {
         // TODO: take a Path directly instead.
         (&lhs_src, Path::new(&lhs_display_path))
     } else {
