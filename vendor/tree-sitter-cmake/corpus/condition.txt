@@ -1,0 +1,147 @@
+====================
+Empty if [condition]
+====================
+if ( cond )
+endif()
+
+---
+
+(source_file
+  (if_condition
+    (if_command
+      (if)
+      (argument (unquoted_argument))
+    )
+    (endif_command (endif))
+  )
+)
+
+===========================
+Empty if elseif [condition]
+===========================
+if(cond)
+elseif(cond)
+endif()
+
+---
+
+(source_file
+  (if_condition
+    (if_command
+      (if)
+      (argument (unquoted_argument))
+    )
+    (elseif_command
+      (elseif)
+      (argument (unquoted_argument))
+    )
+    (endif_command (endif))
+  )
+)
+
+================================
+Empty if elseif else [condition]
+================================
+if(cond)
+elseif(cond)
+else()
+endif()
+
+---
+
+(source_file
+  (if_condition
+    (if_command
+      (if)
+      (argument (unquoted_argument))
+    )
+    (elseif_command
+      (elseif)
+      (argument (unquoted_argument))
+    )
+    (else_command (else))
+    (endif_command (endif))
+  )
+)
+
+==========================================
+If with one command invocation [condition]
+==========================================
+if(cond)
+  message(STATUS)
+endif()
+
+---
+
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+  )
+  (normal_command
+   (identifier)
+   (argument (unquoted_argument))
+  )
+  (endif_command (endif))
+ )
+)
+
+======================================
+Condition with parentheses [condition]
+======================================
+if((A AND B) OR C)
+endif()
+---
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (endif_command (endif))
+ )
+)
+
+==============================================
+Condition with not and parentheses [condition]
+==============================================
+if(NOT (A AND B) OR C)
+else(NOT (A AND B) OR C)
+endif(NOT (A AND B) OR C)
+---
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (else_command
+   (else)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (endif_command 
+   (endif)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+ )
+)
