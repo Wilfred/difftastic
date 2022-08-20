@@ -21,6 +21,19 @@ namespace
         BLOCK_COMMENT_CONTENT
     };
 
+    // > You can detect error recovery in the external scanner by the fact that
+    // > _all_ tokens are considered valid at once.
+    // https://github.com/tree-sitter/tree-sitter/pull/1783#issuecomment-1181011411
+    bool in_error_recovery(const bool *valid_symbols)
+    {
+        return (valid_symbols[VIRTUAL_END_DECL] &&
+                valid_symbols[VIRTUAL_OPEN_SECTION] &&
+                valid_symbols[VIRTUAL_END_SECTION] &&
+                valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE] &&
+                valid_symbols[GLSL_CONTENT] &&
+                valid_symbols[BLOCK_COMMENT_CONTENT]);
+    }
+
     struct Scanner
     {
         Scanner() {}
@@ -180,6 +193,9 @@ namespace
 
         bool scan(TSLexer *lexer, const bool *valid_symbols)
         {
+            if (in_error_recovery(valid_symbols))
+                return false;
+
             // First handle eventual runback tokens, we saved on a previous scan op
             if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
             {
