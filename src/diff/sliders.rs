@@ -67,8 +67,8 @@ fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
         // For everything else, prefer the inner delimiter. These
         // languages have syntax like `foo(bar)` or `foo[bar]` where
         // the inner delimiter is more relevant.
-        Bash | C | CMake | CPlusPlus | CSharp | Css | Dart | Elixir | Elm | Elvish | Gleam | Go | Hack
-        | Haskell | Html | Java | JavaScript | Jsx | Julia | Kotlin | Lua | Nix | OCaml
+        Bash | C | CMake | CPlusPlus | CSharp | Css | Dart | Elixir | Elm | Elvish | Gleam | Go
+        | Hack | Haskell | Html | Java | JavaScript | Jsx | Julia | Kotlin | Lua | Nix | OCaml
         | OCamlInterface | Perl | Php | Python | Ruby | Rust | Scala | Swift | Tsx | TypeScript
         | Yaml | Zig => false,
     }
