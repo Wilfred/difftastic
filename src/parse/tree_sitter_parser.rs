@@ -806,6 +806,7 @@ fn tree_highlights(
     let mut keyword_ish_capture_ids: Vec<u32> = vec![];
     let mut string_capture_ids = vec![];
     let mut type_capture_ids = vec![];
+    let mut comment_capture_ids = vec![];
 
     // Query names are often written with namespacing, so
     // highlights.scm might contain @constant or the more specific
@@ -849,17 +850,24 @@ fn tree_highlights(
         if name == "label" {
             type_capture_ids.push(idx as u32);
         }
+
+        if name == "comment" {
+            comment_capture_ids.push(idx as u32);
+        }
     }
 
     let mut qc = ts::QueryCursor::new();
     let q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
+    let mut comment_ids = HashSet::new();
     let mut keyword_ids = HashSet::new();
     let mut string_ids = HashSet::new();
     let mut type_ids = HashSet::new();
     for m in q_matches {
         for c in m.captures {
-            if keyword_ish_capture_ids.contains(&c.index) {
+            if comment_capture_ids.contains(&c.index) {
+                comment_ids.insert(c.node.id());
+            } else if keyword_ish_capture_ids.contains(&c.index) {
                 keyword_ids.insert(c.node.id());
             } else if string_capture_ids.contains(&c.index) {
                 string_ids.insert(c.node.id());
@@ -870,6 +878,7 @@ fn tree_highlights(
     }
 
     HighlightedNodeIds {
+        comment_ids,
         keyword_ids,
         string_ids,
         type_ids,
@@ -987,6 +996,7 @@ fn find_delim_positions(
 
 pub struct HighlightedNodeIds {
     keyword_ids: HashSet<usize>,
+    comment_ids: HashSet<usize>,
     string_ids: HashSet<usize>,
     type_ids: HashSet<usize>,
 }
@@ -1195,7 +1205,10 @@ fn atom_from_cursor<'a>(
     }
 
     // Most languages use "comment", but Perl uses "comments".
-    let highlight = if node.is_extra() || node.kind() == "comment" || node.kind() == "comments" {
+    let highlight = if node.is_extra()
+        || node.kind() == "comment"
+        || highlights.comment_ids.contains(&node.id())
+    {
         AtomKind::Comment
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
