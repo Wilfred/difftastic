@@ -21,6 +21,7 @@ pub enum Language {
     Bash,
     C,
     Clojure,
+    CMake,
     CommonLisp,
     CPlusPlus,
     CSharp,
@@ -196,6 +197,7 @@ fn from_name(path: &Path) -> Option<Language> {
             | "PKGBUILD" | "bash_aliases" | "bash_logout" | "bash_profile" | "bashrc" | "cshrc"
             | "gradlew" | "kshrc" | "login" | "man" | "profile" | "zlogin" | "zlogout"
             | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
+            "CMakeLists.txt" => Some(CMake),
             ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
             ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
             | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
@@ -222,6 +224,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
             Some(Clojure)
         }
         "lisp" | "lsp" | "asd" => Some(CommonLisp),
+        "cmake" | "cmake.in" => Some(CMake),
         "cs" => Some(CSharp),
         "css" => Some(Css),
         "dart" => Some(Dart),

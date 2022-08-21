@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for CMake.
+
 Improved comment detection using tree-sitter syntax highlighting
 queries.
 
