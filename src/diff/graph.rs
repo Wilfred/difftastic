@@ -101,7 +101,7 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
 }
 
 /// Tracks entering syntax List nodes.
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 enum EnteredDelimiter<'a> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
@@ -340,13 +340,35 @@ impl Edge {
 fn allocate_if_new<'syn, 'b>(
     v: Vertex<'syn, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, &'b Vertex<'syn, 'b>>,
+    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
 ) -> &'b Vertex<'syn, 'b> {
-    match seen.get(&v) {
-        Some(existing) => *existing,
+    match seen.get_mut(&v) {
+        Some(existing) => {
+            // Don't explore more than two possible parenthesis
+            // nestings for each syntax node pair.
+            if let Some(allocated) = existing.last() {
+                if existing.len() >= 2 {
+                    return *allocated;
+                }
+            }
+
+            // If we have seen exactly this graph node before, even
+            // considering parenthesis matching, return it.
+            for existing_node in existing.iter() {
+                if existing_node.parents == v.parents {
+                    return existing_node;
+                }
+            }
+
+            // We haven't reached the graph node limit yet, allocate a
+            // new one.
+            let allocated = alloc.alloc(v);
+            existing.push(allocated);
+            allocated
+        }
         None => {
             let allocated = alloc.alloc(v);
-            seen.insert(allocated, allocated);
+            seen.insert(allocated, vec![allocated]);
             allocated
         }
     }
@@ -357,7 +379,7 @@ fn allocate_if_new<'syn, 'b>(
 pub fn get_set_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, &'b Vertex<'syn, 'b>>,
+    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
 ) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
     match &*v.neighbours.borrow() {
         Some(neighbours) => return neighbours.clone(),

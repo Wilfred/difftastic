@@ -1,5 +1,11 @@
 ## 0.33 (unreleased)
 
+### Diffing
+
+Difftastic now explores 2x more parenthesis nesting
+possibilities. This can make diffing slower, but produces
+substantially better results.
+
 ### Parsing
 
 Added support for CMake.
