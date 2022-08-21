@@ -29,7 +29,7 @@ sample_files/dart_before.dart sample_files/dart_after.dart
 a13ab6e933b145d3f948b640caf38968  -
 
 sample_files/elisp_before.el sample_files/elisp_after.el
-f4233ebbe6c46a7c07bc88eca20e4856  -
+b98257eb3492eaf323ffb0f3961aaa41  -
 
 sample_files/elisp_contiguous_before.el sample_files/elisp_contiguous_after.el
 e3946aef566a707c718edd7a86340566  -
