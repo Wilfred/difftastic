@@ -1073,6 +1073,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1309,6 +1313,10 @@
         "required": false,
         "types": [
           {
+            "type": "function_type",
+            "named": true
+          },
+          {
             "type": "tuple_type",
             "named": true
           },
@@ -1331,7 +1339,15 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {

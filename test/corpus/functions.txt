@@ -781,6 +781,36 @@ fn try_try_again(x, y) -> Int {
         value: (todo)))))
 
 ================================================================================
+Let expressions
+================================================================================
+
+let foo: fn(Int) -> Int = fn(x) { x }
+let fun_ref = float.to_string
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let
+    pattern: (identifier)
+    type: (function_type
+      parameter_types: (function_parameter_types
+        (type
+          name: (type_identifier)))
+      return_type: (type
+        name: (type_identifier)))
+    value: (anonymous_function
+      parameters: (function_parameters
+        (function_parameter
+          name: (identifier)))
+      body: (function_body
+        (identifier))))
+  (let
+    pattern: (identifier)
+    value: (field_access
+      record: (identifier)
+      field: (label))))
+
+================================================================================
 Complex binary expressions
 ================================================================================
 

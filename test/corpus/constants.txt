@@ -26,6 +26,9 @@ const a = Cat("Ginny", 1950)
 const a = Person(name: "Billy", age: 52)
 const a = uri.Uri(host: "github.com")
 const a: option.Option(String) = option.Some("Hello, World!")
+const var_alias = b
+const int_identity_alias: fn(Int) -> Int = int_identity
+const fun_tuple: #(fn(Float) -> String, fn(Int) -> String) = #(float.to_string, int.to_string)
 
 --------------------------------------------------------------------------------
 
@@ -206,7 +209,41 @@ const a: option.Option(String) = option.Some("Hello, World!")
       arguments: (arguments
         (argument
           value: (string
-            (quoted_content)))))))
+            (quoted_content))))))
+  (constant
+    name: (identifier)
+    value: (identifier))
+  (constant
+    name: (identifier)
+    type: (function_type
+      parameter_types: (function_parameter_types
+        (type
+          name: (type_identifier)))
+      return_type: (type
+        name: (type_identifier)))
+    value: (identifier))
+  (constant
+    name: (identifier)
+    type: (tuple_type
+      (function_type
+        parameter_types: (function_parameter_types
+          (type
+            name: (type_identifier)))
+        return_type: (type
+          name: (type_identifier)))
+      (function_type
+        parameter_types: (function_parameter_types
+          (type
+            name: (type_identifier)))
+        return_type: (type
+          name: (type_identifier))))
+    value: (tuple
+      (field_access
+        record: (identifier)
+        field: (label))
+      (field_access
+        record: (identifier)
+        field: (label)))))
 
 ================================================================================
 Public constants

@@ -52,6 +52,7 @@ There are a few nodes in the generated AST that may be confusing at first:
   —there's no way for the parser to know. In this case, it will be parsed to
   `(function_call function: (field_access ...) ...)` , as I arbitrarily decided
   to always assume the code is accessing a field on a record.
+- `constant_field_access` :: Recognizes when a reference to a remote function is used as a constant's value. Generally field accesses are indistinguishable from remote function invocations by the parser so `field_access` is the node name used for both (hence this misnomer).
 
 This is not a comprehensive list. If you find a node confusing, search for it
 in `grammar.js`, as it might have an explanatory comment. Either way, feel free

@@ -25,6 +25,7 @@ module.exports = grammar({
     ],
     [$.case_subjects],
     [$.source_file],
+    [$._constant_value, $._case_clause_guard_unit],
   ],
   rules: {
     /* General rules */
@@ -93,7 +94,9 @@ module.exports = grammar({
         alias($.constant_tuple, $.tuple),
         alias($.constant_list, $.list),
         alias($._constant_bit_string, $.bit_string),
-        alias($.constant_record, $.record)
+        alias($.constant_record, $.record),
+        $.identifier,
+        alias($.constant_field_access, $.field_access)
       ),
     constant_tuple: ($) =>
       seq("#", "(", optional(series_of($._constant_value, ",")), ")"),
@@ -118,6 +121,12 @@ module.exports = grammar({
         optional(seq(field("label", $.label), ":")),
         field("value", $._constant_value)
       ),
+    // This is definitely a misnomer at this time as field access are actually
+    // not allowed as constant values (yet). This rule exists to parse remote
+    // function references which are generally indistinguishable from field
+    // accesses and so share an AST node.
+    constant_field_access: ($) =>
+      seq(field("record", $.identifier), ".", field("field", $.label)),
 
     /* Special constant types */
     // Versions of $._type, $._type_annotation, etc, that have constraints
@@ -126,11 +135,29 @@ module.exports = grammar({
       choice(
         $.type_hole,
         alias($.constant_tuple_type, $.tuple_type),
+        alias($.constant_function_type, $.function_type),
         alias($.constant_type, $.type)
       ),
     _constant_type_annotation: ($) => seq(":", field("type", $._constant_type)),
     constant_tuple_type: ($) =>
       seq("#", "(", optional(series_of($._constant_type, ",")), ")"),
+    constant_function_type: ($) =>
+      seq(
+        "fn",
+        optional(
+          field(
+            "parameter_types",
+            alias(
+              $.constant_function_parameter_types,
+              $.function_parameter_types
+            )
+          )
+        ),
+        "->",
+        field("return_type", $._constant_type)
+      ),
+    constant_function_parameter_types: ($) =>
+      seq("(", optional(series_of($._constant_type, ",")), ")"),
     constant_type: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
