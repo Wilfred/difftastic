@@ -460,7 +460,7 @@ pub fn print(
                         // We didn't have any changed RHS lines in the
                         // hunk, but we had some contextual lines that
                         // only occurred on the LHS (e.g. extra newlines).
-                        println!("{}{}", display_rhs_line_num, display_rhs_line_num);
+                        println!("{}{}", display_lhs_line_num, display_rhs_line_num);
                     }
                 }
             } else if no_rhs_changes && !show_both {
