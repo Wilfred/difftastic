@@ -216,6 +216,7 @@ pub fn replace(
 Basic functions
 ================================================================================
 
+fn unfinished() {}
 fn str() {
   "Hello, World!"
 }
@@ -294,6 +295,9 @@ fn field_access(x) {
 --------------------------------------------------------------------------------
 
 (source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters))
   (function
     name: (identifier)
     parameters: (function_parameters)

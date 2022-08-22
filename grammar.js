@@ -196,7 +196,7 @@ module.exports = grammar({
         field("parameters", $.function_parameters),
         optional(seq("->", field("return_type", $._type))),
         "{",
-        field("body", alias($._expression_seq, $.function_body)),
+        optional(field("body", alias($._expression_seq, $.function_body))),
         "}"
       ),
     function_parameters: ($) =>
