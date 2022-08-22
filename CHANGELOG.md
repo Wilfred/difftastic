@@ -1,5 +1,10 @@
 ## 0.34 (unreleased)
 
+### Display
+
+Fixed an issue where side-by-side display would sometimes print the
+line number from the second file rather than the first file.
+
 ## 0.33 (released 21st August 2022)
 
 ### Diffing
