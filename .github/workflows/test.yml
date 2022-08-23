@@ -12,6 +12,16 @@ jobs:
         with:
           command: test
 
+  test_linux_latest_stable:
+    name: Test Linux (latest stable Rust)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/cargo@v1
+        with:
+          toolchain: stable
+          command: test
+
   test_mac:
     name: Test macOS
     runs-on: macos-latest
