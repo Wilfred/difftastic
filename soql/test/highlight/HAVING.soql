@@ -1,0 +1,19 @@
+SELECT Name, COUNT(Id) FROM Account GROUP BY Name HAVING COUNT(Id) > 1
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^^^^^ function
+///               ^ punctuation
+///                ^^ property
+///                  ^ punctuation
+///                    ^^^^ keyword
+///                         ^^^^^^^ type
+///                                 ^^^^^^^^ keyword
+///                                          ^^^^ property
+///                                               ^^^^^^ keyword
+///                                                      ^^^^^ function
+///                                                           ^ punctuation
+///                                                            ^^ property
+///                                                              ^ punctuation
+///                                                                ^ operator
+///                                                                  ^ number

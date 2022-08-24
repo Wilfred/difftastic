@@ -1,0 +1,20 @@
+SELECT TYPEOF What WHEN Account THEN Phone, NumberOfEmployees WHEN Opportunity THEN Amount ELSE Name, Email END FROM Event
+/// <- keyword
+///    ^ keyword
+///           ^ property
+///                ^ keyword
+///                     ^^^^^^^ type
+///                             ^^^^ keyword
+///                                  ^^^^^ property
+///                                       ^ punctuation
+///                                          ^ property
+///                                                            ^ keyword
+///                                                                 ^^^^^^^^^^ type
+///                                                                            ^^^^ keyword
+///                                                                                 ^^^^^^ property
+///                                                                                        ^ keyword
+///                                                                                             ^^^^ property
+///                                                                                                 ^ punctuation
+///                                                                                                   ^^^^ property
+///                                                                                                         ^^^^ keyword
+///                                                                                                                  ^^^^^ type

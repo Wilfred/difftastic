@@ -1,0 +1,18 @@
+SELECT Name, (SELECT LastName FROM Contacts WHERE CreatedBy.Alias = 'x') FROM Account WHERE Industry = 'media'
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^ punctuation
+///           ^^^^^^ keyword
+///                                         ^^^^^ keyword
+///                                               ^^^^^^^^^^^^^^^ property
+///                                                               ^ operator
+///                                                                 ^ string punctuation.definition.string.begin
+///                                                                  ^ string
+///                                                                   ^ string punctuation.definition.string.end
+///                                                                    ^ punctuation
+///                                                                                         ^^^^^^^^ property
+///                                                                                                  ^ operator
+///                                                                                                    ^ string punctuation.definition.string.begin
+///                                                                                                     ^^^^^ string
+///                                                                                                          ^ string punctuation.definition.string.end

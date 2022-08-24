@@ -1,0 +1,15 @@
+SELECT Name FROM Account WHERE Industry = 'media' ORDER BY BillingPostalCode ASC NULLS LAST LIMIT 125
+/// <- keyword
+///    ^^^^ property
+///         ^^^^ keyword
+///              ^^^^^^^ type
+///                      ^^^^^ keyword
+///                            ^^^^^^^^ property
+///                                     ^ operator
+///                                        ^^^^^ string
+///                                               ^^^^^^^^ keyword
+///                                                        ^^^^^^^^^^^^^^^^^ property
+///                                                                          ^^^ keyword
+///                                                                              ^^^^^^^^^^ keyword
+///                                                                                         ^^^^^ keyword
+///                                                                                               ^^^ number

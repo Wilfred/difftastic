@@ -1,0 +1,12 @@
+SELECT Name, (SELECT LastName FROM Contacts) FROM Account;
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^ punctuation
+///           ^^^^^^ keyword
+///                           ^^^^ keyword
+///                                ^^^^^^^^ type
+///                                        ^ punctuation
+///                                               ^^^^^^^ type
+
+

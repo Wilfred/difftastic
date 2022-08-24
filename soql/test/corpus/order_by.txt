@@ -1,0 +1,224 @@
+================================================================================
+Order By without direction
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))))))
+
+================================================================================
+Order By multiple without direction
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name, Id
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier)))
+          (order_expression
+            (field_identifier
+              (identifier))))))
+
+================================================================================
+Order By with direction DESC
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name DESC
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction)))))
+
+================================================================================
+Order By with direction ASC
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name ASC
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction)))))
+
+================================================================================
+Order By multi with directions
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name DESC, Id ASC
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction))
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction)))))
+
+================================================================================
+Order By nulls last
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name NULLS LAST
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_null_direciton)))))
+
+================================================================================
+Order By nulls first
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name NULLS FIRST
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_null_direciton)))))
+
+================================================================================
+Order By direction and nulls
+================================================================================
+
+SELECT Id
+ FROM User
+ ORDER BY Name DESC NULLS FIRST
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction)
+            (order_null_direciton)))))
+
+================================================================================
+Order By with LIMIT
+================================================================================
+
+SELECT Name
+FROM Account
+ORDER BY BillingPostalCode ASC NULLS LAST LIMIT 125
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (field_identifier
+              (identifier))
+            (order_direction)
+            (order_null_direciton)))
+        (limit_clause
+          (int))))

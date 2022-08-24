@@ -1,0 +1,209 @@
+================================================================================
+Aggregate Count Id
+================================================================================
+
+SELECT COUNT(Id)
+FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate Count Without Field
+================================================================================
+
+SELECT COUNT()
+FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (count_expression
+        (function_name)))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate Count Multi
+================================================================================
+
+SELECT COUNT(Id), COUNT(CampaignId)
+FROM Opportunity
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier)))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate Count With Group
+================================================================================
+
+SELECT LeadSource, COUNT(Name)
+FROM Lead
+GROUP BY LeadSource
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate Avg
+================================================================================
+
+SELECT CampaignId, AVG(Amount)
+FROM Opportunity
+GROUP BY CampaignId
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate COUNT_DISTINCT
+================================================================================
+
+SELECT COUNT_DISTINCT(Company)
+FROM Lead
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate MIN
+================================================================================
+
+SELECT MIN(CreatedDate), FirstName, LastName
+FROM Contact
+GROUP BY FirstName, LastName
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier)))
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate MAX
+================================================================================
+
+SELECT Name, MAX(BudgetedCost)
+FROM Campaign
+GROUP BY Name
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier)))))
+
+================================================================================
+Aggregate SUM
+================================================================================
+
+SELECT SUM(Amount)
+FROM Opportunity
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))

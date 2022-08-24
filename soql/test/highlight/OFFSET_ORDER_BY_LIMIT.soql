@@ -1,0 +1,13 @@
+SELECT Name, Id FROM Merchandise__c ORDER BY Name LIMIT 20 OFFSET 100
+/// <- keyword
+///    ^^^^ property
+///        ^ punctuation
+///          ^^ property
+///             ^^^^ keyword
+///                  ^^^^^^^^^^^^^^ type
+///                                 ^^^^^^^^ keyword
+///                                          ^^^^ property
+///                                               ^^^^^ keyword
+///                                                     ^^ number
+///                                                        ^^^^^^ keyword
+///                                                               ^^^ number

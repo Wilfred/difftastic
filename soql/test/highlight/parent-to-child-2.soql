@@ -1,0 +1,10 @@
+SELECT Account.Name, (SELECT Contact.LastName FROM Account.Contacts) FROM Account
+/// <- keyword
+///    ^^^^^^^^^^^^ property
+///                ^ punctuation
+///                  ^ punctuation
+///                   ^^^^^^ keyword
+///                                           ^^^^ keyword
+///                                                ^^^^^^^^^^^^^^^^ type
+///                                                                ^ punctuation
+///                                                                       ^^^^^^^ type

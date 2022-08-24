@@ -1,0 +1,467 @@
+================================================================================
+GROUP BY
+================================================================================
+
+SELECT Name, Max(CreatedDate)
+FROM Account
+GROUP BY Name
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Multi
+================================================================================
+
+SELECT Name, CreatedById, Max(CreatedDate)
+FROM Account
+GROUP BY Name, CreatedById
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Aggregate Alias
+================================================================================
+
+SELECT Name n, MAX(Amount) max
+FROM Opportunity
+GROUP BY Name
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (alias_expression
+            (field_identifier
+              (identifier))
+            (identifier))
+          (alias_expression
+            (function_expression
+               (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Aggregate Alias multi
+================================================================================
+
+SELECT Name, MAX(Amount), MIN(Amount) min, SUM(Amount)
+FROM Opportunity
+GROUP BY Name
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier)))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Rollup
+================================================================================
+
+SELECT LeadSource, COUNT(Name) cnt
+FROM Lead
+GROUP BY ROLLUP(LeadSource)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_name)
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Rollup Multi
+================================================================================
+
+SELECT LeadSource, COUNT(Name) cnt
+FROM Lead
+GROUP BY ROLLUP(LeadSource)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_name)
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Rollup with Subtotals
+================================================================================
+
+SELECT LeadSource, Rating,
+    GROUPING(LeadSource) grpLS, GROUPING(Rating) grpRating,
+    COUNT(Name) cnt
+FROM Lead
+GROUP BY ROLLUP(LeadSource, Rating)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_name)
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))))
+
+================================================================================
+GROUP BY Cube
+================================================================================
+
+SELECT Type, BillingCountry,
+    GROUPING(Type) grpType, GROUPING(BillingCountry) grpCty,
+    COUNT(id) accts
+FROM Account
+GROUP BY CUBE(Type, BillingCountry)
+ORDER BY GROUPING(Type), GROUPING(BillingCountry)
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_name)
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier))))
+          (order_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))))))
+
+================================================================================
+GROUP BY Cube w/ Order Props
+================================================================================
+
+SELECT Type, BillingCountry,
+    GROUPING(Type) grpType, GROUPING(BillingCountry) grpCty,
+    COUNT(id) accts
+FROM Account
+GROUP BY CUBE(Type, BillingCountry)
+ORDER BY GROUPING(Type) DESC, GROUPING(BillingCountry) ASC NULLS LAST
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_name)
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (order_direction))
+          (order_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (order_direction)
+            (order_null_direciton)))))
+
+================================================================================
+GROUP BY Having
+================================================================================
+
+SELECT LeadSource, COUNT(Name)
+FROM Lead
+GROUP BY LeadSource
+HAVING COUNT(Name) > 100 and MAX(LeadSource) > 'Phone'
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier))
+          (having_clause
+            (having_and_expression
+              (having_comparison_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (value_comparison_operator)
+                (int))
+              (having_comparison_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (value_comparison_operator)
+                (string_literal)))))))
+
+================================================================================
+GROUP BY Having complex logic
+================================================================================
+
+SELECT LeadSource, COUNT(Name)
+FROM Lead
+GROUP BY LeadSource
+HAVING COUNT(Name) > 100 and (MIN(LeadSource) > 'Phone' OR MAX(LeadSource) < 'Phone')
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (field_identifier
+            (identifier))
+          (having_clause
+            (having_and_expression
+              (having_comparison_expression
+                (function_expression
+                  (function_name)
+                  (field_identifier
+                    (identifier)))
+                (value_comparison_operator)
+                (int))
+              (having_or_expression
+                (having_comparison_expression
+                  (function_expression
+                    (function_name)
+                    (field_identifier
+                      (identifier)))
+                  (value_comparison_operator)
+                  (string_literal))
+                (having_comparison_expression
+                  (function_expression
+                    (function_name)
+                    (field_identifier
+                      (identifier)))
+                  (value_comparison_operator)
+                  (string_literal))))))))
+
+================================================================================
+GROUP BY Function
+================================================================================
+
+SELECT Id
+      FROM Account
+      GROUP BY DAY_ONLY(CreatedDate), Id
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (group_by_clause
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier)))
+          (field_identifier
+            (identifier)))))

@@ -1,0 +1,1530 @@
+================================================================================
+Dates fieldExpression Equals Date
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 2000-01-01
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date)))))
+
+================================================================================
+Dates fieldExpression Equals DateTime1
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 1999-01-01T23:01:01+01:00
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+================================================================================
+Dates fieldExpression Equals DateTime2
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 1999-01-01T23:01:01-08:00
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+================================================================================
+Dates fieldExpression Equals DateTime3
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 1999-01-01T23:01:01.000-08:00
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+================================================================================
+Dates fieldExpression Equals DateTime3
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 1999-01-01T23:01:01Z
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+================================================================================
+Dates fieldExpression Equals DateTime3
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = 1999-01-01T23:01:01.000Z
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal YESTERDAY
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = YESTERDAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal TODAY
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = TODAY
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal TOMORROW
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = TOMORROW
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_WEEK
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_WEEK
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_WEEK
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_WEEK
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_WEEK
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_WEEK
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_MONTH
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_MONTH
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_MONTH
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_MONTH
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_MONTH
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_MONTH
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_90_DAYS
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_90_DAYS
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_90_DAYS
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_90_DAYS
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_DAYS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_DAYS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_DAYS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_DAYS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_DAYS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_DAYS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_WEEKS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_WEEKS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_WEEKS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_WEEKS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_WEEKS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_WEEKS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_MONTHS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_MONTHS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_MONTHS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_MONTHS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_MONTHS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_MONTHS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_QUARTERS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_QUARTERS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_QUARTERS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_QUARTERS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_YEARS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_YEARS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_YEARS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_YEARS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_YEARS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_YEARS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_FISCAL_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_FISCAL_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_FISCAL_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_FISCAL_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_FISCAL_QUARTER
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_FISCAL_QUARTER
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_N_FISCAL_QUARTERS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_N_FISCAL_QUARTERS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_FISCAL_QUARTERS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_FISCAL_QUARTERS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_FISCAL_QUARTERS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_FISCAL_QUARTERS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal THIS_FISCAL_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = THIS_FISCAL_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_FISCAL_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_FISCAL_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal NEXT_FISCAL_YEAR
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = NEXT_FISCAL_YEAR
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal)))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal LAST_N_FISCAL_YEARS:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = LAST_N_FISCAL_YEARS:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates fieldExpression Equals Date Literal N_FISCAL_YEARS_AGO:n
+================================================================================
+
+SELECT Id
+ FROM User WHERE Date1__c = N_FISCAL_YEARS_AGO:100
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (date_literal_with_param
+          (date_literal)
+          (int))))))
+
+================================================================================
+Dates CALENDAR_MONTH
+================================================================================
+
+SELECT CALENDAR_MONTH(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates CALENDAR_QUARTER
+================================================================================
+
+SELECT CALENDAR_QUARTER(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates CALENDAR_YEAR
+================================================================================
+
+SELECT CALENDAR_YEAR(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates DAY_IN_MONTH
+================================================================================
+
+SELECT DAY_IN_MONTH(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates DAY_IN_WEEK
+================================================================================
+
+SELECT DAY_IN_WEEK(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates DAY_IN_YEAR
+================================================================================
+
+SELECT DAY_IN_YEAR(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates DAY_ONLY
+================================================================================
+
+SELECT DAY_ONLY(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates FISCAL_MONTH
+================================================================================
+
+SELECT FISCAL_MONTH(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates FISCAL_QUARTER
+================================================================================
+
+SELECT FISCAL_QUARTER(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates FISCAL_YEAR
+================================================================================
+
+SELECT FISCAL_YEAR(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates HOUR_IN_DAY
+================================================================================
+
+SELECT HOUR_IN_DAY(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates WEEK_IN_MONTH
+================================================================================
+
+SELECT WEEK_IN_MONTH(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates WEEK_IN_YEAR
+================================================================================
+
+SELECT WEEK_IN_YEAR(CreatedDate) FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates Currency Convert
+================================================================================
+
+SELECT Id, convertCurrency(AnnualRevenue)
+FROM Account
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (function_expression
+        (function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+================================================================================
+Dates Currency Convert Nested
+================================================================================
+
+SELECT Amount, FORMAT(amount) Amt, convertCurrency(amount) convertedAmount,
+FORMAT(convertCurrency(amount)) convertedCurrency
+FROM Opportunity where id = '006R00000024gDtIAI'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (alias_expression
+        (function_expression
+          (function_name)
+          (field_identifier
+            (identifier)))
+        (identifier))
+      (alias_expression
+        (function_expression
+          (function_name)
+          (field_identifier
+            (identifier)))
+        (identifier))
+      (alias_expression
+        (function_expression
+          (function_name)
+          (function_expression
+            (function_name)
+            (field_identifier
+              (identifier))))
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (string_literal)))))
+
+================================================================================
+Dates Filter by Specific Currency
+================================================================================
+
+SELECT Id, Name
+FROM Opportunity
+WHERE Amount > USD5000
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier
+          (identifier))
+        (value_comparison_operator)
+        (currency_literal)))))

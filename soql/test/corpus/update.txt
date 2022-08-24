@@ -1,0 +1,100 @@
+================================================================================
+UPDATE TRACKING (might need a keyword search) TODO: test validity
+================================================================================
+
+SELECT Title FROM Knowledge__kav
+UPDATE TRACKING
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (update_clause
+          (update_type))))
+
+================================================================================
+UPDATE TRACKING on non-knowledge object, should produce error
+================================================================================
+
+SELECT Title FROM Knowledge__c
+UPDATE TRACKING
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (update_clause
+          (update_type))))
+
+================================================================================
+UPDATE VIEWSTAT
+================================================================================
+
+SELECT Title FROM Knowledge__kav
+   UPDATE VIEWSTAT
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (update_clause
+          (update_type))))
+
+================================================================================
+UPDATE VIEWSTAT on Custom Object, should produce error
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   UPDATE VIEWSTAT
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (update_clause
+          (update_type))))
+
+================================================================================
+UPDATE VIEWSTAT on Custom Object, should produce error
+================================================================================
+
+SELECT Title FROM Knowledge__c
+   UPDATE VIEWSTAT, TRACKING
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (update_clause
+          (update_type)
+          (update_type))))

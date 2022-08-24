@@ -1,0 +1,8 @@
+SELECT Id, Name, BillingCity FROM Account
+/// <- keyword
+///    ^^ property
+///      ^ punctuation
+///        ^^^^ property
+///            ^ punctuation
+///                          ^^^^ keyword
+///                               ^^^^^^^ type

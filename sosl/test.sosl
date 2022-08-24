@@ -1,0 +1,14 @@
+FIND {Acme} IN ALL FIELDS RETURNING
+Account(AnnualRevenue, convertCurrency(AnnualRevenue) AliasCurrency),
+Contact,
+Case(Id, CaseNumber WHERE Name < 7 LIMIT 10)
+WITH HIGHLIGHT
+WITH division = '1234'
+WITH METADATA = 'labels'
+WITH NETWORK = 'thenetwork'
+WITH PricebookId = '12345'
+WITH SNIPPET(target_length = 7)
+WITH SPELL_CORRECTION = false
+LIMIT 10
+OFFSET 17
+UPDATE TRACKING, viewstat

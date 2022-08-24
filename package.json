@@ -1,0 +1,51 @@
+{
+  "name": "tree-sitter-apex",
+  "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
+  "homepage": "https://github.com/aheber/tree-sitter-apex",
+  "license": "MIT",
+  "author": {
+    "name": "Anthony Heber"
+  },
+  "dependencies": {
+    "nan": "^2.16.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "main": "bindings/node",
+  "tree-sitter": [
+    {
+      "scope": "source.apex",
+      "path": "apex",
+      "file-types": [
+        "cls",
+        "trigger",
+        "apex"
+      ],
+      "highlights": [
+        "soql/queries/highlights.scm",
+        "sosl/queries/highlights.scm",
+        "apex/queries/highlights.scm"
+      ]
+    },
+    {
+      "scope": "source.soql",
+      "path": "soql",
+      "file-types": [
+        "soql"
+      ],
+      "highlights": "soql/queries/highlights.scm"
+    },
+    {
+      "scope": "source.sosl",
+      "path": "sosl",
+      "file-types": [
+        "sosl"
+      ],
+      "highlights": [
+        "soql/queries/highlights.scm",
+        "sosl/queries/highlights.scm"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+SELECT Name FROM Account WHERE Industry = 'media' LIMIT 125
+/// <- keyword
+///    ^^^^ property
+///         ^^^^ keyword
+///              ^^^^^^^ type
+///                      ^^^^^ keyword
+///                            ^^^^^^^^ property
+///                                     ^ operator
+///                                        ^^^^^ string
+///                                               ^^^^^ keyword
+///                                                     ^^^ number

@@ -1,0 +1,2493 @@
+[
+  {
+    "type": "alias_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "as",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "and_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and",
+          "named": true
+        },
+        {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "apex_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "apex_method_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "period",
+          "named": true
+        },
+        {
+          "type": "question_mark",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "apex_method_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bound_apex_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "apex_identifier",
+          "named": true
+        },
+        {
+          "type": "colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "comparison_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bound_apex_expression",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "currency_literal",
+          "named": true
+        },
+        {
+          "type": "date",
+          "named": true
+        },
+        {
+          "type": "date_literal",
+          "named": true
+        },
+        {
+          "type": "date_literal_with_param",
+          "named": true
+        },
+        {
+          "type": "date_time",
+          "named": true
+        },
+        {
+          "type": "equals",
+          "named": true
+        },
+        {
+          "type": "excludes",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "greater_or_equal",
+          "named": true
+        },
+        {
+          "type": "greater_than",
+          "named": true
+        },
+        {
+          "type": "in",
+          "named": true
+        },
+        {
+          "type": "includes",
+          "named": true
+        },
+        {
+          "type": "less_or_equal",
+          "named": true
+        },
+        {
+          "type": "less_than",
+          "named": true
+        },
+        {
+          "type": "like",
+          "named": true
+        },
+        {
+          "type": "not_equals",
+          "named": true
+        },
+        {
+          "type": "not_in",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "subquery",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "count_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "count",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "date_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "last_90_days",
+          "named": true
+        },
+        {
+          "type": "last_fiscal_quarter",
+          "named": true
+        },
+        {
+          "type": "last_fiscal_year",
+          "named": true
+        },
+        {
+          "type": "last_month",
+          "named": true
+        },
+        {
+          "type": "last_quarter",
+          "named": true
+        },
+        {
+          "type": "last_week",
+          "named": true
+        },
+        {
+          "type": "last_year",
+          "named": true
+        },
+        {
+          "type": "next_90_days",
+          "named": true
+        },
+        {
+          "type": "next_fiscal_quarter",
+          "named": true
+        },
+        {
+          "type": "next_fiscal_year",
+          "named": true
+        },
+        {
+          "type": "next_month",
+          "named": true
+        },
+        {
+          "type": "next_quarter",
+          "named": true
+        },
+        {
+          "type": "next_week",
+          "named": true
+        },
+        {
+          "type": "next_year",
+          "named": true
+        },
+        {
+          "type": "this_fiscal_quarter",
+          "named": true
+        },
+        {
+          "type": "this_fiscal_year",
+          "named": true
+        },
+        {
+          "type": "this_month",
+          "named": true
+        },
+        {
+          "type": "this_quarter",
+          "named": true
+        },
+        {
+          "type": "this_week",
+          "named": true
+        },
+        {
+          "type": "this_year",
+          "named": true
+        },
+        {
+          "type": "today",
+          "named": true
+        },
+        {
+          "type": "tomorrow",
+          "named": true
+        },
+        {
+          "type": "yesterday",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "date_literal_with_param",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
+        {
+          "type": "last_n_days",
+          "named": true
+        },
+        {
+          "type": "last_n_fiscal_quarters",
+          "named": true
+        },
+        {
+          "type": "last_n_fiscal_years",
+          "named": true
+        },
+        {
+          "type": "last_n_months",
+          "named": true
+        },
+        {
+          "type": "last_n_quarters",
+          "named": true
+        },
+        {
+          "type": "last_n_weeks",
+          "named": true
+        },
+        {
+          "type": "last_n_years",
+          "named": true
+        },
+        {
+          "type": "n_days_ago",
+          "named": true
+        },
+        {
+          "type": "n_fiscal_quarters_ago",
+          "named": true
+        },
+        {
+          "type": "n_fiscal_years_ago",
+          "named": true
+        },
+        {
+          "type": "n_months_ago",
+          "named": true
+        },
+        {
+          "type": "n_quarters_ago",
+          "named": true
+        },
+        {
+          "type": "n_weeks_ago",
+          "named": true
+        },
+        {
+          "type": "n_years_ago",
+          "named": true
+        },
+        {
+          "type": "next_n_days",
+          "named": true
+        },
+        {
+          "type": "next_n_fiscal_quarters",
+          "named": true
+        },
+        {
+          "type": "next_n_fiscal_years",
+          "named": true
+        },
+        {
+          "type": "next_n_months",
+          "named": true
+        },
+        {
+          "type": "next_n_quarters",
+          "named": true
+        },
+        {
+          "type": "next_n_weeks",
+          "named": true
+        },
+        {
+          "type": "next_n_years",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dotted_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "period",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "else",
+          "named": true
+        },
+        {
+          "type": "field_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fields_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "all",
+          "named": true
+        },
+        {
+          "type": "custom",
+          "named": true
+        },
+        {
+          "type": "fields",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "standard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "reference",
+          "named": true
+        },
+        {
+          "type": "update",
+          "named": true
+        },
+        {
+          "type": "view",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "from_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "from",
+          "named": true
+        },
+        {
+          "type": "storage_alias",
+          "named": true
+        },
+        {
+          "type": "storage_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "avg",
+          "named": true
+        },
+        {
+          "type": "bound_apex_expression",
+          "named": true
+        },
+        {
+          "type": "calendar_month",
+          "named": true
+        },
+        {
+          "type": "calendar_quarter",
+          "named": true
+        },
+        {
+          "type": "calendar_year",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "convert_currency",
+          "named": true
+        },
+        {
+          "type": "count",
+          "named": true
+        },
+        {
+          "type": "count_distinct",
+          "named": true
+        },
+        {
+          "type": "day_in_month",
+          "named": true
+        },
+        {
+          "type": "day_in_week",
+          "named": true
+        },
+        {
+          "type": "day_in_year",
+          "named": true
+        },
+        {
+          "type": "day_only",
+          "named": true
+        },
+        {
+          "type": "distance",
+          "named": true
+        },
+        {
+          "type": "distance_type_km",
+          "named": true
+        },
+        {
+          "type": "distance_type_mi",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "fiscal_month",
+          "named": true
+        },
+        {
+          "type": "fiscal_quarter",
+          "named": true
+        },
+        {
+          "type": "fiscal_year",
+          "named": true
+        },
+        {
+          "type": "format",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "geo_location_type",
+          "named": true
+        },
+        {
+          "type": "grouping",
+          "named": true
+        },
+        {
+          "type": "hour_in_day",
+          "named": true
+        },
+        {
+          "type": "max",
+          "named": true
+        },
+        {
+          "type": "min",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "sum",
+          "named": true
+        },
+        {
+          "type": "to_label",
+          "named": true
+        },
+        {
+          "type": "week_in_month",
+          "named": true
+        },
+        {
+          "type": "week_in_year",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "geo_location_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bound_apex_expression",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "decimal",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "geo_location",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "group_by_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "cube",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "group_by",
+          "named": true
+        },
+        {
+          "type": "having_clause",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "rollup",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "having_and_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and",
+          "named": true
+        },
+        {
+          "type": "having_and_expression",
+          "named": true
+        },
+        {
+          "type": "having_comparison_expression",
+          "named": true
+        },
+        {
+          "type": "having_not_expression",
+          "named": true
+        },
+        {
+          "type": "having_or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "having_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "having",
+          "named": true
+        },
+        {
+          "type": "having_and_expression",
+          "named": true
+        },
+        {
+          "type": "having_comparison_expression",
+          "named": true
+        },
+        {
+          "type": "having_not_expression",
+          "named": true
+        },
+        {
+          "type": "having_or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "having_comparison_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bound_apex_expression",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "currency_literal",
+          "named": true
+        },
+        {
+          "type": "date",
+          "named": true
+        },
+        {
+          "type": "date_literal",
+          "named": true
+        },
+        {
+          "type": "date_literal_with_param",
+          "named": true
+        },
+        {
+          "type": "date_time",
+          "named": true
+        },
+        {
+          "type": "equals",
+          "named": true
+        },
+        {
+          "type": "excludes",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "greater_or_equal",
+          "named": true
+        },
+        {
+          "type": "greater_than",
+          "named": true
+        },
+        {
+          "type": "in",
+          "named": true
+        },
+        {
+          "type": "includes",
+          "named": true
+        },
+        {
+          "type": "less_or_equal",
+          "named": true
+        },
+        {
+          "type": "less_than",
+          "named": true
+        },
+        {
+          "type": "like",
+          "named": true
+        },
+        {
+          "type": "not_equals",
+          "named": true
+        },
+        {
+          "type": "not_in",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "having_not_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "having_and_expression",
+          "named": true
+        },
+        {
+          "type": "having_comparison_expression",
+          "named": true
+        },
+        {
+          "type": "having_not_expression",
+          "named": true
+        },
+        {
+          "type": "having_or_expression",
+          "named": true
+        },
+        {
+          "type": "not",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "having_or_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "having_and_expression",
+          "named": true
+        },
+        {
+          "type": "having_comparison_expression",
+          "named": true
+        },
+        {
+          "type": "having_not_expression",
+          "named": true
+        },
+        {
+          "type": "having_or_expression",
+          "named": true
+        },
+        {
+          "type": "or",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "header_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "in",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "limit_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "limit",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "not",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "not_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "not",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "not_in",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "offset_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "offset",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "or_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "order_by_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "order_by",
+          "named": true
+        },
+        {
+          "type": "order_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "order_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "asc",
+          "named": true
+        },
+        {
+          "type": "desc",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "nulls_first",
+          "named": true
+        },
+        {
+          "type": "nulls_last",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "query_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "for_clause",
+          "named": true
+        },
+        {
+          "type": "from_clause",
+          "named": true
+        },
+        {
+          "type": "group_by_clause",
+          "named": true
+        },
+        {
+          "type": "limit_clause",
+          "named": true
+        },
+        {
+          "type": "offset_clause",
+          "named": true
+        },
+        {
+          "type": "order_by_clause",
+          "named": true
+        },
+        {
+          "type": "select_clause",
+          "named": true
+        },
+        {
+          "type": "update_clause",
+          "named": true
+        },
+        {
+          "type": "using_clause",
+          "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "select_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alias_expression",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "count_expression",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "fields_expression",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "select",
+          "named": true
+        },
+        {
+          "type": "subquery",
+          "named": true
+        },
+        {
+          "type": "type_of_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "header_comment",
+          "named": true
+        },
+        {
+          "type": "query_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "storage_alias",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "as",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "storage_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "storage_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subquery",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "query_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_of_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "else_expression",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_of",
+          "named": true
+        },
+        {
+          "type": "when_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "update_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "tracking",
+          "named": true
+        },
+        {
+          "type": "update",
+          "named": true
+        },
+        {
+          "type": "viewstat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "using_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delegated",
+          "named": true
+        },
+        {
+          "type": "everything",
+          "named": true
+        },
+        {
+          "type": "mine",
+          "named": true
+        },
+        {
+          "type": "mine_and_my_groups",
+          "named": true
+        },
+        {
+          "type": "my_team_territory",
+          "named": true
+        },
+        {
+          "type": "my_territory",
+          "named": true
+        },
+        {
+          "type": "team",
+          "named": true
+        },
+        {
+          "type": "using_scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "using_scope",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "when_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field_list",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "then",
+          "named": true
+        },
+        {
+          "type": "when",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "where_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_expression",
+          "named": true
+        },
+        {
+          "type": "not_expression",
+          "named": true
+        },
+        {
+          "type": "or_expression",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "where",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "security_enforced",
+          "named": true
+        },
+        {
+          "type": "system_mode",
+          "named": true
+        },
+        {
+          "type": "user_mode",
+          "named": true
+        },
+        {
+          "type": "with",
+          "named": true
+        },
+        {
+          "type": "with_data_cat_expression",
+          "named": true
+        },
+        {
+          "type": "with_record_visibility_expression",
+          "named": true
+        },
+        {
+          "type": "with_user_id_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_data_cat_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "and",
+          "named": true
+        },
+        {
+          "type": "data_category",
+          "named": true
+        },
+        {
+          "type": "with_data_cat_filter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_data_cat_filter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "above",
+          "named": true
+        },
+        {
+          "type": "above_or_below",
+          "named": true
+        },
+        {
+          "type": "at",
+          "named": true
+        },
+        {
+          "type": "below",
+          "named": true
+        },
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_record_visibility_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma",
+          "named": true
+        },
+        {
+          "type": "equals",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "max_descriptor_per_record",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "paren_left",
+          "named": true
+        },
+        {
+          "type": "paren_right",
+          "named": true
+        },
+        {
+          "type": "record_visibility_context",
+          "named": true
+        },
+        {
+          "type": "supports_delegates",
+          "named": true
+        },
+        {
+          "type": "supports_domains",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_user_id_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "equals",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "user_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "//",
+    "named": false
+  },
+  {
+    "type": "above",
+    "named": true
+  },
+  {
+    "type": "above_or_below",
+    "named": true
+  },
+  {
+    "type": "all",
+    "named": true
+  },
+  {
+    "type": "and",
+    "named": true
+  },
+  {
+    "type": "as",
+    "named": true
+  },
+  {
+    "type": "asc",
+    "named": true
+  },
+  {
+    "type": "at",
+    "named": true
+  },
+  {
+    "type": "avg",
+    "named": true
+  },
+  {
+    "type": "below",
+    "named": true
+  },
+  {
+    "type": "calendar_month",
+    "named": true
+  },
+  {
+    "type": "calendar_quarter",
+    "named": true
+  },
+  {
+    "type": "calendar_year",
+    "named": true
+  },
+  {
+    "type": "colon",
+    "named": true
+  },
+  {
+    "type": "comma",
+    "named": true
+  },
+  {
+    "type": "convert_currency",
+    "named": true
+  },
+  {
+    "type": "count",
+    "named": true
+  },
+  {
+    "type": "count_distinct",
+    "named": true
+  },
+  {
+    "type": "cube",
+    "named": true
+  },
+  {
+    "type": "currency_literal",
+    "named": true
+  },
+  {
+    "type": "custom",
+    "named": true
+  },
+  {
+    "type": "data_category",
+    "named": true
+  },
+  {
+    "type": "date",
+    "named": true
+  },
+  {
+    "type": "date_time",
+    "named": true
+  },
+  {
+    "type": "day_in_month",
+    "named": true
+  },
+  {
+    "type": "day_in_week",
+    "named": true
+  },
+  {
+    "type": "day_in_year",
+    "named": true
+  },
+  {
+    "type": "day_only",
+    "named": true
+  },
+  {
+    "type": "decimal",
+    "named": true
+  },
+  {
+    "type": "delegated",
+    "named": true
+  },
+  {
+    "type": "desc",
+    "named": true
+  },
+  {
+    "type": "distance",
+    "named": true
+  },
+  {
+    "type": "distance_type_km",
+    "named": true
+  },
+  {
+    "type": "distance_type_mi",
+    "named": true
+  },
+  {
+    "type": "else",
+    "named": true
+  },
+  {
+    "type": "end",
+    "named": true
+  },
+  {
+    "type": "equals",
+    "named": true
+  },
+  {
+    "type": "everything",
+    "named": true
+  },
+  {
+    "type": "excludes",
+    "named": true
+  },
+  {
+    "type": "false",
+    "named": true
+  },
+  {
+    "type": "fields",
+    "named": true
+  },
+  {
+    "type": "fiscal_month",
+    "named": true
+  },
+  {
+    "type": "fiscal_quarter",
+    "named": true
+  },
+  {
+    "type": "fiscal_year",
+    "named": true
+  },
+  {
+    "type": "for",
+    "named": true
+  },
+  {
+    "type": "format",
+    "named": true
+  },
+  {
+    "type": "from",
+    "named": true
+  },
+  {
+    "type": "geo_location",
+    "named": true
+  },
+  {
+    "type": "greater_or_equal",
+    "named": true
+  },
+  {
+    "type": "greater_than",
+    "named": true
+  },
+  {
+    "type": "group_by",
+    "named": true
+  },
+  {
+    "type": "grouping",
+    "named": true
+  },
+  {
+    "type": "having",
+    "named": true
+  },
+  {
+    "type": "hour_in_day",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "includes",
+    "named": true
+  },
+  {
+    "type": "last_90_days",
+    "named": true
+  },
+  {
+    "type": "last_fiscal_quarter",
+    "named": true
+  },
+  {
+    "type": "last_fiscal_year",
+    "named": true
+  },
+  {
+    "type": "last_month",
+    "named": true
+  },
+  {
+    "type": "last_n_days",
+    "named": true
+  },
+  {
+    "type": "last_n_fiscal_quarters",
+    "named": true
+  },
+  {
+    "type": "last_n_fiscal_years",
+    "named": true
+  },
+  {
+    "type": "last_n_months",
+    "named": true
+  },
+  {
+    "type": "last_n_quarters",
+    "named": true
+  },
+  {
+    "type": "last_n_weeks",
+    "named": true
+  },
+  {
+    "type": "last_n_years",
+    "named": true
+  },
+  {
+    "type": "last_quarter",
+    "named": true
+  },
+  {
+    "type": "last_week",
+    "named": true
+  },
+  {
+    "type": "last_year",
+    "named": true
+  },
+  {
+    "type": "less_or_equal",
+    "named": true
+  },
+  {
+    "type": "less_than",
+    "named": true
+  },
+  {
+    "type": "like",
+    "named": true
+  },
+  {
+    "type": "limit",
+    "named": true
+  },
+  {
+    "type": "max",
+    "named": true
+  },
+  {
+    "type": "max_descriptor_per_record",
+    "named": true
+  },
+  {
+    "type": "min",
+    "named": true
+  },
+  {
+    "type": "mine",
+    "named": true
+  },
+  {
+    "type": "mine_and_my_groups",
+    "named": true
+  },
+  {
+    "type": "my_team_territory",
+    "named": true
+  },
+  {
+    "type": "my_territory",
+    "named": true
+  },
+  {
+    "type": "n_days_ago",
+    "named": true
+  },
+  {
+    "type": "n_fiscal_quarters_ago",
+    "named": true
+  },
+  {
+    "type": "n_fiscal_years_ago",
+    "named": true
+  },
+  {
+    "type": "n_months_ago",
+    "named": true
+  },
+  {
+    "type": "n_quarters_ago",
+    "named": true
+  },
+  {
+    "type": "n_weeks_ago",
+    "named": true
+  },
+  {
+    "type": "n_years_ago",
+    "named": true
+  },
+  {
+    "type": "next_90_days",
+    "named": true
+  },
+  {
+    "type": "next_fiscal_quarter",
+    "named": true
+  },
+  {
+    "type": "next_fiscal_year",
+    "named": true
+  },
+  {
+    "type": "next_month",
+    "named": true
+  },
+  {
+    "type": "next_n_days",
+    "named": true
+  },
+  {
+    "type": "next_n_fiscal_quarters",
+    "named": true
+  },
+  {
+    "type": "next_n_fiscal_years",
+    "named": true
+  },
+  {
+    "type": "next_n_months",
+    "named": true
+  },
+  {
+    "type": "next_n_quarters",
+    "named": true
+  },
+  {
+    "type": "next_n_weeks",
+    "named": true
+  },
+  {
+    "type": "next_n_years",
+    "named": true
+  },
+  {
+    "type": "next_quarter",
+    "named": true
+  },
+  {
+    "type": "next_week",
+    "named": true
+  },
+  {
+    "type": "next_year",
+    "named": true
+  },
+  {
+    "type": "not_equals",
+    "named": true
+  },
+  {
+    "type": "null",
+    "named": true
+  },
+  {
+    "type": "nulls_first",
+    "named": true
+  },
+  {
+    "type": "nulls_last",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "offset",
+    "named": true
+  },
+  {
+    "type": "or",
+    "named": true
+  },
+  {
+    "type": "order_by",
+    "named": true
+  },
+  {
+    "type": "paren_left",
+    "named": true
+  },
+  {
+    "type": "paren_right",
+    "named": true
+  },
+  {
+    "type": "period",
+    "named": true
+  },
+  {
+    "type": "question_mark",
+    "named": true
+  },
+  {
+    "type": "record_visibility_context",
+    "named": true
+  },
+  {
+    "type": "reference",
+    "named": true
+  },
+  {
+    "type": "rollup",
+    "named": true
+  },
+  {
+    "type": "security_enforced",
+    "named": true
+  },
+  {
+    "type": "select",
+    "named": true
+  },
+  {
+    "type": "standard",
+    "named": true
+  },
+  {
+    "type": "string_literal",
+    "named": true
+  },
+  {
+    "type": "sum",
+    "named": true
+  },
+  {
+    "type": "supports_delegates",
+    "named": true
+  },
+  {
+    "type": "supports_domains",
+    "named": true
+  },
+  {
+    "type": "system_mode",
+    "named": true
+  },
+  {
+    "type": "team",
+    "named": true
+  },
+  {
+    "type": "then",
+    "named": true
+  },
+  {
+    "type": "this_fiscal_quarter",
+    "named": true
+  },
+  {
+    "type": "this_fiscal_year",
+    "named": true
+  },
+  {
+    "type": "this_month",
+    "named": true
+  },
+  {
+    "type": "this_quarter",
+    "named": true
+  },
+  {
+    "type": "this_week",
+    "named": true
+  },
+  {
+    "type": "this_year",
+    "named": true
+  },
+  {
+    "type": "to_label",
+    "named": true
+  },
+  {
+    "type": "today",
+    "named": true
+  },
+  {
+    "type": "tomorrow",
+    "named": true
+  },
+  {
+    "type": "tracking",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": true
+  },
+  {
+    "type": "type_of",
+    "named": true
+  },
+  {
+    "type": "update",
+    "named": true
+  },
+  {
+    "type": "user_id",
+    "named": true
+  },
+  {
+    "type": "user_mode",
+    "named": true
+  },
+  {
+    "type": "view",
+    "named": true
+  },
+  {
+    "type": "viewstat",
+    "named": true
+  },
+  {
+    "type": "week_in_month",
+    "named": true
+  },
+  {
+    "type": "week_in_year",
+    "named": true
+  },
+  {
+    "type": "when",
+    "named": true
+  },
+  {
+    "type": "where",
+    "named": true
+  },
+  {
+    "type": "with",
+    "named": true
+  },
+  {
+    "type": "yesterday",
+    "named": true
+  }
+]

@@ -1,0 +1,5 @@
+SELECT Id, What.Name FROM Event;
+/// <- keyword
+///    ^^ property
+///      ^ punctuation
+///                       ^^^^^ type

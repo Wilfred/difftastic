@@ -1,0 +1,13 @@
+SELECT Id, Name, Account.Name FROM Contact WHERE Account.Industry = 'media'
+/// <- keyword
+///    ^^ property
+///      ^ punctuation
+///        ^^^^ property
+///            ^ punctuation
+///              ^^^^^^^^^^^^ property
+///                           ^^^^ keyword
+///                                ^^^^^^^ type
+///                                        ^^^^^ keyword
+///                                              ^^^^^^^^^^^^^^^^ property
+///                                                               ^ operator
+///                                                                  ^^^^^ string

@@ -1,0 +1,28 @@
+SELECT city_c, State_c, COUNT(Employee_Name__C) Counts, COUNT_DISTINCT(Employee_Name__C) DistCounts
+/// <- keyword
+///     ^^^^^^ property
+///          ^ punctuation
+///            ^ property
+///                   ^ punctuation
+///                     ^ function
+///                          ^ punctuation
+///                           ^ property
+///                                           ^ punctuation
+///                                             ^ label
+///                                                   ^ punctuation
+///                                                     ^^^^^^^^^^^^^^ function
+///                                                                   ^ punctuation
+///                                                                     ^^^^^^^^^^^^^^^^ property
+///                                                                                    ^ punctuation
+///                                                                                      ^ label
+FROM Employee__C
+/// <- keyword
+///  ^ type
+GROUP BY ROLLUP(City__c, State__C)
+/// <- keyword
+///      ^ function
+///            ^ punctuation
+///             ^ property
+///                    ^ punctuation
+///                      ^ property
+///                              ^ punctuation

@@ -1,0 +1,90 @@
+================================================================================
+Format
+================================================================================
+
+SELECT FORMAT(amount) Amt,
+    format(lastModifiedDate) editDate
+FROM Opportunity
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))))
+
+================================================================================
+Format with Nested Convert Currency
+================================================================================
+
+SELECT amount, FORMAT(amount) Amt, convertCurrency(amount) editDate,
+    FORMAT(convertCurrency(amount)) convertedCurrency
+FROM Opportunity
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier)))
+            (identifier))
+          (alias_expression
+            (function_expression
+              (function_name)
+              (function_expression
+                (function_name)
+                (field_identifier
+                  (identifier))))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))))
+
+================================================================================
+Format Nested Aggregate
+================================================================================
+
+SELECT FORMAT(MIN(closedate)) Amt FROM opportunity
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (alias_expression
+            (function_expression
+              (function_name)
+              (function_expression
+                (function_name)
+                (field_identifier
+                  (identifier))))
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))))

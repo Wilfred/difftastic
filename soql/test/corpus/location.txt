@@ -1,0 +1,87 @@
+================================================================================
+Select Location Fields
+================================================================================
+
+SELECT Name, Location__latitude__s, Location__longitude__s
+FROM Warehouse__c
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))))
+
+================================================================================
+WHERE DISTANCE
+================================================================================
+
+SELECT Name, Location__c
+FROM Warehouse__c
+WHERE DISTANCE(Location__c, GEOLOCATION(37.775,-122.418), 'mi') < 20
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (where_clause
+          (comparison_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier))
+              (geo_location_type
+                (function_name)
+                (decimal)
+                (decimal))
+              (string_literal))
+            (value_comparison_operator)
+            (int)))))
+
+================================================================================
+ORDER BY Distance
+================================================================================
+
+SELECT Name, StreetAddress__c
+FROM Warehouse__c
+ORDER BY DISTANCE(Location__c, GEOLOCATION(37.775,-122.418), 'km')
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (soql_query_body
+        (select_clause
+          (field_identifier
+            (identifier))
+          (field_identifier
+            (identifier)))
+        (from_clause
+          (storage_identifier
+            (identifier)))
+        (order_by_clause
+          (order_expression
+            (function_expression
+              (function_name)
+              (field_identifier
+                (identifier))
+              (geo_location_type
+                (function_name)
+                (decimal)
+                (decimal))
+              (string_literal))))))
