@@ -24,7 +24,7 @@ enum TokenType {
 #define END_TOKEN_TYPE EOL + 1
 
 typedef std::bitset<8> valid_tokens_t;
-static constexpr valid_tokens_t IndentTypes = 0b111; /* INDENT .. DEDENT */
+static const valid_tokens_t IndentTypes = 0b111; /* INDENT .. DEDENT */
 
 struct Scanner {
   std::vector<uint8_t> indentStack;
@@ -101,7 +101,7 @@ bool Scanner::scan(TSLexer* lexer, valid_tokens_t valid_tokens) {
 
       if (indent < lastIndent) {
         /* previous indent level on the stack */
-        const auto prevIndent = this->indentStack.size() > 1
+        const uint8_t prevIndent = this->indentStack.size() > 1
           ? this->indentStack[this->indentStack.size() - 2]
           : indent;
         /* if indent falls at or below the upper level of the stack */
@@ -127,29 +127,29 @@ extern "C" {
   }
 
   void tree_sitter_nim_external_scanner_destroy(void* payload) {
-    auto scanner = static_cast<Scanner*>(payload);
+    Scanner* scanner = static_cast<Scanner*>(payload);
     delete scanner;
   }
 
   unsigned tree_sitter_nim_external_scanner_serialize(void* payload, char* buffer) {
-    auto scanner = static_cast<Scanner*>(payload);
+    Scanner* scanner = static_cast<Scanner*>(payload);
     return scanner->serialize(buffer);
   }
 
   void tree_sitter_nim_external_scanner_deserialize(
     void* payload, const char* buffer, unsigned length
   ) {
-    auto scanner = static_cast<Scanner*>(payload);
+    Scanner* scanner = static_cast<Scanner*>(payload);
     scanner->deserialize(buffer, length);
   }
 
   bool tree_sitter_nim_external_scanner_scan(
     void* payload, TSLexer* lexer, const bool* valid_symbols
   ) {
-    auto scanner = static_cast<Scanner*>(payload);
+    Scanner* scanner = static_cast<Scanner*>(payload);
 
     valid_tokens_t valid_tokens;
-    for (auto i = 0; i < END_TOKEN_TYPE; i++)
+    for (int i = 0; i < END_TOKEN_TYPE; i++)
       valid_tokens.set(i, valid_symbols[i]);
 
     return scanner->scan(lexer, valid_tokens);
