@@ -53,6 +53,9 @@ impl TreeSitterParser {
         }
 
         let mut build = cc::Build::new();
+        if cfg!(windows) {
+            build.flag("/utf-8");
+        }
         build.include(&dir).warnings(false); // ignore unused parameter warnings
         for file in c_files {
             build.file(dir.join(file));
