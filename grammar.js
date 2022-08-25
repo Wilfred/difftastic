@@ -53,13 +53,24 @@ module.exports = grammar({
     ),
 
     variable_declaration: $ => seq(
-      repeatSep1(',', field('name', $.identifier)),
+      repeatSep1(',', $._variable_name_declaration),
       optional(
         seq(':', field('type', $._type))
       ),
       optional(
         seq('=', field('value', $.expression))
       )
+    ),
+
+    _variable_name_declaration: $ => choice(
+      field('name', $.identifier),
+      $.tuple_deconstruct_declaration
+    ),
+
+    tuple_deconstruct_declaration: $ => seq(
+      '(',
+      repeatSep1(',', field('name', $.identifier)),
+      ')'
     ),
 
     identifier: $ => /[a-zA-Z\x80-\xff](?:_?[a-zA-Z\x80-\xff0-9])*/,
@@ -77,7 +88,8 @@ module.exports = grammar({
     _literal: $ => choice(
       $.boolean_literal,
       $.integer_literal,
-      $.float_literal
+      $.float_literal,
+      $.tuple
     ),
 
     boolean_literal: $ => choice(
@@ -107,6 +119,12 @@ module.exports = grammar({
         seq(/[eE][+-]?/, $._decimal_literal),
         optional($._float_literal_suffix)
       )
+    ),
+
+    tuple: $ => seq(
+      '(',
+      repeatSep1(',', $.expression),
+      ')'
     ),
 
     _numeric_literal: $ => choice(

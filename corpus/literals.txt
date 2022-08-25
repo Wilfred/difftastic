@@ -236,3 +236,28 @@ f_Al_se
   (expression_statement
     (expression
       (boolean_literal))))
+
+==============
+Tuple literals
+==============
+
+(20, 42)
+(0x2f, 0o755f)
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (tuple
+        (expression
+          (integer_literal))
+        (expression
+          (integer_literal)))))
+  (expression_statement
+    (expression
+      (tuple
+        (expression
+          (integer_literal))
+        (expression
+          (float_literal))))))

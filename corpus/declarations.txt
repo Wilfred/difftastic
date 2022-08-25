@@ -16,6 +16,12 @@ const
   A = 10
   B: uint32 = 42
 
+const (X, Y) = (1, 2)
+
+const
+  Z = 10
+  (D, E, F) = (3, 4, 5)
+
 ---
 
 (source_file
@@ -39,7 +45,36 @@ const
       name: (identifier)
       type: (type_identifier)
       value: (expression
-        (integer_literal)))))
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      (tuple_deconstruct_declaration
+        name: (identifier)
+        name: (identifier))
+      value: (expression
+        (tuple
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal))))))
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      value: (expression
+        (integer_literal)))
+    (variable_declaration
+      (tuple_deconstruct_declaration
+        name: (identifier)
+        name: (identifier)
+        name: (identifier))
+      value: (expression
+        (tuple
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal)))))))
 
 ================
 Let declarations
@@ -51,6 +86,7 @@ lET bar: float = 10f32
 l_e_t
   a, c, d = 10
   b: uint32 = 42
+  (e, f) = (1, 2)
 
 ---
 
@@ -78,7 +114,17 @@ l_e_t
       name: (identifier)
       type: (type_identifier)
       value: (expression
-        (integer_literal)))))
+        (integer_literal)))
+    (variable_declaration
+      (tuple_deconstruct_declaration
+        name: (identifier)
+        name: (identifier))
+      value: (expression
+        (tuple
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal)))))))
 
 ================
 Var declarations
@@ -93,6 +139,8 @@ v_a_r
 
 var x, y: int
 var z, w: float
+
+var (c, d) = (2, 3)
 
 ---
 
@@ -127,4 +175,15 @@ var z, w: float
     (variable_declaration
       name: (identifier)
       name: (identifier)
-      type: (type_identifier))))
+      type: (type_identifier)))
+  (var_section
+    (variable_declaration
+      (tuple_deconstruct_declaration
+        name: (identifier)
+        name: (identifier))
+      value: (expression
+        (tuple
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal)))))))
