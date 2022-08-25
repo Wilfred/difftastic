@@ -1,0 +1,130 @@
+# Copyright 2022 Leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: MPL-2.0
+# This Source Code Form is subject to the terms of the Mozilla Public License,
+# v. 2.0. If a copy of the MPL was not distributed with this file, You can
+# obtain one at https://mozilla.org/MPL/2.0/.
+
+=====================
+Constant declarations
+=====================
+
+const Foo = 0
+coNs_T Bar: int = 10
+
+const
+  A = 10
+  B: uint32 = 42
+
+---
+
+(source_file
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      value: (expression
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      value: (expression
+        (integer_literal)))
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (integer_literal)))))
+
+================
+Let declarations
+================
+
+let foo, dar = 0d
+lET bar: float = 10f32
+
+l_e_t
+  a, c, d = 10
+  b: uint32 = 42
+
+---
+
+(source_file
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      name: (identifier)
+      value: (expression
+        (float_literal))))
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (float_literal))))
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      name: (identifier)
+      name: (identifier)
+      value: (expression
+        (integer_literal)))
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (integer_literal)))))
+
+================
+Var declarations
+================
+
+var foo = 0d
+vaR bar: float = 10f32
+
+v_a_r
+  a = 10
+  b: uint32 = 42
+
+var x, y: int
+var z, w: float
+
+---
+
+(source_file
+  (var_section
+    (variable_declaration
+      name: (identifier)
+      value: (expression
+        (float_literal))))
+  (var_section
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (float_literal))))
+  (var_section
+    (variable_declaration
+      name: (identifier)
+      value: (expression
+        (integer_literal)))
+    (variable_declaration
+      name: (identifier)
+      type: (type_identifier)
+      value: (expression
+        (integer_literal))))
+  (var_section
+    (variable_declaration
+      name: (identifier)
+      name: (identifier)
+      type: (type_identifier)))
+  (var_section
+    (variable_declaration
+      name: (identifier)
+      name: (identifier)
+      type: (type_identifier))))

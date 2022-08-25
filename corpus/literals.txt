@@ -1,0 +1,238 @@
+# Copyright 2022 Leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: MPL-2.0
+# This Source Code Form is subject to the terms of the Mozilla Public License,
+# v. 2.0. If a copy of the MPL was not distributed with this file, You can
+# obtain one at https://mozilla.org/MPL/2.0/.
+
+================
+Integer literals
+================
+
+1234
+1234u
+1234U
+1234'i32
+1234u16
+
+12_345_67
+12_345_67I32
+12_345_67'I8
+
+0xABCDEF
+0xABCDEFi16
+
+0xab_cd_ef
+0xab_cd_efu32
+
+0o7050
+0o7050'u16
+
+0o70_50
+0o70_50'u8
+
+0b11011
+0b11011U8
+
+0b1_10_11
+0b11_011U16
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal)))
+  (expression_statement
+    (expression
+      (integer_literal))))
+
+==============
+Float literals
+==============
+
+12.32
+12_34.567_89
+
+12_34e10
+12_34e+123_340
+12_34e-1_120
+
+1234.5678e10
+12_34.56_78e-10
+
+12.34F
+12.34d
+12.34f32
+12.34f64
+
+1234f
+1234d
+1234'F32
+1234'F64
+
+12_34.567_89'D
+
+12_34.567_89e+123'D
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal)))
+  (expression_statement
+    (expression
+      (float_literal))))
+
+================
+Boolean literals
+================
+
+oN
+o_n
+o_N
+off
+oF_f
+o_f_f
+true
+tRUE
+t_r_U_E
+false
+f_Al_se
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal)))
+  (expression_statement
+    (expression
+      (boolean_literal))))

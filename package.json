@@ -1,0 +1,17 @@
+{
+  "name": "tree-sitter-nim",
+  "version": "0.0.1",
+  "description": "Tree-sitter grammar for Nim",
+  "main": "bindings/node",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp configure && node-gyp build",
+    "test": "tree-sitter test"
+  },
+  "author": "leorize",
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "nan": "^2.16.0",
+    "node-gyp": "^9.1.0",
+    "tree-sitter-cli": "^0.20.6"
+  }
+}
