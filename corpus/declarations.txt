@@ -187,3 +187,74 @@ var (c, d) = (2, 3)
             (integer_literal))
           (expression
             (integer_literal)))))))
+
+=================
+Type declarations
+=================
+
+type X = int
+type
+  Y = distinct int
+  Z = tuple[x, y: int]
+  W = tuple
+    x: int
+    y: int
+
+type A = ref object
+
+type B = ref object
+  a*, c*, d: string
+  b: string
+
+---
+
+(source_file
+  (type_section
+    (type_declaration
+      name: (identifier)
+      type: (type_identifier)))
+  (type_section
+    (type_declaration
+      name: (identifier)
+      type: (distinct_type
+        (type_identifier)))
+    (type_declaration
+      name: (identifier)
+      type: (tuple_type
+        (field_declaration_list
+          (field_declaration
+            name: (identifier)
+            name: (identifier)
+            type: (type_identifier)))))
+    (type_declaration
+      name: (identifier)
+      type: (tuple_type
+        (field_declaration_list
+          (field_declaration
+            name: (identifier)
+            type: (type_identifier))
+          (field_declaration
+            name: (identifier)
+            type: (type_identifier)))))
+    (MISSING _eol))
+  (type_section
+    (type_declaration
+      name: (identifier)
+      type: (ref_type
+        (object_type))))
+  (type_section
+    (type_declaration
+      name: (identifier)
+      type: (ref_type
+        (object_type
+          (field_declaration_list
+            (field_declaration
+              (exported_symbol
+                name: (identifier))
+              (exported_symbol
+                name: (identifier))
+              name: (identifier)
+              type: (type_identifier))
+            (field_declaration
+              name: (identifier)
+              type: (type_identifier))))))))

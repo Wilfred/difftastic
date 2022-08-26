@@ -17,6 +17,12 @@ module.exports = grammar({
     $._eol
   ],
 
+  extras: $ => [' ', '\r', '\n'],
+
+  conflicts: $ => [
+    [$.object_type]
+  ],
+
   rules: {
     source_file: $ => repeat($._statement),
 
@@ -33,7 +39,8 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.const_section,
       $.var_section,
-      $.let_section
+      $.let_section,
+      $.type_section
       // TODO: more declarations
     ),
 
@@ -50,6 +57,11 @@ module.exports = grammar({
     let_section: $ => seq(
       styleInsensitive('let'),
       singularOrSection($, $.variable_declaration)
+    ),
+
+    type_section: $ => seq(
+      styleInsensitive('type'),
+      singularOrSection($, $.type_declaration)
     ),
 
     variable_declaration: $ => seq(
@@ -73,13 +85,52 @@ module.exports = grammar({
       ')'
     ),
 
-    identifier: $ => /[a-zA-Z\x80-\xff](?:_?[a-zA-Z\x80-\xff0-9])*/,
-
-    _type: $ => choice(
-      prec.dynamic(-1, $._type_identifier)
+    type_declaration: $ => seq(
+      field('name', $.identifier),
+      '=',
+      field('type', $._type)
     ),
 
-    _type_identifier: $ => alias($.identifier, $.type_identifier),
+
+    _type: $ => choice(
+      $._type_identifier,
+      $.tuple_type,
+      $.object_type,
+      $.distinct_type,
+      $.ref_type
+    ),
+
+    tuple_type: $ => seq(
+      styleInsensitive('tuple'),
+      $.field_declaration_list
+    ),
+
+    object_type: $ => prec.dynamic(1, seq(
+      styleInsensitive('object'),
+      optional($.field_declaration_list)
+    )),
+
+    field_declaration_list: $ => choice(
+      seq('[', repeatSep1(/[,;]/, $.field_declaration), ']'),
+      seq($._eol, $._indent, repeat1(seq($.field_declaration, $._eol)), $._dedent)
+    ),
+
+    field_declaration: $ => seq(
+      repeatSep1(',', $._symbol_declaration),
+      ':',
+      field('type', $._type)
+    ),
+
+    _symbol_declaration: $ => choice(
+      field('name', $.identifier),
+      $.exported_symbol
+    ),
+
+    exported_symbol: $ => seq(field('name', $.identifier), '*'),
+
+    distinct_type: $ => prec.left(1, seq(styleInsensitive('distinct'), $._type)),
+
+    ref_type: $ => seq(styleInsensitive('ref'), $._type),
 
     expression: $ => choice(
       $._literal
@@ -148,7 +199,11 @@ module.exports = grammar({
       choice(
         'd', 'D', /[fF](?:32|64|128)?/
       )
-    )
+    ),
+
+    /* Identifier rules must be last to avoid overtaking keywords in precedence */
+    identifier: $ => /[a-zA-Z\x80-\xff](?:_?[a-zA-Z\x80-\xff0-9])*/,
+    _type_identifier: $ => alias($.identifier, $.type_identifier),
   }
 });
 
