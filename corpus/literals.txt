@@ -261,3 +261,49 @@ Tuple literals
           (integer_literal))
         (expression
           (float_literal))))))
+
+===============
+String literals
+===============
+
+"regular"
+
+"string"
+
+"string\n\n\r"
+
+"a 'long\'\" string \x00 \uBEEF \u{DEADBEEF}"
+
+r"raw string"
+
+r"C:\Windows\System32"
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (string_literal)))
+  (expression_statement
+    (expression
+      (string_literal)))
+  (expression_statement
+    (expression
+      (string_literal
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence))))
+  (expression_statement
+    (expression
+      (string_literal
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence))))
+  (expression_statement
+    (expression
+      (string_literal)))
+  (expression_statement
+    (expression
+      (string_literal))))

@@ -160,6 +160,7 @@ module.exports = grammar({
       $.boolean_literal,
       $.integer_literal,
       $.float_literal,
+      $.string_literal,
       $.tuple
     ),
 
@@ -187,6 +188,31 @@ module.exports = grammar({
         optional(LiteralSuffix.float)
       )
     )),
+
+    string_literal: $ => choice(
+      $._interpreted_string_literal,
+      $._raw_string_literal
+    ),
+
+    _raw_string_literal: $ => seq(
+      'r"', repeat(token.immediate(/[^"\n\r]/)), '"'
+    ),
+
+    _interpreted_string_literal: $ => seq(
+      '"',
+      repeat(choice(token.immediate(/[^"\\\n\r]/), $.escape_sequence)),
+      '"'
+    ),
+
+    escape_sequence: $ => token.immediate(
+      seq(
+        '\\',
+        choice(
+          'p', 'r', 'c', 'n', 'l', 'f', 't', 'v', '\\', '"', "'", /\d+/, 'a',
+          'e', /x[0-9a-fA-F]{2}/, /u(?:[0-9a-fA-F]{4}|\{[0-9a-fA-F]+\})/
+        )
+      )
+    ),
 
     tuple: $ => seq(
       '(',
