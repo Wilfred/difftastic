@@ -19,10 +19,6 @@ module.exports = grammar({
 
   extras: $ => [' ', '\r', '\n'],
 
-  conflicts: $ => [
-    [$.object_type]
-  ],
-
   rules: {
     source_file: $ => seq($._indent_start, repeatSep1($._indent_eq, $._statement)),
 
@@ -104,10 +100,10 @@ module.exports = grammar({
       $.field_declaration_list
     ),
 
-    object_type: $ => prec.dynamic(1, seq(
+    object_type: $ => seq(
       styleInsensitive('object'),
       optional($.field_declaration_list)
-    )),
+    ),
 
     field_declaration_list: $ => choice(
       seq('[', repeatSep1(/[,;]/, $.field_declaration), ']'),

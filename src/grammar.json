@@ -510,29 +510,25 @@
       ]
     },
     "object_type": {
-      "type": "PREC_DYNAMIC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "o_?[bB]_?[jJ]_?[eE]_?[cC]_?[tT]"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "field_declaration_list"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "o_?[bB]_?[jJ]_?[eE]_?[cC]_?[tT]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "field_declaration_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "field_declaration_list": {
       "type": "CHOICE",
@@ -1075,11 +1071,7 @@
       "value": "\n"
     }
   ],
-  "conflicts": [
-    [
-      "object_type"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [
     {

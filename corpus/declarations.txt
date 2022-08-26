@@ -206,6 +206,10 @@ type B = ref object
   a*, c*, d: string
   b: string
 
+type
+  C = object
+  D = ref object
+
 ---
 
 (source_file
@@ -256,4 +260,12 @@ type B = ref object
               type: (type_identifier))
             (field_declaration
               name: (identifier)
-              type: (type_identifier))))))))
+              type: (type_identifier)))))))
+  (type_section
+    (type_declaration
+      name: (identifier)
+      type: (object_type))
+    (type_declaration
+      name: (identifier)
+      type: (ref_type
+        (object_type)))))
