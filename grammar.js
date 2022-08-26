@@ -214,7 +214,7 @@ function styleInsensitive(ident) {
     const upper = ident[i].toUpperCase();
     result = lower === upper
       ? result.concat(`_?${lower}`)
-      : result.concat(`_?(?:${lower}|${upper})`);
+      : result.concat(`_?[${lower}${upper}]`);
   }
 
   return new RegExp(result);

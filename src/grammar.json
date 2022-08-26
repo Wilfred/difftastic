@@ -61,7 +61,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "c_?(?:o|O)_?(?:n|N)_?(?:s|S)_?(?:t|T)"
+          "value": "c_?[oO]_?[nN]_?[sS]_?[tT]"
         },
         {
           "type": "CHOICE",
@@ -121,7 +121,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "v_?(?:a|A)_?(?:r|R)"
+          "value": "v_?[aA]_?[rR]"
         },
         {
           "type": "CHOICE",
@@ -181,7 +181,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "l_?(?:e|E)_?(?:t|T)"
+          "value": "l_?[eE]_?[tT]"
         },
         {
           "type": "CHOICE",
@@ -241,7 +241,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "t_?(?:y|Y)_?(?:p|P)_?(?:e|E)"
+          "value": "t_?[yY]_?[pP]_?[eE]"
         },
         {
           "type": "CHOICE",
@@ -494,7 +494,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "t_?(?:u|U)_?(?:p|P)_?(?:l|L)_?(?:e|E)"
+          "value": "t_?[uU]_?[pP]_?[lL]_?[eE]"
         },
         {
           "type": "SYMBOL",
@@ -510,7 +510,7 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "o_?(?:b|B)_?(?:j|J)_?(?:e|E)_?(?:c|C)_?(?:t|T)"
+            "value": "o_?[bB]_?[jJ]_?[eE]_?[cC]_?[tT]"
           },
           {
             "type": "CHOICE",
@@ -687,7 +687,7 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "d_?(?:i|I)_?(?:s|S)_?(?:t|T)_?(?:i|I)_?(?:n|N)_?(?:c|C)_?(?:t|T)"
+            "value": "d_?[iI]_?[sS]_?[tT]_?[iI]_?[nN]_?[cC]_?[tT]"
           },
           {
             "type": "SYMBOL",
@@ -701,7 +701,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "r_?(?:e|E)_?(?:f|F)"
+          "value": "r_?[eE]_?[fF]"
         },
         {
           "type": "SYMBOL",
@@ -744,19 +744,19 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "o_?(?:n|N)"
+          "value": "o_?[nN]"
         },
         {
           "type": "PATTERN",
-          "value": "o_?(?:f|F)_?(?:f|F)"
+          "value": "o_?[fF]_?[fF]"
         },
         {
           "type": "PATTERN",
-          "value": "t_?(?:r|R)_?(?:u|U)_?(?:e|E)"
+          "value": "t_?[rR]_?[uU]_?[eE]"
         },
         {
           "type": "PATTERN",
-          "value": "f_?(?:a|A)_?(?:l|L)_?(?:s|S)_?(?:e|E)"
+          "value": "f_?[aA]_?[lL]_?[sS]_?[eE]"
         }
       ]
     },
