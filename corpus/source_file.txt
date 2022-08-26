@@ -1,0 +1,122 @@
+===
+basic anonymous module
+===
+
+let x = 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (value_defn
+      (long_identifier (identifier))
+      (int))))
+
+===
+basic named module
+===
+
+module Test
+let x = 4
+
+---
+
+(source_file
+  (named_module
+    (long_identifier (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+named module with whitespace
+===
+
+module     Test
+
+let x = 4
+
+---
+
+(source_file
+  (named_module
+    (long_identifier (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+named module lowercase
+===
+
+module test
+
+let x = 4
+
+---
+
+(source_file
+  (named_module
+    (long_identifier (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic namespace
+===
+
+namespace test
+
+let x = 4
+
+---
+
+(source_file
+  (namespace
+    (long_identifier (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic global namespace
+===
+
+namespace global test
+
+let x = 4
+
+---
+
+(source_file
+  (namespace
+    (long_identifier (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic long namespace
+===
+
+namespace test.val
+
+let x = 4
+
+---
+
+(source_file
+  (namespace
+    (long_identifier
+      (identifier)
+      (identifier))
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))

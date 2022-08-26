@@ -1,0 +1,420 @@
+===
+const expression
+===
+
+do 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (int))))
+
+===
+const 2 sequence expression
+===
+
+do 4 3
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (int)
+      (int))))
+
+===
+const 3 sequence expression
+===
+
+do 4 3 3
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (int)
+      (int)
+      (int))))
+
+===
+const identifier expression
+===
+
+do test
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (long_identifier (identifier)))))
+
+===
+const begin/end expression
+===
+
+do begin test end
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (long_identifier (identifier)))))
+
+===
+const begin/end sequence expression
+===
+
+do begin 2 1 end
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+       (int)
+       (int))))
+
+===
+null expression
+===
+
+do null
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (null))))
+
+===
+paren expression
+===
+
+do (4)
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (int))))
+
+===
+paren expression in sequential expression
+===
+
+do test (4)
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (long_identifier (identifier))
+      (int))))
+
+===
+dot expression
+===
+
+do (test.test)
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (dot_expression
+        (long_identifier (identifier))
+        (long_identifier (identifier))))))
+
+===
+index dot expression
+===
+
+do test.[test]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (long_identifier (identifier))
+        (long_identifier (identifier))))))
+
+===
+index expression
+===
+
+do test[test]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (long_identifier (identifier))
+        (long_identifier (identifier))))))
+
+===
+mutate expression
+===
+
+do test <- 2
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (mutate_expression
+        (long_identifier (identifier))
+        (int)))))
+
+===
+chain mutate expression
+===
+
+do test <- 2 <- 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (mutate_expression
+        (mutate_expression
+          (long_identifier (identifier))
+          (int))
+        (int)))))
+
+===
+upcast expression
+===
+
+do upcast 2
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (int))))
+
+===
+downcast expression
+===
+
+do downcast 2
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (int))))
+
+===
+comma separated expressions
+===
+
+do 2, 3, 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr (int) (int) (int))))
+
+===
+list expressions
+===
+
+do [2; 3; 4]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (list_expression
+        (int)
+        (int)
+        (int)))))
+
+===
+index list expressions
+===
+
+do [2; 3; 4][1]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (list_expression
+          (int)
+          (int)
+          (int))
+        (int)))))
+
+===
+index single list expressions
+===
+
+do [2][1]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (list_expression
+          (int))
+        (int)))))
+
+===
+two single list expressions
+===
+
+do [2] [1]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (list_expression (int))
+      (list_expression (int)))))
+
+===
+array expressions
+===
+
+do [|2; 3; 4|]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (array_expression
+        (int)
+        (int)
+        (int)))))
+
+===
+array list expressions
+===
+
+do [|2; 3; 4|][1]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (array_expression
+          (int)
+          (int)
+          (int))
+        (int)))))
+
+===
+array single list expressions
+===
+
+do [|2|][1]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (index_expression
+        (array_expression
+          (int))
+        (int)))))
+
+===
+two single array expressions
+===
+
+do [|2|] [|1|]
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (array_expression (int))
+      (array_expression (int)))))
+
+===
+function-in expressions
+===
+
+do let name x = 4 in 5
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (function_defn
+        (identifier)
+        (argument_patterns
+          (long_identifier (identifier)))
+        (int))
+      (int))))
+
+===
+function-align expressions
+===
+
+do
+  let name x = 4
+  5
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (function_defn
+        (identifier)
+        (argument_patterns
+          (long_identifier (identifier)))
+        (int))
+      (int))))
+
+
+===
+function-align expressions 2
+===
+
+do
+  let name x =
+    4
+  5
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (do_expr
+      (function_defn
+        (identifier)
+        (argument_patterns
+          (long_identifier (identifier)))
+        (int))
+      (int))))
+

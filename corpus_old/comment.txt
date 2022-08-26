@@ -1,0 +1,46 @@
+===
+single line block comment
+===
+
+(* I am a comment on a single line *)
+
+---
+
+(test (comment))
+
+===
+single line block comment 2
+===
+
+(* Here's a code snippet: let s = "*)" *)
+
+---
+
+(test (comment))
+
+===
+multiline block comment
+===
+
+(* I am a comment on a
+multiple lines
+
+see
+how
+"I flyyyy*)"
+
+*)
+
+---
+
+(test (comment))
+
+===
+doubleslash comment
+===
+
+// this is a comment too
+
+---
+
+(test (comment))

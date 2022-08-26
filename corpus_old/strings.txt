@@ -1,0 +1,74 @@
+===
+simple string
+===
+
+"I'm a string"
+
+---
+
+(test (string))
+
+===
+multiline string
+===
+
+"I'm a tall \
+    string"
+
+---
+
+(test (string))
+
+===
+simple char
+===
+
+'i'
+
+---
+
+(test (char))
+
+===
+escape char
+===
+'\n'
+---
+(test (char))
+
+===
+unicodegraph char
+===
+'\u2A0e'
+---
+(test (char))
+===
+
+bytechars
+===
+
+'6'B
+
+---
+
+(test (bytechar))
+
+===
+bytearrays
+===
+
+"face"B
+
+---
+
+(test (bytearray))
+
+===
+trips
+===
+
+""" yo """
+
+---
+
+(test (triple_quoted_string))

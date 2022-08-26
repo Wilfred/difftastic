@@ -1,0 +1,87 @@
+===
+basic module with indent
+===
+
+module test =
+ let x = 4
+
+---
+
+(source_file
+  (module_defn
+    (identifier)
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic module with large indent
+===
+
+module test =
+                      let x = 4
+
+---
+
+(source_file
+  (module_defn
+    (identifier)
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic module with begin/end same line
+===
+
+module test = begin let x = 4 end
+
+---
+
+(source_file
+  (module_defn
+    (identifier)
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic module with begin/end new line
+===
+
+module test = begin
+let x = 4
+end
+
+---
+
+(source_file
+  (module_defn
+    (identifier)
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+
+===
+basic module with begin/end all new lines
+===
+
+module test =
+begin
+let x = 4
+end
+
+---
+
+(source_file
+  (module_defn
+    (identifier)
+    (module_function_or_value_defn
+      (value_defn
+        (long_identifier (identifier))
+        (int)))))
+

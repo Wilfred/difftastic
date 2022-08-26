@@ -1,0 +1,68 @@
+===
+basic constant function
+===
+
+let functionName x = 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (function_defn
+      name: (identifier)
+      arguments: (argument_patterns
+        (long_identifier
+          (identifier)))
+      value: (int))))
+
+===
+basic constant function inline
+===
+
+let inline functionName x = 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (function_defn
+      name: (identifier)
+      arguments: (argument_patterns
+        (long_identifier
+          (identifier)))
+      value: (int))))
+
+===
+basic private constant function
+===
+
+let private functionName x = 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (function_defn
+      name: (identifier)
+      arguments: (argument_patterns
+        (long_identifier
+          (identifier)))
+      value: (int))))
+
+===
+basic private constant function inline
+===
+
+let inline private functionName x = 4
+
+---
+
+(source_file
+  (module_function_or_value_defn
+    (function_defn
+      name: (identifier)
+      arguments: (argument_patterns
+        (long_identifier
+          (identifier)))
+      value: (int))))
+

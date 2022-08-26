@@ -1,0 +1,27 @@
+===
+if directive
+===
+#if FOO
+---
+(test (cond_directive (if_directive)))
+
+===
+if directive 2
+===
+#if FOO && _BAZ
+---
+(test (cond_directive (if_directive)))
+
+===
+if directive 3
+===
+#if FOO || !(BAR && _BAZ)
+---
+(test (cond_directive (if_directive)))
+
+===
+shebang
+===
+#!env fsharpi --exec
+---
+(test (shebang))

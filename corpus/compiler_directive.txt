@@ -1,0 +1,27 @@
+===
+basic compiler directive
+===
+
+#r "hello"
+
+---
+
+(source_file
+  (compiler_directive_decl
+    (identifier)
+    (string)))
+
+===
+multiple compiler directive
+===
+
+#identhere "hello" "test"
+
+---
+
+(source_file
+  (compiler_directive_decl
+    (identifier)
+    (string)
+    (string)))
+
