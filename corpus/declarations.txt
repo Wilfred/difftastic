@@ -235,8 +235,7 @@ type B = ref object
             type: (type_identifier))
           (field_declaration
             name: (identifier)
-            type: (type_identifier)))))
-    (MISSING _eol))
+            type: (type_identifier))))))
   (type_section
     (type_declaration
       name: (identifier)

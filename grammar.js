@@ -11,10 +11,10 @@ module.exports = grammar({
   word: $ => $.identifier,
 
   externals: $ => [
+    $._indent_start,
     $._indent,
-    $._indent_any,
-    $._dedent,
-    $._eol
+    $._indent_eq,
+    $._dedent
   ],
 
   extras: $ => [' ', '\r', '\n'],
@@ -24,7 +24,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._statement),
+    source_file: $ => seq($._indent_start, repeatSep1($._indent_eq, $._statement)),
 
     _statement: $ => choice(
       $._declaration,
@@ -32,8 +32,7 @@ module.exports = grammar({
     ),
 
     expression_statement: $ => seq(
-      $.expression,
-      $._eol
+      $.expression
     ),
 
     _declaration: $ => choice(
@@ -112,7 +111,7 @@ module.exports = grammar({
 
     field_declaration_list: $ => choice(
       seq('[', repeatSep1(/[,;]/, $.field_declaration), ']'),
-      seq($._eol, $._indent, repeat1(seq($.field_declaration, $._eol)), $._dedent)
+      seq($._indent, repeatSep1($._indent_eq, $.field_declaration), $._dedent)
     ),
 
     field_declaration: $ => seq(
@@ -222,11 +221,12 @@ function styleInsensitive(ident) {
 
 function singularOrSection($, sectionBody) {
   return choice(
-    seq(sectionBody, $._eol),
+    sectionBody,
     seq(
-      $._eol, $._indent,
-      repeat1(
-        seq(sectionBody, $._eol)
+      $._indent,
+      repeatSep1(
+        $._indent_eq,
+        sectionBody
       ),
       $._dedent
     )

@@ -9,36 +9,95 @@
 #include <cstdio>
 #include <cstring>
 #include <iterator>
+#include <initializer_list>
 #include <vector>
 
 #include <tree_sitter/parser.h>
 
 enum TokenType {
-  INDENT, /* The first non-space token scanned is at a column larger than the last INDENT. */
-  INDENT_ANY, /* When requested, changes to indentation will be ignored. */
-  DEDENT, /* The first non-space token scanned is at a column smaller or equal to the INDENT before the current one. Also emitted at EOF. */
-  EOL /* A new line was found. Also emitted at EOF. */
+  INDENT_START, /* Look for the next non-space token and compute the base
+                 * indentation. To be used at the start of a file.
+                 */
+  INDENT, /* The indentation of this line is larger than the previous. */
+  INDENT_EQ, /* The indentation of this line is equal to the previous. */
+  DEDENT, /* The indentation of this line is smaller than the previous.
+           * Also emitted at EOF.
+           */
 };
 
 #define END_INDENT_TYPE DEDENT
-#define END_TOKEN_TYPE EOL + 1
+#define END_TOKEN_TYPE DEDENT + 1
 
-typedef std::bitset<8> valid_tokens_t;
-static const valid_tokens_t IndentTypes = 0b111; /* INDENT .. DEDENT */
+typedef std::bitset<8> ValidTokens;
+static const ValidTokens IndentTypes = 0b1111; /* INDENT_START .. DEDENT */
 
 struct Scanner {
   std::vector<uint8_t> indentStack;
 
-  Scanner() : indentStack() {}
+  /* Volatile states, these are reset on every scanner runs */
+  TSLexer* lexer;
+  ValidTokens validTokens;
 
-  unsigned serialize(char* buffer) const;
-  void deserialize(const char* buffer, unsigned length);
-  bool scan(TSLexer* lexer, valid_tokens_t);
+  Scanner() :
+  indentStack(),
+  lexer(nullptr),
+  validTokens() {}
+
+  unsigned serialize(char*) const;
+  void deserialize(const char*, unsigned);
+
+  /* tree-sitter to scanner entry point */
+  bool scan(TSLexer*, ValidTokens);
+
+  /* Scanners:
+   *
+   * A scanner is a rule acting on the current token and make use of the
+   * lookahead to figure out the next applicable rule.
+   *
+   * A scanner might consume the current character.
+   */
+
+  /* scanner starting point, take a parameter describing if the lexer has
+   * advanced at all.
+   */
+  bool scanDispatch(bool);
+  /* scanner for when newline is found */
+  bool scanEol();
+  /* scanner for when EOF is reached */
+  bool scanEof();
+
+  /* Reductions:
+   *
+   * A reduction is a rule acting on the current state and the lookahead to
+   * figure out the final result.
+   *
+   * A reduction does not consume any character.
+   */
+
+  /* the rule to produce an INDENT_START result */
+  bool reduceIndentStart();
+  /* the rule to produce indentation tokens after a newline is found */
+  bool reduceIndentNewline();
+  /* the rule to produce indentation tokens at the starting position of the scanner */
+  bool reduceIndentImmediate();
+
+  /* Wrappers for invoking the method of the stored TSLexer */
+  int32_t lookahead() const;
+  void advance(bool);
+  bool eof() const;
+  uint32_t column() const;
+
+  /* Set lexer result_symbol to the given token type and return true. */
+  bool finish(enum TokenType);
+
+  /* Utilities for skipping whitespace or newlines */
+  void skipSpaces();
+  void skipNewline();
 };
 
 unsigned Scanner::serialize(char* buffer) const {
   unsigned result = std::min(this->indentStack.size(), (size_t)TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
-  memcpy(buffer, this->indentStack.data(), result); 
+  memcpy(buffer, this->indentStack.data(), result);
 
   return result;
 }
@@ -48,77 +107,145 @@ void Scanner::deserialize(const char* buffer, unsigned length) {
   memcpy(this->indentStack.data(), buffer, length);
 }
 
-static inline bool is_newline(int32_t codepoint) {
-  return codepoint == '\r' || codepoint == '\n';
+bool Scanner::scan(TSLexer* lexer, ValidTokens validTokens) {
+  this->validTokens = validTokens;
+  this->lexer = lexer;
+
+  return this->scanDispatch(true);
 }
 
-static bool skip_newlines(TSLexer* lexer) {
-  bool newline_found = false;
-  while (!lexer->eof(lexer) && is_newline(lexer->lookahead)) {
-    lexer->advance(lexer, true);
-    newline_found = true;
+#define NEWLINE_CASES case '\r': case '\n'
+bool Scanner::scanDispatch(bool immediate) {
+  if (this->eof())
+    return this->scanEof();
+
+  switch (this->lookahead()) {
+    NEWLINE_CASES:
+      this->skipNewline();
+      return this->scanEol();
+
+    case ' ':
+      this->skipSpaces();
+      return this->scanDispatch(false);
+
+    default:
+      if (immediate)
+        return this->reduceIndentImmediate();
+
+      return false;
   }
-  return newline_found;
 }
 
-bool Scanner::scan(TSLexer* lexer, valid_tokens_t valid_tokens) {
-  if (skip_newlines(lexer)) {
-    lexer->result_symbol = EOL;
-    return valid_tokens[EOL];
+bool Scanner::scanEol() {
+  this->skipSpaces();
+
+  if (this->eof())
+    return this->scanEof();
+
+  switch (this->lookahead()) {
+    NEWLINE_CASES:
+      this->skipNewline();
+      return this->scanEol();
+
+    default:
+      return this->reduceIndentNewline();
+  }
+}
+
+bool Scanner::scanEof() {
+  /* Produce an INDENT_START to fullfill the conditions of source_file even when
+   * the file is empty. */
+  if (this->validTokens[INDENT_START])
+    return this->reduceIndentStart();
+
+  /* Produce any DEDENT necessary to finalize a rule. */
+  if (this->validTokens[DEDENT])
+    return this->finish(DEDENT);
+
+  return false;
+}
+
+bool Scanner::reduceIndentNewline() {
+  if (this->validTokens[INDENT_START])
+    return this->reduceIndentStart();
+
+  uint8_t lastIndent = this->indentStack.empty() ? 0 : this->indentStack.back();
+  uint32_t column = this->column();
+
+  if (this->validTokens[INDENT] && column > lastIndent) {
+    this->indentStack.push_back(column);
+    return this->finish(INDENT);
   }
 
-  if (valid_tokens[EOL] && lexer->eof(lexer)) {
-    lexer->result_symbol = EOL;
-    return true;
+  if (this->validTokens[DEDENT] && column < lastIndent) {
+    this->indentStack.pop_back();
+    return this->finish(DEDENT);
   }
 
-  if ((valid_tokens & IndentTypes).any()) {
-    uint8_t lastIndent = this->indentStack.empty() ? 0 : this->indentStack.back();
-    while (lexer->lookahead == ' ')
-      lexer->advance(lexer, true);
-
-    /* Escape hatch for the grammar to disregard indentation (ie. comments) */
-    if (valid_tokens[INDENT_ANY]) {
-      lexer->result_symbol = INDENT_ANY;
-      return true;
-    }
-
-    /* Don't count the skipped spaces but instead uses column.
-     * This allows a DEDENT -> DEDENT chain to be resolved correctly.
-     */
-    uint32_t indent = lexer->get_column(lexer);
-    if (valid_tokens[INDENT] && indent > lastIndent) {
-      this->indentStack.push_back(indent);
-      lexer->result_symbol = INDENT;
-      return true;
-    }
-
-    if (valid_tokens[DEDENT]) {
-      if (lexer->eof(lexer)) {
-        lexer->result_symbol = DEDENT;
-        return true;
-      }
-
-      if (indent < lastIndent) {
-        /* previous indent level on the stack */
-        const uint8_t prevIndent = this->indentStack.size() > 1
-          ? this->indentStack[this->indentStack.size() - 2]
-          : indent;
-        /* if indent falls at or below the upper level of the stack */
-        if (indent <= prevIndent) {
-          /* pop and dedent */
-          this->indentStack.pop_back();
-          lexer->result_symbol = DEDENT;
-          return true;
-        } else {
-          /* there are no valid symbols in this case, so stop */
-          return false;
-        }
-      }
-    }
+  if (this->validTokens[INDENT_EQ] && column == lastIndent) {
+    return this->finish(INDENT_EQ);
   }
 
   return false;
+}
+
+bool Scanner::reduceIndentImmediate() {
+  if (this->validTokens[INDENT_START])
+    return this->reduceIndentStart();
+
+  uint8_t lastIndent = this->indentStack.empty() ? 0 : this->indentStack.back();
+  uint32_t column = this->column();
+
+  if (this->validTokens[DEDENT] && column < lastIndent) {
+    this->indentStack.pop_back();
+    return this->finish(DEDENT);
+  }
+
+  if (this->validTokens[INDENT_EQ] && column == lastIndent) {
+    return this->finish(INDENT_EQ);
+  }
+
+  return false;
+}
+
+bool Scanner::reduceIndentStart() {
+  if (this->indentStack.empty()) {
+    this->indentStack.push_back(this->column());
+    return this->finish(INDENT_START);
+  }
+
+  return false;
+}
+
+bool Scanner::finish(enum TokenType token) {
+  this->lexer->result_symbol = token;
+  return true;
+}
+
+int32_t Scanner::lookahead() const {
+  return this->lexer->lookahead;
+}
+
+void Scanner::advance(bool skip) {
+  this->lexer->advance(this->lexer, skip);
+}
+
+void Scanner::skipSpaces() {
+  while (this->lookahead() == ' ')
+    this->advance(true);
+}
+
+void Scanner::skipNewline() {
+  while (this->lookahead() == '\n' || this->lookahead() == '\r')
+    this->advance(true);
+}
+
+bool Scanner::eof() const {
+  return this->lexer->eof(this->lexer);
+}
+
+uint32_t Scanner::column() const {
+  return this->lexer->get_column(this->lexer);
 }
 
 extern "C" {
@@ -148,10 +275,10 @@ extern "C" {
   ) {
     Scanner* scanner = static_cast<Scanner*>(payload);
 
-    valid_tokens_t valid_tokens;
+    ValidTokens validTokens;
     for (int i = 0; i < END_TOKEN_TYPE; i++)
-      valid_tokens.set(i, valid_symbols[i]);
+      validTokens.set(i, valid_symbols[i]);
 
-    return scanner->scan(lexer, valid_tokens);
+    return scanner->scan(lexer, validTokens);
   }
 }
