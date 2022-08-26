@@ -3,7 +3,32 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-const BooleanLiterals = ['on', 'off', 'true', 'false'].map(styleInsensitive);
+const
+  BooleanLiterals = ['on', 'off', 'true', 'false'].map(styleInsensitive),
+
+  /* Inline rules */
+  Digits = {
+    decimal: optionalUnderscore(/[0-9]/),
+    hexadecimal: optionalUnderscore(/[0-9a-fA-F]/),
+    octal: optionalUnderscore(/[0-7]/),
+    binary: optionalUnderscore(/[01]/)
+  },
+
+  Literals = {
+    decimal: Digits.decimal,
+    hexadecimal: seq(/0[xX]/, Digits.hexadecimal),
+    octal: seq('0o', Digits.octal),
+    binary: seq(/0[bB]/, Digits.binary)
+  },
+
+  NumericLiteral = choice(
+    Literals.decimal, Literals.hexadecimal, Literals.octal, Literals.binary
+  ),
+
+  LiteralSuffix = {
+    integer: seq(optional("'"), choice(/[uU]/, seq(/[iIuU]/, /8|16|32|64/))),
+    float: seq(optional("'"), seq(/[fFdD]/, optional(/32|64|128/))),
+  };
 
 module.exports = grammar({
   name: 'nim',
@@ -142,58 +167,31 @@ module.exports = grammar({
       ...BooleanLiterals
     ),
 
-    integer_literal: $ => seq(
-      $._numeric_literal,
-      optional($._integer_literal_suffix)
-    ),
+    integer_literal: $ => token(seq(
+      optional('-'),
+      NumericLiteral,
+      optional(LiteralSuffix.integer)
+    )),
 
-    float_literal: $ => choice(
+    float_literal: $ => token(choice(
       seq(
-        $._numeric_literal,
-        $._float_literal_suffix
+        optional('-'),
+        NumericLiteral,
+        LiteralSuffix.float
       ),
       seq(
-        $._decimal_literal,
-        '.',
-        $._decimal_literal,
-        optional(seq(/[eE][+-]?/, $._decimal_literal)),
-        optional($._float_literal_suffix)
-      ),
-      seq(
-        $._decimal_literal,
-        optional(seq('.', $._decimal_literal)),
-        seq(/[eE][+-]?/, $._decimal_literal),
-        optional($._float_literal_suffix)
+        optional('-'),
+        Literals.decimal,
+        optional(seq('.', Literals.decimal)),
+        optional(seq(/[eE][+-]?/, Literals.decimal)),
+        optional(LiteralSuffix.float)
       )
-    ),
+    )),
 
     tuple: $ => seq(
       '(',
       repeatSep1(',', $.expression),
       ')'
-    ),
-
-    _numeric_literal: $ => choice(
-      $._decimal_literal,
-      /0[xX][0-9a-fA-F](?:_?[0-9a-fA-F])*/,
-      /0o[0-7](?:_?[0-7])*/,
-      /0[bB][01](?:_?[01])*/
-    ),
-
-    _decimal_literal: $ => /\d(?:_?\d)*/,
-
-    _integer_literal_suffix: $ => seq(
-      optional("'"),
-      choice(
-        'u', 'U', /[iIuU](?:8|16|32|64)/
-      )
-    ),
-
-    _float_literal_suffix: $ => seq(
-      optional("'"),
-      choice(
-        'd', 'D', /[fF](?:32|64|128)?/
-      )
     ),
 
     /* Identifier rules must be last to avoid overtaking keywords in precedence */
@@ -231,4 +229,8 @@ function singularOrSection($, sectionBody) {
 
 function repeatSep1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)))
+}
+
+function optionalUnderscore(rule) {
+  return seq(rule, repeat(seq(optional('_'), rule)));
 }

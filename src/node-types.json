@@ -176,16 +176,6 @@
     }
   },
   {
-    "type": "float_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "integer_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "let_section",
     "named": true,
     "fields": {},
@@ -458,10 +448,6 @@
     }
   },
   {
-    "type": "'",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -478,23 +464,11 @@
     "named": false
   },
   {
-    "type": ".",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
   {
     "type": "=",
-    "named": false
-  },
-  {
-    "type": "D",
-    "named": false
-  },
-  {
-    "type": "U",
     "named": false
   },
   {
@@ -506,19 +480,19 @@
     "named": false
   },
   {
-    "type": "d",
-    "named": false
+    "type": "float_literal",
+    "named": true
   },
   {
     "type": "identifier",
     "named": true
   },
   {
-    "type": "type_identifier",
+    "type": "integer_literal",
     "named": true
   },
   {
-    "type": "u",
-    "named": false
+    "type": "type_identifier",
+    "named": true
   }
 ]
