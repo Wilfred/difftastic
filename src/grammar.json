@@ -47,8 +47,17 @@
       ]
     },
     "_escape_semicolon": {
-      "type": "STRING",
-      "value": ";"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "STRING",
+          "value": "\\;"
+        }
+      ]
     },
     "variable": {
       "type": "PREC_LEFT",

@@ -852,6 +852,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -865,6 +869,10 @@
   },
   {
     "type": "ENV",
+    "named": false
+  },
+  {
+    "type": "\\;",
     "named": false
   },
   {
