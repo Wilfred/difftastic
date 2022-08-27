@@ -37,3 +37,4 @@ jobs:
         with:
           branch: gh-pages
           folder: manual/book
+          single-commit: true
