@@ -16,9 +16,8 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      - uses: actions-rs/cargo@v1
-        with:
-          command: doc
+      - uses: dtolnay/rust-toolchain@1.57.0
+      - run: cargo test
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
