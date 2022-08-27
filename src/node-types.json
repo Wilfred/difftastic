@@ -177,7 +177,7 @@
       },
       "type": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "distinct_type",
@@ -200,6 +200,16 @@
             "named": true
           }
         ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -208,6 +218,10 @@
       "types": [
         {
           "type": "exported_symbol",
+          "named": true
+        },
+        {
+          "type": "tuple_deconstruct_declaration",
           "named": true
         }
       ]
@@ -356,7 +370,7 @@
     "fields": {
       "name": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -364,6 +378,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "exported_symbol",
+          "named": true
+        },
+        {
+          "type": "tuple_deconstruct_declaration",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -508,6 +536,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "exported_symbol",
+          "named": true
+        },
         {
           "type": "tuple_deconstruct_declaration",
           "named": true

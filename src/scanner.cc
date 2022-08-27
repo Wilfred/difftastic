@@ -14,25 +14,37 @@
 
 #include <tree_sitter/parser.h>
 
+#if __cplusplus >= 201703L || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
+#  define FALLTHROUGH [[fallthrough]]
+#elif (defined(__GNUC__) && __GNUC__ >= 7) || (defined(__clang__) && __clang_major__ >= 10)
+#  define FALLTHROUGH __attribute__((fallthrough))
+#else
+#  define FALLTHROUGH
+#endif
+
 enum TokenType {
   INDENT_START, /* Look for the next non-space token and compute the base
                  * indentation. To be used at the start of a file.
                  */
   INDENT, /* The indentation of this line is larger than the previous. */
   INDENT_EQ, /* The indentation of this line is equal to the previous. */
+  INDENT_GE, /* The indentation of this line is greater or equal to the previous.
+              * Unlike INDENT this does not push an indentation on the stack.
+              */
   DEDENT, /* The indentation of this line is smaller than the previous.
            * Also emitted at EOF.
            */
   LONG_STRING_CONTENT, /* Content of a long string, must be repeated when used
                         * to handle quotation mark breaks.
                         */
+  SPACES_BEFORE_COMMENT, /* Spaces (incl. newlines) that occurs before a comment. */
   _END_TOKEN_TYPE
 };
 
 #define END_INDENT_TYPE DEDENT
 
 typedef std::bitset<8> ValidTokens;
-static const ValidTokens IndentTypes = 0b1111; /* INDENT_START .. DEDENT */
+static const ValidTokens IndentTypes = 0b11111; /* INDENT_START .. DEDENT */
 
 struct Scanner {
   std::vector<uint8_t> indentStack;
@@ -93,6 +105,8 @@ struct Scanner {
   bool reduceIndentImmediate();
   /* the rule to produce long string content tokens */
   bool reduceLongString();
+  /* the rule to produce SPACES_BEFORE_COMMENT tokens */
+  bool reduceSpacesBeforeComment();
 
   /* Wrappers for invoking the method of the stored TSLexer */
   int32_t lookahead() const;
@@ -173,6 +187,14 @@ bool Scanner::scanEol() {
     case ' ':
       return this->scanSpaces(true);
 
+    case '#':
+      if (this->validTokens[SPACES_BEFORE_COMMENT]) {
+        this->mark_end();
+        return this->reduceSpacesBeforeComment();
+      }
+
+      FALLTHROUGH;
+
     default:
       return this->scanChars(true);
   }
@@ -202,6 +224,14 @@ bool Scanner::scanSpaces(bool newline) {
     NEWLINE_CASES:
       return this->scanEol();
 
+    case '#':
+      if (this->validTokens[SPACES_BEFORE_COMMENT]) {
+        this->mark_end();
+        return this->reduceSpacesBeforeComment();
+      }
+
+      FALLTHROUGH;
+
     default:
       return this->scanChars(newline);
   }
@@ -209,8 +239,10 @@ bool Scanner::scanSpaces(bool newline) {
 
 bool Scanner::scanChars(bool newline) {
   /* If indentation is requested, it takes priority */
-  if (newline && (this->validTokens & IndentTypes).any())
+  if (newline && (this->validTokens & IndentTypes).any()) {
+    this->mark_end();
     return this->reduceIndentNewline();
+  }
 
   if (this->validTokens[LONG_STRING_CONTENT]) {
     while (this->lookahead() != '"' && !this->eof())
@@ -254,10 +286,6 @@ bool Scanner::scanQuoteImmediate() {
 }
 
 bool Scanner::reduceIndentNewline() {
-  /* indentation doesn't apply to comments */
-  if (this->lookahead() == '#')
-    return false;
-
   if (this->validTokens[INDENT_START])
     return this->reduceIndentStart();
 
@@ -274,6 +302,10 @@ bool Scanner::reduceIndentNewline() {
     return this->finish(DEDENT);
   }
 
+  if (this->validTokens[INDENT_GE] && column >= lastIndent) {
+    return this->finish(INDENT_GE);
+  }
+
   if (this->validTokens[INDENT_EQ] && column == lastIndent) {
     return this->finish(INDENT_EQ);
   }
@@ -282,7 +314,9 @@ bool Scanner::reduceIndentNewline() {
 }
 
 bool Scanner::reduceIndentImmediate() {
-  /* indentation doesn't apply to comments */
+  /* this is probably called after a SPACES_BEFORE_COMMENT, don't produce
+   * indent nodes here.
+   */
   if (this->lookahead() == '#')
     return false;
 
@@ -297,6 +331,10 @@ bool Scanner::reduceIndentImmediate() {
     return this->finish(DEDENT);
   }
 
+  if (this->validTokens[INDENT_GE] && column >= lastIndent) {
+    return this->finish(INDENT_GE);
+  }
+
   if (this->validTokens[INDENT_EQ] && column == lastIndent) {
     return this->finish(INDENT_EQ);
   }
@@ -305,10 +343,6 @@ bool Scanner::reduceIndentImmediate() {
 }
 
 bool Scanner::reduceIndentStart() {
-  /* indentation doesn't apply to comments */
-  if (this->lookahead() == '#')
-    return false;
-
   if (this->indentStack.empty()) {
     this->indentStack.push_back(this->column());
     return this->finish(INDENT_START);
@@ -319,6 +353,13 @@ bool Scanner::reduceIndentStart() {
 
 bool Scanner::reduceLongString() {
   return this->finish(LONG_STRING_CONTENT);
+}
+
+bool Scanner::reduceSpacesBeforeComment() {
+  if (this->validTokens[SPACES_BEFORE_COMMENT])
+    return this->finish(SPACES_BEFORE_COMMENT);
+
+  return false;
 }
 
 bool Scanner::finish(enum TokenType token) {

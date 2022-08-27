@@ -22,6 +22,15 @@ const
   Z = 10
   (D, E, F) = (3, 4, 5)
 
+const (X,
+Y*) = (1,
+2)
+
+const
+  foo,
+  bar*,
+    whatever = 10
+
 ---
 
 (source_file
@@ -74,7 +83,27 @@ const
           (expression
             (integer_literal))
           (expression
-            (integer_literal)))))))
+            (integer_literal))))))
+  (const_section
+    (variable_declaration
+      (tuple_deconstruct_declaration
+        name: (identifier)
+        (exported_symbol
+          name: (identifier)))
+      value: (expression
+        (tuple
+          (expression
+            (integer_literal))
+          (expression
+            (integer_literal))))))
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      (exported_symbol
+        name: (identifier))
+      name: (identifier)
+      value: (expression
+        (integer_literal)))))
 
 ================
 Let declarations
@@ -204,7 +233,9 @@ type A = ref object
 
 type B = ref object
   a*, c*, d: string
-  b: string
+  b,
+  e,
+  f: string
 
 type
   C = object
@@ -259,6 +290,8 @@ type
               name: (identifier)
               type: (type_identifier))
             (field_declaration
+              name: (identifier)
+              name: (identifier)
               name: (identifier)
               type: (type_identifier)))))))
   (type_section

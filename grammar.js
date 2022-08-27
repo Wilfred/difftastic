@@ -28,7 +28,11 @@ const
   LiteralSuffix = {
     integer: seq(optional("'"), choice(/[uU]/, seq(/[iIuU]/, /8|16|32|64/))),
     float: seq(optional("'"), seq(/[fFdD]/, optional(/32|64|128/))),
-  };
+  },
+
+  Newline = /[\n\r]+/,
+
+  MaybeNewline = repeat(Newline);
 
 module.exports = grammar({
   name: 'nim',
@@ -39,14 +43,20 @@ module.exports = grammar({
     $._indent_start,
     $._indent,
     $._indent_eq,
+    $._indent_ge,
     $._dedent,
-    $._long_string_content
+    $._long_string_content,
+    $._spaces_before_comment
   ],
 
-  extras: $ => [' ', '\r', '\n', $.comment],
+  extras: $ => [' ', $._spaces_before_comment, $.comment],
 
   rules: {
-    source_file: $ => seq($._indent_start, optional(repeatSep1($._indent_eq, $._statement))),
+    source_file: $ => seq(
+      $._indent_start,
+      optional(repeatSep1($._indent_eq, $._statement)),
+      MaybeNewline
+    ),
 
     _statement: $ => choice(
       $._declaration,
@@ -67,17 +77,21 @@ module.exports = grammar({
 
     const_section: $ => seq(
       styleInsensitive('const'),
-      singularOrSection($, $.variable_declaration)
+      singularOrSection($, $._variable_declaration_indent)
     ),
 
     var_section: $ => seq(
       styleInsensitive('var'),
-      singularOrSection($, $.variable_declaration)
+      singularOrSection($, $._variable_declaration_indent)
     ),
 
     let_section: $ => seq(
       styleInsensitive('let'),
-      singularOrSection($, $.variable_declaration)
+      singularOrSection($, $._variable_declaration_indent)
+    ),
+
+    _variable_declaration_indent: $ => alias(
+      $._symbol_declaration_indent, $.variable_declaration
     ),
 
     type_section: $ => seq(
@@ -85,33 +99,11 @@ module.exports = grammar({
       singularOrSection($, $.type_declaration)
     ),
 
-    variable_declaration: $ => seq(
-      repeatSep1(',', $._variable_name_declaration),
-      optional(
-        seq(':', field('type', $._type))
-      ),
-      optional(
-        seq('=', field('value', $.expression))
-      )
-    ),
-
-    _variable_name_declaration: $ => choice(
-      field('name', $.identifier),
-      $.tuple_deconstruct_declaration
-    ),
-
-    tuple_deconstruct_declaration: $ => seq(
-      '(',
-      repeatSep1(',', field('name', $.identifier)),
-      ')'
-    ),
-
     type_declaration: $ => seq(
       field('name', $.identifier),
       '=',
       field('type', $._type)
     ),
-
 
     _type: $ => choice(
       $._type_identifier,
@@ -132,19 +124,46 @@ module.exports = grammar({
     ),
 
     field_declaration_list: $ => choice(
-      seq('[', repeatSep1(/[,;]/, $.field_declaration), ']'),
-      seq($._indent, repeatSep1($._indent_eq, $.field_declaration), $._dedent)
+      seq(
+        '[',
+        repeatSepNL1(
+          /[,;]/,
+          alias($._symbol_declaration_nl, $.field_declaration)
+        ),
+        ']'
+      ),
+      seq(
+        $._indent,
+        repeatSep1(
+          $._indent_eq,
+          alias($._symbol_declaration_indent, $.field_declaration)
+        ),
+        $._dedent
+      )
     ),
 
-    field_declaration: $ => seq(
-      repeatSep1(',', $._symbol_declaration),
-      ':',
-      field('type', $._type)
+    _symbol_declaration_nl: $ => seq(
+      repeatSepNL1(',', $._symbol_declaration),
+      optional(seq(':', field('type', $._type))),
+      optional(seq('=', field('value', $.expression)))
+    ),
+
+    _symbol_declaration_indent: $ => seq(
+      repeatSepInd1($, ',', $._symbol_declaration),
+      optional(seq(':', field('type', $._type))),
+      optional(seq('=', field('value', $.expression)))
     ),
 
     _symbol_declaration: $ => choice(
       field('name', $.identifier),
-      $.exported_symbol
+      $.exported_symbol,
+      $.tuple_deconstruct_declaration
+    ),
+
+    tuple_deconstruct_declaration: $ => seq(
+      '(',
+      repeatSepNL1(',', $._symbol_declaration),
+      ')'
     ),
 
     exported_symbol: $ => seq(field('name', $.identifier), '*'),
@@ -166,7 +185,7 @@ module.exports = grammar({
 
     argument_list: $ => seq(
       token.immediate('('),
-      repeatSep1(',', $.expression),
+      repeatSepNL1(',', seq($.expression)),
       ')'
     ),
 
@@ -240,7 +259,7 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      repeatSep1(',', $.expression),
+      repeatSepNL1(',', $.expression),
       ')'
     ),
 
@@ -280,7 +299,18 @@ function singularOrSection($, sectionBody) {
 }
 
 function repeatSep1(sep, rule) {
-  return seq(rule, repeat(seq(sep, rule)))
+  return seq(rule, repeat(seq(sep, rule)));
+}
+
+function repeatSepNL1(sep, rule) {
+  return repeatSep1(seq(sep, MaybeNewline), rule);
+}
+
+function repeatSepInd1($, sep, rule) {
+  return repeatSep1(
+    seq(sep, optional($._indent_ge)),
+    rule
+  );
 }
 
 function optionalUnderscore(rule) {
