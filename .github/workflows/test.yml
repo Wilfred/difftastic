@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -17,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
       - uses: actions-rs/cargo@v1
         with:
           toolchain: stable
@@ -27,6 +34,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -36,6 +45,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -45,6 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -55,6 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install toolchain with rustup
+        uses: actions-rs/toolchain@v1
       - uses: actions-rs/cargo@v1
         with:
           command: package
