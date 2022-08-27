@@ -1,0 +1,53 @@
+# Copyright 2022 Leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: MPL-2.0
+# This Source Code Form is subject to the terms of the Mozilla Public License,
+# v. 2.0. If a copy of the MPL was not distributed with this file, You can
+# obtain one at https://mozilla.org/MPL/2.0/.
+
+==========
+Empty file
+==========
+
+---
+
+(source_file)
+
+====================
+Single-line comments
+====================
+
+     # mis-aligned comments does not affect indentation
+
+let
+  x: int = 10 # doesn't
+    # matter
+
+ # at all
+
+  y = 10f
+
+## let
+##  this
+##   that
+
+---
+
+(source_file
+  (comment)
+  (let_section
+    (variable_declaration
+      (identifier)
+      (type_identifier)
+      (expression
+        (integer_literal)))
+    (comment)
+    (comment)
+    (comment)
+    (variable_declaration
+      (identifier)
+      (expression
+        (float_literal)))
+    (comment)
+    (comment)
+    (comment)))
