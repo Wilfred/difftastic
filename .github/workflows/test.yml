@@ -8,56 +8,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - uses: dtolnay/rust-toolchain@1.57
+      - run: cargo test
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          toolchain: stable
-          command: test
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test
 
   test_mac:
     name: Test macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - uses: dtolnay/rust-toolchain@1.57
+      - run: cargo test
 
   test_windows:
     name: Test Windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - uses: dtolnay/rust-toolchain@1.57
+      - run: cargo test
 
   regression_test:
     name: Output Regression Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@1.57
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
       - name: Verify output is unchanged
@@ -68,19 +51,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install toolchain with rustup
-        uses: actions-rs/toolchain@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: package
-          args: --allow-dirty
+      - uses: dtolnay/rust-toolchain@1.57
+      - run: cargo package --allow-dirty
 
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - uses: dtolnay/rust-toolchain@1.57
+      - run: cargo fmt --all -- --check
