@@ -1447,8 +1447,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "PATTERN",
+          "value": "r?\"\"\""
         },
         {
           "type": "REPEAT",

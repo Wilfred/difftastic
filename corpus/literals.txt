@@ -290,7 +290,7 @@ Mutiline long string \escapes\are \not\interpreted
 "strings within even"
 """"""
 
-""""string inside long string""""
+r""""string inside long string""""
 
 ---
 

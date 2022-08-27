@@ -196,7 +196,7 @@ module.exports = grammar({
       $._interpreted_string_literal
     ),
 
-    _long_string_literal: $ => seq('"""', repeat($._long_string_content), '"""'),
+    _long_string_literal: $ => seq(/r?"""/, repeat($._long_string_content), '"""'),
 
     _raw_string_literal: $ => seq(
       'r"',
