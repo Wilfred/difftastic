@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get install -y jq
 
       - uses: dtolnay/rust-toolchain@1.57.0
-      - run: cargo test
+      - run: cargo doc
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
