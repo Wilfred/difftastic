@@ -154,7 +154,20 @@ module.exports = grammar({
     ref_type: $ => seq(styleInsensitive('ref'), $._type),
 
     expression: $ => choice(
-      $._literal
+      $.identifier,
+      $._literal,
+      $.call_expression
+    ),
+
+    call_expression: $ => seq(
+      field('function', $.identifier),
+      field('arguments', $.argument_list)
+    ),
+
+    argument_list: $ => seq(
+      token.immediate('('),
+      repeatSep1(',', $.expression),
+      ')'
     ),
 
     _literal: $ => choice(

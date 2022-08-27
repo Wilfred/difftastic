@@ -1,0 +1,70 @@
+===================
+Parenthesized calls
+===================
+
+echo(foo)
+echo(1, foo, 3'f)
+echo("Indentation",
+     "doesn't matter")
+
+echo("""long
+text""")
+
+echo(foo("Calls"), "in", bar("Calls"))
+
+---
+
+(source_file
+  (expression_statement
+    (expression
+      (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (expression
+            (identifier))))))
+  (expression_statement
+    (expression
+      (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (expression
+            (integer_literal))
+          (expression
+            (identifier))
+          (expression
+            (float_literal))))))
+  (expression_statement
+    (expression
+      (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (expression
+            (string_literal))
+          (expression
+            (string_literal))))))
+  (expression_statement
+    (expression
+      (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (expression
+            (string_literal))))))
+  (expression_statement
+    (expression
+      (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (expression
+            (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (expression
+                  (string_literal)))))
+          (expression
+            (string_literal))
+          (expression
+            (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (expression
+                  (string_literal))))))))))
