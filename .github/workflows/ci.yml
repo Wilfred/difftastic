@@ -59,3 +59,15 @@ jobs:
       uses: actions-rs/cargo@v1
       with:
         command: build
+
+  success:
+    needs: [uptodate, tests, rust]
+    if: always()
+    runs-on: ubuntu-latest
+    name: 'All checks passed'
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        name: 'Previous jobs failed'
+        run: |
+          echo "::error::One of the previous jobs failed"
+          exit 1
