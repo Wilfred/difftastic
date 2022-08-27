@@ -523,6 +523,10 @@
     "named": true
   },
   {
+    "type": "r\"",
+    "named": false
+  },
+  {
     "type": "type_identifier",
     "named": true
   }

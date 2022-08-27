@@ -198,9 +198,14 @@ module.exports = grammar({
 
     _long_string_literal: $ => seq('"""', repeat($._long_string_content), '"""'),
 
-    _raw_string_literal: $ => token(seq(
-      'r"', repeat(token.immediate(/[^"\n\r]/)), '"'
-    )),
+    _raw_string_literal: $ => seq(
+      'r"',
+      token.immediate(/[^"\n\r]*/),
+      repeat(
+        seq($._escaped_double_quote, token.immediate(/[^"\n\r]*/))
+      ),
+      '"'
+    ),
 
     _interpreted_string_literal: $ => seq(
       '"',
@@ -217,6 +222,8 @@ module.exports = grammar({
         )
       )
     ),
+
+    _escaped_double_quote: $ => alias(token.immediate('""'), $.escape_sequence),
 
     tuple: $ => seq(
       '(',

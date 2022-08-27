@@ -278,6 +278,11 @@ r"raw string"
 
 r"C:\Windows\System32"
 
+r"C:\""Windows""\System32"
+
+r"a""b"
+r"a"""
+
 """""""
 
 """
@@ -316,6 +321,19 @@ Mutiline long string \escapes\are \not\interpreted
   (expression_statement
     (expression
       (string_literal)))
+  (expression_statement
+    (expression
+      (string_literal
+        (escape_sequence)
+        (escape_sequence))))
+  (expression_statement
+    (expression
+      (string_literal
+        (escape_sequence))))
+  (expression_statement
+    (expression
+      (string_literal
+        (escape_sequence))))
   (expression_statement
     (expression
       (string_literal)))
