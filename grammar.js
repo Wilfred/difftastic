@@ -43,10 +43,10 @@ module.exports = grammar({
     $._long_string_content
   ],
 
-  extras: $ => [' ', '\r', '\n'],
+  extras: $ => [' ', '\r', '\n', $.comment],
 
   rules: {
-    source_file: $ => seq($._indent_start, repeatSep1($._indent_eq, $._statement)),
+    source_file: $ => seq($._indent_start, optional(repeatSep1($._indent_eq, $._statement))),
 
     _statement: $ => choice(
       $._declaration,
@@ -234,6 +234,8 @@ module.exports = grammar({
     /* Identifier rules must be last to avoid overtaking keywords in precedence */
     identifier: $ => /[a-zA-Z\x80-\xff](?:_?[a-zA-Z\x80-\xff0-9])*/,
     _type_identifier: $ => alias($.identifier, $.type_identifier),
+
+    comment: $ => /#[^\n\r]*/
   }
 });
 

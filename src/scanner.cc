@@ -254,6 +254,10 @@ bool Scanner::scanQuoteImmediate() {
 }
 
 bool Scanner::reduceIndentNewline() {
+  /* indentation doesn't apply to comments */
+  if (this->lookahead() == '#')
+    return false;
+
   if (this->validTokens[INDENT_START])
     return this->reduceIndentStart();
 
@@ -278,6 +282,10 @@ bool Scanner::reduceIndentNewline() {
 }
 
 bool Scanner::reduceIndentImmediate() {
+  /* indentation doesn't apply to comments */
+  if (this->lookahead() == '#')
+    return false;
+
   if (this->validTokens[INDENT_START])
     return this->reduceIndentStart();
 
@@ -297,6 +305,10 @@ bool Scanner::reduceIndentImmediate() {
 }
 
 bool Scanner::reduceIndentStart() {
+  /* indentation doesn't apply to comments */
+  if (this->lookahead() == '#')
+    return false;
+
   if (this->indentStack.empty()) {
     this->indentStack.push_back(this->column());
     return this->finish(INDENT_START);
