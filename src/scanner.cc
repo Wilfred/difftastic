@@ -23,10 +23,13 @@ enum TokenType {
   DEDENT, /* The indentation of this line is smaller than the previous.
            * Also emitted at EOF.
            */
+  LONG_STRING_CONTENT, /* Content of a long string, must be repeated when used
+                        * to handle quotation mark breaks.
+                        */
+  _END_TOKEN_TYPE
 };
 
 #define END_INDENT_TYPE DEDENT
-#define END_TOKEN_TYPE DEDENT + 1
 
 typedef std::bitset<8> ValidTokens;
 static const ValidTokens IndentTypes = 0b1111; /* INDENT_START .. DEDENT */
@@ -57,14 +60,22 @@ struct Scanner {
    * A scanner might consume the current character.
    */
 
-  /* scanner starting point, take a parameter describing if the lexer has
-   * advanced at all.
-   */
-  bool scanDispatch(bool);
+  /* scanner starting point */
+  bool scanImmediate();
   /* scanner for when newline is found */
   bool scanEol();
   /* scanner for when EOF is reached */
   bool scanEof();
+  /* scanner for when whitespace is reached, take a parameter describing
+   * whether a newline was found.
+   */
+  bool scanSpaces(bool);
+  /* scanner for non-quote characters, take a parameter describing whether a
+   * newline was found.
+   */
+  bool scanChars(bool);
+  /* scanner for quotation marks before the scanner has advanced at all */
+  bool scanQuoteImmediate();
 
   /* Reductions:
    *
@@ -80,12 +91,15 @@ struct Scanner {
   bool reduceIndentNewline();
   /* the rule to produce indentation tokens at the starting position of the scanner */
   bool reduceIndentImmediate();
+  /* the rule to produce long string content tokens */
+  bool reduceLongString();
 
   /* Wrappers for invoking the method of the stored TSLexer */
   int32_t lookahead() const;
   void advance(bool);
   bool eof() const;
   uint32_t column() const;
+  void mark_end();
 
   /* Set lexer result_symbol to the given token type and return true. */
   bool finish(enum TokenType);
@@ -111,44 +125,56 @@ bool Scanner::scan(TSLexer* lexer, ValidTokens validTokens) {
   this->validTokens = validTokens;
   this->lexer = lexer;
 
-  return this->scanDispatch(true);
+  this->mark_end();
+  return this->scanImmediate();
 }
 
 #define NEWLINE_CASES case '\r': case '\n'
-bool Scanner::scanDispatch(bool immediate) {
+bool Scanner::scanImmediate() {
   if (this->eof())
     return this->scanEof();
 
   switch (this->lookahead()) {
     NEWLINE_CASES:
-      this->skipNewline();
       return this->scanEol();
 
     case ' ':
-      this->skipSpaces();
-      return this->scanDispatch(false);
+      return this->scanSpaces(false);
+
+    case '"':
+      return this->scanQuoteImmediate();
 
     default:
-      if (immediate)
+      if ((this->validTokens & IndentTypes).any())
         return this->reduceIndentImmediate();
 
+      return this->scanChars(false);
+  }
+}
+
+static inline bool isNewline(int32_t codepoint) {
+  switch (codepoint) {
+    NEWLINE_CASES:
+      return true;
+
+    default:
       return false;
   }
 }
 
 bool Scanner::scanEol() {
-  this->skipSpaces();
+  while (isNewline(this->lookahead()))
+    this->advance(false);
 
   if (this->eof())
     return this->scanEof();
 
   switch (this->lookahead()) {
-    NEWLINE_CASES:
-      this->skipNewline();
-      return this->scanEol();
+    case ' ':
+      return this->scanSpaces(true);
 
     default:
-      return this->reduceIndentNewline();
+      return this->scanChars(true);
   }
 }
 
@@ -161,6 +187,68 @@ bool Scanner::scanEof() {
   /* Produce any DEDENT necessary to finalize a rule. */
   if (this->validTokens[DEDENT])
     return this->finish(DEDENT);
+
+  return false;
+}
+
+bool Scanner::scanSpaces(bool newline) {
+  while (this->lookahead() == ' ')
+    this->advance(false);
+
+  if (this->eof())
+    return this->scanEof();
+
+  switch (this->lookahead()) {
+    NEWLINE_CASES:
+      return this->scanEol();
+
+    default:
+      return this->scanChars(newline);
+  }
+}
+
+bool Scanner::scanChars(bool newline) {
+  /* If indentation is requested, it takes priority */
+  if (newline && (this->validTokens & IndentTypes).any())
+    return this->reduceIndentNewline();
+
+  if (this->validTokens[LONG_STRING_CONTENT]) {
+    while (this->lookahead() != '"' && !this->eof())
+      this->advance(false);
+
+    this->mark_end();
+    return this->reduceLongString();
+  }
+
+  return false;
+}
+
+bool Scanner::scanQuoteImmediate() {
+  /* If indentation is requested, it takes priority */
+  if ((this->validTokens & IndentTypes).any())
+    return this->reduceIndentImmediate();
+
+  if (this->validTokens[LONG_STRING_CONTENT]) {
+    this->advance(false);
+    this->mark_end();
+    uint8_t quoteCount = 1;
+    while (this->lookahead() == '"' && quoteCount < 4) {
+      this->advance(false);
+      quoteCount++;
+    }
+
+    /* If there are less than 3 consecutive quotes in total, then it's a part
+     * of the string */
+    if (quoteCount < 3)
+      return this->scanChars(false);
+    /* If there are more than 3 consecutive quotes, then the first one is a
+     * part of the string (already claimed above with mark_end). */
+    else if (quoteCount > 3)
+      return this->reduceLongString();
+    /* If there are exactly 3 consecutive quotes, this is the string end, discard. */
+    else
+      return false;
+  }
 
   return false;
 }
@@ -217,6 +305,10 @@ bool Scanner::reduceIndentStart() {
   return false;
 }
 
+bool Scanner::reduceLongString() {
+  return this->finish(LONG_STRING_CONTENT);
+}
+
 bool Scanner::finish(enum TokenType token) {
   this->lexer->result_symbol = token;
   return true;
@@ -248,6 +340,10 @@ uint32_t Scanner::column() const {
   return this->lexer->get_column(this->lexer);
 }
 
+void Scanner::mark_end() {
+  return this->lexer->mark_end(this->lexer);
+}
+
 extern "C" {
   void* tree_sitter_nim_external_scanner_create() {
     return new Scanner();
@@ -276,7 +372,7 @@ extern "C" {
     Scanner* scanner = static_cast<Scanner*>(payload);
 
     ValidTokens validTokens;
-    for (int i = 0; i < END_TOKEN_TYPE; i++)
+    for (int i = 0; i < _END_TOKEN_TYPE; i++)
       validTokens.set(i, valid_symbols[i]);
 
     return scanner->scan(lexer, validTokens);

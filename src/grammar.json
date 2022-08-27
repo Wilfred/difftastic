@@ -1431,36 +1431,63 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_interpreted_string_literal"
+          "name": "_long_string_literal"
         },
         {
           "type": "SYMBOL",
           "name": "_raw_string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_interpreted_string_literal"
         }
       ]
     },
-    "_raw_string_literal": {
+    "_long_string_literal": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "r\""
+          "value": "\"\"\""
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\"\\n\\r]"
-            }
+            "type": "SYMBOL",
+            "name": "_long_string_content"
           }
         },
         {
           "type": "STRING",
-          "value": "\""
+          "value": "\"\"\""
         }
       ]
+    },
+    "_raw_string_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "r\""
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\"\\n\\r]"
+              }
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "\""
+          }
+        ]
+      }
     },
     "_interpreted_string_literal": {
       "type": "SEQ",
@@ -1659,6 +1686,10 @@
     {
       "type": "SYMBOL",
       "name": "_dedent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_long_string_content"
     }
   ],
   "inline": [],

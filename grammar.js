@@ -39,7 +39,8 @@ module.exports = grammar({
     $._indent_start,
     $._indent,
     $._indent_eq,
-    $._dedent
+    $._dedent,
+    $._long_string_content
   ],
 
   extras: $ => [' ', '\r', '\n'],
@@ -190,13 +191,16 @@ module.exports = grammar({
     )),
 
     string_literal: $ => choice(
-      $._interpreted_string_literal,
-      $._raw_string_literal
+      $._long_string_literal,
+      $._raw_string_literal,
+      $._interpreted_string_literal
     ),
 
-    _raw_string_literal: $ => seq(
+    _long_string_literal: $ => seq('"""', repeat($._long_string_content), '"""'),
+
+    _raw_string_literal: $ => token(seq(
       'r"', repeat(token.immediate(/[^"\n\r]/)), '"'
-    ),
+    )),
 
     _interpreted_string_literal: $ => seq(
       '"',
