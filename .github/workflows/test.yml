@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test
+      - run: cargo +stable test
 
   test_mac:
     name: Test macOS
