@@ -64,32 +64,6 @@
         }
       ]
     },
-    "_command_call": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_command_argument_list"
-            },
-            "named": true,
-            "value": "argument_list"
-          }
-        }
-      ]
-    },
     "_declaration": {
       "type": "CHOICE",
       "members": [

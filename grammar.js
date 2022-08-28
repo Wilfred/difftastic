@@ -63,11 +63,6 @@ module.exports = grammar({
       $._expression
     ),
 
-    _command_call: $ => seq(
-      field('function', $.identifier),
-      field('arguments', alias($._command_argument_list, $.argument_list))
-    ),
-
     _declaration: $ => choice(
       $.const_section,
       $.var_section,
