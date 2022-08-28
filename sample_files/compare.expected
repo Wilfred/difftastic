@@ -181,6 +181,9 @@ sample_files/toml_before.toml sample_files/toml_after.toml
 sample_files/typing_before.ml sample_files/typing_after.ml
 3941fd44b0bf744da834a0b3eda1ba76  -
 
+sample_files/utf16_before.py sample_files/utf16_after.py
+23ae372384bdddc7dd8745c22fab580d  -
+
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
 c4151c5a44b11e04fd11c2594597ed33  -
 
