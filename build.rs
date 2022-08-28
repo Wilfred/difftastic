@@ -13,7 +13,7 @@ struct TreeSitterParser {
 /// This should be possible in the cc crate directly after
 /// https://github.com/rust-lang/cc-rs/pull/671
 fn emit_whole_archive_link_flags(build: &mut cc::Build, lib_name: &str, is_cpp: bool) {
-    if rustc::is_min_version("1.60.0").unwrap_or(false) {
+    if rustc::is_max_version("1.60.0").unwrap_or(false) {
         // whole-archive was only stabilised in 1.61, and we don't
         // need it in earlier versions.
         return;
