@@ -51,6 +51,10 @@ module.exports = grammar({
 
   extras: $ => [' ', $._spaces_before_comment, $.comment],
 
+  conflicts: $ => [
+    [$._expression_argument_list, $._command_argument_list]
+  ],
+
   rules: {
     source_file: $ => seq(
       $._indent_start,
@@ -60,11 +64,13 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      $.expression_statement
+      $._expression,
+      alias($._command_call, $.call)
     ),
 
-    expression_statement: $ => seq(
-      $.expression
+    _command_call: $ => seq(
+      field('function', $.identifier),
+      field('arguments', alias($._command_argument_list, $.argument_list))
     ),
 
     _declaration: $ => choice(
@@ -145,13 +151,13 @@ module.exports = grammar({
     _symbol_declaration_nl: $ => seq(
       repeatSepNL1(',', $._symbol_declaration),
       optional(seq(':', field('type', $._type))),
-      optional(seq('=', field('value', $.expression)))
+      optional(seq('=', field('value', $._expression)))
     ),
 
     _symbol_declaration_indent: $ => seq(
       repeatSepInd1($, ',', $._symbol_declaration),
       optional(seq(':', field('type', $._type))),
-      optional(seq('=', field('value', $.expression)))
+      optional(seq('=', field('value', $._expression)))
     ),
 
     _symbol_declaration: $ => choice(
@@ -172,22 +178,32 @@ module.exports = grammar({
 
     ref_type: $ => seq(styleInsensitive('ref'), $._type),
 
-    expression: $ => choice(
+    _expression: $ => choice(
       $.identifier,
       $._literal,
-      $.call_expression
+      $.call
     ),
 
-    call_expression: $ => seq(
+    call: $ => seq(
       field('function', $.identifier),
-      field('arguments', $.argument_list)
+      field('arguments', $._expression_argument_list)
     ),
 
-    argument_list: $ => seq(
+    _expression_argument_list: $ => alias(
+      choice(
+        $._paren_argument_list,
+        $._expression
+      ),
+      $.argument_list
+    ),
+
+    _paren_argument_list: $ => seq(
       token.immediate('('),
-      repeatSepNL1(',', seq($.expression)),
+      repeatSepNL1(',', seq($._expression)),
       ')'
     ),
+
+    _command_argument_list: $ => repeatSepInd1($, ',', $._expression),
 
     _literal: $ => choice(
       $.boolean_literal,
@@ -259,7 +275,7 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      repeatSepNL1(',', $.expression),
+      repeatSepNL1(',', $._expression),
       ')'
     ),
 

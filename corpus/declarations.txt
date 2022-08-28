@@ -37,73 +37,57 @@ const
   (const_section
     (variable_declaration
       name: (identifier)
-      value: (expression
-        (integer_literal))))
+      value: (integer_literal)))
   (const_section
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (integer_literal))))
+      value: (integer_literal)))
   (const_section
     (variable_declaration
       name: (identifier)
-      value: (expression
-        (integer_literal)))
+      value: (integer_literal))
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (integer_literal))))
+      value: (integer_literal)))
   (const_section
     (variable_declaration
       (tuple_deconstruct_declaration
         name: (identifier)
         name: (identifier))
-      value: (expression
-        (tuple
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal))))))
+      value: (tuple
+            (integer_literal)
+            (integer_literal))))
   (const_section
     (variable_declaration
       name: (identifier)
-      value: (expression
-        (integer_literal)))
+      value: (integer_literal))
     (variable_declaration
       (tuple_deconstruct_declaration
         name: (identifier)
         name: (identifier)
         name: (identifier))
-      value: (expression
-        (tuple
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal))))))
+      value: (tuple
+        (integer_literal)
+        (integer_literal)
+        (integer_literal))))
   (const_section
     (variable_declaration
       (tuple_deconstruct_declaration
         name: (identifier)
         (exported_symbol
           name: (identifier)))
-      value: (expression
-        (tuple
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal))))))
+      value: (tuple
+        (integer_literal)
+        (integer_literal))))
   (const_section
     (variable_declaration
       name: (identifier)
       (exported_symbol
         name: (identifier))
       name: (identifier)
-      value: (expression
-        (integer_literal)))))
+      value: (integer_literal))))
 
 ================
 Let declarations
@@ -124,36 +108,29 @@ l_e_t
     (variable_declaration
       name: (identifier)
       name: (identifier)
-      value: (expression
-        (float_literal))))
+      value: (float_literal)))
   (let_section
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (float_literal))))
+      value: (float_literal)))
   (let_section
     (variable_declaration
       name: (identifier)
       name: (identifier)
       name: (identifier)
-      value: (expression
-        (integer_literal)))
+      value: (integer_literal))
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (integer_literal)))
+      value: (integer_literal))
     (variable_declaration
       (tuple_deconstruct_declaration
         name: (identifier)
         name: (identifier))
-      value: (expression
-        (tuple
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal)))))))
+      value: (tuple
+        (integer_literal)
+        (integer_literal)))))
 
 ================
 Var declarations
@@ -177,24 +154,20 @@ var (c, d) = (2, 3)
   (var_section
     (variable_declaration
       name: (identifier)
-      value: (expression
-        (float_literal))))
+      value: (float_literal)))
   (var_section
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (float_literal))))
+      value: (float_literal)))
   (var_section
     (variable_declaration
       name: (identifier)
-      value: (expression
-        (integer_literal)))
+      value: (integer_literal))
     (variable_declaration
       name: (identifier)
       type: (type_identifier)
-      value: (expression
-        (integer_literal))))
+      value: (integer_literal)))
   (var_section
     (variable_declaration
       name: (identifier)
@@ -210,12 +183,9 @@ var (c, d) = (2, 3)
       (tuple_deconstruct_declaration
         name: (identifier)
         name: (identifier))
-      value: (expression
-        (tuple
-          (expression
-            (integer_literal))
-          (expression
-            (integer_literal)))))))
+      value: (tuple
+        (integer_literal)
+        (integer_literal)))))
 
 =================
 Type declarations

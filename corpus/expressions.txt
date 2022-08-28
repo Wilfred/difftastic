@@ -22,56 +22,76 @@ echo(foo("Calls"), "in", bar("Calls"))
 ---
 
 (source_file
-  (expression_statement
-    (expression
-      (call_expression
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (identifier)))
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (integer_literal)
+      (identifier)
+      (float_literal)))
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (string_literal)
+      (string_literal)))
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (string_literal)))
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (call
         function: (identifier)
         arguments: (argument_list
-          (expression
-            (identifier))))))
-  (expression_statement
-    (expression
-      (call_expression
+          (string_literal)))
+      (string_literal)
+      (call
         function: (identifier)
         arguments: (argument_list
-          (expression
-            (integer_literal))
-          (expression
-            (identifier))
-          (expression
-            (float_literal))))))
-  (expression_statement
-    (expression
-      (call_expression
+          (string_literal))))))
+
+=============
+Command calls
+=============
+
+echo optarg 1, " ", singlearg 2
+
+foo x,
+    y, "string",
+    w(call(some other))
+
+---
+
+(source_file
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (call
         function: (identifier)
         arguments: (argument_list
-          (expression
-            (string_literal))
-          (expression
-            (string_literal))))))
-  (expression_statement
-    (expression
-      (call_expression
+          (integer_literal)))
+      (string_literal)
+      (call
         function: (identifier)
         arguments: (argument_list
-          (expression
-            (string_literal))))))
-  (expression_statement
-    (expression
-      (call_expression
+          (integer_literal)))))
+  (call
+    function: (identifier)
+    arguments: (argument_list
+      (identifier)
+      (identifier)
+      (string_literal)
+      (call
         function: (identifier)
         arguments: (argument_list
-          (expression
-            (call_expression
-              function: (identifier)
-              arguments: (argument_list
-                (expression
-                  (string_literal)))))
-          (expression
-            (string_literal))
-          (expression
-            (call_expression
-              function: (identifier)
-              arguments: (argument_list
-                (expression
-                  (string_literal))))))))))
+          (call
+            function: (identifier)
+            arguments: (argument_list
+              (call
+                function: (identifier)
+                arguments: (argument_list
+                  (identifier))))))))))

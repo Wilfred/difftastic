@@ -39,15 +39,13 @@ let
     (variable_declaration
       (identifier)
       (type_identifier)
-      (expression
-        (integer_literal)))
+      (integer_literal))
     (comment)
     (comment)
     (comment)
     (variable_declaration
       (identifier)
-      (expression
-        (float_literal)))
+      (float_literal))
     (comment)
     (comment)
     (comment)))
