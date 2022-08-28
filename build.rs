@@ -1,5 +1,6 @@
 use rayon::prelude::*;
 use std::path::PathBuf;
+use version_check as rustc;
 
 struct TreeSitterParser {
     name: &'static str,
@@ -11,7 +12,15 @@ struct TreeSitterParser {
 ///
 /// This should be possible in the cc crate directly after
 /// https://github.com/rust-lang/cc-rs/pull/671
-fn emit_whole_archive_link_flags(lib_name: &str, is_cpp: bool) {
+fn emit_whole_archive_link_flags(build: &mut cc::Build, lib_name: &str, is_cpp: bool) {
+    if rustc::is_min_version("1.60.0").unwrap_or(false) {
+        // whole-archive was only stabilised in 1.61, and we don't
+        // need it in earlier versions.
+        return;
+    }
+
+    build.cargo_metadata(false);
+
     println!("cargo:rustc-link-lib=static:+whole-archive={}", lib_name);
     println!(
         "cargo:rustc-link-search=native={}",
@@ -93,9 +102,7 @@ impl TreeSitterParser {
                 cpp_build.file(dir.join(file));
             }
 
-            cpp_build.cargo_metadata(false);
-            emit_whole_archive_link_flags(&format!("{}-cpp", self.name), true);
-
+            emit_whole_archive_link_flags(&mut cpp_build, &format!("{}-cpp", self.name), true);
             cpp_build.compile(&format!("{}-cpp", self.name));
         }
 
@@ -108,9 +115,7 @@ impl TreeSitterParser {
             build.file(dir.join(file));
         }
 
-        build.cargo_metadata(false);
-        emit_whole_archive_link_flags(self.name, false);
-
+        emit_whole_archive_link_flags(&mut build, self.name, false);
         build.compile(self.name);
     }
 }
