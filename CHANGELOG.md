@@ -1,5 +1,9 @@
 ## 0.34 (unreleased)
 
+### Build
+
+Fixed build on Rust 1.61+.
+
 ### Display
 
 Fixed an issue where side-by-side display would sometimes print the

@@ -12,6 +12,9 @@
 // It's common to have pairs foo_lhs and foo_rhs, leading to double
 // the number of arguments and triggering this lint.
 #![allow(clippy::too_many_arguments)]
+// Has false positives on else if chains that sometimes have the same
+// body for readability.
+#![allow(clippy::clippy::if_same_then_else)]
 
 mod constants;
 mod diff;

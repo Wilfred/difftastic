@@ -7,6 +7,49 @@ struct TreeSitterParser {
     extra_files: Vec<&'static str>,
 }
 
+/// Emit linking flags for this library, but specifcy `+whole-archive`.
+///
+/// This should be possible in the cc crate directly after
+/// https://github.com/rust-lang/cc-rs/pull/671
+fn emit_whole_archive_link_flags(lib_name: &str, is_cpp: bool) {
+    println!("cargo:rustc-link-lib=static:+whole-archive={}", lib_name);
+    println!(
+        "cargo:rustc-link-search=native={}",
+        std::env::var("OUT_DIR").expect("did not set OUT_DIR")
+    );
+
+    if is_cpp {
+        let cpp_stdlib = if let Ok(stdlib) = std::env::var("CXXSTDLIB") {
+            if stdlib.is_empty() {
+                None
+            } else {
+                Some(stdlib)
+            }
+        } else {
+            let target = std::env::var("TARGET").expect("TARGET environment should be set");
+
+            // Equivalent to https://github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299f1886ead831901b9c775d6/src/lib.rs#L2528
+            if target.contains("msvc") {
+                None
+            } else if target.contains("apple") {
+                Some("c++".to_string())
+            } else if target.contains("freebsd") {
+                Some("c++".to_string())
+            } else if target.contains("openbsd") {
+                Some("c++".to_string())
+            } else if target.contains("android") {
+                Some("c++_shared".to_string())
+            } else {
+                Some("stdc++".to_string())
+            }
+        };
+
+        if let Some(cpp_stdlib) = cpp_stdlib {
+            println!("cargo:rustc-link-lib={}", cpp_stdlib);
+        }
+    }
+}
+
 impl TreeSitterParser {
     fn build(&self) {
         let dir = PathBuf::from(&self.src_dir);
@@ -49,6 +92,10 @@ impl TreeSitterParser {
             for file in cpp_files {
                 cpp_build.file(dir.join(file));
             }
+
+            cpp_build.cargo_metadata(false);
+            emit_whole_archive_link_flags(&format!("{}-cpp", self.name), true);
+
             cpp_build.compile(&format!("{}-cpp", self.name));
         }
 
@@ -60,6 +107,10 @@ impl TreeSitterParser {
         for file in c_files {
             build.file(dir.join(file));
         }
+
+        build.cargo_metadata(false);
+        emit_whole_archive_link_flags(self.name, false);
+
         build.compile(self.name);
     }
 }
