@@ -6,8 +6,6 @@
 $ difft sample_files/before.js sample_files/after.js
 ```
 
-Difftastic uses the file extension to decide which parser to use.
-
 ## Diffing Directories
 
 ```
