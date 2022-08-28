@@ -55,6 +55,7 @@ pretty_assertions = "1.2.1"
 [build-dependencies]
 cc = "1.0.73"
 rayon = "1.5.2"
+version_check = "0.9.4"
 
 [profile.release]
 # Release builds don't have debug symbols by default. We explicitly
