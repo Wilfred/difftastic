@@ -7,7 +7,7 @@ jobs:
     name: Test Linux
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo test
 
@@ -15,7 +15,7 @@ jobs:
     name: Test Linux (latest stable Rust)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
 
@@ -23,7 +23,7 @@ jobs:
     name: Test macOS
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo test
 
@@ -31,7 +31,7 @@ jobs:
     name: Test Windows
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo test
 
@@ -39,7 +39,7 @@ jobs:
     name: Output Regression Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - name: Generate output for all sample files
         run: ./sample_files/compare_all.sh
@@ -50,7 +50,7 @@ jobs:
     name: Check Linux Packaging
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo package --allow-dirty
 
@@ -58,6 +58,6 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo fmt --all -- --check
