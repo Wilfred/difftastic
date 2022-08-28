@@ -5,6 +5,8 @@
 Difftastic will now autodetect files in UTF-16-BE and
 UTF-16-LE. Previously it required files to be UTF-8.
 
+Added support for Makefiles.
+
 ## 0.34 (released 27th August 2022)
 
 ### Build

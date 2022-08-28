@@ -69,6 +69,7 @@ extern "C" {
     fn tree_sitter_julia() -> ts::Language;
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
+    fn tree_sitter_make() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
@@ -528,6 +529,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendor/highlights/lua.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Make => {
+            let language = unsafe { tree_sitter_make() };
+            TreeSitterConfig {
+                name: "Makefile",
+                language,
+                atom_nodes: vec![].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")")].into_iter().collect(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendor/highlights/make.scm"),
                 )
                 .unwrap(),
             }

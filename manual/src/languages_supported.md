@@ -26,6 +26,7 @@ Difftastic supports the following programming languages.
 | Julia           | [tree-sitter/tree-sitter-julia](https://github.com/tree-sitter/tree-sitter-julia)                                                                              |
 | Kotlin          | [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)                                                                                          |
 | Lua             | [nvim-treesitter/tree-sitter-lua](https://github.com/nvim-treesitter/tree-sitter-lua)                                                                          |
+| Make            | [alemuller/tree-sitter-make](https://github.com/alemuller/tree-sitter-make)                                                                                    |
 | Nix             | [cstrahan/tree-sitter-nix](https://github.com/cstrahan/tree-sitter-nix)                                                                                        |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                                                                              |
 | Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)                                                                                |

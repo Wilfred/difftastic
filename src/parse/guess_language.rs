@@ -45,6 +45,7 @@ pub enum Language {
     Jsx,
     Kotlin,
     Lua,
+    Make,
     Nix,
     OCaml,
     OCamlInterface,
@@ -202,6 +203,9 @@ fn from_name(path: &Path) -> Option<Language> {
             ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
             | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
             | "composer.lock" | "mcmod.info" => Some(Json),
+            "BSDmakefile" | "GNUmakefile" | "Kbuild" | "Makefile" | "Makefile.am"
+            | "Makefile.boot" | "Makefile.frag" | "Makefile.in" | "Makefile.inc"
+            | "Makefile.wat" | "makefile" | "makefile.sco" | "mkfile" => Some(Make),
             "TARGETS" | "BUCK" | "DEPS" => Some(Python),
             "Gemfile" | "Rakefile" => Some(Ruby),
             "Cargo.lock" | "Gopkg.lock" | "Pipfile" | "poetry.lock" => Some(Toml),
@@ -249,6 +253,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
         "jl" => Some(Julia),
         "kt" | "ktm" | "kts" => Some(Kotlin),
         "lua" => Some(Lua),
+        ".mak" | ".d" | ".make" | ".makefile" | ".mk" | ".mkfile" => Some(Make),
         "nix" => Some(Nix),
         "ml" => Some(OCaml),
         "mli" => Some(OCamlInterface),
