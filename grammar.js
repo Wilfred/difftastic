@@ -51,10 +51,6 @@ module.exports = grammar({
 
   extras: $ => [' ', $._spaces_before_comment, $.comment],
 
-  conflicts: $ => [
-    [$._expression_argument_list, $._command_argument_list]
-  ],
-
   rules: {
     source_file: $ => seq(
       $._indent_start,
@@ -64,8 +60,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $._declaration,
-      $._expression,
-      alias($._command_call, $.call)
+      $._expression
     ),
 
     _command_call: $ => seq(
@@ -186,15 +181,12 @@ module.exports = grammar({
 
     call: $ => seq(
       field('function', $.identifier),
-      field('arguments', $._expression_argument_list)
+      field('arguments', $.argument_list)
     ),
 
-    _expression_argument_list: $ => alias(
-      choice(
-        $._paren_argument_list,
-        $._expression
-      ),
-      $.argument_list
+    argument_list: $ => choice(
+      $._paren_argument_list,
+      $._command_argument_list
     ),
 
     _paren_argument_list: $ => seq(
@@ -203,7 +195,9 @@ module.exports = grammar({
       ')'
     ),
 
-    _command_argument_list: $ => repeatSepInd1($, ',', $._expression),
+    _command_argument_list: $ => prec.left(
+      repeatSepInd1($, ',', $._expression)
+    ),
 
     _literal: $ => choice(
       $.boolean_literal,
