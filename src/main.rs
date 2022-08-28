@@ -36,7 +36,9 @@ use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
 use display::context::opposite_positions;
-use files::{is_probably_binary, read_files_or_die, read_or_die, relative_paths_in_either};
+use files::{
+    guess_content, read_files_or_die, read_or_die, relative_paths_in_either, ProbableFileKind,
+};
 use log::info;
 use mimalloc::MiMalloc;
 use parse::guess_language::guess;
@@ -214,26 +216,25 @@ fn diff_file_content(
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
-    if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
-        return DiffResult {
-            lhs_display_path: lhs_display_path.into(),
-            rhs_display_path: rhs_display_path.into(),
-            language: None,
-            lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
-            rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
-            lhs_positions: vec![],
-            rhs_positions: vec![],
-        };
-    }
+    let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
+        (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+            return DiffResult {
+                lhs_display_path: lhs_display_path.into(),
+                rhs_display_path: rhs_display_path.into(),
+                language: None,
+                lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
+                rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
+                lhs_positions: vec![],
+                rhs_positions: vec![],
+            };
+        }
+        (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
+    };
 
     // TODO: don't replace tab characters inside string literals.
     let tab_as_spaces = " ".repeat(tab_width);
-    let mut lhs_src = String::from_utf8_lossy(lhs_bytes)
-        .to_string()
-        .replace('\t', &tab_as_spaces);
-    let mut rhs_src = String::from_utf8_lossy(rhs_bytes)
-        .to_string()
-        .replace('\t', &tab_as_spaces);
+    lhs_src = lhs_src.replace('\t', &tab_as_spaces);
+    rhs_src = rhs_src.replace('\t', &tab_as_spaces);
 
     // Ignore the trailing newline, if present.
     // TODO: highlight if this has changes (#144).
