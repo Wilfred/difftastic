@@ -396,7 +396,8 @@ module.exports = grammar({
 
     tuple: $ => seq(
       '(',
-      repeatSepNL1(',', $._expression),
+      $._expression, ',', MaybeNewline,
+      optional(repeatSepNL1(',', $._expression)),
       ')'
     ),
 

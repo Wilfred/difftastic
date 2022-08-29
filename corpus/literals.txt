@@ -147,6 +147,7 @@ Tuple literals
 
 (20, 42)
 (0x2f, 0o755f)
+(20,)
 
 ---
 
@@ -156,7 +157,9 @@ Tuple literals
     (integer_literal))
   (tuple
     (integer_literal)
-    (float_literal)))
+    (float_literal))
+  (tuple
+    (integer_literal)))
 
 ===============
 String literals
