@@ -19,6 +19,10 @@ text""")
 
 echo(foo("Calls"), "in", bar("Calls"))
 
+foo()
+
+bar()
+
 ---
 
 (source_file
@@ -52,7 +56,13 @@ echo(foo("Calls"), "in", bar("Calls"))
       (call
         function: (identifier)
         arguments: (argument_list
-          (string_literal))))))
+          (string_literal)))))
+  (call
+    function: (identifier)
+    arguments: (argument_list))
+  (call
+    function: (identifier)
+    arguments: (argument_list)))
 
 =============
 Command calls

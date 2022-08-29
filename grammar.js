@@ -238,7 +238,7 @@ module.exports = grammar({
 
     _paren_argument_list: $ => seq(
       token.immediate('('),
-      repeatSepNL1(',', seq($._expression)),
+      optional(repeatSepNL1(',', seq($._expression))),
       ')'
     ),
 
