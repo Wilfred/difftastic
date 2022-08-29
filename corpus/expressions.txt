@@ -95,3 +95,451 @@ foo x,
                 function: (identifier)
                 arguments: (argument_list
                   (identifier))))))))))
+
+================
+Block statements
+================
+
+block: 10u32
+
+block named: echo foo; echo bar
+
+block:
+  let x = 10
+
+  foo(10)
+
+let y = block:
+  100
+
+---
+
+(source_file
+  (block
+    body: (statement_list
+      (integer_literal)))
+  (block
+    name: (identifier)
+    body: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))))
+  (block
+    body: (statement_list
+      (let_section
+        (variable_declaration
+          name: (identifier)
+          value: (integer_literal)))
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (integer_literal)))))
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      value: (block
+        body: (statement_list
+          (integer_literal))))))
+
+=============
+If statements
+=============
+
+if true:
+  echo foo
+
+if false:
+  echo bar
+
+if x:
+  if y:
+    "string"
+  elif z:
+    10u32
+
+  something bar
+else:
+  10
+
+let x = if true:
+  10
+elif something:
+  "string"
+else:
+  100
+
+block:
+  var x = if true:
+            10
+          else:
+            1f
+
+if true: expr1
+else: expr2
+
+---
+
+(source_file
+  (if
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))))
+  (if
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))))
+  (if
+    condition: (identifier)
+    consequence: (statement_list
+      (if
+        condition: (identifier)
+        consequence: (statement_list
+          (string_literal))
+        alternative: (elif_clause
+          condition: (identifier)
+          consequence: (statement_list
+            (integer_literal))))
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier))))
+    alternative: (else_clause
+      body: (statement_list
+        (integer_literal))))
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      value: (if
+        condition: (boolean_literal)
+        consequence: (statement_list
+          (integer_literal))
+        alternative: (elif_clause
+          condition: (identifier)
+          consequence: (statement_list
+            (string_literal)))
+        alternative: (else_clause
+          body: (statement_list
+            (integer_literal))))))
+  (block
+    body: (statement_list
+      (var_section
+        (variable_declaration
+          name: (identifier)
+          value: (if
+            condition: (boolean_literal)
+            consequence: (statement_list
+              (integer_literal))
+            alternative: (else_clause
+              body: (statement_list
+                (float_literal))))))))
+  (if
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (identifier))
+    alternative: (else_clause
+      body: (statement_list
+        (identifier)))))
+
+===============
+When statements
+===============
+
+when true:
+  echo foo
+
+when false:
+  echo bar
+
+when x:
+  when y:
+    "string"
+  elif z:
+    if other:
+      echo bar
+
+    10u32
+else:
+  10
+
+const X = when true:
+  10
+elif something:
+  "string"
+else:
+  100
+
+block:
+  const Y = when true:
+              10
+            else:
+              1f
+
+when true: expr1
+else: expr2
+
+---
+
+(source_file
+  (when
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))))
+  (when
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier)))))
+  (when
+    condition: (identifier)
+    consequence: (statement_list
+      (when
+        condition: (identifier)
+        consequence: (statement_list
+          (string_literal))
+        alternative: (elif_clause
+          condition: (identifier)
+          consequence: (statement_list
+            (if
+              condition: (identifier)
+              consequence: (statement_list
+                (call
+                  function: (identifier)
+                  arguments: (argument_list
+                    (identifier)))))
+            (integer_literal)))))
+    alternative: (else_clause
+      body: (statement_list
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      name: (identifier)
+      value: (when
+        condition: (boolean_literal)
+        consequence: (statement_list
+          (integer_literal))
+        alternative: (elif_clause
+          condition: (identifier)
+          consequence: (statement_list
+            (string_literal)))
+        alternative: (else_clause
+          body: (statement_list
+            (integer_literal))))))
+  (block
+    body: (statement_list
+      (const_section
+        (variable_declaration
+          name: (identifier)
+          value: (when
+            condition: (boolean_literal)
+            consequence: (statement_list
+              (integer_literal))
+            alternative: (else_clause
+              body: (statement_list
+                (float_literal))))))))
+  (when
+    condition: (boolean_literal)
+    consequence: (statement_list
+      (identifier))
+    alternative: (else_clause
+      body: (statement_list
+        (identifier)))))
+
+===============
+Case statements
+===============
+
+case x
+of 1, 2,
+   3:
+  echo true
+  echo false
+  10
+of 2:
+  10f32
+
+case x
+of true:
+  stuff
+elif this:
+  bar 10
+else:
+  echo ""
+
+case something(10):
+  of false:
+    stuff
+  elif this:
+    that
+
+case y
+of true: 1
+of false: 2
+
+---
+
+(source_file
+  (case
+    value: (identifier)
+    (of_branch
+      value: (integer_literal)
+      value: (integer_literal)
+      value: (integer_literal)
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (boolean_literal)))
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (boolean_literal)))
+        (integer_literal)))
+    (of_branch
+      value: (integer_literal)
+      body: (statement_list
+        (float_literal))))
+  (case
+    value: (identifier)
+    (of_branch
+      value: (boolean_literal)
+      body: (statement_list
+        (identifier)))
+    (elif_clause
+      condition: (identifier)
+      consequence: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (integer_literal)))))
+    (else_clause
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (string_literal))))))
+  (case
+    value: (call
+      function: (identifier)
+      arguments: (argument_list
+        (integer_literal)))
+    (of_branch
+      value: (boolean_literal)
+      body: (statement_list
+        (identifier)))
+    (elif_clause
+      condition: (identifier)
+      consequence: (statement_list
+        (identifier))))
+  (case
+    value: (identifier)
+    (of_branch
+      value: (boolean_literal)
+      body: (statement_list
+        (integer_literal)))
+    (of_branch
+      value: (boolean_literal)
+      body: (statement_list
+        (integer_literal)))))
+
+==============
+Try statements
+==============
+
+try:
+  echo "x"
+  echo "y"
+except A:
+  echo b
+
+try:
+  echo "x"
+  echo "y"
+except A:
+  echo b
+except B, C:
+  echo c
+finally:
+  echo d
+
+try: echo x
+except: echo y
+
+---
+
+(source_file
+  (try
+    body: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal)))
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal))))
+    (except_branch
+      exception: (identifier)
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (identifier))))))
+  (try
+    body: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal)))
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal))))
+    (except_branch
+      exception: (identifier)
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (identifier)))))
+    (except_branch
+      exception: (identifier)
+      exception: (identifier)
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (identifier)))))
+    (finally_branch
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (identifier))))))
+  (try
+    body: (statement_list
+      (call
+        function: (identifier)
+        arguments: (argument_list
+          (identifier))))
+    (except_branch
+      body: (statement_list
+        (call
+          function: (identifier)
+          arguments: (argument_list
+            (identifier)))))))

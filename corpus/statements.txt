@@ -1,0 +1,72 @@
+# Copyright 2022 Leorize <leorize+oss@disroot.org>
+#
+# SPDX-License-Identifier: MPL-2.0
+
+==============
+For statements
+==============
+
+for x in s:
+  100
+
+for x, y in pairs(x):
+  42u32
+
+for (x, y), w, z in whatever:
+  for foo, bar in s:
+    0x42f
+
+---
+
+(source_file
+  (for
+    left: (pattern_list
+      (identifier))
+    right: (identifier)
+    body: (statement_list
+      (integer_literal)))
+  (for
+    left: (pattern_list
+      (identifier)
+      (identifier))
+    right: (call
+      function: (identifier)
+      arguments: (argument_list
+        (identifier)))
+    body: (statement_list
+      (integer_literal)))
+  (for
+    left: (pattern_list
+      (tuple_pattern
+        (identifier)
+        (identifier))
+      (identifier)
+      (identifier))
+    right: (identifier)
+    body: (statement_list
+      (for
+        left: (pattern_list
+          (identifier)
+          (identifier))
+        right: (identifier)
+        body: (statement_list
+          (integer_literal))))))
+
+================
+While statements
+================
+
+while true:
+  while false:
+    nothing
+
+---
+
+(source_file
+  (while
+    condition: (boolean_literal)
+    body: (statement_list
+      (while
+        condition: (boolean_literal)
+        body: (statement_list
+          (identifier))))))

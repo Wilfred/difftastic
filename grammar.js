@@ -51,6 +51,14 @@ module.exports = grammar({
 
   extras: $ => [' ', $._spaces_before_comment, $.comment],
 
+  conflicts: $ => [
+    [$._if_alternatives],
+    [$.if],
+    [$.when],
+    [$.case],
+    [$.try],
+  ],
+
   rules: {
     source_file: $ => seq(
       $._indent_start,
@@ -58,8 +66,47 @@ module.exports = grammar({
       MaybeNewline
     ),
 
+    statement_list: $ => prec.right(choice(
+      repeatSep1(';', $._statement_simple),
+      seq(
+        $._indent,
+        repeatSep1(choice($._indent_eq, ';'), $._statement),
+        $._dedent
+      )
+    )),
+
     _statement: $ => choice(
       $._declaration,
+      $._statement_simple,
+      $.for,
+      $.while
+    ),
+
+    for: $ => seq(
+      styleInsensitive('for'),
+      field('left', alias($._pattern_list, $.pattern_list)),
+      styleInsensitive('in'),
+      field('right', $._expression),
+      ':',
+      field('body', $.statement_list)
+    ),
+
+    _pattern_list: $ => prec.right(repeatSep1(
+      ',', choice($.identifier, $.tuple_pattern)
+    )),
+
+    tuple_pattern: $ => seq(
+      '(', repeatSep1(',', $._pattern_list), ')'
+    ),
+
+    while: $ => seq(
+      styleInsensitive('while'),
+      field('condition', $._expression),
+      ':',
+      field('body', $.statement_list)
+    ),
+
+    _statement_simple: $ => choice(
       $._expression
     ),
 
@@ -171,7 +218,12 @@ module.exports = grammar({
     _expression: $ => choice(
       $.identifier,
       $._literal,
-      $.call
+      $.call,
+      $.block,
+      $.if,
+      $.when,
+      $.case,
+      $.try
     ),
 
     call: $ => seq(
@@ -192,6 +244,86 @@ module.exports = grammar({
 
     _command_argument_list: $ => prec.left(
       repeatSepInd1($, ',', $._expression)
+    ),
+
+    block: $ => seq(
+      styleInsensitive('block'),
+      optional(field('name', $.identifier)),
+      ':',
+      field('body', $.statement_list)
+    ),
+
+    if: $ => seq(
+      styleInsensitive('if'),
+      field('condition', $._expression),
+      ':',
+      field('consequence', $.statement_list),
+      optional($._if_alternatives)
+    ),
+
+    when: $ => seq(
+      styleInsensitive('when'),
+      field('condition', $._expression),
+      ':',
+      field('consequence', $.statement_list),
+      optional($._if_alternatives)
+    ),
+
+    _if_alternatives: $ => choice(
+      repeat1($._if_alternative_clause),
+      repeatIndentGE1($, $._if_alternative_clause)
+    ),
+
+    _if_alternative_clause: $ => field(
+      'alternative', choice($.elif_clause, $.else_clause)
+    ),
+
+    case: $ => seq(
+      styleInsensitive('case'),
+      field('value', $._expression),
+      optional(':'),
+      repeatIndentGE1($, choice($.of_branch, $.elif_clause, $.else_clause))
+    ),
+
+    of_branch: $ => seq(
+      styleInsensitive('of'),
+      repeatSepNL1(',', field('value', $._expression)),
+      ':',
+      field('body', $.statement_list)
+    ),
+
+    elif_clause: $ => seq(
+      styleInsensitive('elif'),
+      field('condition', $._expression),
+      ':',
+      field('consequence', $.statement_list)
+    ),
+
+    else_clause: $ => seq(
+      styleInsensitive('else'),
+      ':',
+      field('body', $.statement_list)
+    ),
+
+    try: $ => seq(
+      styleInsensitive('try'),
+      ':',
+      field('body', $.statement_list),
+      repeat(seq($._indent_eq, $.except_branch)),
+      optional(seq($._indent_eq, $.finally_branch))
+    ),
+
+    except_branch: $ => seq(
+      styleInsensitive('except'),
+      optional(repeatSepNL1(',', field('exception', $._expression))),
+      ':',
+      field('body', $.statement_list),
+    ),
+
+    finally_branch: $ => seq(
+      styleInsensitive('finally'),
+      ':',
+      field('body', $.statement_list)
     ),
 
     _literal: $ => choice(
@@ -320,4 +452,15 @@ function repeatSepInd1($, sep, rule) {
 
 function optionalUnderscore(rule) {
   return seq(rule, repeat(seq(optional('_'), rule)));
+}
+
+function repeatIndentGE1($, rule) {
+  return choice(
+    repeat1(seq($._indent_eq, rule)),
+    seq(
+      $._indent,
+      repeatSep1($._indent_eq, rule),
+      $._dedent
+    )
+  )
 }
