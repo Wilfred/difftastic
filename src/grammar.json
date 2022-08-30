@@ -3325,7 +3325,7 @@
                 "type": "IMMEDIATE_TOKEN",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\"\\\\\\n\\r]"
+                  "value": "[^\"\\\\\\n\\r]+"
                 }
               },
               {

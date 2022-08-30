@@ -471,7 +471,7 @@ module.exports = grammar({
 
     _interpreted_string_literal: $ => seq(
       '"',
-      repeat(choice(token.immediate(/[^"\\\n\r]/), $.escape_sequence)),
+      repeat(choice(token.immediate(/[^"\\\n\r]+/), $.escape_sequence)),
       '"'
     ),
 
