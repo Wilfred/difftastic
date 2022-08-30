@@ -107,8 +107,101 @@ module.exports = grammar({
     ),
 
     _statement_simple: $ => choice(
+      $._expression,
+      $.import_statement,
+      $.export_statement,
+      $.import_from_statement,
+      $.include_statement,
+      $.discard_statement,
+      $.asm_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.raise_statement,
+      $.return_statement,
+      $.yield_statement,
+      $.bind_statement,
+      $.mixin_statement
+    ),
+
+    import_statement: $ => prec.left(seq(
+      styleInsensitive('import'),
+      optional($._indent_ge),
+      repeatSepNL1(',', field('module', $._expression)),
+      optional($.import_exception)
+    )),
+
+    export_statement: $ => prec.left(seq(
+      styleInsensitive('export'),
+      optional($._indent_ge),
+      repeatSepNL1(',', field('symbol', $._expression)),
+      optional(alias($.import_exception, $.export_exception))
+    )),
+
+    import_exception: $ => prec.left(seq(
+      styleInsensitive('except'),
+      optional($._indent_ge),
+      repeatSepNL1(',', $._expression)
+    )),
+
+    import_from_statement: $ => prec.left(seq(
+      styleInsensitive('from'),
+      optional($._indent_ge),
+      field('module', $._expression),
+      styleInsensitive('import'),
+      optional($._indent_ge),
+      repeatSepNL1(',', field('symbol', $._expression))
+    )),
+
+    include_statement: $ => prec.left(seq(
+      styleInsensitive('include'),
+      optional($._indent_ge),
+      repeatSepNL1(',', field('path', $._expression))
+    )),
+
+    discard_statement: $ => seq(
+      styleInsensitive('discard'),
+      optional($._expression)
+    ),
+
+    asm_statement: $ => seq(
+      styleInsensitive('asm'),
+      $.string_literal
+    ),
+
+    break_statement: $ => seq(
+      styleInsensitive('break'),
+      optional(field('label', $._expression))
+    ),
+
+    continue_statement: $ => seq(
+      styleInsensitive('continue'),
+      optional(field('label', $._expression))
+    ),
+
+    raise_statement: $ => seq(
+      styleInsensitive('raise'),
+      optional($._expression)
+    ),
+
+    return_statement: $ => seq(
+      styleInsensitive('return'),
+      optional($._expression)
+    ),
+
+    yield_statement: $ => seq(
+      styleInsensitive('yield'),
       $._expression
     ),
+
+    bind_statement: $ => prec.left(seq(
+      styleInsensitive('bind'),
+      repeatSep1(',', $._expression)
+    )),
+
+    mixin_statement: $ => prec.left(seq(
+      styleInsensitive('mixin'),
+      repeatSep1(',', $._expression)
+    )),
 
     _declaration: $ => choice(
       $.const_section,

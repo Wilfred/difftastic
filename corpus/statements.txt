@@ -70,3 +70,215 @@ while true:
         condition: (boolean_literal)
         body: (statement_list
           (identifier))))))
+
+=================
+Import statements
+=================
+
+import X
+
+import Y, Z,
+  J, K except F
+
+---
+
+(source_file
+  (import_statement
+    module: (identifier))
+  (import_statement
+    module: (identifier)
+    module: (identifier)
+    module: (identifier)
+    module: (identifier)
+    (import_exception
+      (identifier))))
+
+=================
+Export statements
+=================
+
+export X, Y
+
+export foo, bar except bar
+
+---
+
+(source_file
+  (export_statement
+    symbol: (identifier)
+    symbol: (identifier))
+  (export_statement
+    symbol: (identifier)
+    symbol: (identifier)
+    (export_exception
+      (identifier))))
+
+======================
+Import from statements
+======================
+
+from system import seq, echo
+
+from X import Y
+
+---
+
+(source_file
+  (import_from_statement
+    module: (identifier)
+    symbol: (identifier)
+    symbol: (identifier))
+  (import_from_statement
+    module: (identifier)
+    symbol: (identifier)))
+
+==================
+Include statements
+==================
+
+include stuff, "foo.txt"
+
+include X
+
+---
+
+(source_file
+  (include_statement
+    path: (identifier)
+    path: (string_literal))
+  (include_statement
+    path: (identifier)))
+
+==================
+Discard statements
+==================
+
+discard "foo"
+
+discard
+
+discard bar
+
+---
+
+(source_file
+  (discard_statement
+    (string_literal))
+  (discard_statement)
+  (discard_statement
+    (identifier)))
+
+==============
+Asm statements
+==============
+
+asm """
+mov
+ret
+"""
+
+asm "ret"
+
+---
+
+(source_file
+  (asm_statement
+    (string_literal))
+  (asm_statement
+    (string_literal)))
+
+================
+Break statements
+================
+
+bRe_ak
+
+break blck
+
+---
+
+(source_file
+  (break_statement)
+  (break_statement
+    label: (identifier)))
+
+===================
+Continue statements
+===================
+
+con_tiNue
+
+continue blck
+
+---
+
+(source_file
+  (continue_statement)
+  (continue_statement
+    label: (identifier)))
+
+================
+Raise statements
+================
+
+raise exp
+
+raise
+
+---
+
+(source_file
+  (raise_statement
+    (identifier))
+  (raise_statement))
+
+=================
+Return statements
+=================
+
+return
+
+return X
+
+---
+
+(source_file
+  (return_statement)
+  (return_statement
+    (identifier)))
+
+===============
+Bind statements
+===============
+
+bind x, y, z
+
+bind foo
+
+---
+
+(source_file
+  (bind_statement
+    (identifier)
+    (identifier)
+    (identifier))
+  (bind_statement
+    (identifier)))
+
+================
+Mixin statements
+================
+
+mixin x, y, z
+
+mixin foo
+
+---
+
+(source_file
+  (mixin_statement
+    (identifier)
+    (identifier)
+    (identifier))
+  (mixin_statement
+    (identifier)))
