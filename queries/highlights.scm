@@ -62,9 +62,31 @@
  (#match? @comment "^#[cC][iIsS]$"))
 
 (list
- .
- (symbol) @function)
+  .
+  (symbol) @_def
+  .
+  (list
+    .
+    (symbol) @function
+    .
+    (symbol)* @variable.parameter)
+  (#match? @_def "^(define|define/contract|define-syntax-rule)$"))
+
+(list
+  .
+  (symbol) @_def
+  .
+  (list
+    .
+    (symbol)* @variable.parameter)
+  (#match? @_def "^(lambda|λ)$"))
+
+(list
+  .
+  (symbol) @_def
+  .
+  (symbol) @variable.parameter
+  (#match? @_def "^(lambda|λ)$"))
 
 (symbol) @variable
-
 

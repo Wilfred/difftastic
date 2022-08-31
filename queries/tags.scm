@@ -5,8 +5,7 @@
   .
   (list
     .
-    (symbol) @name) @definition.function
-  )
+    (symbol) @name) @definition.function)
 
 (list
   .
