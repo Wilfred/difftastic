@@ -24,14 +24,6 @@
 (extension) @keyword
 (lang_name) @variable.builtin
 
-(list
-  .
- "["
- .
- (symbol)+ @variable
- .
- "]")
-
 ((symbol) @operator
  (#match? @operator "^(\\+|-|\\*|/|=|>|<|>=|<=)$"))
 
