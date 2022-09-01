@@ -210,10 +210,30 @@ record Teacher(string FirstName, string LastName, string Subject) : Person(First
       (identifier))))
 
 =====================================
+Record types can end with a semicolon
+=====================================
+
+public record Person { };
+
+public record struct Person2 { };
+
+---
+
+(compilation_unit
+    (record_declaration
+      (modifier)
+      (identifier)
+      (declaration_list))
+    (record_struct_declaration
+      (modifier)
+      (identifier)
+      (declaration_list)))
+
+=====================================
 Record types can seal ToString()
 =====================================
 
-record A{
+record A {
   public sealed override string ToString(){
       return "";
   }

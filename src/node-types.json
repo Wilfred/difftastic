@@ -3494,6 +3494,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_list",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },

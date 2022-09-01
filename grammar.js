@@ -604,6 +604,7 @@ module.exports = grammar({
       field('bases', optional(alias($.record_base, $.base_list))),
       repeat($.type_parameter_constraints_clause),
       field('body', $._record_body),
+      optional(';')
     ),
 
     record_struct_declaration: $ => seq(
@@ -617,6 +618,7 @@ module.exports = grammar({
       field('bases', optional(alias($.record_base, $.base_list))),
       repeat($.type_parameter_constraints_clause),
       field('body', $._record_body),
+      optional(';')
     ),
 
     record_base: $ => choice(
@@ -1087,6 +1089,7 @@ module.exports = grammar({
     ),
 
     lambda_expression: $ => prec(-1, seq(
+      repeat($.attribute_list),
       optional(alias(choice('async', 'static', seq('async', 'static'), seq('static', 'async')), $.modifier)),
       choice(field('parameters', $.parameter_list), $.identifier),
       '=>',

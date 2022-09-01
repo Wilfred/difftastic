@@ -3062,6 +3062,18 @@
             "type": "SYMBOL",
             "name": "_record_body"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -3165,6 +3177,18 @@
             "type": "SYMBOL",
             "name": "_record_body"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -5811,6 +5835,13 @@
       "content": {
         "type": "SEQ",
         "members": [
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "attribute_list"
+            }
+          },
           {
             "type": "CHOICE",
             "members": [
