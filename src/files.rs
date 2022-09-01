@@ -129,7 +129,7 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // If more than 20 of the first 1,000 characters are null bytes or
     // invalid UTF-8, we assume it's binary.
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
-    
+
     let num_utf8_invalid = utf8_string
         .chars()
         .take(1000)
@@ -223,11 +223,17 @@ mod tests {
     #[test]
     fn test_plaintext_is_text() {
         let s = "hello world";
-        assert!(matches!(guess_content(s.as_bytes()), ProbableFileKind::Text(_)));
+        assert!(matches!(
+            guess_content(s.as_bytes()),
+            ProbableFileKind::Text(_)
+        ));
     }
     #[test]
     fn test_null_bytes_are_binary() {
         let s = "\0".repeat(1000);
-        assert!(matches!(guess_content(s.as_bytes()), ProbableFileKind::Binary));
+        assert!(matches!(
+            guess_content(s.as_bytes()),
+            ProbableFileKind::Binary
+        ));
     }
 }
