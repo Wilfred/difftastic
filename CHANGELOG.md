@@ -179,6 +179,17 @@ Fixed handling of paths that aren't valid UTF-8.
 `--missing-as-empty` now only applies when diffing files, and has no
 effect when diffing directories.
 
+### Note: Crates.io Is Patched
+
+Due to the 10 MB crate limit, two patches were applied before
+uploading to crates.io. The source code on crates.io therefore does
+not exactly match this git tag.
+
+`Cargo.toml` had the include list changed (committed on master as
+d9ef270d273e3f7c61e2e167b7efbd33b36d0c96), and the vendored perl
+parser had whitespace removed with `sed "s/^[ \t]*//" -i
+vendor/tree-sitter-perl-src/parser.c`.
+
 ## 0.27 (released 18th April 2022)
 
 ### Parsing
