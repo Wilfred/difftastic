@@ -53,6 +53,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
 use options::{DisplayMode, DisplayOptions, Mode};
+use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
@@ -129,7 +130,7 @@ fn main() {
         }
         Mode::ListLanguages => {
             for (language, extensions) in LANG_EXTENSIONS {
-                print!("{}", language_name(*language));
+                print!("{}", language_name(*language).bold());
 
                 let mut extensions: Vec<&str> = (*extensions).into();
                 extensions.sort();
