@@ -64,6 +64,89 @@ pub enum Language {
     Zig,
 }
 
+const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
+    (
+        Bash,
+        &[
+            "sh", "bash", "bats", "cgi", "command", "env", "fcgi", "ksh", "sh.in", "tmux", "tool",
+            "zsh",
+        ],
+    ),
+    (C, &["c"]),
+    (
+        Clojure,
+        &[
+            "bb", "boot", "clj", "cljc", "clje", "cljs", "cljx", "edn", "joke", "joker",
+        ],
+    ),
+    (CMake, &["cmake", "cmake.in"]),
+    (CommonLisp, &["lisp", "lsp", "asd"]),
+    // Treat .h as C++ rather than C. This is an arbitrary choice, but
+    // C++ is more widely used than C according to
+    // https://madnight.github.io/githut/
+    (CPlusPlus, &["cc", "cpp", "h", "hh", "hpp", "cxx"]),
+    (CSharp, &["cs"]),
+    (Css, &["css"]),
+    (Dart, &["dart"]),
+    (Elm, &["elm"]),
+    (EmacsLisp, &["el"]),
+    (Elixir, &["ex", "exs"]),
+    (Elvish, &["elv"]),
+    (Gleam, &["gleam"]),
+    (Go, &["go"]),
+    (Hack, &["hack", "hck", "hhi"]),
+    (Haskell, &["hs"]),
+    // TODO: fix spelling
+    (Hcl, &["hcl", "nomad", "tf", "tfvars", "worfklow"]),
+    (Html, &["html", "htm", "xhtml"]),
+    (Janet, &["janet", "jdn"]),
+    (Java, &["java"]),
+    (JavaScript, &["cjs", "js", "mjs"]),
+    (
+        Json,
+        &[
+            "json",
+            "avsc",
+            "geojson",
+            "gltf",
+            "har",
+            "ice",
+            "JSON-tmLanguage",
+            "jsonl",
+            "mcmeta",
+            "tfstate",
+            "tfstate.backup",
+            "topojson",
+            "webapp",
+            "webmanifest",
+        ],
+    ),
+    (Jsx, &["jsx"]),
+    (Julia, &["jl"]),
+    (Kotlin, &["kt", "ktm", "kts"]),
+    (Lua, &["lua"]),
+    (
+        Make,
+        &[".mak", ".d", ".make", ".makefile", ".mk", ".mkfile"],
+    ),
+    (Nix, &["nix"]),
+    (OCaml, &["ml"]),
+    (OCamlInterface, &["mli"]),
+    (Php, &["php"]),
+    (Perl, &["pm", "pl"]),
+    (Python, &["py", "py3", "pyi", "bzl"]),
+    (Ruby, &["rb", "builder", "spec", "rake"]),
+    (Rust, &["rs"]),
+    (Scala, &["scala", "sbt", "sc"]),
+    (Sql, &["sql", "pgsql"]),
+    (Swift, &["swift"]),
+    (Toml, &["toml"]),
+    (TypeScript, &["ts"]),
+    (Tsx, &["tsx"]),
+    (Yaml, &["yaml", "yml"]),
+    (Zig, &["zig"]),
+];
+
 use Language::*;
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
@@ -215,63 +298,17 @@ fn from_name(path: &Path) -> Option<Language> {
     }
 }
 
-pub fn from_extension(extension: &OsStr) -> Option<Language> {
-    match extension.to_string_lossy().borrow() {
-        "sh" | "bash" | "bats" | "cgi" | "command" | "env" | "fcgi" | "ksh" | "sh.in" | "tmux"
-        | "tool" | "zsh" => Some(Bash),
-        "c" => Some(C),
-        // Treat .h as C++ rather than C. This is an arbitrary choice,
-        // but C++ is more widely used than C according to
-        // https://madnight.github.io/githut/
-        "cc" | "cpp" | "h" | "hh" | "hpp" | "cxx" => Some(CPlusPlus),
-        "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
-            Some(Clojure)
+pub fn from_extension(current_extension: &OsStr) -> Option<Language> {
+    let current_extension = current_extension.to_string_lossy();
+
+    for (language, extensions) in LANG_EXTENSIONS {
+        for extension in *extensions {
+            if &*current_extension == *extension {
+                return Some(*language);
+            }
         }
-        "lisp" | "lsp" | "asd" => Some(CommonLisp),
-        "cmake" | "cmake.in" => Some(CMake),
-        "cs" => Some(CSharp),
-        "css" => Some(Css),
-        "dart" => Some(Dart),
-        "el" => Some(EmacsLisp),
-        "elm" => Some(Elm),
-        "ex" | "exs" => Some(Elixir),
-        "elv" => Some(Elvish),
-        "gleam" => Some(Gleam),
-        "go" => Some(Go),
-        "hack" | "hck" | "hhi" => Some(Hack),
-        "hs" => Some(Haskell),
-        "hcl" | "nomad" | "tf" | "tfvars" | "worfklow" => Some(Hcl),
-        "html" | "htm" | "xhtml" => Some(Html),
-        "janet" | "jdn" => Some(Janet),
-        "java" => Some(Java),
-        "cjs" | "js" | "mjs" => Some(JavaScript),
-        "jsx" => Some(Jsx),
-        "json" | "avsc" | "geojson" | "gltf" | "har" | "ice" | "JSON-tmLanguage" | "jsonl"
-        | "mcmeta" | "tfstate" | "tfstate.backup" | "topojson" | "webapp" | "webmanifest" => {
-            Some(Json)
-        }
-        "jl" => Some(Julia),
-        "kt" | "ktm" | "kts" => Some(Kotlin),
-        "lua" => Some(Lua),
-        ".mak" | ".d" | ".make" | ".makefile" | ".mk" | ".mkfile" => Some(Make),
-        "nix" => Some(Nix),
-        "ml" => Some(OCaml),
-        "mli" => Some(OCamlInterface),
-        "php" => Some(Php),
-        "pm" | "pl" => Some(Perl),
-        "py" | "py3" | "pyi" | "bzl" => Some(Python),
-        "rb" | "builder" | "spec" | "rake" => Some(Ruby),
-        "rs" => Some(Rust),
-        "scala" | "sbt" | "sc" => Some(Scala),
-        "sql" | "pgsql" => Some(Sql),
-        "swift" => Some(Swift),
-        "toml" => Some(Toml),
-        "ts" => Some(TypeScript),
-        "tsx" => Some(Tsx),
-        "yaml" | "yml" => Some(Yaml),
-        "zig" => Some(Zig),
-        _ => None,
     }
+    None
 }
 
 #[cfg(test)]
