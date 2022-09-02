@@ -10,8 +10,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
       - run: cargo test
-      - name: Run tests when stdout is not a tty
-        run: cargo test | cat
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
