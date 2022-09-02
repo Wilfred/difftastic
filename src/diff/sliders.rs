@@ -396,6 +396,10 @@ fn novel_regions_before_unchanged<'a>(
         }
     }
 
+    if let Some(region) = region {
+        regions.push(region);
+    }
+
     regions
         .into_iter()
         .filter(|r| !r.is_empty())
