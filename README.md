@@ -55,7 +55,9 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Generic attributes
 - [x] Static abstract members in interfaces
 - [x] Newlines in string interpolations
-- [ ] List patterns
+- [x] List patterns
+- [x] Slice pattern
+- [x] Required members
 - [ ] Raw string literals
 
 ### References

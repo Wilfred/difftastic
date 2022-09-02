@@ -194,3 +194,27 @@ class Foo: IFoo {
         (explicit_interface_specifier (identifier))
         (identifier)
         (accessor_list (accessor_declaration))))))
+
+
+=======================================
+Required properties
+=======================================
+
+class A {
+  public required int B { get; set; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+      (declaration_list
+        (property_declaration
+          (modifier)
+          (modifier)
+          (predefined_type)
+          (identifier)
+          (accessor_list
+            (accessor_declaration)
+            (accessor_declaration))))))
