@@ -7,7 +7,8 @@ UTF-16-LE. Previously it required files to be UTF-8.
 
 Added support for Makefiles.
 
-Fixed an issue with HCL language detection on `.workflow` files.
+Fixed an issue with HCL language detection on `.workflow` files. Fixed
+an issue with Makefile language detection.
 
 ### Command Line Interface
 
