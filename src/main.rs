@@ -128,8 +128,8 @@ fn main() {
             }
         }
         Mode::ListLanguages => {
-            for (name, extensions) in LANG_EXTENSIONS {
-                print!("{:?}", name);
+            for (language, extensions) in LANG_EXTENSIONS {
+                print!("{}", language_name(*language));
                 for extension in *extensions {
                     print!(" .{}", extension);
                 }
