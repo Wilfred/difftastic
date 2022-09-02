@@ -1,6 +1,10 @@
 # Languages Supported
 
-Difftastic supports the following programming languages.
+This page lists all the languages supported by difftastic. You can
+also view the languages supported in your current installed version
+with `difft --list-languages`.
+
+## Programming Languages
 
 | Language        | Parser Used                                                                                                                                                    |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -40,7 +44,7 @@ Difftastic supports the following programming languages.
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                                                                    |
 | Zig             | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig)                                                                                        |
 
-Difftastic also supports the following structured text formats.
+## Structured Text Formats
 
 | Language | Parser Used                                                                       |
 |----------|-----------------------------------------------------------------------------------|
