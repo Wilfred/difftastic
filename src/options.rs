@@ -287,7 +287,7 @@ pub fn parse_args() -> Mode {
             .parse::<usize>()
             .expect("Already validated by clap")
     } else {
-        detect_display_width().unwrap_or(80)
+        detect_display_width()
     };
 
     let display_mode = if let Some(display_mode_str) = matches.value_of("display") {
@@ -376,8 +376,8 @@ pub fn parse_args() -> Mode {
 
 /// Choose the display width: try to autodetect, or fall back to a
 /// sensible default.
-fn detect_display_width() -> Option<usize> {
-    terminal_size::terminal_size().map(|(w, _)| w.0 as usize)
+fn detect_display_width() -> usize {
+    terminal_size::terminal_size().map_or(80, |(w, _)| w.0 as usize)
 }
 
 pub fn should_use_color(color_output: ColorOutput) -> bool {
@@ -405,6 +405,6 @@ mod tests {
     #[test]
     fn test_detect_display_width() {
         // Basic smoke test.
-        assert!(detect_display_width().is_some());
+        assert!(detect_display_width() > 10);
     }
 }
