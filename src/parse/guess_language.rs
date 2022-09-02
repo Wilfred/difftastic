@@ -96,8 +96,7 @@ const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
     (Go, &["go"]),
     (Hack, &["hack", "hck", "hhi"]),
     (Haskell, &["hs"]),
-    // TODO: fix spelling
-    (Hcl, &["hcl", "nomad", "tf", "tfvars", "worfklow"]),
+    (Hcl, &["hcl", "nomad", "tf", "tfvars", "workflow"]),
     (Html, &["html", "htm", "xhtml"]),
     (Janet, &["janet", "jdn"]),
     (Java, &["java"]),
