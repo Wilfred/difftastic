@@ -111,6 +111,7 @@ fn app() -> clap::Command<'static> {
                 .value_name("BACKGROUND")
                 .env("DFT_BACKGROUND")
                 .possible_values(["dark", "light"])
+                .default_value("dark")
                 .help("Set the background brightness. Difftastic will prefer brighter colours on dark backgrounds.")
         )
         .arg(
@@ -324,14 +325,13 @@ pub fn parse_args() -> Mode {
         ColorOutput::Auto
     };
 
-    let background_color = if let Some(background) = matches.value_of("background") {
-        if background == "light" {
-            BackgroundColor::Light
-        } else {
-            BackgroundColor::Dark
-        }
-    } else {
-        BackgroundColor::Dark
+    let background_color = match matches
+        .value_of("background")
+        .expect("Always present as we've given clap a default")
+    {
+        "dark" => BackgroundColor::Dark,
+        "light" => BackgroundColor::Light,
+        _ => unreachable!("clap has already validated the values"),
     };
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
