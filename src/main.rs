@@ -32,6 +32,7 @@ extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
+use crate::parse::guess_language::LANG_EXTENSIONS;
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
@@ -124,6 +125,15 @@ fn main() {
                 None => {
                     eprintln!("No tree-sitter parser for file: {:?}", path);
                 }
+            }
+        }
+        Mode::ListLanguages => {
+            for (name, extensions) in LANG_EXTENSIONS {
+                print!("{:?}", name);
+                for extension in *extensions {
+                    print!(" .{}", extension);
+                }
+                println!();
             }
         }
         Mode::Diff {

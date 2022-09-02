@@ -137,6 +137,10 @@ fn app() -> clap::Command<'static> {
                 // TODO: support DFT_LANGUAGE for consistency
         )
         .arg(
+            Arg::new("list-languages").long("list-languages")
+                .help("Print the all the languages supported by difftastic, along with their extensions.")
+        )
+        .arg(
             Arg::new("byte-limit").long("byte-limit")
                 .takes_value(true)
                 .value_name("LIMIT")
@@ -191,6 +195,7 @@ pub enum Mode {
         /// The path that we should display for the RHS file.
         rhs_display_path: String,
     },
+    ListLanguages,
     DumpTreeSitter {
         path: String,
         language_override: Option<guess_language::Language>,
@@ -219,6 +224,10 @@ pub fn parse_args() -> Mode {
         }
         None => None,
     };
+
+    if matches.is_present("list-languages") {
+        return Mode::ListLanguages;
+    }
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {

@@ -64,7 +64,7 @@ pub enum Language {
     Zig,
 }
 
-const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
+pub const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
     (
         Bash,
         &[
