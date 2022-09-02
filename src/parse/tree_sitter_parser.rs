@@ -13,9 +13,6 @@ use crate::{
 
 /// Configuration for a tree-sitter parser.
 pub struct TreeSitterConfig {
-    /// The language name shown to the user.
-    pub name: &'static str,
-
     /// The tree-sitter language parser.
     pub language: ts::Language,
 
@@ -104,7 +101,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Bash => {
             let language = unsafe { tree_sitter_bash() };
             TreeSitterConfig {
-                name: "Bash",
                 language,
                 atom_nodes: vec!["string", "raw_string", "heredoc_body"]
                     .into_iter()
@@ -120,7 +116,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         C => {
             let language = unsafe { tree_sitter_c() };
             TreeSitterConfig {
-                name: "C",
                 language,
                 atom_nodes: vec!["string_literal", "char_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
@@ -134,7 +129,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         CPlusPlus => {
             let language = unsafe { tree_sitter_cpp() };
             TreeSitterConfig {
-                name: "C++",
                 language,
                 // The C++ grammar extends the C grammar, so the node
                 // names are generally the same.
@@ -153,7 +147,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Clojure => {
             let language = unsafe { tree_sitter_clojure() };
             TreeSitterConfig {
-                name: "Clojure",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
@@ -169,7 +162,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         CMake => {
             let language = unsafe { tree_sitter_cmake() };
             TreeSitterConfig {
-                name: "CMake",
                 language,
                 atom_nodes: vec!["argument"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")].into_iter().collect(),
@@ -183,7 +175,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         CommonLisp => {
             let language = unsafe { tree_sitter_commonlisp() };
             TreeSitterConfig {
-                name: "Common Lisp",
                 language,
                 atom_nodes: vec!["str_lit", "char_lit"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
@@ -193,7 +184,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         CSharp => {
             let language = unsafe { tree_sitter_c_sharp() };
             TreeSitterConfig {
-                name: "C#",
                 language,
                 atom_nodes: vec![
                     "string_literal",
@@ -213,7 +203,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Css => {
             let language = unsafe { tree_sitter_css() };
             TreeSitterConfig {
-                name: "CSS",
                 language,
                 atom_nodes: vec!["integer_value", "float_value"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
@@ -227,7 +216,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Dart => {
             let language = unsafe { tree_sitter_dart() };
             TreeSitterConfig {
-                name: "Dart",
                 language,
                 atom_nodes: vec!["string_literal", "script_tag"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
@@ -241,7 +229,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         EmacsLisp => {
             let language = unsafe { tree_sitter_elisp() };
             TreeSitterConfig {
-                name: "Emacs Lisp",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")]
@@ -257,7 +244,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Elixir => {
             let language = unsafe { tree_sitter_elixir() };
             TreeSitterConfig {
-                name: "Elixir",
                 language,
                 atom_nodes: vec!["string", "heredoc"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("do", "end")]
@@ -273,7 +259,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Elm => {
             let language = unsafe { tree_sitter_elm() };
             TreeSitterConfig {
-                name: "Elm",
                 language,
                 atom_nodes: vec!["string_constant_expr"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
@@ -287,7 +272,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Elvish => {
             let language = unsafe { tree_sitter_elvish() };
             TreeSitterConfig {
-                name: "Elvish",
                 language,
                 atom_nodes: [].into(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
@@ -301,7 +285,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Gleam => {
             let language = unsafe { tree_sitter_gleam() };
             TreeSitterConfig {
-                name: "Gleam",
                 language,
                 atom_nodes: ["string"].into(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
@@ -315,7 +298,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Go => {
             let language = unsafe { tree_sitter_go() };
             TreeSitterConfig {
-                name: "Go",
                 language,
                 atom_nodes: vec!["interpreted_string_literal", "raw_string_literal"]
                     .into_iter()
@@ -333,7 +315,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Hack => {
             let language = unsafe { tree_sitter_hack() };
             TreeSitterConfig {
-                name: "Hack",
                 language,
                 atom_nodes: vec!["prefixed_string", "heredoc"].into_iter().collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")"), ("<", ">"), ("{", "}")],
@@ -347,7 +328,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Haskell => {
             let language = unsafe { tree_sitter_haskell() };
             TreeSitterConfig {
-                name: "Haskell",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
@@ -361,7 +341,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Hcl => {
             let language = unsafe { tree_sitter_hcl() };
             TreeSitterConfig {
-                name: "Hcl",
                 language,
                 atom_nodes: vec!["string_lit", "heredoc_template"].into_iter().collect(),
                 delimiter_tokens: vec![
@@ -382,7 +361,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Html => {
             let language = unsafe { tree_sitter_html() };
             TreeSitterConfig {
-                name: "HTML",
                 language,
                 atom_nodes: vec![
                     "quoted_attribute_value",
@@ -406,7 +384,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Janet => {
             let language = unsafe { tree_sitter_janet_simple() };
             TreeSitterConfig {
-                name: "Janet",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![
@@ -429,7 +406,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Java => {
             let language = unsafe { tree_sitter_java() };
             TreeSitterConfig {
-                name: "Java",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
@@ -443,7 +419,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         JavaScript | Jsx => {
             let language = unsafe { tree_sitter_javascript() };
             TreeSitterConfig {
-                name: "JavaScript",
                 language,
                 atom_nodes: vec!["string", "template_string", "regex"]
                     .into_iter()
@@ -467,7 +442,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Json => {
             let language = unsafe { tree_sitter_json() };
             TreeSitterConfig {
-                name: "JSON",
                 language,
                 atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
@@ -481,7 +455,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Julia => {
             let language = unsafe { tree_sitter_julia() };
             TreeSitterConfig {
-                name: "Julia",
                 language,
                 atom_nodes: vec![
                     "string_literal",
@@ -502,7 +475,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Kotlin => {
             let language = unsafe { tree_sitter_kotlin() };
             TreeSitterConfig {
-                name: "Kotlin",
                 language,
                 atom_nodes: vec!["line_string_literal", "character_literal"]
                     .into_iter()
@@ -520,7 +492,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Lua => {
             let language = unsafe { tree_sitter_lua() };
             TreeSitterConfig {
-                name: "Lua",
                 language,
                 atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")]
@@ -536,7 +507,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Make => {
             let language = unsafe { tree_sitter_make() };
             TreeSitterConfig {
-                name: "Makefile",
                 language,
                 atom_nodes: vec![].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")].into_iter().collect(),
@@ -550,7 +520,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Nix => {
             let language = unsafe { tree_sitter_nix() };
             TreeSitterConfig {
-                name: "Nix",
                 language,
                 atom_nodes: vec!["string_expression", "indented_string_expression"]
                     .into_iter()
@@ -566,7 +535,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         OCaml => {
             let language = unsafe { tree_sitter_ocaml() };
             TreeSitterConfig {
-                name: "OCaml",
                 language,
                 atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
@@ -580,7 +548,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         OCamlInterface => {
             let language = unsafe { tree_sitter_ocaml_interface() };
             TreeSitterConfig {
-                name: "OCaml Interface",
                 language,
                 atom_nodes: OCAML_ATOM_NODES.iter().copied().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
@@ -594,7 +561,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Php => {
             let language = unsafe { tree_sitter_php() };
             TreeSitterConfig {
-                name: "PHP",
                 language,
                 atom_nodes: vec!["string", "encapsed_string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
@@ -608,7 +574,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Perl => {
             let language = unsafe { tree_sitter_perl() };
             TreeSitterConfig {
-                name: "Perl",
                 language,
                 atom_nodes: vec![
                     "string_single_quoted",
@@ -633,7 +598,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Python => {
             let language = unsafe { tree_sitter_python() };
             TreeSitterConfig {
-                name: "Python",
                 language,
                 atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
@@ -647,7 +611,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Ruby => {
             let language = unsafe { tree_sitter_ruby() };
             TreeSitterConfig {
-                name: "Ruby",
                 language,
                 atom_nodes: vec!["string", "heredoc_body", "regex"]
                     .into_iter()
@@ -671,7 +634,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Rust => {
             let language = unsafe { tree_sitter_rust() };
             TreeSitterConfig {
-                name: "Rust",
                 language,
                 atom_nodes: vec!["char_literal", "string_literal"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|"), ("<", ">")],
@@ -685,7 +647,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Scala => {
             let language = unsafe { tree_sitter_scala() };
             TreeSitterConfig {
-                name: "Scala",
                 language,
                 atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
@@ -699,7 +660,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Sql => {
             let language = unsafe { tree_sitter_sql() };
             TreeSitterConfig {
-                name: "SQL",
                 language,
                 atom_nodes: vec!["string", "identifier"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
@@ -713,7 +673,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Swift => {
             let language = unsafe { tree_sitter_swift() };
             TreeSitterConfig {
-                name: "Swift",
                 language,
                 atom_nodes: ["line_string_literal"].into(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
@@ -727,7 +686,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Toml => {
             let language = unsafe { tree_sitter_toml() };
             TreeSitterConfig {
-                name: "TOML",
                 language,
                 atom_nodes: vec!["string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
@@ -741,7 +699,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Tsx => {
             let language = unsafe { tree_sitter_tsx() };
             TreeSitterConfig {
-                name: "TypeScript TSX",
                 language,
                 atom_nodes: vec!["string", "template_string"].into_iter().collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
@@ -758,7 +715,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         TypeScript => {
             let language = unsafe { tree_sitter_typescript() };
             TreeSitterConfig {
-                name: "TypeScript",
                 language,
                 atom_nodes: vec!["string", "template_string", "regex"]
                     .into_iter()
@@ -777,7 +733,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Yaml => {
             let language = unsafe { tree_sitter_yaml() };
             TreeSitterConfig {
-                name: "YAML",
                 language,
                 atom_nodes: vec![
                     "string_scalar",
@@ -798,7 +753,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Zig => {
             let language = unsafe { tree_sitter_zig() };
             TreeSitterConfig {
-                name: "Zig",
                 language,
                 atom_nodes: vec!["STRINGLITERALSINGLE", "BUILTINIDENTIFIER"]
                     .into_iter()

@@ -64,6 +64,56 @@ pub enum Language {
     Zig,
 }
 
+/// The language name shown to the user.
+pub fn language_name(language: Language) -> &'static str {
+    match language {
+        Bash => "Bash",
+        C => "C",
+        Clojure => "Clojure",
+        CMake => "CMake",
+        CommonLisp => "Common Lisp",
+        CPlusPlus => "C++",
+        CSharp => "C#",
+        Css => "CSS",
+        Dart => "Dart",
+        Elixir => "Elixir",
+        Elm => "Elm",
+        Elvish => "Elvish",
+        EmacsLisp => "Emacs Lisp",
+        Gleam => "Gleam",
+        Go => "Go",
+        Hack => "Hack",
+        Haskell => "Haskell",
+        Hcl => "HCL",
+        Html => "HTML",
+        Janet => "Janet",
+        Java => "Java",
+        JavaScript => "JavaScript",
+        Json => "JSON",
+        Julia => "Julia",
+        Jsx => "JavaScript JSX",
+        Kotlin => "Kotlin",
+        Lua => "Lua",
+        Make => "Make",
+        Nix => "Nix",
+        OCaml => "OCaml",
+        OCamlInterface => "OCaml Interface",
+        Php => "PHP",
+        Perl => "Perl",
+        Python => "Python",
+        Ruby => "Ruby",
+        Rust => "Rust",
+        Scala => "Scala",
+        Sql => "SQL",
+        Swift => "Swift",
+        Toml => "TOML",
+        Tsx => "TypeScript TSX",
+        TypeScript => "TypeScript",
+        Yaml => "YAML",
+        Zig => "Zig",
+    }
+}
+
 pub const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
     (
         Bash,

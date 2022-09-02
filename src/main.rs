@@ -42,7 +42,7 @@ use files::{
 };
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::guess;
+use parse::guess_language::{guess, language_name};
 
 /// The global allocator used by difftastic.
 ///
@@ -272,7 +272,7 @@ fn diff_file_content(
         return DiffResult {
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
-            language: lang_config.map(|l| l.name.into()),
+            language: language.map(|l| language_name(l).into()),
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
@@ -339,7 +339,11 @@ fn diff_file_content(
             } else {
                 let lhs_positions = syntax::change_positions(&lhs, &change_map);
                 let rhs_positions = syntax::change_positions(&rhs, &change_map);
-                (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
+                (
+                    language.map(|l| language_name(l).into()),
+                    lhs_positions,
+                    rhs_positions,
+                )
             }
         }
         None => {
