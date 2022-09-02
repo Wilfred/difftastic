@@ -6894,6 +6894,10 @@
     "named": false
   },
   {
+    "type": "required",
+    "named": false
+  },
+  {
     "type": "restore",
     "named": false
   },

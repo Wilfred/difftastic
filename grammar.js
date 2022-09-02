@@ -259,6 +259,7 @@ module.exports = grammar({
       'protected',
       'public',
       'readonly',
+      'required',
       prec(1, 'ref'), //make sure that 'ref' is treated as a modifier for local variable declarations instead of as a ref expression
       'sealed',
       'static',
@@ -935,7 +936,7 @@ module.exports = grammar({
 
     list_pattern: $ => seq(
       '[',
-      optional(seq(commaSep(choice($._pattern, $.slice_pattern)), optional(','))),
+      optional(seq(commaSep1(choice($._pattern, $.slice_pattern)), optional(','))),
       ']'
     ),
 

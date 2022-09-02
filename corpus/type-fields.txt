@@ -242,7 +242,7 @@ class A {
           (variable_declarator (identifier)))))))
 
 =======================================
-Native interger types
+Native integer types
 =======================================
 
 class A {
@@ -264,3 +264,26 @@ class A {
         (variable_declaration
           (predefined_type)
           (variable_declarator (identifier)))))))
+
+
+=======================================
+Required fields
+=======================================
+
+class A {
+  public required int B;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+      (declaration_list
+        (field_declaration
+          (modifier)
+          (modifier)
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)))))))

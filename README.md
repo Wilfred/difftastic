@@ -57,6 +57,7 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Newlines in string interpolations
 - [x] List patterns
 - [x] Slice pattern
+- [x] Required members
 - [ ] Raw string literals
 
 ### References

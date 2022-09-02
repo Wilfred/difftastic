@@ -781,6 +781,10 @@
             "value": "readonly"
           },
           {
+            "type": "STRING",
+            "value": "required"
+          },
+          {
             "type": "PREC",
             "value": 1,
             "content": {
@@ -4909,53 +4913,45 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "CHOICE",
+                  "type": "SEQ",
                   "members": [
                     {
-                      "type": "SEQ",
+                      "type": "CHOICE",
                       "members": [
                         {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "_pattern"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "slice_pattern"
-                            }
-                          ]
+                          "type": "SYMBOL",
+                          "name": "_pattern"
                         },
                         {
-                          "type": "REPEAT",
-                          "content": {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": ","
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "SYMBOL",
-                                    "name": "_pattern"
-                                  },
-                                  {
-                                    "type": "SYMBOL",
-                                    "name": "slice_pattern"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
+                          "type": "SYMBOL",
+                          "name": "slice_pattern"
                         }
                       ]
                     },
                     {
-                      "type": "BLANK"
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "_pattern"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "slice_pattern"
+                              }
+                            ]
+                          }
+                        ]
+                      }
                     }
                   ]
                 },
