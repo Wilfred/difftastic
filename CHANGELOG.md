@@ -7,6 +7,11 @@ UTF-16-LE. Previously it required files to be UTF-8.
 
 Added support for Makefiles.
 
+### Command Line Interface
+
+Fixed terminal width detection when only stderr is a TTY (e.g. when
+using difftastic with git). This was broken in 0.34.
+
 ## 0.34 (released 27th August 2022)
 
 ### Build
