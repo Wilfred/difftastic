@@ -14,30 +14,26 @@
 
 #include <tree_sitter/parser.h>
 
-#if __cplusplus >= 201703L || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
-#  define FALLTHROUGH [[fallthrough]]
-#elif (defined(__GNUC__) && __GNUC__ >= 7) || (defined(__clang__) && __clang_major__ >= 10)
-#  define FALLTHROUGH __attribute__((fallthrough))
-#else
-#  define FALLTHROUGH
-#endif
-
 enum TokenType {
+  /* Note: the indent family of tokens corresponds to _layout* tokens in the
+   * grammar */
+
   INDENT_START, /* Look for the next non-space token and compute the base
-                 * indentation. To be used at the start of a file.
-                 */
-  INDENT, /* The indentation of this line is larger than the previous. */
-  INDENT_EQ, /* The indentation of this line is equal to the previous. */
-  INDENT_GE, /* The indentation of this line is greater or equal to the previous.
-              * Unlike INDENT this does not push an indentation on the stack.
-              */
-  DEDENT, /* The indentation of this line is smaller than the previous.
-           * Also emitted at EOF.
-           */
-  LONG_STRING_CONTENT, /* Content of a long string, must be repeated when used
-                        * to handle quotation mark breaks.
-                        */
-  SPACES_BEFORE_COMMENT, /* Spaces (incl. newlines) that occurs before a comment. */
+                 * indentation. To be used at the start of a file. */
+  INDENT, /* The indentation of this line is larger than the reference
+           * indentation and is pushed to the indentation stack as the new
+           * reference. Will only be emitted if the next token is at the
+           * beginning of the line and is not a comment. */
+  INDENT_EQ, /* The indentation of the next token is equal to the reference
+              * indentation. This is emitted only at the beginning of a line. */
+  INDENT_GT, /* The indentation of the next token is greater than the reference
+              * indentation. This is emitted only at the beginning of a line. */
+  DEDENT, /* The indentation of this line is smaller than the reference.
+           * The current reference will be popped from the stack.
+           * This is only emitted at the beginning of a line and EOF. */
+  LONG_STRING_QUOTES, /* Quotation marks inside a long string. */
+  NEWLINE, /* Newline characters, equivalent to /[\r\n]+/ regex. This is handled
+            * in the scanner to track line indentation. */
   _END_TOKEN_TYPE
 };
 
@@ -48,6 +44,7 @@ static const ValidTokens IndentTypes = 0b11111; /* INDENT_START .. DEDENT */
 
 struct Scanner {
   std::vector<uint8_t> indentStack;
+  uint8_t currentIndent;
 
   /* Volatile states, these are reset on every scanner runs */
   TSLexer* lexer;
@@ -55,6 +52,7 @@ struct Scanner {
 
   Scanner() :
   indentStack(),
+  currentIndent(0),
   lexer(nullptr),
   validTokens() {}
 
@@ -81,7 +79,7 @@ struct Scanner {
   /* scanner for when whitespace is reached, take a parameter describing
    * whether a newline was found.
    */
-  bool scanSpaces(bool);
+  bool scanLineIndent(bool);
   /* scanner for non-quote characters, take a parameter describing whether a
    * newline was found.
    */
@@ -99,14 +97,10 @@ struct Scanner {
 
   /* the rule to produce an INDENT_START result */
   bool reduceIndentStart();
-  /* the rule to produce indentation tokens after a newline is found */
-  bool reduceIndentNewline();
-  /* the rule to produce indentation tokens at the starting position of the scanner */
-  bool reduceIndentImmediate();
+  /* the rule to produce indentation tokens */
+  bool reduceIndent();
   /* the rule to produce long string content tokens */
   bool reduceLongString();
-  /* the rule to produce SPACES_BEFORE_COMMENT tokens */
-  bool reduceSpacesBeforeComment();
 
   /* Wrappers for invoking the method of the stored TSLexer */
   int32_t lookahead() const;
@@ -117,22 +111,33 @@ struct Scanner {
 
   /* Set lexer result_symbol to the given token type and return true. */
   bool finish(enum TokenType);
-
-  /* Utilities for skipping whitespace or newlines */
-  void skipSpaces();
-  void skipNewline();
 };
 
 unsigned Scanner::serialize(char* buffer) const {
-  unsigned result = std::min(this->indentStack.size(), (size_t)TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
-  memcpy(buffer, this->indentStack.data(), result);
+  unsigned nextPos = 0;
+  if (nextPos < TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+    buffer[nextPos++] = this->currentIndent;
+  }
 
-  return result;
+  unsigned indentStackSerializeSize = std::min(
+    this->indentStack.size(),
+    (size_t)(TREE_SITTER_SERIALIZATION_BUFFER_SIZE - nextPos)
+  );
+  memcpy(buffer + nextPos, this->indentStack.data(), indentStackSerializeSize);
+  nextPos += indentStackSerializeSize;
+
+  return nextPos;
 }
 
 void Scanner::deserialize(const char* buffer, unsigned length) {
-  this->indentStack.resize(length);
-  memcpy(this->indentStack.data(), buffer, length);
+  unsigned nextPos = 0;
+  if (nextPos < length)
+    this->currentIndent = buffer[nextPos++];
+
+  unsigned indentStackSerializeSize = length - nextPos;
+  this->indentStack.resize(indentStackSerializeSize);
+  memcpy(this->indentStack.data(), buffer + nextPos, indentStackSerializeSize);
+  nextPos += indentStackSerializeSize;
 }
 
 bool Scanner::scan(TSLexer* lexer, ValidTokens validTokens) {
@@ -153,16 +158,13 @@ bool Scanner::scanImmediate() {
       return this->scanEol();
 
     case ' ':
-      return this->scanSpaces(false);
+      return this->scanLineIndent(false);
 
     case '"':
       return this->scanQuoteImmediate();
 
     default:
-      if ((this->validTokens & IndentTypes).any())
-        return this->reduceIndentImmediate();
-
-      return this->scanChars(false);
+      return this->reduceIndent();
   }
 }
 
@@ -180,27 +182,14 @@ bool Scanner::scanEol() {
   while (isNewline(this->lookahead()))
     this->advance(false);
 
-  if (this->eof())
-    return this->scanEof();
+  this->mark_end();
 
-  switch (this->lookahead()) {
-    case ' ':
-      return this->scanSpaces(true);
-
-    case '#':
-      if (this->validTokens[SPACES_BEFORE_COMMENT]) {
-        this->mark_end();
-        return this->reduceSpacesBeforeComment();
-      }
-
-      FALLTHROUGH;
-
-    default:
-      return this->scanChars(true);
-  }
+  return this->scanLineIndent(true);
 }
 
 bool Scanner::scanEof() {
+  this->mark_end();
+
   /* Produce an INDENT_START to fullfill the conditions of source_file even when
    * the file is empty. */
   if (this->validTokens[INDENT_START])
@@ -213,54 +202,29 @@ bool Scanner::scanEof() {
   return false;
 }
 
-bool Scanner::scanSpaces(bool newline) {
-  while (this->lookahead() == ' ')
-    this->advance(false);
+bool Scanner::scanLineIndent(bool newline) {
+  if (this->column() == 0) {
+    this->currentIndent = 0;
 
-  if (this->eof())
-    return this->scanEof();
-
-  switch (this->lookahead()) {
-    NEWLINE_CASES:
-      return this->scanEol();
-
-    case '#':
-      if (this->validTokens[SPACES_BEFORE_COMMENT]) {
-        this->mark_end();
-        return this->reduceSpacesBeforeComment();
-      }
-
-      FALLTHROUGH;
-
-    default:
-      return this->scanChars(newline);
-  }
-}
-
-bool Scanner::scanChars(bool newline) {
-  /* If indentation is requested, it takes priority */
-  if (newline && (this->validTokens & IndentTypes).any()) {
-    this->mark_end();
-    return this->reduceIndentNewline();
-  }
-
-  if (this->validTokens[LONG_STRING_CONTENT]) {
-    while (this->lookahead() != '"' && !this->eof())
+    while (this->lookahead() == ' ') {
       this->advance(false);
+      this->currentIndent += this->currentIndent < UINT8_MAX;
+    }
 
-    this->mark_end();
-    return this->reduceLongString();
+    if (newline)
+      return this->finish(NEWLINE);
+
+    if ((this->validTokens & IndentTypes).any()) {
+      this->mark_end();
+      return this->reduceIndent();
+    }
   }
 
   return false;
 }
 
 bool Scanner::scanQuoteImmediate() {
-  /* If indentation is requested, it takes priority */
-  if ((this->validTokens & IndentTypes).any())
-    return this->reduceIndentImmediate();
-
-  if (this->validTokens[LONG_STRING_CONTENT]) {
+  if (this->validTokens[LONG_STRING_QUOTES]) {
     this->advance(false);
     this->mark_end();
     uint8_t quoteCount = 1;
@@ -271,53 +235,33 @@ bool Scanner::scanQuoteImmediate() {
 
     /* If there are less than 3 consecutive quotes in total, then it's a part
      * of the string */
-    if (quoteCount < 3)
-      return this->scanChars(false);
+    if (quoteCount < 3) {
+      this->mark_end();
+      return this->finish(LONG_STRING_QUOTES);
+    }
+
     /* If there are more than 3 consecutive quotes, then the first one is a
      * part of the string (already claimed above with mark_end). */
-    else if (quoteCount > 3)
-      return this->reduceLongString();
+    if (quoteCount > 3)
+      return this->finish(LONG_STRING_QUOTES);
+
     /* If there are exactly 3 consecutive quotes, this is the string end, discard. */
-    else
-      return false;
+    return false;
   }
+
+  if ((this->validTokens & IndentTypes).any())
+    return this->reduceIndent();
 
   return false;
 }
 
-bool Scanner::reduceIndentNewline() {
-  if (this->validTokens[INDENT_START])
-    return this->reduceIndentStart();
-
-  uint8_t lastIndent = this->indentStack.empty() ? 0 : this->indentStack.back();
-  uint32_t column = this->column();
-
-  if (this->validTokens[INDENT] && column > lastIndent) {
-    this->indentStack.push_back(column);
-    return this->finish(INDENT);
-  }
-
-  if (this->validTokens[DEDENT] && column < lastIndent) {
-    this->indentStack.pop_back();
-    return this->finish(DEDENT);
-  }
-
-  if (this->validTokens[INDENT_GE] && column >= lastIndent) {
-    return this->finish(INDENT_GE);
-  }
-
-  if (this->validTokens[INDENT_EQ] && column == lastIndent) {
-    return this->finish(INDENT_EQ);
-  }
-
-  return false;
-}
-
-bool Scanner::reduceIndentImmediate() {
-  /* this is probably called after a SPACES_BEFORE_COMMENT, don't produce
-   * indent nodes here.
-   */
+bool Scanner::reduceIndent() {
+  /* don't emit any tokens before a comment */
   if (this->lookahead() == '#')
+    return false;
+
+  /* overflowed, the result cannot be trusted. */
+  if (this->currentIndent == UINT8_MAX)
     return false;
 
   if (this->validTokens[INDENT_START])
@@ -326,38 +270,39 @@ bool Scanner::reduceIndentImmediate() {
   uint8_t lastIndent = this->indentStack.empty() ? 0 : this->indentStack.back();
   uint32_t column = this->column();
 
-  if (this->validTokens[DEDENT] && column < lastIndent) {
-    this->indentStack.pop_back();
-    return this->finish(DEDENT);
-  }
+  if (column == this->currentIndent) {
+    if (this->currentIndent > lastIndent) {
+      if (this->validTokens[INDENT]) {
+        this->indentStack.push_back(this->currentIndent);
+        return this->finish(INDENT);
+      }
 
-  if (this->validTokens[INDENT_GE] && column >= lastIndent) {
-    return this->finish(INDENT_GE);
-  }
+      if (this->validTokens[INDENT_GT])
+        return this->finish(INDENT_GT);
+    }
 
-  if (this->validTokens[INDENT_EQ] && column == lastIndent) {
-    return this->finish(INDENT_EQ);
+    if (this->validTokens[DEDENT] && this->currentIndent < lastIndent) {
+      this->indentStack.pop_back();
+      return this->finish(DEDENT);
+    }
+
+    if (this->validTokens[INDENT_EQ] && this->currentIndent == lastIndent) {
+      return this->finish(INDENT_EQ);
+    }
   }
 
   return false;
 }
 
 bool Scanner::reduceIndentStart() {
+  /* don't emit any tokens before a comment */
+  if (this->lookahead() == '#')
+    return false;
+
   if (this->indentStack.empty()) {
-    this->indentStack.push_back(this->column());
+    this->indentStack.push_back(this->currentIndent);
     return this->finish(INDENT_START);
   }
-
-  return false;
-}
-
-bool Scanner::reduceLongString() {
-  return this->finish(LONG_STRING_CONTENT);
-}
-
-bool Scanner::reduceSpacesBeforeComment() {
-  if (this->validTokens[SPACES_BEFORE_COMMENT])
-    return this->finish(SPACES_BEFORE_COMMENT);
 
   return false;
 }
@@ -373,16 +318,6 @@ int32_t Scanner::lookahead() const {
 
 void Scanner::advance(bool skip) {
   this->lexer->advance(this->lexer, skip);
-}
-
-void Scanner::skipSpaces() {
-  while (this->lookahead() == ' ')
-    this->advance(true);
-}
-
-void Scanner::skipNewline() {
-  while (this->lookahead() == '\n' || this->lookahead() == '\r')
-    this->advance(true);
 }
 
 bool Scanner::eof() const {

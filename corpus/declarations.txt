@@ -23,12 +23,12 @@ const
   (D, E, F) = (3, 4, 5)
 
 const (X,
-Y*) = (1,
-2)
+  Y*) = (1,
+  2)
 
 const
   foo,
-  bar*,
+    bar*,
     whatever = 10
 
 ---
@@ -204,8 +204,8 @@ type A = ref object
 type B = ref object
   a*, c*, d: string
   b,
-  e,
-  f: string
+    e,
+    f: string
 
 type
   C = object

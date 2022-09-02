@@ -401,6 +401,14 @@ case y
 of true: 1
 of false: 2
 
+let x = case something(10)
+  of true:
+    stuff
+  elif that:
+    false
+  else:
+    this
+
 ---
 
 (source_file
@@ -430,14 +438,14 @@ of false: 2
       value: (boolean_literal)
       body: (statement_list
         (identifier)))
-    (elif_clause
+    alternative: (elif_clause
       condition: (identifier)
       consequence: (statement_list
         (call
           function: (identifier)
           arguments: (argument_list
             (integer_literal)))))
-    (else_clause
+    alternative: (else_clause
       body: (statement_list
         (call
           function: (identifier)
@@ -452,7 +460,7 @@ of false: 2
       value: (boolean_literal)
       body: (statement_list
         (identifier)))
-    (elif_clause
+    alternative: (elif_clause
       condition: (identifier)
       consequence: (statement_list
         (identifier))))
@@ -465,7 +473,26 @@ of false: 2
     (of_branch
       value: (boolean_literal)
       body: (statement_list
-        (integer_literal)))))
+        (integer_literal))))
+  (let_section
+    (variable_declaration
+      name: (identifier)
+      value: (case
+        value: (call
+          function: (identifier)
+          arguments: (argument_list
+            (integer_literal)))
+        (of_branch
+          value: (boolean_literal)
+          body: (statement_list
+            (identifier)))
+        alternative: (elif_clause
+          condition: (identifier)
+          consequence: (statement_list
+            (boolean_literal)))
+        alternative: (else_clause
+          body: (statement_list
+            (identifier)))))))
 
 ==============
 Try statements

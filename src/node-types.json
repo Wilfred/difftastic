@@ -253,6 +253,20 @@
     "type": "case",
     "named": true,
     "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elif_clause",
+            "named": true
+          },
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -310,16 +324,8 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "elif_clause",
-          "named": true
-        },
-        {
-          "type": "else_clause",
-          "named": true
-        },
         {
           "type": "of_branch",
           "named": true

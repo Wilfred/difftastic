@@ -27,6 +27,10 @@ let
 
   y = 10f
 
+echo x,
+  # some comment
+  y
+
 ## let
 ##  this
 ##   that
@@ -45,7 +49,13 @@ let
     (comment)
     (variable_declaration
       (identifier)
-      (float_literal))
-    (comment)
-    (comment)
-    (comment)))
+      (float_literal)))
+  (call
+    (identifier)
+    (argument_list
+      (identifier)
+      (comment)
+      (identifier)))
+  (comment)
+  (comment)
+  (comment))
