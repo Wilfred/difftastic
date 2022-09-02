@@ -130,7 +130,11 @@ fn main() {
         Mode::ListLanguages => {
             for (language, extensions) in LANG_EXTENSIONS {
                 print!("{}", language_name(*language));
-                for extension in *extensions {
+
+                let mut extensions: Vec<&str> = (*extensions).into();
+                extensions.sort();
+
+                for extension in extensions {
                     print!(" .{}", extension);
                 }
                 println!();
