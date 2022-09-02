@@ -59,3 +59,29 @@ echo x,
   (comment)
   (comment)
   (comment))
+
+==============
+Block comments
+==============
+
+echo x, #[comment]# y
+
+#[multi-line
+comments can be #[nested
+#[multiple times]#]#]#
+
+#[random inner comments# stuff#]#
+
+---
+
+(source_file
+  (call
+    (identifier)
+    (argument_list
+      (identifier)
+      (block_comment)
+      (identifier)))
+  (block_comment
+    (block_comment
+      (block_comment)))
+  (block_comment))

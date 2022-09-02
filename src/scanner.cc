@@ -34,6 +34,7 @@ enum TokenType {
   LONG_STRING_QUOTES, /* Quotation marks inside a long string. */
   NEWLINE, /* Newline characters, equivalent to /[\r\n]+/ regex. This is handled
             * in the scanner to track line indentation. */
+  BLOCK_COMMENT_SPECIALS, /* #, ] characters inside a block comment */
   _END_TOKEN_TYPE
 };
 
@@ -86,6 +87,8 @@ struct Scanner {
   bool scanChars(bool);
   /* scanner for quotation marks before the scanner has advanced at all */
   bool scanQuoteImmediate();
+  /* scanner for block comment specials */
+  bool scanBlockCommentSpecialsImmediate();
 
   /* Reductions:
    *
@@ -162,6 +165,10 @@ bool Scanner::scanImmediate() {
 
     case '"':
       return this->scanQuoteImmediate();
+
+    case '#':
+    case ']':
+      return this->scanBlockCommentSpecialsImmediate();
 
     default:
       return this->reduceIndent();
@@ -249,10 +256,32 @@ bool Scanner::scanQuoteImmediate() {
     return false;
   }
 
-  if ((this->validTokens & IndentTypes).any())
-    return this->reduceIndent();
+  return this->reduceIndent();
+}
 
-  return false;
+
+bool Scanner::scanBlockCommentSpecialsImmediate() {
+  if (this->validTokens[BLOCK_COMMENT_SPECIALS]) {
+    switch (this->lookahead()) {
+      case '#':
+        this->advance(false);
+        this->mark_end();
+        this->finish(BLOCK_COMMENT_SPECIALS);
+        return this->lookahead() != '[';
+
+      case ']':
+        this->advance(false);
+        this->mark_end();
+        this->finish(BLOCK_COMMENT_SPECIALS);
+        return this->lookahead() != '#';
+
+      default:
+        /* should be unreachable */
+        return false;
+    }
+  }
+
+  return this->reduceIndent();
 }
 
 bool Scanner::reduceIndent() {

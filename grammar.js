@@ -42,10 +42,11 @@ module.exports = grammar({
     $._layout_indent_gt,
     $._layout_dedent,
     $._long_string_quotes,
-    $._newline
+    $._newline,
+    $._block_comment_specials
   ],
 
-  extras: $ => [' ', $._newline_gt, $.comment],
+  extras: $ => [' ', $._newline_gt, $.block_comment, $.comment],
 
   conflicts: $ => [
     [$.case],
@@ -486,7 +487,17 @@ module.exports = grammar({
     identifier: $ => /[a-zA-Z\x80-\xff](?:_?[a-zA-Z\x80-\xff0-9])*/,
     _type_identifier: $ => alias($.identifier, $.type_identifier),
 
-    comment: $ => /#[^\n\r]*/,
+    block_comment: $ => seq(
+      '#[', repeat($._block_comment_content), ']#'
+    ),
+
+    _block_comment_content: $ => choice(
+      token.immediate(/[^#\]\n\r]+/),
+      $._newline,
+      $._block_comment_specials
+    ),
+
+    comment: $ => /#(?:[^\[\n\r][^\n\r]*)*/,
 
     _indent: $ => seq(repeat($._newline), $._layout_indent),
     _indent_eq: $ => seq(repeat($._newline), $._layout_indent_eq),
