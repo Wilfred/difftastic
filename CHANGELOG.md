@@ -7,6 +7,8 @@ UTF-16-LE. Previously it required files to be UTF-8.
 
 Added support for Makefiles.
 
+Fixed an issue with HCL language detection on `.workflow` files.
+
 ### Command Line Interface
 
 Fixed terminal width detection when only stderr is a TTY (e.g. when
