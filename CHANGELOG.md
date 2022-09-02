@@ -14,6 +14,9 @@ Fixed an issue with HCL language detection on `.workflow` files.
 Fixed terminal width detection when only stderr is a TTY (e.g. when
 using difftastic with git). This was broken in 0.34.
 
+Added an option `--list-languages` which reports all the languages
+supported, along with the extensions associated with them.
+
 ## 0.34 (released 27th August 2022)
 
 ### Build
