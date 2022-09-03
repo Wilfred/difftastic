@@ -174,10 +174,7 @@ pub const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
     (Julia, &["jl"]),
     (Kotlin, &["kt", "ktm", "kts"]),
     (Lua, &["lua"]),
-    (
-        Make,
-        &["mak", "d", "make", "makefile", "mk", "mkfile"],
-    ),
+    (Make, &["mak", "d", "make", "makefile", "mk", "mkfile"]),
     (Nix, &["nix"]),
     (OCaml, &["ml"]),
     (OCamlInterface, &["mli"]),
