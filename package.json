@@ -16,11 +16,11 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.16.0"
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.7"
   },
   "scripts": {
     "build": "tree-sitter generate",
