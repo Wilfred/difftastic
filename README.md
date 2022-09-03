@@ -8,11 +8,10 @@ Scheme grammar for tree-sitter.
 
 ~~tree-sitter-scheme should work on a superset of Scheme.~~
 
-The Scheme with many extensions will more close to [Racket](https://racket-lang.org/).
+Different Implementations might have conflict grammar. I am not sure if I should support
+them. If you need some implementation-specific features, please open an issue, then I will support it.
 
-The support of implementation specific extensions may be delayed.
-
-The standards are expected to support:
+current status:
 
 * [x] R5RS
 * [x] R6RS
