@@ -327,10 +327,6 @@ fn diff_file_content(
                         break;
                     }
                 }
-
-                let language = language.unwrap();
-                fix_all_sliders(language, &lhs_section_nodes, &mut change_map);
-                fix_all_sliders(language, &rhs_section_nodes, &mut change_map);
             }
 
             if exceeded_graph_limit {
@@ -342,10 +338,16 @@ fn diff_file_content(
                     rhs_positions,
                 )
             } else {
+                // TODO: Make this .expect() unnecessary.
+                let language =
+                    language.expect("If we had a ts_lang, we must have guessed the language");
+                fix_all_sliders(language, &lhs, &mut change_map);
+                fix_all_sliders(language, &rhs, &mut change_map);
+
                 let lhs_positions = syntax::change_positions(&lhs, &change_map);
                 let rhs_positions = syntax::change_positions(&rhs, &change_map);
                 (
-                    language.map(|l| language_name(l).into()),
+                    Some(language_name(language).into()),
                     lhs_positions,
                     rhs_positions,
                 )

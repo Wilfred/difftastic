@@ -151,6 +151,9 @@ b1fe2c184a9a358e314e21aabb0f3cb7  -
 sample_files/simple_before.txt sample_files/simple_after.txt
 4b653ebe89321835c35722dd065cf6a2  -
 
+sample_files/slider_at_end_before.json sample_files/slider_at_end_after.json
+1d6162aab8e59c4422e9c14f09ceac3e  -
+
 sample_files/slider_before.rs sample_files/slider_after.rs
 50e1df5af0bf4a1fa7211e079196f1a9  -
 

@@ -137,11 +137,11 @@ fn fix_nested_slider_prefer_outer<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
                 }
             }
             ReplacedComment(_, _) => {}
-            Novel => {
-                for child in children {
-                    fix_nested_slider_prefer_outer(child, change_map);
-                }
-            }
+            Novel => {}
+        }
+
+        for child in children {
+            fix_nested_slider_prefer_outer(child, change_map);
         }
     }
 }
@@ -155,11 +155,7 @@ fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
             .get(node)
             .expect("Changes should be set before slider correction")
         {
-            Unchanged(_) => {
-                for child in children {
-                    fix_nested_slider_prefer_inner(child, change_map);
-                }
-            }
+            Unchanged(_) => {}
             ReplacedComment(_, _) => {}
             Novel => {
                 let mut found_unchanged = vec![];
@@ -169,6 +165,10 @@ fn fix_nested_slider_prefer_inner<'a>(node: &'a Syntax<'a>, change_map: &mut Cha
                     push_unchanged_to_ancestor(node, found_unchanged[0], change_map);
                 }
             }
+        }
+
+        for child in children {
+            fix_nested_slider_prefer_inner(child, change_map);
         }
     }
 }
