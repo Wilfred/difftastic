@@ -2,6 +2,10 @@
 
 ## 0.35 (released 2nd September 2022)
 
+### Diffing
+
+Difftastic now fixes sliders in more cases, producing better diff results.
+
 ### Parsing
 
 Difftastic will now autodetect files in UTF-16-BE and
