@@ -39,7 +39,7 @@ jobs:
       - name: Download sicp code
         run: |
           mkdir -p sicp && cd sicp
-          curl https://mitpress.mit.edu/sites/default/files/sicp/code/allcode.tar.gz -O
+          curl https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/code/allcode.tar.gz -O
           tar xvf allcode.tar.gz
       - run: npx tree-sitter parse sicp/*.scm -qt
 
