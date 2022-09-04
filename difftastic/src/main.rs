@@ -36,10 +36,9 @@ use crate::parse::guess_language::LANG_EXTENSIONS;
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
+use difftastic_detect::{guess_content, ProbableFileKind};
 use display::context::opposite_positions;
-use files::{
-    guess_content, read_files_or_die, read_or_die, relative_paths_in_either, ProbableFileKind,
-};
+use files::{read_files_or_die, read_or_die, relative_paths_in_either};
 use log::info;
 use mimalloc::MiMalloc;
 use parse::guess_language::{guess, language_name};

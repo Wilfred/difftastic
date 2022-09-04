@@ -1,6 +1,7 @@
 [workspace]
 members = [
         "difftastic",
+        "difftastic_detect",
 ]
 
 [profile.release]

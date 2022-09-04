@@ -1,0 +1,7 @@
+[package]
+name = "difftastic_detect"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tree_magic_mini = "3.0.3"

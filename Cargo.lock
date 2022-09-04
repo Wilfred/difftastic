@@ -192,6 +192,7 @@ dependencies = [
  "cc",
  "clap",
  "const_format",
+ "difftastic_detect",
  "itertools",
  "lazy_static",
  "libc",
@@ -210,12 +211,18 @@ dependencies = [
  "term_size",
  "terminal_size 0.2.1",
  "tree-sitter",
- "tree_magic_mini",
  "typed-arena",
  "unicode-width",
  "version_check",
  "walkdir",
  "wu-diff",
+]
+
+[[package]]
+name = "difftastic_detect"
+version = "0.1.0"
+dependencies = [
+ "tree_magic_mini",
 ]
 
 [[package]]

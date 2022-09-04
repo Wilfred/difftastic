@@ -45,11 +45,10 @@ owo-colors = "3.3.0"
 rpds = "0.10.0"
 wu-diff = "0.1.2"
 rayon = "1.5.2"
-tree_magic_mini = "3.0.3"
 bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
-# difftastic_detect = { path = "../difftastic_detect" }
+difftastic_detect = { path = "../difftastic_detect" }
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
