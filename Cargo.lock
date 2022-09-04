@@ -193,6 +193,7 @@ dependencies = [
  "clap",
  "const_format",
  "difftastic_detect",
+ "difftastic_parse",
  "itertools",
  "lazy_static",
  "libc",
@@ -223,6 +224,14 @@ name = "difftastic_detect"
 version = "0.1.0"
 dependencies = [
  "tree_magic_mini",
+]
+
+[[package]]
+name = "difftastic_parse"
+version = "0.1.0"
+dependencies = [
+ "lazy_static",
+ "regex",
 ]
 
 [[package]]

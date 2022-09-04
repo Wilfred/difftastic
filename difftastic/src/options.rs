@@ -6,7 +6,8 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
 
-use crate::{display::style::BackgroundColor, parse::guess_language};
+use crate::display::style::BackgroundColor;
+use difftastic_parse::guess_language;
 
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample

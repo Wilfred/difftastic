@@ -2,6 +2,7 @@
 members = [
         "difftastic",
         "difftastic_detect",
+        "difftastic_parse",
 ]
 
 [profile.release]

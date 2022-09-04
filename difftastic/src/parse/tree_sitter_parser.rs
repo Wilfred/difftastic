@@ -2,7 +2,7 @@
 
 use std::collections::HashSet;
 
-use crate::parse::guess_language as guess;
+use difftastic_parse::guess_language as guess;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
@@ -96,7 +96,7 @@ const OCAML_ATOM_NODES: [&str; 6] = [
 ];
 
 pub fn from_language(language: guess::Language) -> TreeSitterConfig {
-    use guess::Language::*;
+    use difftastic_parse::guess_language::Language::*;
     match language {
         Bash => {
             let language = unsafe { tree_sitter_bash() };

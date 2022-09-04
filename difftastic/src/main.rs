@@ -32,16 +32,15 @@ extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::parse::guess_language::LANG_EXTENSIONS;
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
 use difftastic_detect::{guess_content, ProbableFileKind};
+use difftastic_parse::guess_language::{guess, language_name, LANG_EXTENSIONS};
 use display::context::opposite_positions;
 use files::{read_files_or_die, read_or_die, relative_paths_in_either};
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name};
 
 /// The global allocator used by difftastic.
 ///
@@ -205,7 +204,7 @@ fn diff_file(
     missing_as_empty: bool,
     graph_limit: usize,
     byte_limit: usize,
-    language_override: Option<parse::guess_language::Language>,
+    language_override: Option<difftastic_parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
@@ -228,7 +227,7 @@ fn diff_file_content(
     tab_width: usize,
     graph_limit: usize,
     byte_limit: usize,
-    language_override: Option<parse::guess_language::Language>,
+    language_override: Option<difftastic_parse::guess_language::Language>,
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
@@ -382,7 +381,7 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,
-    language_override: Option<parse::guess_language::Language>,
+    language_override: Option<difftastic_parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let display_options = display_options.clone();
 

@@ -31,11 +31,11 @@
 
 use crate::{
     diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
-    parse::guess_language,
     parse::syntax::Syntax,
     positions::SingleLineSpan,
 };
 use Syntax::*;
+use difftastic_parse::guess_language;
 
 pub fn fix_all_sliders<'a>(
     language: guess_language::Language,
@@ -52,7 +52,7 @@ pub fn fix_all_sliders<'a>(
 /// Should nester slider correction prefer the inner or outer
 /// delimiter?
 fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
-    use crate::parse::guess_language::Language::*;
+    use difftastic_parse::guess_language::Language::*;
     match language {
         // For Lisp family languages, we get the best result with the
         // outer delimiter.

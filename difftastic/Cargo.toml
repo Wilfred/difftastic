@@ -49,6 +49,7 @@ bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
 difftastic_detect = { path = "../difftastic_detect" }
+difftastic_parse = { path = "../difftastic_parse" }
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
