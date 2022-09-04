@@ -1,0 +1,66 @@
+[package]
+name = "difftastic"
+description = "A structural diff that understands syntax."
+repository = "https://github.com/wilfred/difftastic"
+homepage = "http://difftastic.wilfred.me.uk/"
+license = "MIT"
+version = "0.36.0"
+authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
+keywords = ["diff", "syntax"]
+categories = ["development-tools", "command-line-utilities", "parser-implementations"]
+edition = "2018"
+rust-version = "1.57.0"
+include = [
+        "/build.rs",
+        "/src/",
+        "/vendor/highlights/*.scm",
+        "/vendor/*-src/**/*.c",
+        "/vendor/*-src/**/*.h",
+        "/vendor/*-src/**/*.cc",
+        "/README.md",
+]
+
+[dependencies]
+regex = "1.5.4"
+clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
+itertools = "0.10.1"
+typed-arena = "2.0.1"
+rustc-hash = "1.1.0"
+strsim = "0.10.0"
+lazy_static = "1.4.0"
+atty = "0.2.14"
+tree-sitter = "0.20.6"
+libc = "0.2.108"
+log = "0.4.14"
+pretty_env_logger = "0.4.0"
+mimalloc = { version = "0.1.28", default-features = false }
+# Pin libmimalloc-sys due to 0.1.25 producing a huge slowdown in very
+# large textual files, as discussed in #297.
+libmimalloc-sys = "=0.1.24"
+radix-heap = "0.4.2"
+walkdir = "2.3.2"
+terminal_size = "0.2.1"
+const_format = "0.2.22"
+owo-colors = "3.3.0"
+rpds = "0.10.0"
+wu-diff = "0.1.2"
+rayon = "1.5.2"
+tree_magic_mini = "3.0.3"
+bumpalo = "3.9.1"
+unicode-width = "0.1.9"
+term_size = "0.3.2"
+# difftastic_detect = { path = "../difftastic_detect" }
+
+[dev-dependencies]
+pretty_assertions = "1.2.1"
+
+[build-dependencies]
+cc = "1.0.73"
+rayon = "1.5.2"
+version_check = "0.9.4"
+
+[[bin]]
+name = "difft"
+path = "src/main.rs"
+
+[features]
