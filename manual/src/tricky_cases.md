@@ -129,7 +129,7 @@ We want to consider both `foo` and `bar` to be unchanged. This case is
 challenging for diffing algorithms that do a bottom-up then top-down
 matching of trees.
 
-## Sliders
+## Sliders (Flat)
 
 Sliders are a common problem in text based diffs, where lines are
 matched in a confusing way.
@@ -164,6 +164,23 @@ Ideally we'd prefer marking contiguous nodes as novel, so we highlight
 `A B` rather than `B\nA`. From the perspective of a
 longest-common-subsequence algorithm, these two choices are
 equivalent.
+
+## Sliders (Nested)
+
+```
+// Before
+old1(old2)
+
+// After
+old1(new1(old2))
+```
+
+Should this be <code>old1(<span style="background-color: PaleGreen">new1(</span>old2<span style="background-color: PaleGreen">)</span>)</code> or
+<code>old1<span style="background-color: PaleGreen">(new1</span>(old2)<span style="background-color: PaleGreen">)</span></code>?
+
+The correct answer depends on the language. Most languages want to
+prefer the inner delimiter, whereas Lisps and JSON prefer the outer
+delimiter.
 
 ## Minimising Depth Changes
 
