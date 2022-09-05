@@ -11,11 +11,11 @@ use crate::{
     display::style::{
         self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
     },
-    lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
     options::{DisplayMode, DisplayOptions},
-    parse::syntax::{zip_pad_shorter, MatchedPos},
-    positions::SingleLineSpan,
 };
+use structural_diff::lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber};
+use structural_diff::parse::syntax::{zip_pad_shorter, MatchedPos};
+use structural_diff::positions::SingleLineSpan;
 
 const SPACER: &str = " ";
 

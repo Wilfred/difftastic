@@ -1,6 +1,6 @@
 //! Data types summarising the result of diffing content.
 
-use structural_diff::parse::syntax::MatchedPos;
+use crate::parse::syntax::MatchedPos;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum FileContent {

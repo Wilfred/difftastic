@@ -17,32 +17,28 @@
 #![allow(clippy::clippy::if_same_then_else)]
 
 mod constants;
-mod diff;
 mod display;
 mod files;
 mod line_parser;
-mod lines;
 mod options;
-mod parse;
-mod positions;
 mod summary;
 
 #[macro_use]
 extern crate log;
 
-use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::parse::guess_language::LANG_EXTENSIONS;
-use crate::parse::syntax;
-use diff::changes::ChangeMap;
-use diff::dijkstra::ExceededGraphLimit;
 use display::context::opposite_positions;
 use files::{
     guess_content, read_files_or_die, read_or_die, relative_paths_in_either, ProbableFileKind,
 };
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name};
+use structural_diff::diff::changes::ChangeMap;
+use structural_diff::diff::dijkstra::ExceededGraphLimit;
+use structural_diff::diff::{dijkstra, unchanged};
+use structural_diff::parse::guess_language::LANG_EXTENSIONS;
+use structural_diff::parse::guess_language::{guess, language_name};
+use structural_diff::parse::syntax;
 
 /// The global allocator used by difftastic.
 ///
@@ -51,7 +47,6 @@ use parse::guess_language::{guess, language_name};
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use diff::sliders::fix_all_sliders;
 use options::{DisplayMode, DisplayOptions, Mode};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
@@ -60,10 +55,12 @@ use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
 use typed_arena::Arena;
 
-use crate::{
-    dijkstra::mark_syntax, lines::MaxLine, parse::syntax::init_all_info,
-    parse::tree_sitter_parser as tsp,
-};
+use crate::dijkstra::mark_syntax;
+use structural_diff::diff::sliders::fix_all_sliders;
+use structural_diff::lines::MaxLine;
+use structural_diff::parse;
+use structural_diff::parse::syntax::init_all_info;
+use structural_diff::parse::tree_sitter_parser as tsp;
 
 extern crate pretty_env_logger;
 

@@ -1,16 +1,15 @@
 //! Apply colours and styling to strings.
 
-use crate::{
-    constants::Side,
-    lines::{byte_len, split_on_newlines, LineNumber},
-    options::DisplayOptions,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    positions::SingleLineSpan,
-};
+use crate::{constants::Side, options::DisplayOptions};
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
 use std::cmp::{max, min};
+
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+
+use structural_diff::lines::{byte_len, split_on_newlines, LineNumber};
+use structural_diff::parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind};
+use structural_diff::positions::SingleLineSpan;
 
 #[derive(Clone, Copy, Debug)]
 pub enum BackgroundColor {

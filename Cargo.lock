@@ -207,6 +207,7 @@ dependencies = [
  "rpds",
  "rustc-hash",
  "strsim",
+ "structural_diff",
  "term_size",
  "terminal_size 0.2.1",
  "tree-sitter",
@@ -590,6 +591,41 @@ name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
+
+[[package]]
+name = "structural_diff"
+version = "0.1.0"
+dependencies = [
+ "atty",
+ "bumpalo",
+ "cc",
+ "clap",
+ "const_format",
+ "itertools",
+ "lazy_static",
+ "libc",
+ "libmimalloc-sys",
+ "log",
+ "mimalloc",
+ "owo-colors",
+ "pretty_assertions",
+ "pretty_env_logger",
+ "radix-heap",
+ "rayon",
+ "regex",
+ "rpds",
+ "rustc-hash",
+ "strsim",
+ "term_size",
+ "terminal_size 0.2.1",
+ "tree-sitter",
+ "tree_magic_mini",
+ "typed-arena",
+ "unicode-width",
+ "version_check",
+ "walkdir",
+ "wu-diff",
+]
 
 [[package]]
 name = "syn"

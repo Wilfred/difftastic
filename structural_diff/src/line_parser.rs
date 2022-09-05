@@ -6,9 +6,11 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use rustc_hash::FxHashMap;
 
-use structural_diff::lines::NewlinePositions;
-use structural_diff::diff::myers_diff;
-use structural_diff::parse::syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind};
+use crate::{
+    diff::myers_diff,
+    lines::NewlinePositions,
+    parse::syntax::{split_words, AtomKind, MatchKind, MatchedPos, TokenKind},
+};
 
 fn split_lines_keep_newline(s: &str) -> Vec<&str> {
     lazy_static! {
@@ -250,7 +252,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
 
 #[cfg(test)]
 mod tests {
-    use structural_diff::positions::SingleLineSpan;
+    use crate::positions::SingleLineSpan;
 
     use super::*;
     use pretty_assertions::assert_eq;

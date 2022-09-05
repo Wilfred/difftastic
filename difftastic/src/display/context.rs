@@ -5,10 +5,8 @@ use std::collections::HashSet;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use crate::{
-    lines::LineNumber,
-    parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
-};
+use structural_diff::lines::LineNumber;
+use structural_diff::parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos};
 
 /// The maximum number of lines that may be displayed above and below
 /// the modified lines.
@@ -731,7 +729,8 @@ fn compact_gaps(
 mod tests {
     use std::iter::FromIterator;
 
-    use crate::{positions::SingleLineSpan, syntax::TokenKind};
+    use structural_diff::positions::SingleLineSpan;
+    use structural_diff::parse::syntax::TokenKind;
 
     use super::*;
     use pretty_assertions::assert_eq;

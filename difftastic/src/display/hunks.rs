@@ -13,9 +13,9 @@ use crate::{
     constants::Side,
     display::context::{add_context, opposite_positions, MAX_PADDING},
     display::side_by_side::lines_with_novel,
-    lines::LineNumber,
-    parse::syntax::{zip_pad_shorter, MatchedPos},
 };
+use structural_diff::lines::LineNumber;
+use structural_diff::parse::syntax::{zip_pad_shorter, MatchedPos};
 
 /// A hunk represents a series of modified lines that are displayed
 /// together.
@@ -653,10 +653,8 @@ mod tests {
     use std::iter::FromIterator;
 
     use super::*;
-    use crate::{
-        positions::SingleLineSpan,
-        syntax::{MatchKind, TokenKind},
-    };
+    use structural_diff::positions::SingleLineSpan;
+    use structural_diff::parse::syntax::{MatchKind, TokenKind};
     use pretty_assertions::assert_eq;
 
     #[test]

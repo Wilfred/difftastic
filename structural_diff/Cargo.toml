@@ -1,24 +1,7 @@
 [package]
-name = "difftastic"
-description = "A structural diff that understands syntax."
-repository = "https://github.com/wilfred/difftastic"
-homepage = "http://difftastic.wilfred.me.uk/"
-license = "MIT"
-version = "0.36.0"
-authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
-keywords = ["diff", "syntax"]
-categories = ["development-tools", "command-line-utilities", "parser-implementations"]
-edition = "2018"
-rust-version = "1.57.0"
-include = [
-        "/build.rs",
-        "/src/",
-        "/vendor/highlights/*.scm",
-        "/vendor/*-src/**/*.c",
-        "/vendor/*-src/**/*.h",
-        "/vendor/*-src/**/*.cc",
-        "/README.md",
-]
+name = "structural_diff"
+version = "0.1.0"
+edition = "2021"
 
 [dependencies]
 regex = "1.5.4"
@@ -49,7 +32,6 @@ tree_magic_mini = "3.0.3"
 bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
-structural_diff = { path = "../structural_diff" }
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
@@ -58,9 +40,5 @@ pretty_assertions = "1.2.1"
 cc = "1.0.73"
 rayon = "1.5.2"
 version_check = "0.9.4"
-
-[[bin]]
-name = "difft"
-path = "src/main.rs"
 
 [features]
