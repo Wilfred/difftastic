@@ -14,18 +14,17 @@ after the last syntax node in both trees.
 Consider comparing `A` with `X A`.
 
 ```
-            START
-            +---------------------+
-            | Left: A  Right: X A |
-            |      ^         ^    |
-            +---------------------+
-                   /       \
-     Novel atom L /         \ Novel atom R
-1                v       2   v
-+---------------------+  +---------------------+
-| Left: A  Right: X A |  | Left: A  Right: X A |
-|        ^       ^    |  |      ^           ^  |
-+---------------------+  +---------------------+
+START
++---------------------+
+| Left: A  Right: X A |
+|       ^         ^   |
++---------------------+
+
+END
++---------------------+
+| Left: A  Right: X A |
+|        ^           ^|
++---------------------+
 ```
 
 From the start vertex, we have two options:
@@ -35,6 +34,22 @@ From the start vertex, we have two options:
 * we can mark the first syntax node on the right as novel, and advance
   to the next syntax node on the right (vertex 2 above).
 
+```
+            START
+            +---------------------+
+            | Left: A  Right: X A |
+            |       ^         ^   |
+            +---------------------+
+                   /       \
+     Novel atom L /         \ Novel atom R
+1                v       2   v
++---------------------+  +---------------------+
+| Left: A  Right: X A |  | Left: A  Right: X A |
+|        ^        ^   |  |       ^           ^ |
++---------------------+  +---------------------+
+```
+
+
 Choosing "novel atom R" to vertex 2 will turn out to be the best
 choice. From vertex 2, we can see three routes to the end vertex.
 
@@ -42,14 +57,14 @@ choice. From vertex 2, we can see three routes to the end vertex.
             2
             +---------------------+
             | Left: A  Right: X A |
-            |      ^           ^  |
+            |       ^           ^ |
             +---------------------+
                    /    |   \
      Novel atom L /     |    \ Novel atom R
-3                v      | 4   v
+                 v      |     v
 +---------------------+ | +---------------------+
 | Left: A  Right: X A | | | Left: A  Right: X A |
-|        ^         ^  | | |      ^             ^|
+|        ^          ^ | | |       ^            ^|
 +---------------------+ | +---------------------+
   |                     |                    |
   | Novel atom R        | Nodes match        | Novel atom L
