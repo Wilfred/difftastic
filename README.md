@@ -94,6 +94,10 @@ showing one way to use difftastic with magit.
 Probably not. Difftastic is young. Consider writing a plugin for your
 favourite tool, and I will link it in the README!
 
+## Translation
+
++ [Chinese](./translation/README-zh-CN.md)
+
 ## License
 
 Difftastic is open source under the MIT license, see LICENSE for more
