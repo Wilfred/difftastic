@@ -116,7 +116,7 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("syntax-highlight").long("syntax-highlight")
-                .value_name("ON/OFF")
+                .value_name("on/off")
                 .env("DFT_SYNTAX_HIGHLIGHT")
                 .possible_values(["on", "off"])
                 .default_value("on")
