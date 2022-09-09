@@ -326,7 +326,10 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomLHS { contiguous: false },
+                NovelAtomLHS {
+                    contiguous: false,
+                    probably_punctuation: false,
+                },
                 ExitDelimiterBoth,
             ]
         );
@@ -369,8 +372,14 @@ mod tests {
                 EnterUnchangedDelimiter {
                     depth_difference: 0
                 },
-                NovelAtomRHS { contiguous: false },
-                NovelAtomRHS { contiguous: false },
+                NovelAtomRHS {
+                    contiguous: false,
+                    probably_punctuation: false
+                },
+                NovelAtomRHS {
+                    contiguous: false,
+                    probably_punctuation: false
+                },
                 ExitDelimiterBoth,
             ]
         );
@@ -456,8 +465,14 @@ mod tests {
                 UnchangedNode {
                     depth_difference: 0
                 },
-                NovelAtomLHS { contiguous: false },
-                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS {
+                    contiguous: false,
+                    probably_punctuation: false
+                },
+                NovelAtomLHS {
+                    contiguous: true,
+                    probably_punctuation: false
+                },
             ]
         );
     }
@@ -492,7 +507,10 @@ mod tests {
             actions,
             vec![
                 EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS {
+                    contiguous: true,
+                    probably_punctuation: false
+                },
                 ExitDelimiterLHS,
             ]
         );
@@ -531,9 +549,15 @@ mod tests {
             actions,
             vec![
                 EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS {
+                    contiguous: true,
+                    probably_punctuation: false
+                },
                 ExitDelimiterLHS,
-                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS {
+                    contiguous: true,
+                    probably_punctuation: true
+                },
             ]
         );
     }
@@ -640,7 +664,10 @@ mod tests {
                 ReplacedComment {
                     levenshtein_pct: 95
                 },
-                NovelAtomLHS { contiguous: false }
+                NovelAtomLHS {
+                    contiguous: false,
+                    probably_punctuation: false
+                }
             ]
         );
     }

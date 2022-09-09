@@ -13,6 +13,9 @@ sample_files/chinese_before.po sample_files/chinese_after.po
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b916e224f289888252cd7597bab339e6  -
 
+sample_files/comma_before.js sample_files/comma_after.js
+6b06dbb3eb6cc44ce51d2e40695d823b  -
+
 sample_files/comments_before.rs sample_files/comments_after.rs
 0b2756c60659993310f899b131cca84f  -
 
