@@ -139,7 +139,7 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         .take(1000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
-    if num_utf8_invalid <= 20 {
+    if num_utf8_invalid <= 10 {
         return ProbableFileKind::Text(utf8_string);
     }
 
@@ -149,7 +149,7 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         .take(1000)
         .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
         .count();
-    if num_utf16_invalid <= 20 {
+    if num_utf16_invalid <= 5 {
         return ProbableFileKind::Text(utf16_string);
     }
 
