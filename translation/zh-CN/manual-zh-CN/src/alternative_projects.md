@@ -1,5 +1,5 @@
-# Alternative Projects
+# Alternative Projects其它项目
 
 Many different tools exist for diffing files. This section of the
 manual discusses the design of other tools that have influenced
-difftastic.
+difftastic.有许多不同的工具可以比较文件。本说明书的这一个部分讨论了其他影响到Difftastic的工具。
