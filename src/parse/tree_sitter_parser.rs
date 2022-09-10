@@ -55,6 +55,7 @@ extern "C" {
     fn tree_sitter_elvish() -> ts::Language;
     fn tree_sitter_gleam() -> ts::Language;
     fn tree_sitter_go() -> ts::Language;
+    fn tree_sitter_hare() -> ts::Language;
     fn tree_sitter_hack() -> ts::Language;
     fn tree_sitter_haskell() -> ts::Language;
     fn tree_sitter_hcl() -> ts::Language;
@@ -323,6 +324,19 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendor/highlights/hack.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Hare => {
+            let language = unsafe { tree_sitter_hare() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string_constant", "rune_constant"].into_iter().collect(),
+                delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendor/highlights/hare.scm"),
                 )
                 .unwrap(),
             }

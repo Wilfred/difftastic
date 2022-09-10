@@ -46,6 +46,9 @@ bfb410815de1fb0fd47fa078fbd8e329  -
 sample_files/hack_before.php sample_files/hack_after.php
 50babcb945cf3b3ba12d5481a1bf8ccf  -
 
+sample_files/hare_before.ha sample_files/hare_after.ha
+8edc2f3ae2eaeba7bcf328ed00398767  -
+
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 324d1c9b2a04133a75b1975272ffb6ad  -
 
