@@ -19,15 +19,15 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo +stable test
 
-  test_linux_arm64:
-    name: Test Linux arm64 (build only)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.57.0
-      - run: rustup target add aarch64-unknown-linux-gnu
-      - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-      - run: cargo build --target=aarch64-unknown-linux-gnu
+  # test_linux_arm64:
+  #   name: Test Linux arm64 (build only)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: dtolnay/rust-toolchain@1.57.0
+  #     - run: rustup target add aarch64-unknown-linux-gnu
+  #     - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+  #     - run: cargo build --target=aarch64-unknown-linux-gnu
 
   test_mac:
     name: Test macOS

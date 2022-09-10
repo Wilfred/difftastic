@@ -52,7 +52,7 @@ use parse::guess_language::{guess, language_name};
 static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
-use options::{DisplayMode, DisplayOptions, Mode};
+use options::{DisplayMode, DisplayOptions, Mode, DEFAULT_TAB_WIDTH};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use std::{env, path::Path};
@@ -93,6 +93,8 @@ fn main() {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
+            // TODO: Load display options rather than hard-coding.
+            let src = replace_tabs(&src, DEFAULT_TAB_WIDTH);
 
             let language = language_override.or_else(|| guess(path, &src));
             match language {
@@ -113,6 +115,8 @@ fn main() {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
+            // TODO: Load display options rather than hard-coding.
+            let src = replace_tabs(&src, DEFAULT_TAB_WIDTH);
 
             let language = language_override.or_else(|| guess(path, &src));
             match language {
@@ -196,6 +200,16 @@ fn main() {
     };
 }
 
+/// Return a copy of `str` with all the tab characters replaced by
+/// `tab_width` strings.
+///
+/// TODO: This break parsers that require tabs, such as Makefile
+/// parsing. We shouldn't do this transform until after parsing.
+fn replace_tabs(src: &str, tab_width: usize) -> String {
+    let tab_as_spaces = " ".repeat(tab_width);
+    src.replace('\t', &tab_as_spaces)
+}
+
 /// Print a diff between two files.
 fn diff_file(
     lhs_display_path: &str,
@@ -247,9 +261,8 @@ fn diff_file_content(
     };
 
     // TODO: don't replace tab characters inside string literals.
-    let tab_as_spaces = " ".repeat(tab_width);
-    lhs_src = lhs_src.replace('\t', &tab_as_spaces);
-    rhs_src = rhs_src.replace('\t', &tab_as_spaces);
+    lhs_src = replace_tabs(&lhs_src, tab_width);
+    rhs_src = replace_tabs(&rhs_src, tab_width);
 
     // Ignore the trailing newline, if present.
     // TODO: highlight if this has changes (#144).
