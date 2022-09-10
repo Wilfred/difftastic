@@ -267,7 +267,15 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     _qml_enum_assignment: $ => seq(
       field('name', $.identifier),
       '=',
-      field('value', $.number),
+      field('value', choice(
+        $.number,
+        alias($._qml_enum_negative_number, $.unary_expression),
+      )),
+    ),
+
+    _qml_enum_negative_number: $ => seq(
+      field('operator', '-'),  // '+' is not allowed
+      field('argument', $.number),
     ),
 
     // MemberExpression -> reparseAsQualifiedId()
