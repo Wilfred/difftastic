@@ -11,6 +11,11 @@ Added support for QML.
 
 ZIP files are now always treated as binary files.
 
+### Display
+
+Changed words in changed comments are now also underlined, to make
+them more visible.
+
 ## 0.35 (released 2nd September 2022)
 
 ### Diffing

@@ -318,7 +318,7 @@ pub fn color_positions(
                 }
             }
             MatchKind::NovelWord { highlight } => {
-                style = novel_style(style, is_lhs, background).bold();
+                style = novel_style(style, is_lhs, background).bold().underline();
                 if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
                 }
