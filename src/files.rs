@@ -115,6 +115,10 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     match mime {
         // Treat pdf as binary.
         "application/pdf" => return ProbableFileKind::Binary,
+        // application/* is a mix of stuff, application/json is fine
+        // but application/zip is binary that often looks text-ish to
+        // our heuristics.
+        "application/zip" => return ProbableFileKind::Binary,
         // Treat all image content as binary.
         v if v.starts_with("image/") => return ProbableFileKind::Binary,
         // Treat all audio content as binary.

@@ -9,6 +9,8 @@ over unchanged punctuation.
 
 Added support for QML.
 
+ZIP files are now always treated as binary files.
+
 ## 0.35 (released 2nd September 2022)
 
 ### Diffing
