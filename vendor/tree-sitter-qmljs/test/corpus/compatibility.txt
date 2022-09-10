@@ -1,0 +1,174 @@
+================================================================================
+Compatibility semicolon
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qqmlecmascript/data/compatibilitySemicolon.qml
+QtObject {
+    function code() {
+        // Not correct according to ECMA 5.1, but JSC and V8 accept the following:
+        do {
+            ;
+        } while (false) true
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (function_declaration
+        (identifier)
+        (formal_parameters)
+        (statement_block
+          (comment)
+          (do_statement
+            (statement_block
+              (empty_statement))
+            (parenthesized_expression
+              (false))
+            (MISSING ";"))
+          (expression_statement
+            (true)))))))
+
+================================================================================
+Semicolon after array/object binding in property declaration
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qqmlecmascript/data/semicolonAfterProperty.qml
+QtObject {
+    property var field: {"key": "value"};
+    property list<QtObject> mylist: [
+        QtObject {id: a},
+        QtObject {id: b}
+    ];
+    property var object: QtObject {};
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_property
+        (type_identifier)
+        (identifier)
+        (expression_statement
+          (object
+            (pair
+              (string
+                (string_fragment))
+              (string
+                (string_fragment))))))
+      (ui_property
+        (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        (identifier)
+        (ui_object_array
+          (ui_object_definition
+            (identifier)
+            (ui_object_initializer
+              (ui_binding
+                (identifier)
+                (expression_statement
+                  (identifier)))))
+          (ui_object_definition
+            (identifier)
+            (ui_object_initializer
+              (ui_binding
+                (identifier)
+                (expression_statement
+                  (identifier)))))))
+      (ui_property
+        (type_identifier)
+        (identifier)
+        (ui_object_definition
+          (identifier)
+          (ui_object_initializer))))))
+
+================================================================================
+Semicolon after array/object binding is not allowed
+================================================================================
+
+QtObject {
+    object: QtObject {};
+    array: [QtObject {}];
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_binding
+        (identifier)
+        (ui_object_definition
+          (identifier)
+          (ui_object_initializer)))
+      (ERROR)
+      (ui_binding
+        (identifier)
+        (ui_object_array
+          (ui_object_definition
+            (identifier)
+            (ui_object_initializer))))
+      (ERROR))))
+
+================================================================================
+Weird object pattern
+================================================================================
+
+// Found in
+// qtdeclarative/tests/auto/quickcontrols2/controls/data/tst_scrollbar.qml
+//
+// This appears not accepted by Chrome/Firefox, but QML parser doesn't report
+// any error.
+Control {
+    id: control
+    function func() {
+        var p0 = { x = control.leftPadding, y = control.height/2 };
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (identifier)))
+      (function_declaration
+        (identifier)
+        (formal_parameters)
+        (statement_block
+          (variable_declaration
+            (variable_declarator
+              (identifier))
+            (ERROR
+              (object_pattern
+                (object_assignment_pattern
+                  (shorthand_property_identifier_pattern)
+                  (member_expression
+                    (identifier)
+                    (property_identifier)))
+                (object_assignment_pattern
+                  (shorthand_property_identifier_pattern)
+                  (binary_expression
+                    (member_expression
+                      (identifier)
+                      (property_identifier))
+                    (number)))))))))))

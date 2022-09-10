@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies (gyp would fail)
+      run: npm install || true
+    - name: Generate parser sources
+      run: make generate
+    - name: Install dependencies (again to run gyp rebuild)
+      run: npm install
+    - name: Run tests
+      run: npm test
+    - name: Run cargo tests
+      run: cargo test
+    - name: Parse examples
+      run: make fetch-examples parse-examples
