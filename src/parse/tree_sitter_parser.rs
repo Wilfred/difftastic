@@ -1188,7 +1188,9 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
-    // Most languages use "comment", but Perl uses "comments".
+    // 'extra' nodes in tree-sitter are comments. Most parsers use
+    // 'comment' as their comment node name, but if they don't we can
+    // still detect comments by looking at their syntax highlighting.
     let highlight = if node.is_extra()
         || node.kind() == "comment"
         || highlights.comment_ids.contains(&node.id())
