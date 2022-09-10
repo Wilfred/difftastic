@@ -241,9 +241,15 @@ impl<'a> Syntax<'a> {
     pub fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
-        content: &str,
+        mut content: &str,
         kind: AtomKind,
     ) -> &'a Syntax<'a> {
+        // If a parser hasn't cleaned up \r on CRLF files with
+        // comments, discard it.
+        if content.ends_with("\r") {
+            content = &content[..content.len() - 1];
+        }
+
         arena.alloc(Atom {
             info: SyntaxInfo::default(),
             position,
@@ -938,6 +944,22 @@ mod tests {
         init_all_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
+    }
+
+    #[test]
+    fn test_new_atom_truncates_carriage_return() {
+        let arena = Arena::new();
+        let position = vec![];
+        let content = "foo\r";
+
+        let atom = Syntax::new_atom(&arena, position, content, AtomKind::Comment);
+
+        match atom {
+            List { .. } => unreachable!(),
+            Atom { content, .. } => {
+                assert_eq!(content, "foo");
+            }
+        }
     }
 
     /// Ignore the syntax highighting kind when comparing
