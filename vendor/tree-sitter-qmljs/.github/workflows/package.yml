@@ -1,0 +1,38 @@
+name: Package
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test-regenerate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install
+    - name: Regenerate parser sources
+      run: make generate
+    - name: Verify generated sources
+      run: git diff --exit-code
+
+  test-without-regenerate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test
+    - name: Run cargo tests
+      run: cargo test
