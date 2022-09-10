@@ -2,7 +2,7 @@
 // https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/qml/
 //   compiler/qqmlirbuilder.cpp
 //   parser/{qqmljs.g,qqmljsast_p.h,qqmljslexer.cpp}
-// ba94a296c3ea97c755538ef99efe5d1dd034725c
+// d9787c1ac1bf36e8d3f25613e380c7e7538c019f
 
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
