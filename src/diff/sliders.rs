@@ -69,8 +69,8 @@ fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
         // the inner delimiter is more relevant.
         Bash | C | CMake | CPlusPlus | CSharp | Css | Dart | Elixir | Elm | Elvish | Gleam | Go
         | Hack | Haskell | Html | Java | JavaScript | Jsx | Julia | Kotlin | Lua | Make | Nix
-        | OCaml | OCamlInterface | Perl | Php | Python | Ruby | Rust | Scala | Swift | Tsx
-        | TypeScript | Yaml | Zig => false,
+        | OCaml | OCamlInterface | Perl | Php | Python | Qml | Ruby | Rust | Scala | Swift
+        | Tsx | TypeScript | Yaml | Zig => false,
     }
 }
 

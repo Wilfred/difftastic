@@ -5,6 +5,10 @@
 Improved diff cost model to prefer finding unchanged variable names
 over unchanged punctuation.
 
+### Parsing
+
+Added support for QML.
+
 ## 0.35 (released 2nd September 2022)
 
 ### Diffing

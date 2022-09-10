@@ -1,0 +1,741 @@
+================================================================================
+Pragma and imports
+================================================================================
+
+pragma Singleton
+pragma ListPropertyAssignBehavior: Append
+import QtQuick
+import Qt.labs.platform as Platform
+import QtQuick.Controls 2
+import QtQuick3D 1.15
+import "path"
+import "script.js" as Script
+
+Item {}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_pragma
+    name: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (identifier))
+  (ui_import
+    source: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (nested_identifier
+        (identifier)
+        (identifier))
+      (identifier))
+    alias: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (identifier)
+      (identifier))
+    version: (ui_version_specifier
+      major: (number)))
+  (ui_import
+    source: (identifier)
+    version: (ui_version_specifier
+      major: (number)
+      minor: (number)))
+  (ui_import
+    source: (string
+      (string_fragment)))
+  (ui_import
+    source: (string
+      (string_fragment))
+    alias: (identifier))
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer)))
+
+================================================================================
+Shebang
+================================================================================
+
+#!/usr/bin/env qml
+import QtQml
+
+OtObject {}
+
+--------------------------------------------------------------------------------
+
+(program
+  (hash_bang_line)
+  (ui_import
+    (identifier))
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer)))
+
+================================================================================
+Nested objects
+================================================================================
+
+import QtQuick
+import QtQuick.Controls as C
+
+Item {
+    Rectangle {}
+    C.Button {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_import
+    source: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (identifier)
+      (identifier))
+    alias: (identifier))
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer))
+      (ui_object_definition
+        type_name: (nested_identifier
+          (identifier)
+          (identifier))
+        initializer: (ui_object_initializer)))))
+
+================================================================================
+Object on bindings
+================================================================================
+
+MyItem {
+    Behavior on value {}
+    Qualified.Object on qualified.prop {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition_binding
+        type_name: (identifier)
+        name: (identifier)
+        initializer: (ui_object_initializer))
+      (ui_object_definition_binding
+        type_name: (nested_identifier
+          (identifier)
+          (identifier))
+        name: (nested_identifier
+          (identifier)
+          (identifier))
+        initializer: (ui_object_initializer)))))
+
+================================================================================
+Object/Array bindings
+================================================================================
+
+MyItem {
+    array0: []  // is actually a script binding
+    array1: [expr]
+    arrayN: [member.expr, expr]
+    objArray1: [Element {}]
+    objArrayN: [Qualified.Element {}, Element {}]
+    object: Object {}
+    qualifiedObject: Qualified.Object {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array)
+          (comment)))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array
+            (identifier))))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array
+            (member_expression
+              object: (identifier)
+              property: (property_identifier))
+            (identifier))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (nested_identifier
+              (identifier)
+              (identifier))
+            initializer: (ui_object_initializer))
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (nested_identifier
+            (identifier)
+            (identifier))
+          initializer: (ui_object_initializer))))))
+
+================================================================================
+Script bindings
+================================================================================
+
+MyItem {
+    id: root
+    emptySt: ;
+    withSt: with (Math) PI
+    ifSt: if(x) true; else false;
+    switchSt: switch (y) {
+    default: return undefined;
+    }
+    objectLit: {foo: false, bar: true}
+    memberExpr: member.expr
+    paren.expr: (true)
+    onBlock: {}
+    onFunction: function(a) {}
+    onArrow: (b) => {}
+    onTrySt: try { foo(); } catch (error) {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (identifier)))
+      (ui_binding
+        name: (identifier)
+        value: (empty_statement))
+      (ui_binding
+        name: (identifier)
+        value: (with_statement
+          object: (parenthesized_expression
+            (identifier))
+          body: (expression_statement
+            (identifier))))
+      (ui_binding
+        name: (identifier)
+        value: (if_statement
+          condition: (parenthesized_expression
+            (identifier))
+          consequence: (expression_statement
+            (true))
+          alternative: (else_clause
+            (expression_statement
+              (false)))))
+      (ui_binding
+        name: (identifier)
+        value: (switch_statement
+          value: (parenthesized_expression
+            (identifier))
+          body: (switch_body
+            (switch_default
+              body: (return_statement
+                (undefined))))))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (object
+            (pair
+              key: (property_identifier)
+              value: (false))
+            (pair
+              key: (property_identifier)
+              value: (true)))))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (member_expression
+            object: (identifier)
+            property: (property_identifier))))
+      (ui_binding
+        name: (nested_identifier
+          (identifier)
+          (identifier))
+        value: (expression_statement
+          (parenthesized_expression
+            (true))))
+      (ui_binding
+        name: (identifier)
+        value: (statement_block))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (function
+            parameters: (formal_parameters
+              (required_parameter
+                pattern: (identifier)))
+            body: (statement_block))))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (arrow_function
+            parameters: (formal_parameters
+              (required_parameter
+                pattern: (identifier)))
+            body: (statement_block))))
+      (ui_binding
+        name: (identifier)
+        value: (try_statement
+          body: (statement_block
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (arguments))))
+          handler: (catch_clause
+            parameter: (identifier)
+            body: (statement_block)))))))
+
+================================================================================
+Grouped binding notation
+================================================================================
+
+// This is grammatically ambiguous and parsed as an object definition.
+// See IRBuilder::visit(QQmlJS::AST::UiObjectDefinition *node) for details.
+Button {
+    icon { source: "foo.png"; color: "transparent" }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment)))))))))
+
+================================================================================
+Property declarations
+================================================================================
+
+MyItem {
+    property var varProp
+    property var varPropWithScriptStatement: if (0) 1; else 2
+    readonly property var readonlyVarPropWithScriptStatement: (0 ? 1 : 2)
+    required property var requiredVarProp
+    required default property var requiredDefaultVarProp
+    default property var defaultVarProp
+    default property var defaultVarPropWithScriptStatement: 123
+    default required property var defaultRequiredVarProp
+
+    property QtObject objectPropWithDefinition: QtObject {}
+    readonly property QtObject readonlyObjectPropWithDefinition: QtObject {}
+
+    property list<Rectangle> listProp
+    property list<Rectangle> listPropWithArray: [Rectangle {}, Rectangle {}]
+    readonly property list<Rectangle> readonlyListProp
+    readonly property list<Rectangle> readonlyListPropWithArray: [Rectangle {}]
+    required property list<Rectangle> requiredProp
+    required default property list<Rectangle> requiredDefaultListProp
+    default property list<Rectangle> defaultListProp
+    default required property list<Rectangle> defaultRequiredListProp
+
+    property Qualified.Object qualifiedObjectProp: Qualified.Object {}
+    property list<Qualified.Object> qualifiedArrayProp: [Qualified.Object {}]
+
+    required width
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_property
+        type: (type_identifier)
+        name: (identifier))
+      (ui_property
+        type: (type_identifier)
+        name: (identifier)
+        value: (if_statement
+          condition: (parenthesized_expression
+            (number))
+          consequence: (expression_statement
+            (number))
+          alternative: (else_clause
+            (expression_statement
+              (number)))))
+      (ui_property
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier)
+        value: (expression_statement
+          (parenthesized_expression
+            (ternary_expression
+              condition: (number)
+              consequence: (number)
+              alternative: (number)))))
+      (ui_property
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier)
+        value: (expression_statement
+          (number)))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier))
+      (ui_property
+        type: (type_identifier)
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_property
+        (ui_property_modifier)
+        type: (type_identifier)
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_property
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (type_identifier)
+          (type_identifier))
+        name: (identifier))
+      (ui_property
+        type: (nested_type_identifier
+          module: (identifier)
+          name: (type_identifier))
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (nested_identifier
+            (identifier)
+            (identifier))
+          initializer: (ui_object_initializer)))
+      (ui_property
+        type: (ui_list_property_type
+          (type_identifier)
+          (nested_type_identifier
+            module: (identifier)
+            name: (type_identifier)))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (nested_identifier
+              (identifier)
+              (identifier))
+            initializer: (ui_object_initializer))))
+      (ui_required
+        name: (identifier)))))
+
+================================================================================
+Signals
+================================================================================
+
+MyItem {
+    signal sigNoArg
+    signal sig0()
+    signal sig1(var name)
+    signal sig2(name0: var, int name1, string name2)
+    signal sig3(name0: qualified.type0, qualified.type1 name1, name2: Type2)
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_signal
+        name: (identifier))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            type: (type_identifier)
+            name: (identifier))))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            name: (identifier)
+            type: (type_identifier))
+          (ui_signal_parameter
+            type: (type_identifier)
+            name: (identifier))
+          (ui_signal_parameter
+            type: (type_identifier)
+            name: (identifier))))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            name: (identifier)
+            type: (nested_type_identifier
+              module: (identifier)
+              name: (type_identifier)))
+          (ui_signal_parameter
+            type: (nested_type_identifier
+              module: (identifier)
+              name: (type_identifier))
+            name: (identifier))
+          (ui_signal_parameter
+            name: (identifier)
+            type: (type_identifier)))))))
+
+================================================================================
+Inline component
+================================================================================
+
+MyItem {
+    component RedRect : Rectangle { color: "red" }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_inline_component
+        name: (identifier)
+        component: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer
+            (ui_binding
+              name: (identifier)
+              value: (expression_statement
+                (string
+                  (string_fragment))))))))))
+
+================================================================================
+JavaScript/TypeScript declarations
+================================================================================
+
+MyItem {
+    function fun() {
+    }
+
+    function typedFun(param: string) : Qualified.Object {
+    }
+
+    function* gen() {
+        yield 0;
+    }
+
+    // This can't be mapped to IR, but the parser somehow accepts it.
+    var v
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (function_declaration
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (statement_block))
+      (function_declaration
+        name: (identifier)
+        parameters: (formal_parameters
+          (required_parameter
+            pattern: (identifier)
+            type: (type_annotation
+              (predefined_type))))
+        return_type: (type_annotation
+          (nested_type_identifier
+            module: (identifier)
+            name: (type_identifier)))
+        body: (statement_block))
+      (generator_function_declaration
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (statement_block
+          (expression_statement
+            (yield_expression
+              (number)))))
+      (comment)
+      (variable_declaration
+        (variable_declarator
+          name: (identifier))))))
+
+================================================================================
+Enum
+================================================================================
+
+MyItem {
+    enum Foo {
+        Foo0
+    }
+
+    enum Bar {
+        Bar0 = 0,
+        Bar1
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (enum_declaration
+        name: (identifier)
+        body: (enum_body
+          name: (identifier)))
+      (enum_declaration
+        name: (identifier)
+        body: (enum_body
+          (enum_assignment
+            name: (identifier)
+            value: (number))
+          name: (identifier))))))
+
+================================================================================
+Annotations
+================================================================================
+
+import QtQml
+
+@Foo {}
+@Bar {}
+QtObject {
+    @Foo {}
+    @Bar {}
+    OtObject {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_import
+    source: (identifier))
+  root: (ui_annotated_object
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
+    definition: (ui_object_definition
+      type_name: (identifier)
+      initializer: (ui_object_initializer
+        (ui_annotated_object_member
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          definition: (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer)))))))

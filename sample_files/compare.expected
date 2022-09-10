@@ -139,6 +139,9 @@ sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
 sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 3e4331cb935cbe735a79ebc43786cd3a  -
 
+sample_files/qml_before.qml sample_files/qml_after.qml
+53ddc9a9a88f7d0381558e4fabf46212  -
+
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 d88046b43f826a34bbd4a7b9d6bb704d  -
 
