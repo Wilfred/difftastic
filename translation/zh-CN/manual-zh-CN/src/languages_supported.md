@@ -2,11 +2,11 @@
 
 This page lists all the languages supported by difftastic. You can
 also view the languages supported in your current installed version
-with `difft --list-languages`.
+with `difft --list-languages`.本页列出了 difftastic 支持的所有语言。你也可以用`difft --list-languages`查看你当前安装的版本所支持的语言。
 
-## Programming Languages
+## Programming Languages编程语言
 
-| Language        | Parser Used                                                                                                                                                    |
+| Language语言        | Parser Used使用的解析器                                                                                                                                                    |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                                                |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                                                                                      |
@@ -44,9 +44,9 @@ with `difft --list-languages`.
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                                                                    |
 | Zig             | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig)                                                                                        |
 
-## Structured Text Formats
+## Structured Text Formats结构化文本格式
 
-| Language | Parser Used                                                                       |
+| Language语言 | Parser Used使用的解析器                                                             |
 |----------|-----------------------------------------------------------------------------------|
 | CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)     |
 | HCL      | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) |
