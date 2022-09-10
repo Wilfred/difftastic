@@ -1,0 +1,1 @@
+../node_modules/tree-sitter-typescript/queries/highlights.scm
