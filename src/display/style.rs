@@ -121,15 +121,15 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for (part, pad) in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
-        let mut res = String::with_capacity(part.len() + pad);
+    for (line_part, pad) in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
+        let mut res = String::with_capacity(line_part.len() + pad);
         let mut prev_style_end = 0;
         for (span, style) in styles {
             let start_col = span.start_col as usize;
             let end_col = span.end_col as usize;
 
-            // The remaining spans are beyond the end of this part.
-            if start_col >= part_start + byte_len(&part) {
+            // The remaining spans are beyond the end of this line_part.
+            if start_col >= part_start + byte_len(&line_part) {
                 break;
             }
 
@@ -138,7 +138,7 @@ pub fn split_and_apply(
                 // Then append that text without styling.
                 let unstyled_start = max(prev_style_end, part_start);
                 res.push_str(substring_by_byte(
-                    part,
+                    line_part,
                     unstyled_start - part_start,
                     start_col - part_start,
                 ));
@@ -147,9 +147,9 @@ pub fn split_and_apply(
             // Apply style to the substring in this span.
             if end_col > part_start {
                 let span_s = substring_by_byte(
-                    part,
+                    line_part,
                     max(0, span.start_col as isize - part_start as isize) as usize,
-                    min(byte_len(part), end_col - part_start),
+                    min(byte_len(line_part), end_col - part_start),
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
@@ -157,20 +157,21 @@ pub fn split_and_apply(
         }
 
         // Ensure that prev_style_end is at least at the start of this
-        // part.
+        // line_part.
         if prev_style_end < part_start {
             prev_style_end = part_start;
         }
 
         // Unstyled text after the last span.
-        if prev_style_end < part_start + byte_len(part) {
-            let span_s = substring_by_byte(part, prev_style_end - part_start, byte_len(part));
+        if prev_style_end < part_start + byte_len(line_part) {
+            let span_s =
+                substring_by_byte(line_part, prev_style_end - part_start, byte_len(line_part));
             res.push_str(span_s);
         }
         res.push_str(&" ".repeat(pad));
 
         styled_parts.push(res);
-        part_start += byte_len(part);
+        part_start += byte_len(line_part);
     }
 
     styled_parts
