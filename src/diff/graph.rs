@@ -278,19 +278,37 @@ impl<'a, 'b> Vertex<'a, 'b> {
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
-    UnchangedNode { depth_difference: u32 },
-    EnterUnchangedDelimiter { depth_difference: u32 },
-    ReplacedComment { levenshtein_pct: u8 },
-    NovelAtomLHS { contiguous: bool },
-    NovelAtomRHS { contiguous: bool },
+    UnchangedNode {
+        depth_difference: u32,
+    },
+    EnterUnchangedDelimiter {
+        depth_difference: u32,
+    },
+    ReplacedComment {
+        levenshtein_pct: u8,
+    },
+    NovelAtomLHS {
+        contiguous: bool,
+        probably_punctuation: bool,
+    },
+    NovelAtomRHS {
+        contiguous: bool,
+        probably_punctuation: bool,
+    },
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
-    EnterNovelDelimiterLHS { contiguous: bool },
-    EnterNovelDelimiterRHS { contiguous: bool },
+    EnterNovelDelimiterLHS {
+        contiguous: bool,
+    },
+    EnterNovelDelimiterRHS {
+        contiguous: bool,
+    },
     ExitDelimiterLHS,
     ExitDelimiterRHS,
     ExitDelimiterBoth,
 }
+
+const NOT_CONTIGUOUS_PENALTY: u64 = 50;
 
 impl Edge {
     pub fn cost(self) -> u64 {
@@ -317,21 +335,38 @@ impl Edge {
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS { contiguous }
-            | NovelAtomRHS { contiguous }
-            | EnterNovelDelimiterLHS { contiguous }
-            | EnterNovelDelimiterRHS { contiguous } => {
-                if contiguous {
-                    300
-                } else {
+            NovelAtomLHS {
+                contiguous,
+                probably_punctuation,
+            }
+            | NovelAtomRHS {
+                contiguous,
+                probably_punctuation,
+            } => {
+                let mut cost = 300;
+                if !contiguous {
+                    cost += NOT_CONTIGUOUS_PENALTY;
+                }
+                // If it's only punctuation, decrease the cost
+                // slightly. It's better to have novel punctuation
+                // than novel variable names.
+                if probably_punctuation {
+                    cost -= 10;
+                }
+                cost
+            }
+            EnterNovelDelimiterLHS { contiguous } | EnterNovelDelimiterRHS { contiguous } => {
+                let mut cost = 300;
+                if !contiguous {
                     // This needs to be more than 40 greater than the
                     // contiguous case. Otherwise, we end up choosing
                     // a badly positioned unchanged delimiter just
                     // because it has a better depth difference.
                     //
                     // TODO: write a test for this case.
-                    350
+                    cost += NOT_CONTIGUOUS_PENALTY;
                 }
+                cost
             }
         }
     }
@@ -372,6 +407,14 @@ fn allocate_if_new<'syn, 'b>(
             allocated
         }
     }
+}
+
+/// Does this atom look like punctuation?
+///
+/// This check is deliberately conservative, becuase it's hard to
+/// accurately recognise punctuation in a language-agnostic way.
+fn looks_like_punctuation(content: &str) -> bool {
+    content == "," || content == ";"
 }
 
 /// Compute the neighbours of `v` if we haven't previously done so,
@@ -579,12 +622,13 @@ pub fn get_set_neighbours<'syn, 'b>(
     if let Some(lhs_syntax) = &v.lhs_syntax {
         match lhs_syntax {
             // Step over this novel atom.
-            Syntax::Atom { .. } => {
+            Syntax::Atom { content, .. } => {
                 res.push((
                     NovelAtomLHS {
                         // TODO: should this apply if prev is a parent
                         // node rather than a sibling?
                         contiguous: lhs_syntax.prev_is_contiguous(),
+                        probably_punctuation: looks_like_punctuation(content),
                     },
                     allocate_if_new(
                         Vertex {
@@ -634,10 +678,11 @@ pub fn get_set_neighbours<'syn, 'b>(
     if let Some(rhs_syntax) = &v.rhs_syntax {
         match rhs_syntax {
             // Step over this novel atom.
-            Syntax::Atom { .. } => {
+            Syntax::Atom { content, .. } => {
                 res.push((
                     NovelAtomRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
+                        probably_punctuation: looks_like_punctuation(content),
                     },
                     allocate_if_new(
                         Vertex {
