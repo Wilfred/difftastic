@@ -104,6 +104,8 @@ pub fn split_and_apply(
     styles: &[(SingleLineSpan, Style)],
     side: Side,
 ) -> Vec<String> {
+    assert!(max_len > 0);
+
     if styles.is_empty() && !line.trim().is_empty() {
         // Missing styles is a bug, so highlight in purple to make this obvious.
         return split_string_by_width(line, max_len, matches!(side, Side::Left))
