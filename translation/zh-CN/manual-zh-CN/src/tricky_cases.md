@@ -1,11 +1,11 @@
-# Tricky Cases
+# Tricky Cases棘手的例子
 
 Tree diffing is challenging in some situations. This page demonstrates
-difficult cases observed during development.
+difficult cases observed during development.在某些情况下，树状图的差异分析是具有挑战性的。本页展示了在开发过程中所观察到的困难情况。
 
-Not all of these cases work well in difftastic yet.
+Not all of these cases work well in difftastic yet.并非所有这些情况在Difftastic中都能很好地工作。
 
-## Adding Delimiters
+## Adding Delimiters添加定界符
 
 ```
 ;; Before
@@ -15,7 +15,7 @@ x
 (x)
 ```
 
-Desired result: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
+Desired result: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>理想输出: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
 
 This is tricky because `x` has changed its depth in the tree, but `x`
 itself is unchanged.
