@@ -1,11 +1,10 @@
-# Tricky Cases棘手的例子
+# 棘手的例子
 
-Tree diffing is challenging in some situations. This page demonstrates
-difficult cases observed during development.在某些情况下，树状图的差异分析是具有挑战性的。本页展示了在开发过程中所观察到的困难情况。
+在某些情况下，树状图的差异分析是具有挑战性的。本页展示了在开发过程中所观察到的困难情况。
 
-Not all of these cases work well in difftastic yet.并非所有这些情况在Difftastic中都能很好地工作。
+并非所有这些情况在Difftastic中都能很好地工作。
 
-## Adding Delimiters添加定界符
+## 添加定界符
 
 ```
 ;; Before
@@ -15,17 +14,13 @@ x
 (x)
 ```
 
-Desired result: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>理想输出: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
+理想输出: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
 
-This is tricky because `x` has changed its depth in the tree, but `x`
-itself is unchanged.
+这个是十分棘手，因为`x`已经改变了它在树中的深度，但`x`本身却未发生改变。
 
-Not all tree diff algorithms handle this case. It is also challenging
-to display this case clearly: we want to highlight the changed
-delimiters, but not their content. This is challenging in larger
-expressions.
+并不是所有的树形差异分析算法可以处理这个例子。同时仔细地展示出范例是具有挑战性的：我们希望去高亮出已改变的定界符，但不是他们的内容。这同样在更大的表达式是具有挑战性的。
 
-## Changing Delimiters
+## 改变定界符
 
 ```
 ;; Before
@@ -35,10 +30,9 @@ expressions.
 [x]
 ```
 
-As with the wrapping case, we want to highlight the delimiters rather
-than the `x`.
+正如这个包裹的例子，我们想要去高亮出定界符而不是`x`这个内容。
 
-## Expanding Delimiters
+## 拓展定界符
 
 ```
 ;; Before
@@ -48,12 +42,11 @@ than the `x`.
 (x y)
 ```
 
-Desired output: <code>(x <span style="background-color: PaleGreen">y</span>)</code>
+理想输出：<code>(x <span style="background-color: PaleGreen">y</span>)</code>
 
-In this case, we want to highlight `y`. Highlighting the delimiters
-could make `x` look changed.
+在这个例子下，我们想要去高亮`y`。高亮显示定界符的话可能会让`x`看起来有所变化。
 
-## Contracting Delimiters
+## 缩小定界符
 
 ```
 ;; Before
@@ -63,9 +56,9 @@ could make `x` look changed.
 (x) y
 ```
 
-This should be highlighted similar to the expanding delimiter case.
+这应该与扩展定界符的情况类似，去高亮定界符。
 
-## Disconnected Delimiters
+## 使定界符不连贯
 
 ```
 ;; Before
@@ -75,13 +68,12 @@ This should be highlighted similar to the expanding delimiter case.
 (foo (novel) (bar))
 ```
 
-Desired result: <code>(foo <span style="background-color:PaleGreen">(novel)</span> (bar)</code>
+理想输出：<code>(foo <span style="background-color:PaleGreen">(novel)</span> (bar)</code>
 
-It is easy to end up with
-<code>(foo (<span style="background-color:PaleGreen">novel</span>) <span style="background-color:PaleGreen">(</span>bar<span style="background-color:PaleGreen">)</span>)</code>,
-where a later pair of delimiters are chosen.
+很容易会变成：<code>(foo (<span style="background-color:PaleGreen">novel</span>) <span style="background-color:PaleGreen">(</span>bar<span style="background-color:PaleGreen">)</span>)</code>,
+其中后一组的定界符会被选中。
 
-## Rewrapping Large Nodes
+## 重新组织大节点
 
 ```
 ;; Before
@@ -92,14 +84,10 @@ where a later pair of delimiters are chosen.
 ([[foo]] x y)
 ```
 
-We want to highlight `[[foo]]` being moved inside the
-parentheses. However, a naive syntax differ prefers consider a removal
-of `()` in the before and an addition of `()` in the after to be more
-minimal diff.
+我们想高亮`[[foo]]`被移到括号内了。然而，一个简单的语法差异者更倾向于认为在前面删除`()`，在后面增加`()`，是最小的差异表现。
+(见[issue 44](https://github.com/Wilfred/difftastic/issues/44)。)
 
-(Reported as [issue 44](https://github.com/Wilfred/difftastic/issues/44).)
-
-## Reordering Within A List
+## 在列表内重新排列
 
 ```
 ;; Before
@@ -109,11 +97,11 @@ minimal diff.
 (y x)
 ```
 
-Desired result: <code>(<span style="background-color: PaleGreen">y</span> <span style="background-color: PaleGreen">x</span>)</code>
+理想输出：<code>(<span style="background-color: PaleGreen">y</span> <span style="background-color: PaleGreen">x</span>)</code>
 
-We want to highlight the list contents and not the delimiters.
+我们想突出显示列表的内容，而不是定界符。
 
-## Middle Insertions
+## 中间插入
 
 ```
 // Before
@@ -123,19 +111,15 @@ foo(bar(123))
 foo(extra(bar(123)))
 ```
 
-Desired result: <code>foo(<span style="background-color: PaleGreen">extra(</span>bar(123)<span style="background-color: PaleGreen">)</span>)</code>
+理想输出：<code>foo(<span style="background-color: PaleGreen">extra(</span>bar(123)<span style="background-color: PaleGreen">)</span>)</code>
 
-We want to consider both `foo` and `bar` to be unchanged. This case is
-challenging for diffing algorithms that do a bottom-up then top-down
-matching of trees.
+我们想把`foo`和`bar`都看作是不变的。这种情况对于对树进行自下而上然后自上而下匹配的衍合算法来说是具有挑战性的。
 
-## Sliders (Flat)
+## 滑块（平移）
 
-Sliders are a common problem in text based diffs, where lines are
-matched in a confusing way.
+在基于文本的差异分析中，滑块是一个常见的问题，即行与行之间以混乱的方式进行匹配。
 
-They typically look like this. The diff has to arbitrarily choose a
-line containing delimiter, and it chooses the wrong one.
+它们通常看起来像这样。差异分析必须任意选择一个包含分隔符的行，但它选择了错误的行。
 
 ```
 + }
@@ -144,10 +128,9 @@ line containing delimiter, and it chooses the wrong one.
   }
 ```
 
-git-diff has some heuristics to reduce the risk of this (e.g. the
-"patience diff"), but it can still occur.
+git-diff有一些启发式方法来减少这种风险（比如说"patience diff"），但这个问题仍然可能发生。
 
-There's a similar problem in tree diffs.
+接下来是一个在树状差异分析时常见的问题。
 
 ```
 ;; Before
@@ -160,12 +143,9 @@ A B
 C D
 ```
 
-Ideally we'd prefer marking contiguous nodes as novel, so we highlight
-`A B` rather than `B\nA`. From the perspective of a
-longest-common-subsequence algorithm, these two choices are
-equivalent.
+理想情况下，我们更愿意将连续的节点标记为新的，所以我们强调`A B`而不是`B/nA`。从最长公序算法的角度来看，这两种选择是等价的。
 
-## Sliders (Nested)
+## 滑块（嵌套）
 
 ```
 // Before
@@ -175,14 +155,12 @@ old1(old2)
 old1(new1(old2))
 ```
 
-Should this be <code>old1(<span style="background-color: PaleGreen">new1(</span>old2<span style="background-color: PaleGreen">)</span>)</code> or
+这个应该是 <code>old1(<span style="background-color: PaleGreen">new1(</span>old2<span style="background-color: PaleGreen">)</span>)</code> 还是
 <code>old1<span style="background-color: PaleGreen">(new1</span>(old2)<span style="background-color: PaleGreen">)</span></code>?
 
-The correct answer depends on the language. Most languages want to
-prefer the inner delimiter, whereas Lisps and JSON prefer the outer
-delimiter.
+正确的答案是取决于语言。大多数语言希望优先使用内部分隔符，而Lisps和JSON则喜欢使用外部分隔符。
 
-## Minimising Depth Changes
+## 最小化深度改变
 
 ```
 // Before
@@ -195,10 +173,10 @@ foo(456);
 foo(789);
 ```
 
-Do we consider `foo(123)` or `foo(456)` to match with `foo(789)`?
-Difftastic prefers `foo(456)` by preferring nodes at the same nesting depth.
+我们认为`foo(123)`还是`foo(456)`与`foo(789)`匹配？
+Difftastic优先考虑`foo(456)`，通过优先考虑相同嵌套深度的节点。
 
-## Replacements With Minor Similarities
+## 有少量相似处的替代做法
 
 ```
 // Before
@@ -208,17 +186,11 @@ function foo(x) { return x + 1; }
 function bar(y) { baz(y); }
 ```
 
-In this example, we've deleted a function and written a completely
-different one. A tree-based diff could match up the `function` and the
-outer delimiters, resulting in a confusing display showing lots of
-small changes.
+在这个例子中，我们删除了一个函数，写了一个完全不同的函数。基于树状结构的差异可能会匹配 "函数 "和外部定界符，从而导致显示出许多令人困惑的小的变化。
 
-As with sliders, the replacement problem can also occur in textual
-line-based diffs. Line-diffs struggle if there are a small number of
-common lines. The more precise, granular behaviour of tree diffs makes
-this problem much more common though.
+与滑块一样，替换问题也可能发生在基于文本的行差中。如果有少量的共同行，行差就会陷入困境。但树形差分的更精确、更细化的行为使这个问题更加普遍。
 
-## Matching Substrings In Comments
+## 匹配注释中的子字符串
 
 ```
 // Before
@@ -230,11 +202,9 @@ foobar();
 foobaz();
 ```
 
-`foobar` and `foobaz` are completely different, and their common
-prefix `fooba` should not be matched up. However, matching common
-prefixes or suffixes for comments is desirable.
+`foobar`和`foobaz`是完全不同的，它们的共同前缀`fooba`不应该被匹配起来。然而，为注释匹配共同的前缀或后缀是可取的。
 
-## Multiline Comments
+## 多行注释
 
 ```
 // Before
@@ -248,12 +218,11 @@ if (x) {
 }
 ```
 
-The inner content of these two comments is technically different. We
-want to treat them as identical however.
+这两个注释的内部内容在技术上是不同的。然而，我们想把它们当作是相同的。
 
-## Reflowing Doc Comments
+## 文档注释的换行
 
-Block comments have prefixes that aren't meaningful.
+块状评论的前缀并没有什么意义。
 
 ```
 // Before
@@ -265,11 +234,9 @@ Block comments have prefixes that aren't meaningful.
  * jumps over the lazy dog. */
 ```
 
-The inner content has changed from `jumps * over` to `immediately *
-jumps over`. However, the `*` is decorative and we don't care that
-it's moved.
+里面的内容已经从 `jumps * over`变成了`immediately * jumps over`。然而，`*`是装饰性的，我们并不关心它的移动。
 
-## Small Changes To Large Strings
+## 长字符串的小变化
 
 ```
 // Before
@@ -283,19 +250,13 @@ with lots of NOVEL words about
 lots of stuff."""
 ```
 
-It would be correct to highlight the entire string literal as being
-removed and replaced with a new string literal. However, this makes it
-hard to see what's actually changed.
+将整个字符串字头突出显示为被删除并被一个新的字符串字头取代是正确的。然而，这让人很难看出实际改变了什么。
 
-It's clear that variable names should be treated atomically, and
-comments are safe to show subword changes. It's not clear how to
-handle a small change in a 20 line string literal.
+很明显，变量名应该被原子化处理，并且 注释是安全的，可以显示子字的变化。但不清楚如何处理一个20行字符串字面的小变化。
 
-It's tempting to split strings on spaces and diff that, but users
-still want to know when whitespace changes inside strings. `" "` and
-`"  "` are not the same.
+在空格上分割字符串并加以区别是很具有挑战的，但用户仍然想知道字符串内部的空白何时改变。`" "`和`"  "`是不一样的。
 
-## Autoformatter Punctuation
+## 自动格式化工具的拼写
 
 ```
 // Before
@@ -309,18 +270,13 @@ foo(
 );
 ```
 
-Autoformatters (e.g. [prettier](https://prettier.io/)) will sometimes
-add or remove punctuation when formatting. Commas and parentheses are
-the most common.
+自动格式化（例如[prettier](https://prettier.io/)）有时会在格式化时添加或删除标点符号。逗号和括号是最常见的。
 
-Syntactic diffing can ignore whitespace changes, but it has to assume
-punctuation is meaningful. This can lead to punctuation changes being
-highlighted, which may be quite far from the relevant content change.
+语法差异可以忽略空白处的变化，但它必须假设标点符号是有意义的。这可能导致标点符号的变化被突出显示，而这可能与相关的内容变化相差甚远。
 
-## Novel Blank Lines
+## 新空行
 
-Blank lines are challenging for syntactic diffs. We are comparing
-syntactic tokens, so we don't see blank lines.
+空行对于句法差异来说是一种挑战。我们要比较的是语法标记，所以我们不会看到空行。
 
 ```
 // Before
@@ -333,11 +289,9 @@ A
 B
 ```
 
-Generally we want syntactic diffing to ignore blank lines. In this
-first example, this should show no changes.
+一般来说，我们希望语法差异能够忽略空行。在第一个例子中，这应该不会显示任何变化。
 
-This is occasionally problematic, as it can hide accidental code
-reformatting.
+这有时是有问题的，因为它可以会意外地隐藏被重新格式化地代码。
 
 ```
 // Before
@@ -352,8 +306,7 @@ Y
 B
 ```
 
-In this second example, we've inserted X and Y and a blank line. We
-want to highlight the blank line as an addition.
+在这第二个例子中，我们插入了X和Y以及一个空行。我们想把空行作为一个补充来高亮。
 
 ```
 // Before
@@ -368,15 +321,10 @@ X
 B
 ```
 
-In this third example, the syntactic diffing only sees an
-addition. From the user's perspective, there has also been a removal
-of two blank lines.
+在这第三个例子中，语法上的差异只看到了一个增加。从用户的角度来看，也有两个空行被删除。
 
-## Invalid Syntax
+## 无效语法
 
-There's no guarantee that the input we're given is valid syntax. Even
-if the code is valid, it might use syntax that isn't supported by the
-parser.
+我们不能保证我们得到的输入是有效的语法。即使代码是有效的，它也可能使用解析器不支持的语法。
 
-Tree-sitter provided explicit error nodes, and difftastic treats them
-as atoms so it can run the same tree diff algorithm regardless.
+Tree-sitter可以显示出显式的错误节点，而Difftastic会将它们视为原子，因此它可以不顾一切地运行相同的树形差异算法。
