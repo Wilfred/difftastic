@@ -307,3 +307,15 @@ ascii escapes
   (expression_statement (character_literal))
   (expression_statement (character_literal))
   (expression_statement (character_literal)))
+
+========================
+class literals
+========================
+
+String.class;
+
+---
+
+(program
+  (expression_statement
+    (class_literal (type_identifier))))
