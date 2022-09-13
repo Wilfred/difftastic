@@ -7,7 +7,7 @@ over unchanged punctuation.
 
 ### Parsing
 
-Added support for QML.
+Added support for Pascal and QML.
 
 ZIP files are now always treated as binary files.
 

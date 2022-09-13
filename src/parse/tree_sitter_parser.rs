@@ -70,6 +70,7 @@ extern "C" {
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
+    fn tree_sitter_pascal() -> ts::Language;
     fn tree_sitter_php() -> ts::Language;
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_python() -> ts::Language;
@@ -559,15 +560,15 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .unwrap(),
             }
         }
-        Php => {
-            let language = unsafe { tree_sitter_php() };
+        Pascal => {
+            let language = unsafe { tree_sitter_pascal() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string", "encapsed_string"].into_iter().collect(),
-                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                atom_nodes: vec![].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/php.scm"),
+                    include_str!("../../vendor/highlights/pascal.scm"),
                 )
                 .unwrap(),
             }
@@ -592,6 +593,19 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendor/highlights/perl.scm"),
+                )
+                .unwrap(),
+            }
+        }
+        Php => {
+            let language = unsafe { tree_sitter_php() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string", "encapsed_string"].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendor/highlights/php.scm"),
                 )
                 .unwrap(),
             }

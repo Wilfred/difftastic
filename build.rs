@@ -273,13 +273,18 @@ fn main() {
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
-            name: "tree-sitter-php",
-            src_dir: "vendor/tree-sitter-php-src",
-            extra_files: vec!["scanner.cc"],
+            name: "tree-sitter-pascal",
+            src_dir: "vendor/tree-sitter-pascal-src",
+            extra_files: vec![],
         },
         TreeSitterParser {
             name: "tree-sitter-perl",
             src_dir: "vendor/tree-sitter-perl-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-php",
+            src_dir: "vendor/tree-sitter-php-src",
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
