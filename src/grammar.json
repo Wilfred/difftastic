@@ -2007,6 +2007,18 @@
             "value": "instanceof"
           },
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "final"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "FIELD",
             "name": "right",
             "content": {
@@ -5423,6 +5435,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "compact_constructor_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "class_declaration"
         },
         {
@@ -5811,6 +5827,22 @@
           }
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "interfaces",
+              "content": {
+                "type": "SYMBOL",
+                "name": "super_interfaces"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "body",
           "content": {
@@ -6117,6 +6149,10 @@
               {
                 "type": "SYMBOL",
                 "name": "interface_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "record_declaration"
               },
               {
                 "type": "SYMBOL",
@@ -6949,6 +6985,39 @@
               "value": ";"
             }
           ]
+        }
+      ]
+    },
+    "compact_constructor_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block"
+          }
         }
       ]
     },

@@ -66,6 +66,7 @@ a instanceof C.D;
 a instanceof List<B>;
 c instanceof C[];
 c instanceof C foo;
+d instanceof final D bar;
 
 ---
 
@@ -79,6 +80,10 @@ c instanceof C foo;
   (expression_statement (instanceof_expression
     (identifier)
     (array_type (type_identifier) (dimensions))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (type_identifier)
+    (identifier)))
   (expression_statement (instanceof_expression
     (identifier)
     (type_identifier)
