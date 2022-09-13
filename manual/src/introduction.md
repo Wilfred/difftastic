@@ -1,7 +1,7 @@
 # Introduction
 
 Difftastic is a structural diff tool that understands syntax. It
-supports [over 20 programming languages](./languages_supported.html)
+supports [over 30 programming languages](./languages_supported.html)
 and when it works, it's *fantastic*.
 
 Difftastic is open source software (MIT license) and [available on
