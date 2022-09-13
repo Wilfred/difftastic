@@ -1,0 +1,35 @@
+{
+  "name": "tree-sitter-hare",
+  "version": "0.0.1",
+  "description": "Hare grammar for tree-sitter",
+  "main": "bindings/node",
+
+  "keywords": [
+    "parser",
+    "hare"
+  ],
+
+  "author": "ecmma",
+  "license": "GNU GPL",
+
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.1"
+  },
+
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test"
+  },
+
+  "tree-sitter": [
+    {
+      "scope": "source.ha",
+      "file-types": [
+        "hare"
+      ]
+    }
+  ]
+}
