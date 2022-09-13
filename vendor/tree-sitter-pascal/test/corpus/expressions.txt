@@ -1,0 +1,314 @@
+===
+Comparison
+===
+
+procedure Main;
+begin
+  a = b = c;
+  a <> b <> c;
+  a < b < c;
+  a > b > c;
+  a <= b <= b;
+  a >= b >= b;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprBinary (exprBinary (identifier) (kEq) (identifier)) (kEq) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kNeq) (identifier)) (kNeq) (identifier)))
+      (statement (exprBinary (identifier) (kLt) (exprBinary (identifier) (kLt) (identifier))))
+      (statement (exprBinary (exprBinary (identifier) (kGt) (identifier)) (kGt) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kLte) (identifier)) (kLte) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kGte) (identifier)) (kGte) (identifier)))
+      (kEnd))))
+
+
+===
+Arithmetic
+===
+
+procedure Main;
+begin
+  a + b + c;
+  a - b - c;
+  a * b * c;
+  a / b / c;
+  a div b div c;
+  a mod b mod c;
+
+  ++a;
+  --a;
+end;
+
+---
+
+(root
+   (defProc
+     (declProc (kProcedure) (identifier))
+     (block
+       (kBegin)
+       (statement (exprBinary (exprBinary (identifier) (kAdd) (identifier)) (kAdd) (identifier)))
+       (statement (exprBinary (exprBinary (identifier) (kSub) (identifier)) (kSub) (identifier)))
+       (statement (exprBinary (exprBinary (identifier) (kMul) (identifier)) (kMul) (identifier)))
+       (statement (exprBinary (exprBinary (identifier) (kFdiv) (identifier)) (kFdiv) (identifier)))
+       (statement (exprBinary (exprBinary (identifier) (kDiv) (identifier)) (kDiv) (identifier)))
+       (statement (exprBinary (exprBinary (identifier) (kMod) (identifier)) (kMod) (identifier)))
+       (statement (exprUnary (kAdd) (exprUnary (kAdd) (identifier))))
+       (statement (exprUnary (kSub) (exprUnary (kSub) (identifier))))
+       (kEnd))))
+
+
+===
+Logical
+===
+
+procedure Main;
+begin
+  a or b or c;
+  a xor b xor c;
+  a and b and c;
+
+  a shl b shl c;
+  a shr b shr c;
+
+  not not a;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprBinary (exprBinary (identifier) (kOr) (identifier)) (kOr) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kXor) (identifier)) (kXor) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kAnd) (identifier)) (kAnd) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kShl) (identifier)) (kShl) (identifier)))
+      (statement (exprBinary (exprBinary (identifier) (kShr) (identifier)) (kShr) (identifier)))
+      (statement (exprUnary (kNot) (exprUnary (kNot) (identifier))))
+      (kEnd))))
+
+
+===
+Other
+===
+
+procedure Main;
+begin
+  a in b;
+  a is b;
+  a as b;
+
+  @@a;
+  a^^;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprBinary (identifier) (kIn) (identifier)))
+      (statement (exprBinary (identifier) (kIs) (identifier)))
+      (statement (exprBinary (identifier) (kAs) (identifier)))
+      (statement (exprUnary (kAt) (exprUnary (kAt) (identifier))))
+      (statement (exprUnary (exprUnary (identifier) (kHat)) (kHat)))
+      (kEnd))))
+
+===
+Parentheses
+===
+
+procedure Main;
+begin
+  (a);
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprParens (identifier)))
+      (kEnd))))
+
+===
+Brackets/Sets
+===
+
+procedure Main;
+begin
+  [a];
+  [a,b];
+  [a..b];
+  [a..b,c];
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprBrackets (identifier)))
+      (statement (exprBrackets (identifier) (identifier)))
+      (statement (exprBrackets (range (identifier) (identifier))))
+      (statement (exprBrackets (range (identifier) (identifier)) (identifier)))
+      (kEnd))))
+
+===
+Calls
+===
+
+procedure Main;
+begin
+  a(b);
+  a(b,c);
+  a(b)(c);
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprCall (identifier) (exprArgs (identifier))))
+      (statement (exprCall (identifier) (exprArgs (identifier) (identifier))))
+      (statement
+        (exprCall
+          (exprCall (identifier) (exprArgs (identifier)))
+          (exprArgs (identifier))))
+      (kEnd))))
+
+===
+Subscripts
+===
+
+procedure Main;
+begin
+  a[b];
+  a[b,c];
+  a[b][c];
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement (exprSubscript (identifier) (exprArgs (identifier))))
+      (statement (exprSubscript (identifier) (exprArgs (identifier) (identifier))))
+      (statement
+        (exprSubscript
+          (exprSubscript
+            (identifier)
+            (exprArgs
+              (identifier)))
+          (exprArgs
+            (identifier))))
+      (kEnd))))
+
+===
+Precedence
+===
+
+procedure Main;
+begin
+  not (a or b and c) and d;
+  - (a + b * c) * d;
+  a = b or c = d;
+  @a.b;
+  a.b^;
+  a.b(c);
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (statement
+        (exprBinary
+          (exprUnary
+            (kNot)
+            (exprParens
+              (exprBinary
+                (identifier)
+                (kOr)
+                (exprBinary
+                  (identifier)
+                  (kAnd)
+                  (identifier)))))
+          (kAnd)
+          (identifier)))
+
+      (statement
+         (exprBinary
+           (exprUnary
+             (kSub)
+             (exprParens
+               (exprBinary
+                 (identifier)
+                 (kAdd)
+                 (exprBinary
+                   (identifier)
+                   (kMul)
+                   (identifier)))))
+           (kMul)
+           (identifier)))
+
+      (statement
+        (exprBinary
+          (exprBinary
+            (identifier)
+            (kEq)
+            (exprBinary
+              (identifier)
+              (kOr)
+              (identifier)))
+          (kEq)
+          (identifier)))
+
+      (statement
+        (exprUnary
+          (kAt)
+          (exprDot
+            (identifier)
+            (kDot)
+            (identifier))))
+
+      (statement
+        (exprUnary
+          (exprDot
+            (identifier)
+            (kDot)
+            (identifier))
+          (kHat)))
+
+      (statement
+        (exprCall
+          (exprDot
+            (identifier)
+            (kDot)
+            (identifier))
+          (exprArgs
+            (identifier))))
+
+      (kEnd))))

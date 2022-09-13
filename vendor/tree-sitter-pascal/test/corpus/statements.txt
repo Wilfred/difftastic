@@ -1,0 +1,763 @@
+===
+if
+===
+
+procedure Main;
+begin
+  if a then
+    b;
+
+  if a then
+    b
+  else
+    c;
+
+  if a then
+  begin
+  end;
+
+  if a then
+  begin
+    b;
+  end
+  else
+  begin
+    c;
+  end;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (if (kIf) (identifier) (kThen)
+        (statement (identifier)))
+      (ifElse (kIf) (identifier) (kThen)
+        (statement (identifier))
+        (kElse)
+        (statement (identifier)))
+      (if (kIf) (identifier) (kThen)
+        (block
+          (kBegin)
+          (kEnd)))
+      (ifElse
+        (kIf) (identifier) (kThen)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd))
+        (kElse)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (kEnd))))
+
+===
+nested if
+===
+
+procedure Main;
+begin
+  if a then
+    if b then
+      c
+    else
+      d;
+
+  if a then
+    if b then
+      c;
+  else
+    d;
+
+  if a then
+    b
+  else if c then
+    d
+  else
+    e;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (if (kIf) (identifier) (kThen)
+        (ifElse (kIf) (identifier) (kThen)
+          (statement (identifier))
+          (kElse)
+          (statement (identifier))))
+      (ifElse (kIf) (identifier) (kThen)
+        (if (kIf) (identifier) (kThen)
+          (statement (identifier)))
+        (kElse)
+        (statement (identifier)))
+      (ifElse (kIf) (identifier) (kThen)
+        (statement (identifier))
+        (kElse)
+        (ifElse (kIf) (identifier) (kThen)
+          (statement (identifier))
+          (kElse)
+          (statement (identifier))))
+      (kEnd))))
+
+===
+while loop
+===
+
+procedure Main;
+begin
+  while a do
+    b;
+
+  while a do
+  begin
+    b;
+  end;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (while (kWhile) (identifier) (kDo)
+        (statement (identifier)))
+      (while (kWhile) (identifier) (kDo)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (kEnd))))
+
+===
+repeat loop
+===
+
+procedure Main;
+begin
+  repeat
+    a;
+  until b;
+
+  repeat
+    a;
+    b;
+  until c;
+
+  repeat
+  until b;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (repeat
+        (kRepeat)
+        (statements
+          (statement (identifier)))
+        (kUntil) (identifier))
+      (repeat
+        (kRepeat)
+        (statements
+          (statement (identifier))
+          (statement (identifier)))
+        (kUntil) (identifier))
+      (repeat
+        (kRepeat)
+        (kUntil) (identifier))
+      (kEnd))))
+
+===
+for loop
+===
+
+procedure Main;
+begin
+  for i := a to b do
+    c;
+
+  for i := a to b do
+  begin
+    c;
+  end;
+
+  for i := a downto b do
+    c;
+
+  for i := a downto b do
+  begin
+    c;
+  end;
+
+  for i in a do
+    c;
+
+  for i in a  do
+  begin
+    c;
+  end;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kTo) (identifier) (kDo)
+        (statement (identifier)))
+      (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kTo) (identifier) (kDo)
+        (block
+          (kBegin)
+          (statement
+            (identifier))
+          (kEnd)))
+      (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kDownto) (identifier) (kDo)
+        (statement (identifier)))
+      (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kDownto) (identifier) (kDo)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (foreach (kFor) (identifier) (kIn) (identifier) (kDo)
+        (statement (identifier)))
+      (foreach (kFor) (identifier) (kIn) (identifier) (kDo)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (kEnd))))
+
+===
+case of
+===
+
+procedure Main;
+begin
+  case a of
+    b: c;
+  end;
+
+  case a of
+    b: c;
+    c: d;
+    else
+      e;
+  end;
+
+  case a of
+    b, c: d;
+  end;
+
+  case a of
+    b .. c: d;
+  end;
+
+  case a of
+    b .. c, d: e;
+  end;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (case (kCase) (identifier) (kOf)
+        (caseCase
+          (caseLabel (identifier))
+          (statement (identifier)))
+        (kEnd))
+      (case (kCase) (identifier) (kOf)
+        (caseCase
+          (caseLabel (identifier))
+          (statement (identifier)))
+        (caseCase
+          (caseLabel (identifier))
+          (statement (identifier)))
+        (kElse)
+        (statement (identifier))
+        (kEnd))
+      (case (kCase) (identifier) (kOf)
+        (caseCase
+          (caseLabel (identifier) (identifier))
+          (statement (identifier)))
+        (kEnd))
+      (case (kCase) (identifier) (kOf)
+        (caseCase
+          (caseLabel (range (identifier) (identifier)))
+          (statement (identifier)))
+        (kEnd))
+      (case (kCase) (identifier) (kOf)
+        (caseCase
+          (caseLabel
+            (range (identifier) (identifier))
+            (identifier))
+          (statement (identifier)))
+        (kEnd))
+      (kEnd))))
+
+===
+try
+===
+
+procedure Main;
+begin
+
+  try
+    a;
+  finally
+    b;
+  end;
+
+  try
+    a;
+  except
+    b;
+  end;
+
+  try
+    a;
+  except
+    on b: c do
+      d;
+    on e: f do
+      g;
+    else
+      h;
+  end;
+
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (try (kTry)
+        (statements
+          (statement (identifier)))
+        (kFinally)
+        (statements
+          (statement (identifier)))
+        (kEnd))
+      (try (kTry)
+        (statements
+          (statement (identifier)))
+        (kExcept)
+        (statements
+          (statement (identifier)))
+        (kEnd))
+      (try (kTry)
+        (statements
+          (statement (identifier)))
+        (kExcept)
+        (exceptionHandler
+          (kOn) (identifier) (typeref (identifier)) (kDo)
+          (statement (identifier)))
+        (exceptionHandler
+          (kOn) (identifier) (typeref (identifier)) (kDo)
+          (statement (identifier)))
+        (exceptionElse (kElse)
+          (statement (identifier)))
+        (kEnd))
+      (kEnd))))
+
+===
+with
+===
+
+procedure Main;
+begin
+  with a do
+    b;
+
+  with a do
+  begin
+    b;
+  end;
+
+  with a, b do
+    c;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (with (kWith) (identifier) (kDo)
+        (statement (identifier)))
+      (with
+        (kWith) (identifier) (kDo)
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (with (kWith) (identifier) (identifier) (kDo)
+        (statement (identifier)))
+      (kEnd))))
+
+===
+asm
+===
+
+procedure Main;
+begin
+  asm
+  end;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (asm
+        (kAsm)
+        (kEnd))
+      (kEnd))))
+
+===
+raise
+===
+
+procedure Main;
+begin
+  raise a;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (raise (kRaise) (identifier))
+      (kEnd))))
+
+===
+goto + label
+===
+
+procedure Main;
+begin
+  a:;
+  goto a;
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block
+      (kBegin)
+      (label (identifier))
+      (goto (kGoto) (identifier))
+      (kEnd))))
+
+===
+assignment
+===
+
+procedure Main;
+begin
+  a := b;
+end;
+
+---
+
+(root
+   (defProc
+     (declProc (kProcedure) (identifier))
+     (block
+       (kBegin)
+       (assignment (identifier) (kAssign) (identifier))
+       (kEnd))))
+
+===
+trailing
+===
+
+procedure Main();
+begin
+  begin
+    a;
+    b
+  end;
+
+  begin
+    begin
+    end
+  end;
+
+  begin
+    if a then
+      b
+  end;
+
+  begin
+    if a then
+      if b then
+        c
+  end;
+
+  begin
+    if a then
+    begin
+      b
+    end
+  end;
+
+  begin
+    if a then
+      b
+    else
+      c
+  end;
+
+  begin
+    if a then
+    begin
+      b
+    end
+    else
+    begin
+      c
+    end
+  end;
+
+  begin
+    while a do
+      b
+  end;
+
+  begin
+    repeat
+      a
+    until b
+  end;
+
+  begin
+    for a := b to c do
+      a
+  end;
+
+  begin
+    for a := b to c do
+    begin
+      a
+    end
+  end;
+
+  begin
+    case a of
+      b: c;
+      d: e
+    end
+  end;
+
+  begin
+    case a of
+      b: c;
+      else
+        d
+    end
+  end;
+
+  begin
+    try
+      a
+    finally
+      b
+    end
+  end;
+
+  begin
+    try
+      a
+    except
+      b
+    end
+  end;
+
+  begin
+    with a do
+      b
+  end;
+
+  begin
+    a := b
+  end;
+
+  begin
+    goto a
+  end;
+
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier) (declArgs))
+    (block
+      (kBegin)
+      (block
+        (kBegin)
+        (statement (identifier))
+        (statement (identifier))
+        (kEnd))
+      (block
+        (kBegin)
+        (block
+          (kBegin)
+          (kEnd))
+        (kEnd))
+      (block
+        (kBegin)
+        (if (kIf) (identifier) (kThen)
+          (statement (identifier)))
+        (kEnd))
+      (block
+        (kBegin)
+        (if (kIf) (identifier) (kThen)
+          (if (kIf) (identifier) (kThen)
+            (statement (identifier))))
+        (kEnd))
+      (block
+        (kBegin)
+        (if (kIf) (identifier) (kThen)
+          (block
+            (kBegin)
+            (statement (identifier))
+            (kEnd)))
+        (kEnd))
+      (block
+        (kBegin)
+        (ifElse (kIf) (identifier) (kThen)
+          (statement (identifier))
+          (kElse)
+          (statement (identifier)))
+        (kEnd))
+      (block
+        (kBegin)
+        (ifElse (kIf) (identifier) (kThen)
+          (block
+            (kBegin)
+            (statement (identifier))
+            (kEnd))
+          (kElse)
+          (block
+            (kBegin)
+            (statement (identifier))
+            (kEnd)))
+        (kEnd))
+      (block
+        (kBegin)
+        (while (kWhile) (identifier) (kDo)
+          (statement (identifier)))
+        (kEnd))
+      (block
+        (kBegin)
+        (repeat (kRepeat)
+          (statements
+            (statement (identifier)))
+          (kUntil)
+          (identifier))
+        (kEnd))
+      (block
+        (kBegin)
+        (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kTo) (identifier) (kDo)
+          (statement (identifier)))
+        (kEnd))
+      (block
+        (kBegin)
+        (for (kFor) (assignment (identifier) (kAssign) (identifier)) (kTo) (identifier) (kDo)
+          (block
+            (kBegin)
+            (statement (identifier))
+            (kEnd)))
+        (kEnd))
+      (block
+        (kBegin)
+        (case (kCase) (identifier) (kOf)
+          (caseCase
+            (caseLabel (identifier))
+            (statement (identifier)))
+          (caseCase
+            (caseLabel (identifier))
+            (statement (identifier)))
+          (kEnd))
+        (kEnd))
+      (block
+        (kBegin)
+        (case (kCase) (identifier) (kOf)
+          (caseCase
+            (caseLabel (identifier))
+            (statement (identifier)))
+          (kElse)
+          (statement (identifier))
+          (kEnd))
+        (kEnd))
+      (block
+        (kBegin)
+        (try
+          (kTry)
+          (statements
+            (statement (identifier)))
+          (kFinally)
+          (statements
+            (statement (identifier)))
+          (kEnd))
+        (kEnd))
+      (block
+        (kBegin)
+        (try
+          (kTry)
+          (statements
+            (statement (identifier)))
+          (kExcept)
+          (statements
+            (statement (identifier)))
+          (kEnd))
+        (kEnd))
+      (block
+        (kBegin)
+        (with (kWith) (identifier) (kDo)
+          (statement (identifier)))
+        (kEnd))
+      (block
+        (kBegin)
+        (assignment (identifier) (kAssign) (identifier))
+        (kEnd))
+      (block
+        (kBegin)
+        (goto (kGoto) (identifier))
+        (kEnd))
+      (kEnd))))
