@@ -11,6 +11,9 @@ Added support for QML.
 
 ZIP files are now always treated as binary files.
 
+Difftastic is now stricter about text content validity, so more binary
+files are correctly detected.
+
 ### Display
 
 Changed words in changed comments are now also underlined, to make
