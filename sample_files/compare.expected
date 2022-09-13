@@ -130,6 +130,9 @@ sample_files/ocaml_before.ml sample_files/ocaml_after.ml
 sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
 73130b8572a4f17fa6cf828f74e226ce  -
 
+sample_files/pascal_before.pascal sample_files/pascal_after.pascal
+1f5c798497fed93e4dca7ee7ee2cd6d4  -
+
 sample_files/perl_before.pl sample_files/perl_after.pl
 a1cf6e4742550262a80725ccf76a6b3f  -
 
