@@ -16,6 +16,9 @@ ZIP files are now always treated as binary files.
 Changed words in changed comments are now also underlined, to make
 them more visible.
 
+Fixed crash when word-wrapping lines containing Unicode combining
+diacritics characters.
+
 ## 0.35 (released 2nd September 2022)
 
 ### Diffing

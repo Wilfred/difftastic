@@ -24,33 +24,27 @@ impl BackgroundColor {
     }
 }
 
-/// Slice `s` from `start` inclusive to `end` exclusive by width.
-fn substring_by_width(s: &str, start: usize, end: usize) -> &str {
-    if start == end {
-        return &s[0..0];
+/// Find the largest byte offset in `s` that gives the longest
+/// starting substring whose display width does not exceed `width`.
+///
+/// Note that the resulting substring may have a display width less
+/// than `width`, if the string contains full-width or emoji
+/// characters which have a display width greater than 1.
+fn byte_offset_for_width(s: &str, width: usize) -> usize {
+    let mut current_offset = 0;
+    let mut current_width = 0;
+
+    for (offset, ch) in s.char_indices() {
+        current_offset = offset;
+        let char_width = ch.width().unwrap_or(0);
+        current_width += char_width;
+
+        if current_width > width {
+            break;
+        }
     }
 
-    assert!(end > start);
-
-    let mut idx_width_iter = s
-        .char_indices()
-        .scan(0, |w, (idx, ch)| {
-            let before = *w;
-            *w += ch.width().unwrap_or(0);
-            Some((idx, before, *w))
-        })
-        .skip_while(|(_, before, _)| *before < start);
-    let byte_start = idx_width_iter
-        .next()
-        .expect("Expected a width index inside `s`.")
-        .0;
-    match idx_width_iter
-        .skip_while(|(_, _, after)| *after <= end)
-        .next()
-    {
-        Some(byte_end) => &s[byte_start..byte_end.0],
-        None => &s[byte_start..],
-    }
+    current_offset
 }
 
 fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
@@ -70,16 +64,18 @@ fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(&str, usi
     let mut s = s;
 
     while s.width() > max_width {
-        let l = substring_by_width(s, 0, max_width);
-        let used = l.width();
-        let padding = if pad && used < max_width {
+        let offset = byte_offset_for_width(s, max_width);
+
+        let part = substring_by_byte(s, 0, offset);
+        s = substring_by_byte(s, offset, s.len());
+
+        let padding = if pad && part.width() < max_width {
             // a fullwidth char is followed
             1
         } else {
             0
         };
-        res.push((l, padding));
-        s = substring_by_width(s, used, s.width());
+        res.push((part, padding));
     }
 
     if res.is_empty() || !s.is_empty() {
@@ -433,6 +429,14 @@ mod tests {
         assert_eq!(
             split_string_by_width("ab📦def", 4, true),
             vec![("ab📦", 0), ("def", 1)]
+        );
+    }
+
+    #[test]
+    fn test_combining_char() {
+        assert_eq!(
+            split_string_by_width("aabbcc\u{300}x", 6, false),
+            vec![("aabbcc\u{300}", 0), ("x", 0)],
         );
     }
 
