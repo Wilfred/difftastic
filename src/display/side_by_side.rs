@@ -13,7 +13,10 @@ use crate::{
     },
     lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
     options::{DisplayMode, DisplayOptions},
-    parse::syntax::{zip_pad_shorter, MatchedPos},
+    parse::{
+        guess_language::Language,
+        syntax::{zip_pad_shorter, MatchedPos},
+    },
     positions::SingleLineSpan,
 };
 
@@ -255,13 +258,14 @@ pub fn lines_with_novel(
 fn highlight_positions(
     background: BackgroundColor,
     syntax_highlight: bool,
+    language: Option<Language>,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions = color_positions(true, background, syntax_highlight, lhs_mps);
+    let lhs_positions = color_positions(true, background, syntax_highlight, language, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in lhs_positions {
@@ -269,7 +273,7 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions = color_positions(false, background, syntax_highlight, rhs_mps);
+    let rhs_positions = color_positions(false, background, syntax_highlight, language, rhs_mps);
     let mut rhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -309,6 +313,7 @@ pub fn print(
     lhs_display_path: &str,
     rhs_display_path: &str,
     lang_name: &str,
+    language: Option<Language>,
     lhs_src: &str,
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
@@ -320,6 +325,7 @@ pub fn print(
                 lhs_src,
                 true,
                 display_options.syntax_highlight,
+                language,
                 display_options.background_color,
                 lhs_mps,
             ),
@@ -327,6 +333,7 @@ pub fn print(
                 rhs_src,
                 false,
                 display_options.syntax_highlight,
+                language,
                 display_options.background_color,
                 rhs_mps,
             ),
@@ -378,6 +385,7 @@ pub fn print(
         highlight_positions(
             display_options.background_color,
             display_options.syntax_highlight,
+            language,
             lhs_mps,
             rhs_mps,
         )
@@ -734,6 +742,7 @@ mod tests {
             "foo-old.el",
             "foo-new.el",
             "Emacs Lisp",
+            Some(Language::EmacsLisp),
             "foo",
             "bar",
             &lhs_mps,
