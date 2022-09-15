@@ -4,7 +4,10 @@ use crate::{
     constants::Side,
     lines::{byte_len, split_on_newlines, LineNumber},
     options::DisplayOptions,
-    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
+    parse::{
+        guess_language::Language,
+        syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
+    },
     positions::SingleLineSpan,
 };
 use owo_colors::{OwoColorize, Style};
@@ -267,6 +270,7 @@ pub fn color_positions(
     is_lhs: bool,
     background: BackgroundColor,
     syntax_highlight: bool,
+    _language: Option<Language>,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
@@ -338,10 +342,11 @@ pub fn apply_colors(
     s: &str,
     is_lhs: bool,
     syntax_highlight: bool,
+    language: Option<Language>,
     background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(is_lhs, background, syntax_highlight, positions);
+    let styles = color_positions(is_lhs, background, syntax_highlight, language, positions);
     let lines = split_on_newlines(s);
     style_lines(&lines, &styles)
 }

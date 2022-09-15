@@ -6,7 +6,7 @@ use crate::{
     display::style::{self, apply_colors},
     lines::{format_line_num, split_on_newlines, MaxLine},
     options::DisplayOptions,
-    parse::syntax::MatchedPos,
+    parse::{guess_language::Language, syntax::MatchedPos},
 };
 use owo_colors::colored::*;
 
@@ -20,6 +20,7 @@ pub fn print(
     lhs_display_path: &str,
     rhs_display_path: &str,
     lang_name: &str,
+    language: Option<Language>,
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -27,6 +28,7 @@ pub fn print(
                 lhs_src,
                 true,
                 display_options.syntax_highlight,
+                language,
                 display_options.background_color,
                 lhs_positions,
             ),
@@ -34,6 +36,7 @@ pub fn print(
                 rhs_src,
                 false,
                 display_options.syntax_highlight,
+                language,
                 display_options.background_color,
                 rhs_positions,
             ),

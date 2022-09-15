@@ -251,6 +251,7 @@ fn diff_file_content(
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
                 language: None,
+                detected_language: None,
                 lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
                 rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
                 lhs_positions: vec![],
@@ -291,6 +292,7 @@ fn diff_file_content(
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
             language: language.map(|l| language_name(l).into()),
+            detected_language: language,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
@@ -377,6 +379,7 @@ fn diff_file_content(
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         language: lang_name,
+        detected_language: language,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
@@ -477,6 +480,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &lang_name,
+                        summary.detected_language,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
@@ -486,6 +490,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &lang_name,
+                        summary.detected_language,
                         lhs_src,
                         rhs_src,
                         &summary.lhs_positions,
