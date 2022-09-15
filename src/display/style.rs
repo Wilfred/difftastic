@@ -270,7 +270,7 @@ pub fn color_positions(
     is_lhs: bool,
     background: BackgroundColor,
     syntax_highlight: bool,
-    _language: Option<Language>,
+    language: Option<Language>,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
@@ -321,7 +321,14 @@ pub fn color_positions(
                 }
             }
             MatchKind::NovelWord { highlight } => {
-                style = novel_style(style, is_lhs, background).bold().underline();
+                style = novel_style(style, is_lhs, background).bold();
+
+                // Underline novel words inside comments in code, but
+                // don't apply it to every single line in plaintext.
+                if language.is_some() {
+                    style = style.underline();
+                }
+                
                 if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
                 }
