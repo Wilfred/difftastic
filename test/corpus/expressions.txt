@@ -235,6 +235,10 @@ v1 = n1
 
 v2, v3 = n2, n3
 
+পাই = π
+
+🙂 = 🙃
+
 --------------------------------------------------------------------------------
 
 (chunk
@@ -249,6 +253,16 @@ v2, v3 = n2, n3
       name: (identifier))
     (expression_list
       value: (identifier)
+      value: (identifier)))
+  (assignment_statement
+    (variable_list
+      name: (identifier))
+    (expression_list
+      value: (identifier)))
+  (assignment_statement
+    (variable_list
+      name: (identifier))
+    (expression_list
       value: (identifier))))
 
 ================================================================================

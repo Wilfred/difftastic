@@ -482,7 +482,13 @@ module.exports = grammar({
       ),
 
     // Name
-    identifier: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    identifier: (_) => {
+      const identifier_start =
+        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"\d]/;
+      const identifier_continue =
+        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"]*/;
+      return token(seq(identifier_start, identifier_continue));
+    },
 
     // comment
     comment: ($) =>
