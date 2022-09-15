@@ -8,7 +8,7 @@ sample_files/change_outer_before.el sample_files/change_outer_after.el
 1857b63ba1bfa0ccc0a4243db6b1c5c2  -
 
 sample_files/chinese_before.po sample_files/chinese_after.po
-d648d62cf864d452a4e862e7eb848be0  -
+56f0af341fd86727dbac522293e8e013  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b916e224f289888252cd7597bab339e6  -
@@ -158,7 +158,7 @@ sample_files/simple_before.js sample_files/simple_after.js
 b1fe2c184a9a358e314e21aabb0f3cb7  -
 
 sample_files/simple_before.txt sample_files/simple_after.txt
-c2cea3b652daa2bded20c785b9e4803f  -
+4b653ebe89321835c35722dd065cf6a2  -
 
 sample_files/slider_at_end_before.json sample_files/slider_at_end_after.json
 1d6162aab8e59c4422e9c14f09ceac3e  -
@@ -182,7 +182,7 @@ sample_files/tab_before.c sample_files/tab_after.c
 36ba3231eeba6f0b67a6be9db454de19  -
 
 sample_files/text_before.txt sample_files/text_after.txt
-7abd607b5782061dcd882a3be2dfe48e  -
+dfc3495b8d5931029b479f0c878a3219  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
 45baae0b84cfc5c1dc91d59be315762b  -
