@@ -5,14 +5,14 @@ on:
   pull_request:
     branches:
       - "**" # Don't trust forks because miners
-      
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v2-beta
@@ -23,7 +23,7 @@ jobs:
         run: |
           node --version
           npm --version
-      
+
       - name: Install dependencies
         run: npm install
 
