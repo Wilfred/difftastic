@@ -1,11 +1,15 @@
 #include <tree_sitter/parser.h>
 #include <vector>
+#include <utility>
 #include <cwctype>
 #include <cstring>
 #include <cassert>
 #include <stdio.h>
 namespace {
 
+using std::pair;
+using std::make_pair;
+using std::get;
 using std::vector;
 using std::iswspace;
 using std::memcpy;
@@ -18,6 +22,7 @@ enum TokenType {
   CLOSE_BRACKET,
   CLOSE_BRACE,
   LET,
+  USE,
   EQ,
   IN,
   ERROR,
@@ -194,9 +199,10 @@ struct Scanner {
     }
 
     if (valid_symbols[LET] && lexer->lookahead == 'l') {
+      uint32_t pos = lexer->get_column(lexer);
       if (token("let", lexer)) {
         lexer->mark_end(lexer);
-        token_stack.push_back(LET);
+        token_stack.push_back(make_pair(LET, pos));
         lexer->result_symbol = LET;
         printf("\nPushed let\n");
         return true;
@@ -204,24 +210,26 @@ struct Scanner {
       return false;
     }
 
-    // if (valid_symbols[LET_FUN] && lexer->lookahead == 'l') {
-    //   uint32_t pos = lexer->get_column(lexer);
-    //   if (token("let", lexer)) {
-    //     lexer->mark_end(lexer);
-    //     indent_length_stack.push_back(pos);
-    //     lexer->result_symbol = LET_FUN;
-    //     printf("\nPushed let_fun\n");
-    //     return true;
-    //   }
-    //   return false;
-    // }
+    if (valid_symbols[USE] && lexer->lookahead == 'u') {
+      uint32_t pos = lexer->get_column(lexer);
+      if (token("use", lexer)) {
+        lexer->mark_end(lexer);
+        token_stack.push_back(make_pair(USE, pos));
+        lexer->result_symbol = USE;
+        printf("\nPushed use\n");
+        return true;
+      }
+      return false;
+    }
 
     if (valid_symbols[EQ] && lexer->lookahead == '=') {
       if (token("=", lexer)) {
         lexer->mark_end(lexer);
-        if (!token_stack.empty() && token_stack.back() == LET) {
+        if (!token_stack.empty() && get<0>(token_stack.back()) == LET) {
+          indent_length_stack.push_back(get<1>(token_stack.back()));
           if (!consume_to_ident(lexer)) return false;
           indent_length_stack.push_back(lexer->get_column(lexer));
+          token_stack.pop_back();
           printf("\nindented stack\n");
         }
         lexer->result_symbol = EQ;
@@ -236,17 +244,20 @@ struct Scanner {
     if (!indent_length_stack.empty()) {
       uint16_t current_indent_length = indent_length_stack.back();
 
-      // if (is_char(lexer) && current_indent_length < indent_length && 0 < current_indent_length) {
-      //   lexer->result_symbol = ERROR;
-      //   printf("\nPushed Error on %c, %i, %i\n", lexer->lookahead, indent_length, current_indent_length);
-      //   return true;
-      // }
+      if (is_char(lexer) && current_indent_length < indent_length && 0 < current_indent_length) {
+        lexer->result_symbol = ERROR;
+        printf("\nPushed Error on %c, %i, %i\n", lexer->lookahead, indent_length, current_indent_length);
+        return true;
+      }
 
       if (
         (valid_symbols[DEDENT]) &&
         indent_length < current_indent_length
       ) {
-        indent_length_stack.pop_back();
+        uint32_t ident = indent_length_stack.back();
+        while (!indent_length_stack.empty() && ident == indent_length_stack.back()) {
+          indent_length_stack.pop_back();
+        }
         lexer->result_symbol = DEDENT;
         printf("\nPushed dedent\n");
         return true;
@@ -263,7 +274,7 @@ struct Scanner {
     return false;
   }
 
-  vector<int> token_stack;
+  vector<pair<TokenType, uint32_t> > token_stack;
   vector<uint16_t> indent_length_stack;
 };
 

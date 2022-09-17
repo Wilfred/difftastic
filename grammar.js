@@ -22,6 +22,7 @@ module.exports = grammar({
     ']',
     '}',
     "let",
+    "use",
     "=",
     "in",
   ],
@@ -126,7 +127,8 @@ module.exports = grammar({
       // optional($.typar_defns),
       // optional($.type),
       "=",
-      field("value", $._expr)
+      field("value", $._expr),
+      $._dedent,
     ),
 
     function_defn: $ => seq(
@@ -139,6 +141,7 @@ module.exports = grammar({
       // optional($.type),
       "=",
       field("value", $._expr),
+      $._dedent,
     ),
 
     field_pat: $ => seq($.long_identifier, '=', $._pattern),
@@ -241,12 +244,32 @@ module.exports = grammar({
       seq("upcast", $._expr),
       seq("downcast", $._expr),
       seq("let",
+        $.function_defn,
+        optional("in"),
+        $._expr,
+        ),
+      seq(
+        "let",
+        $.value_defn,
         choice(
-          seq($.function_defn, $._dedent),
-          seq($.function_defn, "in")),
+          seq("in", $._expr),
+          seq($._expr, $._dedent),
+        )),
+      seq(
+        "let",
+        "rec",
+        $.function_or_value_defns,
+        optional("in"),
         $._expr),
-      // let value-defn in expr
-      // let rec function-or-value-defns in expr use ident = expr in expr
+      seq(
+        "use",
+        $.identifier,
+        "=",
+        choice(
+          seq($._expr, $._dedent),
+          seq($._expr, "in")),
+        $._expr
+      ),
       // fun argument-pats -> expr function rules
       // match expr with rules
       // try expr with rules

@@ -1,2 +1,4 @@
 do
-    let name x = 4 in 5
+  let name x = 3
+  let name x = 4
+  5

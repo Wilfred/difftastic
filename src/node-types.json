@@ -188,6 +188,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -253,6 +261,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -524,6 +536,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -589,6 +609,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -643,6 +667,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -708,6 +740,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -873,6 +909,10 @@
             "named": false
           },
           {
+            "type": "=",
+            "named": false
+          },
+          {
             "type": "array_expression",
             "named": true
           },
@@ -918,6 +958,14 @@
           },
           {
             "type": "function_defn",
+            "named": true
+          },
+          {
+            "type": "function_or_value_defns",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -977,6 +1025,10 @@
             "named": true
           },
           {
+            "type": "rec",
+            "named": false
+          },
+          {
             "type": "sbyte",
             "named": true
           },
@@ -1007,6 +1059,14 @@
           {
             "type": "upcast",
             "named": false
+          },
+          {
+            "type": "use",
+            "named": false
+          },
+          {
+            "type": "value_defn",
+            "named": true
           },
           {
             "type": "verbatim_bytearray",
@@ -1130,6 +1190,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -1195,6 +1263,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -1311,6 +1383,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -1376,6 +1456,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -1617,6 +1701,14 @@
           "named": true
         },
         {
+          "type": "function_or_value_defns",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -1682,6 +1774,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "value_defn",
           "named": true
         },
         {
@@ -2054,6 +2150,10 @@
             "named": false
           },
           {
+            "type": "=",
+            "named": false
+          },
+          {
             "type": "array_expression",
             "named": true
           },
@@ -2099,6 +2199,14 @@
           },
           {
             "type": "function_defn",
+            "named": true
+          },
+          {
+            "type": "function_or_value_defns",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -2158,6 +2266,10 @@
             "named": true
           },
           {
+            "type": "rec",
+            "named": false
+          },
+          {
             "type": "sbyte",
             "named": true
           },
@@ -2188,6 +2300,14 @@
           {
             "type": "upcast",
             "named": false
+          },
+          {
+            "type": "use",
+            "named": false
+          },
+          {
+            "type": "value_defn",
+            "named": true
           },
           {
             "type": "verbatim_bytearray",
@@ -2514,6 +2634,10 @@
   },
   {
     "type": "us",
+    "named": false
+  },
+  {
+    "type": "use",
     "named": false
   },
   {
