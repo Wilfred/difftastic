@@ -328,7 +328,7 @@ pub fn color_positions(
                 if language.is_some() {
                     style = style.underline();
                 }
-                
+
                 if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
                 }
