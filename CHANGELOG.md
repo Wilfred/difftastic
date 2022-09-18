@@ -1,5 +1,9 @@
 ## 0.37 (unreleased)
 
+### Build
+
+Fixed an issue with building on Windows with gcc.
+
 ## 0.36.1 (released 17th September 2022)
 
 Fixed a release script that prevented 0.36.0 from including Windows
