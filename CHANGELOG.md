@@ -1,6 +1,11 @@
 ## 0.37 (unreleased)
 
-## 0.36 (release 17th September 2022)
+## 0.36.1 (released 17th September 2022)
+
+Fixed a release script that prevented 0.36.0 from including Windows
+binaries.
+
+## 0.36 (released 17th September 2022)
 
 ### Diffing
 
