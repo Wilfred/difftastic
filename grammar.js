@@ -24,6 +24,7 @@ const PREC = {
   ARRAY: 16,       // [Index]
   OBJ_ACCESS: 16,  // .
   PARENS: 16,      // (Expression)
+  CLASS_LITERAL: 17,  // .
 };
 
 module.exports = grammar({
@@ -69,6 +70,7 @@ module.exports = grammar({
     // Only conflicts in switch expressions
     [$.lambda_expression, $.primary_expression],
     [$.inferred_parameters, $.primary_expression],
+    [$.class_literal, $.field_access],
   ],
 
   word: $ => $.identifier,
@@ -309,7 +311,7 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq('(', $.expression, ')'),
 
-    class_literal: $ => seq($._unannotated_type, '.', 'class'),
+    class_literal: $ => prec.dynamic(PREC.CLASS_LITERAL, seq($._unannotated_type, '.', 'class')),
 
     object_creation_expression: $ => choice(
       $._unqualified_object_creation_expression,
@@ -324,7 +326,7 @@ module.exports = grammar({
       optional($.class_body)
     )),
 
-    field_access: $ => seq(
+    field_access: $ => prec.dynamic(PREC.OBJ_ACCESS, seq(
       field('object', choice($.primary_expression, $.super)),
       optional(seq(
         '.',
@@ -332,7 +334,7 @@ module.exports = grammar({
       )),
       '.',
       field('field', choice($.identifier, $._reserved_identifier, $.this))
-    ),
+    )),
 
     array_access: $ => seq(
       field('array', $.primary_expression),
