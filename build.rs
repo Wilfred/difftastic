@@ -107,7 +107,7 @@ impl TreeSitterParser {
         }
 
         let mut build = cc::Build::new();
-        if cfg!(windows) {
+        if cfg!(target_env = "msvc") {
             build.flag("/utf-8");
         }
         build.include(&dir).warnings(false); // ignore unused parameter warnings
