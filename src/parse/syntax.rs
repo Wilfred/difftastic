@@ -583,6 +583,7 @@ pub enum AtomKind {
     Type,
     Comment,
     Keyword,
+    TreeSitterError,
 }
 
 /// Unlike atoms, tokens can be delimiters like `{`.
