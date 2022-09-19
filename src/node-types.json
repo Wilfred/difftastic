@@ -1116,6 +1116,10 @@
           "named": true
         },
         {
+          "type": "compact_constructor_declaration",
+          "named": true
+        },
+        {
           "type": "constructor_declaration",
           "named": true
         },
@@ -1232,6 +1236,42 @@
       "types": [
         {
           "type": "_unannotated_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "compact_constructor_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "modifiers",
           "named": true
         }
       ]
@@ -1603,6 +1643,10 @@
         },
         {
           "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "compact_constructor_declaration",
           "named": true
         },
         {
@@ -2229,6 +2273,10 @@
         },
         {
           "type": "method_declaration",
+          "named": true
+        },
+        {
+          "type": "record_declaration",
           "named": true
         }
       ]
@@ -2905,6 +2953,16 @@
         "types": [
           {
             "type": "class_body",
+            "named": true
+          }
+        ]
+      },
+      "interfaces": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "super_interfaces",
             "named": true
           }
         ]
