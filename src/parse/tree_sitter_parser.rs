@@ -1238,8 +1238,6 @@ fn atom_from_cursor<'a>(
         content = content.trim();
     }
 
-    node.is_error();
-
     let highlight = if node.is_error() {
         AtomKind::TreeSitterError
     } else if node.is_extra()
