@@ -51,7 +51,6 @@ Add an entry to `tree_sitter_parser.rs` for your language.
 Json => {
     let language = unsafe { tree_sitter_json() };
     TreeSitterConfig {
-        name: "JSON",
         language,
         atom_nodes: vec!["string"].into_iter().collect(),
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
@@ -63,8 +62,6 @@ Json => {
     }
 }
 ```
-
-`name` is the human-readable name shown in the UI.
 
 `atom_nodes` is a list of tree-sitter node names that should be
 treated as atoms even though the nodes have children. This is common
