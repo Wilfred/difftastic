@@ -352,6 +352,11 @@ fn main() {
             src_dir: "vendor/tree-sitter-zig-src",
             extra_files: vec![],
         },
+        TreeSitterParser {
+            name: "tree-sitter-markdown",
+            src_dir: "vendor/tree-sitter-markdown-src",
+            extra_files: vec!["scanner.cc"],
+        },
     ];
 
     // Only rerun if relevant files in the vendor/ directory change.
