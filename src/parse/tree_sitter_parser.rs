@@ -1071,7 +1071,7 @@ fn syntax_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-) -> Vec<&'a Syntax<'a>> {
+) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
 
     if node.is_error() {
@@ -1090,9 +1090,9 @@ fn syntax_from_cursor<'a>(
         // of whether they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
     } else if node.child_count() > 0 {
-        vec![list_from_cursor(
+        Some(list_from_cursor(
             arena, src, nl_pos, cursor, config, highlights,
-        )]
+        ))
     } else {
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
     }
@@ -1216,7 +1216,7 @@ fn atom_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
     highlights: &HighlightedNodeIds,
-) -> Vec<&'a Syntax<'a>> {
+) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
     let mut content = &src[node.start_byte()..node.end_byte()];
@@ -1226,7 +1226,7 @@ fn atom_from_cursor<'a>(
     // not visible, but leads us to highlight unchanged lines that
     // happen to have preceding newline node.
     if node.kind() == "\n" {
-        return vec![];
+        return None;
     }
 
     // JSX trims whitespace at the beginning and end of text nodes.
@@ -1259,7 +1259,7 @@ fn atom_from_cursor<'a>(
         AtomKind::Normal
     };
 
-    vec![Syntax::new_atom(arena, position, content, highlight)]
+    Some(Syntax::new_atom(arena, position, content, highlight))
 }
 
 #[cfg(test)]
