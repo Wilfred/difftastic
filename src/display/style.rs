@@ -299,9 +299,7 @@ pub fn color_positions(
                             AtomKind::Keyword | AtomKind::Type => {
                                 style = style.bold();
                             }
-                            AtomKind::TreeSitterError => {
-                                style = style.purple()
-                            }
+                            AtomKind::TreeSitterError => style = style.purple(),
                             AtomKind::Normal => {}
                         }
                     }
