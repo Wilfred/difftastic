@@ -1,0 +1,32 @@
+================================================================================
+Example 491 - https://github.github.com/gfm/#example-491
+================================================================================
+~~Hi~~ Hello, world!
+
+--------------------------------------------------------------------------------
+
+(inline
+  (strikethrough
+    (emphasis_delimiter)
+    (strikethrough
+      (emphasis_delimiter)
+      (emphasis_delimiter))
+    (emphasis_delimiter)))
+
+================================================================================
+Example 492 - https://github.github.com/gfm/#example-492
+================================================================================
+This ~~has a
+
+new paragraph~~.
+(This test does not work here because it relies on block structure)
+
+--------------------------------------------------------------------------------
+
+(inline
+  (strikethrough
+    (emphasis_delimiter)
+    (strikethrough
+      (emphasis_delimiter)
+      (emphasis_delimiter))
+    (emphasis_delimiter)))

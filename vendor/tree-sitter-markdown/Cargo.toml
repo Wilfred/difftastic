@@ -1,0 +1,35 @@
+[package]
+name = "tree-sitter-md"
+description = "markdown grammar for the tree-sitter parsing library"
+version = "0.1.1"
+keywords = ["incremental", "parsing", "markdown"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/MDeiml/tree-sitter-markdown"
+edition = "2018"
+license = "MIT"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "tree-sitter-markdown/src/*",
+  "tree-sitter-markdown-inline/src/*",
+  "tree-sitter-markdown/queries/*",
+  "tree-sitter-markdown-inline/queries/*",
+  "benchmark/main.rs",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "~0.20"
+
+[build-dependencies]
+cc = "1.0"
+
+[[bin]]
+name = "benchmark"
+path = "benchmark/main.rs"
+
+[profile.release]
+debug = true

@@ -1,0 +1,17 @@
+================================================================================
+Example 107 - https://github.github.com/gfm/#example-107
+================================================================================
+```
+aaa
+    ```
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (fenced_code_block
+      (fenced_code_block_delimiter)
+      (block_continuation)
+      (code_fence_content
+        (block_continuation)))))
+

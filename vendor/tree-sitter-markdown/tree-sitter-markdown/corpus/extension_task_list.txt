@@ -1,0 +1,58 @@
+================================================================================
+Example 279 - https://github.github.com/gfm/#example-279
+================================================================================
+- [ ] foo
+- [x] bar
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (list
+      (list_item
+        (list_marker_minus)
+        (task_list_marker_unchecked)
+        (paragraph
+          (inline)))
+      (list_item
+        (list_marker_minus)
+        (task_list_marker_checked)
+        (paragraph
+          (inline))))))
+
+================================================================================
+Example 280 - https://github.github.com/gfm/#example-280
+================================================================================
+- [x] foo
+  - [ ] bar
+  - [x] baz
+- [ ] bim
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (list
+      (list_item
+        (list_marker_minus)
+        (task_list_marker_checked)
+        (paragraph
+          (inline)
+          (block_continuation))
+        (list
+          (list_item
+            (list_marker_minus)
+            (task_list_marker_unchecked)
+            (paragraph
+              (inline)
+              (block_continuation)))
+          (list_item
+            (list_marker_minus)
+            (task_list_marker_checked)
+            (paragraph
+              (inline)))))
+      (list_item
+        (list_marker_minus)
+        (task_list_marker_unchecked)
+        (paragraph
+          (inline))))))

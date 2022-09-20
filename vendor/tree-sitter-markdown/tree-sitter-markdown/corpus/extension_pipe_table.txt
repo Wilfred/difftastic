@@ -1,0 +1,182 @@
+================================================================================
+Example 198 - https://github.github.com/gfm/#example-198
+================================================================================
+| foo | bar |
+| --- | --- |
+| baz | bim |
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell)
+        (pipe_table_delimiter_cell))
+      (pipe_table_row
+        (pipe_table_cell)
+        (pipe_table_cell)))))
+
+================================================================================
+Example 199 - https://github.github.com/gfm/#example-199
+================================================================================
+| abc | defghi |
+:-: | -----------:
+bar | baz
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell
+          (pipe_table_align_left)
+          (pipe_table_align_right))
+        (pipe_table_delimiter_cell
+          (pipe_table_align_right)))
+      (pipe_table_row
+        (pipe_table_cell)
+        (pipe_table_cell)))))
+
+================================================================================
+Example 200 - https://github.github.com/gfm/#example-200
+================================================================================
+| f\|oo  |
+| ------ |
+| b `\|` az |
+| b **\|** im |
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell))
+      (pipe_table_row
+        (pipe_table_cell))
+      (pipe_table_row
+        (pipe_table_cell)))))
+
+================================================================================
+Example 201 - https://github.github.com/gfm/#example-201
+================================================================================
+| abc | def |
+| --- | --- |
+| bar | baz |
+> bar
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell)
+        (pipe_table_delimiter_cell))
+      (pipe_table_row
+        (pipe_table_cell)
+        (pipe_table_cell)))
+    (block_quote
+      (block_quote_marker)
+      (paragraph
+        (inline)))))
+
+================================================================================
+Example 202 - https://github.github.com/gfm/#example-202
+================================================================================
+| abc | def |
+| --- | --- |
+| bar | baz |
+bar
+
+bar
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell)
+        (pipe_table_delimiter_cell))
+      (pipe_table_row
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_row
+        (pipe_table_cell)))
+    (paragraph
+      (inline))))
+
+================================================================================
+Example 203 - https://github.github.com/gfm/#example-203
+================================================================================
+| abc | def |
+| --- |
+| bar |
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (paragraph
+      (inline))))
+
+================================================================================
+Example 204 - https://github.github.com/gfm/#example-204
+================================================================================
+| abc | def |
+| --- | --- |
+| bar |
+| bar | baz | boo |
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell)
+        (pipe_table_delimiter_cell))
+      (pipe_table_row
+        (pipe_table_cell))
+      (pipe_table_row
+        (pipe_table_cell)
+        (pipe_table_cell)
+        (pipe_table_cell)))))
+
+================================================================================
+Example 205 - https://github.github.com/gfm/#example-205
+================================================================================
+| abc | def |
+| --- | --- |
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (pipe_table
+      (pipe_table_header
+        (pipe_table_cell)
+        (pipe_table_cell))
+      (pipe_table_delimiter_row
+        (pipe_table_delimiter_cell)
+        (pipe_table_delimiter_cell)))))
