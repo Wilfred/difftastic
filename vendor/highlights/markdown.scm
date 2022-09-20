@@ -1,1 +1,1 @@
-../tree-sitter-markdown/tree-sitter-markdown/queries/highlights.scm
+../tree-sitter-markdown/tree-sitter-markdown-inline/queries/highlights.scm

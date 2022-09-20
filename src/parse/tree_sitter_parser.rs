@@ -68,7 +68,7 @@ extern "C" {
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
     fn tree_sitter_make() -> ts::Language;
-    fn tree_sitter_markdown() -> ts::Language;
+    fn tree_sitter_markdown_inline() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
@@ -537,7 +537,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             }
         }
         Markdown => {
-            let language = unsafe { tree_sitter_markdown() };
+            let language = unsafe { tree_sitter_markdown_inline() };
             TreeSitterConfig {
                 language,
                 atom_nodes: vec![].into_iter().collect(),
