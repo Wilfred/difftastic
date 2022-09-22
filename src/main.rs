@@ -132,9 +132,13 @@ fn main() {
                 }
             }
         }
-        Mode::ListLanguages => {
+        Mode::ListLanguages { use_color } => {
             for (language, extensions) in LANG_EXTENSIONS {
-                print!("{}", language_name(*language).bold());
+                let mut name = language_name(*language).to_string();
+                if use_color {
+                    name = name.bold().to_string();
+                }
+                print!("{}", name);
 
                 let mut extensions: Vec<&str> = (*extensions).into();
                 extensions.sort();

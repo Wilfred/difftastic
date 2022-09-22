@@ -196,7 +196,9 @@ pub enum Mode {
         /// The path that we should display for the RHS file.
         rhs_display_path: String,
     },
-    ListLanguages,
+    ListLanguages {
+        use_color: bool,
+    },
     DumpTreeSitter {
         path: String,
         language_override: Option<guess_language::Language>,
@@ -226,8 +228,22 @@ pub fn parse_args() -> Mode {
         None => None,
     };
 
+    let color_output = if let Some(color_when) = matches.value_of("color") {
+        if color_when == "always" {
+            ColorOutput::Always
+        } else if color_when == "never" {
+            ColorOutput::Never
+        } else {
+            ColorOutput::Auto
+        }
+    } else {
+        ColorOutput::Auto
+    };
+
+    let use_color = should_use_color(color_output);
+
     if matches.is_present("list-languages") {
-        return Mode::ListLanguages;
+        return Mode::ListLanguages { use_color };
     }
 
     if let Some(path) = matches.value_of("dump-syntax") {
@@ -313,18 +329,6 @@ pub fn parse_args() -> Mode {
         DisplayMode::SideBySide
     };
 
-    let color_output = if let Some(color_when) = matches.value_of("color") {
-        if color_when == "always" {
-            ColorOutput::Always
-        } else if color_when == "never" {
-            ColorOutput::Never
-        } else {
-            ColorOutput::Auto
-        }
-    } else {
-        ColorOutput::Auto
-    };
-
     let background_color = match matches
         .value_of("background")
         .expect("Always present as we've given clap a default")
@@ -356,8 +360,6 @@ pub fn parse_args() -> Mode {
 
     let print_unchanged = !matches.is_present("skip-unchanged");
     let missing_as_empty = matches.is_present("missing-as-empty");
-
-    let use_color = should_use_color(color_output);
 
     let display_options = DisplayOptions {
         background_color,
