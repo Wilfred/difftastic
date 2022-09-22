@@ -5,6 +5,11 @@
 Standalone `.` is now considered punctuation in the diff cost model,
 which improves diff results in some cases.
 
+### Command Line Interface
+
+`--list-languages` now respects the value of `--color`, whose default
+only uses styling when stdout is a TTY.
+
 ### Build
 
 Fixed an issue with building on Windows with gcc.
