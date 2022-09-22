@@ -1,5 +1,10 @@
 ## 0.37 (unreleased)
 
+### Diffing
+
+Standalone `.` is now considered punctuation in the diff cost model,
+which improves diff results in some cases.
+
 ### Build
 
 Fixed an issue with building on Windows with gcc.

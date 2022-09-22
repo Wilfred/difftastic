@@ -414,7 +414,7 @@ fn allocate_if_new<'syn, 'b>(
 /// This check is deliberately conservative, becuase it's hard to
 /// accurately recognise punctuation in a language-agnostic way.
 fn looks_like_punctuation(content: &str) -> bool {
-    content == "," || content == ";"
+    content == "," || content == ";" || content == "."
 }
 
 /// Compute the neighbours of `v` if we haven't previously done so,
