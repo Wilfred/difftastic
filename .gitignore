@@ -1,0 +1,6 @@
+src/parser.c
+src/tree_sitter
+src/*.json
+*.d
+log.html
+output
