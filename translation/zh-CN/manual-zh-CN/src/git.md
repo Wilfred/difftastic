@@ -1,6 +1,6 @@
 # Git
 
-Git[支持使用外部的diff工具](https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal)。你可以使用`GIT_EXTERNEL_DIFF`来进行一键git命令。
+Git[支持使用外部的diff工具](https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal)。你可以使用`GIT_EXTERNAL_DIFF`来进行一键git命令。
 
 ```
 $ GIT_EXTERNAL_DIFF=difft git diff
@@ -18,7 +18,7 @@ $ git config diff.external difft
 $ git config --global diff.external difft
 ```
 
-在运行`git config`后，`git diff`命令将会自动使用`difft`。其他情况则需要使用`--ext-diff`来使用`diff.externel`。
+在运行`git config`后，`git diff`命令将会自动使用`difft`。其他情况则需要使用`--ext-diff`来使用`diff.external`。
 
 ```
 $ git diff
