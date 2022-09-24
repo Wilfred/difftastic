@@ -1,6 +1,6 @@
 [book]
 authors = ["Wilfred Hughes"]
-language = "en"
+language = "zh-CN"
 multilingual = false
 src = "src"
 title = "Difftastic Manual"
@@ -8,10 +8,6 @@ description = "The official manual for difftastic, the syntactic differ"
 
 [output.html]
 git-repository-url = "https://github.com/wilfred/difftastic"
-
-[output.html.redirect]
-"/getting_started.html" = "./installation.html"
-"/upstream_parsers.html" = "/languages_supported.html"
 
 [output.html.playground]
 copyable = false
