@@ -22,7 +22,7 @@ $ brew install difftastic
 
 ### 编译要求
 
-Difftasitc是使用Rust编写的，所以你需要安装Rust。我推荐使用[rustup](https://rustup.rs/)来安装Rust。
+Difftastic是使用Rust编写的，所以你需要安装Rust。我推荐使用[rustup](https://rustup.rs/)来安装Rust。
 
 同时你也需要一个支持C++14的C++编译器。如果你正在使用GCC，则GCC版本至少为8。
 
