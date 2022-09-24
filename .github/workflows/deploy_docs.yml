@@ -28,8 +28,15 @@ jobs:
         run: mdbook build
         working-directory: manual
 
+      - name: Build translated manual
+        run: mdbook build
+        working-directory: translation/zh-CN/manual-zh-CN
+
       - name: Add rustdoc output
         run: cp -r target/doc manual/book/rustdoc
+
+      - name: Add translated manual output
+        run: cp -r translation/zh-CN/manual-zh-CN/book manual/book/zh-CN
 
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.4.0
