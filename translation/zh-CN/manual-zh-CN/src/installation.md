@@ -40,7 +40,7 @@ docs](https://github.com/alexcrichton/cc-rs#external-configuration-via-environme
 
 参考[contributing](./contributing.md)来查看有关构建的说明。
 
-## （可选）安装MINE数据库
+## （可选）安装MIME数据库
 
 如果有一个MIME数据库，Difftastic将使用它来更准确地检测二进制文件。这个也是使用`file`命令时所调用的同一个数据库，你可能已经安装了它。
 
