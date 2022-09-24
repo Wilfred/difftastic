@@ -96,7 +96,7 @@ favourite tool, and I will link it in the README!
 
 ## Translation
 
-+ [Chinese](./translation/README-zh-CN.md)
++ [Chinese](./translation/zh-CN/README-zh-CN.md)
 
 ## License
 
