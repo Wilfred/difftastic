@@ -75,11 +75,15 @@ fn eprint_read_error(path: &Path, e: &std::io::Error) {
             eprintln!("Permission denied when reading file: {}", path.display());
         }
         _ => {
-            eprintln!(
-                "Could not read file: {} (error {:?})",
-                path.display(),
-                e.kind()
-            );
+            if path.is_dir() {
+                eprintln!("Expected a file, got a directory: {}", path.display());
+            } else {
+                eprintln!(
+                    "Could not read file: {} (error {:?})",
+                    path.display(),
+                    e.kind()
+                );
+            }
         }
     };
 }
