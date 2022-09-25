@@ -420,7 +420,7 @@ fn diff_directories<'a>(
 
         diff_file(
             &rel_path.to_string_lossy(),
-            &rel_path.to_string_lossy(), // todo
+            &rel_path.to_string_lossy(),
             &lhs_path,
             &rhs_path,
             &display_options,
