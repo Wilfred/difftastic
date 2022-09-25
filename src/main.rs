@@ -14,7 +14,7 @@
 #![allow(clippy::too_many_arguments)]
 // Has false positives on else if chains that sometimes have the same
 // body for readability.
-#![allow(clippy::clippy::if_same_then_else)]
+#![allow(clippy::if_same_then_else)]
 
 mod constants;
 mod diff;
