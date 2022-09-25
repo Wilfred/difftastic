@@ -1,5 +1,9 @@
 ## 0.37 (unreleased)
 
+### Manual
+
+Added a Chinese translation: https://difftastic.wilfred.me.uk/zh-CN/
+
 ### Diffing
 
 Standalone `.` is now considered punctuation in the diff cost model,
