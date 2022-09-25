@@ -1,3 +1,7 @@
+// Has false positives on else if chains that sometimes have the same
+// body for readability.
+#![allow(clippy::if_same_then_else)]
+
 use rayon::prelude::*;
 use std::path::PathBuf;
 use version_check as rustc;
