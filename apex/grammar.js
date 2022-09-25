@@ -589,25 +589,24 @@ module.exports = grammar({
 
     trigger_body: ($) => $.block,
 
-    modifiers: ($) =>
-      repeat1(
-        choice(
-          $.annotation,
-          ci("global"),
-          ci("public"),
-          ci("testMethod"),
-          ci("protected"),
-          ci("override"),
-          ci("private"),
-          ci("virtual"),
-          ci("abstract"),
-          ci("static"),
-          ci("final"),
-          ci("transient"),
-          seq(ci("with"), ci("sharing")), // TODO: class only
-          seq(ci("without"), ci("sharing")),
-          seq(ci("inherited"), ci("sharing"))
-        )
+    modifiers: ($) => repeat1(choice($.annotation, $.modifier)),
+
+    modifier: ($) =>
+      choice(
+        ci("global"),
+        ci("public"),
+        ci("testMethod"),
+        ci("protected"),
+        ci("override"),
+        ci("private"),
+        ci("virtual"),
+        ci("abstract"),
+        ci("static"),
+        ci("final"),
+        ci("transient"),
+        ci("with sharing"),
+        ci("without sharing"),
+        ci("inherited sharing")
       ),
 
     type_parameters: ($) => seq("<", commaJoined1($.type_parameter), ">"),

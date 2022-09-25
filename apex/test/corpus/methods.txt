@@ -13,11 +13,13 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (void_type)
         (identifier)
         (formal_parameters
@@ -53,11 +55,13 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (identifier)
         (formal_parameters
@@ -82,11 +86,14 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (identifier)
         (formal_parameters
@@ -111,16 +118,19 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (void_type)
         (identifier)
         (formal_parameters
           (formal_parameter
-            (modifiers)
+            (modifiers
+              (modifier))
             (type_identifier)
             (identifier)))
         (block
@@ -145,11 +155,14 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (void_type)
         (identifier)
         (formal_parameters)

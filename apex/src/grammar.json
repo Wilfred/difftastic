@@ -3613,175 +3613,169 @@
             "name": "annotation"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[gG][lL][oO][bB][aA][lL]"
-            },
-            "named": false,
-            "value": "global"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[pP][uU][bB][lL][iI][cC]"
-            },
-            "named": false,
-            "value": "public"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[tT][eE][sS][tT][mM][eE][tT][hH][oO][dD]"
-            },
-            "named": false,
-            "value": "testMethod"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[pP][rR][oO][tT][eE][cC][tT][eE][dD]"
-            },
-            "named": false,
-            "value": "protected"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[oO][vV][eE][rR][rR][iI][dD][eE]"
-            },
-            "named": false,
-            "value": "override"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[pP][rR][iI][vV][aA][tT][eE]"
-            },
-            "named": false,
-            "value": "private"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[vV][iI][rR][tT][uU][aA][lL]"
-            },
-            "named": false,
-            "value": "virtual"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[aA][bB][sS][tT][rR][aA][cC][tT]"
-            },
-            "named": false,
-            "value": "abstract"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[sS][tT][aA][tT][iI][cC]"
-            },
-            "named": false,
-            "value": "static"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[fF][iI][nN][aA][lL]"
-            },
-            "named": false,
-            "value": "final"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": "[tT][rR][aA][nN][sS][iI][eE][nN][tT]"
-            },
-            "named": false,
-            "value": "transient"
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[wW][iI][tT][hH]"
-                },
-                "named": false,
-                "value": "with"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[sS][hH][aA][rR][iI][nN][gG]"
-                },
-                "named": false,
-                "value": "sharing"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[wW][iI][tT][hH][oO][uU][tT]"
-                },
-                "named": false,
-                "value": "without"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[sS][hH][aA][rR][iI][nN][gG]"
-                },
-                "named": false,
-                "value": "sharing"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[iI][nN][hH][eE][rR][iI][tT][eE][dD]"
-                },
-                "named": false,
-                "value": "inherited"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[sS][hH][aA][rR][iI][nN][gG]"
-                },
-                "named": false,
-                "value": "sharing"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "modifier"
           }
         ]
       }
+    },
+    "modifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[gG][lL][oO][bB][aA][lL]"
+          },
+          "named": false,
+          "value": "global"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[pP][uU][bB][lL][iI][cC]"
+          },
+          "named": false,
+          "value": "public"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[tT][eE][sS][tT][mM][eE][tT][hH][oO][dD]"
+          },
+          "named": false,
+          "value": "testMethod"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[pP][rR][oO][tT][eE][cC][tT][eE][dD]"
+          },
+          "named": false,
+          "value": "protected"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[oO][vV][eE][rR][rR][iI][dD][eE]"
+          },
+          "named": false,
+          "value": "override"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[pP][rR][iI][vV][aA][tT][eE]"
+          },
+          "named": false,
+          "value": "private"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[vV][iI][rR][tT][uU][aA][lL]"
+          },
+          "named": false,
+          "value": "virtual"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[aA][bB][sS][tT][rR][aA][cC][tT]"
+          },
+          "named": false,
+          "value": "abstract"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[sS][tT][aA][tT][iI][cC]"
+          },
+          "named": false,
+          "value": "static"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[fF][iI][nN][aA][lL]"
+          },
+          "named": false,
+          "value": "final"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[tT][rR][aA][nN][sS][iI][eE][nN][tT]"
+          },
+          "named": false,
+          "value": "transient"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[wW][iI][tT][hH]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[sS][hH][aA][rR][iI][nN][gG]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "with_sharing"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[wW][iI][tT][hH][oO][uU][tT]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[sS][hH][aA][rR][iI][nN][gG]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "without_sharing"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[iI][nN][hH][eE][rR][iI][tT][eE][dD]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[sS][hH][aA][rR][iI][nN][gG]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "inherited_sharing"
+        }
+      ]
     },
     "type_parameters": {
       "type": "SEQ",

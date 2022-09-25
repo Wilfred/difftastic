@@ -10,16 +10,17 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD upsert
@@ -33,16 +34,17 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD upsert with field
@@ -56,19 +58,20 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)
-                (scoped_type_identifier
-                  (type_identifier)
-                  (type_identifier))))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)
+            (scoped_type_identifier
+              (type_identifier)
+              (type_identifier))))))))
 
 ================================================================================
 DML KEYWORD update
@@ -82,16 +85,17 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD delete
@@ -105,16 +109,17 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD undelete
@@ -128,16 +133,17 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD merge
@@ -151,17 +157,18 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (identifier)
-                (identifier)))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 DML KEYWORD upsert from method with field reference
@@ -175,24 +182,25 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (method_invocation
-                  (identifier)
-                  (identifier)
-                  (argument_list))
-                (scoped_type_identifier
-                  (scoped_type_identifier
-                    (type_identifier)
-                    (type_identifier))
-                  (type_identifier))))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (method_invocation
+              (identifier)
+              (identifier)
+              (argument_list))
+            (scoped_type_identifier
+              (scoped_type_identifier
+                (type_identifier)
+                (type_identifier))
+              (type_identifier))))))))
 
 ================================================================================
 DML KEYWORD upsert from method with field reference
@@ -206,20 +214,21 @@ public class Me {
 
 --------------------------------------------------------------------------------
 
-    (parser_output
-      (class_declaration
-        (modifiers)
-        (identifier)
-        (class_body
-          (block
-            (expression_statement
-              (dml_expression
-                (dml_type)
-                (array_creation_expression
-                  (generic_type
-                    (type_identifier)
-                    (type_arguments
-                      (type_identifier)))
-                  (array_initializer
-                    (identifier)
-                    (identifier)))))))))
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (dml_expression
+            (dml_type)
+            (array_creation_expression
+              (generic_type
+                (type_identifier)
+                (type_arguments
+                  (type_identifier)))
+              (array_initializer
+                (identifier)
+                (identifier)))))))))

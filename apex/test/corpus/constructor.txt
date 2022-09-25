@@ -23,11 +23,15 @@ public class TestObject2 {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)
@@ -39,7 +43,8 @@ public class TestObject2 {
           (identifier)))
       (line_comment)
       (constructor_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (formal_parameters)
         (constructor_body
@@ -50,7 +55,8 @@ public class TestObject2 {
           (line_comment)))
       (line_comment)
       (constructor_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (formal_parameters
           (formal_parameter
@@ -87,11 +93,15 @@ public class TestObject2 {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)
@@ -102,7 +112,8 @@ public class TestObject2 {
         (variable_declarator
           (identifier)))
       (constructor_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (formal_parameters)
         (constructor_body
@@ -112,7 +123,8 @@ public class TestObject2 {
               (identifier)))))
       (line_comment)
       (constructor_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (formal_parameters
           (formal_parameter
@@ -139,13 +151,15 @@ public class Subclass extends Superclass {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (superclass
       (type_identifier))
     (class_body
       (constructor_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (formal_parameters)
         (constructor_body

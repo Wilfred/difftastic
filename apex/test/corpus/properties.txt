@@ -10,11 +10,16 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)
@@ -37,26 +42,31 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
@@ -81,31 +91,39 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))))))
@@ -124,18 +142,21 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
         (accessor_list
           (accessor_declaration)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (floating_point_type)
         (variable_declarator
           (identifier))
@@ -143,7 +164,8 @@ public class Me {
           (accessor_declaration)
           (accessor_declaration)))
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
@@ -167,39 +189,47 @@ global virtual class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier))
     (identifier)
     (class_body
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
         (accessor_list
           (accessor_declaration
-            (modifiers))
+            (modifiers
+              (modifier)))
           (accessor_declaration)))
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
         (accessor_list
           (accessor_declaration)
           (accessor_declaration
-            (modifiers))))
+            (modifiers
+              (modifier)))))
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
         (accessor_list
           (accessor_declaration)
           (accessor_declaration
-            (modifiers)))))))
+            (modifiers
+              (modifier))))))))
 
 ================================================================================
 PROPERTY declared
@@ -216,11 +246,13 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))
@@ -252,11 +284,13 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier))

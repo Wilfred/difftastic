@@ -31,7 +31,7 @@ void Init(Local<Object> exports, Local<Object> module) {
   Local<Object> soql_instance = soql_constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
   Nan::SetInternalFieldPointer(soql_instance, 0, tree_sitter_apex());
   Nan::Set(soql_instance, Nan::New("name").ToLocalChecked(), Nan::New("soql").ToLocalChecked());
-  // sosl
+  // SOSL
   Local<FunctionTemplate> sosl_tpl = Nan::New<FunctionTemplate>(New);
   sosl_tpl->SetClassName(Nan::New("Language").ToLocalChecked());
   sosl_tpl->InstanceTemplate()->SetInternalFieldCount(1);

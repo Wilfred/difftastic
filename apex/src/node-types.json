@@ -2746,15 +2746,24 @@
     }
   },
   {
+    "type": "modifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "modifiers",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifier",
           "named": true
         }
       ]
@@ -5050,7 +5059,7 @@
     "named": false
   },
   {
-    "type": "inherited",
+    "type": "inherited_sharing",
     "named": false
   },
   {
@@ -5131,10 +5140,6 @@
   },
   {
     "type": "set",
-    "named": false
-  },
-  {
-    "type": "sharing",
     "named": false
   },
   {
@@ -5234,11 +5239,11 @@
     "named": false
   },
   {
-    "type": "with",
+    "type": "with_sharing",
     "named": false
   },
   {
-    "type": "without",
+    "type": "without_sharing",
     "named": false
   },
   {

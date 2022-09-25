@@ -8,7 +8,8 @@ public class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -22,7 +23,9 @@ private with sharing class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -36,7 +39,9 @@ global without sharing class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -50,7 +55,9 @@ public inherited sharing class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -64,7 +71,10 @@ public inherited sharing virtual class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier)
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -78,7 +88,9 @@ public abstract class Me {}
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier)
+      (modifier))
     (identifier)
     (class_body)))
 
@@ -96,7 +108,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -121,7 +134,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -147,11 +161,13 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (class_body
           (block))))))
@@ -167,7 +183,8 @@ public class Me extends OtherClass {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (superclass
       (type_identifier))
@@ -184,7 +201,8 @@ public class Me implements Interface1 {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (interfaces
       (type_list
@@ -202,7 +220,8 @@ public class Me implements Interface1, Interface2 {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (interfaces
       (type_list
@@ -225,13 +244,16 @@ public class Subclass extends Superclass {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (superclass
       (type_identifier))
     (class_body
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (void_type)
         (identifier)
         (formal_parameters)
@@ -397,25 +419,33 @@ public class OuterClass {
   (line_comment)
   (line_comment)
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (line_comment)
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
       (line_comment)
       (method_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (identifier)
         (formal_parameters)
@@ -432,7 +462,9 @@ public class OuterClass {
               (int)))))
       (line_comment)
       (field_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (type_identifier)
         (variable_declarator
           (identifier)))
@@ -448,7 +480,9 @@ public class OuterClass {
       (line_comment)
       (line_comment)
       (interface_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (identifier)
         (interface_body
           (line_comment)
@@ -475,7 +509,9 @@ public class OuterClass {
       (line_comment)
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (identifier)
         (interfaces
           (type_list
@@ -483,12 +519,16 @@ public class OuterClass {
         (class_body
           (line_comment)
           (field_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (type_identifier)
             (variable_declarator
               (identifier)))
           (field_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (type_identifier)
             (variable_declarator
               (identifier)))
@@ -503,7 +543,9 @@ public class OuterClass {
                 (string_literal))))
           (line_comment)
           (field_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (type_identifier)
             (variable_declarator
               (identifier)
@@ -524,7 +566,8 @@ public class OuterClass {
                   (string_literal)))))
           (line_comment)
           (constructor_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (identifier)
             (formal_parameters
               (formal_parameter
@@ -541,7 +584,9 @@ public class OuterClass {
           (line_comment)
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (void_type)
             (identifier)
             (formal_parameters)
@@ -550,7 +595,8 @@ public class OuterClass {
           (line_comment)
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (type_identifier)
             (identifier)
             (formal_parameters
@@ -570,7 +616,9 @@ public class OuterClass {
       (line_comment)
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (identifier)
         (superclass
           (type_identifier))
@@ -578,7 +626,9 @@ public class OuterClass {
           (line_comment)
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (void_type)
             (identifier)
             (formal_parameters)
@@ -588,20 +638,23 @@ public class OuterClass {
           (line_comment)
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (void_type)
             (identifier)
             (formal_parameters)
             (block))
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (type_identifier)
             (identifier)
             (formal_parameters))))
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (superclass
           (type_identifier))
@@ -609,7 +662,9 @@ public class OuterClass {
           (line_comment)
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier)
+              (modifier))
             (type_identifier)
             (identifier)
             (formal_parameters)
@@ -618,7 +673,8 @@ public class OuterClass {
                 (int))))))
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier))
         (identifier)
         (superclass
           (type_identifier))
@@ -637,14 +693,17 @@ public class OuterClass {
                   (identifier)))))))
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (identifier)
         (superclass
           (type_identifier))
         (class_body
           (line_comment)
           (field_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (type_identifier)
             (variable_declarator
               (identifier)))
@@ -665,14 +724,17 @@ public class OuterClass {
                   (identifier)))))
           (line_comment)
           (method_declaration
-            (modifiers)
+            (modifiers
+              (modifier))
             (void_type)
             (identifier)
             (formal_parameters)
             (block))))
       (line_comment)
       (class_declaration
-        (modifiers)
+        (modifiers
+          (modifier)
+          (modifier))
         (identifier)
         (superclass
           (type_identifier))

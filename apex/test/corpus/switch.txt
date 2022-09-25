@@ -24,7 +24,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -98,7 +99,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -180,7 +182,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -255,7 +258,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block
@@ -342,7 +346,8 @@ public class Me {
 
 (parser_output
   (class_declaration
-    (modifiers)
+    (modifiers
+      (modifier))
     (identifier)
     (class_body
       (block

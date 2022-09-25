@@ -1,3 +1,6 @@
+;; attempting to match concepts represented here:
+;; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
+
 [
   "["
   "]"
@@ -7,7 +10,7 @@
   ";"
 ] @punctuation
 
-; Methods
+;; Methods
 
 (method_declaration
   name: (identifier) @method)
@@ -24,7 +27,7 @@
   arguments: (argument_list
     (identifier) @variable ))
 
-; Annotations
+;; Annotations
 
 (annotation
   name: (identifier) @decorator)
@@ -35,7 +38,7 @@
   (identifier) @variable)
 
 
-; Types
+;; Types
 
 (interface_declaration
   name: (identifier) @interface)
@@ -215,7 +218,7 @@
 ; Variables
 
 (field_declaration
-  (modifiers ["final" "static"]["final" "static"])
+  (modifiers (modifier ["final" "static"])(modifier ["final" "static"]))
   (variable_declarator
     name: (identifier) @variable.readonly))
 
@@ -245,7 +248,7 @@
   (block_comment)
 ] @comment
 
-; Keywords
+;; ;; Keywords
 
 [
   "abstract"
@@ -284,7 +287,9 @@
   "virtual"
   "when"
   "while"
-  "with"
+  "with_sharing"
+  "without_sharing"
+  "inherited_sharing"
 ] @keyword
 
 (assignment_expression
@@ -293,6 +298,7 @@
 ; (type_identifier) @type ;; not respecting precedence...
 ;; I don't love this but couldn't break them up right now
 ;; can't figure out how to let that be special without conflicting
+;; in the grammar
 "System.runAs" @method.defaultLibrary
 
 (scoped_type_identifier

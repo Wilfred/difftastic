@@ -10,7 +10,7 @@
     "nan": "^2.16.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.7"
   },
   "main": "bindings/node",
   "tree-sitter": [
@@ -26,6 +26,9 @@
         "soql/queries/highlights.scm",
         "sosl/queries/highlights.scm",
         "apex/queries/highlights.scm"
+      ],
+      "tags": [
+        "apex/queries/tags.scm"
       ]
     },
     {
