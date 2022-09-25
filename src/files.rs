@@ -14,8 +14,8 @@ pub fn read_files_or_die(
     rhs_path: &Path,
     missing_as_empty: bool,
 ) -> (Vec<u8>, Vec<u8>) {
-    let lhs_res = fs::read(lhs_path);
-    let rhs_res = fs::read(rhs_path);
+    let lhs_res = read_cli_path(lhs_path);
+    let rhs_res = read_cli_path(rhs_path);
 
     match (lhs_res, rhs_res) {
         // Both files exist, the happy case.
@@ -26,12 +26,6 @@ pub fn read_files_or_die(
         // has been removed.
         (Ok(lhs_src), Err(e)) if missing_as_empty && e.kind() == NotFound => (lhs_src, vec![]),
         (Err(e), Ok(rhs_src)) if missing_as_empty && e.kind() == NotFound => (vec![], rhs_src),
-
-        // Treat /dev/null as an empty file, even on platforms like
-        // Windows where this path doesn't exist. Git uses /dev/null
-        // regardless of the platform.
-        (Ok(lhs_src), Err(_)) if rhs_path == Path::new("/dev/null") => (lhs_src, vec![]),
-        (Err(_), Ok(rhs_src)) if lhs_path == Path::new("/dev/null") => (vec![], rhs_src),
 
         (lhs_res, rhs_res) => {
             // Something else went wrong. Print both errors
@@ -47,6 +41,20 @@ pub fn read_files_or_die(
     }
 }
 
+/// Read a path provided in a CLI argument, handling /dev/null
+/// correctly.
+fn read_cli_path(path: &Path) -> std::io::Result<Vec<u8>> {
+    // Treat /dev/null as an empty file, even on platforms like
+    // Windows where this path doesn't exist. Git uses /dev/null
+    // regardless of the platform.
+    if path == Path::new("/dev/null") {
+        return Ok(vec![]);
+    }
+
+    fs::read(path)
+}
+
+/// Write a human-friendly description of `e` to stderr.
 fn eprint_read_error(path: &Path, e: &std::io::Error) {
     match e.kind() {
         std::io::ErrorKind::NotFound => {
