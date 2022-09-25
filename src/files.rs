@@ -1,5 +1,6 @@
 //! File reading utilities.
 
+use std::io::Read;
 use std::{
     fs,
     io::ErrorKind::*,
@@ -41,7 +42,7 @@ pub fn read_files_or_die(
     }
 }
 
-/// Read a path provided in a CLI argument, handling /dev/null
+/// Read a path provided in a CLI argument, handling /dev/null and -
 /// correctly.
 fn read_cli_path(path: &Path) -> std::io::Result<Vec<u8>> {
     // Treat /dev/null as an empty file, even on platforms like
@@ -49,6 +50,16 @@ fn read_cli_path(path: &Path) -> std::io::Result<Vec<u8>> {
     // regardless of the platform.
     if path == Path::new("/dev/null") {
         return Ok(vec![]);
+    }
+
+    if path == Path::new("-") {
+        let stdin = std::io::stdin();
+        let mut handle = stdin.lock();
+
+        let mut bytes = vec![];
+        handle.read_to_end(&mut bytes)?;
+
+        return Ok(bytes);
     }
 
     fs::read(path)

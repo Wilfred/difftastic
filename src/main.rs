@@ -280,7 +280,7 @@ fn diff_file_content(
     }
 
     // Prefer the RHS path for language detection, unless it's /dev/null.
-    let (guess_src, guess_path) = if rhs_display_path == "/dev/null" {
+    let (guess_src, guess_path) = if rhs_display_path == "/dev/null" || rhs_display_path == "-" {
         // TODO: take a Path directly instead.
         (&lhs_src, Path::new(&lhs_display_path))
     } else {

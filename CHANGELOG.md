@@ -11,6 +11,9 @@ which improves diff results in some cases.
 
 ### Command Line Interface
 
+Difftastic will now read a file from stdin if given `-` as a path
+argument.
+
 `--list-languages` now respects the value of `--color`, whose default
 only uses styling when stdout is a TTY.
 
