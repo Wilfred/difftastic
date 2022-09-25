@@ -1,12 +1,14 @@
 # Usage
 
-## Diffing Files
+## File Arguments
+
+### Diffing Files
 
 ```
 $ difft sample_files/before.js sample_files/after.js
 ```
 
-## Diffing Directories
+### Diffing Directories
 
 ```
 $ difft sample_files/dir_before/ sample_files/dir_after/
@@ -17,6 +19,14 @@ with the same name.
 
 The `--skip-unchanged` option is useful when diffing directories that
 contain many unchanged files.
+
+### Reading stdin
+
+You can read a file from stdin by specifying `-` as the file path.
+
+```
+$ cat sample_files/before.js | difft - sample_files/after.js
+```
 
 ## Language Detection
 
