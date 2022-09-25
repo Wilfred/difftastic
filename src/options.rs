@@ -359,6 +359,9 @@ pub fn parse_args() -> Mode {
         .expect("Value already validated by clap");
 
     let print_unchanged = !matches.is_present("skip-unchanged");
+
+    // TODO: is this necessary now we handle /dev/null as an empty
+    // file on all platforms?
     let missing_as_empty = matches.is_present("missing-as-empty");
 
     let display_options = DisplayOptions {
