@@ -1,11 +1,11 @@
 try {
-  module.exports = require("../../build/Release/tree_sitter_apex_binding");
+  module.exports = require("../../build/Release/tree_sitter_sfapex_binding");
 } catch (error1) {
   if (error1.code !== "MODULE_NOT_FOUND") {
     throw error1;
   }
   try {
-    module.exports = require("../../build/Debug/tree_sitter_apex_binding");
+    module.exports = require("../../build/Debug/tree_sitter_sfapex_binding");
   } catch (error2) {
     if (error2.code !== "MODULE_NOT_FOUND") {
       throw error2;

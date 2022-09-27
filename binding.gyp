@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_apex_binding",
+      "target_name": "tree_sitter_sfapex_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "apex/src"

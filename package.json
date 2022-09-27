@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-apex",
+  "name": "tree-sitter-sfapex",
   "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
-  "homepage": "https://github.com/aheber/tree-sitter-apex",
+  "homepage": "https://github.com/aheber/tree-sitter-sfapex",
   "license": "MIT",
   "author": {
     "name": "Anthony Heber"
@@ -10,9 +10,21 @@
     "nan": "^2.16.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "0.20.6"
   },
   "main": "bindings/node",
+  "scripts": {
+    "build": "npm run build-apex && npm run build-soql && npm run build-sosl",
+    "build-apex": "cd apex && npx tree-sitter generate --no-bindings",
+    "build-soql": "cd soql && npx tree-sitter generate --no-bindings",
+    "build-sosl": "cd sosl && npx tree-sitter generate --no-bindings",
+    "test-load": "node -e \"console.log(require('./apex').name, require('./soql').name, require('./sosl').name)\"",
+    "test": "npm run test-apex && npm run test-soql && npm run test-sosl && npm run test-load",
+    "test-apex": "cd apex && npx tree-sitter test",
+    "test-soql": "cd soql && npx tree-sitter test",
+    "test-sosl": "cd sosl && npx tree-sitter test",
+    "prepublish": ""
+  },
   "tree-sitter": [
     {
       "scope": "source.apex",
