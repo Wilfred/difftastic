@@ -163,11 +163,21 @@ pub mod functions {
     use std::path::Path;
 
     use super::{ts_language, LOADED_LIBS, PARSERS_PATH};
+    use crate::parse::guess_language as guess;
     use crate::parse::guess_language::Language::{self, *};
     use tree_sitter as ts;
 
     unsafe fn global_language(language: Language) -> ts::Language {
-        ts_language(language, &mut *LOADED_LIBS, Path::new(PARSERS_PATH)).unwrap()
+        ts_language(language, &mut *LOADED_LIBS, Path::new(PARSERS_PATH))
+            .map_err(|e| {
+                format!(
+                    "Shared library for language {0} should be installed in {1}. Load error: {2:#?}",
+                    guess::language_name(language),
+                    PARSERS_PATH,
+                    e
+                )
+            })
+            .unwrap()
     }
 
     pub unsafe fn tree_sitter_bash() -> ts::Language {
