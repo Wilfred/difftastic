@@ -14,8 +14,16 @@
 
 set -e
 
+features="${FEATURES:-default}"
+TS_PARSERS_PATH=""
+
+if [ "$features" == "dl-parsers" ]; then
+    TS_PARSERS_PATH="./vendor/build"
+fi
+export TS_PARSERS_PATH
+
 echo "==> Building difftastic"
-cargo build --release
+cargo build --release --features "$FEATURES"
 
 # Set language so we expand globs in a consistent order regardless of
 # locale (e.g. on GitHub actions).
