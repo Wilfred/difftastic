@@ -3,7 +3,7 @@
 use bumpalo::Bump;
 use rustc_hash::FxHashMap;
 use std::{
-    cell::RefCell,
+    cell::{Cell, RefCell},
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
@@ -50,7 +50,7 @@ use Edge::*;
 #[derive(Debug, Clone)]
 pub struct Vertex<'a, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
-    pub predecessor: RefCell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
@@ -260,7 +260,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
         let parents = Stack::new();
         Vertex {
             neighbours: RefCell::new(None),
-            predecessor: RefCell::new(None),
+            predecessor: Cell::new(None),
             lhs_syntax,
             rhs_syntax,
             parents,
@@ -444,7 +444,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
-                        predecessor: RefCell::new(None),
+                        predecessor: Cell::new(None),
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: rhs_parent.next_sibling(),
                         can_pop_either: can_pop_either_parent(&parents_next),
@@ -469,7 +469,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
-                        predecessor: RefCell::new(None),
+                        predecessor: Cell::new(None),
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         can_pop_either: can_pop_either_parent(&parents_next),
@@ -494,7 +494,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
-                        predecessor: RefCell::new(None),
+                        predecessor: Cell::new(None),
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_parent.next_sibling(),
                         can_pop_either: can_pop_either_parent(&parents_next),
@@ -521,7 +521,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
-                        predecessor: RefCell::new(None),
+                        predecessor: Cell::new(None),
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
@@ -567,7 +567,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_next,
                             rhs_syntax: rhs_next,
                             parents: parents_next,
@@ -605,7 +605,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
@@ -635,7 +635,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
@@ -661,7 +661,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_next,
                             rhs_syntax: v.rhs_syntax,
                             parents: parents_next,
@@ -689,7 +689,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
@@ -715,7 +715,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
-                            predecessor: RefCell::new(None),
+                            predecessor: Cell::new(None),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_next,
                             parents: parents_next,
