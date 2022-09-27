@@ -91,7 +91,7 @@ fn shortest_path_with_edges<'a, 'b>(
 
     for vertex in route.iter().skip(1) {
         let edge = edge_between(prev, vertex);
-        res.push((edge, prev.clone()));
+        res.push((edge, *prev));
         cost += edge.cost();
 
         prev = vertex;
