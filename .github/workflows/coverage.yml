@@ -5,8 +5,14 @@ on: [pull_request, push]
 jobs:
   coverage:
     runs-on: ubuntu-latest
+    env:
+      TS_PARSERS_PATH: ${{ github.workspace }}/vendor/build
     steps:
       - uses: actions/checkout@v3
+      - name: Build shared libs
+        run: |
+          cmake -B ./vendor/build -S ./vendor -G 'Unix Makefiles'
+          make -C ./vendor/build
 
       - name: Install Rust
         run: rustup toolchain install stable --component llvm-tools-preview

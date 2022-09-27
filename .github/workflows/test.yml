@@ -3,21 +3,30 @@ on: [push, pull_request]
 name: Continuous integration
 
 jobs:
-  test_linux:
-    name: Test Linux
-    runs-on: ubuntu-latest
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        feature: ["default", "dl-parsers"]
+    runs-on: ${{ matrix.os }}
+    env:
+      TS_PARSERS_PATH: ${{ github.workspace }}/vendor/build
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
-      - run: cargo test
 
-  test_linux_latest_stable:
-    name: Test Linux (latest stable Rust)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+      - name: Build shared libs
+        if: matrix.feature == 'dl-parsers'
+        run: |
+          cmake -B ./vendor/build -S ./vendor -G 'Unix Makefiles'
+          make -C ./vendor/build
+
+      - name: Test pinned
+        run: cargo test --features ${{ matrix.feature }}
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo +stable test
+      - name: Test latest stable
+        run: cargo +stable test --features ${{ matrix.feature }}
 
   # test_linux_arm64:
   #   name: Test Linux arm64 (build only)
@@ -29,30 +38,27 @@ jobs:
   #     - run: sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
   #     - run: cargo build --target=aarch64-unknown-linux-gnu
 
-  test_mac:
-    name: Test macOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.57.0
-      - run: cargo test
-
-  test_windows:
-    name: Test Windows
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.57.0
-      - run: cargo test
-
   regression_test:
     name: Output Regression Test
+    strategy:
+      matrix:
+        feature: ["default", "dl-parsers"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
+
+      - name: Build shared libs
+        if: matrix.feature == 'dl-parsers'
+        run: |
+          cmake -B ./vendor/build -S ./vendor -G 'Unix Makefiles'
+          make -C ./vendor/build
+
       - name: Generate output for all sample files
+        env:
+          FEATURES: ${{ matrix.feature }}
         run: ./sample_files/compare_all.sh
+
       - name: Verify output is unchanged
         run: diff -C2 sample_files/compare.result sample_files/compare.expected
 
