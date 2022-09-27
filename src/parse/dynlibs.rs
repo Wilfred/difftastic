@@ -15,7 +15,11 @@ const SHARED_LIB_EXT: &str = {
     {
         "dll"
     }
-    #[cfg(target_family = "unix")]
+    #[cfg(target_os = "macos")]
+    {
+        "dylib"
+    }
+    #[cfg(all(not(target_os = "macos"), target_family = "unix"))]
     {
         "so"
     }
