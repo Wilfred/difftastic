@@ -32,7 +32,7 @@ pub unsafe fn ts_language(
 ) -> Result<ts::Language, libloading::Error> {
     let lang_name = ts_lang_name(language);
 
-    let lib_name = format!("tree-sitter-{0}.{1}", &lang_name, SHARED_LIB_EXT);
+    let lib_name = format!("libtree-sitter-{0}.{1}", &lang_name, SHARED_LIB_EXT);
 
     let mut abs_lib_path = PathBuf::from(parsers_dir);
     abs_lib_path.push(lib_name);
