@@ -11,7 +11,7 @@ endfunction()
 
 
 function(for_library dir lib_name)
-  file(GLOB sources CONFIGURE_DEPENDS ${dir}parser.c ${dir}scanner.cc ${dir}scanner.c)
+  file(GLOB sources CONFIGURE_DEPENDS ${dir}/parser.c ${dir}/scanner.cc ${dir}/scanner.c)
 
   add_library("${lib_name}" SHARED ${sources})
   target_include_directories("${lib_name}" PRIVATE "${dir}")
@@ -25,17 +25,17 @@ foreach(dir IN LISTS helloworld_SRC)
 
   if(NOT ${sources_length} GREATER 0)
     if(${dir} MATCHES .*ocaml-src)
-      for_library("${dir}/ocaml/src/" "tree-sitter-ocaml")
-      for_library("${dir}/interface/src/" "tree-sitter-ocaml-interface")
+      for_library("${dir}/ocaml/src" "tree-sitter-ocaml")
+      for_library("${dir}/interface/src" "tree-sitter-ocaml-interface")
 
     elseif(${dir} MATCHES .*typescript-src)
-      for_library("${dir}/typescript/src/" "tree-sitter-typescript")
-      for_library("${dir}/tsx/src/" "tree-sitter-tsx")
+      for_library("${dir}/typescript/src" "tree-sitter-typescript")
+      for_library("${dir}/tsx/src" "tree-sitter-tsx")
     endif()
 
     continue()
   endif()
 
   get_lib_name(${dir} "${lib_name}")
-  for_library("${dir}/" ${lib_name})
+  for_library("${dir}" ${lib_name})
 endforeach()
