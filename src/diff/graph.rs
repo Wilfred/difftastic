@@ -1,7 +1,6 @@
 //! A graph representation for computing tree diffs.
 
 use bumpalo::Bump;
-use rpds::Stack;
 use rustc_hash::FxHashMap;
 use std::{
     cell::RefCell,
@@ -12,7 +11,10 @@ use std::{
 use strsim::normalized_levenshtein;
 
 use crate::{
-    diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
+    diff::{
+        changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
+        stack::Stack,
+    },
     parse::syntax::{AtomKind, Syntax, SyntaxId},
 };
 use Edge::*;
