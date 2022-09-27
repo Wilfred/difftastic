@@ -62,3 +62,7 @@ database should be at one of the following paths:
 * `/usr/share/mime/magic`
 * `/usr/local/share/mime/magic`
 * `$HOME/.local/share/mime/magic`
+
+## (Optional) Parsers dynamic linking
+
+By default difftastic uses static linking for language parsers. Feature `dl-parsers` allows you to use dynamic linking. Set environment variable `TS_PARSERS_PATH` to shared libraries directory when compiling. Grammar libraries are expected to be named `libtree-sitter-<lang>.so`
