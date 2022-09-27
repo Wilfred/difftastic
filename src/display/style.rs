@@ -130,7 +130,7 @@ pub fn split_and_apply(
             let end_col = span.end_col as usize;
 
             // The remaining spans are beyond the end of this line_part.
-            if start_col >= part_start + byte_len(&line_part) {
+            if start_col >= part_start + byte_len(line_part) {
                 break;
             }
 

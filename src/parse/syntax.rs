@@ -246,7 +246,7 @@ impl<'a> Syntax<'a> {
     ) -> &'a Syntax<'a> {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
-        if content.ends_with("\r") {
+        if content.ends_with('\r') {
             content = &content[..content.len() - 1];
         }
 

@@ -55,7 +55,6 @@ use diff::sliders::fix_all_sliders;
 use options::{DisplayMode, DisplayOptions, FileArgument, Mode, DEFAULT_TAB_WIDTH};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
-use std::path::PathBuf;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
@@ -142,7 +141,7 @@ fn main() {
                 print!("{}", name);
 
                 let mut extensions: Vec<&str> = (*extensions).into();
-                extensions.sort();
+                extensions.sort_unstable();
 
                 for extension in extensions {
                     print!(" .{}", extension);
@@ -179,8 +178,8 @@ fn main() {
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
                     diff_directories(
-                        &lhs_path,
-                        &rhs_path,
+                        lhs_path,
+                        rhs_path,
                         &display_options,
                         graph_limit,
                         byte_limit,
@@ -403,8 +402,8 @@ fn diff_file_content(
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
 fn diff_directories<'a>(
-    lhs_dir: &'a PathBuf,
-    rhs_dir: &'a PathBuf,
+    lhs_dir: &'a Path,
+    rhs_dir: &'a Path,
     display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,

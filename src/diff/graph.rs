@@ -731,7 +731,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
     assert!(
-        res.len() > 0,
+        !res.is_empty(),
         "Must always find some next steps if node is not the end"
     );
 
