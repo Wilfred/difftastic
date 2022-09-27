@@ -10,13 +10,15 @@ use std::{
 use rustc_hash::FxHashSet;
 use walkdir::WalkDir;
 
+use crate::options::FileArgument;
+
 pub fn read_files_or_die(
-    lhs_path: &Path,
-    rhs_path: &Path,
+    lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
     missing_as_empty: bool,
 ) -> (Vec<u8>, Vec<u8>) {
-    let lhs_res = read_cli_path(lhs_path);
-    let rhs_res = read_cli_path(rhs_path);
+    let lhs_res = read_file_arg(lhs_path);
+    let rhs_res = read_file_arg(rhs_path);
 
     match (lhs_res, rhs_res) {
         // Both files exist, the happy case.
@@ -44,43 +46,48 @@ pub fn read_files_or_die(
 
 /// Read a path provided in a CLI argument, handling /dev/null and -
 /// correctly.
-fn read_cli_path(path: &Path) -> std::io::Result<Vec<u8>> {
-    // Treat /dev/null as an empty file, even on platforms like
-    // Windows where this path doesn't exist. Git uses /dev/null
-    // regardless of the platform.
-    if path == Path::new("/dev/null") {
-        return Ok(vec![]);
+fn read_file_arg(file_arg: &FileArgument) -> std::io::Result<Vec<u8>> {
+    match file_arg {
+        FileArgument::NamedPath(path) => fs::read(path),
+        FileArgument::Stdin => {
+            let stdin = std::io::stdin();
+            let mut handle = stdin.lock();
+
+            let mut bytes = vec![];
+            handle.read_to_end(&mut bytes)?;
+            Ok(bytes)
+        }
+        FileArgument::DevNull => {
+            // Treat /dev/null as an empty file, even on platforms like
+            // Windows where this path doesn't exist. Git uses /dev/null
+            // regardless of the platform.
+            Ok(vec![])
+        }
     }
-
-    if path == Path::new("-") {
-        let stdin = std::io::stdin();
-        let mut handle = stdin.lock();
-
-        let mut bytes = vec![];
-        handle.read_to_end(&mut bytes)?;
-
-        return Ok(bytes);
-    }
-
-    fs::read(path)
 }
 
 /// Write a human-friendly description of `e` to stderr.
-fn eprint_read_error(path: &Path, e: &std::io::Error) {
+fn eprint_read_error(file_arg: &FileArgument, e: &std::io::Error) {
     match e.kind() {
         std::io::ErrorKind::NotFound => {
-            eprintln!("No such file: {}", path.display());
+            eprintln!("No such file: {}", file_arg.display());
         }
         std::io::ErrorKind::PermissionDenied => {
-            eprintln!("Permission denied when reading file: {}", path.display());
-        }
-        _ => {
             eprintln!(
-                "Could not read file: {} (error {:?})",
-                path.display(),
-                e.kind()
+                "Permission denied when reading file: {}",
+                file_arg.display()
             );
         }
+        _ => match file_arg {
+            FileArgument::NamedPath(path) if path.is_dir() => {
+                eprintln!("Expected a file, got a directory: {}", path.display());
+            }
+            _ => eprintln!(
+                "Could not read file: {} (error {:?})",
+                file_arg.display(),
+                e.kind()
+            ),
+        },
     };
 }
 
@@ -88,7 +95,7 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
     match fs::read(path) {
         Ok(src) => src,
         Err(e) => {
-            eprint_read_error(path, &e);
+            eprint_read_error(&FileArgument::NamedPath(path.to_path_buf()), &e);
             std::process::exit(1);
         }
     }

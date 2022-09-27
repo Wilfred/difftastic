@@ -52,9 +52,10 @@ use parse::guess_language::{guess, language_name};
 static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
-use options::{DisplayMode, DisplayOptions, Mode, DEFAULT_TAB_WIDTH};
+use options::{DisplayMode, DisplayOptions, FileArgument, Mode, DEFAULT_TAB_WIDTH};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
+use std::path::PathBuf;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
@@ -160,45 +161,49 @@ fn main() {
             lhs_display_path,
             rhs_display_path,
         } => {
-            let lhs_path = Path::new(&lhs_path);
-            let rhs_path = Path::new(&rhs_path);
-
             if lhs_path == rhs_path {
+                let is_dir = match &lhs_path {
+                    FileArgument::NamedPath(path) => path.is_dir(),
+                    _ => false,
+                };
+
                 eprintln!(
                     "warning: You've specified the same {} twice.\n",
-                    if lhs_path.is_dir() {
-                        "directory"
-                    } else {
-                        "file"
-                    }
+                    if is_dir { "directory" } else { "file" }
                 );
             }
 
-            if lhs_path.is_dir() && rhs_path.is_dir() {
-                diff_directories(
-                    lhs_path,
-                    rhs_path,
-                    &display_options,
-                    graph_limit,
-                    byte_limit,
-                    language_override,
-                )
-                .for_each(|diff_result| {
+            match (&lhs_path, &rhs_path) {
+                (
+                    options::FileArgument::NamedPath(lhs_path),
+                    options::FileArgument::NamedPath(rhs_path),
+                ) if lhs_path.is_dir() && rhs_path.is_dir() => {
+                    diff_directories(
+                        &lhs_path,
+                        &rhs_path,
+                        &display_options,
+                        graph_limit,
+                        byte_limit,
+                        language_override,
+                    )
+                    .for_each(|diff_result| {
+                        print_diff_result(&display_options, &diff_result);
+                    });
+                }
+                _ => {
+                    let diff_result = diff_file(
+                        &lhs_display_path,
+                        &rhs_display_path,
+                        &lhs_path,
+                        &rhs_path,
+                        &display_options,
+                        missing_as_empty,
+                        graph_limit,
+                        byte_limit,
+                        language_override,
+                    );
                     print_diff_result(&display_options, &diff_result);
-                });
-            } else {
-                let diff_result = diff_file(
-                    &lhs_display_path,
-                    &rhs_display_path,
-                    lhs_path,
-                    rhs_path,
-                    &display_options,
-                    missing_as_empty,
-                    graph_limit,
-                    byte_limit,
-                    language_override,
-                );
-                print_diff_result(&display_options, &diff_result);
+                }
             }
         }
     };
@@ -218,8 +223,8 @@ fn replace_tabs(src: &str, tab_width: usize) -> String {
 fn diff_file(
     lhs_display_path: &str,
     rhs_display_path: &str,
-    lhs_path: &Path,
-    rhs_path: &Path,
+    lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
     display_options: &DisplayOptions,
     missing_as_empty: bool,
     graph_limit: usize,
@@ -398,8 +403,8 @@ fn diff_file_content(
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
 fn diff_directories<'a>(
-    lhs_dir: &'a Path,
-    rhs_dir: &'a Path,
+    lhs_dir: &'a PathBuf,
+    rhs_dir: &'a PathBuf,
     display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,
@@ -420,9 +425,9 @@ fn diff_directories<'a>(
 
         diff_file(
             &rel_path.to_string_lossy(),
-            &rel_path.to_string_lossy(), // todo
-            &lhs_path,
-            &rhs_path,
+            &rel_path.to_string_lossy(),
+            &FileArgument::NamedPath(lhs_path),
+            &FileArgument::NamedPath(rhs_path),
             &display_options,
             true,
             graph_limit,
