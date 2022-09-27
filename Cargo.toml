@@ -65,6 +65,7 @@ version_check = "0.9.4"
 #
 # https://doc.rust-lang.org/cargo/reference/profiles.html#release
 debug = false
+lto = "thin"
 
 [[bin]]
 name = "difft"
