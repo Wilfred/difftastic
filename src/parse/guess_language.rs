@@ -16,7 +16,7 @@ use std::{borrow::Borrow, ffi::OsStr, path::Path};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Language {
     Bash,
     C,

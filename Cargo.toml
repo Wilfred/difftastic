@@ -48,6 +48,8 @@ tree_magic_mini = "3.0.3"
 bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
+once_cell = { version = "1.14.0", optional = true }
+libloading = { version = "0.7.3", optional = true }
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
@@ -71,3 +73,5 @@ name = "difft"
 path = "src/main.rs"
 
 [features]
+dl-parsers = ["once_cell", "libloading"]
+default = []
