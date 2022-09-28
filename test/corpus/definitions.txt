@@ -34,7 +34,7 @@ T::T() : f1(0), f2(1, 2) {
 
 T::T() : Base<T>() {}
 
-T::T() : f1(0) try {} catch(...) {}
+T::T() try : f1(0) {} catch(...) {}
 
 ---
 
@@ -70,12 +70,12 @@ T::T() : f1(0) try {} catch(...) {}
         (namespace_identifier)
         (identifier))
       (parameter_list))
-    (field_initializer_list
-      (field_initializer
-        (field_identifier)
-        (argument_list
-          (number_literal))))
     (try_statement
+      (field_initializer_list
+        (field_initializer
+          (field_identifier)
+          (argument_list
+            (number_literal))))
       (compound_statement)
       (catch_clause
         (parameter_list)
@@ -194,7 +194,6 @@ T::~T() {}
       (qualified_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
     (compound_statement)))
 
-
 =====================================
 Function-try-block definitions
 =====================================
@@ -214,3 +213,31 @@ void foo() try {} catch(...) {}
       (catch_clause
         (parameter_list)
         (compound_statement)))))
+
+
+=====================================
+Conversion operator definitions
+=====================================
+
+T::operator int() try { throw 1; } catch (...) { return 2; }
+
+---
+
+(translation_unit
+  (function_definition
+    (qualified_identifier
+      (namespace_identifier)
+      (operator_cast
+        (primitive_type)
+        (abstract_function_declarator
+          (parameter_list))))
+    (try_statement
+      (compound_statement
+        (throw_statement
+          (number_literal)))
+      (catch_clause
+        (parameter_list)
+        (compound_statement
+          (return_statement
+            (number_literal)))))))
+

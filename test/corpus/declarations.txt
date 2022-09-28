@@ -178,7 +178,8 @@ struct S {
   S() : f(0) {}
 
  private:
-  int getF() const { return f; }
+  int getF1() const { return f; }
+  int getF2() const try { throw 1; } catch (...) { return f; }
 };
 
 ---
@@ -194,7 +195,14 @@ struct S {
     (function_definition
       (primitive_type)
       (function_declarator (field_identifier) (parameter_list) (type_qualifier))
-      (compound_statement (return_statement (identifier)))))))
+      (compound_statement (return_statement (identifier))))
+    (function_definition
+      (primitive_type)
+      (function_declarator (field_identifier) (parameter_list) (type_qualifier))
+      (try_statement
+        (compound_statement (throw_statement (number_literal)))
+        (catch_clause (parameter_list)
+          (compound_statement (return_statement (identifier)))))))))
 
 =========================================
 Inline method definitions with overrides

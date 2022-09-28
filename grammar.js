@@ -417,7 +417,7 @@ module.exports = grammar(C, {
       $._declaration_specifiers,
       field('declarator', $._field_declarator),
       choice(
-        field('body', $.compound_statement),
+        field('body', choice($.compound_statement, $.try_statement)),
         $.default_method_clause,
         $.delete_method_clause
       )
@@ -434,7 +434,7 @@ module.exports = grammar(C, {
         $.operator_cast,
         alias($.qualified_operator_cast_identifier, $.qualified_identifier)
       )),
-      field('body', $.compound_statement)
+      field('body', choice($.compound_statement, $.try_statement))
     ),
 
     operator_cast_declaration: $ => prec(1, seq(
@@ -447,14 +447,22 @@ module.exports = grammar(C, {
       ';'
     )),
 
+    constructor_try_statement: $ => seq(
+      'try',
+      optional($.field_initializer_list),
+      field('body', $.compound_statement),
+      repeat1($.catch_clause)
+    ),
+
     constructor_or_destructor_definition: $ => seq(
       repeat($._constructor_specifiers),
       field('declarator', $.function_declarator),
-      optional($.field_initializer_list),
       choice(
-        field('body', choice(
-          $.compound_statement,
-          $.try_statement)),
+        seq(
+          optional($.field_initializer_list),
+          field('body', $.compound_statement)
+        ),
+        alias($.constructor_try_statement, $.try_statement),
         $.default_method_clause,
         $.delete_method_clause
       )
