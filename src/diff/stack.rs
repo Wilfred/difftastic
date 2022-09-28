@@ -9,12 +9,11 @@ struct Node<T> {
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Stack<T> {
     head: Option<Rc<Node<T>>>,
-    len: usize,
 }
 
 impl<T> Stack<T> {
     pub fn new() -> Self {
-        Self { head: None, len: 0 }
+        Self { head: None }
     }
 
     pub fn peek(&self) -> Option<&T> {
@@ -24,7 +23,6 @@ impl<T> Stack<T> {
     pub fn pop(&self) -> Option<Stack<T>> {
         self.head.as_deref().map(|n| Self {
             head: n.next.clone(),
-            len: self.len - 1,
         })
     }
 
@@ -34,15 +32,21 @@ impl<T> Stack<T> {
                 val: v,
                 next: self.head.clone(),
             })),
-            len: self.len + 1,
         }
     }
 
+    // O(n)
     pub fn size(&self) -> usize {
-        self.len
+        let mut res = 0;
+        let mut node = &self.head;
+        while let Some(next) = node {
+            res += 1;
+            node = &next.next;
+        }
+        res
     }
 
     pub fn is_empty(&self) -> bool {
-        self.len == 0
+        self.head.is_none()
     }
 }
