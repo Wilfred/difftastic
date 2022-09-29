@@ -6,6 +6,8 @@ Difftastic是一款开源软件（使用MIT许可证）并且可以[在Github上
 
 该说明书会表明当前版本DFT_VERSION_HERE。[变更记录](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)会记录每个版本的特性增加和bug的修复。
 
+如果你正在寻找其他语言版本的说明书，我们同样提供了[英语版本](https://difftastic.wilfred.me.uk/)。
+
 ## 语法差异分析
 
 Difftastic会[检测编程语言](./usage.html#language-detection)，爬取代码，随后比较句法树。见例子：
