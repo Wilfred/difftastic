@@ -211,44 +211,24 @@ fn push_lhs_delimiter<'a>(
     entered: &Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
 ) -> Stack<EnteredDelimiter<'a>> {
-    let mut modifying_head = false;
-    let (mut lhs_delims, rhs_delims) = match entered.peek() {
-        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
-            modifying_head = true;
-            (lhs_delims.clone(), rhs_delims.clone())
-        }
-        _ => (Stack::new(), Stack::new()),
-    };
-    lhs_delims = lhs_delims.push(delimiter);
-
-    let entered = if modifying_head {
-        entered.pop().unwrap()
-    } else {
-        entered.clone()
-    };
-    entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
+    match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+            EnteredDelimiter::PopEither((lhs_delims.push(delimiter), rhs_delims.clone())),
+        ),
+        _ => entered.push(EnteredDelimiter::PopEither((Stack::new().push(delimiter), Stack::new()))),
+    }
 }
 
 fn push_rhs_delimiter<'a>(
     entered: &Stack<EnteredDelimiter<'a>>,
     delimiter: &'a Syntax<'a>,
 ) -> Stack<EnteredDelimiter<'a>> {
-    let mut modifying_head = false;
-    let (lhs_delims, mut rhs_delims) = match entered.peek() {
-        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => {
-            modifying_head = true;
-            (lhs_delims.clone(), rhs_delims.clone())
-        }
-        _ => (Stack::new(), Stack::new()),
-    };
-    rhs_delims = rhs_delims.push(delimiter);
-
-    let entered = if modifying_head {
-        entered.pop().unwrap()
-    } else {
-        entered.clone()
-    };
-    entered.push(EnteredDelimiter::PopEither((lhs_delims, rhs_delims)))
+    match entered.peek() {
+        Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
+            EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter))),
+        ),
+        _ => entered.push(EnteredDelimiter::PopEither((Stack::new(), Stack::new().push(delimiter)))),
+    }
 }
 
 impl<'a, 'b> Vertex<'a, 'b> {
