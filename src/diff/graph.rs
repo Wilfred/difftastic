@@ -60,32 +60,40 @@ pub struct Vertex<'a, 'b> {
 
 impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
     fn eq(&self, other: &Self) -> bool {
-        self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
-            && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
-            // Strictly speaking, we should compare the whole
-            // EnteredDelimiter stack, not just the immediate
-            // parents. By taking the immediate parent, we have
-            // vertices with different stacks that are 'equal'.
-            //
-            // This makes the graph traversal path dependent: the
-            // first vertex we see 'wins', and we use it for deciding
-            // how we can pop.
-            //
-            // In practice this seems to work well. The first vertex
-            // has the lowest cost, so has the most PopBoth
-            // occurrences, which is the best outcome.
-            //
-            // Handling this properly would require considering many
-            // more vertices to be distinct, exponentially increasing
-            // the graph size relative to tree depth.
-            && self.lhs_parent_id == other.lhs_parent_id
-            && self.rhs_parent_id == other.rhs_parent_id
-            // We do want to distinguish whether we can pop each side
-            // independently though. Without this, if we find a case
-            // where we can pop sides together, we don't consider the
-            // case where we get a better diff by popping each side
-            // separately.
-            && can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents)
+        // Strictly speaking, we should compare the whole
+        // EnteredDelimiter stack, not just the immediate
+        // parents. By taking the immediate parent, we have
+        // vertices with different stacks that are 'equal'.
+        //
+        // This makes the graph traversal path dependent: the
+        // first vertex we see 'wins', and we use it for deciding
+        // how we can pop.
+        //
+        // In practice this seems to work well. The first vertex
+        // has the lowest cost, so has the most PopBoth
+        // occurrences, which is the best outcome.
+        //
+        // Handling this properly would require considering many
+        // more vertices to be distinct, exponentially increasing
+        // the graph size relative to tree depth.
+        let b0 = match (self.lhs_syntax, other.lhs_syntax) {
+            (Some(s0), Some(s1)) => s0.id() == s1.id(),
+            (None, None) => self.lhs_parent_id == other.lhs_parent_id,
+            _ => false,
+        };
+        let b1 = match (self.rhs_syntax, other.rhs_syntax) {
+            (Some(s0), Some(s1)) => s0.id() == s1.id(),
+            (None, None) => self.rhs_parent_id == other.rhs_parent_id,
+            _ => false,
+        };
+        // We do want to distinguish whether we can pop each side
+        // independently though. Without this, if we find a case
+        // where we can pop sides together, we don't consider the
+        // case where we get a better diff by popping each side
+        // separately.
+        let b2 = can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents);
+
+        b0 && b1 && b2
     }
 }
 impl<'a, 'b> Eq for Vertex<'a, 'b> {}
