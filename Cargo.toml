@@ -42,7 +42,6 @@ walkdir = "2.3.2"
 terminal_size = "0.2.1"
 const_format = "0.2.22"
 owo-colors = "3.3.0"
-rpds = "0.10.0"
 wu-diff = "0.1.2"
 rayon = "1.5.2"
 tree_magic_mini = "3.0.3"
@@ -65,6 +64,7 @@ version_check = "0.9.4"
 #
 # https://doc.rust-lang.org/cargo/reference/profiles.html#release
 debug = false
+lto = "thin"
 
 [[bin]]
 name = "difft"
