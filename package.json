@@ -1,7 +1,11 @@
 {
   "name": "tree-sitter-sfapex",
+  "version": "0.0.1",
   "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
   "homepage": "https://github.com/aheber/tree-sitter-sfapex",
+  "bugs": {
+    "url": "https://github.com/aheber/tree-sitter-sfapex/issues"
+  },
   "license": "MIT",
   "author": {
     "name": "Anthony Heber"
@@ -62,5 +66,14 @@
         "sosl/queries/highlights.scm"
       ]
     }
+  ],
+  "files": [
+    "*/queries/*",
+    "*/src/grammar.json",
+    "*/src/node-types.json",
+    "*/src/parser.c",
+    "*/*.wasm",
+    "bindings/node/*",
+    "build/Release"
   ]
 }
