@@ -11,7 +11,7 @@ This copy of the manual describes version DFT_VERSION_HERE. The
 [changelog](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)
 records which features and bug fixes are in each version.
 
-If you are searching for other language version of this manual, we provide [Chinese](https://difftastic.wilfred.me.uk/zh-CN/) as well.
+*This manual is also available in [Chinese](https://difftastic.wilfred.me.uk/zh-CN/).*
 
 ## Syntactic Diffing
 
