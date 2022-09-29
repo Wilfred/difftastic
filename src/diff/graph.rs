@@ -56,7 +56,6 @@ pub struct Vertex<'a, 'b> {
     parents: Stack<EnteredDelimiter<'a>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
-    can_pop_either: bool,
 }
 
 impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
@@ -86,7 +85,7 @@ impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
             // where we can pop sides together, we don't consider the
             // case where we get a better diff by popping each side
             // separately.
-            && self.can_pop_either == other.can_pop_either
+            && can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents)
     }
 }
 impl<'a, 'b> Eq for Vertex<'a, 'b> {}
@@ -98,7 +97,7 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
 
         self.lhs_parent_id.hash(state);
         self.rhs_parent_id.hash(state);
-        self.can_pop_either.hash(state);
+        can_pop_either_parent(&self.parents).hash(state);
     }
 }
 
@@ -215,7 +214,10 @@ fn push_lhs_delimiter<'a>(
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.push(delimiter), rhs_delims.clone())),
         ),
-        _ => entered.push(EnteredDelimiter::PopEither((Stack::new().push(delimiter), Stack::new()))),
+        _ => entered.push(EnteredDelimiter::PopEither((
+            Stack::new().push(delimiter),
+            Stack::new(),
+        ))),
     }
 }
 
@@ -227,7 +229,10 @@ fn push_rhs_delimiter<'a>(
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter))),
         ),
-        _ => entered.push(EnteredDelimiter::PopEither((Stack::new(), Stack::new().push(delimiter)))),
+        _ => entered.push(EnteredDelimiter::PopEither((
+            Stack::new(),
+            Stack::new().push(delimiter),
+        ))),
     }
 }
 
@@ -246,7 +251,6 @@ impl<'a, 'b> Vertex<'a, 'b> {
             parents,
             lhs_parent_id: None,
             rhs_parent_id: None,
-            can_pop_either: false,
         }
     }
 }
@@ -427,7 +431,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: rhs_parent.next_sibling(),
-                        can_pop_either: can_pop_either_parent(&parents_next),
                         parents: parents_next,
                         lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                         rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -452,7 +455,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
-                        can_pop_either: can_pop_either_parent(&parents_next),
                         parents: parents_next,
                         lhs_parent_id: lhs_parent.parent().map(Syntax::id),
                         rhs_parent_id: v.rhs_parent_id,
@@ -477,7 +479,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_parent.next_sibling(),
-                        can_pop_either: can_pop_either_parent(&parents_next),
                         parents: parents_next,
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: rhs_parent.parent().map(Syntax::id),
@@ -507,7 +508,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         parents: v.parents.clone(),
                         lhs_parent_id: v.lhs_parent_id,
                         rhs_parent_id: v.rhs_parent_id,
-                        can_pop_either: v.can_pop_either,
                     },
                     alloc,
                     seen,
@@ -553,7 +553,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: parents_next,
                             lhs_parent_id: Some(lhs_syntax.id()),
                             rhs_parent_id: Some(rhs_syntax.id()),
-                            can_pop_either: false,
                         },
                         alloc,
                         seen,
@@ -591,7 +590,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: v.parents.clone(),
                             lhs_parent_id: v.lhs_parent_id,
                             rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: v.can_pop_either,
                         },
                         alloc,
                         seen,
@@ -621,7 +619,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: v.parents.clone(),
                             lhs_parent_id: v.lhs_parent_id,
                             rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: v.can_pop_either,
                         },
                         alloc,
                         seen,
@@ -647,7 +644,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: parents_next,
                             lhs_parent_id: Some(lhs_syntax.id()),
                             rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: true,
                         },
                         alloc,
                         seen,
@@ -675,7 +671,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: v.parents.clone(),
                             lhs_parent_id: v.lhs_parent_id,
                             rhs_parent_id: v.rhs_parent_id,
-                            can_pop_either: v.can_pop_either,
                         },
                         alloc,
                         seen,
@@ -701,7 +696,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             parents: parents_next,
                             lhs_parent_id: v.lhs_parent_id,
                             rhs_parent_id: Some(rhs_syntax.id()),
-                            can_pop_either: true,
                         },
                         alloc,
                         seen,
