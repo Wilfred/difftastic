@@ -120,7 +120,7 @@ pub fn language_name(language: Language) -> &'static str {
     }
 }
 
-pub const LANG_EXTENSIONS: &'static [(Language, &[&str])] = &[
+pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
     (
         Bash,
         &[

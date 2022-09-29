@@ -44,8 +44,8 @@ fn shortest_vertex_path<'a, 'b>(
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
-                    let found_shorter_route = match &*next.predecessor.borrow() {
-                        Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
+                    let found_shorter_route = match next.predecessor.get() {
+                        Some((prev_shortest, _)) => distance_to_next < prev_shortest,
                         None => true,
                     };
 
@@ -74,7 +74,7 @@ fn shortest_vertex_path<'a, 'b>(
     let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
     while let Some((_, node)) = current {
         vertex_route.push(node);
-        current = *node.predecessor.borrow();
+        current = node.predecessor.get();
     }
 
     vertex_route.reverse();
@@ -91,7 +91,7 @@ fn shortest_path_with_edges<'a, 'b>(
 
     for vertex in route.iter().skip(1) {
         let edge = edge_between(prev, vertex);
-        res.push((edge, prev.clone()));
+        res.push((edge, *prev));
         cost += edge.cost();
 
         prev = vertex;
