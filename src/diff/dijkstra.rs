@@ -219,9 +219,9 @@ pub fn mark_syntax<'a>(
             .map(|x| {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
+                    x.1.lhs_syntax.get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
+                    x.1.rhs_syntax.get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.0.cost(),
                     x.0,
