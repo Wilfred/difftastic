@@ -104,13 +104,30 @@ fn next_syntax<'a>(syntax: &'a Syntax<'a>) -> SyntaxRefOrId<'a> {
 /// LHS: X A     RHS: A
 ///      ^              ^
 /// ```
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq)]
 pub struct Vertex<'a, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
     pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: SyntaxRefOrId<'a>,
     pub rhs_syntax: SyntaxRefOrId<'a>,
     parents: Stack<EnteredDelimiter<'a>>,
+}
+
+impl<'a, 'b> Vertex<'a, 'b> {
+    pub fn is_end(&self) -> bool {
+        self.lhs_syntax.is_id() && self.rhs_syntax.is_id() && self.parents.is_empty()
+    }
+
+    pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
+        let parents = Stack::new();
+        Vertex {
+            neighbours: RefCell::new(None),
+            predecessor: Cell::new(None),
+            lhs_syntax: lhs_syntax.map_or(None.into(), |s| s.into()),
+            rhs_syntax: rhs_syntax.map_or(None.into(), |s| s.into()),
+            parents,
+        }
+    }
 }
 
 impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
@@ -143,7 +160,6 @@ impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
             && can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents)
     }
 }
-impl<'a, 'b> Eq for Vertex<'a, 'b> {}
 
 impl<'a, 'b> Hash for Vertex<'a, 'b> {
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -153,8 +169,14 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
     }
 }
 
+impl<'a, 'b> Default for Vertex<'a, 'b> {
+    fn default() -> Self {
+        Self::new(None, None)
+    }
+}
+
 /// Tracks entering syntax List nodes.
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Eq)]
 enum EnteredDelimiter<'a> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
@@ -285,23 +307,6 @@ fn push_rhs_delimiter<'a>(
             Stack::new(),
             Stack::new().push(delimiter),
         ))),
-    }
-}
-
-impl<'a, 'b> Vertex<'a, 'b> {
-    pub fn is_end(&self) -> bool {
-        self.lhs_syntax.is_id() && self.rhs_syntax.is_id() && self.parents.is_empty()
-    }
-
-    pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
-        let parents = Stack::new();
-        Vertex {
-            neighbours: RefCell::new(None),
-            predecessor: Cell::new(None),
-            lhs_syntax: lhs_syntax.map_or(None.into(), |s| s.into()),
-            rhs_syntax: rhs_syntax.map_or(None.into(), |s| s.into()),
-            parents,
-        }
     }
 }
 
@@ -477,11 +482,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                 ExitDelimiterBoth,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
                         lhs_syntax: next_syntax(lhs_parent),
                         rhs_syntax: next_syntax(rhs_parent),
                         parents: parents_next,
+                        ..Vertex::default()
                     },
                     alloc,
                     seen,
@@ -499,11 +503,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                 ExitDelimiterLHS,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
                         lhs_syntax: next_syntax(lhs_parent),
                         rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
+                        ..Vertex::default()
                     },
                     alloc,
                     seen,
@@ -521,11 +524,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                 ExitDelimiterRHS,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: next_syntax(rhs_parent),
                         parents: parents_next,
+                        ..Vertex::default()
                     },
                     alloc,
                     seen,
@@ -545,11 +547,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                 UnchangedNode { depth_difference },
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
                         lhs_syntax: next_syntax(lhs_syntax),
                         rhs_syntax: next_syntax(rhs_syntax),
                         parents: v.parents.clone(),
+                        ..Vertex::default()
                     },
                     alloc,
                     seen,
@@ -588,11 +589,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_next.map_or(Some(lhs_syntax.id()).into(), |s| s.into()),
                             rhs_syntax: rhs_next.map_or(Some(rhs_syntax.id()).into(), |s| s.into()),
                             parents: parents_next,
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
@@ -623,11 +623,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     ReplacedComment { levenshtein_pct },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: next_syntax(lhs_syntax),
                             rhs_syntax: next_syntax(rhs_syntax),
                             parents: v.parents.clone(),
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
@@ -650,11 +649,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: next_syntax(lhs_syntax),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
@@ -673,11 +671,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: lhs_next.map_or(Some(lhs_syntax.id()).into(), |s| s.into()),
                             rhs_syntax: v.rhs_syntax,
                             parents: parents_next,
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
@@ -698,11 +695,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: next_syntax(rhs_syntax),
                             parents: v.parents.clone(),
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
@@ -721,11 +717,10 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_next.map_or(Some(rhs_syntax.id()).into(), |s| s.into()),
                             parents: parents_next,
+                            ..Vertex::default()
                         },
                         alloc,
                         seen,
