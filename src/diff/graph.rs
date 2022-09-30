@@ -35,7 +35,7 @@ pub struct SyntaxRefOrId<'a> {
     phantom: PhantomData<&'a Syntax<'a>>,
 }
 
-impl SyntaxRefOrId<'_> {
+impl<'a> SyntaxRefOrId<'a> {
     pub fn is_ref(&self) -> bool {
         self.data & 1 == 0
     }
@@ -44,7 +44,7 @@ impl SyntaxRefOrId<'_> {
         self.data & 1 == 1
     }
 
-    pub fn get_ref<'a>(&self) -> Option<&'a Syntax<'a>> {
+    pub fn get_ref(&self) -> Option<&'a Syntax<'a>> {
         if self.is_ref() {
             Some(unsafe { transmute_copy(&self.data) })
         } else {
@@ -56,7 +56,7 @@ impl SyntaxRefOrId<'_> {
 impl<'a> From<&'a Syntax<'a>> for SyntaxRefOrId<'a> {
     fn from(s: &'a Syntax<'a>) -> Self {
         Self {
-            data: unsafe { transmute_copy(&s) },
+            data: s as *const _ as _,
             phantom: PhantomData,
         }
     }
@@ -77,10 +77,8 @@ fn next_sibling_syntax<'a>(syntax: &'a Syntax<'a>) -> SyntaxRefOrId<'a> {
 }
 
 fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SyntaxRefOrId<'a> {
-    children
-        .get(0)
-        .copied()
-        .map_or(Some(syntax.id()).into(), |s| s.into())
+    let child = children.get(0).copied();
+    child.map_or(Some(syntax.id()).into(), |s| s.into())
 }
 
 /// A vertex in a directed acyclic graph that represents a diff.
