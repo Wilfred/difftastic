@@ -3,7 +3,7 @@
 use bumpalo::Bump;
 use rustc_hash::FxHashMap;
 use std::{
-    cell::{Cell, RefCell},
+    cell::{Cell, UnsafeCell},
     cmp::min,
     fmt,
     hash::{Hash, Hasher},
@@ -62,7 +62,7 @@ impl<'a> From<&'a Syntax<'a>> for SyntaxRefOrId<'a> {
     }
 }
 
-impl<'a> From<Option<SyntaxId>> for SyntaxRefOrId<'a> {
+impl From<Option<SyntaxId>> for SyntaxRefOrId<'_> {
     fn from(s: Option<SyntaxId>) -> Self {
         Self {
             data: s.map_or(0, |n| n.get() as usize) * 2 + 1,
@@ -111,9 +111,10 @@ fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) ->
 /// LHS: X A     RHS: A
 ///      ^              ^
 /// ```
-#[derive(Debug, Clone, Eq)]
+#[derive(Debug)]
 pub struct Vertex<'a, 'b> {
-    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
+    // TODO: how to design the boundary of unsafe?
+    pub neighbours: UnsafeCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
     pub shortest_distance: Cell<u64>,
     pub predecessor: Cell<Option<&'b Vertex<'a, 'b>>>,
     pub lhs_syntax: SyntaxRefOrId<'a>,
@@ -129,7 +130,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         let parents = Stack::new();
         Vertex {
-            neighbours: RefCell::new(None),
+            neighbours: UnsafeCell::new(None),
             shortest_distance: Cell::new(u64::MAX),
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(None.into(), |s| s.into()),
@@ -139,7 +140,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
     }
 }
 
-impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
+impl PartialEq for Vertex<'_, '_> {
     fn eq(&self, other: &Self) -> bool {
         // Strictly speaking, we should compare the whole
         // EnteredDelimiter stack, not just the immediate
@@ -170,7 +171,9 @@ impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
     }
 }
 
-impl<'a, 'b> Hash for Vertex<'a, 'b> {
+impl Eq for Vertex<'_, '_> {}
+
+impl Hash for Vertex<'_, '_> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.hash(state);
         self.rhs_syntax.hash(state);
@@ -178,7 +181,7 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
     }
 }
 
-impl<'a, 'b> Default for Vertex<'a, 'b> {
+impl Default for Vertex<'_, '_> {
     fn default() -> Self {
         Self::new(None, None)
     }
@@ -474,7 +477,7 @@ pub fn set_neighbours<'syn, 'b>(
     alloc: &'b Bump,
     seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
 ) {
-    if v.neighbours.borrow().is_some() {
+    if unsafe { (&*v.neighbours.get()).is_some() } {
         return;
     }
 
@@ -735,7 +738,7 @@ pub fn set_neighbours<'syn, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res));
+    unsafe { *v.neighbours.get() = Some(res) };
 }
 
 pub fn populate_change_map<'a, 'b>(

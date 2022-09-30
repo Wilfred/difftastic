@@ -42,7 +42,7 @@ fn shortest_vertex_path<'a, 'b>(
 
                 set_neighbours(current, vertex_arena, &mut seen);
 
-                if let Some(neighbors) = &*current.neighbours.borrow() {
+                if let Some(neighbors) = unsafe { &*current.neighbours.get() } {
                     for &(edge, next) in neighbors {
                         let distance_to_next = distance + edge.cost();
 
@@ -110,7 +110,7 @@ fn shortest_path<'a, 'b>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
+    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start);
     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
@@ -119,9 +119,8 @@ fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge
     assert_ne!(before, after);
 
     let mut shortest_edge: Option<Edge> = None;
-    if let Some(neighbours) = &*before.neighbours.borrow() {
-        for neighbour in neighbours {
-            let (edge, next) = *neighbour;
+    if let Some(neighbours) = unsafe { &*before.neighbours.get() } {
+        for &(edge, next) in neighbours {
             // If there are multiple edges that can take us to `next`,
             // prefer the shortest.
             if *next == *after {
