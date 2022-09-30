@@ -5,13 +5,12 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
+    diff::graph::{populate_change_map, set_neighbours, Edge, SeenMap, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
-use rustc_hash::FxHashMap;
 
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
@@ -30,7 +29,7 @@ fn shortest_vertex_path<'a, 'b>(
 
     heap.push(Reverse(0), start);
 
-    let mut seen = FxHashMap::default();
+    let mut seen = SeenMap::default();
     seen.reserve(size_hint);
 
     let end: &'b Vertex<'a, 'b> = loop {

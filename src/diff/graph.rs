@@ -1,11 +1,11 @@
 //! A graph representation for computing tree diffs.
 
 use bumpalo::Bump;
-use rustc_hash::FxHashMap;
+use rustc_hash::FxHasher;
 use std::{
     cell::{Cell, UnsafeCell},
     cmp::min,
-    hash::{Hash, Hasher},
+    hash::{BuildHasherDefault, Hash, Hasher},
     marker::PhantomData,
 };
 use strsim::normalized_levenshtein;
@@ -403,8 +403,11 @@ impl Edge {
     }
 }
 
-type SeenMap<'syn, 'b> =
-    FxHashMap<&'b Vertex<'syn, 'b>, (Option<&'b Vertex<'syn, 'b>>, Option<&'b Vertex<'syn, 'b>>)>;
+pub type SeenMap<'syn, 'b> = hashbrown::HashMap<
+    &'b Vertex<'syn, 'b>,
+    Option<&'b Vertex<'syn, 'b>>,
+    BuildHasherDefault<FxHasher>,
+>;
 
 #[inline(never)]
 fn allocate_if_new<'syn, 'b>(
@@ -412,23 +415,21 @@ fn allocate_if_new<'syn, 'b>(
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
 ) -> &'b Vertex<'syn, 'b> {
-    match seen.get_mut(&v) {
-        Some(existing) => match existing {
-            (Some(_), Some(v2)) => v2,
-            (Some(v1), sv2) => {
-                if v1.lhs_parents == v.lhs_parents && v1.rhs_parents == v.rhs_parents {
-                    v1
-                } else {
-                    let allocated = alloc.alloc(v);
-                    *sv2 = Some(allocated);
-                    allocated
-                }
+    match seen.get_key_value_mut(&v) {
+        Some((key, value)) => {
+            if let Some(existing) = value {
+                return existing;
             }
-            _ => unreachable!(),
-        },
+            if key.lhs_parents == v.lhs_parents && key.rhs_parents == v.rhs_parents {
+                return key;
+            }
+            let allocated = alloc.alloc(v);
+            *value = Some(allocated);
+            allocated
+        }
         None => {
             let allocated = alloc.alloc(v);
-            seen.insert(allocated, (Some(allocated), None));
+            seen.insert(allocated, None);
             allocated
         }
     }
