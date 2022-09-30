@@ -7,7 +7,6 @@ use std::{
     cmp::min,
     hash::{Hash, Hasher},
     marker::PhantomData,
-    mem::transmute_copy,
 };
 use strsim::normalized_levenshtein;
 
@@ -45,7 +44,7 @@ impl<'a> SyntaxRefOrId<'a> {
 
     pub fn get_ref(&self) -> Option<&'a Syntax<'a>> {
         if self.is_ref() {
-            Some(unsafe { transmute_copy(&self.data) })
+            Some(unsafe { &*(self.data as *const _) })
         } else {
             None
         }
@@ -230,9 +229,9 @@ pub struct EnteredDelimiter<'a> {
 impl<'a> From<&EnteredDelimiter<'a>> for EnteredDelimiterEnum<'a> {
     fn from(delim: &EnteredDelimiter<'a>) -> Self {
         if delim.data & 1 == 0 {
-            PopEither(unsafe { transmute_copy(&delim.data) })
+            PopEither(unsafe { &*(delim.data as *const _) })
         } else {
-            PopBoth(unsafe { transmute_copy(&(delim.data ^ 1)) })
+            PopBoth(unsafe { &*((delim.data ^ 1) as *const _) })
         }
     }
 }
