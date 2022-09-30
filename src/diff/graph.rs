@@ -71,9 +71,16 @@ impl<'a> From<Option<SyntaxId>> for SyntaxRefOrId<'a> {
     }
 }
 
-fn next_syntax<'a>(syntax: &'a Syntax<'a>) -> SyntaxRefOrId<'a> {
+fn next_sibling_syntax<'a>(syntax: &'a Syntax<'a>) -> SyntaxRefOrId<'a> {
     let parent_id = syntax.parent().map(Syntax::id);
     syntax.next_sibling().map_or(parent_id.into(), |n| n.into())
+}
+
+fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SyntaxRefOrId<'a> {
+    children
+        .get(0)
+        .copied()
+        .map_or(Some(syntax.id()).into(), |s| s.into())
 }
 
 /// A vertex in a directed acyclic graph that represents a diff.
@@ -482,8 +489,8 @@ pub fn get_set_neighbours<'syn, 'b>(
                 ExitDelimiterBoth,
                 allocate_if_new(
                     Vertex {
-                        lhs_syntax: next_syntax(lhs_parent),
-                        rhs_syntax: next_syntax(rhs_parent),
+                        lhs_syntax: next_sibling_syntax(lhs_parent),
+                        rhs_syntax: next_sibling_syntax(rhs_parent),
                         parents: parents_next,
                         ..Vertex::default()
                     },
@@ -503,7 +510,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 ExitDelimiterLHS,
                 allocate_if_new(
                     Vertex {
-                        lhs_syntax: next_syntax(lhs_parent),
+                        lhs_syntax: next_sibling_syntax(lhs_parent),
                         rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
                         ..Vertex::default()
@@ -525,7 +532,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                 allocate_if_new(
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: next_syntax(rhs_parent),
+                        rhs_syntax: next_sibling_syntax(rhs_parent),
                         parents: parents_next,
                         ..Vertex::default()
                     },
@@ -547,8 +554,8 @@ pub fn get_set_neighbours<'syn, 'b>(
                 UnchangedNode { depth_difference },
                 allocate_if_new(
                     Vertex {
-                        lhs_syntax: next_syntax(lhs_syntax),
-                        rhs_syntax: next_syntax(rhs_syntax),
+                        lhs_syntax: next_sibling_syntax(lhs_syntax),
+                        rhs_syntax: next_sibling_syntax(rhs_syntax),
                         parents: v.parents.clone(),
                         ..Vertex::default()
                     },
@@ -575,9 +582,6 @@ pub fn get_set_neighbours<'syn, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let lhs_next = lhs_children.get(0).copied();
-                let rhs_next = rhs_children.get(0).copied();
-
                 // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
 
@@ -589,8 +593,8 @@ pub fn get_set_neighbours<'syn, 'b>(
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
-                            lhs_syntax: lhs_next.map_or(Some(lhs_syntax.id()).into(), |s| s.into()),
-                            rhs_syntax: rhs_next.map_or(Some(rhs_syntax.id()).into(), |s| s.into()),
+                            lhs_syntax: next_child_syntax(lhs_syntax, lhs_children),
+                            rhs_syntax: next_child_syntax(rhs_syntax, rhs_children),
                             parents: parents_next,
                             ..Vertex::default()
                         },
@@ -623,8 +627,8 @@ pub fn get_set_neighbours<'syn, 'b>(
                     ReplacedComment { levenshtein_pct },
                     allocate_if_new(
                         Vertex {
-                            lhs_syntax: next_syntax(lhs_syntax),
-                            rhs_syntax: next_syntax(rhs_syntax),
+                            lhs_syntax: next_sibling_syntax(lhs_syntax),
+                            rhs_syntax: next_sibling_syntax(rhs_syntax),
                             parents: v.parents.clone(),
                             ..Vertex::default()
                         },
@@ -649,7 +653,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            lhs_syntax: next_syntax(lhs_syntax),
+                            lhs_syntax: next_sibling_syntax(lhs_syntax),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
                             ..Vertex::default()
@@ -661,8 +665,6 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let lhs_next = children.get(0).copied();
-
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
                 res.push((
@@ -671,7 +673,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            lhs_syntax: lhs_next.map_or(Some(lhs_syntax.id()).into(), |s| s.into()),
+                            lhs_syntax: next_child_syntax(lhs_syntax, children),
                             rhs_syntax: v.rhs_syntax,
                             parents: parents_next,
                             ..Vertex::default()
@@ -696,7 +698,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: next_syntax(rhs_syntax),
+                            rhs_syntax: next_sibling_syntax(rhs_syntax),
                             parents: v.parents.clone(),
                             ..Vertex::default()
                         },
@@ -707,8 +709,6 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let rhs_next = children.get(0).copied();
-
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
                 res.push((
@@ -718,7 +718,7 @@ pub fn get_set_neighbours<'syn, 'b>(
                     allocate_if_new(
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_next.map_or(Some(rhs_syntax.id()).into(), |s| s.into()),
+                            rhs_syntax: next_child_syntax(rhs_syntax, children),
                             parents: parents_next,
                             ..Vertex::default()
                         },
