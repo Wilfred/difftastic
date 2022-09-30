@@ -467,14 +467,13 @@ fn looks_like_punctuation(content: &str) -> bool {
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// write them to the .neighbours cell inside `v`, and return them.
-pub fn get_set_neighbours<'syn, 'b>(
+pub fn set_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
-) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
-    match &*v.neighbours.borrow() {
-        Some(neighbours) => return neighbours.clone(),
-        None => {}
+) {
+    if v.neighbours.borrow().is_some() {
+        return;
     }
 
     let mut res: Vec<(Edge, &Vertex)> = vec![];
@@ -734,8 +733,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res.clone()));
-    res
+    v.neighbours.replace(Some(res));
 }
 
 pub fn populate_change_map<'a, 'b>(

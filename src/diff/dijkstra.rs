@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{get_set_neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{populate_change_map, set_neighbours, Edge, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -40,18 +40,22 @@ fn shortest_vertex_path<'a, 'b>(
                     break current;
                 }
 
-                for neighbour in &get_set_neighbours(current, vertex_arena, &mut seen) {
-                    let (edge, next) = neighbour;
-                    let distance_to_next = distance + edge.cost();
+                set_neighbours(current, vertex_arena, &mut seen);
 
-                    let found_shorter_route = match next.predecessor.get() {
-                        Some((prev_shortest, _)) => distance_to_next < prev_shortest,
-                        None => true,
-                    };
+                if let Some(neighbors) = &*current.neighbours.borrow() {
+                    for neighbour in neighbors {
+                        let (edge, next) = neighbour;
+                        let distance_to_next = distance + edge.cost();
 
-                    if found_shorter_route {
-                        next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+                        let found_shorter_route = match next.predecessor.get() {
+                            Some((prev_shortest, _)) => distance_to_next < prev_shortest,
+                            None => true,
+                        };
+
+                        if found_shorter_route {
+                            next.predecessor.replace(Some((distance_to_next, current)));
+                            heap.push(Reverse(distance_to_next), next);
+                        }
                     }
                 }
 
@@ -219,9 +223,11 @@ pub fn mark_syntax<'a>(
             .map(|x| {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax.get_ref()
+                    x.1.lhs_syntax
+                        .get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax.get_ref()
+                    x.1.rhs_syntax
+                        .get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.0.cost(),
                     x.0,
