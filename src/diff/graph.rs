@@ -454,7 +454,7 @@ pub fn set_neighbours<'syn, 'b>(
         return;
     }
 
-    let mut res = vec![];
+    let mut res = Vec::with_capacity(4);
 
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
