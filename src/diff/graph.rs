@@ -141,8 +141,8 @@ impl<'a, 'b> Vertex<'a, 'b> {
     }
 
     fn can_pop_either_parent(&self) -> bool {
-        matches!(self.lhs_parents.peek(), Some(PopEither(_)))
-            || matches!(self.rhs_parents.peek(), Some(PopEither(_)))
+        matches!(self.lhs_parents.peek().map(Into::into), Some(PopEither(_)))
+            || matches!(self.rhs_parents.peek().map(Into::into), Some(PopEither(_)))
     }
 }
 
@@ -195,7 +195,7 @@ impl Default for Vertex<'_, '_> {
 
 /// Tracks entering syntax List nodes.
 #[derive(Debug, Clone, PartialEq, Eq)]
-enum EnteredDelimiter<'a> {
+enum EnteredDelimiterEnum<'a> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
     ///
@@ -211,7 +211,44 @@ enum EnteredDelimiter<'a> {
     PopBoth(&'a Syntax<'a>),
 }
 
-use EnteredDelimiter::*;
+use EnteredDelimiterEnum::*;
+
+/// Compress `EnteredDelimiterEnum` into a usize.
+///
+/// Utilize the LSB as flag since `Syntax` is aligned.
+///
+/// ```text
+/// LSB = 0 -> PopEither
+/// LSB = 1 -> PopBoth
+/// ```
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct EnteredDelimiter<'a> {
+    data: usize,
+    phantom: PhantomData<&'a Syntax<'a>>,
+}
+
+impl<'a> From<&EnteredDelimiter<'a>> for EnteredDelimiterEnum<'a> {
+    fn from(delim: &EnteredDelimiter<'a>) -> Self {
+        if delim.data & 1 == 0 {
+            PopEither(unsafe { transmute_copy(&delim.data) })
+        } else {
+            PopBoth(unsafe { transmute_copy(&(delim.data ^ 1)) })
+        }
+    }
+}
+
+impl<'a> From<&EnteredDelimiterEnum<'a>> for EnteredDelimiter<'a> {
+    fn from(delim: &EnteredDelimiterEnum<'a>) -> Self {
+        let data = match *delim {
+            PopEither(s) => s as *const _ as usize,
+            PopBoth(s) => s as *const _ as usize | 1,
+        };
+        EnteredDelimiter {
+            data,
+            phantom: PhantomData,
+        }
+    }
+}
 
 fn push_both<'a>(
     lhs_entered: &Stack<EnteredDelimiter<'a>>,
@@ -220,8 +257,8 @@ fn push_both<'a>(
     rhs_delim: &'a Syntax<'a>,
 ) -> (Stack<EnteredDelimiter<'a>>, Stack<EnteredDelimiter<'a>>) {
     (
-        lhs_entered.push(PopBoth(lhs_delim)),
-        rhs_entered.push(PopBoth(rhs_delim)),
+        lhs_entered.push((&PopBoth(lhs_delim)).into()),
+        rhs_entered.push((&PopBoth(rhs_delim)).into()),
     )
 }
 
@@ -229,7 +266,7 @@ fn push_either<'a>(
     entered: &Stack<EnteredDelimiter<'a>>,
     delim: &'a Syntax<'a>,
 ) -> Stack<EnteredDelimiter<'a>> {
-    entered.push(PopEither(delim))
+    entered.push((&PopEither(delim)).into())
 }
 
 fn try_pop_both<'a>(
@@ -241,7 +278,10 @@ fn try_pop_both<'a>(
     Stack<EnteredDelimiter<'a>>,
     Stack<EnteredDelimiter<'a>>,
 )> {
-    match (lhs_entered.peek(), rhs_entered.peek()) {
+    match (
+        lhs_entered.peek().map(Into::into),
+        rhs_entered.peek().map(Into::into),
+    ) {
         (Some(PopBoth(lhs_delim)), Some(PopBoth(rhs_delim))) => Some((
             lhs_delim,
             rhs_delim,
@@ -255,7 +295,7 @@ fn try_pop_both<'a>(
 fn try_pop_either<'a>(
     entered: &Stack<EnteredDelimiter<'a>>,
 ) -> Option<(&'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
-    match entered.peek() {
+    match entered.peek().map(Into::into) {
         Some(PopEither(delim)) => Some((delim, entered.pop().unwrap())),
         _ => None,
     }
