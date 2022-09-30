@@ -38,7 +38,9 @@ fn shortest_vertex_path<'a, 'b>(
                 if current.is_end() {
                     break current;
                 }
-
+                if unsafe { (&*current.neighbours.get()).is_some() } {
+                    continue; // visited
+                }
                 set_neighbours(current, vertex_arena, &mut seen);
 
                 if let Some(neighbors) = unsafe { &*current.neighbours.get() } {

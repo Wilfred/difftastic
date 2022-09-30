@@ -450,15 +450,11 @@ pub fn set_neighbours<'syn, 'b>(
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
 ) {
-    if unsafe { (&*v.neighbours.get()).is_some() } {
-        return;
-    }
-
-    let mut res = Vec::with_capacity(4);
+    let mut neighbors = Vec::with_capacity(4);
 
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
-        |edge, vertex| res.push((edge, allocate_if_new(vertex, alloc, seen))),
+        |edge, vertex| neighbors.push((edge, allocate_if_new(vertex, alloc, seen))),
     );
 
     if v.lhs_syntax.is_id() && v.rhs_syntax.is_id() {
@@ -682,11 +678,11 @@ pub fn set_neighbours<'syn, 'b>(
         }
     }
     assert!(
-        !res.is_empty(),
+        !neighbors.is_empty(),
         "Must always find some next steps if node is not the end"
     );
 
-    unsafe { *v.neighbours.get() = Some(res) };
+    unsafe { *v.neighbours.get() = Some(neighbors) };
 }
 
 pub fn populate_change_map<'a, 'b>(
