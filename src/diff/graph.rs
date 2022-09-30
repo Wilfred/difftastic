@@ -114,7 +114,8 @@ fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) ->
 #[derive(Debug, Clone, Eq)]
 pub struct Vertex<'a, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
-    pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub shortest_distance: Cell<u64>,
+    pub predecessor: Cell<Option<&'b Vertex<'a, 'b>>>,
     pub lhs_syntax: SyntaxRefOrId<'a>,
     pub rhs_syntax: SyntaxRefOrId<'a>,
     parents: Stack<EnteredDelimiter<'a>>,
@@ -129,6 +130,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
         let parents = Stack::new();
         Vertex {
             neighbours: RefCell::new(None),
+            shortest_distance: Cell::new(u64::MAX),
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(None.into(), |s| s.into()),
             rhs_syntax: rhs_syntax.map_or(None.into(), |s| s.into()),

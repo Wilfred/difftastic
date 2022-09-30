@@ -43,17 +43,12 @@ fn shortest_vertex_path<'a, 'b>(
                 set_neighbours(current, vertex_arena, &mut seen);
 
                 if let Some(neighbors) = &*current.neighbours.borrow() {
-                    for neighbour in neighbors {
-                        let (edge, next) = neighbour;
+                    for &(edge, next) in neighbors {
                         let distance_to_next = distance + edge.cost();
 
-                        let found_shorter_route = match next.predecessor.get() {
-                            Some((prev_shortest, _)) => distance_to_next < prev_shortest,
-                            None => true,
-                        };
-
-                        if found_shorter_route {
-                            next.predecessor.replace(Some((distance_to_next, current)));
+                        if distance_to_next < next.shortest_distance.get() {
+                            next.shortest_distance.set(distance_to_next);
+                            next.predecessor.replace(Some(current));
                             heap.push(Reverse(distance_to_next), next);
                         }
                     }
@@ -74,9 +69,9 @@ fn shortest_vertex_path<'a, 'b>(
         heap.len(),
     );
 
-    let mut current = Some((0, end));
+    let mut current = Some(end);
     let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
-    while let Some((_, node)) = current {
+    while let Some(node) = current {
         vertex_route.push(node);
         current = node.predecessor.get();
     }
