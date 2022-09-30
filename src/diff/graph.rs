@@ -425,38 +425,28 @@ impl Edge {
     }
 }
 
+type SeenMap<'syn, 'b> =
+    FxHashMap<&'b Vertex<'syn, 'b>, (Option<&'b Vertex<'syn, 'b>>, Option<&'b Vertex<'syn, 'b>>)>;
+
 fn allocate_if_new<'syn, 'b>(
     v: Vertex<'syn, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
+    seen: &mut SeenMap<'syn, 'b>,
 ) -> &'b Vertex<'syn, 'b> {
     match seen.get_mut(&v) {
-        Some(existing) => {
-            // Don't explore more than two possible parenthesis
-            // nestings for each syntax node pair.
-            if let Some(allocated) = existing.last() {
-                if existing.len() >= 2 {
-                    return *allocated;
-                }
+        Some(existing) => match existing {
+            (Some(_), Some(v2)) => v2,
+            (Some(v1), None) if v1.parents == v.parents => v1,
+            (Some(_), sv2) => {
+                let allocated = alloc.alloc(v);
+                *sv2 = Some(allocated);
+                allocated
             }
-
-            // If we have seen exactly this graph node before, even
-            // considering parenthesis matching, return it.
-            for existing_node in existing.iter() {
-                if existing_node.parents == v.parents {
-                    return existing_node;
-                }
-            }
-
-            // We haven't reached the graph node limit yet, allocate a
-            // new one.
-            let allocated = alloc.alloc(v);
-            existing.push(allocated);
-            allocated
-        }
+            _ => unreachable!(),
+        },
         None => {
             let allocated = alloc.alloc(v);
-            seen.insert(allocated, vec![allocated]);
+            seen.insert(allocated, (Some(allocated), None));
             allocated
         }
     }
@@ -475,7 +465,7 @@ fn looks_like_punctuation(content: &str) -> bool {
 pub fn set_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
+    seen: &mut SeenMap<'syn, 'b>,
 ) {
     if unsafe { (&*v.neighbours.get()).is_some() } {
         return;
