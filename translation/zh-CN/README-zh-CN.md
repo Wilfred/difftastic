@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="#readme"><img src="../img/logo.png" alt="it's difftastic!"/></a>
+  <a href="#readme"><img src="/img/logo.png" alt="it's difftastic!"/></a>
   <br>
   <a href="http://difftastic.wilfred.me.uk/"><img src="https://img.shields.io/badge/manual-mdBook-brightgreen?style=flat-square" alt="manual"></a>
   <a href="https://crates.io/crates/difftastic"><img src="https://img.shields.io/crates/v/difftastic.svg?style=flat-square" alt="crates.io"></a>
@@ -13,7 +13,7 @@ Difftastic是一个根据文件的语法进行比较的结构化比较工具。
 
 ## 基础实例
 
-![Screenshot of difftastic and JS](../img/js.png)
+![Screenshot of difftastic and JS](/img/js.png)
 
 在这个JavaScript的例子中，我们可以看到：
 
