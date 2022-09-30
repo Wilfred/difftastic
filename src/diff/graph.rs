@@ -3,7 +3,7 @@
 use bumpalo::Bump;
 use rustc_hash::FxHasher;
 use std::{
-    cell::{Cell, UnsafeCell},
+    cell::Cell,
     cmp::min,
     hash::{BuildHasherDefault, Hash, Hasher},
     marker::PhantomData,
@@ -109,10 +109,9 @@ fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) ->
 /// ```
 #[derive(Debug)]
 pub struct Vertex<'a, 'b> {
-    // TODO: how to design the boundary of unsafe?
-    pub neighbours: UnsafeCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
+    pub is_visited: Cell<bool>,
     pub shortest_distance: Cell<u64>,
-    pub predecessor: Cell<Option<&'b Vertex<'a, 'b>>>,
+    pub predecessor: Cell<Option<(Edge, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: SyntaxRefOrId<'a>,
     pub rhs_syntax: SyntaxRefOrId<'a>,
     lhs_parents: Stack<EnteredDelimiter<'a>>,
@@ -129,7 +128,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         Vertex {
-            neighbours: UnsafeCell::new(None),
+            is_visited: Cell::new(false),
             shortest_distance: Cell::new(u64::MAX),
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(None.into(), |s| s.into()),
@@ -445,11 +444,11 @@ fn looks_like_punctuation(content: &str) -> bool {
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// write them to the .neighbours cell inside `v`, and return them.
-pub fn set_neighbours<'syn, 'b>(
+pub fn get_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
-) {
+) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
     let mut neighbors = Vec::with_capacity(4);
 
     let mut add_neighbor = std::convert::identity(
@@ -682,7 +681,7 @@ pub fn set_neighbours<'syn, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    unsafe { *v.neighbours.get() = Some(neighbors) };
+    neighbors
 }
 
 pub fn populate_change_map<'a, 'b>(
