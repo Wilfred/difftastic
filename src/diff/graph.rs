@@ -407,6 +407,7 @@ impl Edge {
 type SeenMap<'syn, 'b> =
     FxHashMap<&'b Vertex<'syn, 'b>, (Option<&'b Vertex<'syn, 'b>>, Option<&'b Vertex<'syn, 'b>>)>;
 
+#[inline(never)]
 fn allocate_if_new<'syn, 'b>(
     v: Vertex<'syn, 'b>,
     alloc: &'b Bump,
@@ -453,7 +454,12 @@ pub fn set_neighbours<'syn, 'b>(
         return;
     }
 
-    let mut res: Vec<(Edge, &Vertex)> = vec![];
+    let mut res = vec![];
+
+    let mut add_neighbor = std::convert::identity(
+        #[inline(always)]
+        |edge, vertex| res.push((edge, allocate_if_new(vertex, alloc, seen))),
+    );
 
     if v.lhs_syntax.is_id() && v.rhs_syntax.is_id() {
         if let Some((lhs_parent, rhs_parent, lhs_parents_next, rhs_parents_next)) =
@@ -463,20 +469,16 @@ pub fn set_neighbours<'syn, 'b>(
             // move up to the parent node.
 
             // Continue from sibling of parent.
-            res.push((
+            add_neighbor(
                 ExitDelimiterBoth,
-                allocate_if_new(
-                    Vertex {
-                        lhs_syntax: next_sibling_syntax(lhs_parent),
-                        rhs_syntax: next_sibling_syntax(rhs_parent),
-                        lhs_parents: lhs_parents_next,
-                        rhs_parents: rhs_parents_next,
-                        ..Vertex::default()
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
+                Vertex {
+                    lhs_syntax: next_sibling_syntax(lhs_parent),
+                    rhs_syntax: next_sibling_syntax(rhs_parent),
+                    lhs_parents: lhs_parents_next,
+                    rhs_parents: rhs_parents_next,
+                    ..Vertex::default()
+                },
+            );
         }
     }
 
@@ -485,20 +487,16 @@ pub fn set_neighbours<'syn, 'b>(
             // Move to next after LHS parent.
 
             // Continue from sibling of parent.
-            res.push((
+            add_neighbor(
                 ExitDelimiterLHS,
-                allocate_if_new(
-                    Vertex {
-                        lhs_syntax: next_sibling_syntax(lhs_parent),
-                        rhs_syntax: v.rhs_syntax,
-                        lhs_parents: lhs_parents_next,
-                        rhs_parents: v.rhs_parents.clone(),
-                        ..Vertex::default()
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
+                Vertex {
+                    lhs_syntax: next_sibling_syntax(lhs_parent),
+                    rhs_syntax: v.rhs_syntax,
+                    lhs_parents: lhs_parents_next,
+                    rhs_parents: v.rhs_parents.clone(),
+                    ..Vertex::default()
+                },
+            );
         }
     }
 
@@ -507,20 +505,16 @@ pub fn set_neighbours<'syn, 'b>(
             // Move to next after RHS parent.
 
             // Continue from sibling of parent.
-            res.push((
+            add_neighbor(
                 ExitDelimiterRHS,
-                allocate_if_new(
-                    Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: next_sibling_syntax(rhs_parent),
-                        lhs_parents: v.lhs_parents.clone(),
-                        rhs_parents: rhs_parents_next,
-                        ..Vertex::default()
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
+                Vertex {
+                    lhs_syntax: v.lhs_syntax,
+                    rhs_syntax: next_sibling_syntax(rhs_parent),
+                    lhs_parents: v.lhs_parents.clone(),
+                    rhs_parents: rhs_parents_next,
+                    ..Vertex::default()
+                },
+            );
         }
     }
 
@@ -531,20 +525,16 @@ pub fn set_neighbours<'syn, 'b>(
                 .unsigned_abs();
 
             // Both nodes are equal, the happy case.
-            res.push((
+            add_neighbor(
                 UnchangedNode { depth_difference },
-                allocate_if_new(
-                    Vertex {
-                        lhs_syntax: next_sibling_syntax(lhs_syntax),
-                        rhs_syntax: next_sibling_syntax(rhs_syntax),
-                        lhs_parents: v.lhs_parents.clone(),
-                        rhs_parents: v.rhs_parents.clone(),
-                        ..Vertex::default()
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
+                Vertex {
+                    lhs_syntax: next_sibling_syntax(lhs_syntax),
+                    rhs_syntax: next_sibling_syntax(rhs_syntax),
+                    lhs_parents: v.lhs_parents.clone(),
+                    rhs_parents: v.rhs_parents.clone(),
+                    ..Vertex::default()
+                },
+            );
         }
 
         if let (
@@ -572,20 +562,16 @@ pub fn set_neighbours<'syn, 'b>(
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
 
-                res.push((
+                add_neighbor(
                     EnterUnchangedDelimiter { depth_difference },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: next_child_syntax(lhs_syntax, lhs_children),
-                            rhs_syntax: next_child_syntax(rhs_syntax, rhs_children),
-                            lhs_parents: lhs_parents_next,
-                            rhs_parents: rhs_parents_next,
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: next_child_syntax(lhs_syntax, lhs_children),
+                        rhs_syntax: next_child_syntax(rhs_syntax, rhs_children),
+                        lhs_parents: lhs_parents_next,
+                        rhs_parents: rhs_parents_next,
+                        ..Vertex::default()
+                    },
+                );
             }
         }
 
@@ -607,20 +593,17 @@ pub fn set_neighbours<'syn, 'b>(
             if lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
-                res.push((
+
+                add_neighbor(
                     ReplacedComment { levenshtein_pct },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: next_sibling_syntax(lhs_syntax),
-                            rhs_syntax: next_sibling_syntax(rhs_syntax),
-                            lhs_parents: v.lhs_parents.clone(),
-                            rhs_parents: v.rhs_parents.clone(),
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: next_sibling_syntax(lhs_syntax),
+                        rhs_syntax: next_sibling_syntax(rhs_syntax),
+                        lhs_parents: v.lhs_parents.clone(),
+                        rhs_parents: v.rhs_parents.clone(),
+                        ..Vertex::default()
+                    },
+                );
             }
         }
     }
@@ -629,44 +612,36 @@ pub fn set_neighbours<'syn, 'b>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
-                res.push((
+                add_neighbor(
                     NovelAtomLHS {
                         // TODO: should this apply if prev is a parent
                         // node rather than a sibling?
                         contiguous: lhs_syntax.prev_is_contiguous(),
                         probably_punctuation: looks_like_punctuation(content),
                     },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: next_sibling_syntax(lhs_syntax),
-                            rhs_syntax: v.rhs_syntax,
-                            lhs_parents: v.lhs_parents.clone(),
-                            rhs_parents: v.rhs_parents.clone(),
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: next_sibling_syntax(lhs_syntax),
+                        rhs_syntax: v.rhs_syntax,
+                        lhs_parents: v.lhs_parents.clone(),
+                        rhs_parents: v.rhs_parents.clone(),
+                        ..Vertex::default()
+                    },
+                );
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                res.push((
+                add_neighbor(
                     EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: next_child_syntax(lhs_syntax, children),
-                            rhs_syntax: v.rhs_syntax,
-                            lhs_parents: push_either(&v.lhs_parents, lhs_syntax),
-                            rhs_parents: v.rhs_parents.clone(),
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: next_child_syntax(lhs_syntax, children),
+                        rhs_syntax: v.rhs_syntax,
+                        lhs_parents: push_either(&v.lhs_parents, lhs_syntax),
+                        rhs_parents: v.rhs_parents.clone(),
+                        ..Vertex::default()
+                    },
+                );
             }
         }
     }
@@ -675,42 +650,34 @@ pub fn set_neighbours<'syn, 'b>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
-                res.push((
+                add_neighbor(
                     NovelAtomRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                         probably_punctuation: looks_like_punctuation(content),
                     },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: next_sibling_syntax(rhs_syntax),
-                            lhs_parents: v.lhs_parents.clone(),
-                            rhs_parents: v.rhs_parents.clone(),
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: v.lhs_syntax,
+                        rhs_syntax: next_sibling_syntax(rhs_syntax),
+                        lhs_parents: v.lhs_parents.clone(),
+                        rhs_parents: v.rhs_parents.clone(),
+                        ..Vertex::default()
+                    },
+                );
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                res.push((
+                add_neighbor(
                     EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
                     },
-                    allocate_if_new(
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: next_child_syntax(rhs_syntax, children),
-                            lhs_parents: v.lhs_parents.clone(),
-                            rhs_parents: push_either(&v.rhs_parents, rhs_syntax),
-                            ..Vertex::default()
-                        },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                    Vertex {
+                        lhs_syntax: v.lhs_syntax,
+                        rhs_syntax: next_child_syntax(rhs_syntax, children),
+                        lhs_parents: v.lhs_parents.clone(),
+                        rhs_parents: push_either(&v.rhs_parents, rhs_syntax),
+                        ..Vertex::default()
+                    },
+                );
             }
         }
     }
