@@ -1,4 +1,4 @@
-name: Test full Linux
+name: Test full
 
 on:
   push:
@@ -26,12 +26,12 @@ jobs:
       - name: Npm install tree-sitter
         run: |
           npm i tree-sitter
-      - name: Npm install
+      - name: Tree-sitter build
         run: |
           npm run build
-      - name: Npm install
+      - name: Npm install/compile
         run: |
-          npm i
+          npm install
       - name: Unit tests
         run: |
           npm test
