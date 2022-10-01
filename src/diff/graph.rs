@@ -92,7 +92,8 @@ enum EnteredDelimiter {
     /// side independently.
     PopEither = 0,
     /// If we've entered the LHS and RHS together, we must pop both
-    /// sides together too. Otherwise we'd consider the following case to have no changes.
+    /// sides together too. Otherwise we'd consider the following
+    /// case to have no changes.
     ///
     /// ```text
     /// Old: (a b c)
@@ -103,6 +104,9 @@ enum EnteredDelimiter {
 
 use EnteredDelimiter::*;
 
+/// LSP is the stack top. One bit represents one `EnteredDelimiter`.
+///
+/// Length is not included since we want to avoid paddings.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct BitStack(u64);
 
