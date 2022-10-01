@@ -23,10 +23,7 @@ jobs:
           - x64
         node:
           - 14
-          - 15
           - 16
-          - 17
-          - 18
         include:
           - os: macos-m1
             node: 16
@@ -55,9 +52,6 @@ jobs:
 
       - name: Build binaries
         run: npx node-pre-gyp build --target_arch=${{ matrix.target }}
-
-      - name: Run tests
-        run: npx test
 
       - name: Package prebuilt binaries
         run: npx node-pre-gyp package --target_arch=${{ matrix.target }}
