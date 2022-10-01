@@ -10,6 +10,10 @@
   "author": {
     "name": "Anthony Heber"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aheber/tree-sitter-sfapex.git"
+  },
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.10",
     "nan": "^2.16.0",
