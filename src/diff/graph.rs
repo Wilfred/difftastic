@@ -453,7 +453,12 @@ pub fn get_neighbours<'syn, 'b>(
 
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
-        |edge, vertex| neighbors.push((edge, allocate_if_new(vertex, alloc, seen))),
+        |edge, vertex| {
+            let neighbor = allocate_if_new(vertex, alloc, seen);
+            if !neighbor.is_visited.get() {
+                neighbors.push((edge, neighbor));
+            }
+        },
     );
 
     if v.lhs_syntax.is_id() && v.rhs_syntax.is_id() {
@@ -676,10 +681,6 @@ pub fn get_neighbours<'syn, 'b>(
             }
         }
     }
-    assert!(
-        !neighbors.is_empty(),
-        "Must always find some next steps if node is not the end"
-    );
 
     neighbors
 }
