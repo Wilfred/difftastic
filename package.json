@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-sfapex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tree-sitter implementation for Apex, SOQL, and SOSL",
   "homepage": "https://github.com/aheber/tree-sitter-sfapex",
   "bugs": {
@@ -11,7 +11,9 @@
     "name": "Anthony Heber"
   },
   "dependencies": {
-    "nan": "^2.16.0"
+    "@mapbox/node-pre-gyp": "^1.0.10",
+    "nan": "^2.16.0",
+    "node-pre-gyp-github": "^1.4.4"
   },
   "devDependencies": {
     "tree-sitter-cli": "0.20.6"
@@ -27,7 +29,7 @@
     "test-apex": "cd apex && npx tree-sitter test",
     "test-soql": "cd soql && npx tree-sitter test",
     "test-sosl": "cd sosl && npx tree-sitter test",
-    "prepublish": ""
+    "install": "node-pre-gyp install --fallback-to-build"
   },
   "tree-sitter": [
     {
@@ -73,7 +75,12 @@
     "*/src/node-types.json",
     "*/src/parser.c",
     "*/*.wasm",
-    "bindings/node/*",
-    "build/Release"
-  ]
+    "bindings/node/*"
+  ],
+  "binary": {
+    "module_name": "tree_sitter_sfapex_binding",
+    "module_path": "./build/Release/",
+    "host": "https://github.com/aheber/tree-sitter-sfapex/releases/download/",
+    "remote_path": "{version}"
+  }
 }
