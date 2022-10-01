@@ -15,9 +15,12 @@ use radix_heap::RadixHeapMap;
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
 
-/// Return the shortest route from `start` to the end vertex.
-fn shortest_vertex_path<'a, 'b>(
-    start: &'b Vertex<'a, 'b>,
+/// Return the shortest route from the `start` to the end vertex.
+///
+/// The vec returned does not return the very last vertex. This is
+/// necessary because a route of N vertices only has N-1 edges.
+fn shortest_path<'a, 'b>(
+    start: Vertex<'a, 'b>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
@@ -27,7 +30,7 @@ fn shortest_vertex_path<'a, 'b>(
     // Reverse to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'a, 'b>> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    heap.push(Reverse(0), vertex_arena.alloc(start));
 
     let mut seen = SeenMap::default();
     seen.reserve(size_hint);
@@ -78,20 +81,6 @@ fn shortest_vertex_path<'a, 'b>(
 
     vertex_route.reverse();
     Ok(vertex_route)
-}
-
-/// Return the shortest route from the `start` to the end vertex.
-///
-/// The vec returned does not return the very last vertex. This is
-/// necessary because a route of N vertices only has N-1 edges.
-fn shortest_path<'a, 'b>(
-    start: Vertex<'a, 'b>,
-    vertex_arena: &'b Bump,
-    size_hint: usize,
-    graph_limit: usize,
-) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start);
-    shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)
 }
 
 /// What is the total number of AST nodes?
