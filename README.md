@@ -39,7 +39,7 @@ standalone files and git.
 
 ## Languages
 
-Difftastic supports over 20 programming languages, see [the
+Difftastic supports over 30 programming languages, see [the
 manual](https://difftastic.wilfred.me.uk/) for the full list.
 
 If a file has an unrecognised extension, difftastic uses a
