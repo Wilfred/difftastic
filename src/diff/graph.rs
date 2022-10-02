@@ -100,7 +100,7 @@ fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) ->
 enum EnteredDelimiter {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
-    PopEither = 1,
+    PopEither = 0,
     /// If we've entered the LHS and RHS together, we must pop both
     /// sides together too. Otherwise we'd consider the following
     /// case to have no changes.
@@ -109,31 +109,54 @@ enum EnteredDelimiter {
     /// Old: (a b c)
     /// New: (a b) c
     /// ```
-    PopBoth = 0,
+    PopBoth = 1,
 }
 
 use EnteredDelimiter::*;
 
 /// LSP is the stack top. One bit represents one `EnteredDelimiter`.
 ///
-/// Length is not included since we want to avoid paddings.
+/// Assume the underlying type is u8, then
+///
+/// ```text
+/// initial:  0b00000001
+/// push x:   0b0000001x
+/// push y:   0b000001xy
+/// pop:      0b0000001x
+/// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct BitStack(u64);
 
 impl BitStack {
-    fn peek(&self) -> EnteredDelimiter {
-        if self.0 & 1 == PopEither as u64 {
-            PopEither
+    fn new() -> Self {
+        Self(1)
+    }
+
+    fn is_empty(&self) -> bool {
+        self.0 == 1
+    }
+
+    fn is_full(&self) -> bool {
+        self.0 & (1 << 63) != 0
+    }
+
+    fn peek(&self) -> Option<EnteredDelimiter> {
+        if self.is_empty() {
+            None
+        } else if self.0 & 1 == PopEither as u64 {
+            Some(PopEither)
         } else {
-            PopBoth
+            Some(PopBoth)
         }
     }
 
     fn push(&self, tag: EnteredDelimiter) -> Self {
+        assert!(!self.is_full(), "BitStack is full!");
         Self((self.0 << 1) | tag as u64)
     }
 
     fn pop(&self) -> Self {
+        assert!(!self.is_empty(), "BitStack is empty!");
         Self(self.0 >> 1)
     }
 }
@@ -173,8 +196,6 @@ pub struct Vertex<'a, 'b> {
     pub predecessor: Cell<Option<(Edge, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: SideSyntax<'a>,
     pub rhs_syntax: SideSyntax<'a>,
-    lhs_parent_num: u8,
-    rhs_parent_num: u8,
     lhs_parent_stack: BitStack,
     rhs_parent_stack: BitStack,
 }
@@ -183,8 +204,8 @@ impl<'a, 'b> Vertex<'a, 'b> {
     pub fn is_end(&self) -> bool {
         !self.lhs_syntax.is_side()
             && !self.rhs_syntax.is_side()
-            && self.lhs_parent_num == 0
-            && self.rhs_parent_num == 0
+            && self.lhs_parent_stack.is_empty()
+            && self.rhs_parent_stack.is_empty()
     }
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
@@ -194,10 +215,8 @@ impl<'a, 'b> Vertex<'a, 'b> {
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
             rhs_syntax: rhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
-            lhs_parent_num: 0,
-            rhs_parent_num: 0,
-            lhs_parent_stack: BitStack(0),
-            rhs_parent_stack: BitStack(0),
+            lhs_parent_stack: BitStack::new(),
+            rhs_parent_stack: BitStack::new(),
         }
     }
 
@@ -212,29 +231,12 @@ impl<'a, 'b> Vertex<'a, 'b> {
             && self.rhs_syntax.root() == other.rhs_syntax.root()
     }
 
-    fn try_pop_tag(&self) -> (Option<EnteredDelimiter>, Option<EnteredDelimiter>) {
-        (
-            if self.lhs_parent_num > 0 {
-                Some(self.lhs_parent_stack.peek())
-            } else {
-                None
-            },
-            if self.rhs_parent_num > 0 {
-                Some(self.rhs_parent_stack.peek())
-            } else {
-                None
-            },
-        )
-    }
-
     fn can_pop_either(&self) -> bool {
-        // matches!(
-        //     self.try_pop_tag(),
-        //     (Some(PopEither), _) | (_, Some(PopEither))
-        // )
+        // self.lhs_parent_stack.peek() == Some(PopEither)
+        //     || self.rhs_parent_stack.peek() == Some(PopEither)
 
-        // Since PopEither = 1, when `peek` returns 1 it must be non-empty.
-        self.lhs_parent_stack.peek() == PopEither || self.rhs_parent_stack.peek() == PopEither
+        // Utilize the fact that PopEither = 0 while stack top indicator is 1.
+        self.lhs_parent_stack.0 & 1 == 0 || self.rhs_parent_stack.0 & 1 == 0
     }
 }
 
@@ -448,10 +450,11 @@ pub fn get_neighbours<'syn, 'b>(
     let v_info = (
         v.lhs_syntax.get_side(),
         v.rhs_syntax.get_side(),
-        v.try_pop_tag(),
+        v.lhs_parent_stack.peek(),
+        v.rhs_parent_stack.peek(),
     );
 
-    if let (None, None, (Some(PopBoth), Some(PopBoth))) = v_info {
+    if let (None, None, Some(PopBoth), Some(PopBoth)) = v_info {
         // We have exhausted all the nodes on both lists, so we can
         // move up to the parent node.
 
@@ -461,8 +464,6 @@ pub fn get_neighbours<'syn, 'b>(
             Vertex {
                 lhs_syntax: next_sibling_syntax(v.lhs_syntax.parent().unwrap()),
                 rhs_syntax: next_sibling_syntax(v.rhs_syntax.parent().unwrap()),
-                lhs_parent_num: v.lhs_parent_num - 1,
-                rhs_parent_num: v.rhs_parent_num - 1,
                 lhs_parent_stack: v.lhs_parent_stack.pop(),
                 rhs_parent_stack: v.rhs_parent_stack.pop(),
                 ..Vertex::default()
@@ -470,7 +471,7 @@ pub fn get_neighbours<'syn, 'b>(
         );
     }
 
-    if let (None, _, (Some(PopEither), _)) = v_info {
+    if let (None, _, Some(PopEither), _) = v_info {
         // Move to next after LHS parent.
 
         // Continue from sibling of parent.
@@ -479,8 +480,6 @@ pub fn get_neighbours<'syn, 'b>(
             Vertex {
                 lhs_syntax: next_sibling_syntax(v.lhs_syntax.parent().unwrap()),
                 rhs_syntax: v.rhs_syntax,
-                lhs_parent_num: v.lhs_parent_num - 1,
-                rhs_parent_num: v.rhs_parent_num,
                 lhs_parent_stack: v.lhs_parent_stack.pop(),
                 rhs_parent_stack: v.rhs_parent_stack,
                 ..Vertex::default()
@@ -488,7 +487,7 @@ pub fn get_neighbours<'syn, 'b>(
         );
     }
 
-    if let (_, None, (_, Some(PopEither))) = v_info {
+    if let (_, None, _, Some(PopEither)) = v_info {
         // Move to next after RHS parent.
 
         // Continue from sibling of parent.
@@ -497,8 +496,6 @@ pub fn get_neighbours<'syn, 'b>(
             Vertex {
                 lhs_syntax: v.lhs_syntax,
                 rhs_syntax: next_sibling_syntax(v.rhs_syntax.parent().unwrap()),
-                lhs_parent_num: v.lhs_parent_num,
-                rhs_parent_num: v.rhs_parent_num - 1,
                 lhs_parent_stack: v.lhs_parent_stack,
                 rhs_parent_stack: v.rhs_parent_stack.pop(),
                 ..Vertex::default()
@@ -506,7 +503,7 @@ pub fn get_neighbours<'syn, 'b>(
         );
     }
 
-    if let (Some(lhs_syntax), Some(rhs_syntax), _) = v_info {
+    if let (Some(lhs_syntax), Some(rhs_syntax), _, _) = v_info {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
@@ -518,8 +515,6 @@ pub fn get_neighbours<'syn, 'b>(
                 Vertex {
                     lhs_syntax: next_sibling_syntax(lhs_syntax),
                     rhs_syntax: next_sibling_syntax(rhs_syntax),
-                    lhs_parent_num: v.lhs_parent_num,
-                    rhs_parent_num: v.rhs_parent_num,
                     lhs_parent_stack: v.lhs_parent_stack,
                     rhs_parent_stack: v.rhs_parent_stack,
                     ..Vertex::default()
@@ -545,11 +540,6 @@ pub fn get_neighbours<'syn, 'b>(
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
                 // TODO: be consistent between parents_next and next_parents.
-                assert!(
-                    v.lhs_parent_num < 64 && v.rhs_parent_num < 64,
-                    "Exceed max stack depth"
-                );
-
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
@@ -559,8 +549,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: next_child_syntax(lhs_syntax, lhs_children),
                         rhs_syntax: next_child_syntax(rhs_syntax, rhs_children),
-                        lhs_parent_num: v.lhs_parent_num + 1,
-                        rhs_parent_num: v.rhs_parent_num + 1,
                         lhs_parent_stack: v.lhs_parent_stack.push(PopBoth),
                         rhs_parent_stack: v.rhs_parent_stack.push(PopBoth),
                         ..Vertex::default()
@@ -593,8 +581,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: next_sibling_syntax(lhs_syntax),
                         rhs_syntax: next_sibling_syntax(rhs_syntax),
-                        lhs_parent_num: v.lhs_parent_num,
-                        rhs_parent_num: v.rhs_parent_num,
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -604,7 +590,7 @@ pub fn get_neighbours<'syn, 'b>(
         }
     }
 
-    if let (Some(lhs_syntax), _, _) = v_info {
+    if let (Some(lhs_syntax), _, _, _) = v_info {
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
@@ -618,8 +604,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: next_sibling_syntax(lhs_syntax),
                         rhs_syntax: v.rhs_syntax,
-                        lhs_parent_num: v.lhs_parent_num,
-                        rhs_parent_num: v.rhs_parent_num,
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -628,7 +612,6 @@ pub fn get_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                assert!(v.lhs_parent_num < 64, "Exceed max stack depth");
                 add_neighbor(
                     EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
@@ -636,8 +619,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: next_child_syntax(lhs_syntax, children),
                         rhs_syntax: v.rhs_syntax,
-                        lhs_parent_num: v.lhs_parent_num + 1,
-                        rhs_parent_num: v.rhs_parent_num,
                         lhs_parent_stack: v.lhs_parent_stack.push(PopEither),
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -647,7 +628,7 @@ pub fn get_neighbours<'syn, 'b>(
         }
     }
 
-    if let (_, Some(rhs_syntax), _) = v_info {
+    if let (_, Some(rhs_syntax), _, _) = v_info {
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
@@ -659,8 +640,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: next_sibling_syntax(rhs_syntax),
-                        lhs_parent_num: v.lhs_parent_num,
-                        rhs_parent_num: v.rhs_parent_num,
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -669,7 +648,6 @@ pub fn get_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                assert!(v.rhs_parent_num < 64, "Exceed max stack depth");
                 add_neighbor(
                     EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
@@ -677,8 +655,6 @@ pub fn get_neighbours<'syn, 'b>(
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: next_child_syntax(rhs_syntax, children),
-                        lhs_parent_num: v.lhs_parent_num,
-                        rhs_parent_num: v.rhs_parent_num + 1,
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack.push(PopEither),
                         ..Vertex::default()
