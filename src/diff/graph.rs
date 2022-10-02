@@ -693,6 +693,8 @@ pub fn populate_change_map<'a, 'b>(
     route: &[(Edge, &'b Vertex<'a, 'b>)],
     change_map: &mut ChangeMap<'a>,
 ) {
+    change_map.reserve(route.len());
+
     for (e, v) in route {
         match e {
             ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {

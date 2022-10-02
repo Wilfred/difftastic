@@ -26,6 +26,10 @@ impl<'a> ChangeMap<'a> {
     pub fn get(&self, node: &Syntax<'a>) -> Option<ChangeKind<'a>> {
         self.changes.get(&node.id()).copied()
     }
+
+    pub fn reserve(&mut self, additional: usize) {
+        self.changes.reserve(additional);
+    }
 }
 
 pub fn insert_deep_unchanged<'a>(
