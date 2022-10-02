@@ -100,7 +100,7 @@ fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) ->
 enum EnteredDelimiter {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
-    PopEither = 0,
+    PopEither = 1,
     /// If we've entered the LHS and RHS together, we must pop both
     /// sides together too. Otherwise we'd consider the following
     /// case to have no changes.
@@ -109,7 +109,7 @@ enum EnteredDelimiter {
     /// Old: (a b c)
     /// New: (a b) c
     /// ```
-    PopBoth = 1,
+    PopBoth = 0,
 }
 
 use EnteredDelimiter::*;
@@ -228,10 +228,13 @@ impl<'a, 'b> Vertex<'a, 'b> {
     }
 
     fn can_pop_either(&self) -> bool {
-        matches!(
-            self.try_pop_tag(),
-            (Some(PopEither), _) | (_, Some(PopEither))
-        )
+        // matches!(
+        //     self.try_pop_tag(),
+        //     (Some(PopEither), _) | (_, Some(PopEither))
+        // )
+
+        // Since PopEither = 1, when `peek` returns 1 it must be non-empty.
+        self.lhs_parent_stack.peek() == PopEither || self.rhs_parent_stack.peek() == PopEither
     }
 }
 
