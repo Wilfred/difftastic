@@ -82,17 +82,15 @@ impl<'a> SideSyntax<'a> {
     }
 }
 
-fn next_sibling_syntax<'a>(syntax: &'a Syntax<'a>) -> SideSyntax<'a> {
+fn next_sibling<'a>(syntax: &'a Syntax<'a>) -> SideSyntax<'a> {
     let parent = SideSyntax::from_parent(syntax.parent());
     syntax.next_sibling().map_or(parent, SideSyntax::from_side)
 }
 
-fn next_child_syntax<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSyntax<'a> {
+fn next_child<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSyntax<'a> {
     let parent = SideSyntax::from_parent(Some(syntax));
-    children
-        .get(0)
-        .copied()
-        .map_or(parent, SideSyntax::from_side)
+    let child = children.get(0).copied();
+    child.map_or(parent, SideSyntax::from_side)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -119,7 +117,7 @@ use EnteredDelimiter::*;
 /// Assume the underlying type is u8, then
 ///
 /// ```text
-/// initial:  0b00000001
+/// new:      0b00000001
 /// push x:   0b0000001x
 /// push y:   0b000001xy
 /// pop:      0b0000001x
@@ -223,10 +221,6 @@ impl<'a, 'b> Vertex<'a, 'b> {
     fn parents_eq(&self, other: &Vertex<'a, 'b>) -> bool {
         self.lhs_parent_stack == other.lhs_parent_stack
             && self.rhs_parent_stack == other.rhs_parent_stack
-            // roots are equal
-            // => roots' content IDs are equal,
-            // => children's content IDs are equal
-            // => their parents are equal
             && self.lhs_syntax.root() == other.lhs_syntax.root()
             && self.rhs_syntax.root() == other.rhs_syntax.root()
     }
@@ -462,8 +456,8 @@ pub fn get_neighbours<'syn, 'b>(
         add_neighbor(
             ExitDelimiterBoth,
             Vertex {
-                lhs_syntax: next_sibling_syntax(v.lhs_syntax.parent().unwrap()),
-                rhs_syntax: next_sibling_syntax(v.rhs_syntax.parent().unwrap()),
+                lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
+                rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
                 lhs_parent_stack: v.lhs_parent_stack.pop(),
                 rhs_parent_stack: v.rhs_parent_stack.pop(),
                 ..Vertex::default()
@@ -478,7 +472,7 @@ pub fn get_neighbours<'syn, 'b>(
         add_neighbor(
             ExitDelimiterLHS,
             Vertex {
-                lhs_syntax: next_sibling_syntax(v.lhs_syntax.parent().unwrap()),
+                lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
                 rhs_syntax: v.rhs_syntax,
                 lhs_parent_stack: v.lhs_parent_stack.pop(),
                 rhs_parent_stack: v.rhs_parent_stack,
@@ -495,7 +489,7 @@ pub fn get_neighbours<'syn, 'b>(
             ExitDelimiterRHS,
             Vertex {
                 lhs_syntax: v.lhs_syntax,
-                rhs_syntax: next_sibling_syntax(v.rhs_syntax.parent().unwrap()),
+                rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
                 lhs_parent_stack: v.lhs_parent_stack,
                 rhs_parent_stack: v.rhs_parent_stack.pop(),
                 ..Vertex::default()
@@ -513,8 +507,8 @@ pub fn get_neighbours<'syn, 'b>(
             add_neighbor(
                 UnchangedNode { depth_difference },
                 Vertex {
-                    lhs_syntax: next_sibling_syntax(lhs_syntax),
-                    rhs_syntax: next_sibling_syntax(rhs_syntax),
+                    lhs_syntax: next_sibling(lhs_syntax),
+                    rhs_syntax: next_sibling(rhs_syntax),
                     lhs_parent_stack: v.lhs_parent_stack,
                     rhs_parent_stack: v.rhs_parent_stack,
                     ..Vertex::default()
@@ -547,8 +541,8 @@ pub fn get_neighbours<'syn, 'b>(
                 add_neighbor(
                     EnterUnchangedDelimiter { depth_difference },
                     Vertex {
-                        lhs_syntax: next_child_syntax(lhs_syntax, lhs_children),
-                        rhs_syntax: next_child_syntax(rhs_syntax, rhs_children),
+                        lhs_syntax: next_child(lhs_syntax, lhs_children),
+                        rhs_syntax: next_child(rhs_syntax, rhs_children),
                         lhs_parent_stack: v.lhs_parent_stack.push(PopBoth),
                         rhs_parent_stack: v.rhs_parent_stack.push(PopBoth),
                         ..Vertex::default()
@@ -579,8 +573,8 @@ pub fn get_neighbours<'syn, 'b>(
                 add_neighbor(
                     ReplacedComment { levenshtein_pct },
                     Vertex {
-                        lhs_syntax: next_sibling_syntax(lhs_syntax),
-                        rhs_syntax: next_sibling_syntax(rhs_syntax),
+                        lhs_syntax: next_sibling(lhs_syntax),
+                        rhs_syntax: next_sibling(rhs_syntax),
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -602,7 +596,7 @@ pub fn get_neighbours<'syn, 'b>(
                         probably_punctuation: looks_like_punctuation(content),
                     },
                     Vertex {
-                        lhs_syntax: next_sibling_syntax(lhs_syntax),
+                        lhs_syntax: next_sibling(lhs_syntax),
                         rhs_syntax: v.rhs_syntax,
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
@@ -617,7 +611,7 @@ pub fn get_neighbours<'syn, 'b>(
                         contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
-                        lhs_syntax: next_child_syntax(lhs_syntax, children),
+                        lhs_syntax: next_child(lhs_syntax, children),
                         rhs_syntax: v.rhs_syntax,
                         lhs_parent_stack: v.lhs_parent_stack.push(PopEither),
                         rhs_parent_stack: v.rhs_parent_stack,
@@ -639,7 +633,7 @@ pub fn get_neighbours<'syn, 'b>(
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: next_sibling_syntax(rhs_syntax),
+                        rhs_syntax: next_sibling(rhs_syntax),
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack,
                         ..Vertex::default()
@@ -654,7 +648,7 @@ pub fn get_neighbours<'syn, 'b>(
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: next_child_syntax(rhs_syntax, children),
+                        rhs_syntax: next_child(rhs_syntax, children),
                         lhs_parent_stack: v.lhs_parent_stack,
                         rhs_parent_stack: v.rhs_parent_stack.push(PopEither),
                         ..Vertex::default()

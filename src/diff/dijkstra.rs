@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{cmp::Reverse, env};
+use std::{cmp::Reverse, env, iter::successors};
 
 use crate::{
     diff::changes::ChangeMap,
@@ -77,46 +77,27 @@ fn shortest_path<'a, 'b>(
         heap.len(),
     );
 
-    let mut current = end.predecessor.get();
-    let mut vertex_route = vec![];
-    while let Some((edge, node)) = current {
-        vertex_route.push((edge, node));
-        current = node.predecessor.get();
-    }
-
+    let mut vertex_route =
+        successors(end.predecessor.get(), |&(_, node)| node.predecessor.get()).collect::<Vec<_>>();
     vertex_route.reverse();
     Ok(vertex_route)
 }
 
 /// What is the total number of AST nodes?
 fn node_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        let current_count = match current_node {
+    successors(root, |node| node.next_sibling())
+        .map(|node| match node {
             Syntax::List {
                 num_descendants, ..
             } => *num_descendants,
             Syntax::Atom { .. } => 1,
-        };
-        count += current_count;
-
-        node = current_node.next_sibling();
-    }
-
-    count
+        })
+        .sum::<u32>()
 }
 
 /// How many top-level AST nodes do we have?
 fn tree_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        count += 1;
-        node = current_node.next_sibling();
-    }
-
-    count
+    successors(root, |node| node.next_sibling()).count() as u32
 }
 
 pub fn mark_syntax<'a>(
