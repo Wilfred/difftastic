@@ -21,3 +21,11 @@ node_modules
 
 # Rust build artifacts
 target
+
+# C
+/*.a
+/*.dylib
+/*.so*
+*.o
+/bindings/c/*.h
+/bindings/c/tree-sitter-*.pc
