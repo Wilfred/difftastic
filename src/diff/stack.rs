@@ -35,16 +35,16 @@ impl<T> Stack<T> {
         }
     }
 
-    // O(n)
-    pub fn size(&self) -> usize {
-        let mut res = 0;
-        let mut node = &self.head;
-        while let Some(next) = node {
-            res += 1;
-            node = &next.next;
-        }
-        res
-    }
+    // // O(n)
+    // pub fn size(&self) -> usize {
+    //     let mut res = 0;
+    //     let mut node = &self.head;
+    //     while let Some(next) = node {
+    //         res += 1;
+    //         node = &next.next;
+    //     }
+    //     res
+    // }
 
     pub fn is_empty(&self) -> bool {
         self.head.is_none()

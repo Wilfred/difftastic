@@ -5,13 +5,12 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{get_set_neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{get_neighbours, populate_change_map, Edge, SeenMap, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
-use rustc_hash::FxHashMap;
 
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
@@ -22,7 +21,7 @@ fn shortest_vertex_path<'a, 'b>(
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
-) -> Result<Vec<&'b Vertex<'a, 'b>>, ExceededGraphLimit> {
+) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
@@ -30,27 +29,27 @@ fn shortest_vertex_path<'a, 'b>(
 
     heap.push(Reverse(0), start);
 
-    let mut seen = FxHashMap::default();
+    let mut seen = SeenMap::default();
     seen.reserve(size_hint);
 
     let end: &'b Vertex<'a, 'b> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
+                if current.is_visited.get() {
+                    continue;
+                }
+                current.is_visited.set(true);
+
                 if current.is_end() {
                     break current;
                 }
 
-                for neighbour in &get_set_neighbours(current, vertex_arena, &mut seen) {
-                    let (edge, next) = neighbour;
+                for (edge, next) in get_neighbours(current, vertex_arena, &mut seen) {
                     let distance_to_next = distance + edge.cost();
 
-                    let found_shorter_route = match next.predecessor.get() {
-                        Some((prev_shortest, _)) => distance_to_next < prev_shortest,
-                        None => true,
-                    };
-
-                    if found_shorter_route {
-                        next.predecessor.replace(Some((distance_to_next, current)));
+                    if distance_to_next < next.shortest_distance.get() {
+                        next.shortest_distance.set(distance_to_next);
+                        next.predecessor.set(Some((edge, current)));
                         heap.push(Reverse(distance_to_next), next);
                     }
                 }
@@ -70,35 +69,15 @@ fn shortest_vertex_path<'a, 'b>(
         heap.len(),
     );
 
-    let mut current = Some((0, end));
-    let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
-    while let Some((_, node)) = current {
-        vertex_route.push(node);
+    let mut current = end.predecessor.get();
+    let mut vertex_route = vec![];
+    while let Some((edge, node)) = current {
+        vertex_route.push((edge, node));
         current = node.predecessor.get();
     }
 
     vertex_route.reverse();
     Ok(vertex_route)
-}
-
-fn shortest_path_with_edges<'a, 'b>(
-    route: &[&'b Vertex<'a, 'b>],
-) -> Vec<(Edge, &'b Vertex<'a, 'b>)> {
-    let mut prev = route.first().expect("Expected non-empty route");
-
-    let mut cost = 0;
-    let mut res = vec![];
-
-    for vertex in route.iter().skip(1) {
-        let edge = edge_between(prev, vertex);
-        res.push((edge, *prev));
-        cost += edge.cost();
-
-        prev = vertex;
-    }
-    debug!("Found a path of {} with cost {}.", route.len(), cost);
-
-    res
 }
 
 /// Return the shortest route from the `start` to the end vertex.
@@ -111,41 +90,8 @@ fn shortest_path<'a, 'b>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
-    Ok(shortest_path_with_edges(&vertex_path))
-}
-
-fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge {
-    assert_ne!(before, after);
-
-    let mut shortest_edge: Option<Edge> = None;
-    if let Some(neighbours) = &*before.neighbours.borrow() {
-        for neighbour in neighbours {
-            let (edge, next) = *neighbour;
-            // If there are multiple edges that can take us to `next`,
-            // prefer the shortest.
-            if *next == *after {
-                let is_shorter = match shortest_edge {
-                    Some(prev_edge) => edge.cost() < prev_edge.cost(),
-                    None => true,
-                };
-
-                if is_shorter {
-                    shortest_edge = Some(edge);
-                }
-            }
-        }
-    }
-
-    if let Some(edge) = shortest_edge {
-        return edge;
-    }
-
-    panic!(
-        "Expected a route between the two vertices {:#?} and {:#?}",
-        before, after
-    );
+    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start);
+    shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)
 }
 
 /// What is the total number of AST nodes?
@@ -220,8 +166,10 @@ pub fn mark_syntax<'a>(
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
                     x.1.lhs_syntax
+                        .get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.1.rhs_syntax
+                        .get_ref()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.0.cost(),
                     x.0,
