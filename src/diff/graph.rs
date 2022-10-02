@@ -706,7 +706,6 @@ pub fn populate_change_map<'a, 'b>(
                 let rhs = v.rhs_syntax.get_side().unwrap();
 
                 insert_deep_unchanged(lhs, rhs, change_map);
-                insert_deep_unchanged(rhs, lhs, change_map);
             }
             EnterUnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may

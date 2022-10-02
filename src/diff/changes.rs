@@ -33,24 +33,25 @@ impl<'a> ChangeMap<'a> {
 }
 
 pub fn insert_deep_unchanged<'a>(
-    node: &'a Syntax<'a>,
-    opposite_node: &'a Syntax<'a>,
+    lhs: &'a Syntax<'a>,
+    rhs: &'a Syntax<'a>,
     change_map: &mut ChangeMap<'a>,
 ) {
-    change_map.insert(node, ChangeKind::Unchanged(opposite_node));
+    change_map.insert(lhs, ChangeKind::Unchanged(rhs));
+    change_map.insert(rhs, ChangeKind::Unchanged(lhs));
 
-    match (node, opposite_node) {
+    match (lhs, rhs) {
         (
             Syntax::List {
-                children: node_children,
+                children: lhs_children,
                 ..
             },
             Syntax::List {
-                children: opposite_children,
+                children: rhs_children,
                 ..
             },
         ) => {
-            for (child, opposite_child) in node_children.iter().zip(opposite_children) {
+            for (child, opposite_child) in lhs_children.iter().zip(rhs_children) {
                 insert_deep_unchanged(child, opposite_child, change_map);
             }
         }

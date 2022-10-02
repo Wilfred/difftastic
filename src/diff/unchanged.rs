@@ -71,7 +71,6 @@ fn split_unchanged<'a>(
                     lhs_section_nodes.iter().zip(rhs_section_nodes.iter())
                 {
                     insert_deep_unchanged(lhs_section_node, rhs_section_node, change_map);
-                    insert_deep_unchanged(rhs_section_node, lhs_section_node, change_map);
                 }
             }
             ChangeState::PossiblyChanged => {
@@ -408,7 +407,6 @@ fn shrink_unchanged_at_ends<'a>(
         // trivial unchanged node in the middle.
         if lhs_node.content_id() == rhs_node.content_id() {
             insert_deep_unchanged(lhs_node, rhs_node, change_map);
-            insert_deep_unchanged(rhs_node, lhs_node, change_map);
 
             changed = true;
             lhs_nodes = &lhs_nodes[1..];
@@ -421,7 +419,6 @@ fn shrink_unchanged_at_ends<'a>(
     while let (Some(lhs_node), Some(rhs_node)) = (lhs_nodes.last(), rhs_nodes.last()) {
         if lhs_node.content_id() == rhs_node.content_id() {
             insert_deep_unchanged(lhs_node, rhs_node, change_map);
-            insert_deep_unchanged(rhs_node, lhs_node, change_map);
 
             changed = true;
             lhs_nodes = &lhs_nodes[..lhs_nodes.len() - 1];
