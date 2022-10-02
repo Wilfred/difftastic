@@ -547,7 +547,7 @@ pub fn get_neighbours<'syn, 'b>(
                 // TODO: be consistent between parents_next and next_parents.
                 assert!(
                     v.lhs_parent_num < 64 && v.rhs_parent_num < 64,
-                    "Exceeds max stack depth"
+                    "Exceed max stack depth"
                 );
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
@@ -628,7 +628,7 @@ pub fn get_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                assert!(v.lhs_parent_num < 64, "Exceeds max stack depth");
+                assert!(v.lhs_parent_num < 64, "Exceed max stack depth");
                 add_neighbor(
                     EnterNovelDelimiterLHS {
                         contiguous: lhs_syntax.prev_is_contiguous(),
@@ -669,7 +669,7 @@ pub fn get_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                assert!(v.rhs_parent_num < 64, "Exceeds max stack depth");
+                assert!(v.rhs_parent_num < 64, "Exceed max stack depth");
                 add_neighbor(
                     EnterNovelDelimiterRHS {
                         contiguous: rhs_syntax.prev_is_contiguous(),
