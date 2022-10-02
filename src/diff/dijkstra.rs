@@ -35,6 +35,8 @@ fn shortest_path<'a, 'b>(
     let mut seen = SeenMap::default();
     seen.reserve(size_hint);
 
+    let mut neighbors = Vec::with_capacity(4);
+
     let end: &'b Vertex<'a, 'b> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
@@ -47,7 +49,10 @@ fn shortest_path<'a, 'b>(
                     break current;
                 }
 
-                for (edge, next) in get_neighbours(current, vertex_arena, &mut seen) {
+                neighbors.clear();
+                get_neighbours(current, vertex_arena, &mut seen, &mut neighbors);
+
+                for &(edge, next) in neighbors.iter() {
                     let distance_to_next = distance + edge.cost();
 
                     if distance_to_next < next.shortest_distance.get() {

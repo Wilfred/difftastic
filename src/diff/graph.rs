@@ -429,9 +429,8 @@ pub fn get_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
-) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
-    let mut neighbors = Vec::with_capacity(4);
-
+    neighbors: &mut Vec<(Edge, &'b Vertex<'syn, 'b>)>,
+) {
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
         |edge, vertex| {
@@ -684,8 +683,6 @@ pub fn get_neighbours<'syn, 'b>(
             }
         }
     }
-
-    neighbors
 }
 
 pub fn populate_change_map<'a, 'b>(
