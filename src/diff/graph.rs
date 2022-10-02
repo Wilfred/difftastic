@@ -53,6 +53,16 @@ impl<'a> SideSyntax<'a> {
         }
     }
 
+    pub fn root(&self) -> Option<&'a Syntax<'a>> {
+        match self.get_side() {
+            Some(side) => Some(side.root()),
+            None => match self.data ^ 1 {
+                0 => None,
+                d => Some(unsafe { &*(d as *const Syntax<'a>) }.root()),
+            },
+        }
+    }
+
     pub fn from_side(side: &'a Syntax<'a>) -> Self {
         Self {
             data: side as *const _ as _,
@@ -191,24 +201,15 @@ impl<'a, 'b> Vertex<'a, 'b> {
         }
     }
 
-    fn parents_eq(&self, other: &Vertex) -> bool {
-        fn parents_recur_eq(mut a: Option<&Syntax>, mut b: Option<&Syntax>) -> bool {
-            while let (Some(pa), Some(pb)) = (a, b) {
-                if pa.content_id() != pb.content_id() {
-                    return false;
-                }
-                a = pa.parent();
-                b = pb.parent();
-            }
-            true
-        }
-
-        self.lhs_parent_num == other.lhs_parent_num
-            && self.rhs_parent_num == other.rhs_parent_num
-            && self.lhs_parent_stack == other.lhs_parent_stack
+    fn parents_eq(&self, other: &Vertex<'a, 'b>) -> bool {
+        self.lhs_parent_stack == other.lhs_parent_stack
             && self.rhs_parent_stack == other.rhs_parent_stack
-            && parents_recur_eq(self.lhs_syntax.parent(), other.lhs_syntax.parent())
-            && parents_recur_eq(self.rhs_syntax.parent(), other.rhs_syntax.parent())
+            // roots are equal
+            // => roots' content IDs are equal,
+            // => children's content IDs are equal
+            // => their parents are equal
+            && self.lhs_syntax.root() == other.lhs_syntax.root()
+            && self.rhs_syntax.root() == other.rhs_syntax.root()
     }
 
     fn try_pop_tag(&self) -> (Option<EnteredDelimiter>, Option<EnteredDelimiter>) {
