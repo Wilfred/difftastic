@@ -1,3 +1,4 @@
+use std::iter::successors;
 use std::rc::Rc;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -37,13 +38,7 @@ impl<T> Stack<T> {
 
     // O(n)
     pub fn size(&self) -> usize {
-        let mut res = 0;
-        let mut node = &self.head;
-        while let Some(next) = node {
-            res += 1;
-            node = &next.next;
-        }
-        res
+        successors(self.head.as_ref(), |node| node.next.as_ref()).count()
     }
 
     pub fn is_empty(&self) -> bool {
