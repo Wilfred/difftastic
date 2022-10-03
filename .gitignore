@@ -241,3 +241,5 @@ Cargo.lock
 # End of https://www.toptal.com/developers/gitignore/api/c,c++,node,visualstudiocode,rust
 
 build/
+/bindings/c/*.h
+/bindings/c/tree-sitter-*.pc
