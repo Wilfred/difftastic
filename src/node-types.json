@@ -770,6 +770,18 @@
             "named": false
           },
           {
+            "type": "and_eq",
+            "named": false
+          },
+          {
+            "type": "or_eq",
+            "named": false
+          },
+          {
+            "type": "xor_eq",
+            "named": false
+          },
+          {
             "type": "|=",
             "named": false
           }
@@ -1010,6 +1022,30 @@
           },
           {
             "type": "^",
+            "named": false
+          },
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "bitand",
+            "named": false
+          },
+          {
+            "type": "bitor",
+            "named": false
+          },
+          {
+            "type": "not_eq",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "xor",
             "named": false
           },
           {
@@ -5768,6 +5804,14 @@
             "named": false
           },
           {
+            "type": "compl",
+            "named": false
+          },
+          {
+            "type": "not",
+            "named": false
+          },
+          {
             "type": "~",
             "named": false
           }
@@ -6346,8 +6390,24 @@
     "named": false
   },
   {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "and_eq",
+    "named": false
+  },
+  {
     "type": "auto",
     "named": true
+  },
+  {
+    "type": "bitand",
+    "named": false
+  },
+  {
+    "type": "bitor",
+    "named": false
   },
   {
     "type": "break",
@@ -6380,6 +6440,10 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "compl",
+    "named": false
   },
   {
     "type": "concept",
@@ -6522,6 +6586,14 @@
     "named": false
   },
   {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "not_eq",
+    "named": false
+  },
+  {
     "type": "null",
     "named": true
   },
@@ -6535,6 +6607,14 @@
   },
   {
     "type": "operator",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "or_eq",
     "named": false
   },
   {
@@ -6695,6 +6775,14 @@
   },
   {
     "type": "while",
+    "named": false
+  },
+  {
+    "type": "xor",
+    "named": false
+  },
+  {
+    "type": "xor_eq",
     "named": false
   },
   {

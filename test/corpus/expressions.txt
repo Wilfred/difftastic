@@ -989,3 +989,46 @@ bool t3 = (IndexOf<T> + ... + 1);
             (type_descriptor
               (type_identifier))))
         (number_literal)))))
+
+================================================
+Alternative tokens (digraphs)
+=================================================
+
+if (not marked and (x < left or right < x)) {}
+
+operator not_eq(int) { return true; }
+
+foo and_eq bar();
+
+---
+
+(translation_unit
+  (if_statement
+    (condition_clause
+      (binary_expression
+        (unary_expression
+          (identifier))
+        (parenthesized_expression
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (identifier))
+            (binary_expression
+              (identifier)
+              (identifier))))))
+    (compound_statement))
+  (function_definition
+    (function_declarator
+      (operator_name)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (return_statement
+        (true))))
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list)))))
