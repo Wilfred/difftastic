@@ -432,6 +432,7 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
     }
 }
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
+    set_root(roots);
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
@@ -442,7 +443,6 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
 /// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
     set_parent(roots, None);
-    set_root(roots);
     set_num_ancestors(roots, 0);
     set_num_after(roots, 0);
     set_unique_id(roots, next_id);
