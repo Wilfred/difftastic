@@ -654,3 +654,48 @@ tree-sitter-latex (Issue #44) | \definecolor
         (word))
       (text
         (word)))))
+
+================================================================================
+tree-sitter-latex (Issue #55) | minted with options
+================================================================================
+
+\documentclass{article}
+
+\begin{document}
+  \begin{minted}[autogobble]{python}
+    foo()
+  \end{minted}
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_include
+    (curly_group_path
+      (path)))
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (minted_environment
+      (begin
+        (curly_group_text
+          (text
+            (word)))
+        (brack_group_key_value
+          (key_value_pair
+            (text
+              (word))))
+        (curly_group_text
+          (text
+            (word))))
+      (source_code)
+      (end
+        (curly_group_text
+          (text
+            (word)))))
+    (end
+      (curly_group_text
+        (text
+          (word))))))

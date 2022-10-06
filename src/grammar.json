@@ -2485,12 +2485,33 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "language",
-          "content": {
-            "type": "SYMBOL",
-            "name": "curly_group_text"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "options",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "brack_group_key_value"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "language",
+              "content": {
+                "type": "SYMBOL",
+                "name": "curly_group_text"
+              }
+            }
+          ]
         }
       ]
     },

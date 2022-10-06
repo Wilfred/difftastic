@@ -497,6 +497,10 @@
           {
             "type": "brack_group",
             "named": true
+          },
+          {
+            "type": "brack_group_key_value",
+            "named": true
           }
         ]
       }

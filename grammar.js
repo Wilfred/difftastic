@@ -482,7 +482,11 @@ module.exports = grammar({
       name: 'minted',
       content: $ =>
         field('code', alias($._trivia_raw_env_minted, $.source_code)),
-      options: $ => field('language', $.curly_group_text),
+      options: $ =>
+        seq(
+          field('options', optional($.brack_group_key_value)),
+          field('language', $.curly_group_text)
+        ),
     }),
 
     ...specialEnvironment({
