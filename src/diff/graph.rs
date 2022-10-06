@@ -315,9 +315,7 @@ pub enum Edge {
     EnterNovelDelimiterRHS {
         contiguous: bool,
     },
-    ExitDelimiterLHS,
-    ExitDelimiterRHS,
-    ExitDelimiterBoth,
+    ExitDelimiter,
 }
 
 const NOT_CONTIGUOUS_PENALTY: u64 = 50;
@@ -329,12 +327,7 @@ impl Edge {
             // delimiter possibility, so the cost doesn't matter. We
             // choose a non-zero number as it's easier to reason
             // about.
-            ExitDelimiterBoth => 1,
-            // Choose a higher value for exiting individually. This
-            // shouldn't matter since entering a novel delimiter is
-            // already more expensive than entering a matched
-            // delimiter, but be defensive.
-            ExitDelimiterLHS | ExitDelimiterRHS => 2,
+            ExitDelimiter => 1,
 
             // Matching nodes is always best.
             UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
@@ -454,7 +447,7 @@ pub fn get_neighbours<'syn, 'b>(
 
         // Continue from sibling of parent.
         add_neighbor(
-            ExitDelimiterBoth,
+            ExitDelimiter,
             Vertex {
                 lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
                 rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
@@ -470,7 +463,7 @@ pub fn get_neighbours<'syn, 'b>(
 
         // Continue from sibling of parent.
         add_neighbor(
-            ExitDelimiterLHS,
+            ExitDelimiter,
             Vertex {
                 lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
                 rhs_syntax: v.rhs_syntax,
@@ -486,7 +479,7 @@ pub fn get_neighbours<'syn, 'b>(
 
         // Continue from sibling of parent.
         add_neighbor(
-            ExitDelimiterRHS,
+            ExitDelimiter,
             Vertex {
                 lhs_syntax: v.lhs_syntax,
                 rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
@@ -667,7 +660,7 @@ pub fn populate_change_map<'a, 'b>(
 
     for (e, v) in route {
         match e {
-            ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
+            ExitDelimiter => {
                 // Nothing to do: we have already marked this node when we entered it.
             }
             UnchangedNode { .. } => {
