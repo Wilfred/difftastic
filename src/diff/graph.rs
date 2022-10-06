@@ -578,141 +578,93 @@ pub fn get_neighbours<'syn, 'b>(
     }
 
     if let (Some(lhs_syntax), _, _, _) = v_info {
-        match lhs_syntax {
-            // Step over this novel atom.
-            Syntax::Atom { content, .. } => {
-                let mut next_syntax = lhs_syntax;
-                let mut next_stack = v.lhs_parent_stack;
-                while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek())
-                {
-                    next_syntax = next_syntax.parent().unwrap();
-                    next_stack = next_stack.pop();
-                }
+        let (edge, child) = match lhs_syntax {
+            Syntax::Atom { content, .. } => (
+                NovelAtomLHS {
+                    // TODO: should this apply if prev is a parent
+                    // node rather than a sibling?
+                    contiguous: lhs_syntax.prev_is_contiguous(),
+                    probably_punctuation: looks_like_punctuation(content),
+                },
+                None,
+            ),
+            Syntax::List { children, .. } => (
+                EnterNovelDelimiterLHS {
+                    contiguous: lhs_syntax.prev_is_contiguous(),
+                },
+                children.get(0).copied(),
+            ),
+        };
 
-                add_neighbor(
-                    NovelAtomLHS {
-                        // TODO: should this apply if prev is a parent
-                        // node rather than a sibling?
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
-                    Vertex {
-                        lhs_syntax: next_sibling(next_syntax),
-                        rhs_syntax: v.rhs_syntax,
-                        lhs_parent_stack: next_stack,
-                        rhs_parent_stack: v.rhs_parent_stack,
-                        ..Vertex::default()
-                    },
-                );
+        let (next_syntax, next_stack) = if let Some(child) = child {
+            (
+                SideSyntax::from_side(child),
+                v.lhs_parent_stack.push(PopEither),
+            )
+        } else {
+            let mut next_syntax = lhs_syntax;
+            let mut next_stack = v.lhs_parent_stack;
+            while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek()) {
+                next_syntax = next_syntax.parent().unwrap();
+                next_stack = next_stack.pop();
             }
-            // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
-                if let Some(next_syntax) = children.get(0).copied() {
-                    add_neighbor(
-                        EnterNovelDelimiterLHS {
-                            contiguous: lhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: SideSyntax::from_side(next_syntax),
-                            rhs_syntax: v.rhs_syntax,
-                            lhs_parent_stack: v.lhs_parent_stack.push(PopEither),
-                            rhs_parent_stack: v.rhs_parent_stack,
-                            ..Vertex::default()
-                        },
-                    );
-                } else {
-                    let mut next_syntax = lhs_syntax;
-                    let mut next_stack = v.lhs_parent_stack;
-                    while let (None, Some(PopEither)) =
-                        (next_syntax.next_sibling(), next_stack.peek())
-                    {
-                        next_syntax = next_syntax.parent().unwrap();
-                        next_stack = next_stack.pop();
-                    }
+            (next_sibling(next_syntax), next_stack)
+        };
 
-                    add_neighbor(
-                        EnterNovelDelimiterLHS {
-                            contiguous: lhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: next_sibling(next_syntax),
-                            rhs_syntax: v.rhs_syntax,
-                            lhs_parent_stack: next_stack,
-                            rhs_parent_stack: v.rhs_parent_stack,
-                            ..Vertex::default()
-                        },
-                    );
-                }
-            }
-        }
+        add_neighbor(
+            edge,
+            Vertex {
+                lhs_syntax: next_syntax,
+                rhs_syntax: v.rhs_syntax,
+                lhs_parent_stack: next_stack,
+                rhs_parent_stack: v.rhs_parent_stack,
+                ..Vertex::default()
+            },
+        );
     }
 
     if let (_, Some(rhs_syntax), _, _) = v_info {
-        match rhs_syntax {
-            // Step over this novel atom.
-            Syntax::Atom { content, .. } => {
-                let mut next_syntax = rhs_syntax;
-                let mut next_stack = v.rhs_parent_stack;
-                while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek())
-                {
-                    next_syntax = next_syntax.parent().unwrap();
-                    next_stack = next_stack.pop();
-                }
+        let (edge, child) = match rhs_syntax {
+            Syntax::Atom { content, .. } => (
+                NovelAtomRHS {
+                    contiguous: rhs_syntax.prev_is_contiguous(),
+                    probably_punctuation: looks_like_punctuation(content),
+                },
+                None,
+            ),
+            Syntax::List { children, .. } => (
+                EnterNovelDelimiterRHS {
+                    contiguous: rhs_syntax.prev_is_contiguous(),
+                },
+                children.get(0).copied(),
+            ),
+        };
 
-                add_neighbor(
-                    NovelAtomRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
-                    Vertex {
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: next_sibling(next_syntax),
-                        lhs_parent_stack: v.lhs_parent_stack,
-                        rhs_parent_stack: next_stack,
-                        ..Vertex::default()
-                    },
-                );
+        let (next_syntax, next_stack) = if let Some(child) = child {
+            (
+                SideSyntax::from_side(child),
+                v.rhs_parent_stack.push(PopEither),
+            )
+        } else {
+            let mut next_syntax = rhs_syntax;
+            let mut next_stack = v.rhs_parent_stack;
+            while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek()) {
+                next_syntax = next_syntax.parent().unwrap();
+                next_stack = next_stack.pop();
             }
-            // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
-                if let Some(next_syntax) = children.get(0).copied() {
-                    add_neighbor(
-                        EnterNovelDelimiterRHS {
-                            contiguous: rhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: SideSyntax::from_side(next_syntax),
-                            lhs_parent_stack: v.lhs_parent_stack,
-                            rhs_parent_stack: v.rhs_parent_stack.push(PopEither),
-                            ..Vertex::default()
-                        },
-                    );
-                } else {
-                    let mut next_syntax = rhs_syntax;
-                    let mut next_stack = v.rhs_parent_stack;
-                    while let (None, Some(PopEither)) =
-                        (next_syntax.next_sibling(), next_stack.peek())
-                    {
-                        next_syntax = next_syntax.parent().unwrap();
-                        next_stack = next_stack.pop();
-                    }
+            (next_sibling(next_syntax), next_stack)
+        };
 
-                    add_neighbor(
-                        EnterNovelDelimiterRHS {
-                            contiguous: rhs_syntax.prev_is_contiguous(),
-                        },
-                        Vertex {
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: next_sibling(next_syntax),
-                            lhs_parent_stack: v.lhs_parent_stack,
-                            rhs_parent_stack: next_stack,
-                            ..Vertex::default()
-                        },
-                    );
-                }
-            }
-        }
+        add_neighbor(
+            edge,
+            Vertex {
+                lhs_syntax: v.lhs_syntax,
+                rhs_syntax: next_syntax,
+                lhs_parent_stack: v.lhs_parent_stack,
+                rhs_parent_stack: next_stack,
+                ..Vertex::default()
+            },
+        );
     }
 }
 
