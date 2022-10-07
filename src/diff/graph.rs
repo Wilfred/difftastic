@@ -458,52 +458,38 @@ pub fn get_neighbours<'syn, 'b>(
         );
     }
 
-    if let (None, _, Some(PopEither), _) = v_info {
-        // Move to next after LHS parent.
-
-        // Continue from sibling of parent.
-        add_neighbor(
-            ExitDelimiter,
-            Vertex {
-                lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
-                rhs_syntax: v.rhs_syntax,
-                lhs_parent_stack: v.lhs_parent_stack.pop(),
-                rhs_parent_stack: v.rhs_parent_stack,
-                ..Vertex::default()
-            },
-        );
-    }
-
-    if let (_, None, _, Some(PopEither)) = v_info {
-        // Move to next after RHS parent.
-
-        // Continue from sibling of parent.
-        add_neighbor(
-            ExitDelimiter,
-            Vertex {
-                lhs_syntax: v.lhs_syntax,
-                rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
-                lhs_parent_stack: v.lhs_parent_stack,
-                rhs_parent_stack: v.rhs_parent_stack.pop(),
-                ..Vertex::default()
-            },
-        );
-    }
-
     if let (Some(lhs_syntax), Some(rhs_syntax), _, _) = v_info {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
 
+            let mut next_lhs_syntax = lhs_syntax;
+            let mut next_lhs_stack = v.lhs_parent_stack;
+            while let (None, Some(PopEither)) =
+                (next_lhs_syntax.next_sibling(), next_lhs_stack.peek())
+            {
+                next_lhs_syntax = next_lhs_syntax.parent().unwrap();
+                next_lhs_stack = next_lhs_stack.pop();
+            }
+
+            let mut next_rhs_syntax = rhs_syntax;
+            let mut next_rhs_stack = v.rhs_parent_stack;
+            while let (None, Some(PopEither)) =
+                (next_rhs_syntax.next_sibling(), next_rhs_stack.peek())
+            {
+                next_rhs_syntax = next_rhs_syntax.parent().unwrap();
+                next_rhs_stack = next_rhs_stack.pop();
+            }
+
             // Both nodes are equal, the happy case.
             add_neighbor(
                 UnchangedNode { depth_difference },
                 Vertex {
-                    lhs_syntax: next_sibling(lhs_syntax),
-                    rhs_syntax: next_sibling(rhs_syntax),
-                    lhs_parent_stack: v.lhs_parent_stack,
-                    rhs_parent_stack: v.rhs_parent_stack,
+                    lhs_syntax: next_sibling(next_lhs_syntax),
+                    rhs_syntax: next_sibling(next_rhs_syntax),
+                    lhs_parent_stack: next_lhs_stack,
+                    rhs_parent_stack: next_rhs_stack,
                     ..Vertex::default()
                 },
             );
@@ -563,13 +549,31 @@ pub fn get_neighbours<'syn, 'b>(
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
 
+                let mut next_lhs_syntax = lhs_syntax;
+                let mut next_lhs_stack = v.lhs_parent_stack;
+                while let (None, Some(PopEither)) =
+                    (next_lhs_syntax.next_sibling(), next_lhs_stack.peek())
+                {
+                    next_lhs_syntax = next_lhs_syntax.parent().unwrap();
+                    next_lhs_stack = next_lhs_stack.pop();
+                }
+
+                let mut next_rhs_syntax = rhs_syntax;
+                let mut next_rhs_stack = v.rhs_parent_stack;
+                while let (None, Some(PopEither)) =
+                    (next_rhs_syntax.next_sibling(), next_rhs_stack.peek())
+                {
+                    next_rhs_syntax = next_rhs_syntax.parent().unwrap();
+                    next_rhs_stack = next_rhs_stack.pop();
+                }
+
                 add_neighbor(
                     ReplacedComment { levenshtein_pct },
                     Vertex {
-                        lhs_syntax: next_sibling(lhs_syntax),
-                        rhs_syntax: next_sibling(rhs_syntax),
-                        lhs_parent_stack: v.lhs_parent_stack,
-                        rhs_parent_stack: v.rhs_parent_stack,
+                        lhs_syntax: next_sibling(next_lhs_syntax),
+                        rhs_syntax: next_sibling(next_rhs_syntax),
+                        lhs_parent_stack: next_lhs_stack,
+                        rhs_parent_stack: next_rhs_stack,
                         ..Vertex::default()
                     },
                 );
