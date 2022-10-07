@@ -384,6 +384,7 @@ pub fn header(
     hunk_num: usize,
     hunk_total: usize,
     language_name: &str,
+    context: &Option<String>,
     display_options: &DisplayOptions,
 ) -> String {
     let divider = if hunk_total == 1 {
@@ -404,10 +405,17 @@ pub fn header(
     );
     if hunk_num == 1 && lhs_display_path != rhs_display_path && display_options.in_vcs {
         let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty);
-        format!(
-            "{}\n{} --- {}{}",
-            renamed, rhs_path_pretty, divider, language_name
-        )
+        let suffix = if context.is_none() {
+            language_name.to_string()
+        } else {
+            let prefix_width = rhs_display_path.len() + " --- ".len() + divider.len();
+            format!(
+                "{:.width$}",
+                context.as_ref().unwrap(),
+                width = display_options.display_width - prefix_width - 1
+            )
+        };
+        format!("{}\n{} --- {}{}", renamed, rhs_path_pretty, divider, suffix)
     } else {
         // Prefer showing the RHS path in the header unless it's
         // /dev/null. Note that git calls the difftool with
@@ -417,7 +425,22 @@ pub fn header(
         } else {
             rhs_path_pretty
         };
-        format!("{} --- {}{}", path_pretty, divider, language_name)
+        let path_len = if rhs_display_path == "/dev/null" {
+            lhs_display_path.len()
+        } else {
+            rhs_display_path.len()
+        };
+        let suffix = if context.is_none() {
+            language_name.to_string()
+        } else {
+            let prefix_width = path_len + " --- ".len() + divider.len();
+            format!(
+                "{:.width$}",
+                context.as_ref().unwrap(),
+                width = display_options.display_width - prefix_width - 1
+            )
+        };
+        format!("{} --- {}{}", path_pretty, divider, suffix)
     }
 }
 

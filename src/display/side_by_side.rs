@@ -83,6 +83,7 @@ fn display_single_column(
         1,
         1,
         lang_name,
+        &None,
         display_options,
     ));
     header_line.push('\n');
@@ -308,6 +309,174 @@ fn highlight_as_novel(
     false
 }
 
+fn find_first_changed_lines(
+    aligned_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+) -> (Option<LineNumber>, Option<LineNumber>) {
+    let mut lhs_min_line_num: Option<LineNumber> = None;
+    let mut rhs_min_line_num: Option<LineNumber> = None;
+    for (lhs_line_num, rhs_line_num) in aligned_lines {
+        if let Some(line_num) = lhs_line_num {
+            if lhs_min_line_num.is_none() || lhs_min_line_num.unwrap() > *line_num {
+                lhs_min_line_num = Some(*line_num);
+            }
+        }
+        if let Some(line_num) = rhs_line_num {
+            if rhs_min_line_num.is_none() || rhs_min_line_num.unwrap() > *line_num {
+                rhs_min_line_num = Some(*line_num);
+            }
+        }
+    }
+    (lhs_min_line_num, rhs_min_line_num)
+}
+
+fn find_context_for_hunk(
+    lhs_src: &str,
+    rhs_src: &str,
+    lhs_tree: Option<&tree_sitter::Tree>,
+    rhs_tree: Option<&tree_sitter::Tree>,
+    lhs_min_line_num: Option<LineNumber>,
+    rhs_min_line_num: Option<LineNumber>,
+) -> Option<String> {
+    if lhs_min_line_num.is_none() || rhs_min_line_num.is_none() {
+        return None;
+    }
+
+    // Regular diff typically shows the context based on what's outside the
+    // first line (i.e., the incoming context). We choose to do the same;
+    // an alternative would be to look at the entire [start_i..end_i] range
+    // and only accept the context if all of the block is within the node,
+    // but this seems less useful (in particular, seeing the end of the
+    // function would mean we don't get any context, even though it may
+    // very well be useful).
+    //
+    // By convention, we say that {lhs,rhs}_p is just _after_ the point
+    // we are interested in, so that we don't have to try to figure out
+    // how long that line is.
+    let lhs_p = tree_sitter::Point {
+        row: lhs_min_line_num.unwrap().as_usize(),
+        column: 0,
+    };
+    let rhs_p = tree_sitter::Point {
+        row: rhs_min_line_num.unwrap().as_usize(),
+        column: 0,
+    };
+
+    let lhs_context = find_context(&lhs_src, lhs_tree, lhs_p);
+    if lhs_context.is_none() {
+        return None;
+    }
+    let rhs_context = find_context(&rhs_src, rhs_tree, rhs_p);
+    if lhs_context == rhs_context {
+        return lhs_context;
+    } else {
+        return None;
+    }
+}
+
+fn find_context(
+    src: &str,
+    tree: Option<&tree_sitter::Tree>,
+    context_point: tree_sitter::Point,
+) -> Option<String> {
+    match tree {
+        None => None,
+        Some(tree) => {
+            let mut cursor = tree.walk();
+            find_context_from_cursor(src, &mut cursor, context_point)
+        }
+    }
+}
+
+// Given a cursor (pointing at some node), try to find the most specific context node
+// (typically a function or a class definition) that contains the given point.
+fn find_context_from_cursor(
+    src: &str,
+    cursor: &mut tree_sitter::TreeCursor,
+    context_point: tree_sitter::Point,
+) -> Option<String> {
+    let node = cursor.node();
+    // See the caller for the slightly weird <= test here.
+    if context_point <= node.start_position() || context_point > node.end_position() {
+        return None;
+    }
+    if node.child_count() == 0 {
+        return None;
+    }
+
+    // See if this node defines a new context (e.g. a function definition).
+    // If so, we combine all of its child node text _except_ the body of the
+    // function definition itself. So for “fn foo() { 42; }” (which is a
+    // function_definition), we should return “fn foo()”. An alternative
+    // (probably needed for some languages?) would be to have a list of
+    // explicitly allowed node types instead of disallowed ones. This would
+    // fix e.g. languages like Julia or elisp, where the grammar doesn't
+    // seem to have an idea of the function block itself (so the context
+    // becomes the entire function, which then often is not the same on the left
+    // and right sides).
+    //
+    // Classes are also generally taken to be function_definition in tree-sitter
+    // grammars, so this works out nicely.
+    let mut context = None;
+    if node.kind() == "function_definition"
+        || node.kind() == "function_declaration"
+        || node.kind() == "function_item"
+    {
+        let mut possible_new_context = String::new();
+        cursor.goto_first_child();
+        let mut last_token_end = tree_sitter::Point {
+            row: usize::MAX,
+            column: usize::MAX,
+        };
+        loop {
+            let child = cursor.node();
+            if child.kind() != "compound_statement"
+                && child.kind() != "block"
+                && child.kind() != "function_body"
+            {
+                // Add a space between tokens, unless they were already adjacent in the file.
+                if !possible_new_context.is_empty()
+                    && (child.start_position().row != last_token_end.row
+                        || child.start_position().column != last_token_end.column)
+                {
+                    possible_new_context += " ";
+                }
+                possible_new_context += &src[child.start_byte()..child.end_byte()];
+                last_token_end = child.end_position();
+            }
+            if !cursor.goto_next_sibling() {
+                break;
+            }
+        }
+        cursor.goto_parent();
+        if !possible_new_context.is_empty() {
+            // Squeeze whitespace, including newlines, into single spaces.
+            possible_new_context = possible_new_context
+                .split_whitespace()
+                .collect::<Vec<&str>>()
+                .join(" ");
+            context = Some(possible_new_context);
+        }
+    }
+
+    // Any of the children may define a more specific context than us
+    // (e.g., a function is more specific than a class), so keep on
+    // recursing even if this node is a context node.
+    cursor.goto_first_child();
+    loop {
+        let sub_context = find_context_from_cursor(src, cursor, context_point);
+        if !sub_context.is_none() {
+            context = sub_context;
+            break;
+        }
+        if !cursor.goto_next_sibling() {
+            break;
+        }
+    }
+    cursor.goto_parent();
+
+    context
+}
+
 pub fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
@@ -319,6 +488,8 @@ pub fn print(
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
+    lhs_tree: Option<&tree_sitter::Tree>,
+    rhs_tree: Option<&tree_sitter::Tree>,
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -405,18 +576,6 @@ pub fn print(
     let mut matched_lines_to_print = &matched_lines[..];
 
     for (i, hunk) in hunks.iter().enumerate() {
-        println!(
-            "{}",
-            style::header(
-                lhs_display_path,
-                rhs_display_path,
-                i + 1,
-                hunks.len(),
-                lang_name,
-                display_options
-            )
-        );
-
         let (start_i, end_i) = matched_lines_indexes_for_hunk(
             matched_lines_to_print,
             hunk,
@@ -429,6 +588,29 @@ pub fn print(
         // iterations, and this function is hot on large textual
         // diffs.
         matched_lines_to_print = &matched_lines_to_print[start_i..];
+
+        let (lhs_min_line_num, rhs_min_line_num) = find_first_changed_lines(aligned_lines);
+        let context = find_context_for_hunk(
+            &lhs_src,
+            &rhs_src,
+            lhs_tree,
+            rhs_tree,
+            lhs_min_line_num,
+            rhs_min_line_num,
+        );
+
+        println!(
+            "{}",
+            style::header(
+                lhs_display_path,
+                rhs_display_path,
+                i + 1,
+                hunks.len(),
+                lang_name,
+                &context,
+                display_options
+            )
+        );
 
         let no_lhs_changes = hunk.novel_lhs.is_empty();
         let no_rhs_changes = hunk.novel_rhs.is_empty();
@@ -599,6 +781,7 @@ pub fn print(
 #[cfg(test)]
 mod tests {
     use crate::syntax::{AtomKind, MatchKind, TokenKind};
+    use crate::parse::tree_sitter_parser as tsp;
 
     use super::*;
     use pretty_assertions::assert_eq;
@@ -754,6 +937,31 @@ mod tests {
             "bar",
             &lhs_mps,
             &rhs_mps,
+            None,
+            None,
         );
+    }
+
+    #[test]
+    fn test_find_context() {
+        let src = r##"
+#include <stdio.h>
+
+int main(int argc, char **argv) {
+  printf("hello, world!\n");
+}
+        "##;
+        let tree = tsp::parse_to_tree(&src, &tsp::from_language(Language::C));
+        let inside_point = tree_sitter::Point { row: 4, column: 0 };
+
+        let inside_context = find_context(&src, Some(&tree), inside_point);
+        assert_eq!(
+            inside_context,
+            Some("int main(int argc, char **argv)".to_string())
+        );
+
+        let outside_point = tree_sitter::Point { row: 1, column: 0 };
+        let outside_context = find_context(&src, Some(&tree), outside_point);
+        assert_eq!(outside_context, None);
     }
 }

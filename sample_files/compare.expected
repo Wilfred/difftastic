@@ -1,8 +1,8 @@
 sample_files/b2_math_before.h sample_files/b2_math_after.h
-637e91c1528894ec0529bc845ef79c88  -
+c6f9abe36eaa0aa479fb19154412fabd  -
 
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
-9f61f6c7e485a2726685f718fef1f9bd  -
+b6f33ef261686a8305335b302356e4c5  -
 
 sample_files/change_outer_before.el sample_files/change_outer_after.el
 1857b63ba1bfa0ccc0a4243db6b1c5c2  -
@@ -20,7 +20,7 @@ sample_files/comments_before.rs sample_files/comments_after.rs
 a736fef589c0bb8b44c83907eb3268df  -
 
 sample_files/context_before.rs sample_files/context_after.rs
-ef267b3bbea4b56a111427a11b24cc6a  -
+048f0d6354d4517b7f9980ad716dc751  -
 
 sample_files/contiguous_before.js sample_files/contiguous_after.js
 9d7bc73c3551064e67f40155abc84798  -
@@ -155,7 +155,7 @@ sample_files/scala_before.scala sample_files/scala_after.scala
 bb18213033492a633e7f978ab9711ae1  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
-46994b58bb24200f82866951013f03ce  -
+b160640b6e8620950eaba0f617470032  -
 
 sample_files/simple_before.js sample_files/simple_after.js
 b1fe2c184a9a358e314e21aabb0f3cb7  -
@@ -167,10 +167,10 @@ sample_files/slider_at_end_before.json sample_files/slider_at_end_after.json
 1d6162aab8e59c4422e9c14f09ceac3e  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-50e1df5af0bf4a1fa7211e079196f1a9  -
+cd0850c88fbf0e5d726af694108ac3c7  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-b3f323569ae05e1185810da31c1db31a  -
+c624cd9e2ec8d588f555aa61ad340c14  -
 
 sample_files/small_before.js sample_files/small_after.js
 27bcac13aa17141718a3e6b8c0ac8f47  -

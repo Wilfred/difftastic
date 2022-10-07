@@ -19,4 +19,6 @@ pub struct DiffResult {
     pub rhs_src: FileContent,
     pub lhs_positions: Vec<MatchedPos>,
     pub rhs_positions: Vec<MatchedPos>,
+    pub lhs_tree: Option<tree_sitter::Tree>,
+    pub rhs_tree: Option<tree_sitter::Tree>,
 }

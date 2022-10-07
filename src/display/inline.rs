@@ -66,6 +66,7 @@ pub fn print(
                 i + 1,
                 hunks.len(),
                 lang_name,
+                &None,
                 display_options
             )
         );

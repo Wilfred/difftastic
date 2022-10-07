@@ -955,29 +955,33 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
 }
 
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.
+/// The tree is retained for displaying function context later.
 pub fn parse<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     config: &TreeSitterConfig,
-) -> Vec<&'a Syntax<'a>> {
+) -> (Vec<&'a Syntax<'a>>, Option<tree_sitter::Tree>) {
     // Don't return anything on an empty input. Most parsers return a
     // zero-width top-level AST node on empty files, which is
     // confusing and not useful for diffing.
     if src.trim().is_empty() {
-        return vec![];
+        return (vec![], None);
     }
 
     let tree = parse_to_tree(src, config);
     let highlights = tree_highlights(&tree, src, config);
 
     let nl_pos = NewlinePositions::from(src);
-    let mut cursor = tree.walk();
+    let syntax = {
+        let mut cursor = tree.walk();
 
-    // The tree always has a single root, whereas we want nodes for
-    // each top level syntax item.
-    cursor.goto_first_child();
+        // The tree always has a single root, whereas we want nodes for
+        // each top level syntax item.
+        cursor.goto_first_child();
 
-    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &highlights)
+        all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &highlights)
+    };
+    (syntax, Some(tree))
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
@@ -1280,7 +1284,7 @@ mod tests {
     fn test_parse_empty_file() {
         let arena = Arena::new();
         let config = from_language(guess::Language::EmacsLisp);
-        let res = parse(&arena, "", &config);
+        let (res, _tree) = parse(&arena, "", &config);
 
         let expected: Vec<&Syntax> = vec![];
         assert_eq!(res, expected);

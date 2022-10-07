@@ -123,7 +123,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang);
+                    let (ast, _tree) = tsp::parse(&arena, &src, &ts_lang);
                     init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
@@ -268,6 +268,8 @@ fn diff_file_content(
                 rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
                 lhs_positions: vec![],
                 rhs_positions: vec![],
+                lhs_tree: None,
+                rhs_tree: None,
             };
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
@@ -308,10 +310,12 @@ fn diff_file_content(
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
             rhs_positions: vec![],
+            lhs_tree: None,
+            rhs_tree: None,
         };
     }
 
-    let (lang_name, lhs_positions, rhs_positions) = match lang_config {
+    let (lang_name, lhs_positions, rhs_positions, lhs_tree, rhs_tree) = match lang_config {
         _ if lhs_bytes.len() > byte_limit || rhs_bytes.len() > byte_limit => {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
@@ -319,12 +323,14 @@ fn diff_file_content(
                 Some("Text (exceeded DFT_BYTE_LIMIT)".into()),
                 lhs_positions,
                 rhs_positions,
+                None,
+                None,
             )
         }
         Some(ts_lang) => {
             let arena = Arena::new();
-            let lhs = tsp::parse(&arena, &lhs_src, &ts_lang);
-            let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
+            let (lhs, lhs_tree) = tsp::parse(&arena, &lhs_src, &ts_lang);
+            let (rhs, rhs_tree) = tsp::parse(&arena, &rhs_src, &ts_lang);
 
             init_all_info(&lhs, &rhs);
 
@@ -362,6 +368,8 @@ fn diff_file_content(
                     Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
                     lhs_positions,
                     rhs_positions,
+                    lhs_tree,
+                    rhs_tree,
                 )
             } else {
                 // TODO: Make this .expect() unnecessary.
@@ -376,13 +384,15 @@ fn diff_file_content(
                     Some(language_name(language).into()),
                     lhs_positions,
                     rhs_positions,
+                    lhs_tree,
+                    rhs_tree,
                 )
             }
         }
         None => {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-            (None, lhs_positions, rhs_positions)
+            (None, lhs_positions, rhs_positions, None, None)
         }
     };
 
@@ -395,6 +405,8 @@ fn diff_file_content(
         rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
         rhs_positions,
+        lhs_tree,
+        rhs_tree,
     }
 }
 
@@ -466,6 +478,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             1,
                             1,
                             &lang_name,
+                            &None,
                             display_options
                         )
                     );
@@ -507,6 +520,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         rhs_src,
                         &summary.lhs_positions,
                         &summary.rhs_positions,
+                        summary.lhs_tree.as_ref(),
+                        summary.rhs_tree.as_ref(),
                     );
                 }
             }
@@ -522,6 +537,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         1,
                         1,
                         "binary",
+                        &None,
                         display_options
                     )
                 );
@@ -542,6 +558,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     1,
                     1,
                     "binary",
+                    &None,
                     display_options
                 )
             );
