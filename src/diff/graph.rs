@@ -14,7 +14,6 @@ use crate::{
     diff::changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
     parse::syntax::{AtomKind, Syntax},
 };
-use Edge::*;
 
 /// Compress two `&Syntax` into a usize.
 ///
@@ -80,17 +79,6 @@ impl<'a> SideSyntax<'a> {
             phantom: PhantomData,
         }
     }
-}
-
-fn next_sibling<'a>(syntax: &'a Syntax<'a>) -> SideSyntax<'a> {
-    let parent = SideSyntax::from_parent(syntax.parent());
-    syntax.next_sibling().map_or(parent, SideSyntax::from_side)
-}
-
-fn next_child<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSyntax<'a> {
-    let parent = SideSyntax::from_parent(Some(syntax));
-    let child = children.get(0).copied();
-    child.map_or(parent, SideSyntax::from_side)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -317,6 +305,8 @@ pub enum Edge {
     },
 }
 
+use Edge::*;
+
 const NOT_CONTIGUOUS_PENALTY: u64 = 50;
 
 impl Edge {
@@ -407,6 +397,19 @@ fn allocate_if_new<'syn, 'b>(
 /// accurately recognise punctuation in a language-agnostic way.
 fn looks_like_punctuation(content: &str) -> bool {
     content == "," || content == ";" || content == "."
+}
+
+#[inline(always)]
+fn next_sibling<'a>(syntax: &'a Syntax<'a>) -> SideSyntax<'a> {
+    let parent = SideSyntax::from_parent(syntax.parent());
+    syntax.next_sibling().map_or(parent, SideSyntax::from_side)
+}
+
+#[inline(always)]
+fn next_child<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSyntax<'a> {
+    let parent = SideSyntax::from_parent(Some(syntax));
+    let child = children.get(0).copied();
+    child.map_or(parent, SideSyntax::from_side)
 }
 
 #[inline(always)]
