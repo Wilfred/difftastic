@@ -315,7 +315,6 @@ pub enum Edge {
     EnterNovelDelimiterRHS {
         contiguous: bool,
     },
-    ExitDelimiter,
 }
 
 const NOT_CONTIGUOUS_PENALTY: u64 = 50;
@@ -323,12 +322,6 @@ const NOT_CONTIGUOUS_PENALTY: u64 = 50;
 impl Edge {
     pub fn cost(self) -> u64 {
         match self {
-            // When we're at the end of a list, there's only one exit
-            // delimiter possibility, so the cost doesn't matter. We
-            // choose a non-zero number as it's easier to reason
-            // about.
-            ExitDelimiter => 1,
-
             // Matching nodes is always best.
             UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
             // Matching an outer delimiter is good.
@@ -383,7 +376,6 @@ pub type SeenMap<'syn, 'b> = hashbrown::HashMap<
     BuildHasherDefault<FxHasher>,
 >;
 
-#[inline(never)]
 fn allocate_if_new<'syn, 'b>(
     v: Vertex<'syn, 'b>,
     alloc: &'b Bump,
@@ -417,15 +409,46 @@ fn looks_like_punctuation(content: &str) -> bool {
     content == "," || content == ";" || content == "."
 }
 
-fn skip_pop_either<'a>(
-    mut syntax: &'a Syntax<'a>,
-    mut stack: BitStack,
-) -> (SideSyntax<'a>, BitStack) {
-    while let (None, Some(PopEither)) = (syntax.next_sibling(), stack.peek()) {
-        syntax = syntax.parent().unwrap();
-        stack = stack.pop();
+#[inline(always)]
+fn next_vertex<'a, 'b>(
+    mut lhs_syntax: SideSyntax<'a>,
+    mut rhs_syntax: SideSyntax<'a>,
+    mut lhs_parent_stack: BitStack,
+    mut rhs_parent_stack: BitStack,
+) -> Vertex<'a, 'b> {
+    loop {
+        while let (None, Some(PopEither)) = (lhs_syntax.get_side(), lhs_parent_stack.peek()) {
+            lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
+            lhs_parent_stack = lhs_parent_stack.pop();
+        }
+
+        while let (None, Some(PopEither)) = (rhs_syntax.get_side(), rhs_parent_stack.peek()) {
+            rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
+            rhs_parent_stack = rhs_parent_stack.pop();
+        }
+
+        if let (None, None, Some(PopBoth), Some(PopBoth)) = (
+            lhs_syntax.get_side(),
+            rhs_syntax.get_side(),
+            lhs_parent_stack.peek(),
+            rhs_parent_stack.peek(),
+        ) {
+            lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
+            rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
+            lhs_parent_stack = lhs_parent_stack.pop();
+            rhs_parent_stack = rhs_parent_stack.pop();
+        } else {
+            break;
+        }
     }
-    (next_sibling(syntax), stack)
+
+    Vertex {
+        lhs_syntax,
+        rhs_syntax,
+        lhs_parent_stack,
+        rhs_parent_stack,
+        ..Default::default()
+    }
 }
 
 /// Compute the neighbours of `v`.
@@ -445,49 +468,23 @@ pub fn get_neighbours<'syn, 'b>(
         },
     );
 
-    let v_info = (
-        v.lhs_syntax.get_side(),
-        v.rhs_syntax.get_side(),
-        v.lhs_parent_stack.peek(),
-        v.rhs_parent_stack.peek(),
-    );
+    let v_info = (v.lhs_syntax.get_side(), v.rhs_syntax.get_side());
 
-    if let (None, None, Some(PopBoth), Some(PopBoth)) = v_info {
-        // We have exhausted all the nodes on both lists, so we can
-        // move up to the parent node.
-
-        // Continue from sibling of parent.
-        add_neighbor(
-            ExitDelimiter,
-            Vertex {
-                lhs_syntax: next_sibling(v.lhs_syntax.parent().unwrap()),
-                rhs_syntax: next_sibling(v.rhs_syntax.parent().unwrap()),
-                lhs_parent_stack: v.lhs_parent_stack.pop(),
-                rhs_parent_stack: v.rhs_parent_stack.pop(),
-                ..Vertex::default()
-            },
-        );
-    }
-
-    if let (Some(lhs_syntax), Some(rhs_syntax), _, _) = v_info {
+    if let (Some(lhs_syntax), Some(rhs_syntax)) = v_info {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
 
-            let (next_lhs_syntax, next_lhs_stack) = skip_pop_either(lhs_syntax, v.lhs_parent_stack);
-            let (next_rhs_syntax, next_rhs_stack) = skip_pop_either(rhs_syntax, v.rhs_parent_stack);
-
             // Both nodes are equal, the happy case.
             add_neighbor(
                 UnchangedNode { depth_difference },
-                Vertex {
-                    lhs_syntax: next_lhs_syntax,
-                    rhs_syntax: next_rhs_syntax,
-                    lhs_parent_stack: next_lhs_stack,
-                    rhs_parent_stack: next_rhs_stack,
-                    ..Vertex::default()
-                },
+                next_vertex(
+                    next_sibling(lhs_syntax),
+                    next_sibling(rhs_syntax),
+                    v.lhs_parent_stack,
+                    v.rhs_parent_stack,
+                ),
             );
         }
 
@@ -515,13 +512,12 @@ pub fn get_neighbours<'syn, 'b>(
 
                 add_neighbor(
                     EnterUnchangedDelimiter { depth_difference },
-                    Vertex {
-                        lhs_syntax: next_child(lhs_syntax, lhs_children),
-                        rhs_syntax: next_child(rhs_syntax, rhs_children),
-                        lhs_parent_stack: v.lhs_parent_stack.push(PopBoth),
-                        rhs_parent_stack: v.rhs_parent_stack.push(PopBoth),
-                        ..Vertex::default()
-                    },
+                    next_vertex(
+                        next_child(lhs_syntax, lhs_children),
+                        next_child(rhs_syntax, rhs_children),
+                        v.lhs_parent_stack.push(PopBoth),
+                        v.rhs_parent_stack.push(PopBoth),
+                    ),
                 );
             }
         }
@@ -545,101 +541,83 @@ pub fn get_neighbours<'syn, 'b>(
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
 
-                let (next_lhs_syntax, next_lhs_stack) =
-                    skip_pop_either(lhs_syntax, v.lhs_parent_stack);
-                let (next_rhs_syntax, next_rhs_stack) =
-                    skip_pop_either(rhs_syntax, v.rhs_parent_stack);
-
                 add_neighbor(
                     ReplacedComment { levenshtein_pct },
-                    Vertex {
-                        lhs_syntax: next_lhs_syntax,
-                        rhs_syntax: next_rhs_syntax,
-                        lhs_parent_stack: next_lhs_stack,
-                        rhs_parent_stack: next_rhs_stack,
-                        ..Vertex::default()
-                    },
+                    next_vertex(
+                        next_sibling(lhs_syntax),
+                        next_sibling(rhs_syntax),
+                        v.lhs_parent_stack,
+                        v.rhs_parent_stack,
+                    ),
                 );
             }
         }
     }
 
-    if let (Some(lhs_syntax), _, _, _) = v_info {
-        let (edge, child) = match lhs_syntax {
-            Syntax::Atom { content, .. } => (
-                NovelAtomLHS {
-                    // TODO: should this apply if prev is a parent
-                    // node rather than a sibling?
-                    contiguous: lhs_syntax.prev_is_contiguous(),
-                    probably_punctuation: looks_like_punctuation(content),
-                },
-                None,
-            ),
-            Syntax::List { children, .. } => (
-                EnterNovelDelimiterLHS {
-                    contiguous: lhs_syntax.prev_is_contiguous(),
-                },
-                children.get(0).copied(),
-            ),
+    if let (Some(lhs_syntax), _) = v_info {
+        match lhs_syntax {
+            Syntax::Atom { content, .. } => {
+                add_neighbor(
+                    NovelAtomLHS {
+                        // TODO: should this apply if prev is a parent
+                        // node rather than a sibling?
+                        contiguous: lhs_syntax.prev_is_contiguous(),
+                        probably_punctuation: looks_like_punctuation(content),
+                    },
+                    next_vertex(
+                        next_sibling(lhs_syntax),
+                        v.rhs_syntax,
+                        v.lhs_parent_stack,
+                        v.rhs_parent_stack,
+                    ),
+                );
+            }
+            Syntax::List { children, .. } => {
+                add_neighbor(
+                    EnterNovelDelimiterLHS {
+                        contiguous: lhs_syntax.prev_is_contiguous(),
+                    },
+                    next_vertex(
+                        next_child(lhs_syntax, children),
+                        v.rhs_syntax,
+                        v.lhs_parent_stack.push(PopEither),
+                        v.rhs_parent_stack,
+                    ),
+                );
+            }
         };
-
-        let (next_syntax, next_stack) = if let Some(child) = child {
-            (
-                SideSyntax::from_side(child),
-                v.lhs_parent_stack.push(PopEither),
-            )
-        } else {
-            skip_pop_either(lhs_syntax, v.lhs_parent_stack)
-        };
-
-        add_neighbor(
-            edge,
-            Vertex {
-                lhs_syntax: next_syntax,
-                rhs_syntax: v.rhs_syntax,
-                lhs_parent_stack: next_stack,
-                rhs_parent_stack: v.rhs_parent_stack,
-                ..Vertex::default()
-            },
-        );
     }
 
-    if let (_, Some(rhs_syntax), _, _) = v_info {
-        let (edge, child) = match rhs_syntax {
-            Syntax::Atom { content, .. } => (
-                NovelAtomRHS {
-                    contiguous: rhs_syntax.prev_is_contiguous(),
-                    probably_punctuation: looks_like_punctuation(content),
-                },
-                None,
-            ),
-            Syntax::List { children, .. } => (
-                EnterNovelDelimiterRHS {
-                    contiguous: rhs_syntax.prev_is_contiguous(),
-                },
-                children.get(0).copied(),
-            ),
+    if let (_, Some(rhs_syntax)) = v_info {
+        match rhs_syntax {
+            Syntax::Atom { content, .. } => {
+                add_neighbor(
+                    NovelAtomRHS {
+                        contiguous: rhs_syntax.prev_is_contiguous(),
+                        probably_punctuation: looks_like_punctuation(content),
+                    },
+                    next_vertex(
+                        v.lhs_syntax,
+                        next_sibling(rhs_syntax),
+                        v.lhs_parent_stack,
+                        v.rhs_parent_stack,
+                    ),
+                );
+            }
+            Syntax::List { children, .. } => {
+                add_neighbor(
+                    EnterNovelDelimiterRHS {
+                        contiguous: rhs_syntax.prev_is_contiguous(),
+                    },
+                    next_vertex(
+                        v.lhs_syntax,
+                        next_child(rhs_syntax, children),
+                        v.lhs_parent_stack,
+                        v.rhs_parent_stack.push(PopEither),
+                    ),
+                );
+            }
         };
-
-        let (next_syntax, next_stack) = if let Some(child) = child {
-            (
-                SideSyntax::from_side(child),
-                v.rhs_parent_stack.push(PopEither),
-            )
-        } else {
-            skip_pop_either(rhs_syntax, v.rhs_parent_stack)
-        };
-
-        add_neighbor(
-            edge,
-            Vertex {
-                lhs_syntax: v.lhs_syntax,
-                rhs_syntax: next_syntax,
-                lhs_parent_stack: v.lhs_parent_stack,
-                rhs_parent_stack: next_stack,
-                ..Vertex::default()
-            },
-        );
     }
 }
 
@@ -651,9 +629,6 @@ pub fn populate_change_map<'a, 'b>(
 
     for (e, v) in route {
         match e {
-            ExitDelimiter => {
-                // Nothing to do: we have already marked this node when we entered it.
-            }
             UnchangedNode { .. } => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.get_side().unwrap();
