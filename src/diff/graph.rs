@@ -417,6 +417,17 @@ fn looks_like_punctuation(content: &str) -> bool {
     content == "," || content == ";" || content == "."
 }
 
+fn skip_pop_either<'a>(
+    mut syntax: &'a Syntax<'a>,
+    mut stack: BitStack,
+) -> (SideSyntax<'a>, BitStack) {
+    while let (None, Some(PopEither)) = (syntax.next_sibling(), stack.peek()) {
+        syntax = syntax.parent().unwrap();
+        stack = stack.pop();
+    }
+    (next_sibling(syntax), stack)
+}
+
 /// Compute the neighbours of `v`.
 pub fn get_neighbours<'syn, 'b>(
     v: &Vertex<'syn, 'b>,
@@ -464,30 +475,15 @@ pub fn get_neighbours<'syn, 'b>(
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
 
-            let mut next_lhs_syntax = lhs_syntax;
-            let mut next_lhs_stack = v.lhs_parent_stack;
-            while let (None, Some(PopEither)) =
-                (next_lhs_syntax.next_sibling(), next_lhs_stack.peek())
-            {
-                next_lhs_syntax = next_lhs_syntax.parent().unwrap();
-                next_lhs_stack = next_lhs_stack.pop();
-            }
-
-            let mut next_rhs_syntax = rhs_syntax;
-            let mut next_rhs_stack = v.rhs_parent_stack;
-            while let (None, Some(PopEither)) =
-                (next_rhs_syntax.next_sibling(), next_rhs_stack.peek())
-            {
-                next_rhs_syntax = next_rhs_syntax.parent().unwrap();
-                next_rhs_stack = next_rhs_stack.pop();
-            }
+            let (next_lhs_syntax, next_lhs_stack) = skip_pop_either(lhs_syntax, v.lhs_parent_stack);
+            let (next_rhs_syntax, next_rhs_stack) = skip_pop_either(rhs_syntax, v.rhs_parent_stack);
 
             // Both nodes are equal, the happy case.
             add_neighbor(
                 UnchangedNode { depth_difference },
                 Vertex {
-                    lhs_syntax: next_sibling(next_lhs_syntax),
-                    rhs_syntax: next_sibling(next_rhs_syntax),
+                    lhs_syntax: next_lhs_syntax,
+                    rhs_syntax: next_rhs_syntax,
                     lhs_parent_stack: next_lhs_stack,
                     rhs_parent_stack: next_rhs_stack,
                     ..Vertex::default()
@@ -549,29 +545,16 @@ pub fn get_neighbours<'syn, 'b>(
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
 
-                let mut next_lhs_syntax = lhs_syntax;
-                let mut next_lhs_stack = v.lhs_parent_stack;
-                while let (None, Some(PopEither)) =
-                    (next_lhs_syntax.next_sibling(), next_lhs_stack.peek())
-                {
-                    next_lhs_syntax = next_lhs_syntax.parent().unwrap();
-                    next_lhs_stack = next_lhs_stack.pop();
-                }
-
-                let mut next_rhs_syntax = rhs_syntax;
-                let mut next_rhs_stack = v.rhs_parent_stack;
-                while let (None, Some(PopEither)) =
-                    (next_rhs_syntax.next_sibling(), next_rhs_stack.peek())
-                {
-                    next_rhs_syntax = next_rhs_syntax.parent().unwrap();
-                    next_rhs_stack = next_rhs_stack.pop();
-                }
+                let (next_lhs_syntax, next_lhs_stack) =
+                    skip_pop_either(lhs_syntax, v.lhs_parent_stack);
+                let (next_rhs_syntax, next_rhs_stack) =
+                    skip_pop_either(rhs_syntax, v.rhs_parent_stack);
 
                 add_neighbor(
                     ReplacedComment { levenshtein_pct },
                     Vertex {
-                        lhs_syntax: next_sibling(next_lhs_syntax),
-                        rhs_syntax: next_sibling(next_rhs_syntax),
+                        lhs_syntax: next_lhs_syntax,
+                        rhs_syntax: next_rhs_syntax,
                         lhs_parent_stack: next_lhs_stack,
                         rhs_parent_stack: next_rhs_stack,
                         ..Vertex::default()
@@ -606,13 +589,7 @@ pub fn get_neighbours<'syn, 'b>(
                 v.lhs_parent_stack.push(PopEither),
             )
         } else {
-            let mut next_syntax = lhs_syntax;
-            let mut next_stack = v.lhs_parent_stack;
-            while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek()) {
-                next_syntax = next_syntax.parent().unwrap();
-                next_stack = next_stack.pop();
-            }
-            (next_sibling(next_syntax), next_stack)
+            skip_pop_either(lhs_syntax, v.lhs_parent_stack)
         };
 
         add_neighbor(
@@ -650,13 +627,7 @@ pub fn get_neighbours<'syn, 'b>(
                 v.rhs_parent_stack.push(PopEither),
             )
         } else {
-            let mut next_syntax = rhs_syntax;
-            let mut next_stack = v.rhs_parent_stack;
-            while let (None, Some(PopEither)) = (next_syntax.next_sibling(), next_stack.peek()) {
-                next_syntax = next_syntax.parent().unwrap();
-                next_stack = next_stack.pop();
-            }
-            (next_sibling(next_syntax), next_stack)
+            skip_pop_either(rhs_syntax, v.rhs_parent_stack)
         };
 
         add_neighbor(
