@@ -15,7 +15,7 @@ To use this parser to parse Swift code, you'll want to depend on either the Rust
 To use the Rust crate, you'll add this to your `Cargo.toml`:
 ```
 tree-sitter = "0.20.0"
-tree-sitter-swift = "=0.2.0"
+tree-sitter-swift = "=0.3.4"
 ```
 
 Then you can use a `tree-sitter` parser with the language declared here:
@@ -35,7 +35,7 @@ let tree = parser.parse(&my_source_code, None)
 To use this from NPM, you'll add similar dependencies to `package.json`:
 ```
 "dependencies: {
-  "tree-sitter-swift": "0.2.0",
+  "tree-sitter-swift": "0.3.4",
   "tree-sitter": "^0.20.0"
 }
 ```
@@ -70,6 +70,38 @@ If you have a change to make to this parser, and the change is a net positive, p
 started this parser to teach myself how `tree-sitter` works, and how to write a grammar, so I welcome improvements. If
 you have an issue with the parser, please file a bug and include a test case to put in the `corpus`. I can't promise any
 level of support, but having the test case makes it more likely that I want to tinker with it.
+
+## Using tree-sitter-swift in Web Assembly 
+To use tree-sitter-swift as a language for the web bindings version  tree-sitter, which will likely be a more modern version than the published node
+module. [see](https://github.com/tree-sitter/tree-sitter/blob/master/lib/binding_web/README.md). Follow the instructions below
+
+1. Install the node modules `npm install web-tree-sitter tree-sitter-swift`
+2. Run the tree-sitter cli to create the wasm bundle
+    ```sh
+    $ npx tree-sitter build-asm ./node_modules/tree-sitter 
+    ```
+3. Boot tree-sitter wasm like this.
+
+```js
+
+const Parser = require("web-tree-sitter");
+async function run(){
+    //needs to happen first 
+    await Parser.init();
+    //wait for the load of swift
+    const Swift = await Parser.Language.load('./tree-sitter-swift.wasm');
+
+    const parser = new Parser();
+    parser.setLanguage(Swift);
+
+    //Parse your swift code here.
+    const tree = parser.parse('print("Hello, World!")')
+}
+//if you want to run this
+run().then(console.log, console.error);
+
+
+```
 
 ## Frequently asked questions
 

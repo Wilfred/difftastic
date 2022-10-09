@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-swift",
-  "version": "0.2.0",
+  "version": "0.3.4",
   "description": "A tree-sitter grammar for the Swift programming language.",
   "main": "bindings/node/index.js",
   "scripts": {
@@ -14,6 +14,15 @@
     "type": "git",
     "url": "git+https://github.com/alex-pinkus/tree-sitter-swift.git"
   },
+  "tree-sitter": [
+    {
+      "scope": "source.swift",
+      "file-types": [
+        "swift"
+      ],
+      "injection-regex": "swift"
+    }
+  ],
   "keywords": [
     "parser",
     "swift"
@@ -26,7 +35,7 @@
   "homepage": "https://github.com/alex-pinkus/tree-sitter-swift#readme",
   "dependencies": {
     "nan": "^2.15.0",
-    "tree-sitter-cli": "^0.20.6",
+    "tree-sitter-cli": "=0.20.6",
     "which": "2.0.2"
   },
   "devDependencies": {

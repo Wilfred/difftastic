@@ -1,11 +1,8 @@
 node_modules
 /src/*
 !/src/scanner.c
-!/src/parser.c
-!/src/tree_sitter
 *.swp
 /build
-/test
 Cargo.lock
 /target/*
 *.a
@@ -14,3 +11,5 @@ Cargo.lock
 *.o
 bindings/c/*.h
 bindings/c/tree-sitter-*.pc
+.vscode/
+/.build
