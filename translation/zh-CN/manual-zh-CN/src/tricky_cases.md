@@ -14,7 +14,7 @@ x
 (x)
 ```
 
-理想输出: <code><span style="background-color: PaleGreen">(</span>x<span style="background-color: PaleGreen">)</span></code>
+理想输出: <code><span style="background-color: PaleGreen; color: #000">(</span>x<span style="background-color: PaleGreen; color: #000">)</span></code>
 
 这个是十分棘手，因为`x`已经改变了它在树中的深度，但`x`本身却未发生改变。
 
@@ -42,7 +42,7 @@ x
 (x y)
 ```
 
-理想输出：<code>(x <span style="background-color: PaleGreen">y</span>)</code>
+理想输出：<code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code>
 
 在这个例子下，我们想要去高亮`y`。高亮显示定界符的话可能会让`x`看起来有所变化。
 
@@ -68,9 +68,9 @@ x
 (foo (novel) (bar))
 ```
 
-理想输出：<code>(foo <span style="background-color:PaleGreen">(novel)</span> (bar)</code>
+理想输出：<code>(foo <span style="background-color:PaleGreen; color: #000">(novel)</span> (bar)</code>
 
-很容易会变成：<code>(foo (<span style="background-color:PaleGreen">novel</span>) <span style="background-color:PaleGreen">(</span>bar<span style="background-color:PaleGreen">)</span>)</code>,
+很容易会变成：<code>(foo (<span style="background-color:PaleGreen; color: #000">novel</span>) <span style="background-color:PaleGreen; color: #000">(</span>bar<span style="background-color:PaleGreen; color: #000">)</span>)</code>,
 其中后一组的定界符会被选中。
 
 ## 重新组织大节点
@@ -97,7 +97,7 @@ x
 (y x)
 ```
 
-理想输出：<code>(<span style="background-color: PaleGreen">y</span> <span style="background-color: PaleGreen">x</span>)</code>
+理想输出：<code>(<span style="background-color: PaleGreen; color: #000">y</span> <span style="background-color: PaleGreen; color: #000">x</span>)</code>
 
 我们想突出显示列表的内容，而不是定界符。
 
@@ -111,7 +111,7 @@ foo(bar(123))
 foo(extra(bar(123)))
 ```
 
-理想输出：<code>foo(<span style="background-color: PaleGreen">extra(</span>bar(123)<span style="background-color: PaleGreen">)</span>)</code>
+理想输出：<code>foo(<span style="background-color: PaleGreen; color: #000">extra(</span>bar(123)<span style="background-color: PaleGreen; color: #000">)</span>)</code>
 
 我们想把`foo`和`bar`都看作是不变的。这种情况对于对树进行自下而上然后自上而下匹配的衍合算法来说是具有挑战性的。
 
@@ -155,8 +155,8 @@ old1(old2)
 old1(new1(old2))
 ```
 
-这个应该是 <code>old1(<span style="background-color: PaleGreen">new1(</span>old2<span style="background-color: PaleGreen">)</span>)</code> 还是
-<code>old1<span style="background-color: PaleGreen">(new1</span>(old2)<span style="background-color: PaleGreen">)</span></code>?
+这个应该是 <code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code> 还是
+<code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code>?
 
 正确的答案是取决于语言。大多数语言希望优先使用内部分隔符，而Lisps和JSON则喜欢使用外部分隔符。
 
