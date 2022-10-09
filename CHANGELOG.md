@@ -9,6 +9,10 @@ Added a Chinese translation: https://difftastic.wilfred.me.uk/zh-CN/
 Standalone `.` is now considered punctuation in the diff cost model,
 which improves diff results in some cases.
 
+### Parsing
+
+Updated to the latest tree-sitter parser for Swift.
+
 ### Command Line Interface
 
 Difftastic will now read a file from stdin if given `-` as a path
