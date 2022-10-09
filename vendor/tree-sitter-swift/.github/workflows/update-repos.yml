@@ -2,7 +2,7 @@ name: Update corpus repository versions
 
 on:
   schedule:
-    - cron: '12 4 * * *'
+    - cron: '12 4 * * 0'
 
 jobs:
   update_repository_versions:

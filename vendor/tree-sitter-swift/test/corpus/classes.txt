@@ -1,0 +1,1554 @@
+================================================================================
+Classes
+================================================================================
+
+class Empty {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body)))
+
+================================================================================
+Class with methods
+================================================================================
+
+class HelloWorld {
+    func a() {}
+
+    func b() {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (function_declaration
+        (simple_identifier)
+        (function_body))
+      (function_declaration
+        (simple_identifier)
+        (function_body)))))
+
+================================================================================
+Generic class
+================================================================================
+
+class Container<T> {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (class_body)))
+
+================================================================================
+Class with methods and expressions
+================================================================================
+
+class Strings {
+    /// Some awesome docummentation!
+    /// Yay
+    func aString() -> String { return "Hello World!" }
+
+    func anotherString() -> String { return "Hello" + " " + "World" }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (comment)
+      (comment)
+      (function_declaration
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (line_string_literal
+                (line_str_text))))))
+      (function_declaration
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (additive_expression
+                (additive_expression
+                  (line_string_literal
+                    (line_str_text))
+                  (line_string_literal
+                    (line_str_text)))
+                (line_string_literal
+                  (line_str_text))))))))))
+
+================================================================================
+Class with modifiers
+================================================================================
+
+internal open class Test {
+    private(set) var isRunning: Bool
+    internal(set) var isFailed: Bool
+    /* some comment */ private final func test() { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (visibility_modifier)
+      (visibility_modifier))
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (multiline_comment)
+      (function_declaration
+        (modifiers
+          (visibility_modifier)
+          (inheritance_modifier))
+        (simple_identifier)
+        (function_body)))))
+
+================================================================================
+Class with annotations
+================================================================================
+
+@objc(Test)
+class Test : Protocol {
+    @objc(someArgument:)
+    dynamic func someFunction(with argument: Int) { }
+
+    @DocumentationAnnotation(help: "Calls this function nicely.")
+    func someFunction(nice argument: Int) { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (attribute
+        (user_type
+          (type_identifier))
+        (simple_identifier)))
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier))
+          (property_modifier))
+        (simple_identifier)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body))
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body)))))
+
+================================================================================
+Class with subscript
+================================================================================
+
+class RequestManager {
+    open subscript(task: Task) -> Request? {
+        get {
+            return requests[task.identifier]
+        }
+        set {
+            requests[task.identifier] = newValue
+        }
+    }
+}
+
+class GenericSubscript {
+    public subscript<T>(_ t: Wrapper<T>) -> Wrapper<T> {
+        return t
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (optional_type
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (control_transfer_statement
+                (call_expression
+                  (simple_identifier)
+                  (call_suffix
+                    (value_arguments
+                      (value_argument
+                        (navigation_expression
+                          (simple_identifier)
+                          (navigation_suffix
+                            (simple_identifier))))))))))
+          (computed_setter
+            (setter_specifier)
+            (statements
+              (assignment
+                (directly_assignable_expression
+                  (call_expression
+                    (simple_identifier)
+                    (call_suffix
+                      (value_arguments
+                        (value_argument
+                          (navigation_expression
+                            (simple_identifier)
+                            (navigation_suffix
+                              (simple_identifier))))))))
+                (simple_identifier))))))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (type_parameters
+          (type_parameter
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (user_type
+                (type_identifier)))))
+        (user_type
+          (type_identifier)
+          (type_arguments
+            (user_type
+              (type_identifier))))
+        (computed_property
+          (statements
+            (control_transfer_statement
+              (simple_identifier))))))))
+
+================================================================================
+Subscript with multiple arguments
+================================================================================
+
+class Subscriptable {
+    public subscript<D>(_ value: D, arg2: Arg2) -> D where D: Decodable {
+        return value
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (type_parameters
+          (type_parameter
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (user_type
+          (type_identifier))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (inheritance_constraint
+              (identifier
+                (simple_identifier))
+              (user_type
+                (type_identifier)))))
+        (computed_property
+          (statements
+            (control_transfer_statement
+              (simple_identifier))))))))
+
+================================================================================
+Inheritance
+================================================================================
+
+class A : B {}
+
+class D : Protocol1 & Protocol2 { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body)))
+
+================================================================================
+Properties
+================================================================================
+
+class Something {
+    let u: Int = 4
+    var v: Int?
+    lazy var w: Int = x
+    var x: Int { w }
+    var y: Int {
+        get { v }
+        set(newValue) { }
+    }
+    var z: Int {
+        get { v }
+        set { return v = newValue }
+    }
+}
+
+class SomethingElse: ThingProvider {
+    var thing: String {
+        guard let thing = optionalThing else {
+            fatalError()
+        }
+        return thing
+    }
+
+    class override func nothing() { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (integer_literal))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (optional_type
+            (user_type
+              (type_identifier)))))
+      (property_declaration
+        (modifiers
+          (property_behavior_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (simple_identifier))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (statements
+            (simple_identifier))))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (simple_identifier)))
+          (computed_setter
+            (setter_specifier)
+            (simple_identifier))))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (simple_identifier)))
+          (computed_setter
+            (setter_specifier)
+            (statements
+              (control_transfer_statement
+                (assignment
+                  (directly_assignable_expression
+                    (simple_identifier))
+                  (simple_identifier)))))))))
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (statements
+            (guard_statement
+              (simple_identifier)
+              (simple_identifier)
+              (else)
+              (statements
+                (call_expression
+                  (simple_identifier)
+                  (call_suffix
+                    (value_arguments)))))
+            (control_transfer_statement
+              (simple_identifier)))))
+      (function_declaration
+        (modifiers
+          (property_modifier)
+          (member_modifier))
+        (simple_identifier)
+        (function_body)))))
+
+================================================================================
+Effectful getters
+================================================================================
+
+class Alphabet {
+    var a: Int {
+        get async { 65 }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (integer_literal))))))))
+
+================================================================================
+Class declaration without any newlines
+================================================================================
+
+class Dog { let noise: String = "bark" }
+class Cat { let noise: String = "meow"; let claws: String = "retractable" }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal
+          (line_str_text)))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal
+          (line_str_text)))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal
+          (line_str_text))))))
+
+================================================================================
+Protocol composition types
+================================================================================
+
+var propertyMap: NodePropertyMap & KeypathSearchable {
+  return transformProperties
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (property_declaration
+    (pattern
+      (simple_identifier))
+    (type_annotation
+      (protocol_composition_type
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))
+    (computed_property
+      (statements
+        (control_transfer_statement
+          (simple_identifier))))))
+
+================================================================================
+Structs
+================================================================================
+
+struct Adder {
+    var value: Int
+
+    mutating func addOne() {
+        value += 1
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (modifiers
+          (mutation_modifier))
+        (simple_identifier)
+        (function_body
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (simple_identifier))
+              (integer_literal))))))))
+
+================================================================================
+Protocols
+================================================================================
+
+protocol Fallible {
+    associatedtype FailureType: Error
+    associatedtype SuccessType = Void
+
+    func getFailure() -> Self.FailureType?
+        where Self.FailureType: Equatable
+}
+
+public protocol FooProvider {
+    var foo: String { nonmutating get }
+}
+
+protocol Wrapper {
+    associatedtype Wrapped: Fallible where Wrapped.FailureType == NSError
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (protocol_declaration
+    (type_identifier)
+    (protocol_body
+      (associatedtype_declaration
+        (type_identifier)
+        (user_type
+          (type_identifier)))
+      (associatedtype_declaration
+        (type_identifier)
+        (user_type
+          (type_identifier)))
+      (protocol_function_declaration
+        (simple_identifier)
+        (optional_type
+          (user_type
+            (type_identifier)
+            (type_identifier)))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (inheritance_constraint
+              (identifier
+                (simple_identifier)
+                (simple_identifier))
+              (user_type
+                (type_identifier))))))))
+  (protocol_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (protocol_body
+      (protocol_property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (protocol_property_requirements
+          (getter_specifier
+            (mutation_modifier))))))
+  (protocol_declaration
+    (type_identifier)
+    (protocol_body
+      (associatedtype_declaration
+        (type_identifier)
+        (user_type
+          (type_identifier))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (equality_constraint
+              (identifier
+                (simple_identifier)
+                (simple_identifier))
+              (user_type
+                (type_identifier)))))))))
+
+================================================================================
+Protocol with subscript
+================================================================================
+
+public protocol Indexable {
+    subscript(index: Int) -> T? { get }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (protocol_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (protocol_body
+      (subscript_declaration
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (optional_type
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)))))))
+
+================================================================================
+Typealias
+================================================================================
+
+class SomeClassWithAlias: NSObject {
+    typealias ProtocolComposition = Protocol1 & Protocol2
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (typealias_declaration
+        (type_identifier)
+        (protocol_composition_type
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))))))
+
+================================================================================
+Special constructors
+================================================================================
+
+class Test {
+    let a: Int
+    let b: Int
+
+    init(_ a: Int, _ b: Int) {
+        self.a = a
+        self.b = b
+    }
+
+    convenience override init() {
+        self.init(0, 0)
+    }
+
+    required init?(from: String) {
+        self.init(1, 2)
+    }
+
+    required init!(from value: Int) {
+        self.init(value, value)
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (navigation_expression
+                  (self_expression)
+                  (navigation_suffix
+                    (simple_identifier))))
+              (simple_identifier))
+            (assignment
+              (directly_assignable_expression
+                (navigation_expression
+                  (self_expression)
+                  (navigation_suffix
+                    (simple_identifier))))
+              (simple_identifier)))))
+      (function_declaration
+        (modifiers
+          (member_modifier)
+          (member_modifier))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (integer_literal))
+                  (value_argument
+                    (integer_literal))))))))
+      (function_declaration
+        (modifiers
+          (member_modifier))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (integer_literal))
+                  (value_argument
+                    (integer_literal))))))))
+      (function_declaration
+        (modifiers
+          (member_modifier))
+        (bang)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (simple_identifier))
+                  (value_argument
+                    (simple_identifier)))))))))))
+
+================================================================================
+Deinit
+================================================================================
+
+class Expensive {
+    deinit {
+        cleanUp(self)
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (deinit_declaration
+        (function_body
+          (statements
+            (call_expression
+              (simple_identifier)
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (self_expression)))))))))))
+
+================================================================================
+Enum classes
+================================================================================
+
+enum Suit {
+    case diamonds
+    case clovers
+    case hearts
+    case spades
+}
+
+enum Color {
+    static let lightSalmon: Color = .red("#ffa07a")
+
+    case red(r: String)
+    case green(g: Int)
+    case blue(b: Double)
+    case r, g, b(Int)
+        case multicolor(Rgb<Double, Double, Double>, _ metadata: [String: String] = [:])
+
+    func toString() { return "string" }
+}
+
+enum CStyle {
+    case zero = 0
+    case one = 1, two = 2
+    case three = 3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (call_expression
+          (prefix_expression
+            (simple_identifier))
+          (call_suffix
+            (value_arguments
+              (value_argument
+                (line_string_literal
+                  (line_str_text)))))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)
+        (enum_type_parameters
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (user_type
+                (type_identifier))
+              (user_type
+                (type_identifier))
+              (user_type
+                (type_identifier))))
+          (wildcard_pattern)
+          (simple_identifier)
+          (dictionary_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier)))
+          (dictionary_literal)))
+      (function_declaration
+        (simple_identifier)
+        (function_body
+          (statements
+            (control_transfer_statement
+              (line_string_literal
+                (line_str_text))))))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier)
+        (integer_literal))
+      (enum_entry
+        (simple_identifier)
+        (integer_literal)
+        (simple_identifier)
+        (integer_literal))
+      (enum_entry
+        (simple_identifier)
+        (integer_literal)))))
+
+================================================================================
+Extensions
+================================================================================
+
+extension Foo.Bar {
+    static let baz = "1"
+    static let boff: String = "2"
+}
+
+extension SpecialDecorator where Self: Decorator, Self.DecoratedType == SpecialType { }
+
+public extension Foo where T == (arg1: Arg1, arg2: Arg2) { }
+
+extension [SpecialItem] {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (user_type
+      (type_identifier)
+      (type_identifier))
+    (class_body
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (pattern
+          (simple_identifier))
+        (line_string_literal
+          (line_str_text)))
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal
+          (line_str_text)))))
+  (class_declaration
+    (user_type
+      (type_identifier))
+    (type_constraints
+      (where_keyword)
+      (type_constraint
+        (inheritance_constraint
+          (identifier
+            (simple_identifier))
+          (user_type
+            (type_identifier))))
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier)
+            (simple_identifier))
+          (user_type
+            (type_identifier)))))
+    (class_body))
+  (class_declaration
+    (modifiers
+      (visibility_modifier))
+    (user_type
+      (type_identifier))
+    (type_constraints
+      (where_keyword)
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier))
+          (tuple_type
+            (tuple_type_item
+              (simple_identifier)
+              (user_type
+                (type_identifier)))
+            (tuple_type_item
+              (simple_identifier)
+              (user_type
+                (type_identifier)))))))
+    (class_body))
+  (class_declaration
+    (array_type
+      (user_type
+        (type_identifier)))
+    (class_body)))
+
+================================================================================
+Deprecation
+================================================================================
+class Computer<T> {
+    @available(*, deprecated, message: "See replacement: computeV2")
+    func compute() { }
+
+    @available(*, deprecated, message: "See replacement: computeV2")
+    var computeResult: T!
+
+    @available(swift 3.0.2)
+    @available(iOS 10.0, macOS 10.12, *)
+    func computeV2() { }
+}
+
+enum ComputeType {
+    case v2
+
+    @available(*, deprecated, message: "See replacement: computeV2`")
+    case v1
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (class_body
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)
+        (function_body))
+      (property_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)
+            (integer_literal))
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)))
+        (simple_identifier)
+        (function_body))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)))))
+
+================================================================================
+Protocol composition - generic type specifiers
+================================================================================
+
+let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (property_declaration
+    (pattern
+      (simple_identifier))
+    (type_annotation
+      (user_type
+        (type_identifier)
+        (type_arguments
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))
+    (constructor_expression
+      (user_type
+        (type_identifier)
+        (type_arguments
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier)))))
+      (constructor_suffix
+        (value_arguments
+          (value_argument
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))))))
+
+================================================================================
+Protocol composition - where clauses
+================================================================================
+
+func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (type_constraints
+      (where_keyword)
+      (type_constraint
+        (inheritance_constraint
+          (identifier
+            (simple_identifier))
+          (user_type
+            (type_identifier))))
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier)
+            (simple_identifier))
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))
+    (function_body)))
+
+================================================================================
+Protocol composition - enum declarations
+================================================================================
+
+enum Foo {
+  case bar(P1 & P2)
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))))
+
+================================================================================
+Protocol composition in as expressions
+================================================================================
+
+let result = greet("me") as P1 & P2
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (property_declaration
+    (pattern
+      (simple_identifier))
+    (as_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (line_string_literal
+                (line_str_text))))))
+      (as_operator)
+      (protocol_composition_type
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))))
+
+================================================================================
+Modify declarations
+================================================================================
+public final class Foo {
+    private var inner: T
+
+    public var wrappedValue: T {
+        get {
+            return value
+        }
+        _modify {
+            yield &value
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (visibility_modifier)
+      (inheritance_modifier))
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (control_transfer_statement
+                (simple_identifier))))
+          (computed_modify
+            (modify_specifier)
+            (statements
+              (control_transfer_statement
+                (prefix_expression
+                  (simple_identifier))))))))))
+
+================================================================================
+Attributes on computed property declarations
+================================================================================
+
+public var someVar: String {
+    @inline(__always)
+    get {
+        "Hello"
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (property_declaration
+    (modifiers
+      (visibility_modifier))
+    (pattern
+      (simple_identifier))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (computed_property
+      (computed_getter
+        (attribute
+          (user_type
+            (type_identifier))
+          (simple_identifier))
+        (getter_specifier)
+        (statements
+          (line_string_literal
+            (line_str_text)))))))
+
+================================================================================
+Annotations on inheritance
+================================================================================
+
+extension TrustMe: @unchecked Sendable { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (user_type
+      (type_identifier))
+    (attribute
+      (user_type
+        (type_identifier)))
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body)))
+
+================================================================================
+Actors
+================================================================================
+
+private actor CounterActor {
+    private var count = 0
+
+    func next() -> Int {
+        count += 1
+        return count
+    }
+
+    nonisolated func eventuallyIncrement() {
+        Task {
+            await next()
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (pattern
+          (simple_identifier))
+        (integer_literal))
+      (function_declaration
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (simple_identifier))
+              (integer_literal))
+            (control_transfer_statement
+              (simple_identifier)))))
+      (function_declaration
+        (modifiers
+          (member_modifier))
+        (simple_identifier)
+        (function_body
+          (statements
+            (call_expression
+              (simple_identifier)
+              (call_suffix
+                (lambda_literal
+                  (statements
+                    (await_expression
+                      (call_expression
+                        (simple_identifier)
+                        (call_suffix
+                          (value_arguments))))))))))))))
+
+================================================================================
+Lazy is usable as a computed property
+================================================================================
+
+extension Array {
+    var stringified: some RandomAccessCollection {
+        lazy.map { "\($0)" }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (user_type
+      (type_identifier))
+    (class_body
+      (property_declaration
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (opaque_type
+            (user_type
+              (type_identifier))))
+        (computed_property
+          (statements
+            (call_expression
+              (navigation_expression
+                (simple_identifier)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (lambda_literal
+                  (statements
+                    (line_string_literal
+                      (interpolated_expression
+                        (simple_identifier)))))))))))))

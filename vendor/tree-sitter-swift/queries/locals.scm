@@ -15,4 +15,4 @@
  (function_declaration)
  (class_declaration)
  (protocol_declaration)
-] @scope
+] @local.scope
