@@ -657,8 +657,16 @@
             "type": "FIELD",
             "name": "body",
             "content": {
-              "type": "SYMBOL",
-              "name": "block"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "block"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           }
         ]
@@ -1610,6 +1618,10 @@
         {
           "type": "SYMBOL",
           "name": "constraint_elem"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_elem"
         }
       ]
     },
@@ -1672,6 +1684,65 @@
           {
             "type": "SYMBOL",
             "name": "_type_identifier"
+          }
+        ]
+      }
+    },
+    "struct_elem": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "struct_term"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "struct_term"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "struct_term": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "~"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "*"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "struct_type"
           }
         ]
       }
