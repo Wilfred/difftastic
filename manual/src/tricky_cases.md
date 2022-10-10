@@ -15,6 +15,8 @@ x
 (x)
 ```
 
+Possible result: <code><span style="background-color: PaleGreen; color: #000">(x)</span></code>
+
 Desired result: <code><span style="background-color: PaleGreen; color: #000">(</span>x<span style="background-color: PaleGreen; color: #000">)</span></code>
 
 This is tricky because `x` has changed its depth in the tree, but `x`
@@ -34,6 +36,8 @@ expressions.
 ;; After
 [x]
 ```
+
+Desired result: <code><span style="background-color: #fbbd98; color: #000">(</span>x<span style="background-color: #fbbd98; color: #000">)</span> <span style="background-color: PaleGreen; color: #000">[</span>x<span style="background-color: PaleGreen; color: #000">]</span></code>
 
 As with the wrapping case, we want to highlight the delimiters rather
 than the `x`.
@@ -93,7 +97,7 @@ where a later pair of delimiters are chosen.
 ```
 
 We want to highlight `[[foo]]` being moved inside the
-parentheses. However, a naive syntax differ prefers consider a removal
+parentheses. However, a naive syntax differ prefers to consider a removal
 of `()` in the before and an addition of `()` in the after to be more
 minimal diff.
 
@@ -160,10 +164,23 @@ A B
 C D
 ```
 
-Ideally we'd prefer marking contiguous nodes as novel, so we highlight
-`A B` rather than `B\nA`. From the perspective of a
-longest-common-subsequence algorithm, these two choices are
-equivalent.
+Possible result:
+
+<pre><code>A <span style="background-color: PaleGreen; color: #000">B</span>
+<span style="background-color: PaleGreen; color: #000">A</span> B
+C D
+</code></pre>
+
+Preferred result:
+
+<pre><code>A B
+<span style="background-color: PaleGreen; color: #000">A</span> <span style="background-color: PaleGreen; color: #000">B</span>
+C D
+</code></pre>
+
+Ideally we'd prefer marking contiguous nodes as novel. From the
+perspective of a longest-common-subsequence algorithm, these two
+choices are equivalent.
 
 ## Sliders (Nested)
 
@@ -175,8 +192,9 @@ old1(old2)
 old1(new1(old2))
 ```
 
-Should this be <code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code> or
-<code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code>?
+Possible result: <code>old1<span style="background-color: PaleGreen; color: #000">(new1</span>(old2)<span style="background-color: PaleGreen; color: #000">)</span></code>
+
+Desired result: <code>old1(<span style="background-color: PaleGreen; color: #000">new1(</span>old2<span style="background-color: PaleGreen; color: #000">)</span>)</code>
 
 The correct answer depends on the language. Most languages want to
 prefer the inner delimiter, whereas Lisps and JSON prefer the outer
@@ -207,6 +225,8 @@ function foo(x) { return x + 1; }
 // After
 function bar(y) { baz(y); }
 ```
+
+Possible result: <code>function <span style="background-color: PaleGreen; color: #000">bar</span>(<span style="background-color: PaleGreen; color: #000">y</span>) { <span style="background-color: PaleGreen; color: #000">baz(y)</span>; }</code>
 
 In this example, we've deleted a function and written a completely
 different one. A tree-based diff could match up the `function` and the
