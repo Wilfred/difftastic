@@ -52,16 +52,6 @@ impl<'a> SideSyntax<'a> {
         }
     }
 
-    pub fn root(&self) -> Option<&'a Syntax<'a>> {
-        match self.get_side() {
-            Some(side) => Some(side.root()),
-            None => match self.data ^ 1 {
-                0 => None,
-                d => Some(unsafe { &*(d as *const Syntax<'a>) }.root()),
-            },
-        }
-    }
-
     pub fn from_side(side: &'a Syntax<'a>) -> Self {
         Self {
             data: side as *const _ as _,
@@ -209,8 +199,6 @@ impl<'a, 'b> Vertex<'a, 'b> {
     fn parents_eq(&self, other: &Vertex<'a, 'b>) -> bool {
         self.lhs_parent_stack == other.lhs_parent_stack
             && self.rhs_parent_stack == other.rhs_parent_stack
-            && self.lhs_syntax.root() == other.lhs_syntax.root()
-            && self.rhs_syntax.root() == other.rhs_syntax.root()
     }
 
     fn can_pop_either(&self) -> bool {

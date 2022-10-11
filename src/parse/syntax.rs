@@ -47,8 +47,6 @@ pub struct SyntaxInfo<'a> {
     prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
-    /// The root syntax node.
-    root: Cell<Option<&'a Syntax<'a>>>,
     /// Does the previous syntax node occur on the same line as the
     /// first line of this node?
     prev_is_contiguous: Cell<bool>,
@@ -75,7 +73,6 @@ impl<'a> SyntaxInfo<'a> {
             next_sibling: Cell::new(None),
             prev: Cell::new(None),
             parent: Cell::new(None),
-            root: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
             num_ancestors: Cell::new(0),
             num_after: Cell::new(0),
@@ -271,10 +268,6 @@ impl<'a> Syntax<'a> {
         self.info().parent.get()
     }
 
-    pub fn root(&self) -> &'a Syntax<'a> {
-        self.info().root.get().unwrap()
-    }
-
     pub fn next_sibling(&self) -> Option<&'a Syntax<'a>> {
         self.info().next_sibling.get()
     }
@@ -432,7 +425,6 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
     }
 }
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
-    set_root(roots);
     set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
@@ -532,24 +524,6 @@ fn set_parent<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
         node.info().parent.set(parent);
         if let List { children, .. } = node {
             set_parent(children, Some(node));
-        }
-    }
-}
-
-fn set_root<'a>(nodes: &[&'a Syntax<'a>]) {
-    fn inner<'a>(nodes: &[&'a Syntax<'a>], root: &'a Syntax<'a>) {
-        for node in nodes {
-            node.info().root.set(Some(root));
-            if let List { children, .. } = node {
-                inner(children, root);
-            }
-        }
-    }
-
-    for node in nodes {
-        node.info().root.set(Some(node));
-        if let List { children, .. } = node {
-            inner(children, node);
         }
     }
 }
