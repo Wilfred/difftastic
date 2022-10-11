@@ -1430,6 +1430,10 @@
         {
           "type": "method_spec",
           "named": true
+        },
+        {
+          "type": "struct_elem",
+          "named": true
         }
       ]
     }
@@ -1579,7 +1583,7 @@
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "block",
@@ -2056,6 +2060,36 @@
         },
         {
           "type": "package_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_elem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_type",
           "named": true
         }
       ]

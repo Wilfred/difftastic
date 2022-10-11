@@ -463,6 +463,7 @@ package main
 
 func (self Person) Equals(other Person) bool {}
 func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
+func (p *T1) M1()
 
 --------------------------------------------------------------------------------
 
@@ -494,7 +495,15 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
         (parenthesized_type
           (type_identifier))))
     (type_identifier)
-    (block)))
+    (block))
+  (method_declaration
+    (parameter_list
+      (parameter_declaration
+        (identifier)
+        (pointer_type
+          (type_identifier))))
+    (field_identifier)
+    (parameter_list)))
 
 ================================================================================
 Type declarations
