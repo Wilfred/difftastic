@@ -1,21 +1,50 @@
+let exportedValues = {};
 try {
-  module.exports = require("../../build/Release/tree_sitter_sfapex_binding");
-} catch (error1) {
-  if (error1.code !== "MODULE_NOT_FOUND") {
-    throw error1;
-  }
+  exportedValues = require("node-gyp-build")(__dirname + "/../../");
+} catch (errorA) {
   try {
-    module.exports = require("../../build/Debug/tree_sitter_sfapex_binding");
-  } catch (error2) {
-    if (error2.code !== "MODULE_NOT_FOUND") {
-      throw error2;
+    exportedValues = require("../../build/Release/tree_sitter_sfapex_binding");
+  } catch (errorB) {
+    if (errorB.code !== "MODULE_NOT_FOUND") {
+      throw errorB;
     }
-    throw error1;
+    try {
+      exportedValues = require("../../build/Debug/tree_sitter_sfapex_binding");
+    } catch (errorC) {
+      if (errorC.code !== "MODULE_NOT_FOUND") {
+        throw errorC;
+      }
+      // TODO: load WASM instead?? Not sure how to make it hot-swappable
+      // but leaving it async load to leave the door open
+      // exportedValues = getWasmModules();
+      throw errorA;
+    }
   }
 }
 
-try {
-  module.exports.apex.nodeTypeInfo = require("../../apex/src/node-types.json");
-  module.exports.soql.nodeTypeInfo = require("../../soql/src/node-types.json");
-  module.exports.sosl.nodeTypeInfo = require("../../sosl/src/node-types.json");
-} catch (_) {}
+// Eventually, should be able to load the WASM module as a direct swap for the native... life goal
+async function getWasmModules() {
+  const TreeSitter = require(__dirname +
+    "/../../prebuilds/wasm/tree-sitter.js");
+  await TreeSitter.init();
+  return {
+    apex: await TreeSitter.Language.load(
+      __dirname + "/../../prebuilds/wasm/tree-sitter-apex.wasm"
+    ),
+    soql: await TreeSitter.Language.load(
+      __dirname + "/../../prebuilds/wasm/tree-sitter-soql.wasm"
+    ),
+    sosl: await TreeSitter.Language.load(
+      __dirname + "/../../prebuilds/wasm/tree-sitter-sosl.wasm"
+    ),
+  };
+}
+
+module.exports = Promise.resolve(exportedValues).then((mod) => {
+  try {
+    mod.apex.nodeTypeInfo = require("../../apex/src/node-types.json");
+    mod.soql.nodeTypeInfo = require("../../soql/src/node-types.json");
+    mod.sosl.nodeTypeInfo = require("../../sosl/src/node-types.json");
+  } catch (_) {}
+  return mod;
+});

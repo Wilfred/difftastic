@@ -1,1 +1,1 @@
-module.exports = require("./index").sosl;
+module.exports = require("./index").then((val) => val.sosl);

@@ -24,11 +24,12 @@ jobs:
         node:
           - 14
           - 16
-        include:
-          - os: macos-m1
-            node: 16
-            host: arm64
-            target: arm64
+          - 18
+        # include:
+        #   - os: macos-m1
+        #     node: 16
+        #     host: arm64
+        #     target: arm64
     name: ${{ matrix.os }} (node=${{ matrix.node }}, host=${{ matrix.host }}, target=${{ matrix.target }})
     steps:
       - uses: actions/checkout@v3
@@ -56,16 +57,8 @@ jobs:
       - name: Package prebuilt binaries
         run: npx node-pre-gyp package --target_arch=${{ matrix.target }}
 
-      - name: Upload binaries to commit artifacts
-        uses: actions/upload-artifact@v3
-        if: matrix.node == 16
-        with:
-          name: prebuilt-binaries
-          path: build/stage/*/*
-          retention-days: 7
-
       - name: Upload binaries to GitHub Release
         run: node ./scripts/ghPublish.mjs
-        if: matrix.node == 16 && startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           NODE_PRE_GYP_GITHUB_TOKEN: ${{ github.token }}

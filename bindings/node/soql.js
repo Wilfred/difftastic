@@ -1,1 +1,1 @@
-module.exports = require("./index").soql;
+module.exports = require("./index").then((val) => val.soql);
