@@ -838,3 +838,133 @@ y~x
   (unary operand: (identifier))
 
   (binary left: (identifier) right: (identifier)))
+
+============================================
+Help Operator
+============================================
+a ? b
+a ? b <- 1
+
+---
+
+(program
+  (help
+    (identifier)
+    (identifier))
+  (help
+    (identifier)
+    (left_assignment
+      (identifier)
+      (float))))
+
+============================================
+Complex Expressions
+============================================
+repeat if (1) TRUE else repeat 42
+if (TRUE) if (FALSE) 2 else NULL
+a::b$c[[d]] <- e
+TRUE ~ FALSE ~ NULL ? NA ? NaN
+if (TRUE) FALSE
+else NA
+(if (TRUE) FALSE
+else NA)
+a = TRUE ? FALSE
+TRUE <- FALSE = NA
+TRUE <- FALSE ? NA
+TRUE = FALSE ? NA
+TRUE ? FALSE = NA
+
+---
+
+(program
+  (repeat
+    (if
+      (float)
+      (true)
+      (repeat
+        (float))))
+  (if
+    (true)
+    (if
+      (false)
+      (float)
+      (null)))
+  (left_assignment
+    (subset2
+      (dollar
+        (namespace_get
+          (identifier)
+          (identifier))
+       (identifier))
+       (arguments
+        (identifier)))
+    (identifier))
+  (help
+    (help
+      (binary
+        (binary
+          (true)
+          (false))
+        (null))
+      (na))
+    (nan))
+  (if
+    (true)
+    (false))
+  (identifier)
+  (na)
+  (paren_list
+    (if
+      (true)
+      (false)
+      (na)))
+  (help
+    (equals_assignment
+      (identifier)
+      (true))
+    (false))
+  (equals_assignment
+    (left_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (left_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (equals_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (true)
+    (equals_assignment
+      (false)
+      (na))))
+
+============================================
+Precedence Tests
+============================================
+A$"B"^NA
+a::b$c
+a$b?c
+
+----
+(program
+  (binary
+    (dollar
+      (identifier)
+      (string))
+    (na))
+  (dollar
+    (namespace_get
+      (identifier)
+      (identifier))
+    (identifier))
+  (help
+    (dollar
+      (identifier)
+      (identifier))
+    (identifier)))
