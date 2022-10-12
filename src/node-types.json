@@ -252,6 +252,10 @@
         "named": true
       },
       {
+        "type": "glimmer_template",
+        "named": true
+      },
+      {
         "type": "internal_module",
         "named": true
       },
@@ -2831,6 +2835,47 @@
     }
   },
   {
+    "type": "glimmer_closing_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "glimmer_opening_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "glimmer_template",
+    "named": true,
+    "fields": {
+      "close_tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "glimmer_closing_tag",
+            "named": true
+          }
+        ]
+      },
+      "open_tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "glimmer_opening_tag",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -3735,6 +3780,16 @@
           }
         ]
       },
+      "optional_chain": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "optional_chain",
+            "named": true
+          }
+        ]
+      },
       "property": {
         "multiple": false,
         "required": true,
@@ -4297,6 +4352,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "optional_chain",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "optional_parameter",
@@ -5061,6 +5121,16 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "optional_chain": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "optional_chain",
             "named": true
           }
         ]
@@ -6541,6 +6611,10 @@
     "named": false
   },
   {
+    "type": "</template>",
+    "named": false
+  },
+  {
     "type": "<<",
     "named": false
   },
@@ -6550,6 +6624,10 @@
   },
   {
     "type": "<=",
+    "named": false
+  },
+  {
+    "type": "<template>",
     "named": false
   },
   {
@@ -6769,10 +6847,6 @@
     "named": true
   },
   {
-    "type": "identifier",
-    "named": true
-  },
-  {
     "type": "if",
     "named": false
   },
@@ -6838,11 +6912,11 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "object",
