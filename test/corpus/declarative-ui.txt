@@ -677,6 +677,7 @@ MyItem {
     }
 
     enum Bar {
+        Neg = -1,
         Bar0 = 0,
         Bar1
     }
@@ -695,6 +696,10 @@ MyItem {
       (enum_declaration
         name: (identifier)
         body: (enum_body
+          (enum_assignment
+            name: (identifier)
+            value: (unary_expression
+              argument: (number)))
           (enum_assignment
             name: (identifier)
             value: (number))

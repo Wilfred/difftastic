@@ -2,7 +2,7 @@
 // https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/qml/
 //   compiler/qqmlirbuilder.cpp
 //   parser/{qqmljs.g,qqmljsast_p.h,qqmljslexer.cpp}
-// ba94a296c3ea97c755538ef99efe5d1dd034725c
+// 93ff9bb648e7361b8f553fe99d4f9ba68a14bae5
 
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
@@ -267,7 +267,15 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     _qml_enum_assignment: $ => seq(
       field('name', $.identifier),
       '=',
-      field('value', $.number),
+      field('value', choice(
+        $.number,
+        alias($._qml_enum_negative_number, $.unary_expression),
+      )),
+    ),
+
+    _qml_enum_negative_number: $ => seq(
+      field('operator', '-'),  // '+' is not allowed
+      field('argument', $.number),
     ),
 
     // MemberExpression -> reparseAsQualifiedId()

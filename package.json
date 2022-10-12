@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-qmljs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "QML grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "scripts": {
@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.1",
-    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#fdeb68ac8d2bd5a78b943528bb68ceda3aade2eb",
-    "tree-sitter-typescript": "github:tree-sitter/tree-sitter-typescript#1b3ba31c7538825b05815f4f5bffcca6394edc63"
+    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#936d976a782e75395d9b1c8c7c7bf4ba6fe0d86b",
+    "tree-sitter-typescript": "github:tree-sitter/tree-sitter-typescript#0ab9d99867435a7667c5548a6617a6bf73dbd830"
   },
   "tree-sitter": [
     {
