@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-qmljs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "QML grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "scripts": {
