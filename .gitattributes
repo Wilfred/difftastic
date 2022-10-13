@@ -1,0 +1,3 @@
+/src/parser.c linguist-generated
+/src/*.json linguist-generated
+/src/tree_sitter/* linguist-vendored
