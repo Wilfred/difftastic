@@ -275,8 +275,8 @@ match_heredoc_string(TSLexer *lexer)
 	// this is an arbitrary, but reasonable limit
 	// no identifiers longer than this
 	int identifier[256 + 2]; // +2 for closing " and null
-	int i = 0;
-	int j;
+	size_t i = 0;
+	size_t j;
 	int c;
 
 	// get the delimiter
@@ -576,13 +576,11 @@ match_number(TSLexer *lexer, const bool *valid)
 	int  c = lexer->lookahead;
 	int  next;
 	int  prev;
-	bool is_float  = false;
 	bool is_hex    = false;
 	bool is_bin    = false;
 	bool has_digit = false;
 	bool has_dot   = false;
 	bool in_exp    = false;
-	bool was_dot   = false; // next must be a digit
 
 	if (c == '.') {
 		lexer->advance(lexer, false);
@@ -634,7 +632,7 @@ match_number(TSLexer *lexer, const bool *valid)
 			// sequence
 			break;
 		}
-		if (is_bin && (c == '0') || (c == '1')) {
+		if ((is_bin) && ((c == '0') || (c == '1'))) {
 			lexer->advance(lexer, false);
 			lexer->mark_end(lexer);
 			has_digit = true;
@@ -802,8 +800,6 @@ bool
 tree_sitter_d_external_scanner_scan(
     void *arg, TSLexer *lexer, const bool *valid)
 {
-	bool matched = false;
-
 	int c = lexer->lookahead;
 	// consume whitespace -- we also skip newlines here
 	while ((isspace(c) || is_eol(c)) && (c)) {
