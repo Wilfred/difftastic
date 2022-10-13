@@ -306,11 +306,11 @@ match_heredoc_string(TSLexer *lexer)
 
 		j = 0;
 		while (((c = lexer->lookahead) != 0) && (j < i)) {
-			lexer->advance(lexer, false);
 			if (c != identifier[j]) {
 				// no match
 				break;
 			}
+			lexer->advance(lexer, false);
 			j++;
 		}
 		if (j == i) {
