@@ -1,6 +1,10 @@
 # tree-sitter-d
 D Grammar for Tree Sitter
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+[![Build/test](https://github.com/gdamore/tree-sitter-d/actions/workflows/ci.yml/badge.svg)](https://github.com/gdamore/tree-sitter-d/actions/workflows/ci.yml)
+[![MIT License](https://img.shields.io/github/license/gdamore/tree-sitter-d.svg?logoColor=silver&logo=opensourceinitiative&color=blue&label=)](https://github.com/gdamore/tree-sitter-d/blob/master/LICENSE.txt)
+
 This is a new stab at a D grammar for Tree Sitter.
 
 D is an incredibly complex (some might say too much so) language, and it lacks an
