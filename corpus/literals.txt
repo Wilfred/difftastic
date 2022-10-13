@@ -297,6 +297,8 @@ const (
   a = "0"
   b = "`\"`"
   c = "\x0c"
+  d = "errorstring
+  "
 )
 
 --------------------------------------------------------------------------------
@@ -318,7 +320,9 @@ const (
       (identifier)
       (expression_list
         (interpreted_string_literal
-          (escape_sequence))))))
+          (escape_sequence))))
+    (ERROR
+      (identifier))))
 
 ================================================================================
 Slice literals

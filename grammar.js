@@ -851,7 +851,7 @@ module.exports = grammar({
         $._interpreted_string_literal_basic_content,
         $.escape_sequence
       )),
-      '"'
+      token.immediate('"')
     ),
     _interpreted_string_literal_basic_content: $ => token.immediate(prec(1, /[^"\n\\]+/)),
 
