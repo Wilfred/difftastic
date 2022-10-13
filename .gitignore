@@ -1,6 +1,4 @@
-src/parser.c
-src/tree_sitter
-src/*.json
 *.d
+samples
 log.html
 output
