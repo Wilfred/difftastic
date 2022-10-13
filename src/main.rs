@@ -449,6 +449,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 &opposite_to_rhs,
                 lhs_src.max_line(),
                 rhs_src.max_line(),
+                display_options.num_context_lines as usize,
             );
 
             let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());

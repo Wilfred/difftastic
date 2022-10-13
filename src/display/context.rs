@@ -10,13 +10,6 @@ use crate::{
     parse::syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
-/// The maximum number of lines that may be displayed above and below
-/// the modified lines.
-///
-/// We may show fewer lines if the modified lines are at the beginning
-/// or end of the file.
-pub const MAX_PADDING: usize = 3;
-
 pub fn all_matched_lines_filled(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
@@ -419,13 +412,13 @@ fn before_with_opposites(
     res
 }
 
-fn pad_before(ln: LineNumber) -> Vec<LineNumber> {
+fn pad_before(ln: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
     let mut res = vec![];
 
     let mut current = ln;
-    // Use one more line than MAX_PADDING so we merge immediately
-    // adjacent hunks.
-    for _ in 0..MAX_PADDING + 1 {
+    // Use one more line than num_context_lines so we merge
+    // immediately adjacent hunks.
+    for _ in 0..num_context_lines + 1 {
         if current.0 == 0 {
             break;
         }
@@ -438,13 +431,13 @@ fn pad_before(ln: LineNumber) -> Vec<LineNumber> {
     res
 }
 
-fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
+fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> Vec<LineNumber> {
     let mut res = vec![];
 
     let mut current = ln;
-    // Use one more line than MAX_PADDING so we merge immediately
-    // adjacent hunks.
-    for _ in 0..MAX_PADDING + 1 {
+    // Use one more line than num_context_lines so we merge
+    // immediately adjacent hunks.
+    for _ in 0..num_context_lines + 1 {
         if current == max_line {
             break;
         }
@@ -524,15 +517,16 @@ pub fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
+    num_context_lines: usize,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.first() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
-                let padded_lines = pad_before(lhs_line);
+                let padded_lines = pad_before(lhs_line, num_context_lines);
                 before_with_opposites(&padded_lines, opposite_to_lhs)
             }
             (_, Some(rhs_line)) => {
-                let padded_lines = pad_before(rhs_line);
+                let padded_lines = pad_before(rhs_line, num_context_lines);
                 flip_tuples(&before_with_opposites(&padded_lines, opposite_to_rhs))
             }
             (None, None) => vec![],
@@ -547,6 +541,7 @@ pub fn calculate_after_context(
     opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
+    num_context_lines: usize,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     match lines.last() {
         Some(last_line) => match *last_line {
@@ -560,7 +555,7 @@ pub fn calculate_after_context(
                     }
                 }
 
-                let padded_lines = pad_after(lhs_line, max_lhs_src_line);
+                let padded_lines = pad_after(lhs_line, max_lhs_src_line, num_context_lines);
                 after_with_opposites(
                     &padded_lines,
                     opposite_to_lhs,
@@ -576,7 +571,7 @@ pub fn calculate_after_context(
                     }
                 }
 
-                let padded_lines = pad_after(rhs_line, max_rhs_src_line);
+                let padded_lines = pad_after(rhs_line, max_rhs_src_line, num_context_lines);
                 flip_tuples(&after_with_opposites(
                     &padded_lines,
                     opposite_to_rhs,
@@ -596,14 +591,17 @@ pub fn add_context(
     opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
+    num_context_lines: usize,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let before_lines = calculate_before_context(lines, opposite_to_lhs, opposite_to_rhs);
+    let before_lines =
+        calculate_before_context(lines, opposite_to_lhs, opposite_to_rhs, num_context_lines);
     let after_lines = calculate_after_context(
         &[&before_lines, lines].concat(),
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,
         max_rhs_src_line,
+        num_context_lines,
     );
 
     before_lines
@@ -738,6 +736,7 @@ mod tests {
 
     #[test]
     fn test_calculate_before_context() {
+        let num_context_lines = 3;
         let lines = vec![(Some(1.into()), Some(1.into()))];
 
         let mut opposite_to_lhs = FxHashMap::default();
@@ -746,7 +745,12 @@ mod tests {
         let mut opposite_to_rhs = FxHashMap::default();
         opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
 
-        let res = calculate_before_context(&lines, &opposite_to_lhs, &opposite_to_rhs);
+        let res = calculate_before_context(
+            &lines,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            num_context_lines,
+        );
         assert_eq!(res, vec![(Some(0.into()), Some(0.into()))]);
     }
 

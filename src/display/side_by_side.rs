@@ -416,7 +416,11 @@ pub fn print(
             )
         );
 
-        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines_to_print, hunk);
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(
+            matched_lines_to_print,
+            hunk,
+            display_options.num_context_lines as usize,
+        );
         let aligned_lines = &matched_lines_to_print[start_i..end_i];
         // We iterate through hunks in order, so we know the next hunk
         // must appear after start_i. This makes
@@ -665,6 +669,7 @@ mod tests {
             print_unchanged: true,
             tab_width: 8,
             display_width: 80,
+            num_context_lines: 3,
             in_vcs: false,
             syntax_highlight: true,
         };
@@ -731,6 +736,7 @@ mod tests {
             print_unchanged: true,
             tab_width: 8,
             display_width: 80,
+            num_context_lines: 3,
             syntax_highlight: true,
             in_vcs: true,
         };

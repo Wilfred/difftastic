@@ -18,6 +18,9 @@ Updated to the latest tree-sitter parser for Swift.
 Difftastic will now read a file from stdin if given `-` as a path
 argument.
 
+Added an option `--context` to control the number of lines of context
+displayed.
+
 `--list-languages` now respects the value of `--color`, whose default
 only uses styling when stdout is a TTY.
 

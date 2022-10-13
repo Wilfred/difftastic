@@ -32,6 +32,7 @@ pub struct DisplayOptions {
     pub print_unchanged: bool,
     pub tab_width: usize,
     pub display_width: usize,
+    pub num_context_lines: u32,
     pub in_vcs: bool,
     pub syntax_highlight: bool,
 }
@@ -71,6 +72,17 @@ fn app() -> clap::Command<'static> {
                 .long_help(
                     "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
                 ).help_heading("DEBUG OPTIONS"),
+        )
+        .arg(
+            Arg::new("context")
+                .long("context")
+                .takes_value(true)
+                .value_name("LINES")
+                .long_help("The number of contextual lines to show around changed lines.")
+                .default_value("3")
+                .env("DFT_CONTEXT")
+                .validator(|s| s.parse::<u32>())
+                .required(false),
         )
         .arg(
             Arg::new("width")
@@ -395,6 +407,12 @@ pub fn parse_args() -> Mode {
         .parse::<usize>()
         .expect("Value already validated by clap");
 
+    let num_context_lines = matches
+        .value_of("context")
+        .expect("Always present as we've given clap a default")
+        .parse::<u32>()
+        .expect("Value already validated by clap");
+
     let print_unchanged = !matches.is_present("skip-unchanged");
 
     // TODO: is this necessary now we handle /dev/null as an empty
@@ -408,6 +426,7 @@ pub fn parse_args() -> Mode {
         tab_width,
         display_mode,
         display_width,
+        num_context_lines,
         syntax_highlight,
         in_vcs,
     };

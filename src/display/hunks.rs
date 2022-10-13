@@ -11,7 +11,7 @@ use rustc_hash::FxHashMap;
 
 use crate::{
     constants::Side,
-    display::context::{add_context, opposite_positions, MAX_PADDING},
+    display::context::{add_context, opposite_positions},
     display::side_by_side::lines_with_novel,
     lines::LineNumber,
     parse::syntax::{zip_pad_shorter, MatchedPos},
@@ -136,6 +136,7 @@ pub fn merge_adjacent(
     opposite_to_rhs: &FxHashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
+    num_context_lines: usize,
 ) -> Vec<Hunk> {
     let mut res: Vec<Hunk> = vec![];
     let mut prev_hunk: Option<Hunk> = None;
@@ -154,6 +155,7 @@ pub fn merge_adjacent(
             opposite_to_rhs,
             max_lhs_src_line,
             max_rhs_src_line,
+            num_context_lines,
         );
         for (lhs_line, rhs_line) in contextual_lines {
             if let Some(lhs_line) = lhs_line {
@@ -598,6 +600,7 @@ fn either_side_equal(
 pub fn matched_lines_indexes_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
+    num_context_lines: usize,
 ) -> (usize, usize) {
     let mut hunk_lhs_novel = hunk.novel_lhs.iter().copied().collect::<Vec<_>>();
     hunk_lhs_novel.sort();
@@ -633,14 +636,14 @@ pub fn matched_lines_indexes_for_hunk(
 
     let mut start_i = start_i.expect("Hunk lines should be present in matched lines");
     let mut end_i = end_i.expect("Hunk lines should be present in matched lines");
-    if start_i >= MAX_PADDING {
-        start_i -= MAX_PADDING;
+    if start_i >= num_context_lines {
+        start_i -= num_context_lines;
     } else {
         start_i = 0;
     }
 
-    if end_i + MAX_PADDING < matched_lines.len() {
-        end_i += MAX_PADDING
+    if end_i + num_context_lines < matched_lines.len() {
+        end_i += num_context_lines
     } else {
         end_i = matched_lines.len();
     }
@@ -762,7 +765,7 @@ mod tests {
         matched_lines: &'a [(Option<LineNumber>, Option<LineNumber>)],
         hunk: &Hunk,
     ) -> &'a [(Option<LineNumber>, Option<LineNumber>)] {
-        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk);
+        let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk, 3);
         &matched_lines[start_i..end_i]
     }
 
