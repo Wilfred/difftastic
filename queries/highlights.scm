@@ -8,6 +8,10 @@
 ; (See accompanying file LICENSE.txt or https://opensource.org/licenses/MIT)
 ; SPDX-License-Identifier: MIT
 
+; these are listed first, because they override keyword queries
+(identity_expression (in) @operator)
+(identity_expression (is) @operator)
+
 [
     (abstract)
     (alias)
@@ -129,7 +133,6 @@
     "["
     "]"
     "?"
-    ","
     "$"
     "="
     "=="
@@ -151,6 +154,7 @@
     ";"
     "."
     ":"
+    ","
 ] @delimiter
 
 [
