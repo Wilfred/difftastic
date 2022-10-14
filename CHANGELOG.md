@@ -1,4 +1,6 @@
-## 0.37 (unreleased)
+## 0.38 (unreleased)
+
+## 0.37 (released 14th October 2022)
 
 ### Manual
 
