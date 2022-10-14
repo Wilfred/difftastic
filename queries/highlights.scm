@@ -12,6 +12,8 @@
 (identity_expression (in) @operator)
 (identity_expression (is) @operator)
 
+(storage_class) @keyword.storage
+
 [
     (abstract)
     (alias)
@@ -155,7 +157,7 @@
     "."
     ":"
     ","
-] @delimiter
+] @punctuation.delimiter
 
 [
     (null)
@@ -165,8 +167,8 @@
 
 (special_keyword) @constant
 
-(directive) @comment
-(shebang) @comment
+(directive) @keyword.directive
+(shebang) @keyword.directive
 
 (comment) @comment
 
@@ -197,9 +199,15 @@
     (cfloat)
 ] @type
 
+(label (identifier) @label)
+(goto_statement (goto) @keyword (identifier) @label)
+
 (string_literal) @string
 (int_literal) @number
 (float_literal) @number
 (char_literal) @number
 (identifier) @variable
 (at_attribute) @property
+
+; everything after __EOF_ is plain text
+(end_file) @text
