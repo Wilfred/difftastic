@@ -234,6 +234,8 @@ fn diff_file(
     diff_file_content(
         lhs_display_path,
         rhs_display_path,
+        lhs_path,
+        rhs_path,
         &lhs_bytes,
         &rhs_bytes,
         display_options.tab_width,
@@ -246,6 +248,8 @@ fn diff_file(
 fn diff_file_content(
     lhs_display_path: &str,
     rhs_display_path: &str,
+    _lhs_path: &FileArgument,
+    rhs_path: &FileArgument,
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
     tab_width: usize,
@@ -283,13 +287,12 @@ fn diff_file_content(
         rhs_src.pop();
     }
 
-    // Prefer the RHS path for language detection, unless it's /dev/null.
-    let (guess_src, guess_path) = if rhs_display_path == "/dev/null" || rhs_display_path == "-" {
-        // TODO: take a Path directly instead.
-        (&lhs_src, Path::new(&lhs_display_path))
-    } else {
-        (&rhs_src, Path::new(&rhs_display_path))
+    let (guess_src, guess_path) = match rhs_path {
+        FileArgument::NamedPath(_) => (&rhs_src, Path::new(&rhs_display_path)),
+        FileArgument::Stdin => (&rhs_src, Path::new(&lhs_display_path)),
+        FileArgument::DevNull => (&lhs_src, Path::new(&lhs_display_path)),
     };
+
     let language = language_override.or_else(|| guess(guess_path, guess_src));
     let lang_config = language.map(tsp::from_language);
 
@@ -549,6 +552,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
 
 #[cfg(test)]
 mod tests {
+    use std::ffi::OsStr;
+
     use super::*;
     use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT, DEFAULT_TAB_WIDTH};
 
@@ -558,6 +563,8 @@ mod tests {
         let res = diff_file_content(
             "foo.el",
             "foo.el",
+            &FileArgument::from_path_argument(OsStr::new("foo.el")),
+            &FileArgument::from_path_argument(OsStr::new("foo.el")),
             s.as_bytes(),
             s.as_bytes(),
             DEFAULT_TAB_WIDTH,

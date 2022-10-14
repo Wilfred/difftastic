@@ -314,18 +314,22 @@ pub fn parse_args() -> Mode {
 
     // TODO: document these different ways of calling difftastic.
     let (lhs_display_path, rhs_display_path, lhs_path, rhs_path, in_vcs) = match &args[..] {
-        [lhs_path, rhs_path] => (
-            lhs_path.to_owned(),
-            rhs_path.to_owned(),
-            FileArgument::from_cli_argument(lhs_path),
-            FileArgument::from_cli_argument(rhs_path),
-            false,
-        ),
+        [lhs_path, rhs_path] => {
+            let lhs_arg = FileArgument::from_cli_argument(lhs_path);
+            let rhs_arg = FileArgument::from_cli_argument(rhs_path);
+            (
+                lhs_arg.display(),
+                rhs_arg.display(),
+                lhs_arg,
+                rhs_arg,
+                false,
+            )
+        }
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (
-                display_path.to_owned(),
-                display_path.to_owned(),
+                display_path.to_string_lossy().to_string(),
+                display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 true,
@@ -336,8 +340,8 @@ pub fn parse_args() -> Mode {
             // Rename file.
             // TODO: where does git document these 9 arguments?
             (
-                old_name.to_owned(),
-                new_name.to_owned(),
+                old_name.to_string_lossy().to_string(),
+                new_name.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 true,
@@ -439,8 +443,8 @@ pub fn parse_args() -> Mode {
         language_override,
         lhs_path,
         rhs_path,
-        lhs_display_path: lhs_display_path.to_string_lossy().to_string(),
-        rhs_display_path: rhs_display_path.to_string_lossy().to_string(),
+        lhs_display_path,
+        rhs_display_path,
     }
 }
 
