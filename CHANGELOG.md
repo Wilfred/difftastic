@@ -24,6 +24,11 @@ displayed.
 `--list-languages` now respects the value of `--color`, whose default
 only uses styling when stdout is a TTY.
 
+### Display
+
+Fixed side-by-side display width when color is disabled (when piping
+difftastic stdout or with `--color=never`).
+
 ### Build
 
 Fixed an issue with building on Windows with gcc.

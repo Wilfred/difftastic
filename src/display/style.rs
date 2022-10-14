@@ -106,15 +106,20 @@ pub fn split_and_apply(
     assert!(max_len > 0);
 
     if styles.is_empty() && !line.trim().is_empty() {
-        // Missing styles is a bug, so highlight in purple to make this obvious.
         return split_string_by_width(line, max_len, matches!(side, Side::Left))
             .into_iter()
-            .map(|(part, _)| {
+            .map(|(part, pad)| {
+                let mut res = String::with_capacity(part.len() + pad);
                 if use_color {
-                    highlight_missing_style_bug(part)
+                    // If we're syntax highlighting and have no
+                    // styles, that's a bug.
+                    res.push_str(&highlight_missing_style_bug(part));
                 } else {
-                    part.to_owned()
+                    res.push_str(part);
                 }
+
+                res.push_str(&" ".repeat(pad));
+                res
             })
             .collect();
     }
