@@ -1,12 +1,12 @@
 int fun(void) {
 // <- type
-//  ^ variable
+//  ^ function
 //       ^ type
 
 my_label:
 //  ^ label
 
 goto    my_label;
-// ^ keyword
+// ^ keyword.control
 //        ^ label
 }

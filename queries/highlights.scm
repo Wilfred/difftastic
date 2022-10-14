@@ -14,6 +14,11 @@
 
 (storage_class) @keyword.storage
 
+(function_declaration (identifier) @function)
+
+(call_expression (identifier) @function)
+(call_expression (type (identifier) @function))
+
 [
     (abstract)
     (alias)
@@ -21,31 +26,18 @@
     (asm)
     (assert)
     (auto)
-    (break)
-    (case)
     (cast)
-    (catch)
     (class)
     (const)
-    (continue)
     (debug)
-    (default)
     (delegate)
     (delete)
     (deprecated)
-    (do)
-    (else)
     (enum)
     (export)
     (extern)
     (final)
-    (finally)
-    (for)
-    (foreach)
-    (foreach_reverse)
     (function)
-    (goto)
-    (if)
     (immutable)
     (import)
     (in)
@@ -68,36 +60,46 @@
     (public)
     (pure)
     (ref)
-    (return)
     (scope)
     (shared)
     (static)
     (struct)
     (super)
-    (switch)
     (synchronized)
     (template)
     (this)
     (throw)
-    (try)
     (typeid)
     (typeof)
     (union)
     (unittest)
     (version)
-    (while)
     (with)
-    "__FILE__"
-    "__FILE_FULL_PATH__"
-    "__MODULE__"
-    "__LINE__"
-    "__FUNCTION__"
-    "__PRETTY_FUNCTION__"
     (gshared)
     (traits)
     (vector)
     (parameters_)
 ] @keyword
+
+[
+    (break)
+    (case)
+    (catch)
+    (continue)
+    (do)
+    (default)
+    (finally)
+    (else)
+    (for)
+    (foreach)
+    (foreach_reverse)
+    (goto)
+    (if)
+    (switch)
+    (try)
+    (return)
+    (while)
+] @keyword.control
 
 [
     (not_in)
@@ -163,9 +165,9 @@
     (null)
     (true)
     (false)
-] @constant
+] @constant.language
 
-(special_keyword) @constant
+(special_keyword) @constant.language
 
 (directive) @keyword.directive
 (shebang) @keyword.directive
@@ -178,8 +180,6 @@
     (byte)
     (ubyte)
     (char)
-    (cent)
-    (ucent)
     (short)
     (ushort)
     (wchar)
@@ -190,14 +190,18 @@
     (ulong)
     (real)
     (double)
-    (ifloat)
+] @type
+
+[
+    (cent)
+    (ucent)
     (ireal)
     (idouble)
     (ifloat)
     (creal)
     (double)
     (cfloat)
-] @type
+] @type.deprecated
 
 (label (identifier) @label)
 (goto_statement (goto) @keyword (identifier) @label)
