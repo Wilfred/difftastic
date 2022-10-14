@@ -164,6 +164,7 @@ fn display_line_nums(
 }
 
 // Sizes used when displaying a hunk.
+#[derive(Debug)]
 struct SourceDimensions {
     lhs_content_width: usize,
     rhs_content_width: usize,
