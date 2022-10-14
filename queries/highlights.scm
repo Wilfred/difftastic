@@ -94,6 +94,8 @@
 ] @keyword
 
 [
+    (not_in)
+    (not_is)
     "/="
     "/"
     ".."
