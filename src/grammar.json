@@ -5423,24 +5423,37 @@
                 "name": "class"
               },
               {
-                "type": "STRING",
-                "value": "("
-              },
-              {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_argument_list"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "("
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_argument_list"
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ")"
+                      }
+                    ]
                   },
                   {
                     "type": "BLANK"
                   }
                 ]
-              },
-              {
-                "type": "STRING",
-                "value": ")"
               },
               {
                 "type": "CHOICE",

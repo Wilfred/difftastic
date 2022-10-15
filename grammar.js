@@ -1105,9 +1105,7 @@ module.exports = grammar({
           seq(
             $.new,
             $.class,
-            "(",
-            optional($._argument_list),
-            ")",
+            optional(seq("(", optional($._argument_list), ")")),
             optional($._base_class_list),
             $.aggregate_body
           )
