@@ -6818,6 +6818,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "scope"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "type_ctor"
               }
             ]

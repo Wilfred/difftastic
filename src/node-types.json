@@ -7485,6 +7485,10 @@
           "named": true
         },
         {
+          "type": "scope",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         },

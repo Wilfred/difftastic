@@ -1396,7 +1396,7 @@ module.exports = grammar({
 
     foreach_type: ($) =>
       seq(
-        repeat(choice($.ref, $.alias, $.enum, $.type_ctor)),
+        repeat(choice($.ref, $.alias, $.enum, $.scope, $.type_ctor)),
         optional($.type),
         $.identifier
       ),
