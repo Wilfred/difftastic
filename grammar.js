@@ -1409,7 +1409,7 @@ module.exports = grammar({
       seq($.switch, "(", $.expression, ")", $._statement),
 
     case_statement: ($) =>
-      prec.left(
+      prec.right(
         choice(
           seq(
             $.case,
@@ -1420,7 +1420,9 @@ module.exports = grammar({
           seq(
             $.case,
             $.expression,
+            ":",
             "..",
+            $.case,
             $.expression,
             ":",
             repeat(choice($._declaration, $._statement_no_case_no_default))
@@ -2469,6 +2471,7 @@ module.exports = grammar({
     [$.pragma_declaration, $._declaration2],
     [$.pragma_statement, $._declaration2],
     [$.pragma_declaration, $.pragma_statement, $._declaration2],
+    [$.case_statement, $.expression],
   ],
 });
 

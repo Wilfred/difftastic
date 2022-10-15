@@ -6867,7 +6867,7 @@
       ]
     },
     "case_statement": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "CHOICE",
@@ -6918,7 +6918,15 @@
               },
               {
                 "type": "STRING",
+                "value": ":"
+              },
+              {
+                "type": "STRING",
                 "value": ".."
+              },
+              {
+                "type": "SYMBOL",
+                "name": "case"
               },
               {
                 "type": "SYMBOL",
@@ -12609,6 +12617,10 @@
       "pragma_declaration",
       "pragma_statement",
       "_declaration2"
+    ],
+    [
+      "case_statement",
+      "expression"
     ]
   ],
   "precedences": [
