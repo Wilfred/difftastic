@@ -25,7 +25,7 @@ const PREC = {
   BIT_OR: 6, // |
   BIT_XOR: 7, // ^
   BIT_AND: 8, // &
-  EQUALITY: 9, // ==  !=
+  EQUALITY: 9, // ==  != <>
   GENERIC: 10,
   REL: 10, // <  <=  >  >=  instanceof
   SHIFT: 11, // <<  >>  >>>
@@ -75,6 +75,7 @@ module.exports = grammar({
     [$.field_access, $.method_invocation, $.expression],
     [$.map_initializer, $.array_initializer],
     [$.function_name, $.count_expression],
+    [$.switch_label, $.primary_expression],
   ],
 
   rules: {
@@ -104,17 +105,13 @@ module.exports = grammar({
     dml_expression: ($) =>
       prec.right(
         choice(
-          seq($.dml_type, $.primary_expression),
+          seq($.dml_type, $.expression),
           seq(
             alias(ci("upsert"), $.dml_type),
-            $.primary_expression,
+            $.expression,
             optional($._unannotated_type)
           ),
-          seq(
-            alias(ci("merge"), $.dml_type),
-            $.primary_expression,
-            $.identifier // TODO: should be primary_expression
-          )
+          seq(alias(ci("merge"), $.dml_type), $.expression, " ", $.expression)
         )
       ),
     dml_type: ($) =>
@@ -164,6 +161,7 @@ module.exports = grammar({
           ["==", PREC.EQUALITY],
           ["===", PREC.EQUALITY],
           ["!=", PREC.EQUALITY],
+          ["<>", PREC.EQUALITY],
           ["!==", PREC.EQUALITY],
           ["&&", PREC.AND],
           ["||", PREC.OR],
@@ -360,8 +358,11 @@ module.exports = grammar({
       seq(
         ci("when"),
         choice(
-          commaJoined1(seq(optional($._unannotated_type), $.identifier)),
-          commaJoined1($._literal),
+          // SObject type var syntax
+          prec.right(
+            commaJoined1(seq(optional($._unannotated_type), $.identifier))
+          ),
+          commaJoined1($.expression),
           ci("else")
         )
       ),
@@ -774,8 +775,6 @@ module.exports = grammar({
     _simple_type: ($) =>
       choice(
         $.void_type,
-        $.integral_type,
-        $.floating_point_type,
         $.boolean_type,
         alias($.identifier, $.type_identifier),
         $.scoped_type_identifier,
@@ -813,10 +812,6 @@ module.exports = grammar({
         field("element", $._unannotated_type),
         field("dimensions", $.dimensions)
       ),
-
-    integral_type: ($) => choice("byte", "short", "int", "long", "char"),
-
-    floating_point_type: ($) => choice("float", "double"),
 
     boolean_type: ($) => "boolean",
 
@@ -929,6 +924,6 @@ module.exports = grammar({
         )
       ),
 
-    string_literal: ($) => /'(\\[nNrRtTbBfF"'_%\\]|[^\\'])*'/,
+    string_literal: ($) => /'(\\[nNrRtTbBfFuU"'_%\\]|[^\\'])*'/,
   },
 });

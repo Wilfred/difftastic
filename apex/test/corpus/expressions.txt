@@ -25,3 +25,29 @@ public class Me {
             (field_access
               (identifier)
               (identifier))))))))
+
+================================================================================
+EXPRESSIONS Double Class
+================================================================================
+
+public class Me {
+  {
+    double.valueOf(1);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (expression_statement
+          (method_invocation
+            (identifier)
+            (identifier)
+            (argument_list
+              (int))))))))

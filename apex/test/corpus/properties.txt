@@ -157,7 +157,7 @@ public class Me {
       (field_declaration
         (modifiers
           (modifier))
-        (floating_point_type)
+        (type_identifier)
         (variable_declarator
           (identifier))
         (accessor_list

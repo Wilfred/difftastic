@@ -373,3 +373,56 @@ public class Me {
             (identifier)
             (assignment_operator)
             (int)))))))
+
+================================================================================
+VARIABLE unicode in string
+================================================================================
+
+public class Me {
+   {
+        String v = 'Hello\u2019 from world\U2019';
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (string_literal)))))))
+
+================================================================================
+VARIABLE negative int
+================================================================================
+
+public class Me {
+   {
+        Integer i = -1;
+   }
+}
+
+--------------------------------------------------------------------------------
+
+(parser_output
+  (class_declaration
+    (modifiers
+      (modifier))
+    (identifier)
+    (class_body
+      (block
+        (local_variable_declaration
+          (type_identifier)
+          (variable_declarator
+            (identifier)
+            (assignment_operator)
+            (unary_expression
+              (int))))))))

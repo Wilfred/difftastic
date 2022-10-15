@@ -321,7 +321,7 @@ module.exports = function defineGrammar(dialect) {
       boolean: ($) => choice(ci("TRUE"), ci("FALSE")),
 
       value_comparison_operator: ($) =>
-        choice("=", "!=", "<", "<=", ">", ">=", ci("LIKE")),
+        choice("=", "!=", "<>", "<", "<=", ">", ">=", ci("LIKE")),
       set_comparison_operator: ($) =>
         choice(ci("IN"), seq(ci("NOT IN")), ci("INCLUDES"), ci("EXCLUDES")),
 
@@ -433,6 +433,7 @@ module.exports = function defineGrammar(dialect) {
       _soql_literal: ($) =>
         choice(
           $.int,
+          $.decimal,
           $.string_literal,
           $.date,
           $.date_time,
@@ -443,7 +444,7 @@ module.exports = function defineGrammar(dialect) {
           $.null_literal
         ),
 
-      string_literal: ($) => /'(\\[nNrRtTbBfF"'_%\\]|[^\\'])*'/,
+      string_literal: ($) => /'(\\[nNrRtTbBfFuU"'_%\\]|[^\\'])*'/,
       int: ($) => /\d+/,
       decimal: ($) => /-?\d+(\.\d+)?/,
       date: ($) =>

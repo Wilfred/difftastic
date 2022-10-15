@@ -1,24 +1,20 @@
 let exportedValues = {};
 try {
-  exportedValues = require("node-gyp-build")(__dirname + "/../../");
+  exportedValues = require("../../build/Release/tree_sitter_sfapex_binding");
 } catch (errorA) {
+  if (errorA.code !== "MODULE_NOT_FOUND") {
+    throw errorA;
+  }
   try {
-    exportedValues = require("../../build/Release/tree_sitter_sfapex_binding");
+    exportedValues = require("../../build/Debug/tree_sitter_sfapex_binding");
   } catch (errorB) {
     if (errorB.code !== "MODULE_NOT_FOUND") {
       throw errorB;
     }
-    try {
-      exportedValues = require("../../build/Debug/tree_sitter_sfapex_binding");
-    } catch (errorC) {
-      if (errorC.code !== "MODULE_NOT_FOUND") {
-        throw errorC;
-      }
-      // TODO: load WASM instead?? Not sure how to make it hot-swappable
-      // but leaving it async load to leave the door open
-      // exportedValues = getWasmModules();
-      throw errorA;
-    }
+    // TODO: load WASM instead?? Not sure how to make it hot-swappable
+    // but leaving it async load to leave the door open
+    // exportedValues = getWasmModules();
+    throw errorA;
   }
 }
 

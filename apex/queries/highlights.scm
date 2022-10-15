@@ -209,9 +209,6 @@
 
 [
   (boolean_type)
-  (integral_type)
-  (floating_point_type)
-  (floating_point_type)
   (void_type)
 ] @type.defaultLibrary
 
