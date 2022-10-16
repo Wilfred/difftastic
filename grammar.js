@@ -1363,7 +1363,7 @@ module.exports = grammar({
     do_statement: ($) =>
       seq(
         $.do,
-        field("do", $._statement_no_case_no_default),
+        field("do", $._declaration_or_statement),
         $.while,
         "(",
         field("condition", $.expression),
@@ -1523,7 +1523,7 @@ module.exports = grammar({
         "(",
         choice("exit", "success", "failure"),
         ")",
-        $._statement_no_case_no_default
+        $._declaration_or_statement
       ),
 
     //

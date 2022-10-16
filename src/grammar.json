@@ -6817,7 +6817,7 @@
           "name": "do",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement_no_case_no_default"
+            "name": "_declaration_or_statement"
           }
         },
         {
@@ -7622,7 +7622,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_statement_no_case_no_default"
+          "name": "_declaration_or_statement"
         }
       ]
     },
