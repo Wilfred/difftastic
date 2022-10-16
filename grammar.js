@@ -2003,7 +2003,10 @@ module.exports = grammar({
     // _shortened_function_body: $ =>
     //   seq(optional($._in_out_contract_expressions), '=>', $._expr, ';'),
 
-    _missing_function_body: ($) => seq(repeat($._function_contract), ";"),
+    _missing_function_body: ($) => 
+    choice(
+      seq(repeat($._function_contract), ";"),
+      seq(repeat($._function_contract), $._in_out_statement)),
 
     //
     // Function Contracts
@@ -2413,6 +2416,7 @@ module.exports = grammar({
     [$.alias_reassign, $._primary_expr],
     [$.function_literal, $.parameter_attribute],
     [$.module_declaration, $.storage_class, $._attribute],
+    [$.function_body, $._function_contract],
   ],
 });
 

@@ -10011,18 +10011,39 @@
       ]
     },
     "_missing_function_body": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_function_contract"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_function_contract"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         },
         {
-          "type": "STRING",
-          "value": ";"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_function_contract"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_in_out_statement"
+            }
+          ]
         }
       ]
     },
@@ -11985,6 +12006,10 @@
       "module_declaration",
       "storage_class",
       "_attribute"
+    ],
+    [
+      "function_body",
+      "_function_contract"
     ]
   ],
   "precedences": [

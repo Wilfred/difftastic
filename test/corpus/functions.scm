@@ -424,3 +424,29 @@ Qualifeid delegates
           (return)
           (expression
             (int_literal)))))))
+
+================================================================================
+Function Contract Statement
+================================================================================
+interface Stack {
+    int pop()
+    out(result) {
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_declaration
+    (interface)
+    (identifier)
+    (aggregate_body
+      (function_declaration
+        (type
+          (int))
+        (identifier)
+        (parameters)
+        (function_body
+          (out_statement
+            (out)
+            (identifier)
+            (block_statement)))))))
