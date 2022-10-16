@@ -10676,7 +10676,7 @@
       ]
     },
     "conditional_declaration": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "CHOICE",
@@ -10937,7 +10937,7 @@
       }
     },
     "conditional_statement": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",

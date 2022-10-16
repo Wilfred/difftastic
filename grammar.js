@@ -2176,7 +2176,7 @@ module.exports = grammar({
     // Note: this syntax with colons is one of the more hare-brained schemes.
     // It makes one want to take the colon and punch someone in the nose with it.
     conditional_declaration: ($) =>
-      prec.left(
+      prec.right(
         choice(
           seq($.condition, $._declaration),
           seq($.condition, $._declaration, $.else, ":", repeat($._declaration)),
@@ -2222,7 +2222,7 @@ module.exports = grammar({
       ),
 
     conditional_statement: ($) =>
-      prec.left(
+      prec.right(
         seq(
           $.condition,
           $._declaration_or_statement,
