@@ -1068,7 +1068,8 @@ module.exports = grammar({
     property_expression: ($) =>
       choice(
         seq("(", $.type, ")", ".", $._identifier_or_template_instance),
-        prec.left(seq($._unary_expr, ".", $._identifier_or_template_instance))
+        prec.left(seq($._unary_expr, ".", $._identifier_or_template_instance)),
+        prec.left(seq($._unary_expr, ".", $.new_expression))
       ),
 
     cast_expression: ($) =>

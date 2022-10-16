@@ -99,3 +99,43 @@ unittest {
                       (int))))
                 (function_body
                   (block_statement))))))))))
+
+================================================================================
+Explicit instantiation
+================================================================================
+void main()
+{
+    auto c = new C;
+    c.new N!(c.m);
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (void))
+    (identifier)
+    (parameters)
+    (function_body
+      (block_statement
+        (auto_declaration
+          (storage_class
+            (auto))
+          (identifier)
+          (new_expression
+            (new)
+            (type
+              (identifier))))
+        (expression_list
+          (property_expression
+            (identifier)
+            (new_expression
+              (new)
+              (type
+                (template_instance
+                  (identifier)
+                  (template_arguments
+                    (template_argument
+                      (type
+                        (identifier)
+                        (identifier)))))))))))))
