@@ -113,10 +113,10 @@ module.exports = grammar({
     _token_string_token: ($) =>
       choice(
         seq("{", optional($._token_string_tokens), "}"),
-        $._token_no_brackes
+        $._token_no_braces
       ),
 
-    _token_no_brackes: ($) =>
+    _token_no_braces: ($) =>
       choice(
         $.identifier,
         $.string_literal,
@@ -823,7 +823,12 @@ module.exports = grammar({
             seq("Objective", "-", "C"),
             seq("C", "++"),
             // this tecnically permits assignment operations, which is wrong, but simpler
-            seq("C", "++", ",", optional(alias($._argument_list, $.namespace_list))),
+            seq(
+              "C",
+              "++",
+              ",",
+              optional(alias($._argument_list, $.namespace_list))
+            ),
             seq("C", "++", ",", $.class),
             seq("C", "++", ",", $.struct)
           ),
@@ -1529,9 +1534,11 @@ module.exports = grammar({
         $.asm,
         repeat($._function_attribute),
         "{",
-        repeat(seq($.asm_instruction, ";")),
+        optional($.asm_inline),
         "}"
       ),
+
+    asm_inline: ($) => repeat1($._token_no_braces),
 
     //
     // Mixin Statement
@@ -2312,7 +2319,13 @@ module.exports = grammar({
      *
      */
     traits_expression: ($) =>
-      seq($.traits, "(", $.identifier, ",", $._template_argument_list, ")"),
+      seq(
+        $.traits,
+        "(",
+        $.identifier,
+        optional(seq(",", $._template_argument_list)),
+        ")"
+      ),
 
     /**************************************************
      *
@@ -2320,75 +2333,11 @@ module.exports = grammar({
      *
      */
     unittest_declaration: ($) => seq($.unittest, $.block_statement),
-
-    /**************************************************
-     *
-     * 3.19 D X86 INLINE ASSEMBLER - this grammar does not validate fully
-     *
-     */
-
-    asm_instruction: ($) =>
-      choice(
-        seq($.identifier, ":", $.asm_instruction), // label
-        seq($.align, choice($.identifier, $.int_literal)),
-        "even",
-        "naked",
-        seq(
-          choice("db", "ds", "di", "dl", "df", "dd", "de"),
-          commaSep($.operand)
-        ),
-        seq(choice("db", "ds", "di", "dl", "dw", "dq"), $.string_literal),
-        seq($.opcode, commaSep($.operand))
-      ),
-
-    operand: ($) =>
-      choice(
-        prec.left("logical_or", seq($.operand, "||", $.operand)),
-        prec.left("logical_and", seq($.operand, "&&", $.operand)),
-        prec.left("inclusive_or", seq($.operand, "|", $.operand)),
-        prec.left("exclusive_or", seq($.operand, "^", $.operand)),
-        prec.left("bitwise_and", seq($.operand, "&", $.operand)),
-        prec.left("compare", seq($.operand, "==", $.operand)),
-        prec.left("compare", seq($.operand, "<", $.operand)),
-        prec.left("compare", seq($.operand, "<=", $.operand)),
-        prec.left("compare", seq($.operand, ">", $.operand)),
-        prec.left("compare", seq($.operand, ">=", $.operand)),
-        prec.left("shift", seq($.operand, "<<", $.operand)),
-        prec.left("shift", seq($.operand, ">>", $.operand)),
-        prec.left("shift", seq($.operand, ">>>", $.operand)),
-        prec.left("add", seq($.operand, "+", $.operand)),
-        prec.left("add", seq($.operand, "-", $.operand)),
-        prec.left("multiply", seq($.operand, "*", $.operand)),
-        prec.left("multiply", seq($.operand, "/", $.operand)),
-        prec.left("multiply", seq($.operand, "%", $.operand)),
-        prec.left("unary", seq($._asm_type_prefix, "ptr", $.operand)),
-        prec.left("unary", seq("offsetof", $.operand)),
-        prec.left("unary", seq("seg", $.operand)),
-        prec.left("unary", seq("+", $.operand)),
-        prec.left("unary", seq("-", $.operand)),
-        prec.left("unary", seq("!", $.operand)),
-        prec.left("unary", seq("~", $.operand)),
-        prec.left("unary", seq($.operand, "[", $.operand, "]")),
-        $.int_literal,
-        $.float_literal,
-        $.string_literal,
-        prec.right($._identifier_chain), // also stands in for registers for now
-        $.dollar,
-        $.this,
-        "__LOCAL_SIZE"
-      ),
-
-    opcode: ($) => choice($.identifier, $.int, $.in, $.out),
-
-    _asm_type_prefix: ($) =>
-      choice("near", "far", "word", "dword", "qword", $.void, $._builtin_type),
   },
 
   // It is unfortunate, but many constructs in D require look-ahead
   // to resolve conflicts.
   conflicts: ($) => [
-    [$.asm_instruction, $.operand],
-    [$.operand],
     [$.type_ctor, $.cast_qualifier],
     [$.storage_class, $._attribute],
     [$.parameter_attribute, $.variadic_arguments_attribute],

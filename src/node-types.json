@@ -1532,7 +1532,7 @@
     }
   },
   {
-    "type": "asm_instruction",
+    "type": "asm_inline",
     "named": true,
     "fields": {},
     "children": {
@@ -1540,11 +1540,11 @@
       "required": false,
       "types": [
         {
-          "type": "align",
+          "type": "char_literal",
           "named": true
         },
         {
-          "type": "asm_instruction",
+          "type": "float_literal",
           "named": true
         },
         {
@@ -1556,11 +1556,7 @@
           "named": true
         },
         {
-          "type": "opcode",
-          "named": true
-        },
-        {
-          "type": "operand",
+          "type": "keyword",
           "named": true
         },
         {
@@ -1583,7 +1579,7 @@
           "named": true
         },
         {
-          "type": "asm_instruction",
+          "type": "asm_inline",
           "named": true
         },
         {
@@ -12409,168 +12405,6 @@
     }
   },
   {
-    "type": "opcode",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "in",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "out",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "operand",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "cdouble",
-          "named": true
-        },
-        {
-          "type": "cent",
-          "named": true
-        },
-        {
-          "type": "cfloat",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "creal",
-          "named": true
-        },
-        {
-          "type": "dchar",
-          "named": true
-        },
-        {
-          "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "double",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "idouble",
-          "named": true
-        },
-        {
-          "type": "ifloat",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "ireal",
-          "named": true
-        },
-        {
-          "type": "long",
-          "named": true
-        },
-        {
-          "type": "operand",
-          "named": true
-        },
-        {
-          "type": "real",
-          "named": true
-        },
-        {
-          "type": "short",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "ubyte",
-          "named": true
-        },
-        {
-          "type": "ucent",
-          "named": true
-        },
-        {
-          "type": "uint",
-          "named": true
-        },
-        {
-          "type": "ulong",
-          "named": true
-        },
-        {
-          "type": "ushort",
-          "named": true
-        },
-        {
-          "type": "void",
-          "named": true
-        },
-        {
-          "type": "wchar",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "or_expression",
     "named": true,
     "fields": {
@@ -19276,10 +19110,6 @@
     "named": false
   },
   {
-    "type": "__LOCAL_SIZE",
-    "named": false
-  },
-  {
     "type": "__MODULE__",
     "named": false
   },
@@ -19392,20 +19222,8 @@
     "named": true
   },
   {
-    "type": "db",
-    "named": false
-  },
-  {
     "type": "dchar",
     "named": true
-  },
-  {
-    "type": "dd",
-    "named": false
-  },
-  {
-    "type": "de",
-    "named": false
   },
   {
     "type": "debug",
@@ -19428,20 +19246,8 @@
     "named": true
   },
   {
-    "type": "df",
-    "named": false
-  },
-  {
-    "type": "di",
-    "named": false
-  },
-  {
     "type": "directive",
     "named": true
-  },
-  {
-    "type": "dl",
-    "named": false
   },
   {
     "type": "do",
@@ -19450,22 +19256,6 @@
   {
     "type": "double",
     "named": true
-  },
-  {
-    "type": "dq",
-    "named": false
-  },
-  {
-    "type": "ds",
-    "named": false
-  },
-  {
-    "type": "dw",
-    "named": false
-  },
-  {
-    "type": "dword",
-    "named": false
   },
   {
     "type": "else",
@@ -19478,10 +19268,6 @@
   {
     "type": "enum",
     "named": true
-  },
-  {
-    "type": "even",
-    "named": false
   },
   {
     "type": "exit",
@@ -19502,10 +19288,6 @@
   {
     "type": "false",
     "named": true
-  },
-  {
-    "type": "far",
-    "named": false
   },
   {
     "type": "final",
@@ -19620,14 +19402,6 @@
     "named": true
   },
   {
-    "type": "naked",
-    "named": false
-  },
-  {
-    "type": "near",
-    "named": false
-  },
-  {
     "type": "new",
     "named": true
   },
@@ -19646,10 +19420,6 @@
   {
     "type": "null",
     "named": true
-  },
-  {
-    "type": "offsetof",
-    "named": false
   },
   {
     "type": "out",
@@ -19680,20 +19450,12 @@
     "named": true
   },
   {
-    "type": "ptr",
-    "named": false
-  },
-  {
     "type": "public",
     "named": true
   },
   {
     "type": "pure",
     "named": true
-  },
-  {
-    "type": "qword",
-    "named": false
   },
   {
     "type": "q{",
@@ -19714,10 +19476,6 @@
   {
     "type": "scope",
     "named": true
-  },
-  {
-    "type": "seg",
-    "named": false
   },
   {
     "type": "shared",
@@ -19838,10 +19596,6 @@
   {
     "type": "with",
     "named": true
-  },
-  {
-    "type": "word",
-    "named": false
   },
   {
     "type": "{",
