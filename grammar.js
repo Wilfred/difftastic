@@ -1643,7 +1643,7 @@ module.exports = grammar({
 
     class_declaration: ($) =>
       choice(
-        seq($.class, $.identifier, ";"),
+        seq($.class, $.identifier, optional($.template_parameters), ";"),
         seq($.class, $.identifier, $.aggregate_body),
         seq($.class, $.identifier, ":", $._base_class_list, $.aggregate_body),
         seq(
@@ -1660,6 +1660,7 @@ module.exports = grammar({
           optional($.constraint),
           ":",
           $._base_class_list,
+          optional($.constraint),
           $.aggregate_body
         ),
         seq(

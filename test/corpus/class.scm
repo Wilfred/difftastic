@@ -99,3 +99,19 @@ class T : typeof(new A), .B, const(C), D!int {}
         (template_arguments
           (int))))
     (aggregate_body)))
+
+================================================================================
+Template class, no body
+================================================================================
+class Test(T = MyT);
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (class)
+    (identifier)
+    (template_parameters
+      (template_parameter
+        (identifier)
+        (type
+          (identifier))))))
