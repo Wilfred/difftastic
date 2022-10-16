@@ -268,3 +268,55 @@ alias void m(int tp)(char c);
         (type
           (char))
         (identifier)))))
+
+================================================================================
+Alias reassignment
+================================================================================
+
+template  t(alias F, Args...)
+{
+   alias A = AliasSeq!();
+    static foreach (Arg; Args)
+        A = AliasSeq!(A, F!Arg);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (template_declaration
+    (template)
+    (identifier)
+    (template_parameters
+      (template_parameter
+        (alias)
+        (identifier))
+      (template_parameter
+        (identifier)))
+    (alias_declaration
+      (alias)
+      (alias_initializer
+        (identifier)
+        (type
+          (template_instance
+            (identifier)
+            (template_arguments)))))
+    (static_foreach_declaration
+      (static)
+      (foreach)
+      (foreach_type
+        (identifier))
+      (expression
+        (identifier))
+      (alias_reassign
+        (identifier)
+        (type
+          (template_instance
+            (identifier)
+            (template_arguments
+              (template_argument
+                (identifier))
+              (template_argument
+                (template_instance
+                  (identifier)
+                  (template_arguments
+                    (identifier)))))))))))

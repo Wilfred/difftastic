@@ -477,6 +477,7 @@ module.exports = grammar({
           $.static_assert_statement,
           $.auto_declaration,
           $.static_foreach_declaration,
+          $.alias_reassign, // only valid really inside a template declaration
           ";" // NB: this is deprecated, and is really an empty statement
         )
       ),
@@ -583,7 +584,7 @@ module.exports = grammar({
           $.parameters,
           repeat($.member_function_attribute),
           ";"
-        ),
+        )
       ),
 
     alias_initializer: ($) =>
@@ -617,6 +618,27 @@ module.exports = grammar({
     // Alias Assign (type alias)
     //
     alias_assign: ($) => seq($.identifier, "=", $.type),
+
+    //
+    // Alias Reassignment (only in template declarations)
+    //
+    alias_reassign: ($) =>
+      prec.dynamic(
+        -1,
+        choice(
+          seq($.identifier, "=", repeat($.storage_class), $.type, ";"),
+          seq($.identifier, "=", $.function_literal, ";"),
+          seq(
+            $.identifier,
+            "=",
+            repeat($.storage_class),
+            $.type,
+            $.parameters,
+            repeat($.member_function_attribute),
+            ";"
+          )
+        )
+      ),
 
     /**************************************************
      *
@@ -1617,7 +1639,13 @@ module.exports = grammar({
         seq($.class, $.identifier, ";"),
         seq($.class, $.identifier, $.aggregate_body),
         seq($.class, $.identifier, ":", $._base_class_list, $.aggregate_body),
-        seq($.class, $.identifier, $.template_parameters, optional($.constraint), $.aggregate_body),
+        seq(
+          $.class,
+          $.identifier,
+          $.template_parameters,
+          optional($.constraint),
+          $.aggregate_body
+        ),
         seq(
           $.class,
           $.identifier,
@@ -1635,7 +1663,7 @@ module.exports = grammar({
           $._base_class_list,
           $.constraint,
           $.aggregate_body
-        ),
+        )
       ),
 
     _base_class_list: ($) => commaSep1($.base_class),
@@ -2456,6 +2484,7 @@ module.exports = grammar({
     [$.pragma_statement, $._declaration2],
     [$.pragma_declaration, $.pragma_statement, $._declaration2],
     [$.case_statement, $.expression],
+    [$.alias_reassign, $._primary_expr],
   ],
 });
 
