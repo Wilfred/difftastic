@@ -1529,7 +1529,7 @@ module.exports = grammar({
         $.asm,
         repeat($._function_attribute),
         "{",
-        $._asm_instruction_list,
+        repeat(seq($.asm_instruction, ";")),
         "}"
       ),
 
@@ -2326,8 +2326,6 @@ module.exports = grammar({
      * 3.19 D X86 INLINE ASSEMBLER - this grammar does not validate fully
      *
      */
-    _asm_instruction_list: ($) =>
-      seq($.asm_instruction, ";", optional($._asm_instruction_list)),
 
     asm_instruction: ($) =>
       choice(

@@ -7628,8 +7628,20 @@
           "value": "{"
         },
         {
-          "type": "SYMBOL",
-          "name": "_asm_instruction_list"
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "asm_instruction"
+              },
+              {
+                "type": "STRING",
+                "value": ";"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -11625,31 +11637,6 @@
         {
           "type": "SYMBOL",
           "name": "block_statement"
-        }
-      ]
-    },
-    "_asm_instruction_list": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "asm_instruction"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_asm_instruction_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },
