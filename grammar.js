@@ -389,8 +389,8 @@ module.exports = grammar({
     module_declaration: ($) =>
       seq(
         // deprecated attribute can only appear once
-        optional($.at_attribute),
-        optional(seq($.deprecated_attribute, optional($.at_attribute))),
+        repeat($.at_attribute),
+        optional(seq($.deprecated_attribute, repeat($.at_attribute))),
         $.module,
         $._identifier_chain,
         ";"
@@ -1839,8 +1839,7 @@ module.exports = grammar({
         "}"
       ),
 
-    anonymous_enum_member: ($) =>
-      seq($.type, $.identifier, "=", $._expr),
+    anonymous_enum_member: ($) => seq($.type, $.identifier, "=", $._expr),
 
     /**************************************************
      *
@@ -2465,6 +2464,7 @@ module.exports = grammar({
     [$.case_statement, $.expression],
     [$.alias_reassign, $._primary_expr],
     [$.function_literal, $.parameter_attribute],
+    [$.module_declaration, $.storage_class, $._attribute],
   ],
 });
 

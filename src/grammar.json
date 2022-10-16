@@ -1392,16 +1392,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "at_attribute"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "at_attribute"
+          }
         },
         {
           "type": "CHOICE",
@@ -1414,16 +1409,11 @@
                   "name": "deprecated_attribute"
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "at_attribute"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "at_attribute"
+                  }
                 }
               ]
             },
@@ -12768,6 +12758,11 @@
     [
       "function_literal",
       "parameter_attribute"
+    ],
+    [
+      "module_declaration",
+      "storage_class",
+      "_attribute"
     ]
   ],
   "precedences": [
