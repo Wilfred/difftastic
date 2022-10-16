@@ -448,11 +448,19 @@
           "named": true
         },
         {
+          "type": "member_function_attribute",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
         {
           "type": "storage_class",
+          "named": true
+        },
+        {
+          "type": "template_parameters",
           "named": true
         },
         {

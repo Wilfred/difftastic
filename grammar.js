@@ -579,9 +579,11 @@ module.exports = grammar({
           repeat($.storage_class),
           $.type,
           $.identifier,
+          optional($.template_parameters),
           $.parameters,
+          repeat($.member_function_attribute),
           ";"
-        )
+        ),
       ),
 
     alias_initializer: ($) =>

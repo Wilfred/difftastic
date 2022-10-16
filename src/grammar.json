@@ -2340,8 +2340,27 @@
               "name": "identifier"
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "template_parameters"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
               "name": "parameters"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "member_function_attribute"
+              }
             },
             {
               "type": "STRING",
