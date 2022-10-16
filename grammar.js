@@ -1669,7 +1669,7 @@ module.exports = grammar({
     _base_class_list: ($) => commaSep1($.base_class),
 
     // base class or interface -- must be a class or interface name
-    base_class: ($) => $._identifier_or_template_chain,
+    base_class: ($) => seq(optional("."), $._identifier_or_template_chain),
 
     // Invariant was listed in 3.9 above already.
 
