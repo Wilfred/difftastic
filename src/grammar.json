@@ -8280,25 +8280,8 @@
       ]
     },
     "base_class": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_identifier_or_template_chain"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_type2"
     },
     "constructor": {
       "type": "CHOICE",

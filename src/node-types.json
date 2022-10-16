@@ -2436,11 +2436,135 @@
       "required": true,
       "types": [
         {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "byte",
+          "named": true
+        },
+        {
+          "type": "cdouble",
+          "named": true
+        },
+        {
+          "type": "cent",
+          "named": true
+        },
+        {
+          "type": "cfloat",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "creal",
+          "named": true
+        },
+        {
+          "type": "dchar",
+          "named": true
+        },
+        {
+          "type": "double",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
+          "type": "idouble",
+          "named": true
+        },
+        {
+          "type": "ifloat",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "ireal",
+          "named": true
+        },
+        {
+          "type": "long",
+          "named": true
+        },
+        {
+          "type": "mixin_expression",
+          "named": true
+        },
+        {
+          "type": "real",
+          "named": true
+        },
+        {
+          "type": "short",
+          "named": true
+        },
+        {
           "type": "template_instance",
+          "named": true
+        },
+        {
+          "type": "traits_expression",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
+          "named": true
+        },
+        {
+          "type": "typeof_expression",
+          "named": true
+        },
+        {
+          "type": "ubyte",
+          "named": true
+        },
+        {
+          "type": "ucent",
+          "named": true
+        },
+        {
+          "type": "uint",
+          "named": true
+        },
+        {
+          "type": "ulong",
+          "named": true
+        },
+        {
+          "type": "ushort",
+          "named": true
+        },
+        {
+          "type": "vector_type",
+          "named": true
+        },
+        {
+          "type": "void",
+          "named": true
+        },
+        {
+          "type": "wchar",
           "named": true
         }
       ]

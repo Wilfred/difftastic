@@ -1666,9 +1666,7 @@ module.exports = grammar({
       ),
 
     _base_class_list: ($) => commaSep1($.base_class),
-
-    // base class or interface -- must be a class or interface name
-    base_class: ($) => seq(optional("."), $._identifier_or_template_chain),
+    base_class: ($) => $._type2,
 
     // Invariant was listed in 3.9 above already.
 
@@ -1996,7 +1994,7 @@ module.exports = grammar({
       ),
 
     _specified_function_body: ($) =>
-        seq(repeat($._function_contract), optional($.do), $.block_statement),
+      seq(repeat($._function_contract), optional($.do), $.block_statement),
 
     // TODO: This grammar is a preview mode only, and not currently part of the stock grammar.
     // _shortened_function_body: $ =>

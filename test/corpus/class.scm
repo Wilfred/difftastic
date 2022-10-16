@@ -43,3 +43,59 @@ class X : Y, .Z {
     (base_class
       (identifier))
     (aggregate_body)))
+
+================================================================================
+Base class primitive types
+================================================================================
+class U : int, float , __vector(int[3]) {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (class)
+    (identifier)
+    (base_class
+      (int))
+    (base_class
+      (float))
+    (base_class
+      (vector_type
+        (vector)
+        (type
+          (int)
+          (expression
+            (int_literal)))))
+    (aggregate_body)))
+
+================================================================================
+Base class extended types
+================================================================================
+
+class T : typeof(new A), .B, const(C), D!int {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (class)
+    (identifier)
+    (base_class
+      (typeof_expression
+        (typeof)
+        (expression
+          (new_expression
+            (new)
+            (type
+              (identifier))))))
+    (base_class
+      (identifier))
+    (base_class
+      (type_ctor
+        (const))
+      (type
+        (identifier)))
+    (base_class
+      (template_instance
+        (identifier)
+        (template_arguments
+          (int))))
+    (aggregate_body)))
