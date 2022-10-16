@@ -1617,11 +1617,12 @@ module.exports = grammar({
         seq($.class, $.identifier, ";"),
         seq($.class, $.identifier, $.aggregate_body),
         seq($.class, $.identifier, ":", $._base_class_list, $.aggregate_body),
-        seq($.class, $.identifier, $.template_parameters, $.aggregate_body),
+        seq($.class, $.identifier, $.template_parameters, optional($.constraint), $.aggregate_body),
         seq(
           $.class,
           $.identifier,
           $.template_parameters,
+          optional($.constraint),
           ":",
           $._base_class_list,
           $.aggregate_body
@@ -1635,23 +1636,6 @@ module.exports = grammar({
           $.constraint,
           $.aggregate_body
         ),
-        seq(
-          $.class,
-          $.identifier,
-          $.template_parameters,
-          ":",
-          $.constraint,
-          $.aggregate_body
-        ),
-        seq(
-          $.class,
-          $.identifier,
-          $.template_parameters,
-          ":",
-          $.constraint,
-          $._base_class_list,
-          $.aggregate_body
-        )
       ),
 
     _base_class_list: ($) => commaSep1($.base_class),

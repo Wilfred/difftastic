@@ -7958,6 +7958,18 @@
               "name": "template_parameters"
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "constraint"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "SYMBOL",
               "name": "aggregate_body"
             }
@@ -7977,6 +7989,18 @@
             {
               "type": "SYMBOL",
               "name": "template_parameters"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "constraint"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "STRING",
@@ -8018,68 +8042,6 @@
             {
               "type": "SYMBOL",
               "name": "constraint"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "aggregate_body"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "class"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "template_parameters"
-            },
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "constraint"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "aggregate_body"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "class"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "template_parameters"
-            },
-            {
-              "type": "STRING",
-              "value": ":"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "constraint"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_base_class_list"
             },
             {
               "type": "SYMBOL",
