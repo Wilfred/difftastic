@@ -857,7 +857,7 @@ tree_sitter_d_external_scanner_scan(
 		case '<':
 			return (match_delimited_string(lexer, '<', '>'));
 		default:;
-			if (isalnum(c)) {
+			if (isalnum(c) || c == '_') {
 				return (match_heredoc_string(lexer));
 			}
 			// non-nesting deliimted string
