@@ -309,3 +309,118 @@ alias h = delegate auto ref (int x) { return x; };
           (expression
             (identifier))))))
   (end_file))
+
+================================================================================
+Auto functions
+================================================================================
+    auto foo1() pure immutable { return 0; }
+    auto foo2() pure const { return 0; }
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (parameters)
+    (member_function_attribute
+      (pure))
+    (member_function_attribute
+      (immutable))
+    (function_body
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal))))))
+  (function_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (parameters)
+    (member_function_attribute
+      (pure))
+    (member_function_attribute
+      (const))
+    (function_body
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal)))))))
+
+================================================================================
+Qualified lambda functions
+================================================================================
+    auto lambda1 = () pure immutable { return 0; };
+    auto lambda2 = () pure const { return 0; };
+--------------------------------------------------------------------------------
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (function_literal
+      (member_function_attribute
+        (pure))
+      (member_function_attribute
+        (immutable))
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal))))))
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (function_literal
+      (member_function_attribute
+        (pure))
+      (member_function_attribute
+        (const))
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal)))))))
+
+================================================================================
+Qualifeid delegates
+================================================================================
+    auto dg1 = delegate () pure immutable { return 0; };
+    auto dg2 = delegate () pure const { return 0; };
+--------------------------------------------------------------------------------
+
+(source_file
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (function_literal
+      (delegate)
+      (member_function_attribute
+        (pure))
+      (member_function_attribute
+        (immutable))
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal))))))
+  (auto_declaration
+    (storage_class
+      (auto))
+    (identifier)
+    (function_literal
+      (delegate)
+      (member_function_attribute
+        (pure))
+      (member_function_attribute
+        (const))
+      (block_statement
+        (return_statement
+          (return)
+          (expression
+            (int_literal)))))))

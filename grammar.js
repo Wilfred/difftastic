@@ -918,7 +918,7 @@ module.exports = grammar({
         seq($.void, ".", $.identifier),
         seq("(", $.expression_list, ")"),
         seq($.type_ctor, "(", $.type, ")", ".", $.identifier),
-        seq($.vector_type, ".", $.identifier),
+        seq($.vector_type, ".", $.identifier)
       ),
 
     _primary_expr: ($) =>
@@ -1204,7 +1204,7 @@ module.exports = grammar({
     // Function Literal
     //
     function_literal: ($) =>
-      prec.left(
+      prec.right(
         choice(
           seq(
             $.function,
@@ -1225,14 +1225,14 @@ module.exports = grammar({
             $.delegate,
             optional(seq(optional($.auto), $.ref)),
             optional($.type),
-            optional($._parameter_with_attributes),
+            optional($._parameter_with_member_attributes),
             $._specified_function_body
           ),
           seq(
             $.delegate,
             optional(seq(optional($.auto), $.ref)),
             optional($.type),
-            $._parameter_with_attributes,
+            $._parameter_with_member_attributes,
             "=>",
             $._expr
           ),

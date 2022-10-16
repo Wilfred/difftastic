@@ -5942,7 +5942,7 @@
       ]
     },
     "function_literal": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "CHOICE",
@@ -6128,7 +6128,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_parameter_with_attributes"
+                    "name": "_parameter_with_member_attributes"
                   },
                   {
                     "type": "BLANK"
@@ -6191,7 +6191,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_parameter_with_attributes"
+                "name": "_parameter_with_member_attributes"
               },
               {
                 "type": "STRING",
