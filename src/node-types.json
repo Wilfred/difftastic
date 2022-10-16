@@ -13958,6 +13958,10 @@
           "named": true
         },
         {
+          "type": "vector_type",
+          "named": true
+        },
+        {
           "type": "void",
           "named": true
         },

@@ -917,7 +917,8 @@ module.exports = grammar({
         seq($._builtin_type, ".", $.identifier),
         seq($.void, ".", $.identifier),
         seq("(", $.expression_list, ")"),
-        seq($.type_ctor, "(", $.type, ")", ".", $.identifier)
+        seq($.type_ctor, "(", $.type, ")", ".", $.identifier),
+        seq($.vector_type, ".", $.identifier),
       ),
 
     _primary_expr: ($) =>
@@ -927,7 +928,6 @@ module.exports = grammar({
         $.primary_expression,
         $.typeof_expression,
         $.typeid_expression,
-        // TODO: vector
         $.array_literal,
         $.is_expression,
         $.function_literal,
