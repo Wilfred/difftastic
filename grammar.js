@@ -55,7 +55,6 @@ module.exports = grammar({
     $._parameter_with_member_attributes,
     $._parameter,
     $._parameters,
-    // $._type2,
   ],
 
   precedences: (_$) => [
@@ -1203,14 +1202,14 @@ module.exports = grammar({
         choice(
           seq(
             $.function,
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             optional($.type),
             optional($._parameter_with_attributes),
             $._specified_function_body
           ),
           seq(
             $.function,
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             optional($.type),
             $._parameter_with_attributes,
             "=>",
@@ -1218,26 +1217,26 @@ module.exports = grammar({
           ),
           seq(
             $.delegate,
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             optional($.type),
             optional($._parameter_with_attributes),
             $._specified_function_body
           ),
           seq(
             $.delegate,
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             optional($.type),
             $._parameter_with_attributes,
             "=>",
             $._expr
           ),
           seq(
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             $._parameter_with_member_attributes,
             $._specified_function_body
           ),
           seq(
-            optional($.ref),
+            optional(seq(optional($.auto), $.ref)),
             $._parameter_with_member_attributes,
             "=>",
             $._expr
@@ -2471,6 +2470,7 @@ module.exports = grammar({
     [$.pragma_declaration, $.pragma_statement, $._declaration2],
     [$.case_statement, $.expression],
     [$.alias_reassign, $._primary_expr],
+    [$.function_literal, $.parameter_attribute],
   ],
 });
 

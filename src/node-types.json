@@ -7689,6 +7689,10 @@
           "named": true
         },
         {
+          "type": "auto",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
