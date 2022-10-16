@@ -1997,21 +1997,7 @@ module.exports = grammar({
       ),
 
     _specified_function_body: ($) =>
-      choice(
-        seq(optional($.do), $.block_statement),
-        seq(
-          repeat($._function_contract),
-          $._in_out_contract_expression,
-          optional($.do),
-          $.block_statement
-        ),
-        seq(
-          repeat($._function_contract),
-          $._in_out_statement,
-          $.do,
-          $.block_statement
-        )
-      ),
+        seq(repeat($._function_contract), optional($.do), $.block_statement),
 
     // TODO: This grammar is a preview mode only, and not currently part of the stock grammar.
     // _shortened_function_body: $ =>
@@ -2035,7 +2021,7 @@ module.exports = grammar({
     in_contract_expression: ($) => seq($.in, "(", $._assert_arguments, ")"),
 
     out_contract_expression: ($) =>
-      seq($.out, "(", optional($.identifier), ":", $._assert_arguments, ")"),
+      seq($.out, "(", optional($.identifier), ";", $._assert_arguments, ")"),
 
     in_statement: ($) => seq($.in, $.block_statement),
 

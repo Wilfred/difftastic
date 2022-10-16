@@ -9855,84 +9855,30 @@
       ]
     },
     "_specified_function_body": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "do"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "block_statement"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_function_contract"
+          }
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_function_contract"
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_in_out_contract_expression"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "do"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "block_statement"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_function_contract"
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_in_out_statement"
-            },
             {
               "type": "SYMBOL",
               "name": "do"
             },
             {
-              "type": "SYMBOL",
-              "name": "block_statement"
+              "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_statement"
         }
       ]
     },
@@ -10044,7 +9990,7 @@
         },
         {
           "type": "STRING",
-          "value": ":"
+          "value": ";"
         },
         {
           "type": "SYMBOL",
