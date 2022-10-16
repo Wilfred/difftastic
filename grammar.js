@@ -1840,11 +1840,7 @@ module.exports = grammar({
       ),
 
     anonymous_enum_member: ($) =>
-      choice(
-        seq($.type, $.identifier, "=", $._expr),
-        seq($.identifier, "=", $._expr),
-        $.identifier
-      ),
+      choice(seq($.type, $.identifier, "=", $._expr), $.enum_member),
 
     /**************************************************
      *

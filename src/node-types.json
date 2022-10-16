@@ -956,6 +956,10 @@
           "named": true
         },
         {
+          "type": "enum_member",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
