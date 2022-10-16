@@ -823,7 +823,7 @@ module.exports = grammar({
             seq("Objective", "-", "C"),
             seq("C", "++"),
             // this tecnically permits assignment operations, which is wrong, but simpler
-            seq("C", "++", ",", alias($._argument_list, $.namespace_list)),
+            seq("C", "++", ",", optional(alias($._argument_list, $.namespace_list))),
             seq("C", "++", ",", $.class),
             seq("C", "++", ",", $.struct)
           ),
