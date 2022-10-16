@@ -320,3 +320,23 @@ template  t(alias F, Args...)
                   (identifier)
                   (template_arguments
                     (identifier)))))))))))
+
+================================================================================
+Alias with align parameter
+================================================================================
+alias g_t = align(8) _gg_t[NREG];
+--------------------------------------------------------------------------------
+
+(source_file
+  (alias_declaration
+    (alias)
+    (alias_initializer
+      (identifier)
+      (storage_class
+        (align_attribute
+          (align)
+          (int_literal)))
+      (type
+        (identifier)
+        (expression
+          (identifier))))))

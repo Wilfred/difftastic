@@ -3245,7 +3245,7 @@
       ]
     },
     "align_attribute": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -3283,7 +3283,7 @@
       }
     },
     "deprecated_attribute": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",

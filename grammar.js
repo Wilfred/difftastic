@@ -756,10 +756,10 @@ module.exports = grammar({
     attribute_declaration: ($) => seq($._attribute, ":"),
 
     align_attribute: ($) =>
-      prec.left(seq($.align, optional(seq("(", $._expr, ")")))),
+      prec.right(seq($.align, optional(seq("(", $._expr, ")")))),
 
     deprecated_attribute: ($) =>
-      prec.left(seq($.deprecated, optional(seq("(", $._expr, ")")))),
+      prec.right(seq($.deprecated, optional(seq("(", $._expr, ")")))),
 
     _attribute: ($) =>
       prec.right(
