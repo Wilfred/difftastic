@@ -8979,8 +8979,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "anonymous_enum_member"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "anonymous_enum_member"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "enum_member"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -8992,8 +9001,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "anonymous_enum_member"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "anonymous_enum_member"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "enum_member"
+                      }
+                    ]
                   }
                 ]
               }
@@ -9019,32 +9037,23 @@
       ]
     },
     "anonymous_enum_member": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "STRING",
-              "value": "="
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expr"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "type"
         },
         {
           "type": "SYMBOL",
-          "name": "enum_member"
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expr"
         }
       ]
     },

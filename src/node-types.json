@@ -905,6 +905,10 @@
           "named": true
         },
         {
+          "type": "enum_member",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         }
@@ -953,10 +957,6 @@
         },
         {
           "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "enum_member",
           "named": true
         },
         {

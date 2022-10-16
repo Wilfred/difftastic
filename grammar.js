@@ -1835,12 +1835,12 @@ module.exports = grammar({
         $.enum,
         optional(seq(":", $.type)),
         "{",
-        commaSep1Comma($.anonymous_enum_member),
+        commaSep1Comma(choice($.anonymous_enum_member, $.enum_member)),
         "}"
       ),
 
     anonymous_enum_member: ($) =>
-      choice(seq($.type, $.identifier, "=", $._expr), $.enum_member),
+      seq($.type, $.identifier, "=", $._expr),
 
     /**************************************************
      *
