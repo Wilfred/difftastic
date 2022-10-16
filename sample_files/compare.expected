@@ -47,7 +47,7 @@ sample_files/hack_before.php sample_files/hack_after.php
 50babcb945cf3b3ba12d5481a1bf8ccf  -
 
 sample_files/hare_before.ha sample_files/hare_after.ha
-8edc2f3ae2eaeba7bcf328ed00398767  -
+5fee7a686838b20327ed135ae07db0c2  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 324d1c9b2a04133a75b1975272ffb6ad  -
@@ -179,10 +179,13 @@ sample_files/swift_before.swift sample_files/swift_after.swift
 eeab25a68552f051a6392b5e713fbd29  -
 
 sample_files/syntax_error_before.js sample_files/syntax_error_after.js
-fe636ad27b1aa75e0b153dfe248023bb  -
+5210fe27bf588a4a4a0ed826dfcac76b  -
 
 sample_files/tab_before.c sample_files/tab_after.c
 36ba3231eeba6f0b67a6be9db454de19  -
+
+sample_files/tailwind_before.css sample_files/tailwind_after.css
+a0ba45ac66d0c0b97377821a872d83fc  -
 
 sample_files/text_before.txt sample_files/text_after.txt
 dfc3495b8d5931029b479f0c878a3219  -

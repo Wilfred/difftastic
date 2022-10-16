@@ -1,0 +1,6 @@
+select {
+  /* This isn't valid vanilla CSS, and tree-sitter-css produces an ERROR
+     node with children. Ensure the whole ERROR is treated as an
+     atom. */
+  @apply rounded-md bg-hss-dark-gray;
+}

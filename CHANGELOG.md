@@ -1,5 +1,12 @@
 ## 0.38 (unreleased)
 
+### Parsing
+
+Syntax error nodes are now always treated as atoms. This produces
+better results when difftastic doesn't fully support the syntax
+(e.g. PostCSS is a superset of CSS) or when there are actual syntax
+errors.
+
 ## 0.37 (released 14th October 2022)
 
 ### Manual
