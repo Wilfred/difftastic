@@ -1479,7 +1479,7 @@ module.exports = grammar({
       ),
 
     with_statement: ($) =>
-        seq($.with, "(", $.expression, ")", $._declaration_or_statement),
+      seq($.with, "(", $.expression, ")", $._declaration_or_statement),
 
     synchronized_statement: ($) =>
       prec.left(
