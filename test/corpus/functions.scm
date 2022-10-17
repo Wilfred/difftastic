@@ -450,3 +450,37 @@ interface Stack {
             (out)
             (identifier)
             (block_statement)))))))
+
+================================================================================
+Variadic argument defaults
+================================================================================
+int f(int x = 1...) {}
+int g(float = 1.3 ...) {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (int))
+    (identifier)
+    (parameters
+      (parameter
+        (type
+          (int))
+        (identifier)
+        (int_literal)
+        (ellipses)))
+    (function_body
+      (block_statement)))
+  (function_declaration
+    (type
+      (int))
+    (identifier)
+    (parameters
+      (parameter
+        (type
+          (float))
+        (float_literal)
+        (ellipses)))
+    (function_body
+      (block_statement))))

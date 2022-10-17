@@ -1940,10 +1940,23 @@ module.exports = grammar({
         choice(
           seq(repeat($.parameter_attribute), $.type),
           seq(repeat($.parameter_attribute), $.type, $.ellipses),
-          seq(repeat($.parameter_attribute), $.type, "=", $._expr),
+          seq(
+            repeat($.parameter_attribute),
+            $.type,
+            "=",
+            $._expr,
+            optional($.ellipses)
+          ),
           seq(repeat($.parameter_attribute), $.type, $.identifier),
           seq(repeat($.parameter_attribute), $.type, $.identifier, $.ellipses),
-          seq(repeat($.parameter_attribute), $.type, $.identifier, "=", $._expr)
+          seq(
+            repeat($.parameter_attribute),
+            $.type,
+            $.identifier,
+            "=",
+            $._expr,
+            optional($.ellipses)
+          )
         )
       ),
 
@@ -2004,10 +2017,11 @@ module.exports = grammar({
     // _shortened_function_body: $ =>
     //   seq(optional($._in_out_contract_expressions), '=>', $._expr, ';'),
 
-    _missing_function_body: ($) => 
-    choice(
-      seq(repeat($._function_contract), ";"),
-      seq(repeat($._function_contract), $._in_out_statement)),
+    _missing_function_body: ($) =>
+      choice(
+        seq(repeat($._function_contract), ";"),
+        seq(repeat($._function_contract), $._in_out_statement)
+      ),
 
     //
     // Function Contracts
