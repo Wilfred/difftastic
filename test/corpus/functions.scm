@@ -514,3 +514,53 @@ void test()
                 (return)
                 (expression
                   (int_literal))))))))))
+
+================================================================================
+Shortened function body
+================================================================================
+int f(int x) => x * 2;
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (int))
+    (identifier)
+    (parameters
+      (parameter
+        (type
+          (int))
+        (identifier)))
+    (function_body
+      (binary_expression
+        (mul_expression
+          (identifier)
+          (int_literal))))))
+
+================================================================================
+Shorted function body with contract
+================================================================================
+float recip(float x)in(x != 0) => 1/x;
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (float))
+    (identifier)
+    (parameters
+      (parameter
+        (type
+          (float))
+        (identifier)))
+    (function_body
+      (in_contract_expression
+        (in)
+        (binary_expression
+          (equal_expression
+            (identifier)
+            (int_literal))))
+      (binary_expression
+        (mul_expression
+          (int_literal)
+          (identifier))))))

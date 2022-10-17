@@ -10027,6 +10027,10 @@
         {
           "type": "SYMBOL",
           "name": "_missing_function_body"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_shortened_function_body"
         }
       ]
     },
@@ -10055,6 +10059,35 @@
         {
           "type": "SYMBOL",
           "name": "block_statement"
+        }
+      ]
+    },
+    "_shortened_function_body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_in_out_contract_expressions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expr"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -12076,6 +12109,10 @@
     [
       "storage_class",
       "_type2"
+    ],
+    [
+      "_shortened_function_body",
+      "_function_contract"
     ]
   ],
   "precedences": [

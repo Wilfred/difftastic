@@ -2005,17 +2005,15 @@ module.exports = grammar({
     function_body: ($) =>
       choice(
         $._specified_function_body,
-        $._missing_function_body
-        // TODO: preview syntax only:
-        // $._shortened_function_body,
+        $._missing_function_body,
+        $._shortened_function_body
       ),
 
     _specified_function_body: ($) =>
       seq(repeat($._function_contract), optional($.do), $.block_statement),
 
-    // TODO: This grammar is a preview mode only, and not currently part of the stock grammar.
-    // _shortened_function_body: $ =>
-    //   seq(optional($._in_out_contract_expressions), '=>', $._expr, ';'),
+    _shortened_function_body: ($) =>
+      seq(optional($._in_out_contract_expressions), "=>", $._expr, ";"),
 
     _missing_function_body: ($) =>
       choice(
@@ -2436,6 +2434,7 @@ module.exports = grammar({
     [$.storage_class, $.function_literal, $._attribute],
     [$.storage_class, $.synchronized_statement, $._attribute],
     [$.storage_class, $._type2],
+    [$._shortened_function_body, $._function_contract],
   ],
 });
 
