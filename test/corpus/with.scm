@@ -12,9 +12,10 @@ unittest { with (x) x++; }
         (with)
         (expression
           (identifier))
-        (expression_list
-          (postfix_expression
-            (identifier)))))))
+        (expression_statement
+          (expression_list
+            (postfix_expression
+              (identifier))))))))
 
 ================================================================================
 With statment declaration

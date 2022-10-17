@@ -10,13 +10,14 @@ unittest {
   (unittest_declaration
     (unittest)
     (block_statement
-      (expression_list
-        (assignment_expression
-          (identifier)
-          (new_expression
-            (new)
-            (type
-              (int))))))))
+      (expression_statement
+        (expression_list
+          (assignment_expression
+            (identifier)
+            (new_expression
+              (new)
+              (type
+                (int)))))))))
 
 ================================================================================
 New array
@@ -30,15 +31,16 @@ unittest {
   (unittest_declaration
     (unittest)
     (block_statement
-      (expression_list
-        (assignment_expression
-          (identifier)
-          (new_expression
-            (new)
-            (type
-              (char)
-              (expression
-                (int_literal)))))))))
+      (expression_statement
+        (expression_list
+          (assignment_expression
+            (identifier)
+            (new_expression
+              (new)
+              (type
+                (char)
+                (expression
+                  (int_literal))))))))))
 
 ================================================================================
 New anonymous class no args
@@ -83,22 +85,23 @@ unittest {
   (unittest_declaration
     (unittest)
     (block_statement
-      (expression_list
-        (assignment_expression
-          (identifier)
-          (new_expression
-            (new)
-            (class)
-            (int_literal)
-            (aggregate_body
-              (constructor
-                (this)
-                (parameters
-                  (parameter
-                    (type
-                      (int))))
-                (function_body
-                  (block_statement))))))))))
+      (expression_statement
+        (expression_list
+          (assignment_expression
+            (identifier)
+            (new_expression
+              (new)
+              (class)
+              (int_literal)
+              (aggregate_body
+                (constructor
+                  (this)
+                  (parameters
+                    (parameter
+                      (type
+                        (int))))
+                  (function_body
+                    (block_statement)))))))))))
 
 ================================================================================
 Explicit instantiation
@@ -126,16 +129,17 @@ void main()
             (new)
             (type
               (identifier))))
-        (expression_list
-          (property_expression
-            (identifier)
-            (new_expression
-              (new)
-              (type
-                (template_instance
-                  (identifier)
-                  (template_arguments
-                    (template_argument
-                      (type
-                        (identifier)
-                        (identifier)))))))))))))
+        (expression_statement
+          (expression_list
+            (property_expression
+              (identifier)
+              (new_expression
+                (new)
+                (type
+                  (template_instance
+                    (identifier)
+                    (template_arguments
+                      (template_argument
+                        (type
+                          (identifier)
+                          (identifier))))))))))))))

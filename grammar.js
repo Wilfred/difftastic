@@ -1288,6 +1288,7 @@ module.exports = grammar({
     _statement_no_case_no_default: ($) =>
       choice(
         $.labeled_statement,
+        $.expression_statement,
         $.block_statement,
         $.if_statement,
         $.while_statement,
@@ -1310,8 +1311,7 @@ module.exports = grammar({
         $.static_assert_statement,
         $.static_foreach_statement,
         $.version_specification,
-        $.debug_specification,
-        $._expression_statement
+        $.debug_specification
       ),
 
     labeled_statement: ($) =>
@@ -1328,7 +1328,7 @@ module.exports = grammar({
         "}"
       ),
 
-    _expression_statement: ($) => seq($.expression_list, ";"),
+    expression_statement: ($) => seq($.expression_list, ";"),
 
     if_statement: ($) =>
       prec.right(

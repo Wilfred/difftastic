@@ -6438,6 +6438,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "expression_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "block_statement"
         },
         {
@@ -6527,10 +6531,6 @@
         {
           "type": "SYMBOL",
           "name": "debug_specification"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression_statement"
         }
       ]
     },
@@ -6601,7 +6601,7 @@
         }
       ]
     },
-    "_expression_statement": {
+    "expression_statement": {
       "type": "SEQ",
       "members": [
         {

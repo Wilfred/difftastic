@@ -2738,7 +2738,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -3291,7 +3291,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -4051,7 +4051,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -4715,7 +4715,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -5683,7 +5683,7 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "expression_statement",
             "named": true
           },
           {
@@ -6601,6 +6601,21 @@
     }
   },
   {
+    "type": "expression_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "final_switch_statement",
     "named": true,
     "fields": {},
@@ -6728,7 +6743,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -6967,7 +6982,7 @@
     "named": true,
     "fields": {
       "init": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -7047,7 +7062,7 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "expression_statement",
             "named": true
           },
           {
@@ -7326,7 +7341,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -7673,7 +7688,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -8896,7 +8911,7 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "expression_statement",
             "named": true
           },
           {
@@ -9254,7 +9269,7 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "expression_statement",
             "named": true
           },
           {
@@ -11018,7 +11033,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -14151,7 +14166,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -14805,7 +14820,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -16279,7 +16294,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -16626,7 +16641,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -18275,7 +18290,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
@@ -19411,7 +19426,7 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "expression_statement",
             "named": true
           },
           {
@@ -19773,7 +19788,7 @@
           "named": true
         },
         {
-          "type": "expression_list",
+          "type": "expression_statement",
           "named": true
         },
         {
