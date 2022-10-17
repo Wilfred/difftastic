@@ -16382,7 +16382,47 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "alias_reassign",
+          "named": true
+        },
+        {
+          "type": "alias_this_declaration",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "anonymous_enum_declaration",
+          "named": true
+        },
+        {
           "type": "asm_statement",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "auto_declaration",
           "named": true
         },
         {
@@ -16394,7 +16434,23 @@
           "named": true
         },
         {
+          "type": "case_statement",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "conditional_declaration",
+          "named": true
+        },
+        {
           "type": "conditional_statement",
+          "named": true
+        },
+        {
+          "type": "constructor",
           "named": true
         },
         {
@@ -16406,7 +16462,23 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "destructor",
+          "named": true
+        },
+        {
           "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "export",
           "named": true
         },
         {
@@ -16415,6 +16487,14 @@
         },
         {
           "type": "expression_list",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
           "named": true
         },
         {
@@ -16430,7 +16510,19 @@
           "named": true
         },
         {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
           "type": "goto_statement",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -16438,7 +16530,59 @@
           "named": true
         },
         {
+          "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "invariant_declaration",
+          "named": true
+        },
+        {
           "type": "labeled_statement",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "manifest_constant",
+          "named": true
+        },
+        {
+          "type": "mixin_declaration",
+          "named": true
+        },
+        {
+          "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "postblit",
+          "named": true
+        },
+        {
+          "type": "pragma_declaration",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
           "named": true
         },
         {
@@ -16446,7 +16590,35 @@
           "named": true
         },
         {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "scope",
           "named": true
         },
         {
@@ -16454,11 +16626,39 @@
           "named": true
         },
         {
+          "type": "shared_static_constructor",
+          "named": true
+        },
+        {
+          "type": "shared_static_destructor",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "static_assert_statement",
           "named": true
         },
         {
+          "type": "static_constructor",
+          "named": true
+        },
+        {
+          "type": "static_destructor",
+          "named": true
+        },
+        {
+          "type": "static_foreach_declaration",
+          "named": true
+        },
+        {
           "type": "static_foreach_statement",
+          "named": true
+        },
+        {
+          "type": "struct_declaration",
           "named": true
         },
         {
@@ -16474,7 +16674,31 @@
           "named": true
         },
         {
+          "type": "template_declaration",
+          "named": true
+        },
+        {
+          "type": "template_mixin",
+          "named": true
+        },
+        {
           "type": "try_statement",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
+          "named": true
+        },
+        {
+          "type": "union_declaration",
+          "named": true
+        },
+        {
+          "type": "unittest_declaration",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -19305,7 +19529,47 @@
       "required": true,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
+          "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "alias_reassign",
+          "named": true
+        },
+        {
+          "type": "alias_this_declaration",
+          "named": true
+        },
+        {
+          "type": "align_attribute",
+          "named": true
+        },
+        {
+          "type": "anonymous_enum_declaration",
+          "named": true
+        },
+        {
           "type": "asm_statement",
+          "named": true
+        },
+        {
+          "type": "at_attribute",
+          "named": true
+        },
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "auto_declaration",
           "named": true
         },
         {
@@ -19317,7 +19581,23 @@
           "named": true
         },
         {
+          "type": "case_statement",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "conditional_declaration",
+          "named": true
+        },
+        {
           "type": "conditional_statement",
+          "named": true
+        },
+        {
+          "type": "constructor",
           "named": true
         },
         {
@@ -19329,7 +19609,23 @@
           "named": true
         },
         {
+          "type": "deprecated_attribute",
+          "named": true
+        },
+        {
+          "type": "destructor",
+          "named": true
+        },
+        {
           "type": "do_statement",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "export",
           "named": true
         },
         {
@@ -19338,6 +19634,14 @@
         },
         {
           "type": "expression_list",
+          "named": true
+        },
+        {
+          "type": "extern",
+          "named": true
+        },
+        {
+          "type": "final",
           "named": true
         },
         {
@@ -19353,7 +19657,19 @@
           "named": true
         },
         {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
           "type": "goto_statement",
+          "named": true
+        },
+        {
+          "type": "gshared",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -19361,7 +19677,59 @@
           "named": true
         },
         {
+          "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "invariant_declaration",
+          "named": true
+        },
+        {
           "type": "labeled_statement",
+          "named": true
+        },
+        {
+          "type": "linkage_attribute",
+          "named": true
+        },
+        {
+          "type": "manifest_constant",
+          "named": true
+        },
+        {
+          "type": "mixin_declaration",
+          "named": true
+        },
+        {
+          "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "nothrow",
+          "named": true
+        },
+        {
+          "type": "override",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "postblit",
+          "named": true
+        },
+        {
+          "type": "pragma_declaration",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
           "named": true
         },
         {
@@ -19369,7 +19737,35 @@
           "named": true
         },
         {
+          "type": "private",
+          "named": true
+        },
+        {
+          "type": "protected",
+          "named": true
+        },
+        {
+          "type": "public",
+          "named": true
+        },
+        {
+          "type": "pure",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
           "type": "return_statement",
+          "named": true
+        },
+        {
+          "type": "scope",
           "named": true
         },
         {
@@ -19377,7 +19773,31 @@
           "named": true
         },
         {
+          "type": "shared_static_constructor",
+          "named": true
+        },
+        {
+          "type": "shared_static_destructor",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "static_assert_statement",
+          "named": true
+        },
+        {
+          "type": "static_constructor",
+          "named": true
+        },
+        {
+          "type": "static_destructor",
+          "named": true
+        },
+        {
+          "type": "static_foreach_declaration",
           "named": true
         },
         {
@@ -19385,7 +19805,15 @@
           "named": true
         },
         {
+          "type": "struct_declaration",
+          "named": true
+        },
+        {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "synchronized",
           "named": true
         },
         {
@@ -19393,7 +19821,31 @@
           "named": true
         },
         {
+          "type": "template_declaration",
+          "named": true
+        },
+        {
+          "type": "template_mixin",
+          "named": true
+        },
+        {
           "type": "try_statement",
+          "named": true
+        },
+        {
+          "type": "type_ctor",
+          "named": true
+        },
+        {
+          "type": "union_declaration",
+          "named": true
+        },
+        {
+          "type": "unittest_declaration",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
