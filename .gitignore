@@ -6,6 +6,7 @@ build
 .idea
 .vscode/ipch
 target/
+/.build/
 
 # Examples generated during automated tests
 examples/**
