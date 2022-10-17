@@ -472,7 +472,7 @@ module.exports = grammar({
     // Variable Declarations
     //
     variable_declaration: ($) =>
-      seq(repeat($.storage_class), $.type, commaSep1($.declarator), ";"),
+      seq(repeat($.storage_class), $.type, commaSep1(choice($.declarator, $.bitfield_declarator)), ";"),
 
     _declarator_identifier_list: ($) => prec.right(commaSep1($.identifier)),
 
@@ -483,6 +483,12 @@ module.exports = grammar({
           optional(seq(optional($.template_parameters), "=", $._initializer))
         )
       ),
+    
+    bitfield_declarator: ($) =>
+      prec.right(choice(
+        seq(":", $._expr),
+        seq($.identifier, ":", $._expr, optional(seq("=", $._initializer))),
+      )),
 
     manifest_constant: ($) =>
       seq(

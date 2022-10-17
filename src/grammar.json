@@ -1832,8 +1832,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "declarator"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "declarator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "bitfield_declarator"
+                }
+              ]
             },
             {
               "type": "REPEAT",
@@ -1845,8 +1854,17 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "declarator"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "declarator"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "bitfield_declarator"
+                      }
+                    ]
                   }
                 ]
               }
@@ -1928,6 +1946,66 @@
               },
               {
                 "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "bitfield_declarator": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ":"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expr"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "STRING",
+                "value": ":"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expr"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "="
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_initializer"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           }
