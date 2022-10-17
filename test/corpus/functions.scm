@@ -484,3 +484,33 @@ int g(float = 1.3 ...) {}
         (ellipses)))
     (function_body
       (block_statement))))
+
+================================================================================
+Auto ref function
+================================================================================
+void test()
+{
+    auto ref baz3() { return 1; }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (void))
+    (identifier)
+    (parameters)
+    (function_body
+      (block_statement
+        (auto)
+        (function_declaration
+          (storage_class
+            (ref))
+          (identifier)
+          (parameters)
+          (function_body
+            (block_statement
+              (return_statement
+                (return)
+                (expression
+                  (int_literal))))))))))

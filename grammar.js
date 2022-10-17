@@ -519,25 +519,23 @@ module.exports = grammar({
     // Storage Classes
     //
     storage_class: ($) =>
-      prec.right(
-        choice(
-          $.linkage_attribute,
-          $.align_attribute,
-          $.at_attribute,
-          $.type_ctor,
-          $.deprecated,
-          $.static,
-          $.extern,
-          $.abstract,
-          $.final,
-          $.override,
-          $.synchronized,
-          $.auto,
-          $.scope,
-          $.gshared,
-          $.ref,
-          $._function_attribute_kwd
-        )
+      choice(
+        $.linkage_attribute,
+        $.align_attribute,
+        $.at_attribute,
+        $.type_ctor,
+        $.deprecated,
+        $.static,
+        $.extern,
+        $.abstract,
+        $.final,
+        $.override,
+        $.synchronized,
+        $.auto,
+        $.scope,
+        $.gshared,
+        $.ref,
+        $._function_attribute_kwd
       ),
 
     //
@@ -551,7 +549,9 @@ module.exports = grammar({
     // Auto Declaration
     //
     auto_declaration: ($) =>
-      seq(repeat1($.storage_class), commaSep1($._auto_assignment), ";"),
+      prec.right(
+        seq(repeat1($.storage_class), commaSep1($._auto_assignment), ";")
+      ),
 
     _auto_assignment: ($) =>
       seq(
@@ -1855,38 +1855,40 @@ module.exports = grammar({
      */
 
     function_declaration: ($) =>
-      choice(
-        seq(
-          $.type,
-          $.identifier,
-          $.parameters,
-          repeat($.member_function_attribute),
-          $.function_body
-        ),
-        seq(
-          $.type,
-          $.identifier,
-          $.template_parameters,
-          $.parameters,
-          repeat($.member_function_attribute),
-          optional($.constraint),
-          $.function_body
-        ),
-        seq(
-          repeat1(choice($.storage_class, $.enum)),
-          $.identifier,
-          $.parameters,
-          repeat($.member_function_attribute),
-          $.function_body
-        ),
-        seq(
-          repeat1(choice($.storage_class, $.enum)),
-          $.identifier,
-          $.template_parameters,
-          $.parameters,
-          repeat($.member_function_attribute),
-          optional($.constraint),
-          $.function_body
+      prec.right(
+        choice(
+          seq(
+            $.type,
+            $.identifier,
+            $.parameters,
+            repeat($.member_function_attribute),
+            $.function_body
+          ),
+          seq(
+            $.type,
+            $.identifier,
+            $.template_parameters,
+            $.parameters,
+            repeat($.member_function_attribute),
+            optional($.constraint),
+            $.function_body
+          ),
+          seq(
+            repeat1(choice($.storage_class, $.enum)),
+            $.identifier,
+            $.parameters,
+            repeat($.member_function_attribute),
+            $.function_body
+          ),
+          seq(
+            repeat1(choice($.storage_class, $.enum)),
+            $.identifier,
+            $.template_parameters,
+            $.parameters,
+            repeat($.member_function_attribute),
+            optional($.constraint),
+            $.function_body
+          )
         )
       ),
 
@@ -2430,6 +2432,10 @@ module.exports = grammar({
     [$.function_literal, $.parameter_attribute],
     [$.module_declaration, $.storage_class, $._attribute],
     [$.function_body, $._function_contract],
+    [$.storage_class, $.function_literal],
+    [$.storage_class, $.function_literal, $._attribute],
+    [$.storage_class, $.synchronized_statement, $._attribute],
+    [$.storage_class, $._type2],
   ],
 });
 
