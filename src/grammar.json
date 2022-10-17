@@ -50,7 +50,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[\\p{L}_][\\p{L}_\\d]*"
+      "value": "[_\\p{XID_Start}][\\p{XID_Continue}]*"
     },
     "token_string": {
       "type": "SEQ",

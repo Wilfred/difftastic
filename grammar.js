@@ -100,7 +100,7 @@ module.exports = grammar({
     //
     // Identifier
     //
-    identifier: (_$) => /[\p{L}_][\p{L}_\d]*/,
+    identifier: (_$) => /[_\p{XID_Start}][\p{XID_Continue}]*/,
 
     //
     // Token String
