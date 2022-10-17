@@ -96,3 +96,30 @@ unittest {
             (char_literal)
             (break_statement
               (break))))))))
+
+================================================================================
+Switch statement with declaration
+================================================================================
+int f() {
+  switch (v) int x = 1;
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (type
+      (int))
+    (identifier)
+    (parameters)
+    (function_body
+      (block_statement
+        (switch_statement
+          (switch)
+          (expression
+            (identifier))
+          (variable_declaration
+            (type
+              (int))
+            (declarator
+              (identifier)
+              (int_literal))))))))

@@ -1433,7 +1433,7 @@ module.exports = grammar({
     //
 
     switch_statement: ($) =>
-      seq($.switch, "(", $.expression, ")", $._statement),
+      seq($.switch, "(", $.expression, ")", $._declaration_or_statement),
 
     case_statement: ($) =>
       prec.right(

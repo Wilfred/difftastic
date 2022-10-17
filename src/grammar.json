@@ -7137,7 +7137,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_statement"
+          "name": "_declaration_or_statement"
         }
       ]
     },
