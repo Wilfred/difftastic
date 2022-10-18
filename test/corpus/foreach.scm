@@ -21,7 +21,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Simple foreach reverse
@@ -46,7 +47,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Typed foreach
@@ -73,7 +75,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Multiple value foreach
@@ -104,7 +107,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Range foreach
@@ -131,7 +135,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Range foreach typed
@@ -160,7 +165,8 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Range foreach numbers
@@ -189,7 +195,8 @@ void f() {
             (int_literal))
           (expression
             (int_literal))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Foreach scope
@@ -223,4 +230,5 @@ void f() {
             (identifier))
           (expression
             (identifier))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))

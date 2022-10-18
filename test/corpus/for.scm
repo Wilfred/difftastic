@@ -17,7 +17,8 @@ void f() {
       (block_statement
         (for_statement
           (for)
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 Empty for loop no step
@@ -38,7 +39,8 @@ void f() {
       (block_statement
         (for_statement
           (for)
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop init only
@@ -64,7 +66,8 @@ void f() {
               (assignment_expression
                 (identifier)
                 (int_literal))))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop init declaration
@@ -91,7 +94,8 @@ void f() {
             (declarator
               (identifier)
               (int_literal)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop no step
@@ -122,7 +126,8 @@ void f() {
               (rel_expression
                 (identifier)
                 (int_literal))))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop no test
@@ -151,7 +156,8 @@ void f() {
           (expression_list
             (postfix_expression
               (identifier)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop no init
@@ -177,7 +183,8 @@ void f() {
           (expression_list
             (postfix_expression
               (identifier)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop step only
@@ -201,7 +208,8 @@ void f() {
           (expression_list
             (postfix_expression
               (identifier)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop test only
@@ -227,7 +235,8 @@ void f() {
               (equal_expression
                 (identifier)
                 (int_literal))))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop test only 2 clause
@@ -253,7 +262,8 @@ void f() {
               (equal_expression
                 (identifier)
                 (int_literal))))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop 3 clause
@@ -288,7 +298,8 @@ void f() {
           (expression_list
             (postfix_expression
               (identifier)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))
 
 ================================================================================
 For loop comma expressions
@@ -325,4 +336,5 @@ void f() {
               (identifier))
             (unary_expression
               (identifier)))
-          (block_statement))))))
+          (scope_statement
+            (block_statement)))))))

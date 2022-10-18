@@ -20,17 +20,18 @@ unittest {
         (switch)
         (expression
           (identifier))
-        (block_statement
-          (case_statement
-            (case)
-            (expression_list
-              (char_literal))
-            (break_statement
-              (break)))
-          (case_statement
-            (default)
-            (break_statement
-              (break))))))))
+        (scope_statement
+          (block_statement
+            (case_statement
+              (case)
+              (expression_list
+                (char_literal))
+              (break_statement
+                (break)))
+            (case_statement
+              (default)
+              (break_statement
+                (break)))))))))
 
 ================================================================================
 Case range statement
@@ -54,20 +55,21 @@ unittest {
         (switch)
         (expression
           (identifier))
-        (block_statement
-          (case_statement
-            (case)
-            (expression
-              (char_literal))
-            (case)
-            (expression
-              (char_literal))
-            (break_statement
-              (break)))
-          (case_statement
-            (default)
-            (break_statement
-              (break))))))))
+        (scope_statement
+          (block_statement
+            (case_statement
+              (case)
+              (expression
+                (char_literal))
+              (case)
+              (expression
+                (char_literal))
+              (break_statement
+                (break)))
+            (case_statement
+              (default)
+              (break_statement
+                (break)))))))))
 
 ================================================================================
 Case statement multiple args
@@ -89,15 +91,16 @@ unittest {
         (switch)
         (expression
           (identifier))
-        (block_statement
-          (case_statement
-            (case)
-            (expression_list
-              (char_literal)
-              (char_literal)
-              (char_literal))
-            (break_statement
-              (break))))))))
+        (scope_statement
+          (block_statement
+            (case_statement
+              (case)
+              (expression_list
+                (char_literal)
+                (char_literal)
+                (char_literal))
+              (break_statement
+                (break)))))))))
 
 ================================================================================
 Switch statement with declaration
@@ -119,9 +122,10 @@ int f() {
           (switch)
           (expression
             (identifier))
-          (variable_declaration
-            (type
-              (int))
-            (declarator
-              (identifier)
-              (int_literal))))))))
+          (scope_statement
+            (variable_declaration
+              (type
+                (int))
+              (declarator
+                (identifier)
+                (int_literal)))))))))

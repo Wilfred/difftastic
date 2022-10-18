@@ -43,6 +43,9 @@ module.exports = grammar({
     $._declarator_identifier_list,
     $._non_void_initializer,
     $._parameter,
+    $.body,
+    $.consequence,
+    $.alternative,
   ],
 
   precedences: (_$) => [
@@ -1250,6 +1253,11 @@ module.exports = grammar({
 
     _declaration_or_statement: ($) => choice($._declaration, $._statement),
 
+    scope_statement: ($) => $._declaration_or_statement,
+    body: ($) => field("body", $.scope_statement),
+    consequence: ($) => field("consequence", $.scope_statement),
+    alternative: ($) => field("alternative", $.scope_statement),
+
     _statement_no_case_no_default: ($) =>
       choice(
         $.labeled_statement,
@@ -1279,8 +1287,7 @@ module.exports = grammar({
         $.debug_specification
       ),
 
-    labeled_statement: ($) =>
-      prec.left(seq($.label, $._declaration_or_statement)),
+    labeled_statement: ($) => prec.left(seq($.label, $.body)),
 
     // a label can appear at the end of the a scope, otherwise  it must be followed by a decl or statement.
     label: ($) => seq($.identifier, ":"),
@@ -1299,41 +1306,29 @@ module.exports = grammar({
       prec.right(
         seq(
           $.if,
-          "(",
-          field("condition", $._if_condition),
-          ")",
-          field("then", $._declaration_or_statement),
-          optional(seq($.else, field("else", $._declaration_or_statement)))
+          $.if_condition,
+          $.consequence,
+          optional(seq($.else, $.alternative))
         )
       ),
 
-    _if_condition: ($) =>
-      choice(
-        $._expr,
-        seq($.auto, $.identifier, "=", $.expression),
-        seq($.scope, $.identifier, "=", $.expression),
-        seq(repeat1($.type_ctor), $.identifier, "=", $.expression),
-        seq($.type, $.identifier, "=", $.expression) // type constructors already bound to type
-      ),
-
-    while_statement: ($) =>
+    if_condition: ($) =>
       seq(
-        $.while,
         "(",
-        field("condition", $._if_condition),
-        ")",
-        field("do", $._declaration_or_statement)
-      ),
-
-    do_statement: ($) =>
-      seq(
-        $.do,
-        field("do", $._declaration_or_statement),
-        $.while,
-        "(",
-        field("condition", $.expression),
+        choice(
+          $._expr,
+          seq($.auto, $.identifier, "=", $.expression),
+          seq($.scope, $.identifier, "=", $.expression),
+          seq(repeat1($.type_ctor), $.identifier, "=", $.expression),
+          seq($.type, $.identifier, "=", $.expression) // type constructors already bound to type
+        ),
         ")"
       ),
+
+    while_statement: ($) => seq($.while, $.if_condition, $.body),
+
+    do_statement: ($) =>
+      seq($.do, $.body, $.while, "(", field("condition", $.expression), ")"),
 
     //
     // For Statement
@@ -1346,7 +1341,7 @@ module.exports = grammar({
         optional($._for2),
         optional(seq(";", optional($._for3))),
         ")",
-        $._declaration_or_statement
+        $.body
       ),
 
     _for1: ($) =>
@@ -1373,7 +1368,7 @@ module.exports = grammar({
           ";",
           $.expression,
           ")",
-          $._declaration_or_statement
+          $.body
         ),
         seq(
           $._foreach,
@@ -1384,7 +1379,7 @@ module.exports = grammar({
           "..",
           $.expression,
           ")",
-          $._declaration_or_statement
+          $.body
         )
       ),
 
@@ -1399,8 +1394,7 @@ module.exports = grammar({
     // Switch Statement
     //
 
-    switch_statement: ($) =>
-      seq($.switch, "(", $.expression, ")", $._declaration_or_statement),
+    switch_statement: ($) => seq($.switch, "(", $.expression, ")", $.body),
 
     case_statement: ($) =>
       prec.right(
@@ -1447,14 +1441,14 @@ module.exports = grammar({
       ),
 
     with_statement: ($) =>
-      seq($.with, "(", $.expression, ")", $._declaration_or_statement),
+      seq($.with, "(", $.expression, ")", $.scope_statement),
 
     synchronized_statement: ($) =>
       prec.left(
         seq(
           $.synchronized,
           optional(seq("(", $.expression, ")")),
-          $._declaration_or_statement
+          $.scope_statement
         )
       ),
 
@@ -1465,32 +1459,22 @@ module.exports = grammar({
       prec.right(
         seq(
           $.try,
-          $._declaration_or_statement,
+          $.body,
           repeat($.catch_statement),
           optional($.finally_statement)
         )
       ),
 
     catch_statement: ($) =>
-      seq(
-        $.catch,
-        seq("(", $.type, optional($.identifier), ")"),
-        $._declaration_or_statement
-      ),
+      seq($.catch, seq("(", $.type, optional($.identifier), ")"), $.body),
 
-    finally_statement: ($) => seq($.finally, $._declaration_or_statement),
+    finally_statement: ($) => seq($.finally, $.body),
 
     //
     // Scope Guard Statement
     //
     scope_guard_statement: ($) =>
-      seq(
-        $.scope,
-        "(",
-        choice("exit", "success", "failure"),
-        ")",
-        $._declaration_or_statement
-      ),
+      seq($.scope, "(", choice("exit", "success", "failure"), ")", $.body),
 
     //
     // Asm Statement
@@ -2158,11 +2142,7 @@ module.exports = grammar({
 
     conditional_statement: ($) =>
       prec.right(
-        seq(
-          $.condition,
-          $._declaration_or_statement,
-          optional(seq($.else, $._declaration_or_statement))
-        )
+        seq($.condition, $.consequence, optional(seq($.else, $.alternative)))
       ),
 
     condition: ($) =>

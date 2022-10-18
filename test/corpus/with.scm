@@ -12,10 +12,11 @@ unittest { with (x) x++; }
         (with)
         (expression
           (identifier))
-        (expression_statement
-          (expression_list
-            (postfix_expression
-              (identifier))))))))
+        (scope_statement
+          (expression_statement
+            (expression_list
+              (postfix_expression
+                (identifier)))))))))
 
 ================================================================================
 With statment declaration
@@ -31,9 +32,10 @@ unittest { with (x) int y = 0; }
         (with)
         (expression
           (identifier))
-        (variable_declaration
-          (type
-            (int))
-          (declarator
-            (identifier)
-            (int_literal)))))))
+        (scope_statement
+          (variable_declaration
+            (type
+              (int))
+            (declarator
+              (identifier)
+              (int_literal))))))))
