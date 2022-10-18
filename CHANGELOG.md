@@ -2,6 +2,10 @@
 
 ### Parsing
 
+Difftastic now supports embedded languages in HTML and Makefiles. This
+enables difftastic to parse embedded CSS or JavaScript in HTML, or
+Bash in Makefiles, leading to better diffs in those files.
+
 Tab replacement is now done after parsing. If tab characters are
 syntactically important, they are now handled correctly. This was
 particularly an issue in Makefiles, where indentation must be tabs.

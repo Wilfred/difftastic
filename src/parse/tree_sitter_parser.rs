@@ -1,5 +1,6 @@
 //! Load and configure parsers written with tree-sitter.
 
+use std::collections::HashMap;
 use std::collections::HashSet;
 
 use crate::parse::guess_language as guess;
@@ -10,6 +11,21 @@ use crate::{
     lines::NewlinePositions,
     parse::syntax::{AtomKind, Syntax},
 };
+
+/// A language may contain certain nodes that are in other languages
+/// and should be parsed as such (e.g. HTML <script> nodes containing
+/// JavaScript). This contains how to identify such nodes, and what
+/// languages we should parse them as.
+///
+/// Note that we don't support sub-languages more than one layer deep.
+pub struct TreeSitterSubLanguage {
+    /// How to identify a node. The query must contain exactly one
+    /// capture group (the name is arbitrary).
+    query: ts::Query,
+
+    /// What language parser to use (refers in turn to a TreeSitterConfig).
+    parse_as: guess::Language,
+}
 
 /// Configuration for a tree-sitter parser.
 pub struct TreeSitterConfig {
@@ -37,6 +53,9 @@ pub struct TreeSitterConfig {
     /// Tree-sitter query used for syntax highlighting this
     /// language.
     highlight_query: ts::Query,
+
+    /// Sub-languages in use, if any.
+    sub_languages: Vec<TreeSitterSubLanguage>,
 }
 
 extern "C" {
@@ -115,6 +134,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/bash.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         C => {
@@ -128,6 +148,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/c.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         CPlusPlus => {
@@ -146,6 +167,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Clojure => {
@@ -161,6 +183,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/clojure.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         CMake => {
@@ -174,6 +197,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/cmake.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         CommonLisp => {
@@ -183,6 +207,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: vec!["str_lit", "char_lit"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
                 highlight_query: ts::Query::new(language, "").unwrap(),
+                sub_languages: vec![],
             }
         }
         CSharp => {
@@ -202,6 +227,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/c-sharp.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Css => {
@@ -215,6 +241,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/css.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Dart => {
@@ -228,6 +255,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/dart.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         EmacsLisp => {
@@ -243,6 +271,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elisp.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Elixir => {
@@ -258,6 +287,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elixir.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Elm => {
@@ -271,6 +301,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elm.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Elvish => {
@@ -284,6 +315,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elvish.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Erlang => {
@@ -297,6 +329,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/erlang.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Gleam => {
@@ -310,6 +343,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/gleam.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Go => {
@@ -327,6 +361,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/go.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Hack => {
@@ -340,6 +375,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hack.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Hare => {
@@ -355,6 +391,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hare.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Haskell => {
@@ -368,6 +405,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/haskell.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Hcl => {
@@ -388,6 +426,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hcl.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Html => {
@@ -411,6 +450,18 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/html.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![
+                    TreeSitterSubLanguage {
+                        query: ts::Query::new(language, "(style_element (raw_text) @contents)")
+                            .unwrap(),
+                        parse_as: Css,
+                    },
+                    TreeSitterSubLanguage {
+                        query: ts::Query::new(language, "(script_element (raw_text) @contents)")
+                            .unwrap(),
+                        parse_as: JavaScript,
+                    },
+                ],
             }
         }
         Janet => {
@@ -433,6 +484,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/janet_simple.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Java => {
@@ -446,6 +498,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/java.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         JavaScript | Jsx => {
@@ -469,6 +522,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/javascript.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Json => {
@@ -482,6 +536,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/json.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Julia => {
@@ -502,6 +557,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/julia.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Kotlin => {
@@ -519,6 +575,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/kotlin.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Lua => {
@@ -534,6 +591,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/lua.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Make => {
@@ -547,6 +605,11 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/make.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![TreeSitterSubLanguage {
+                    query: ts::Query::new(language, "(shell_function (shell_command) @contents)")
+                        .unwrap(),
+                    parse_as: Bash,
+                }],
             }
         }
         Nix => {
@@ -562,6 +625,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/nix.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         OCaml => {
@@ -575,6 +639,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ocaml.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         OCamlInterface => {
@@ -588,6 +653,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ocaml.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Pascal => {
@@ -601,6 +667,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/pascal.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Perl => {
@@ -625,6 +692,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/perl.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Php => {
@@ -638,6 +706,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/php.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Python => {
@@ -651,6 +720,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/python.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Qml => {
@@ -670,6 +740,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Ruby => {
@@ -693,6 +764,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ruby.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Rust => {
@@ -706,6 +778,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/rust.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Scala => {
@@ -719,6 +792,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/scala.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Sql => {
@@ -732,6 +806,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/sql.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Swift => {
@@ -745,6 +820,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/swift.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Toml => {
@@ -758,6 +834,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/toml.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Tsx => {
@@ -774,6 +851,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         TypeScript => {
@@ -792,6 +870,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Yaml => {
@@ -812,6 +891,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/yaml.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
         Zig => {
@@ -829,6 +909,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/zig.scm"),
                 )
                 .unwrap(),
+                sub_languages: vec![],
             }
         }
     }
@@ -842,6 +923,43 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree 
         .expect("Incompatible tree-sitter version");
 
     parser.parse(src, None).unwrap()
+}
+
+/// Find any nodes that can be parsed as other languages (e.g. JavaScript embedded in HTML),
+/// and return a map of their node IDs mapped to parsed trees. Every time we see such a node,
+/// we will ignore it and recurse into the root node of the given tree instead.
+pub fn parse_subtrees(
+    src: &str,
+    config: &TreeSitterConfig,
+    tree: &tree_sitter::Tree,
+) -> HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)> {
+    let mut subtrees = HashMap::new();
+
+    for language in &config.sub_languages {
+        let mut query_cursor = tree_sitter::QueryCursor::new();
+        for m in query_cursor.matches(&language.query, tree.root_node(), src.as_bytes()) {
+            let node = m.nodes_for_capture_index(0).next().unwrap();
+            if node.byte_range().is_empty() {
+                continue;
+            }
+
+            let subconfig = from_language(language.parse_as);
+            let mut parser = ts::Parser::new();
+            parser
+                .set_language(subconfig.language)
+                .expect("Incompatible tree-sitter version");
+            parser
+                .set_included_ranges(&[node.range()])
+                .expect("Incompatible tree-sitter version");
+
+            let tree = parser.parse(src, None).unwrap();
+            let sub_highlights = tree_highlights(&tree, src, &subconfig);
+
+            subtrees.insert(node.id(), (tree, sub_highlights));
+        }
+    }
+
+    subtrees
 }
 
 /// Calculate which tree-sitter node IDs should have which syntax
@@ -984,6 +1102,10 @@ pub fn parse<'a>(
     let tree = parse_to_tree(src, config);
     let highlights = tree_highlights(&tree, src, config);
 
+    // Parse sub-languages, if any, which will be used both for
+    // highlighting and for more precise Syntax nodes where applicable.
+    let subtrees = parse_subtrees(src, config, &tree);
+
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
 
@@ -991,7 +1113,15 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &highlights)
+    all_syntaxes_from_cursor(
+        arena,
+        src,
+        &nl_pos,
+        &mut cursor,
+        config,
+        &highlights,
+        &subtrees,
+    )
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
@@ -1060,12 +1190,13 @@ fn all_syntaxes_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
     loop {
         result.extend(syntax_from_cursor(
-            arena, src, nl_pos, cursor, config, highlights,
+            arena, src, nl_pos, cursor, config, highlights, subtrees,
         ));
 
         if !cursor.goto_next_sibling() {
@@ -1085,8 +1216,23 @@ fn syntax_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
+
+    // See if we should go into a sub-document instead (e.g. embedded JavaScript in HTML).
+    if let Some((subtree, subhighlights)) = subtrees.get(&node.id()) {
+        let mut sub_cursor = subtree.walk();
+        return syntax_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            &mut sub_cursor,
+            config,
+            subhighlights,
+            &HashMap::new(),
+        );
+    }
 
     if node.is_error() {
         let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
@@ -1105,7 +1251,7 @@ fn syntax_from_cursor<'a>(
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
     } else if node.child_count() > 0 {
         Some(list_from_cursor(
-            arena, src, nl_pos, cursor, config, highlights,
+            arena, src, nl_pos, cursor, config, highlights, subtrees,
         ))
     } else {
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
@@ -1121,6 +1267,7 @@ fn list_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 
@@ -1164,21 +1311,21 @@ fn list_from_cursor<'a>(
         let node = cursor.node();
         if node_i < i {
             before_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights,
+                arena, src, nl_pos, cursor, config, highlights, subtrees,
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i < j {
             between_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights,
+                arena, src, nl_pos, cursor, config, highlights, subtrees,
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i > j {
             after_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights,
+                arena, src, nl_pos, cursor, config, highlights, subtrees,
             ));
         }
 
@@ -1298,5 +1445,46 @@ mod tests {
 
         let expected: Vec<&Syntax> = vec![];
         assert_eq!(res, expected);
+    }
+
+    /// Test that HTML with CSS inside it is parsed as such, instead of
+    /// being left as a single atom.
+    #[test]
+    fn test_subtrees() {
+        let arena = Arena::new();
+        let config = from_language(guess::Language::Html);
+        let res = parse(&arena, "<style>.a { color: red; }</style>", &config);
+
+        match res[0] {
+            Syntax::List {
+                info: _,
+                open_position: _,
+                open_content: _,
+                children,
+                close_position: _,
+                close_content: _,
+                num_descendants: _,
+            } => {
+                // <style>, content, </style>.
+                assert_eq!(children.len(), 3);
+                match children[1] {
+                    Syntax::Atom {
+                        info: _,
+                        position: _,
+                        content: _,
+                        kind: _,
+                    } => {
+                        panic!("Style contents is parsed as a single atom");
+                    }
+                    _ => {
+                        // A list is what we want; it shows that the CSS was parsed
+                        // into multiple tokens, so we do not check it further.
+                    }
+                }
+            }
+            _ => {
+                panic!("Top level isn't a list");
+            }
+        };
     }
 }
