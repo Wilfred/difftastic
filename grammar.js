@@ -42,7 +42,6 @@ module.exports = grammar({
     $._template_type_parameter,
     $._declarator_identifier_list,
     $._non_void_initializer,
-    $._parameter_with_member_attributes,
     $._parameter,
   ],
 
