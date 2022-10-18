@@ -6278,7 +6278,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_parameters"
+          "name": "parameters"
         },
         {
           "type": "REPEAT",
@@ -12151,8 +12151,7 @@
     "_type_specialization",
     "_parameter_with_attributes",
     "_parameter_with_member_attributes",
-    "_parameter",
-    "_parameters"
+    "_parameter"
   ],
   "supertypes": []
 }

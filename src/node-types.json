@@ -7807,6 +7807,10 @@
           "named": true
         },
         {
+          "type": "parameters",
+          "named": true
+        },
+        {
           "type": "postfix_expression",
           "named": true
         },

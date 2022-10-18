@@ -50,7 +50,6 @@ module.exports = grammar({
     $._parameter_with_attributes,
     $._parameter_with_member_attributes,
     $._parameter,
-    $._parameters,
   ],
 
   precedences: (_$) => [
@@ -1236,7 +1235,7 @@ module.exports = grammar({
       ),
 
     _parameter_with_attributes: ($) =>
-      seq($._parameters, repeat($._function_attribute)),
+      seq($.parameters, repeat($._function_attribute)),
 
     _parameter_with_member_attributes: ($) =>
       seq($._parameters, repeat($.member_function_attribute)),
