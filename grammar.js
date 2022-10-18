@@ -1387,10 +1387,12 @@ module.exports = grammar({
     // Foreach Statement
     //
 
+    _foreach: ($) => choice($.foreach, $.foreach_reverse),
+
     foreach_statement: ($) =>
       choice(
         seq(
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           commaSep1($.foreach_type),
           ";",
@@ -1399,7 +1401,7 @@ module.exports = grammar({
           $._declaration_or_statement
         ),
         seq(
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           $.foreach_type,
           ";",
@@ -2264,7 +2266,7 @@ module.exports = grammar({
       choice(
         seq(
           $.static,
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           commaSep1($.foreach_type),
           ";",
@@ -2276,7 +2278,7 @@ module.exports = grammar({
         ),
         seq(
           $.static,
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           commaSep1($.foreach_type),
           ";",
@@ -2286,7 +2288,7 @@ module.exports = grammar({
         ),
         seq(
           $.static,
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           $.foreach_type,
           ";",
@@ -2300,7 +2302,7 @@ module.exports = grammar({
         ),
         seq(
           $.static,
-          choice($.foreach, $.foreach_reverse),
+          $._foreach,
           "(",
           $.foreach_type,
           ";",

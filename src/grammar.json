@@ -6927,6 +6927,19 @@
         "name": "expression_list"
       }
     },
+    "_foreach": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "foreach"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_reverse"
+        }
+      ]
+    },
     "foreach_statement": {
       "type": "CHOICE",
       "members": [
@@ -6934,17 +6947,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
@@ -6997,17 +7001,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
@@ -11430,17 +11425,8 @@
               "name": "static"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
@@ -11508,17 +11494,8 @@
               "name": "static"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
@@ -11575,17 +11552,8 @@
               "name": "static"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
@@ -11640,17 +11608,8 @@
               "name": "static"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "foreach_reverse"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_foreach"
             },
             {
               "type": "STRING",
