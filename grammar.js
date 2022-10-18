@@ -486,7 +486,7 @@ module.exports = grammar({
     _declarator_identifier_list: ($) => prec.right(commaSep1($.identifier)),
 
     declarator: ($) =>
-      prec.left(
+      prec.right(
         seq(
           $.identifier,
           optional(seq(optional($.template_parameters), "=", $._initializer))
@@ -494,15 +494,13 @@ module.exports = grammar({
       ),
 
     manifest_constant: ($) =>
-      prec.left(
-        seq(
-          repeat($.storage_class),
-          $.enum,
-          repeat($.storage_class),
-          optional($.type),
-          commaSep1($._manifest_declarator),
-          ";"
-        )
+      seq(
+        repeat($.storage_class),
+        $.enum,
+        repeat($.storage_class),
+        optional($.type),
+        commaSep1($._manifest_declarator),
+        ";"
       ),
 
     _manifest_declarator: ($) =>
@@ -826,7 +824,7 @@ module.exports = grammar({
         )
       ),
 
-    _argument_list: ($) => prec.left(commaSep1Comma(prec.left($._expr))),
+    _argument_list: ($) => prec.right(commaSep1Comma($._expr)),
 
     arguments: ($) => seq("(", optional($._argument_list), ")"),
 
@@ -834,12 +832,10 @@ module.exports = grammar({
     // 3.6 PRAGMAS
     //
     pragma_declaration: ($) =>
-      prec.left(
-        choice(
-          seq($.pragma_expression, ";"),
-          seq($.pragma_expression, $._declaration),
-          seq($.pragma_expression, "{", repeat($._declaration), "}")
-        )
+      choice(
+        seq($.pragma_expression, ";"),
+        seq($.pragma_expression, $._declaration),
+        seq($.pragma_expression, "{", repeat($._declaration), "}")
       ),
 
     pragma_statement: ($) =>
@@ -940,11 +936,9 @@ module.exports = grammar({
     // also covers slicing (we renamed from slice,
     // and deleted the old index expression as it was redundant)
     index_expression: ($) =>
-      prec.left(
-        choice(
-          seq($._unary_expr, "[", "]"),
-          seq($._unary_expr, "[", commaSep1Comma($.index), "]")
-        )
+      choice(
+        seq($._unary_expr, "[", "]"),
+        seq($._unary_expr, "[", commaSep1Comma($.index), "]")
       ),
 
     index: ($) => seq($.expression, optional(seq("..", $.expression))),
@@ -1055,7 +1049,6 @@ module.exports = grammar({
         $.throw_expression,
         $.call_expression,
         $.index_expression,
-        //'(' type, ')'
         $.postfix_expression,
         $.property_expression
       ),
