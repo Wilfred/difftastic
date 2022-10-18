@@ -33,7 +33,6 @@ module.exports = grammar({
 
   inline: ($) => [
     $._identifier_or_template_instance,
-    $._identifier_or_template_chain,
     $._for1,
     $._for2,
     $._for3,
@@ -44,7 +43,6 @@ module.exports = grammar({
     $._template_type_parameter,
     $._template_parameter_list,
     $._array_member_init,
-    $._mixin_template_name,
     $._declarator_identifier_list,
     $._missing_function_body,
     $._non_void_initializer,
@@ -733,12 +731,6 @@ module.exports = grammar({
         )
       ),
 
-    _identifier_or_template_chain: ($) =>
-      seq(
-        $._identifier_or_template_instance,
-        repeat(seq(".", $._identifier_or_template_instance))
-      ),
-
     //
     // Typeof
     //
@@ -1104,11 +1096,14 @@ module.exports = grammar({
     //
     // Assert expression.
     //
-    assert_expression: ($) =>
-      seq($.assert, "(", $.assert_arguments, ")"),
+    assert_expression: ($) => seq($.assert, "(", $.assert_arguments, ")"),
 
     assert_arguments: ($) =>
-        seq($.expression, optional(seq(",", commaSep1($.expression))), optional(",")),
+      seq(
+        $.expression,
+        optional(seq(",", commaSep1($.expression))),
+        optional(",")
+      ),
 
     //
     // Mixin expression.  The result may be an lvalue.
@@ -2164,16 +2159,11 @@ module.exports = grammar({
     template_mixin: ($) =>
       seq(
         $.mixin,
-        $._mixin_template_name,
+        optional(seq(optional($.typeof_expression), ".")),
+        sep1($._identifier_or_template_instance, "."),
         optional($.template_arguments),
         optional($.identifier),
         ";"
-      ),
-
-    _mixin_template_name: ($) =>
-      choice(
-        seq($.typeof_expression, ".", $._identifier_or_template_chain),
-        seq(optional("."), $._identifier_or_template_chain)
       ),
 
     /**************************************************
@@ -2443,6 +2433,10 @@ function commaSep1Comma(rule) {
 
 function commaSep(rule) {
   return optional(commaSep1(rule));
+}
+
+function sep1(rule, delim) {
+  return seq(rule, repeat(seq(delim, rule)));
 }
 
 function binaryOp(left, op, right) {

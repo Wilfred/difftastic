@@ -3176,31 +3176,6 @@
         ]
       }
     },
-    "_identifier_or_template_chain": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_identifier_or_template_instance"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_identifier_or_template_instance"
-              }
-            ]
-          }
-        }
-      ]
-    },
     "typeof_expression": {
       "type": "SEQ",
       "members": [
@@ -10858,8 +10833,58 @@
           "name": "mixin"
         },
         {
-          "type": "SYMBOL",
-          "name": "_mixin_template_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "typeof_expression"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_identifier_or_template_instance"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_identifier_or_template_instance"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -10888,49 +10913,6 @@
         {
           "type": "STRING",
           "value": ";"
-        }
-      ]
-    },
-    "_mixin_template_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "typeof_expression"
-            },
-            {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_identifier_or_template_chain"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "."
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_identifier_or_template_chain"
-            }
-          ]
         }
       ]
     },
@@ -11881,10 +11863,6 @@
       "in_statement"
     ],
     [
-      "expression_list",
-      "assert_arguments"
-    ],
-    [
       "_statement_no_case_no_default",
       "_specified_function_body"
     ],
@@ -12218,7 +12196,6 @@
   ],
   "inline": [
     "_identifier_or_template_instance",
-    "_identifier_or_template_chain",
     "_for1",
     "_for2",
     "_for3",
@@ -12229,7 +12206,7 @@
     "_template_type_parameter",
     "_template_parameter_list",
     "_array_member_init",
-    "_mixin_template_name",
+    "ReferenceError",
     "_declarator_identifier_list",
     "_missing_function_body",
     "_non_void_initializer",
