@@ -455,10 +455,6 @@ module.exports = grammar({
           $.mixin_declaration,
           $.mixin_template_declaration,
           $.pragma_declaration,
-          $.shared_static_constructor,
-          $.shared_static_destructor,
-          $.static_constructor,
-          $.static_destructor,
           $.struct_declaration,
           $.template_declaration,
           $.template_mixin,
@@ -1679,55 +1675,21 @@ module.exports = grammar({
           repeat($.member_function_attribute),
           optional($.constraint),
           $.function_body
+        ),
+        seq(
+          optional($.shared),
+          $.static,
+          $.this,
+          "(",
+          ")",
+          repeat($.member_function_attribute),
+          $.function_body
         )
-      ),
-
-    static_constructor: ($) =>
-      seq(
-        $.static,
-        $.this,
-        "(",
-        ")",
-        repeat($.member_function_attribute),
-        $.function_body
-      ),
-
-    shared_static_constructor: ($) =>
-      seq(
-        $.shared,
-        $.static,
-        $.this,
-        "(",
-        ")",
-        repeat($.member_function_attribute),
-        $.function_body
       ),
 
     destructor: ($) =>
       seq(
-        "~",
-        $.this,
-        "(",
-        ")",
-        repeat($.member_function_attribute),
-        $.function_body
-      ),
-
-    static_destructor: ($) =>
-      seq(
-        $.static,
-        "~",
-        $.this,
-        "(",
-        ")",
-        repeat($.member_function_attribute),
-        $.function_body
-      ),
-
-    shared_static_destructor: ($) =>
-      seq(
-        $.shared,
-        $.static,
+        optional(seq(optional($.shared), $.static)),
         "~",
         $.this,
         "(",
@@ -2352,8 +2314,7 @@ module.exports = grammar({
     [$._declaration_or_statement, $.conditional_declaration],
     [$.storage_class, $.type],
     [$._attribute, $.type],
-    [$.type_ctor, $.shared_static_constructor, $.shared_static_destructor],
-    [$.type_ctor, $.static_constructor, $.static_destructor],
+    [$.type_ctor, $.constructor, $.destructor],
     [$.arguments, $.parameters],
     [$.array_literal, $.index_expression],
     [$.manifest_constant, $.enum_declaration, $.function_declaration],

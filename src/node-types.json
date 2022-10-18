@@ -350,27 +350,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -2485,27 +2469,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -3090,14 +3058,6 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "special_keyword",
           "named": true
         },
@@ -3107,14 +3067,6 @@
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -3802,27 +3754,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -4143,27 +4079,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -4466,27 +4386,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -4597,6 +4501,14 @@
         },
         {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "shared",
+          "named": true
+        },
+        {
+          "type": "static",
           "named": true
         },
         {
@@ -5017,6 +4929,14 @@
           "named": true
         },
         {
+          "type": "shared",
+          "named": true
+        },
+        {
+          "type": "static",
+          "named": true
+        },
+        {
           "type": "this",
           "named": true
         }
@@ -5294,27 +5214,11 @@
             "named": true
           },
           {
-            "type": "shared_static_constructor",
-            "named": true
-          },
-          {
-            "type": "shared_static_destructor",
-            "named": true
-          },
-          {
             "type": "static",
             "named": true
           },
           {
             "type": "static_assert",
-            "named": true
-          },
-          {
-            "type": "static_constructor",
-            "named": true
-          },
-          {
-            "type": "static_destructor",
             "named": true
           },
           {
@@ -6358,27 +6262,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -6609,23 +6497,7 @@
             "named": true
           },
           {
-            "type": "shared_static_constructor",
-            "named": true
-          },
-          {
-            "type": "shared_static_destructor",
-            "named": true
-          },
-          {
             "type": "static_assert",
-            "named": true
-          },
-          {
-            "type": "static_constructor",
-            "named": true
-          },
-          {
-            "type": "static_destructor",
             "named": true
           },
           {
@@ -6956,27 +6828,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -7311,27 +7167,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -8522,27 +8362,11 @@
             "named": true
           },
           {
-            "type": "shared_static_constructor",
-            "named": true
-          },
-          {
-            "type": "shared_static_destructor",
-            "named": true
-          },
-          {
             "type": "static",
             "named": true
           },
           {
             "type": "static_assert",
-            "named": true
-          },
-          {
-            "type": "static_constructor",
-            "named": true
-          },
-          {
-            "type": "static_destructor",
             "named": true
           },
           {
@@ -8876,27 +8700,11 @@
             "named": true
           },
           {
-            "type": "shared_static_constructor",
-            "named": true
-          },
-          {
-            "type": "shared_static_destructor",
-            "named": true
-          },
-          {
             "type": "static",
             "named": true
           },
           {
             "type": "static_assert",
-            "named": true
-          },
-          {
-            "type": "static_constructor",
-            "named": true
-          },
-          {
-            "type": "static_destructor",
             "named": true
           },
           {
@@ -10100,27 +9908,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -11323,27 +11115,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -12714,27 +12490,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -13770,27 +13530,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -13855,68 +13599,6 @@
         },
         {
           "type": "with_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "shared_static_constructor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "member_function_attribute",
-          "named": true
-        },
-        {
-          "type": "shared",
-          "named": true
-        },
-        {
-          "type": "static",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "shared_static_destructor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "member_function_attribute",
-          "named": true
-        },
-        {
-          "type": "shared",
-          "named": true
-        },
-        {
-          "type": "static",
-          "named": true
-        },
-        {
-          "type": "this",
           "named": true
         }
       ]
@@ -14277,14 +13959,6 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "shebang",
           "named": true
         },
@@ -14294,14 +13968,6 @@
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -14366,60 +14032,6 @@
         },
         {
           "type": "static",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "static_constructor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "member_function_attribute",
-          "named": true
-        },
-        {
-          "type": "static",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "static_destructor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "member_function_attribute",
-          "named": true
-        },
-        {
-          "type": "static",
-          "named": true
-        },
-        {
-          "type": "this",
           "named": true
         }
       ]
@@ -14622,27 +14234,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -15108,27 +14704,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -15455,27 +15035,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -16040,27 +15604,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -17112,27 +16660,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {
@@ -18240,27 +17772,11 @@
             "named": true
           },
           {
-            "type": "shared_static_constructor",
-            "named": true
-          },
-          {
-            "type": "shared_static_destructor",
-            "named": true
-          },
-          {
             "type": "static",
             "named": true
           },
           {
             "type": "static_assert",
-            "named": true
-          },
-          {
-            "type": "static_constructor",
-            "named": true
-          },
-          {
-            "type": "static_destructor",
             "named": true
           },
           {
@@ -18602,27 +18118,11 @@
           "named": true
         },
         {
-          "type": "shared_static_constructor",
-          "named": true
-        },
-        {
-          "type": "shared_static_destructor",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
         {
           "type": "static_assert",
-          "named": true
-        },
-        {
-          "type": "static_constructor",
-          "named": true
-        },
-        {
-          "type": "static_destructor",
           "named": true
         },
         {

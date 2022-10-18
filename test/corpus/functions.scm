@@ -287,9 +287,11 @@ alias h = delegate auto ref (int x) { return x; };
       (function)
       (auto)
       (ref)
-      (type
-        (int))
-      (identifier)
+      (parameters
+        (parameter
+          (type
+            (int))
+          (identifier)))
       (block_statement
         (return_statement
           (return)
