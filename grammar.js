@@ -44,7 +44,6 @@ module.exports = grammar({
     $._template_parameter_list,
     $._array_member_init,
     $._declarator_identifier_list,
-    $._missing_function_body,
     $._non_void_initializer,
     $._type_specialization,
     $._parameter_with_attributes,
@@ -1988,22 +1987,14 @@ module.exports = grammar({
     //
     function_body: ($) =>
       choice(
-        $._specified_function_body,
-        $._missing_function_body,
-        $._shortened_function_body
+        seq(optional($._in_out_contract_expressions), "=>", $._expr, ";"),
+        seq(repeat($._function_contract), optional($.do), $.block_statement),
+        seq(repeat($._function_contract), ";"),
+        seq(repeat($._function_contract), $._in_out_statement)
       ),
 
     _specified_function_body: ($) =>
       seq(repeat($._function_contract), optional($.do), $.block_statement),
-
-    _shortened_function_body: ($) =>
-      seq(optional($._in_out_contract_expressions), "=>", $._expr, ";"),
-
-    _missing_function_body: ($) =>
-      choice(
-        seq(repeat($._function_contract), ";"),
-        seq(repeat($._function_contract), $._in_out_statement)
-      ),
 
     //
     // Function Contracts
@@ -2412,7 +2403,6 @@ module.exports = grammar({
     [$.storage_class, $.function_literal, $._attribute],
     [$.storage_class, $.synchronized_statement, $._attribute],
     [$.storage_class, $._type2],
-    [$._shortened_function_body, $._function_contract],
   ],
 });
 
