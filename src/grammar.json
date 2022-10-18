@@ -5655,7 +5655,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_type_specialization"
+                    "name": "type_specialization"
                   },
                   {
                     "type": "CHOICE",
@@ -5692,7 +5692,7 @@
         ]
       }
     },
-    "_type_specialization": {
+    "type_specialization": {
       "type": "CHOICE",
       "members": [
         {
@@ -12062,7 +12062,6 @@
     "_array_member_init",
     "_declarator_identifier_list",
     "_non_void_initializer",
-    "_type_specialization",
     "_parameter_with_attributes",
     "_parameter_with_member_attributes",
     "_parameter"

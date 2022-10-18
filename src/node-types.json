@@ -9143,71 +9143,11 @@
       "required": true,
       "types": [
         {
-          "type": "class",
-          "named": true
-        },
-        {
-          "type": "const",
-          "named": true
-        },
-        {
-          "type": "delegate",
-          "named": true
-        },
-        {
-          "type": "enum",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "immutable",
-          "named": true
-        },
-        {
-          "type": "inout",
-          "named": true
-        },
-        {
-          "type": "interface",
-          "named": true
-        },
-        {
           "type": "is",
-          "named": true
-        },
-        {
-          "type": "module",
-          "named": true
-        },
-        {
-          "type": "package",
-          "named": true
-        },
-        {
-          "type": "parameters_",
-          "named": true
-        },
-        {
-          "type": "return",
-          "named": true
-        },
-        {
-          "type": "shared",
-          "named": true
-        },
-        {
-          "type": "struct",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -9219,11 +9159,7 @@
           "named": true
         },
         {
-          "type": "union",
-          "named": true
-        },
-        {
-          "type": "vector",
+          "type": "type_specialization",
           "named": true
         }
       ]
@@ -16931,6 +16867,89 @@
         },
         {
           "type": "shared",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_specialization",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class",
+          "named": true
+        },
+        {
+          "type": "const",
+          "named": true
+        },
+        {
+          "type": "delegate",
+          "named": true
+        },
+        {
+          "type": "enum",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "immutable",
+          "named": true
+        },
+        {
+          "type": "inout",
+          "named": true
+        },
+        {
+          "type": "interface",
+          "named": true
+        },
+        {
+          "type": "module",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "parameters_",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "shared",
+          "named": true
+        },
+        {
+          "type": "struct",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "union",
+          "named": true
+        },
+        {
+          "type": "vector",
           "named": true
         }
       ]

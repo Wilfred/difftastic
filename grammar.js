@@ -45,7 +45,6 @@ module.exports = grammar({
     $._array_member_init,
     $._declarator_identifier_list,
     $._non_void_initializer,
-    $._type_specialization,
     $._parameter_with_attributes,
     $._parameter_with_member_attributes,
     $._parameter,
@@ -1131,7 +1130,7 @@ module.exports = grammar({
           optional(
             seq(
               choice("==", ":"),
-              $._type_specialization,
+              $.type_specialization,
               optional(seq(",", $._template_parameter_list))
             )
           ),
@@ -1139,7 +1138,7 @@ module.exports = grammar({
         )
       ),
 
-    _type_specialization: ($) =>
+    type_specialization: ($) =>
       choice(
         $.type,
         $.struct,
