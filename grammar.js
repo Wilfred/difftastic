@@ -36,7 +36,6 @@ module.exports = grammar({
     $._for1,
     $._for2,
     $._for3,
-    $._argument_list,
     $._template_value_parameter,
     $._template_alias_parameter,
     $._template_sequence_parameter,
@@ -772,17 +771,11 @@ module.exports = grammar({
     at_attribute: ($) =>
       prec.right(
         choice(
-          seq("@", field("name", $.identifier)),
-          seq(
-            "@",
-            field("name", $.identifier),
-            "(",
-            optional($._argument_list),
-            ")"
-          ),
-          seq("@", "(", $._argument_list, ")"),
+          seq("@", $.identifier),
+          seq("@", $.identifier, $.arguments),
           seq("@", $.template_instance),
-          seq("@", $.template_instance, "(", optional($._argument_list), ")")
+          seq("@", $.template_instance, $.arguments),
+          seq("@", "(", $._argument_list, ")")
         )
       ),
 
@@ -814,7 +807,7 @@ module.exports = grammar({
         )
       ),
 
-    _argument_list: ($) => prec.right(commaSep1Comma($._expr)),
+    _argument_list: ($) => prec.right(commaSep1Comma($.expression)),
 
     arguments: ($) => seq("(", optional($._argument_list), ")"),
 
@@ -1103,11 +1096,11 @@ module.exports = grammar({
         choice(
           seq($.new, $.type),
           seq($.new, $.type, "[", $.expression, "]"),
-          seq($.new, $.type, "(", optional($._argument_list), ")"),
+          seq($.new, $.type, $.arguments),
           seq(
             $.new,
             $.class,
-            optional(seq("(", optional($._argument_list), ")")),
+            optional($.arguments),
             optional($._base_class_list),
             $.aggregate_body
           )
@@ -1415,7 +1408,8 @@ module.exports = grammar({
         choice(
           seq(
             $.case,
-            $._argument_list,
+            $.expression_list,
+            optional(","),
             ":",
             repeat(choice($._declaration, $._statement_no_case_no_default))
           ),

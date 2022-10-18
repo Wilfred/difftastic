@@ -927,143 +927,7 @@
       "required": false,
       "types": [
         {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
-          "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "function_literal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "property_expression",
-          "named": true
-        },
-        {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "template_instance",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1556,68 +1420,17 @@
   {
     "type": "at_attribute",
     "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "array_literal",
+          "type": "arguments",
           "named": true
         },
         {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
-          "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "function_literal",
+          "type": "expression",
           "named": true
         },
         {
@@ -1625,91 +1438,7 @@
           "named": true
         },
         {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "property_expression",
-          "named": true
-        },
-        {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
           "type": "template_instance",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         }
       ]
@@ -2742,19 +2471,7 @@
           "named": true
         },
         {
-          "type": "array_literal",
-          "named": true
-        },
-        {
           "type": "asm_statement",
-          "named": true
-        },
-        {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
           "named": true
         },
         {
@@ -2774,10 +2491,6 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "block_statement",
           "named": true
         },
@@ -2786,19 +2499,7 @@
           "named": true
         },
         {
-          "type": "call_expression",
-          "named": true
-        },
-        {
           "type": "case",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
           "named": true
         },
         {
@@ -2830,10 +2531,6 @@
           "named": true
         },
         {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
           "type": "deprecated_attribute",
           "named": true
         },
@@ -2843,10 +2540,6 @@
         },
         {
           "type": "do_statement",
-          "named": true
-        },
-        {
-          "type": "dollar",
           "named": true
         },
         {
@@ -2862,6 +2555,10 @@
           "named": true
         },
         {
+          "type": "expression_list",
+          "named": true
+        },
+        {
           "type": "expression_statement",
           "named": true
         },
@@ -2870,19 +2567,11 @@
           "named": true
         },
         {
-          "type": "false",
-          "named": true
-        },
-        {
           "type": "final",
           "named": true
         },
         {
           "type": "final_switch_statement",
-          "named": true
-        },
-        {
-          "type": "float_literal",
           "named": true
         },
         {
@@ -2898,19 +2587,11 @@
           "named": true
         },
         {
-          "type": "function_literal",
-          "named": true
-        },
-        {
           "type": "goto_statement",
           "named": true
         },
         {
           "type": "gshared",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -2922,27 +2603,11 @@
           "named": true
         },
         {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
           "type": "interface_declaration",
           "named": true
         },
         {
           "type": "invariant_declaration",
-          "named": true
-        },
-        {
-          "type": "is_expression",
           "named": true
         },
         {
@@ -2962,10 +2627,6 @@
           "named": true
         },
         {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
           "type": "mixin_template_declaration",
           "named": true
         },
@@ -2974,15 +2635,7 @@
           "named": true
         },
         {
-          "type": "new_expression",
-          "named": true
-        },
-        {
           "type": "nothrow",
-          "named": true
-        },
-        {
-          "type": "null",
           "named": true
         },
         {
@@ -2998,10 +2651,6 @@
           "named": true
         },
         {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
           "type": "pragma_declaration",
           "named": true
         },
@@ -3014,15 +2663,7 @@
           "named": true
         },
         {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
           "type": "private",
-          "named": true
-        },
-        {
-          "type": "property_expression",
           "named": true
         },
         {
@@ -3058,10 +2699,6 @@
           "named": true
         },
         {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
           "type": "static",
           "named": true
         },
@@ -3078,15 +2715,7 @@
           "named": true
         },
         {
-          "type": "string_literal",
-          "named": true
-        },
-        {
           "type": "struct_declaration",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -3106,31 +2735,7 @@
           "named": true
         },
         {
-          "type": "template_instance",
-          "named": true
-        },
-        {
           "type": "template_mixin",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
           "named": true
         },
         {
@@ -3139,18 +2744,6 @@
         },
         {
           "type": "type_ctor",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         },
         {
@@ -10674,147 +10267,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
-          "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "function_literal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "is_expression",
+          "type": "expression",
           "named": true
         },
         {
           "type": "mixin",
-          "named": true
-        },
-        {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "property_expression",
-          "named": true
-        },
-        {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "template_instance",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         }
       ]
@@ -11287,6 +10744,21 @@
     }
   },
   {
+    "type": "namespace_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "new_expression",
     "named": true,
     "fields": {},
@@ -11299,15 +10771,7 @@
           "named": true
         },
         {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
+          "type": "arguments",
           "named": true
         },
         {
@@ -11315,31 +10779,7 @@
           "named": true
         },
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
           "type": "class",
-          "named": true
-        },
-        {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
-          "type": "dollar",
           "named": true
         },
         {
@@ -11347,115 +10787,11 @@
           "named": true
         },
         {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "function_literal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
           "type": "new",
           "named": true
         },
         {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "property_expression",
-          "named": true
-        },
-        {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "template_instance",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         }
       ]
@@ -12485,51 +11821,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "assert_expression",
-          "named": true
-        },
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "cast_expression",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "delete_expression",
-          "named": true
-        },
-        {
-          "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "function_literal",
+          "type": "expression",
           "named": true
         },
         {
@@ -12537,95 +11829,7 @@
           "named": true
         },
         {
-          "type": "import_expression",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int_literal",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "mixin_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "postfix_expression",
-          "named": true
-        },
-        {
           "type": "pragma",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "property_expression",
-          "named": true
-        },
-        {
-          "type": "special_keyword",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "template_instance",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "traits_expression",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "typeid_expression",
-          "named": true
-        },
-        {
-          "type": "typeof_expression",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         }
       ]

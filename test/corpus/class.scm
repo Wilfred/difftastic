@@ -22,7 +22,8 @@ if (isTrue(T))
           (type
             (identifier))
           (arguments
-            (identifier)))))
+            (expression
+              (identifier))))))
     (base_class
       (identifier))
     (aggregate_body)))

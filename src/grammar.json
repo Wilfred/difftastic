@@ -3411,12 +3411,8 @@
                 "value": "@"
               },
               {
-                "type": "FIELD",
-                "name": "name",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                }
+                "type": "SYMBOL",
+                "name": "identifier"
               }
             ]
           },
@@ -3428,32 +3424,42 @@
                 "value": "@"
               },
               {
-                "type": "FIELD",
-                "name": "name",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                }
+                "type": "SYMBOL",
+                "name": "identifier"
               },
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
               {
                 "type": "STRING",
-                "value": "("
+                "value": "@"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_argument_list"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
+                "type": "SYMBOL",
+                "name": "template_instance"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
               {
                 "type": "STRING",
-                "value": ")"
+                "value": "@"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_instance"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "arguments"
               }
             ]
           },
@@ -3471,52 +3477,6 @@
               {
                 "type": "SYMBOL",
                 "name": "_argument_list"
-              },
-              {
-                "type": "STRING",
-                "value": ")"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "@"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_instance"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "@"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_instance"
-              },
-              {
-                "type": "STRING",
-                "value": "("
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_argument_list"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
               },
               {
                 "type": "STRING",
@@ -3696,7 +3656,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expr"
+            "name": "expression"
           },
           {
             "type": "REPEAT",
@@ -3709,7 +3669,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_expr"
+                  "name": "expression"
                 }
               ]
             }
@@ -5488,24 +5448,8 @@
                 "name": "type"
               },
               {
-                "type": "STRING",
-                "value": "("
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_argument_list"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "STRING",
-                "value": ")"
+                "type": "SYMBOL",
+                "name": "arguments"
               }
             ]
           },
@@ -5524,29 +5468,8 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "("
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "_argument_list"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ")"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "arguments"
                   },
                   {
                     "type": "BLANK"
@@ -7093,7 +7016,19 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_argument_list"
+                "name": "expression_list"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
                 "type": "STRING",
@@ -12053,7 +11988,6 @@
     "_for1",
     "_for2",
     "_for3",
-    "_argument_list",
     "_template_value_parameter",
     "_template_alias_parameter",
     "_template_sequence_parameter",

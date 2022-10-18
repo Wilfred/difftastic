@@ -42,17 +42,19 @@ class ScopeClass { }
   (linkage_attribute
     (extern)
     (namespace_list
-      (traits_expression
-        (traits)
-        (identifier)
-        (template_argument
-          (identifier)))))
+      (expression
+        (traits_expression
+          (traits)
+          (identifier)
+          (template_argument
+            (identifier))))))
   (linkage_attribute
     (extern)
     (namespace_list
-      (primary_expression
-        (expression_list
-          (identifier)))))
+      (expression
+        (primary_expression
+          (expression_list
+            (identifier))))))
   (class_declaration
     (class)
     (identifier)

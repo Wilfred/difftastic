@@ -192,34 +192,26 @@ enum
 
 (source_file
   (at_attribute
-    (string_literal))
+    (expression
+      (string_literal)))
   (anonymous_enum_declaration
     (enum)
     (enum_member
       (identifier))
     (enum_member
       (at_attribute
-        (string_literal))
+        (expression
+          (string_literal)))
       (identifier))
     (enum_member
       (at_attribute
-        (string_literal))
+        (expression
+          (string_literal)))
       (at_attribute
-        (string_literal))
+        (expression
+          (string_literal)))
       (identifier))
     (enum_member
-      (at_attribute
-        (identifier))
-      (identifier))
-    (enum_member
-      (at_attribute
-        (identifier))
-      (at_attribute
-        (identifier))
-      (identifier))
-    (enum_member
-      (at_attribute
-        (string_literal))
       (at_attribute
         (identifier))
       (identifier))
@@ -227,5 +219,19 @@ enum
       (at_attribute
         (identifier))
       (at_attribute
-        (string_literal))
+        (identifier))
+      (identifier))
+    (enum_member
+      (at_attribute
+        (expression
+          (string_literal)))
+      (at_attribute
+        (identifier))
+      (identifier))
+    (enum_member
+      (at_attribute
+        (identifier))
+      (at_attribute
+        (expression
+          (string_literal)))
       (identifier))))

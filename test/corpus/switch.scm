@@ -23,7 +23,8 @@ unittest {
         (block_statement
           (case_statement
             (case)
-            (char_literal)
+            (expression_list
+              (char_literal))
             (break_statement
               (break)))
           (case_statement
@@ -91,9 +92,10 @@ unittest {
         (block_statement
           (case_statement
             (case)
-            (char_literal)
-            (char_literal)
-            (char_literal)
+            (expression_list
+              (char_literal)
+              (char_literal)
+              (char_literal))
             (break_statement
               (break))))))))
 

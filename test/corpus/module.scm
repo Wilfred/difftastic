@@ -77,7 +77,9 @@ Module at-attribute parameter
     (module_declaration
       (at_attribute
         (identifier)
-        (string_literal))
+        (arguments
+          (expression
+            (string_literal))))
       (module)
       (module_fqn
         (identifier)
@@ -95,10 +97,14 @@ Module multiple attributes
     (module_declaration
       (at_attribute
         (identifier)
-        (int_literal))
+        (arguments
+          (expression
+            (int_literal))))
       (at_attribute
         (identifier)
-        (int_literal))
+        (arguments
+          (expression
+            (int_literal))))
       (module)
       (module_fqn
         (identifier)

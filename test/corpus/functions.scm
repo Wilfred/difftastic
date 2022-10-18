@@ -171,12 +171,13 @@ unittest {
             (type
               (identifier))
             (arguments
-              (function_literal
-                (block_statement
-                  (return_statement
-                    (return)
-                    (expression
-                      (int_literal))))))))))))
+              (expression
+                (function_literal
+                  (block_statement
+                    (return_statement
+                      (return)
+                      (expression
+                        (int_literal)))))))))))))
 
 ================================================================================
 Function literal anonymous parameter
@@ -198,14 +199,15 @@ unittest {
             (type
               (identifier))
             (arguments
-              (function_literal
-                (type
-                  (int))
-                (block_statement
-                  (return_statement
-                    (return)
-                    (expression
-                      (int_literal))))))))))))
+              (expression
+                (function_literal
+                  (type
+                    (int))
+                  (block_statement
+                    (return_statement
+                      (return)
+                      (expression
+                        (int_literal)))))))))))))
 
 ================================================================================
 Function literal named parameter
@@ -227,15 +229,16 @@ unittest {
             (type
               (identifier))
             (arguments
-              (function_literal
-                (type
-                  (bool))
-                (identifier)
-                (block_statement
-                  (return_statement
-                    (return)
-                    (expression
-                      (int_literal))))))))))))
+              (expression
+                (function_literal
+                  (type
+                    (bool))
+                  (identifier)
+                  (block_statement
+                    (return_statement
+                      (return)
+                      (expression
+                        (int_literal)))))))))))))
 
 ================================================================================
 Function literal auto ref

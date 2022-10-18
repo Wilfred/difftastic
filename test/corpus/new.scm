@@ -92,7 +92,9 @@ unittest {
             (new_expression
               (new)
               (class)
-              (int_literal)
+              (arguments
+                (expression
+                  (int_literal)))
               (aggregate_body
                 (constructor
                   (this)
