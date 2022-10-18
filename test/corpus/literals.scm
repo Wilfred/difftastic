@@ -563,11 +563,14 @@ auto aa1 = [ "bob": 1, "sue": 2, "charlie": 3 ];
       (auto))
     (identifier)
     (array_literal
-      (string_literal)
+      (expression
+        (string_literal))
       (int_literal)
-      (string_literal)
+      (expression
+        (string_literal))
       (int_literal)
-      (string_literal)
+      (expression
+        (string_literal))
       (int_literal))))
 
 ================================================================================

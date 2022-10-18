@@ -190,7 +190,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -362,7 +362,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -549,7 +549,7 @@
     }
   },
   {
-    "type": "alias_this_declaration",
+    "type": "alias_this",
     "named": true,
     "fields": {},
     "children": {
@@ -2253,7 +2253,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -2497,7 +2497,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -2762,7 +2762,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -3106,7 +3106,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -3566,7 +3566,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -3814,7 +3814,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -3975,7 +3975,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -4155,7 +4155,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -4230,7 +4230,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -4478,7 +4478,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -5066,7 +5066,7 @@
             "named": true
           },
           {
-            "type": "alias_this_declaration",
+            "type": "alias_this",
             "named": true
           },
           {
@@ -5306,7 +5306,7 @@
             "named": true
           },
           {
-            "type": "static_assert_statement",
+            "type": "static_assert",
             "named": true
           },
           {
@@ -6126,7 +6126,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -6370,7 +6370,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -6469,7 +6469,7 @@
             "named": true
           },
           {
-            "type": "alias_this_declaration",
+            "type": "alias_this",
             "named": true
           },
           {
@@ -6617,7 +6617,7 @@
             "named": true
           },
           {
-            "type": "static_assert_statement",
+            "type": "static_assert",
             "named": true
           },
           {
@@ -6724,7 +6724,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -6968,7 +6968,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -7067,7 +7067,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -7323,7 +7323,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -8290,7 +8290,7 @@
             "named": true
           },
           {
-            "type": "alias_this_declaration",
+            "type": "alias_this",
             "named": true
           },
           {
@@ -8530,7 +8530,7 @@
             "named": true
           },
           {
-            "type": "static_assert_statement",
+            "type": "static_assert",
             "named": true
           },
           {
@@ -8644,7 +8644,7 @@
             "named": true
           },
           {
-            "type": "alias_this_declaration",
+            "type": "alias_this",
             "named": true
           },
           {
@@ -8884,7 +8884,7 @@
             "named": true
           },
           {
-            "type": "static_assert_statement",
+            "type": "static_assert",
             "named": true
           },
           {
@@ -9864,7 +9864,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -10108,7 +10108,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -11155,7 +11155,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -11331,7 +11331,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -12550,7 +12550,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -12722,7 +12722,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -13016,7 +13016,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -13538,7 +13538,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -13778,7 +13778,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -14109,7 +14109,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -14289,7 +14289,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -14349,7 +14349,7 @@
     "fields": {}
   },
   {
-    "type": "static_assert_statement",
+    "type": "static_assert",
     "named": true,
     "fields": {},
     "children": {
@@ -14442,7 +14442,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -14630,7 +14630,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -14872,7 +14872,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -15116,7 +15116,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -15219,7 +15219,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -15463,7 +15463,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -15868,7 +15868,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -16048,7 +16048,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -16872,7 +16872,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -17120,7 +17120,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {
@@ -18008,7 +18008,7 @@
             "named": true
           },
           {
-            "type": "alias_this_declaration",
+            "type": "alias_this",
             "named": true
           },
           {
@@ -18248,7 +18248,7 @@
             "named": true
           },
           {
-            "type": "static_assert_statement",
+            "type": "static_assert",
             "named": true
           },
           {
@@ -18366,7 +18366,7 @@
           "named": true
         },
         {
-          "type": "alias_this_declaration",
+          "type": "alias_this",
           "named": true
         },
         {
@@ -18610,7 +18610,7 @@
           "named": true
         },
         {
-          "type": "static_assert_statement",
+          "type": "static_assert",
           "named": true
         },
         {

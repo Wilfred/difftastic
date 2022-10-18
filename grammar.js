@@ -440,7 +440,7 @@ module.exports = grammar({
       prec.left(
         choice(
           $.alias_declaration,
-          $.alias_this_declaration,
+          $.alias_this,
           $.anonymous_enum_declaration,
           $.attribute_declaration,
           $.class_declaration,
@@ -469,7 +469,7 @@ module.exports = grammar({
           $.variable_declaration,
           $.manifest_constant,
           $.version_specification,
-          $.static_assert_statement,
+          $.static_assert,
           $.auto_declaration,
           $.static_foreach_declaration,
           $.alias_reassign, // only valid really inside a template declaration
@@ -1298,7 +1298,7 @@ module.exports = grammar({
         $.pragma_statement,
         $.asm_statement,
         $.conditional_statement,
-        $.static_assert_statement,
+        $.static_assert,
         $.static_foreach_statement,
         $.version_specification,
         $.debug_specification
@@ -1746,7 +1746,7 @@ module.exports = grammar({
     //
     // Alias This
     //
-    alias_this_declaration: ($) => seq($.alias, $.identifier, $.this, ";"),
+    alias_this: ($) => seq($.alias, $.identifier, $.this, ";"),
 
     /**************************************************
      *
@@ -2312,7 +2312,7 @@ module.exports = grammar({
         )
       ),
 
-    static_assert_statement: ($) => seq($.static, $.assert_expression, ";"),
+    static_assert: ($) => seq($.static, $.assert_expression, ";"),
 
     /**************************************************
      *
@@ -2360,7 +2360,7 @@ module.exports = grammar({
     [$._specified_function_body, $.scope_guard_statement],
     [$._specified_function_body, $.in_statement],
     [$._statement_no_case_no_default, $._specified_function_body],
-    [$._statement_no_case_no_default, $.static_assert_statement],
+    [$._statement_no_case_no_default, $.static_assert],
     [$.storage_class, $.type_ctor, $._attribute],
     [$._declaration2, $._statement_no_case_no_default],
     [$.pragma_declaration, $.pragma_statement],

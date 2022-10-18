@@ -239,7 +239,7 @@ alias id this;
 --------------------------------------------------------------------------------
 
 (source_file
-  (alias_this_declaration
+  (alias_this
     (alias)
     (identifier)
     (this)))

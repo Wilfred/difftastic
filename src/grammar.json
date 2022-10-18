@@ -1693,7 +1693,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "alias_this_declaration"
+            "name": "alias_this"
           },
           {
             "type": "SYMBOL",
@@ -1809,7 +1809,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "static_assert_statement"
+            "name": "static_assert"
           },
           {
             "type": "SYMBOL",
@@ -6496,7 +6496,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "static_assert_statement"
+          "name": "static_assert"
         },
         {
           "type": "SYMBOL",
@@ -8577,7 +8577,7 @@
         }
       ]
     },
-    "alias_this_declaration": {
+    "alias_this": {
       "type": "SEQ",
       "members": [
         {
@@ -11688,7 +11688,7 @@
         }
       ]
     },
-    "static_assert_statement": {
+    "static_assert": {
       "type": "SEQ",
       "members": [
         {
@@ -11868,7 +11868,7 @@
     ],
     [
       "_statement_no_case_no_default",
-      "static_assert_statement"
+      "static_assert"
     ],
     [
       "storage_class",
