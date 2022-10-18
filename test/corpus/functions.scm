@@ -559,10 +559,12 @@ float recip(float x)in(x != 0) => 1/x;
     (function_body
       (in_contract_expression
         (in)
-        (binary_expression
-          (equal_expression
-            (identifier)
-            (int_literal))))
+        (assert_arguments
+          (expression
+            (binary_expression
+              (equal_expression
+                (identifier)
+                (int_literal))))))
       (binary_expression
         (mul_expression
           (int_literal)

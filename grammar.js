@@ -38,7 +38,6 @@ module.exports = grammar({
     $._for2,
     $._for3,
     $._argument_list,
-    $._assert_arguments,
     $._template_value_parameter,
     $._template_alias_parameter,
     $._template_sequence_parameter,
@@ -1106,13 +1105,10 @@ module.exports = grammar({
     // Assert expression.
     //
     assert_expression: ($) =>
-      choice(seq($.assert, "(", $._assert_arguments, ")")),
+      seq($.assert, "(", $.assert_arguments, ")"),
 
-    _assert_arguments: ($) =>
-      choice(
-        seq($._expr, optional(",")),
-        seq($._expr, ",", $._expr, optional(","))
-      ),
+    assert_arguments: ($) =>
+        seq($.expression, optional(seq(",", commaSep1($.expression))), optional(",")),
 
     //
     // Mixin expression.  The result may be an lvalue.
@@ -1629,7 +1625,7 @@ module.exports = grammar({
       choice(
         seq($.invariant, "(", ")", $.block_statement),
         seq($.invariant, $.block_statement),
-        seq($.invariant, "(", $._assert_arguments, ")", ";")
+        seq($.invariant, "(", $.assert_arguments, ")", ";")
       ),
 
     /**************************************************
@@ -2033,10 +2029,10 @@ module.exports = grammar({
 
     _in_out_statement: ($) => choice($.in_statement, $.out_statement),
 
-    in_contract_expression: ($) => seq($.in, "(", $._assert_arguments, ")"),
+    in_contract_expression: ($) => seq($.in, "(", $.assert_arguments, ")"),
 
     out_contract_expression: ($) =>
-      seq($.out, "(", optional($.identifier), ";", $._assert_arguments, ")"),
+      seq($.out, "(", optional($.identifier), ";", $.assert_arguments, ")"),
 
     in_statement: ($) => seq($.in, $.block_statement),
 
@@ -2373,7 +2369,6 @@ module.exports = grammar({
     [$._specified_function_body, $.block_statement],
     [$._specified_function_body, $.scope_guard_statement],
     [$._specified_function_body, $.in_statement],
-    [$.expression_list, $._assert_arguments],
     [$._statement_no_case_no_default, $._specified_function_body],
     [$._statement_no_case_no_default, $.static_assert_statement],
     [$.storage_class, $.type_ctor, $._attribute],

@@ -5368,81 +5368,84 @@
       }
     },
     "assert_expression": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "assert"
-            },
-            {
-              "type": "STRING",
-              "value": "("
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_assert_arguments"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "assert"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_arguments"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
-    "_assert_arguments": {
-      "type": "CHOICE",
+    "assert_arguments": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_expr"
-            },
-            {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
                   "type": "STRING",
                   "value": ","
                 },
                 {
-                  "type": "BLANK"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "expression"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "expression"
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               ]
+            },
+            {
+              "type": "BLANK"
             }
           ]
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expr"
-            },
             {
               "type": "STRING",
               "value": ","
             },
             {
-              "type": "SYMBOL",
-              "name": "_expr"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ","
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "BLANK"
             }
           ]
         }
@@ -8116,7 +8119,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_assert_arguments"
+              "name": "assert_arguments"
             },
             {
               "type": "STRING",
@@ -10187,7 +10190,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_assert_arguments"
+          "name": "assert_arguments"
         },
         {
           "type": "STRING",
@@ -10224,7 +10227,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_assert_arguments"
+          "name": "assert_arguments"
         },
         {
           "type": "STRING",
@@ -11879,7 +11882,7 @@
     ],
     [
       "expression_list",
-      "_assert_arguments"
+      "assert_arguments"
     ],
     [
       "_statement_no_case_no_default",
@@ -12220,7 +12223,6 @@
     "_for2",
     "_for3",
     "_argument_list",
-    "_assert_arguments",
     "_template_value_parameter",
     "_template_alias_parameter",
     "_template_sequence_parameter",

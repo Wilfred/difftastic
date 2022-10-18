@@ -33,14 +33,20 @@ class C
             (block_statement))
           (in_contract_expression
             (in)
-            (true))
+            (assert_arguments
+              (expression
+                (true))))
           (out_contract_expression
             (out)
-            (true))
+            (assert_arguments
+              (expression
+                (true))))
           (out_contract_expression
             (out)
             (identifier)
-            (true))
+            (assert_arguments
+              (expression
+                (true))))
           (block_statement
             (return_statement
               (return)

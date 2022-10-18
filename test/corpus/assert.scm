@@ -19,7 +19,9 @@ void f() {
           (expression_list
             (assert_expression
               (assert)
-              (int_literal))))))))
+              (assert_arguments
+                (expression
+                  (int_literal))))))))))
 
 ================================================================================
 Assert Expression Multiple arguments
@@ -42,5 +44,8 @@ void f() {
           (expression_list
             (assert_expression
               (assert)
-              (int_literal)
-              (string_literal))))))))
+              (assert_arguments
+                (expression
+                  (int_literal))
+                (expression
+                  (string_literal))))))))))
