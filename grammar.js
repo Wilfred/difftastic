@@ -41,7 +41,6 @@ module.exports = grammar({
     $._template_alias_parameter,
     $._template_sequence_parameter,
     $._template_type_parameter,
-    $._template_parameter_list,
     $._array_member_init,
     $._declarator_identifier_list,
     $._non_void_initializer,
