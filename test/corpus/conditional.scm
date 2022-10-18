@@ -28,10 +28,11 @@ unittest
           (static_if_condition
             (static)
             (if)
-            (binary_expression
-              (equal_expression
-                (identifier)
-                (int_literal)))))
+            (expression
+              (binary_expression
+                (equal_expression
+                  (identifier)
+                  (int_literal))))))
         (manifest_constant
           (enum)
           (identifier)
@@ -42,19 +43,21 @@ unittest
             (static_if_condition
               (static)
               (if)
-              (binary_expression
-                (equal_expression
-                  (identifier)
-                  (int_literal)))))
+              (expression
+                (binary_expression
+                  (equal_expression
+                    (identifier)
+                    (int_literal))))))
           (conditional_declaration
             (condition
               (static_if_condition
                 (static)
                 (if)
-                (binary_expression
-                  (equal_expression
-                    (identifier)
-                    (int_literal)))))
+                (expression
+                  (binary_expression
+                    (equal_expression
+                      (identifier)
+                      (int_literal))))))
             (variable_declaration
               (type
                 (char))
@@ -74,10 +77,11 @@ unittest
               (static_if_condition
                 (static)
                 (if)
-                (binary_expression
-                  (equal_expression
-                    (identifier)
-                    (int_literal)))))
+                (expression
+                  (binary_expression
+                    (equal_expression
+                      (identifier)
+                      (int_literal))))))
             (variable_declaration
               (type
                 (int))
@@ -90,10 +94,11 @@ unittest
                 (static_if_condition
                   (static)
                   (if)
-                  (binary_expression
-                    (equal_expression
-                      (identifier)
-                      (int_literal)))))
+                  (expression
+                    (binary_expression
+                      (equal_expression
+                        (identifier)
+                        (int_literal))))))
               (manifest_constant
                 (enum)
                 (identifier)

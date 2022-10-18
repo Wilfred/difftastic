@@ -41,7 +41,8 @@ deprecated ("it is too old") module test.blah.bah;
     (module_declaration
       (deprecated_attribute
         (deprecated)
-        (string_literal))
+        (expression
+          (string_literal)))
       (module)
       (module_fqn
         (identifier)

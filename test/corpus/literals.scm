@@ -595,8 +595,10 @@ auto r = x[1..9];
     (index_expression
       (identifier)
       (index
-        (int_literal)
-        (int_literal)))))
+        (expression
+          (int_literal))
+        (expression
+          (int_literal))))))
 
 ================================================================================
 Simple delimited string

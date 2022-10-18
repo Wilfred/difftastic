@@ -3266,7 +3266,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expr"
+                    "name": "expression"
                   },
                   {
                     "type": "STRING",
@@ -3304,7 +3304,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expr"
+                    "name": "expression"
                   },
                   {
                     "type": "STRING",
@@ -4429,7 +4429,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expr"
+          "name": "expression"
         },
         {
           "type": "CHOICE",
@@ -4443,7 +4443,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_expr"
+                  "name": "expression"
                 }
               ]
             },
@@ -5482,7 +5482,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expr"
+          "name": "expression"
         },
         {
           "type": "STRING",
@@ -5526,7 +5526,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expr"
+                "name": "expression"
               },
               {
                 "type": "STRING",
@@ -11413,7 +11413,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expr"
+          "name": "expression"
         },
         {
           "type": "STRING",

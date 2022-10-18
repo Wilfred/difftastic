@@ -755,10 +755,10 @@ module.exports = grammar({
     attribute_declaration: ($) => seq($._attribute, ":"),
 
     align_attribute: ($) =>
-      prec.right(seq($.align, optional(seq("(", $._expr, ")")))),
+      prec.right(seq($.align, optional(seq("(", $.expression, ")")))),
 
     deprecated_attribute: ($) =>
-      prec.right(seq($.deprecated, optional(seq("(", $._expr, ")")))),
+      prec.right(seq($.deprecated, optional(seq("(", $.expression, ")")))),
 
     _attribute: ($) =>
       prec.right(
@@ -956,7 +956,7 @@ module.exports = grammar({
         )
       ),
 
-    index: ($) => seq($._expr, optional(seq("..", $._expr))),
+    index: ($) => seq($.expression, optional(seq("..", $.expression))),
 
     assignment_expression: ($) =>
       prec.right(
@@ -1122,13 +1122,13 @@ module.exports = grammar({
     //
     // Import expression - evaluates to a string literal.
     //
-    import_expression: ($) => seq($.import, "(", $._expr, ")"),
+    import_expression: ($) => seq($.import, "(", $.expression, ")"),
 
     new_expression: ($) =>
       prec.left(
         choice(
           seq($.new, $.type),
-          seq($.new, $.type, "[", $._expr, "]"),
+          seq($.new, $.type, "[", $.expression, "]"),
           seq($.new, $.type, "(", optional($._argument_list), ")"),
           seq(
             $.new,
@@ -2270,7 +2270,7 @@ module.exports = grammar({
     debug_specification: ($) =>
       seq($.debug, "=", choice($.int_literal, $.identifier), ";"),
 
-    static_if_condition: ($) => seq($.static, $.if, "(", $._expr, ")"),
+    static_if_condition: ($) => seq($.static, $.if, "(", $.expression, ")"),
 
     static_foreach_statement: ($) => seq($.static, $.foreach_statement),
 

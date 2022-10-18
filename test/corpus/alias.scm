@@ -335,7 +335,8 @@ alias g_t = align(8) _gg_t[NREG];
       (storage_class
         (align_attribute
           (align)
-          (int_literal)))
+          (expression
+            (int_literal))))
       (type
         (identifier)
         (expression
