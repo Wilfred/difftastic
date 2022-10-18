@@ -34,7 +34,6 @@ module.exports = grammar({
   inline: ($) => [
     $._identifier_or_template_instance,
     $._identifier_or_template_chain,
-    $._identifier_chain,
     $._for1,
     $._for2,
     $._for3,
@@ -392,11 +391,11 @@ module.exports = grammar({
         repeat($.at_attribute),
         optional(seq($.deprecated_attribute, repeat($.at_attribute))),
         $.module,
-        $._identifier_chain,
+        $.module_fqn,
         ";"
       ),
 
-    _identifier_chain: ($) => seq($.identifier, repeat(seq(".", $.identifier))),
+    module_fqn: ($) => seq($.identifier, repeat(seq(".", $.identifier))),
 
     //
     // Import Declarations
@@ -416,8 +415,8 @@ module.exports = grammar({
     // libdparse calls this single_import
     imported: ($) =>
       choice(
-        $._identifier_chain,
-        seq(field("alias", $.identifier), "=", $._identifier_chain)
+        $.module_fqn,
+        seq(field("alias", $.identifier), "=", $.module_fqn)
       ),
 
     import_bind: ($) => seq($.identifier, optional(seq("=", $.identifier))),
@@ -771,7 +770,7 @@ module.exports = grammar({
           $.type_ctor,
           $.private,
           $.package,
-          seq($.package, "(", $._identifier_chain, ")"),
+          seq($.package, "(", $.module_fqn, ")"),
           $.protected,
           $.public,
           $.export,

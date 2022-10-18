@@ -266,10 +266,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -295,6 +291,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -2173,11 +2173,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "linkage_attribute",
           "named": true
         },
         {
-          "type": "linkage_attribute",
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -2774,10 +2774,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -2815,6 +2811,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -3396,6 +3396,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -4127,6 +4131,10 @@
           "named": true
         },
         {
+          "type": "module_fqn",
+          "named": true
+        },
+        {
           "type": "nothrow",
           "named": true
         },
@@ -4448,10 +4456,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -4477,6 +4481,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -4751,10 +4759,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -4788,6 +4792,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -5575,10 +5583,6 @@
             "named": false
           },
           {
-            "type": ".",
-            "named": false
-          },
-          {
             "type": ";",
             "named": false
           },
@@ -5719,10 +5723,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "if_statement",
             "named": true
           },
@@ -5756,6 +5756,10 @@
           },
           {
             "type": "mixin_template_declaration",
+            "named": true
+          },
+          {
+            "type": "module_fqn",
             "named": true
           },
           {
@@ -6783,10 +6787,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -6820,6 +6820,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -7381,10 +7385,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -7418,6 +7418,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -7736,10 +7740,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -7773,6 +7773,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -8803,10 +8807,6 @@
             "named": false
           },
           {
-            "type": ".",
-            "named": false
-          },
-          {
             "type": ";",
             "named": false
           },
@@ -8947,10 +8947,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "if_statement",
             "named": true
           },
@@ -8984,6 +8980,10 @@
           },
           {
             "type": "mixin_template_declaration",
+            "named": true
+          },
+          {
+            "type": "module_fqn",
             "named": true
           },
           {
@@ -9161,10 +9161,6 @@
             "named": false
           },
           {
-            "type": ".",
-            "named": false
-          },
-          {
             "type": ";",
             "named": false
           },
@@ -9305,10 +9301,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "if_statement",
             "named": true
           },
@@ -9342,6 +9334,10 @@
           },
           {
             "type": "mixin_template_declaration",
+            "named": true
+          },
+          {
+            "type": "module_fqn",
             "named": true
           },
           {
@@ -9731,11 +9727,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "module_fqn",
           "named": true
         }
       ]
@@ -11069,10 +11065,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -11110,6 +11102,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -12205,11 +12201,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "module",
           "named": true
         },
         {
-          "type": "module",
+          "type": "module_fqn",
           "named": true
         }
       ]
@@ -12312,10 +12308,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -12345,6 +12337,10 @@
         },
         {
           "type": "module_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -12461,6 +12457,21 @@
         },
         {
           "type": "version_specification",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module_fqn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -13820,10 +13831,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -13849,6 +13856,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -14856,10 +14867,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -14893,6 +14900,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -15379,10 +15390,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -15412,6 +15419,10 @@
         },
         {
           "type": "module_def",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -15728,10 +15739,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "import_declaration",
           "named": true
         },
@@ -15757,6 +15764,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -16330,10 +16341,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -16367,6 +16374,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -16677,10 +16688,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -16714,6 +16721,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -17307,6 +17318,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -18330,10 +18345,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -18367,6 +18378,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {
@@ -19318,10 +19333,6 @@
             "named": false
           },
           {
-            "type": ".",
-            "named": false
-          },
-          {
             "type": ";",
             "named": false
           },
@@ -19462,10 +19473,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "if_statement",
             "named": true
           },
@@ -19499,6 +19506,10 @@
           },
           {
             "type": "mixin_template_declaration",
+            "named": true
+          },
+          {
+            "type": "module_fqn",
             "named": true
           },
           {
@@ -19824,10 +19835,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -19861,6 +19868,10 @@
         },
         {
           "type": "mixin_template_declaration",
+          "named": true
+        },
+        {
+          "type": "module_fqn",
           "named": true
         },
         {

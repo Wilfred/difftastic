@@ -8,9 +8,10 @@ module test.blah.bah;
   (module_def
     (module_declaration
       (module)
-      (identifier)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Module deprecated
@@ -24,9 +25,10 @@ deprecated module test.blah.bah;
       (deprecated_attribute
         (deprecated))
       (module)
-      (identifier)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Module deprecated reason
@@ -41,9 +43,10 @@ deprecated ("it is too old") module test.blah.bah;
         (deprecated)
         (string_literal))
       (module)
-      (identifier)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Module at-attribute
@@ -57,9 +60,10 @@ Module at-attribute
       (at_attribute
         (identifier))
       (module)
-      (identifier)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Module at-attribute parameter
@@ -74,9 +78,10 @@ Module at-attribute parameter
         (identifier)
         (string_literal))
       (module)
-      (identifier)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 Module multiple attributes
@@ -94,5 +99,6 @@ Module multiple attributes
         (identifier)
         (int_literal))
       (module)
-      (identifier)
-      (identifier))))
+      (module_fqn
+        (identifier)
+        (identifier)))))

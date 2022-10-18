@@ -1428,7 +1428,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_identifier_chain"
+          "name": "module_fqn"
         },
         {
           "type": "STRING",
@@ -1436,7 +1436,7 @@
         }
       ]
     },
-    "_identifier_chain": {
+    "module_fqn": {
       "type": "SEQ",
       "members": [
         {
@@ -1556,7 +1556,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_identifier_chain"
+          "name": "module_fqn"
         },
         {
           "type": "SEQ",
@@ -1575,7 +1575,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_identifier_chain"
+              "name": "module_fqn"
             }
           ]
         }
@@ -3367,7 +3367,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_identifier_chain"
+                "name": "module_fqn"
               },
               {
                 "type": "STRING",
@@ -12216,7 +12216,6 @@
   "inline": [
     "_identifier_or_template_instance",
     "_identifier_or_template_chain",
-    "_identifier_chain",
     "_for1",
     "_for2",
     "_for3",
