@@ -5893,7 +5893,7 @@
                       "name": "key",
                       "content": {
                         "type": "SYMBOL",
-                        "name": "_expr"
+                        "name": "expression"
                       }
                     },
                     {
@@ -12206,7 +12206,6 @@
     "_template_type_parameter",
     "_template_parameter_list",
     "_array_member_init",
-    "ReferenceError",
     "_declarator_identifier_list",
     "_missing_function_body",
     "_non_void_initializer",

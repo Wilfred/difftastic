@@ -1185,7 +1185,7 @@ module.exports = grammar({
     _array_member_init: ($) =>
       choice(
         seq(
-          optional(seq(field("key", $._expr), ":")),
+          optional(seq(field("key", $.expression), ":")),
           field("value", $._non_void_initializer)
         )
       ),
