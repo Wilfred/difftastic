@@ -53,8 +53,6 @@ pub struct Vertex<'a, 'b> {
     // Previously 80 bytes
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
     pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
-    pub lhs_syntax: Option<&'a Syntax<'a>>,
-    pub rhs_syntax: Option<&'a Syntax<'a>>,
     lhs_syn: Option<SiblingOrParentSyntax<'a>>,
     rhs_syn: Option<SiblingOrParentSyntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
@@ -93,9 +91,6 @@ impl<'a, 'b> Eq for Vertex<'a, 'b> {}
 
 impl<'a, 'b> Hash for Vertex<'a, 'b> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.lhs_syntax.map(|node| node.id()).hash(state);
-        self.rhs_syntax.map(|node| node.id()).hash(state);
-
         self.lhs_syn.hash(state);
         self.rhs_syn.hash(state);
         can_pop_either_parent(&self.parents).hash(state);
@@ -296,7 +291,7 @@ fn push_rhs_delimiter<'a>(
 
 impl<'a, 'b> Vertex<'a, 'b> {
     pub fn is_end(&self) -> bool {
-        self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
+        self.lhs_syn.is_none() && self.rhs_syn.is_none() && self.parents.is_empty()
     }
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
@@ -306,8 +301,6 @@ impl<'a, 'b> Vertex<'a, 'b> {
             predecessor: Cell::new(None),
             lhs_syn: lhs_syntax.map(SiblingOrParentSyntax::from_sibling),
             rhs_syn: rhs_syntax.map(SiblingOrParentSyntax::from_sibling),
-            lhs_syntax,
-            rhs_syntax,
             parents,
         }
     }
@@ -475,7 +468,7 @@ pub fn get_set_neighbours<'syn, 'b>(
 
     let mut res: Vec<(Edge, &Vertex)> = vec![];
 
-    if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() {
+    if v.lhs_syn.is_parent() && v.rhs_syn.is_parent() {
         if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&v.parents) {
             // We have exhausted all the nodes on both lists, so we can
             // move up to the parent node.
@@ -489,8 +482,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syn: next_sibling_or_parent(lhs_parent),
                         rhs_syn: next_sibling_or_parent(rhs_parent),
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: rhs_parent.next_sibling(),
                         parents: parents_next,
                     },
                     alloc,
@@ -500,7 +491,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if v.lhs_syntax.is_none() {
+    if v.lhs_syn.is_parent() {
         if let Some((lhs_parent, parents_next)) = try_pop_lhs(&v.parents) {
             // Move to next after LHS parent.
 
@@ -513,8 +504,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syn: next_sibling_or_parent(lhs_parent),
                         rhs_syn: v.rhs_syn,
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
                     },
                     alloc,
@@ -524,7 +513,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if v.rhs_syntax.is_none() {
+    if v.rhs_syn.is_parent() {
         if let Some((rhs_parent, parents_next)) = try_pop_rhs(&v.parents) {
             // Move to next after RHS parent.
 
@@ -537,8 +526,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syn: v.lhs_syn,
                         rhs_syn: next_sibling_or_parent(rhs_parent),
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_parent.next_sibling(),
                         parents: parents_next,
                     },
                     alloc,
@@ -563,8 +550,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                         predecessor: Cell::new(None),
                         lhs_syn: next_sibling_or_parent(lhs_syntax),
                         rhs_syn: next_sibling_or_parent(rhs_syntax),
-                        lhs_syntax: lhs_syntax.next_sibling(),
-                        rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
                     },
                     alloc,
@@ -590,9 +575,6 @@ pub fn get_set_neighbours<'syn, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let lhs_next = lhs_children.get(0).copied();
-                let rhs_next = rhs_children.get(0).copied();
-
                 // TODO: be consistent between parents_next and next_parents.
                 let parents_next = push_both_delimiters(&v.parents, lhs_syntax, rhs_syntax);
 
@@ -606,10 +588,8 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syn: Some(first_child_or_self(lhs_syntax, lhs_children)),
-                            rhs_syn: Some(first_child_or_self(rhs_syntax, rhs_children)),
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: rhs_next,
+                            lhs_syn: Some(first_child_or_self(lhs_syntax, &lhs_children)),
+                            rhs_syn: Some(first_child_or_self(rhs_syntax, &rhs_children)),
                             parents: parents_next,
                         },
                         alloc,
@@ -636,7 +616,7 @@ pub fn get_set_neighbours<'syn, 'b>(
             // similar.
             if lhs_content != rhs_content {
                 let levenshtein_pct =
-                    (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+                    (normalized_levenshtein(&lhs_content, &rhs_content) * 100.0).round() as u8;
                 res.push((
                     ReplacedComment { levenshtein_pct },
                     allocate_if_new(
@@ -645,8 +625,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syn: next_sibling_or_parent(lhs_syntax),
                             rhs_syn: next_sibling_or_parent(rhs_syntax),
-                            lhs_syntax: lhs_syntax.next_sibling(),
-                            rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
                         },
                         alloc,
@@ -657,6 +635,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
+    // TODO: presumably we want an .as_sibling() helper here?
     if let Some(lhs_syntax) = &v.lhs_syntax {
         match lhs_syntax {
             // Step over this novel atom.
@@ -674,8 +653,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syn: next_sibling_or_parent(lhs_syntax),
                             rhs_syn: v.rhs_syn,
-                            lhs_syntax: lhs_syntax.next_sibling(),
-                            rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
                         },
                         alloc,
@@ -685,8 +662,6 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let lhs_next = children.get(0).copied();
-
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
                 res.push((
@@ -699,8 +674,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syn: Some(first_child_or_self(lhs_syntax, children)),
                             rhs_syn: v.rhs_syn,
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: v.rhs_syntax,
                             parents: parents_next,
                         },
                         alloc,
@@ -726,8 +699,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syn: v.lhs_syn,
                             rhs_syn: next_sibling_or_parent(rhs_syntax),
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
                         },
                         alloc,
@@ -737,8 +708,6 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let rhs_next = children.get(0).copied();
-
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
 
                 res.push((
@@ -751,8 +720,6 @@ pub fn get_set_neighbours<'syn, 'b>(
                             predecessor: Cell::new(None),
                             lhs_syn: v.lhs_syn,
                             rhs_syn: Some(first_child_or_self(rhs_syntax, children)),
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_next,
                             parents: parents_next,
                         },
                         alloc,
