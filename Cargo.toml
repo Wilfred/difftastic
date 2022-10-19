@@ -1,0 +1,25 @@
+[package]
+categories = ["parsing", "text-editors"]
+description = "erlang grammar for the tree-sitter parsing library"
+edition = "2018"
+keywords = ["incremental", "parsing", "erlang"]
+license = "MIT"
+name = "tree-sitter-erlang"
+version = "0.0.1"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.20.9"
+
+[build-dependencies]
+cc = "1.0.73"

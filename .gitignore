@@ -1,0 +1,11 @@
+*.wasm
+node_modules
+build
+examples
+*.log
+
+# Output of running `npm run parse -- --debug-graph foo.erl`
+log.html
+
+# Input to the parse test
+foo.erl
