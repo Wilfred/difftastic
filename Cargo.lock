@@ -197,6 +197,7 @@ dependencies = [
  "regex",
  "rustc-hash",
  "strsim",
+ "tagged-pointer",
  "term_size",
  "terminal_size 0.2.1",
  "tree-sitter",
@@ -576,6 +577,12 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
+
+[[package]]
+name = "tagged-pointer"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a09d2ea46920507a64d0fab424a72d994d9ab3f2d743e593a524a9510830ce15"
 
 [[package]]
 name = "term_size"

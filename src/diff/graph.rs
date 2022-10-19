@@ -9,13 +9,14 @@ use std::{
     hash::{Hash, Hasher},
 };
 use strsim::normalized_levenshtein;
+use tagged_pointer::TaggedPtr;
 
 use crate::{
     diff::{
         changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
         stack::Stack,
     },
-    parse::syntax::{AtomKind, Syntax, SyntaxId},
+    parse::syntax::{AtomKind, Syntax},
 };
 use Edge::*;
 
@@ -49,13 +50,14 @@ use Edge::*;
 /// ```
 #[derive(Debug, Clone)]
 pub struct Vertex<'a, 'b> {
+    // Previously 80 bytes
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
     pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
+    lhs_syn: Option<SiblingOrParentSyntax<'a>>,
+    rhs_syn: Option<SiblingOrParentSyntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
-    lhs_parent_id: Option<SyntaxId>,
-    rhs_parent_id: Option<SyntaxId>,
 }
 
 impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
@@ -76,24 +78,15 @@ impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
         // Handling this properly would require considering many
         // more vertices to be distinct, exponentially increasing
         // the graph size relative to tree depth.
-        let b0 = match (self.lhs_syntax, other.lhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.lhs_parent_id == other.lhs_parent_id,
-            _ => false,
-        };
-        let b1 = match (self.rhs_syntax, other.rhs_syntax) {
-            (Some(s0), Some(s1)) => s0.id() == s1.id(),
-            (None, None) => self.rhs_parent_id == other.rhs_parent_id,
-            _ => false,
-        };
+
         // We do want to distinguish whether we can pop each side
         // independently though. Without this, if we find a case
         // where we can pop sides together, we don't consider the
         // case where we get a better diff by popping each side
         // separately.
-        let b2 = can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents);
-
-        b0 && b1 && b2
+        self.lhs_syn == other.lhs_syn
+            && self.rhs_syn == other.rhs_syn
+            && can_pop_either_parent(&self.parents) == can_pop_either_parent(&other.parents)
     }
 }
 impl<'a, 'b> Eq for Vertex<'a, 'b> {}
@@ -103,9 +96,66 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
 
-        self.lhs_parent_id.hash(state);
-        self.rhs_parent_id.hash(state);
+        self.lhs_syn.hash(state);
+        self.rhs_syn.hash(state);
         can_pop_either_parent(&self.parents).hash(state);
+    }
+}
+
+#[derive(Hash, Debug, Clone, Copy, PartialEq, Eq)]
+pub struct SiblingOrParentSyntax<'a> {
+    syntax: TaggedPtr<Syntax<'a>, 1>,
+}
+
+const IS_SIBLING: usize = 0;
+const IS_PARENT: usize = 1;
+
+impl<'a> SiblingOrParentSyntax<'a> {
+    pub fn from_sibling(syntax: &'a Syntax<'a>) -> Self {
+        Self {
+            syntax: TaggedPtr::new(syntax.into(), IS_SIBLING),
+        }
+    }
+
+    pub fn from_parent(syntax: &'a Syntax<'a>) -> Self {
+        Self {
+            syntax: TaggedPtr::new(syntax.into(), IS_PARENT),
+        }
+    }
+
+    pub fn as_sibling(&self) -> Option<&'a Syntax<'a>> {
+        let (ptr, tag) = self.syntax.get();
+        if tag == IS_SIBLING {
+            Some(unsafe { ptr.as_ref() })
+        } else {
+            None
+        }
+    }
+
+    pub fn as_parent(&self) -> Option<&'a Syntax<'a>> {
+        let (ptr, tag) = self.syntax.get();
+        if tag == IS_PARENT {
+            Some(unsafe { ptr.as_ref() })
+        } else {
+            None
+        }
+    }
+}
+
+fn next_sibling_or_parent<'a>(syntax: &'a Syntax<'a>) -> Option<SiblingOrParentSyntax<'a>> {
+    match syntax.next_sibling() {
+        Some(sibling) => Some(SiblingOrParentSyntax::from_sibling(sibling)),
+        None => syntax.parent().map(SiblingOrParentSyntax::from_parent),
+    }
+}
+
+fn first_child_or_self<'a>(
+    syntax: &'a Syntax<'a>,
+    children: &[&'a Syntax<'a>],
+) -> SiblingOrParentSyntax<'a> {
+    match children.get(0).copied() {
+        Some(child) => SiblingOrParentSyntax::from_sibling(child),
+        None => SiblingOrParentSyntax::from_parent(syntax),
     }
 }
 
@@ -254,11 +304,11 @@ impl<'a, 'b> Vertex<'a, 'b> {
         Vertex {
             neighbours: RefCell::new(None),
             predecessor: Cell::new(None),
+            lhs_syn: lhs_syntax.map(SiblingOrParentSyntax::from_sibling),
+            rhs_syn: rhs_syntax.map(SiblingOrParentSyntax::from_sibling),
             lhs_syntax,
             rhs_syntax,
             parents,
-            lhs_parent_id: None,
-            rhs_parent_id: None,
         }
     }
 }
@@ -437,11 +487,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
+                        lhs_syn: next_sibling_or_parent(lhs_parent),
+                        rhs_syn: next_sibling_or_parent(rhs_parent),
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: rhs_parent.next_sibling(),
                         parents: parents_next,
-                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
                     },
                     alloc,
                     seen,
@@ -461,11 +511,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
+                        lhs_syn: next_sibling_or_parent(lhs_parent),
+                        rhs_syn: v.rhs_syn,
                         lhs_syntax: lhs_parent.next_sibling(),
                         rhs_syntax: v.rhs_syntax,
                         parents: parents_next,
-                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                        rhs_parent_id: v.rhs_parent_id,
                     },
                     alloc,
                     seen,
@@ -485,11 +535,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
+                        lhs_syn: v.lhs_syn,
+                        rhs_syn: next_sibling_or_parent(rhs_parent),
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_parent.next_sibling(),
                         parents: parents_next,
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
                     },
                     alloc,
                     seen,
@@ -511,11 +561,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
+                        lhs_syn: next_sibling_or_parent(lhs_syntax),
+                        rhs_syn: next_sibling_or_parent(rhs_syntax),
                         lhs_syntax: lhs_syntax.next_sibling(),
                         rhs_syntax: rhs_syntax.next_sibling(),
                         parents: v.parents.clone(),
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: v.rhs_parent_id,
                     },
                     alloc,
                     seen,
@@ -556,11 +606,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: Some(first_child_or_self(lhs_syntax, lhs_children)),
+                            rhs_syn: Some(first_child_or_self(rhs_syntax, rhs_children)),
                             lhs_syntax: lhs_next,
                             rhs_syntax: rhs_next,
                             parents: parents_next,
-                            lhs_parent_id: Some(lhs_syntax.id()),
-                            rhs_parent_id: Some(rhs_syntax.id()),
                         },
                         alloc,
                         seen,
@@ -593,11 +643,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: next_sibling_or_parent(lhs_syntax),
+                            rhs_syn: next_sibling_or_parent(rhs_syntax),
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -622,11 +672,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: next_sibling_or_parent(lhs_syntax),
+                            rhs_syn: v.rhs_syn,
                             lhs_syntax: lhs_syntax.next_sibling(),
                             rhs_syntax: v.rhs_syntax,
                             parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -647,11 +697,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: Some(first_child_or_self(lhs_syntax, children)),
+                            rhs_syn: v.rhs_syn,
                             lhs_syntax: lhs_next,
                             rhs_syntax: v.rhs_syntax,
                             parents: parents_next,
-                            lhs_parent_id: Some(lhs_syntax.id()),
-                            rhs_parent_id: v.rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -674,11 +724,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: v.lhs_syn,
+                            rhs_syn: next_sibling_or_parent(rhs_syntax),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next_sibling(),
                             parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -699,11 +749,11 @@ pub fn get_set_neighbours<'syn, 'b>(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
+                            lhs_syn: v.lhs_syn,
+                            rhs_syn: Some(first_child_or_self(rhs_syntax, children)),
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_next,
                             parents: parents_next,
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: Some(rhs_syntax.id()),
                         },
                         alloc,
                         seen,

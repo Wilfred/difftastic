@@ -48,6 +48,7 @@ tree_magic_mini = "3.0.3"
 bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
+tagged-pointer = "0.2.3"
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
