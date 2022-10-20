@@ -652,7 +652,7 @@ module.exports = grammar(C, {
 
     using_declaration: $ => seq(
       'using',
-      optional('namespace'),
+      optional(choice('namespace', 'enum')),
       choice(
         $.identifier,
         $.qualified_identifier

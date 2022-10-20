@@ -81,6 +81,7 @@ using c::d;
 using ::e::f::g;
 using h = i::j;
 using namespace std;
+using enum Foo;
 
 template <typename T>
 using a = typename b<T>::c;
@@ -101,6 +102,7 @@ using a = typename b<T>::c;
   (alias_declaration
     (type_identifier)
     (type_descriptor (qualified_identifier (namespace_identifier) (type_identifier))))
+  (using_declaration (identifier))
   (using_declaration (identifier))
   (template_declaration
     (template_parameter_list

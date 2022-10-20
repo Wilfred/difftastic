@@ -9930,8 +9930,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "namespace"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "namespace"
+                },
+                {
+                  "type": "STRING",
+                  "value": "enum"
+                }
+              ]
             },
             {
               "type": "BLANK"
