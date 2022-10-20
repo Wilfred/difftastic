@@ -1185,6 +1185,10 @@
         "required": true,
         "types": [
           {
+            "type": "qualified_type",
+            "named": true
+          },
+          {
             "type": "type_identifier",
             "named": true
           }
