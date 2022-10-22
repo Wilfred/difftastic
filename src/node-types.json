@@ -42,7 +42,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "ansii_c_string",
+        "type": "ansi_c_string",
         "named": true
       },
       {
@@ -70,7 +70,7 @@
         "named": true
       },
       {
-        "type": "string_expansion",
+        "type": "translated_string",
         "named": true
       },
       {
@@ -1070,25 +1070,6 @@
     }
   },
   {
-    "type": "string_expansion",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "subscript",
     "named": true,
     "fields": {
@@ -1183,6 +1164,21 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "translated_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -1528,7 +1524,7 @@
     "named": false
   },
   {
-    "type": "ansii_c_string",
+    "type": "ansi_c_string",
     "named": true
   },
   {

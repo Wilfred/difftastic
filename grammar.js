@@ -426,10 +426,10 @@ module.exports = grammar({
       $.word,
       $.string,
       $.raw_string,
-      $.ansii_c_string,
+      $.translated_string,
+      $.ansi_c_string,
       $.expansion,
       $.simple_expansion,
-      $.string_expansion,
       $.command_substitution,
       $.process_substitution
     ),
@@ -468,6 +468,8 @@ module.exports = grammar({
 
     _string_content: $ => token(prec(-1, /([^"`$\\]|\\(.|\r?\n))+/)),
 
+    translated_string: $ => seq('$', $.string),
+
     array: $ => seq(
       '(',
       repeat($._literal),
@@ -476,7 +478,7 @@ module.exports = grammar({
 
     raw_string: $ => /'[^']*'/,
 
-    ansii_c_string: $ => /\$'([^']|\\')*'/,
+    ansi_c_string: $ => /\$'([^']|\\')*'/,
 
     simple_expansion: $ => seq(
       '$',
@@ -488,7 +490,7 @@ module.exports = grammar({
       )
     ),
 
-    string_expansion: $ => seq('$', choice($.string, $.raw_string)),
+    string_expansion: $ => seq('$', $.string),
 
     expansion: $ => seq(
       '${',

@@ -1845,7 +1845,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "ansii_c_string"
+          "name": "translated_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ansi_c_string"
         },
         {
           "type": "SYMBOL",
@@ -1854,10 +1858,6 @@
         {
           "type": "SYMBOL",
           "name": "simple_expansion"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_expansion"
         },
         {
           "type": "SYMBOL",
@@ -2063,6 +2063,19 @@
         }
       }
     },
+    "translated_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
     "array": {
       "type": "SEQ",
       "members": [
@@ -2087,7 +2100,7 @@
       "type": "PATTERN",
       "value": "'[^']*'"
     },
-    "ansii_c_string": {
+    "ansi_c_string": {
       "type": "PATTERN",
       "value": "\\$'([^']|\\\\')*'"
     },
@@ -2139,17 +2152,8 @@
           "value": "$"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "string"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "raw_string"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
