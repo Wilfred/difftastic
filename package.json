@@ -10,18 +10,15 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0",
-    "prebuild-install": "^5.3.3"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "prebuild": "^10.0.0",
-    "tree-sitter-cli": "^0.19.1"
+    "tree-sitter-cli": "^0.20.7"
   },
   "scripts": {
-    "install": "prebuild-install || node-gyp rebuild",
-    "pre-build": "prebuild --all --strip --verbose",
-    "pre-build:upload": "prebuild --upload-all",
-    "test": "tree-sitter test && script/parse-examples.sh",
+    "build": "tree-sitter generate && node-gyp build",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
   "repository": "https://github.com/tree-sitter/tree-sitter-bash",
