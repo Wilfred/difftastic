@@ -324,6 +324,11 @@ module.exports = grammar({
           optional($.else_clause),
           optional($.finally_clause)
         ),
+        seq(
+          repeat1($.except_group_clause),
+          optional($.else_clause),
+          optional($.finally_clause)
+        ),
         $.finally_clause
       )
     ),
@@ -341,7 +346,20 @@ module.exports = grammar({
       $._suite
     ),
 
-    finally_clause: $ => seq(
+   except_group_clause: $ => seq(
+      'except*',
+      seq(
+        $.expression,
+        optional(seq(
+          'as',
+          $.expression
+        ))
+      ),
+      ':',
+      $._suite
+    ),
+
+   finally_clause: $ => seq(
       'finally',
       ':',
       $._suite
