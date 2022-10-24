@@ -486,6 +486,17 @@ else:
 finally:
   f
 
+try:
+  a
+except* b:
+  c
+except* d as e:
+  f
+else:
+  g
+finally:
+  h
+
 --------------------------------------------------------------------------------
 
 (module
@@ -525,6 +536,31 @@ finally:
       (block
         (expression_statement
           (identifier))
+        (expression_statement
+          (identifier))))
+    (else_clause
+      body: (block
+        (expression_statement
+          (identifier))))
+    (finally_clause
+      (block
+        (expression_statement
+          (identifier)))))
+  (try_statement
+    body: (block
+      (expression_statement
+        (identifier)))
+    (except_group_clause
+      (identifier)
+      (block
+        (expression_statement
+          (identifier))))
+    (except_group_clause
+      (as_pattern
+        (identifier)
+        alias: (as_pattern_target
+          (identifier)))
+      (block
         (expression_statement
           (identifier))))
     (else_clause
