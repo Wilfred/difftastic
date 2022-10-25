@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-latex"
 description = "latex grammar for the tree-sitter parsing library"
-version = "0.2.0"
+version = "0.2.1"
 keywords = ["incremental", "parsing", "latex"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/latex-lsp/tree-sitter-latex"
