@@ -3966,6 +3966,14 @@
         "required": true,
         "types": [
           {
+            "type": "\\big",
+            "named": false
+          },
+          {
+            "type": "\\bigl",
+            "named": false
+          },
+          {
             "type": "\\left",
             "named": false
           }
@@ -3998,6 +4006,10 @@
           {
             "type": "word",
             "named": true
+          },
+          {
+            "type": "|",
+            "named": false
           }
         ]
       },
@@ -4005,6 +4017,14 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "\\big",
+            "named": false
+          },
+          {
+            "type": "\\bigr",
+            "named": false
+          },
           {
             "type": "\\right",
             "named": false
@@ -4038,6 +4058,10 @@
           {
             "type": "word",
             "named": true
+          },
+          {
+            "type": "|",
+            "named": false
           }
         ]
       }
@@ -7652,6 +7676,18 @@
   },
   {
     "type": "\\bibliography",
+    "named": false
+  },
+  {
+    "type": "\\big",
+    "named": false
+  },
+  {
+    "type": "\\bigl",
+    "named": false
+  },
+  {
+    "type": "\\bigr",
     "named": false
   },
   {

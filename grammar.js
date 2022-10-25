@@ -831,15 +831,17 @@ module.exports = grammar({
       ),
 
     _math_delimiter_part: $ =>
-      choice($.word, $.command_name, '[', ']', '(', ')'),
+      choice($.word, $.command_name, '[', ']', '(', ')', '|'),
 
     math_delimiter: $ =>
-      seq(
-        field('left_command', '\\left'),
-        field('left_delimiter', $._math_delimiter_part),
-        repeat($._root_content),
-        field('right_command', '\\right'),
-        field('right_delimiter', $._math_delimiter_part)
+      prec.left(
+        seq(
+          field('left_command', choice('\\left', '\\big', '\\bigl')),
+          field('left_delimiter', $._math_delimiter_part),
+          repeat($._root_content),
+          field('right_command', choice('\\right', '\\big', '\\bigr')),
+          field('right_delimiter', $._math_delimiter_part)
+        )
       ),
 
     paired_delimiter_definition: $ =>

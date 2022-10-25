@@ -699,3 +699,42 @@ tree-sitter-latex (Issue #55) | minted with options
       (curly_group_text
         (text
           (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #58) | math delimiters
+================================================================================
+
+\big( 2 + 2 \big)
+\bigl( 2 + 2 \bigr)
+\left( 2 + 2 \right)
+\big\langle 2 + 2 \big\rangle
+\bigl| v \bigr|
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (command_name)
+    (text
+      (word)
+      (operator)
+      (word))
+    (command_name))
+  (math_delimiter
+    (text
+      (word))))

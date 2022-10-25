@@ -4251,52 +4251,86 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "|"
         }
       ]
     },
     "math_delimiter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "left_command",
-          "content": {
-            "type": "STRING",
-            "value": "\\left"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left_command",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\left"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\big"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\bigl"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "left_delimiter",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_delimiter_part"
+            }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_root_content"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right_command",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\right"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\big"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\bigr"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right_delimiter",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_math_delimiter_part"
+            }
           }
-        },
-        {
-          "type": "FIELD",
-          "name": "left_delimiter",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_math_delimiter_part"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_root_content"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "right_command",
-          "content": {
-            "type": "STRING",
-            "value": "\\right"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "right_delimiter",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_math_delimiter_part"
-          }
-        }
-      ]
+        ]
+      }
     },
     "paired_delimiter_definition": {
       "type": "PREC_RIGHT",
