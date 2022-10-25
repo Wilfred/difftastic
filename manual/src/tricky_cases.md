@@ -52,7 +52,7 @@ than the `x`.
 (x y)
 ```
 
-Desired output: <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code>
+Desired result: <code>(x <span style="background-color: PaleGreen; color: #000">y</span>)</code>
 
 In this case, we want to highlight `y`. Highlighting the delimiters
 could make `x` look changed.
@@ -132,6 +132,30 @@ Desired result: <code>foo(<span style="background-color: PaleGreen; color: #000"
 We want to consider both `foo` and `bar` to be unchanged. This case is
 challenging for diffing algorithms that do a bottom-up then top-down
 matching of trees.
+
+## Punctuation Atoms
+
+```
+// Before
+foo(1, bar)
+
+// After
+foo(bar, 2)
+```
+
+Possible result: <code>foo(<span style="background-color: PaleGreen; color: #000">bar</span>, <span style="background-color: PaleGreen; color: #000">2</span>)</code>
+
+Desired result: <code>foo(bar<span style="background-color: PaleGreen; color: #000">,</span> <span style="background-color: PaleGreen; color: #000">2</span>)</code>
+
+There are two atoms inside the `()` that we could consider as
+unchanged, either the `bar` or the `,`. (We can't consider both to be
+unchanged as they're reordered.)
+
+We want to consider `bar` to be unchanged, as it's a more important
+atom than the `,` punctuation atom. Doing this is in a
+language-agnostic way is difficult, so difftastic has a small list of
+punctuation characters that always get lower priority than other
+atoms.
 
 ## Sliders (Flat)
 
