@@ -37,6 +37,10 @@ pub struct TreeSitterConfig {
     /// Tree-sitter query used for syntax highlighting this
     /// language.
     highlight_query: ts::Query,
+
+    /// Tree-sitter nodes that we ignore and do not convert to
+    /// difftatic nodes
+    ignored_nodes: HashSet<&'static str>,
 }
 
 extern "C" {
@@ -114,6 +118,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/bash.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         C => {
@@ -127,6 +134,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/c.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         CPlusPlus => {
@@ -145,6 +155,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                ignored_nodes: vec!["comment"]
+                    .into_iter()
+                    .collect(),
             }
         }
         Clojure => {
@@ -160,6 +173,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/clojure.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         CMake => {
@@ -173,6 +189,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/cmake.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         CommonLisp => {
@@ -182,6 +201,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 atom_nodes: vec!["str_lit", "char_lit"].into_iter().collect(),
                 delimiter_tokens: vec![("(", ")")],
                 highlight_query: ts::Query::new(language, "").unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         CSharp => {
@@ -201,6 +223,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/c-sharp.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Css => {
@@ -214,6 +239,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/css.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Dart => {
@@ -227,6 +255,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/dart.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         EmacsLisp => {
@@ -242,6 +273,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elisp.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Elixir => {
@@ -257,6 +291,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elixir.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Elm => {
@@ -270,6 +307,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elm.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Elvish => {
@@ -283,6 +323,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/elvish.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Gleam => {
@@ -296,6 +339,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/gleam.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Go => {
@@ -313,6 +359,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/go.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Hack => {
@@ -326,6 +375,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hack.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Hare => {
@@ -341,6 +393,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hare.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Haskell => {
@@ -354,6 +409,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/haskell.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Hcl => {
@@ -374,6 +432,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/hcl.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Html => {
@@ -397,6 +458,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/html.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Janet => {
@@ -419,6 +483,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/janet_simple.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Java => {
@@ -432,6 +499,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/java.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         JavaScript | Jsx => {
@@ -455,6 +525,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/javascript.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Json => {
@@ -468,6 +541,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/json.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Julia => {
@@ -488,6 +564,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/julia.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Kotlin => {
@@ -505,6 +584,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/kotlin.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Lua => {
@@ -520,6 +602,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/lua.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Make => {
@@ -533,6 +618,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/make.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Nix => {
@@ -548,6 +636,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/nix.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         OCaml => {
@@ -561,6 +652,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ocaml.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         OCamlInterface => {
@@ -574,6 +668,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ocaml.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Pascal => {
@@ -587,6 +684,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/pascal.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Perl => {
@@ -611,6 +711,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/perl.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Php => {
@@ -624,6 +727,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/php.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Python => {
@@ -637,6 +743,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/python.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Qml => {
@@ -656,6 +765,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Ruby => {
@@ -679,6 +791,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/ruby.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Rust => {
@@ -692,6 +807,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/rust.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Scala => {
@@ -705,6 +823,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/scala.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Sql => {
@@ -718,6 +839,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/sql.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Swift => {
@@ -731,6 +855,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/swift.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Toml => {
@@ -744,6 +871,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/toml.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Tsx => {
@@ -760,6 +890,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         TypeScript => {
@@ -778,6 +911,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     ),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Yaml => {
@@ -798,6 +934,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/yaml.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
         Zig => {
@@ -815,6 +954,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../../vendor/highlights/zig.scm"),
                 )
                 .unwrap(),
+                ignored_nodes: vec![]
+                    .into_iter()
+                    .collect(),
             }
         }
     }
@@ -1085,6 +1227,8 @@ fn syntax_from_cursor<'a>(
 
         // Treat error nodes as atoms, even if they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights)
+    } else if config.ignored_nodes.contains(node.kind()) {
+        None
     } else if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
