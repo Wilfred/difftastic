@@ -568,7 +568,7 @@ module.exports = grammar({
       prec.right(
         seq(
           field('command', $.command_name),
-          repeat(field('arg', choice($.curly_group, $.brack_group)))
+          repeat(field('arg', $.curly_group))
         )
       ),
 

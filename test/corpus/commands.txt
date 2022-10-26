@@ -28,7 +28,7 @@ Command with one curly argument
         (word)))))
 
 ================================================================================
-Command with one curly argument and one brack argument
+Command with one curly argument and brackets
 ================================================================================
 
 \foo{bar}[baz]
@@ -40,10 +40,9 @@ Command with one curly argument and one brack argument
     (command_name)
     (curly_group
       (text
-        (word)))
-    (brack_group
-      (text
-        (word)))))
+        (word))))
+  (text
+    (word)))
 
 ================================================================================
 Command with incomplete argument

@@ -2728,10 +2728,6 @@
         "required": false,
         "types": [
           {
-            "type": "brack_group",
-            "named": true
-          },
-          {
             "type": "curly_group",
             "named": true
           }

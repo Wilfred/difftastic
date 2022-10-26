@@ -3105,17 +3105,8 @@
               "type": "FIELD",
               "name": "arg",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "curly_group"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "brack_group"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "curly_group"
               }
             }
           }
