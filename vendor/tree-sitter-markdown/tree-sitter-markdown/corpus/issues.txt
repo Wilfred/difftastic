@@ -1,0 +1,65 @@
+================================================================================
+#17 - Titles not detected after an empty inner list item (bullet point)
+================================================================================
+* a
+  * b
+  *
+
+
+# C
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (list
+      (list_item
+        (list_marker_star)
+        (paragraph
+          (inline)
+          (block_continuation))
+        (list
+          (list_item
+            (list_marker_star)
+            (paragraph
+              (inline)
+              (block_continuation)))
+          (list_item
+            (list_marker_star)
+            (block_continuation)
+            (block_continuation))))))
+  (section
+    (atx_heading
+      (atx_h1_marker)
+      (inline))))
+
+================================================================================
+#33 - Fenced code block attributes
+================================================================================
+```{R}
+1 + 1
+```
+
+```{}
+1 + 1
+```
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (fenced_code_block
+      (fenced_code_block_delimiter)
+      (info_string
+        (language))
+      (block_continuation)
+      (code_fence_content
+        (block_continuation))
+      (fenced_code_block_delimiter))
+    (fenced_code_block
+      (fenced_code_block_delimiter)
+      (info_string)
+      (block_continuation)
+      (code_fence_content
+        (block_continuation))
+      (fenced_code_block_delimiter))))

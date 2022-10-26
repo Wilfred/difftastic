@@ -1,3 +1,6 @@
+sample_files/Session_before.kt sample_files/Session_after.kt
+46994b58bb24200f82866951013f03ce  -
+
 sample_files/b2_math_before.h sample_files/b2_math_after.h
 637e91c1528894ec0529bc845ef79c88  -
 
@@ -55,11 +58,11 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 48b5599f3c6131a7eccaba73254fd599  -
 
-sample_files/helpful_before.el sample_files/helpful_after.el
-bce74573e003cc6b729a63a4bc34c4af  -
-
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 79597af48ff80bcf9f5d02d20c51606d  -
+
+sample_files/helpful_before.el sample_files/helpful_after.el
+bce74573e003cc6b729a63a4bc34c4af  -
 
 sample_files/html_before.html sample_files/html_after.html
 5bf6a3d864706e18932c8cd027cb4c0b  -
@@ -102,6 +105,9 @@ sample_files/load_before.js sample_files/load_after.js
 
 sample_files/lua_before.lua sample_files/lua_after.lua
 c3d81271c060bd97dd246c1c5ea6a138  -
+
+sample_files/markdown_before.md sample_files/markdown_after.md
+aca6d38a647626d96bcb0a0cb791eaaa  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 b71577801352071fd1c6a9079f2d9dbc  -
@@ -153,9 +159,6 @@ d88046b43f826a34bbd4a7b9d6bb704d  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
 bb18213033492a633e7f978ab9711ae1  -
-
-sample_files/Session_before.kt sample_files/Session_after.kt
-46994b58bb24200f82866951013f03ce  -
 
 sample_files/simple_before.js sample_files/simple_after.js
 b1fe2c184a9a358e314e21aabb0f3cb7  -
