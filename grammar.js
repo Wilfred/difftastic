@@ -250,11 +250,14 @@ module.exports = grammar({
       optional(seq("=", $._expression))
     ),
 
-    _delegation_specifiers: $ => prec.left(sep1(
-      $.delegation_specifier,
-      // $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type modifiers
-      ","
-    )),
+    _delegation_specifiers: $ => prec.left(seq(
+       sep1(
+         $.delegation_specifier,
+         // $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type m     odifiers
+         ","
+       ),
+       optional(",")
+     )),
 
     delegation_specifier: $ => prec.left(choice(
       $.constructor_invocation,
