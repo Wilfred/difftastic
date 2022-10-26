@@ -4271,7 +4271,31 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "\\Big"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\bigg"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Bigg"
+                },
+                {
+                  "type": "STRING",
                   "value": "\\bigl"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Bigl"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\biggl"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Biggl"
                 }
               ]
             }
@@ -4307,7 +4331,31 @@
                 },
                 {
                   "type": "STRING",
+                  "value": "\\Big"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\bigg"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Bigg"
+                },
+                {
+                  "type": "STRING",
                   "value": "\\bigr"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Bigr"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\biggr"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\Biggr"
                 }
               ]
             }

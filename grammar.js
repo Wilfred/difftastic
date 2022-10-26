@@ -836,10 +836,36 @@ module.exports = grammar({
     math_delimiter: $ =>
       prec.left(
         seq(
-          field('left_command', choice('\\left', '\\big', '\\bigl')),
+          field(
+            'left_command',
+            choice(
+              '\\left',
+              '\\big',
+              '\\Big',
+              '\\bigg',
+              '\\Bigg',
+              '\\bigl',
+              '\\Bigl',
+              '\\biggl',
+              '\\Biggl'
+            )
+          ),
           field('left_delimiter', $._math_delimiter_part),
           repeat($._root_content),
-          field('right_command', choice('\\right', '\\big', '\\bigr')),
+          field(
+            'right_command',
+            choice(
+              '\\right',
+              '\\big',
+              '\\Big',
+              '\\bigg',
+              '\\Bigg',
+              '\\bigr',
+              '\\Bigr',
+              '\\biggr',
+              '\\Biggr'
+            )
+          ),
           field('right_delimiter', $._math_delimiter_part)
         )
       ),
