@@ -199,6 +199,10 @@
             "named": false
           },
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "bit_string_pattern",
             "named": true
           },
@@ -375,7 +379,15 @@
             "named": true
           },
           {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
             "type": "case",
+            "named": true
+          },
+          {
+            "type": "discard",
             "named": true
           },
           {
@@ -411,11 +423,19 @@
             "named": true
           },
           {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -436,6 +456,10 @@
           },
           {
             "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           },
           {
@@ -513,6 +537,10 @@
             "named": false
           },
           {
+            "type": "<>",
+            "named": false
+          },
+          {
             "type": "==",
             "named": false
           },
@@ -563,7 +591,15 @@
             "named": true
           },
           {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
             "type": "case",
+            "named": true
+          },
+          {
+            "type": "discard",
             "named": true
           },
           {
@@ -599,11 +635,19 @@
             "named": true
           },
           {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
             "type": "negation",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -624,6 +668,10 @@
           },
           {
             "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
             "named": true
           },
           {
@@ -714,6 +762,10 @@
           },
           {
             "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -1134,6 +1186,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
         {
           "type": "bit_string_pattern",
           "named": true
@@ -2191,6 +2247,10 @@
             "named": false
           },
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "bit_string_pattern",
             "named": true
           },
@@ -2544,6 +2604,10 @@
       "required": false,
       "types": [
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "bit_string_pattern",
           "named": true
         },
@@ -2797,6 +2861,10 @@
           {
             "type": "as",
             "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
           },
           {
             "type": "bit_string_pattern",
@@ -3386,6 +3454,10 @@
             "named": false
           },
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "bit_string_pattern",
             "named": true
           },
@@ -3701,6 +3773,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
         {
           "type": "bit_string_pattern",
           "named": true
@@ -4133,6 +4209,10 @@
   },
   {
     "type": "<=.",
+    "named": false
+  },
+  {
+    "type": "<>",
     "named": false
   },
   {

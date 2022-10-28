@@ -298,7 +298,8 @@ module.exports = grammar({
         binaryExpr(prec.left, 7, "*.", $._expression),
         binaryExpr(prec.left, 7, "/", $._expression),
         binaryExpr(prec.left, 7, "/.", $._expression),
-        binaryExpr(prec.left, 7, "%", $._expression)
+        binaryExpr(prec.left, 7, "%", $._expression),
+        binaryExpr(prec.left, 7, "<>", $._expression)
       ),
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
@@ -541,19 +542,24 @@ module.exports = grammar({
         field("function", $._maybe_function_expression),
         field("arguments", $.arguments)
       ),
+    _pattern_expression: ($) =>
+      choice(
+        $.identifier,
+        $.discard,
+        $.record_pattern,
+        $.string,
+        $.integer,
+        $.float,
+        $.tuple_pattern,
+        alias($._pattern_bit_string, $.bit_string_pattern),
+        $.list_pattern,
+        alias($._pattern_binary_expression, $.binary_expression)
+      ),
+    _pattern_binary_expression: ($) =>
+      binaryExpr(prec.left, 1, "<>", $._pattern_expression),
     _pattern: ($) =>
       seq(
-        choice(
-          $.identifier,
-          $.discard,
-          $.record_pattern,
-          $.string,
-          $.integer,
-          $.float,
-          $.tuple_pattern,
-          alias($._pattern_bit_string, $.bit_string_pattern),
-          $.list_pattern
-        ),
+        $._pattern_expression,
         optional(field("assign", seq("as", $.identifier)))
       ),
     record_pattern: ($) =>

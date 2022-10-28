@@ -40,3 +40,57 @@ True && !False
     (negation
       (record
         (constructor_name)))))
+
+================================================================================
+Concatenation
+================================================================================
+
+let concat = "a" <> "b"
+
+case "12345" {
+  "0" <> rest -> rest
+  "12" <> "34" <> "5" -> "match"
+  _ -> ""
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let
+    (identifier)
+    (binary_expression
+      (string
+        (quoted_content))
+      (string
+        (quoted_content))))
+  (case
+    (case_subjects
+      (string
+        (quoted_content)))
+    (case_clauses
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (binary_expression
+              (string
+                (quoted_content))
+              (identifier))))
+        (identifier))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (binary_expression
+              (binary_expression
+                (string
+                  (quoted_content))
+                (string
+                  (quoted_content)))
+              (string
+                (quoted_content)))))
+        (string
+          (quoted_content)))
+      (case_clause
+        (case_clause_patterns
+          (case_clause_pattern
+            (discard)))
+        (string)))))
