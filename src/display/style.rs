@@ -257,6 +257,7 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     res
 }
 
+// TODO: Side here
 pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> Style {
     if background.is_dark() {
         if is_lhs {
@@ -381,13 +382,17 @@ fn apply_header_color(s: &str, use_color: bool, background: BackgroundColor) -> 
 pub(crate) fn apply_line_number_color(
     s: &str,
     is_novel: bool,
-    is_lhs: bool, // TODO: use Side here
+    side: Side,
     display_options: &DisplayOptions,
 ) -> String {
     if display_options.use_color {
         let mut style = Style::new();
         if is_novel {
-            style = novel_style(style, is_lhs, display_options.background_color);
+            style = novel_style(
+                style,
+                matches!(side, Side::Left),
+                display_options.background_color,
+            );
         }
 
         // TODO: dimmed

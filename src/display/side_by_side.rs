@@ -34,7 +34,7 @@ fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
 fn format_missing_line_num(
     prev_num: LineNumber,
     source_dims: &SourceDimensions,
-    is_lhs: bool,
+    is_lhs: bool, // Side here
     use_color: bool,
 ) -> String {
     let column_width = if is_lhs {
@@ -121,7 +121,7 @@ fn display_line_nums(
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.lhs_line_nums_width);
-            apply_line_number_color(&s, lhs_has_novel, true, display_options)
+            apply_line_number_color(&s, lhs_has_novel, Side::Left, display_options)
         }
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
@@ -133,7 +133,7 @@ fn display_line_nums(
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
-            apply_line_number_color(&s, rhs_has_novel, false, display_options)
+            apply_line_number_color(&s, rhs_has_novel, Side::Right, display_options)
         }
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
@@ -554,7 +554,7 @@ pub fn print(
                             s = apply_line_number_color(
                                 &s,
                                 rhs_lines_with_novel.contains(line_num),
-                                false,
+                                Side::Right,
                                 display_options,
                             );
                         }

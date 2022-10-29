@@ -1,6 +1,7 @@
 //! Inline, or "unified" diff display.
 
 use crate::{
+    constants::Side,
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
     display::hunks::Hunk,
     display::style::{self, apply_colors, apply_line_number_color},
@@ -90,7 +91,7 @@ pub fn print(
                     apply_line_number_color(
                         &format_line_num(lhs_line),
                         false,
-                        true,
+                        Side::Left,
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
@@ -105,7 +106,7 @@ pub fn print(
                     apply_line_number_color(
                         &format_line_num(*lhs_line),
                         true,
-                        true,
+                        Side::Left,
                         display_options,
                     ),
                     lhs_colored_lines[lhs_line.as_usize()]
@@ -119,7 +120,7 @@ pub fn print(
                     apply_line_number_color(
                         &format_line_num(*rhs_line),
                         true,
-                        false,
+                        Side::Right,
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
@@ -134,7 +135,7 @@ pub fn print(
                     apply_line_number_color(
                         &format_line_num(*rhs_line),
                         false,
-                        false,
+                        Side::Right,
                         display_options,
                     ),
                     rhs_colored_lines[rhs_line.as_usize()]
