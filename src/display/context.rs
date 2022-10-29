@@ -492,10 +492,7 @@ fn after_with_opposites(
                     all_opposites.sort();
 
                     if let Some(prev_max_opposite) = prev_max_opposite {
-                        all_opposites = all_opposites
-                            .into_iter()
-                            .filter(|x| *x > prev_max_opposite)
-                            .collect();
+                        all_opposites.retain(|x| *x > prev_max_opposite);
                     }
 
                     all_opposites.first().copied()
