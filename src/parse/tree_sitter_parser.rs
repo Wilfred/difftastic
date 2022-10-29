@@ -11,6 +11,9 @@ use crate::{
     parse::syntax::{AtomKind, Syntax},
 };
 
+#[cfg(feature = "dl-parsers")]
+use crate::parse::dynlibs::functions::*;
+
 /// Configuration for a tree-sitter parser.
 pub struct TreeSitterConfig {
     /// The tree-sitter language parser.
@@ -39,6 +42,7 @@ pub struct TreeSitterConfig {
     highlight_query: ts::Query,
 }
 
+#[cfg(not(feature = "dl-parsers"))]
 extern "C" {
     fn tree_sitter_bash() -> ts::Language;
     fn tree_sitter_c() -> ts::Language;
