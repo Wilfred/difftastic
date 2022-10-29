@@ -12,6 +12,9 @@ errors.
 Line numbers styling has been tweaked to make it more visually
 distinct from file content.
 
+Fixed an issue with inline display discarding newlines when color is
+disabled, leading to broken display.
+
 ## 0.37 (released 14th October 2022)
 
 ### Manual
