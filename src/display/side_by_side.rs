@@ -34,19 +34,17 @@ fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
 fn format_missing_line_num(
     prev_num: LineNumber,
     source_dims: &SourceDimensions,
-    is_lhs: bool, // Side here
+    side: Side,
     use_color: bool,
 ) -> String {
-    let column_width = if is_lhs {
-        source_dims.lhs_line_nums_width
-    } else {
-        source_dims.rhs_line_nums_width
+    let column_width = match side {
+        Side::Left => source_dims.lhs_line_nums_width,
+        Side::Right => source_dims.rhs_line_nums_width,
     };
 
-    let after_end = if is_lhs {
-        prev_num >= source_dims.lhs_max_line
-    } else {
-        prev_num >= source_dims.rhs_max_line
+    let after_end = match side {
+        Side::Left => prev_num >= source_dims.lhs_max_line,
+        Side::Right => prev_num >= source_dims.rhs_max_line,
     };
 
     let mut style = Style::new();
@@ -70,7 +68,7 @@ fn display_single_column(
     rhs_display_path: &str,
     lang_name: &str,
     src_lines: &[String],
-    is_lhs: bool,
+    side: Side,
     display_options: &DisplayOptions,
 ) -> Vec<String> {
     let column_width = format_line_num((src_lines.len() as u32).into()).len();
@@ -91,7 +89,7 @@ fn display_single_column(
 
     let mut style = Style::new();
     if display_options.use_color {
-        style = novel_style(Style::new(), is_lhs, display_options.background_color);
+        style = novel_style(Style::new(), side, display_options.background_color);
     }
 
     for (i, line) in src_lines.iter().enumerate() {
@@ -126,7 +124,7 @@ fn display_line_nums(
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
-            true,
+            Side::Left,
             display_options.use_color,
         ),
     };
@@ -138,7 +136,7 @@ fn display_line_nums(
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
-            false,
+            Side::Right,
             display_options.use_color,
         ),
     };
@@ -249,7 +247,8 @@ fn highlight_positions(
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions = color_positions(true, background, syntax_highlight, language, lhs_mps);
+    let lhs_positions =
+        color_positions(Side::Left, background, syntax_highlight, language, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in lhs_positions {
@@ -257,7 +256,8 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions = color_positions(false, background, syntax_highlight, language, rhs_mps);
+    let rhs_positions =
+        color_positions(Side::Right, background, syntax_highlight, language, rhs_mps);
     let mut rhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -307,7 +307,7 @@ pub fn print(
         (
             apply_colors(
                 lhs_src,
-                true,
+                Side::Left,
                 display_options.syntax_highlight,
                 language,
                 display_options.background_color,
@@ -315,7 +315,7 @@ pub fn print(
             ),
             apply_colors(
                 rhs_src,
-                false,
+                Side::Right,
                 display_options.syntax_highlight,
                 language,
                 display_options.background_color,
@@ -341,7 +341,7 @@ pub fn print(
             rhs_display_path,
             lang_name,
             &rhs_colored_lines,
-            false,
+            Side::Right,
             display_options,
         ) {
             print!("{}", line);
@@ -355,7 +355,7 @@ pub fn print(
             rhs_display_path,
             lang_name,
             &lhs_colored_lines,
-            true,
+            Side::Left,
             display_options,
         ) {
             print!("{}", line);
@@ -525,7 +525,7 @@ pub fn print(
                             lhs_line_num
                                 .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
-                            true,
+                            Side::Left,
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
@@ -547,7 +547,7 @@ pub fn print(
                             rhs_line_num
                                 .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             &source_dims,
-                            false,
+                            Side::Right,
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
@@ -610,11 +610,11 @@ mod tests {
         );
 
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, true, true),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, true),
             ". ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(0.into(), &source_dims, true, false),
+            format_missing_line_num(0.into(), &source_dims, Side::Left, false),
             ". ".to_string()
         );
     }
@@ -632,11 +632,11 @@ mod tests {
         );
 
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, true, true),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, true),
             "  ".dimmed().to_string()
         );
         assert_eq!(
-            format_missing_line_num(1.into(), &source_dims, true, false),
+            format_missing_line_num(1.into(), &source_dims, Side::Left, false),
             "  ".to_string()
         );
     }
@@ -661,7 +661,7 @@ mod tests {
             "foo.py",
             "Python",
             &["print(123)\n".to_string()],
-            false,
+            Side::Right,
             &display_options,
         );
         let res = res_lines.join("");

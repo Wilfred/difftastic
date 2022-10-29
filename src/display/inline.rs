@@ -26,7 +26,7 @@ pub fn print(
         (
             apply_colors(
                 lhs_src,
-                true,
+                Side::Left,
                 display_options.syntax_highlight,
                 language,
                 display_options.background_color,
@@ -34,7 +34,7 @@ pub fn print(
             ),
             apply_colors(
                 rhs_src,
-                false,
+                Side::Right,
                 display_options.syntax_highlight,
                 language,
                 display_options.background_color,

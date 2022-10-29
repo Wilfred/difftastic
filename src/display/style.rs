@@ -257,23 +257,22 @@ fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String
     res
 }
 
-// TODO: Side here
-pub fn novel_style(style: Style, is_lhs: bool, background: BackgroundColor) -> Style {
+pub fn novel_style(style: Style, side: Side, background: BackgroundColor) -> Style {
     if background.is_dark() {
-        if is_lhs {
-            style.bright_red()
-        } else {
-            style.bright_green()
+        match side {
+            Side::Left => style.bright_red(),
+            Side::Right => style.bright_green(),
         }
-    } else if is_lhs {
-        style.red()
     } else {
-        style.green()
+        match side {
+            Side::Left => style.red(),
+            Side::Right => style.green(),
+        }
     }
 }
 
 pub fn color_positions(
-    is_lhs: bool,
+    side: Side,
     background: BackgroundColor,
     syntax_highlight: bool,
     language: Option<Language>,
@@ -312,7 +311,7 @@ pub fn color_positions(
                 }
             }
             MatchKind::Novel { highlight, .. } => {
-                style = novel_style(style, is_lhs, background);
+                style = novel_style(style, side, background);
                 if syntax_highlight
                     && matches!(
                         highlight,
@@ -328,7 +327,7 @@ pub fn color_positions(
                 }
             }
             MatchKind::NovelWord { highlight } => {
-                style = novel_style(style, is_lhs, background).bold();
+                style = novel_style(style, side, background).bold();
 
                 // Underline novel words inside comments in code, but
                 // don't apply it to every single line in plaintext.
@@ -341,7 +340,7 @@ pub fn color_positions(
                 }
             }
             MatchKind::NovelLinePart { highlight, .. } => {
-                style = novel_style(style, is_lhs, background);
+                style = novel_style(style, side, background);
                 if syntax_highlight && matches!(highlight, TokenKind::Atom(AtomKind::Comment)) {
                     style = style.italic();
                 }
@@ -354,13 +353,13 @@ pub fn color_positions(
 
 pub fn apply_colors(
     s: &str,
-    is_lhs: bool,
+    side: Side,
     syntax_highlight: bool,
     language: Option<Language>,
     background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(is_lhs, background, syntax_highlight, language, positions);
+    let styles = color_positions(side, background, syntax_highlight, language, positions);
     let lines = split_on_newlines(s);
     style_lines(&lines, &styles)
 }
@@ -388,11 +387,7 @@ pub(crate) fn apply_line_number_color(
     if display_options.use_color {
         let mut style = Style::new();
         if is_novel {
-            style = novel_style(
-                style,
-                matches!(side, Side::Left),
-                display_options.background_color,
-            );
+            style = novel_style(style, side, display_options.background_color);
         }
 
         // TODO: dimmed
