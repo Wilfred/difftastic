@@ -529,14 +529,12 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = lhs_line_num {
-                            if display_options.use_color && lhs_lines_with_novel.contains(line_num)
-                            {
-                                s = if display_options.background_color.is_dark() {
-                                    s.bright_red().to_string()
-                                } else {
-                                    s.red().to_string()
-                                };
-                            }
+                            s = apply_line_number_color(
+                                &s,
+                                lhs_lines_with_novel.contains(line_num),
+                                Side::Left,
+                                display_options,
+                            );
                         }
                         s
                     };

@@ -62,13 +62,13 @@ sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 13be8198cd646daf7dadbf574f65ff40  -
 
 sample_files/html_before.html sample_files/html_after.html
-bce56a815a703ac88d18a42f113c045e  -
+05745fb0800454b19b124742954b9a3a  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
 e99d3e1517b4709d94d3e7328741b4ea  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-2a857d68855e283cc20433ef9cb17401  -
+371f858fe71e71bdc886449332b4c314  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
@@ -104,7 +104,7 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 1215598be7740b6c64f34c3c2936e737  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
-1e890518cfc3d7c55bb5258cddbdb0a9  -
+864291091fe9d4373732a435f9564175  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
 4e81efef94cef5e9c92d74844de0b8e5  -
@@ -170,7 +170,7 @@ sample_files/slider_before.rs sample_files/slider_after.rs
 b487a6008ebf3e92f0ed6769044c30d7  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-dedd2be94a95aeebaae551586929733f  -
+6abfb3fa64ea32cd89c77f62fe26a4e0  -
 
 sample_files/small_before.js sample_files/small_after.js
 1ff659314bd2d7ef577962a9ba850035  -
