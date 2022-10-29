@@ -7,6 +7,11 @@ better results when difftastic doesn't fully support the syntax
 (e.g. PostCSS is a superset of CSS) or when there are actual syntax
 errors.
 
+### Display
+
+Line numbers styling has been tweaked to make it more visually
+distinct from file content.
+
 ## 0.37 (released 14th October 2022)
 
 ### Manual

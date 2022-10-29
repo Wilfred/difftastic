@@ -1,213 +1,213 @@
 sample_files/b2_math_before.h sample_files/b2_math_after.h
-5ec5e237ec08f02c82165f56128679d4  -
+ec0854e630def8d7e6ce04cbcf1358f3  -
 
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
-3f1a361bdee8cf1206e00c48ace62c78  -
+affa06f407f8e07bc025c24e96d01298  -
 
 sample_files/change_outer_before.el sample_files/change_outer_after.el
-7202877e59d3264103f3db9662363dc4  -
+4d202515307556b443806ea25aac0b84  -
 
 sample_files/chinese_before.po sample_files/chinese_after.po
-f953f79812089ba81ace6143ea1654bc  -
+2dc07e384e0f3c8f0cf5206d67f9103c  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
-4e8f1df6ace7c9bc8aefc653b90b8d92  -
+b8e17b8eb649ba0b8d29b57a23e4ac81  -
 
 sample_files/comma_before.js sample_files/comma_after.js
-1c179336674aca7ff1f9564161e152fa  -
+e615c73ff860651f7749dc13cb3f110f  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-8fcca3b25189e3b5db9501188604343d  -
+70db55f8e3539241a990264f1516de72  -
 
 sample_files/context_before.rs sample_files/context_after.rs
-625275592b24e5ce1e8950d25927afac  -
+c46ab793523259a6a239912c079724d7  -
 
 sample_files/contiguous_before.js sample_files/contiguous_after.js
-838c876cbc28652a3675eee5e4d0b775  -
+3f25fc8b89b238fd6e7f92eb555f3d27  -
 
 sample_files/css_before.css sample_files/css_after.css
-f82b2b4ae47b34770c34b71be640369f  -
+88fc058cc85188f78399a54d23f6268f  -
 
 sample_files/dart_before.dart sample_files/dart_after.dart
-48c8daec90b7d1ae38167f991af6839c  -
+cb051f6adc4238724f4ec06398713a12  -
 
 sample_files/elisp_before.el sample_files/elisp_after.el
-8c3ef2449a1e6fa30cdf93c4244250e1  -
+5d9a1d3d283231d3bb4d7368fae042bf  -
 
 sample_files/elisp_contiguous_before.el sample_files/elisp_contiguous_after.el
-e5a67a9c5ccc05a31ae576bee6218f0a  -
+6deea81ba2f97c09ae773777c53af05e  -
 
 sample_files/elm_before.elm sample_files/elm_after.elm
-7439891eb2e3719b3c513f7b3d376552  -
+5cb3ab8c2e0a3ed534f0aa06a54568b4  -
 
 sample_files/elvish_before.elv sample_files/elvish_after.elv
-e404031bdcf5f12084142496b66d02ba  -
+dd6575e62ddbb4604de8e5dae7991815  -
 
 sample_files/hack_before.php sample_files/hack_after.php
-c69c17a4ffc907f5d27396fe98cffc97  -
+83d4a92c596b5d465ff024aa1b30be92  -
 
 sample_files/hare_before.ha sample_files/hare_after.ha
-9793ce968ea5e6ab4c5d0820e4f95e40  -
+2af3b9897290b3652d7aef626d5787e6  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
-ad186e1e3a21ddf06a496d738d3ea8ff  -
+0cefa44fdf56edf504f50506bbcded4e  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-a6933f7ec80906b1f503efa1094ee035  -
+a4ea20cd83edd64e6df846c6c4d29fbc  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
-07708c1abdecff7b809072b556886986  -
+7fa93d09c48af043adb40000c38b8362  -
 
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
-13be8198cd646daf7dadbf574f65ff40  -
+ce09e8127c21b8c186cd8a2143035b28  -
 
 sample_files/html_before.html sample_files/html_after.html
-05745fb0800454b19b124742954b9a3a  -
+bc74f6e9dce3ee8bdc959fbc61c05947  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
-e99d3e1517b4709d94d3e7328741b4ea  -
+ce3bfa12bc21d0eb5528766e18387e86  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-371f858fe71e71bdc886449332b4c314  -
+d948c1835eac1cdf4019edb6eed6bcaa  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
 
 sample_files/if_before.py sample_files/if_after.py
-2cd18c2e33efe1e95948cf64c91adf3c  -
+0a2d19c153f43bb7e683e3b531325533  -
 
 sample_files/janet_before.janet sample_files/janet_after.janet
-8604f348d0bff2b35f01954f4842f3d6  -
+d61e3fb8c84f30c327555d477bdf609a  -
 
 sample_files/java_before.java sample_files/java_after.java
-534adb3cefd0889e58c35bd0bf9b7a46  -
+96fabae990d201558531d24b777ca8f5  -
 
 sample_files/javascript_before.js sample_files/javascript_after.js
-26c7b5335d881f04a3543909c68d67cd  -
+9bf6b9497a951619f3c74bce5336e4d5  -
 
 sample_files/javascript_simple_before.js sample_files/javascript_simple_after.js
-c31dc6fa022838bd398988c39e18c477  -
+53725de32eabe5ff5a9230bd30cae28a  -
 
 sample_files/json_before.json sample_files/json_after.json
-e7661e1084181fcd383f3b521f874be1  -
+bae479fb04e15baf9460c5274c77963b  -
 
 sample_files/jsx_before.jsx sample_files/jsx_after.jsx
-91be111023ab881e1a6e2128b413a15b  -
+5784f67cac95fcdb621751aa80a3402b  -
 
 sample_files/julia_before.jl sample_files/julia_after.jl
-4a5cb5b9dbfa7e111a5793b82aa3adb7  -
+d5097685d55f12afeb369645c055fe65  -
 
 sample_files/load_before.js sample_files/load_after.js
-d9782dd0324670223dfbab7c94764c85  -
+77aeef544522ce5712f80eaab9446835  -
 
 sample_files/lua_before.lua sample_files/lua_after.lua
-1215598be7740b6c64f34c3c2936e737  -
+9886d61f459cdf566be9c42f7fa61a12  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
-864291091fe9d4373732a435f9564175  -
+a23d575010ed8d902740e7fa9ef6d15b  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
-4e81efef94cef5e9c92d74844de0b8e5  -
+7e578048e01b2c9eccf26c055c0eb9fd  -
 
 sample_files/multibyte_before.py sample_files/multibyte_after.py
-14b069728acf3fbec5adbb24360662b9  -
+4f06087b10fec86e4cf323aa228afff5  -
 
 sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
-0727a03804905665896e5295d23c823f  -
+ba135b1451962f563ce8c2f449a904bf  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-5b14a30a4b520bb7ee67e848f306af88  -
+e51eac2420b5bd0a6e156dc0bae28e4c  -
 
 sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
-8fcf4c5c59a92d60abe734d4a734d021  -
+5c3dc3d870cdf182658da6a29650d911  -
 
 sample_files/nesting_before.el sample_files/nesting_after.el
-5bb1c7ba7c734dee81e2b45221c859e1  -
+9fcf6b8adf148cdae47bc3a5f8068e41  -
 
 sample_files/nix_before.nix sample_files/nix_after.nix
-e5bcd9314510f7f35dca0741c8476fd5  -
+09a56752c1eb7f3f5c10d631a01973fc  -
 
 sample_files/ocaml_before.ml sample_files/ocaml_after.ml
-ec0b0d3dff16c2796e0016be01fdbc40  -
+53146610a48e80bf52e845110307c83d  -
 
 sample_files/outer_delimiter_before.el sample_files/outer_delimiter_after.el
-051085e492475bbf68e2b4b054c2b8e8  -
+c1e6be2d581ef439a3106aadb49cc1dc  -
 
 sample_files/pascal_before.pascal sample_files/pascal_after.pascal
-aeb028c919f4ca8162972547b1f6a481  -
+dfea5599b7f5e180d0fafab326f612cc  -
 
 sample_files/perl_before.pl sample_files/perl_after.pl
-87bf6a1456da7c0f0816549697adb286  -
+dee83b2433974ee8ac13a7d3febac7fa  -
 
 sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
-0f645ba4174f598b9f7f7a4f87601528  -
+de31a80dc8a06987aeff4aaa04ce3b87  -
 
 sample_files/preprocesor_before.h sample_files/preprocesor_after.h
-fc85743a7178049a0f9e1dddc59f951a  -
+6ac348ddeb559c44f4310bf98e6548b6  -
 
 sample_files/qml_before.qml sample_files/qml_after.qml
-79f71315bcd294bde771d902a3352994  -
+2e73193b1a4b37a7a97a35d6c0500377  -
 
 sample_files/ruby_before.rb sample_files/ruby_after.rb
-d720b9f788a08cd0690d7a02636b8a97  -
+d8761ee6b94b48304e5592c92b0e3a0b  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-22f3f59b8f9eafcd741731a2455af0ae  -
+dc36b671167f2b16c7800808d07197ee  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
-f95d768cfcc2d7f80de6c87f13fdf16b  -
+75db3872d74834ab70358bc50c50b072  -
 
 sample_files/simple_before.js sample_files/simple_after.js
-a45d383c10961dfad93d42b3352e8168  -
+43feeac1f3afe2c0c0b862009770f27a  -
 
 sample_files/simple_before.txt sample_files/simple_after.txt
-16771a88ae4b21f86eec3fed948930d1  -
+ecd793ba8d0f600bdfff973db7b12731  -
 
 sample_files/slider_at_end_before.json sample_files/slider_at_end_after.json
-31a61c312d7afddfd721b140eb6d5333  -
+fa3abd8106fe83760b68a85eca3d10dd  -
 
 sample_files/slider_before.rs sample_files/slider_after.rs
-b487a6008ebf3e92f0ed6769044c30d7  -
+52e0f2e690d11ef6f38704b8cee84d36  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-6abfb3fa64ea32cd89c77f62fe26a4e0  -
+0dba9e3e733237733a050435f0d741fc  -
 
 sample_files/small_before.js sample_files/small_after.js
-1ff659314bd2d7ef577962a9ba850035  -
+b4300bfc0203acd8f2603b504b859dc8  -
 
 sample_files/swift_before.swift sample_files/swift_after.swift
-3d4f258c3fe9a15ce57c67881bd44c0d  -
+4285db52158468d58d54115b6cb8f29b  -
 
 sample_files/syntax_error_before.js sample_files/syntax_error_after.js
-f3b2a42a709a99ddd76ef0d881181ea0  -
+867bfe1d9a53c85832334c8c229044e8  -
 
 sample_files/tab_before.c sample_files/tab_after.c
-882966c828cb5fa858ee62fe28755ed2  -
+b652d15f3a05b82a7d871cfeca2f453f  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
-95775736196931667a87057fb2989826  -
+2004624b277da0ca8f249b7787b264b5  -
 
 sample_files/text_before.txt sample_files/text_after.txt
-98006aff20b8c0fff98a399211aad752  -
+5fbdac2d1156ed8bb6b098e87f30d319  -
 
 sample_files/todomvc_before.gleam sample_files/todomvc_after.gleam
-84becb56c595f8dd6daf40fcd23f017f  -
+1c5eab9a743c434bce3903ae22e7026c  -
 
 sample_files/toml_before.toml sample_files/toml_after.toml
-0260eb15a104b12c283e31c933bebfbb  -
+76cec49cfea2a878b036a6cc56677797  -
 
 sample_files/typing_before.ml sample_files/typing_after.ml
-38378d1143ca441dbd1a7063f51267ef  -
+a57a2fa9f269fcca74405574dba3713a  -
 
 sample_files/utf16_before.py sample_files/utf16_after.py
-b63405614f0aab9683f7f2b32d4311d9  -
+3d4e36306f4bae1fa1a3d800de413726  -
 
 sample_files/whitespace_before.tsx sample_files/whitespace_after.tsx
-789f2ac7476a0b85f25136ae770bea6d  -
+49ed560e481c23633a00cce3674d0985  -
 
 sample_files/yaml_before.yaml sample_files/yaml_after.yaml
-e0e25351ce71c04a12fa72249b9c566c  -
+a40489d7b2f061419d2b193b7e1b3da2  -
 
 sample_files/zig_before.zig sample_files/zig_after.zig
-f055fa3f1b91e375be44ef671f3de0e1  -
+0905e014fc9157d90059ae207a202001  -
 
