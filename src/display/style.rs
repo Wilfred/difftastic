@@ -378,6 +378,25 @@ fn apply_header_color(s: &str, use_color: bool, background: BackgroundColor) -> 
     }
 }
 
+pub(crate) fn apply_line_number_color(
+    s: &str,
+    is_novel: bool,
+    is_lhs: bool, // TODO: use Side here
+    display_options: &DisplayOptions,
+) -> String {
+    if display_options.use_color {
+        let mut style = Style::new();
+        if is_novel {
+            style = novel_style(style, is_lhs, display_options.background_color);
+        }
+
+        // TODO: dimmed
+        s.style(style).to_string()
+    } else {
+        s.to_string()
+    }
+}
+
 pub fn header(
     lhs_display_path: &str,
     rhs_display_path: &str,

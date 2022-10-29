@@ -9,7 +9,8 @@ use crate::{
     display::context::all_matched_lines_filled,
     display::hunks::{matched_lines_indexes_for_hunk, Hunk},
     display::style::{
-        self, apply_colors, color_positions, novel_style, split_and_apply, BackgroundColor,
+        self, apply_colors, apply_line_number_color, color_positions, novel_style, split_and_apply,
+        BackgroundColor,
     },
     lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
     options::{DisplayMode, DisplayOptions},
@@ -111,8 +112,7 @@ fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
     source_dims: &SourceDimensions,
-    use_color: bool,
-    background: BackgroundColor,
+    display_options: &DisplayOptions,
     lhs_has_novel: bool,
     rhs_has_novel: bool,
     prev_lhs_line_num: Option<LineNumber>,
@@ -121,42 +121,25 @@ fn display_line_nums(
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.lhs_line_nums_width);
-            if lhs_has_novel && use_color {
-                // TODO: factor out applying colours to line numbers.
-                if background.is_dark() {
-                    s.bright_red().to_string()
-                } else {
-                    s.red().to_string()
-                }
-            } else {
-                s
-            }
+            apply_line_number_color(&s, lhs_has_novel, true, display_options)
         }
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             true,
-            use_color,
+            display_options.use_color,
         ),
     };
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, source_dims.rhs_line_nums_width);
-            if rhs_has_novel && use_color {
-                if background.is_dark() {
-                    s.bright_green().to_string()
-                } else {
-                    s.green().to_string()
-                }
-            } else {
-                s
-            }
+            apply_line_number_color(&s, rhs_has_novel, false, display_options)
         }
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
             source_dims,
             false,
-            use_color,
+            display_options.use_color,
         ),
     };
 
@@ -458,8 +441,7 @@ pub fn print(
                 *lhs_line_num,
                 *rhs_line_num,
                 &source_dims,
-                display_options.use_color,
-                display_options.background_color,
+                display_options,
                 lhs_line_novel,
                 rhs_line_novel,
                 prev_lhs_line_num,
@@ -569,14 +551,12 @@ pub fn print(
                             display_options.use_color,
                         );
                         if let Some(line_num) = rhs_line_num {
-                            if display_options.use_color && rhs_lines_with_novel.contains(line_num)
-                            {
-                                s = if display_options.background_color.is_dark() {
-                                    s.bright_green().to_string()
-                                } else {
-                                    s.green().to_string()
-                                };
-                            }
+                            s = apply_line_number_color(
+                                &s,
+                                rhs_lines_with_novel.contains(line_num),
+                                false,
+                                display_options,
+                            );
                         }
                         s
                     };

@@ -3,12 +3,11 @@
 use crate::{
     display::context::{calculate_after_context, calculate_before_context, opposite_positions},
     display::hunks::Hunk,
-    display::style::{self, apply_colors},
+    display::style::{self, apply_colors, apply_line_number_color},
     lines::{format_line_num, split_on_newlines, MaxLine},
     options::DisplayOptions,
     parse::{guess_language::Language, syntax::MatchedPos},
 };
-use owo_colors::colored::*;
 
 pub fn print(
     lhs_src: &str,
@@ -88,7 +87,12 @@ pub fn print(
             if let Some(lhs_line) = lhs_line {
                 print!(
                     "{}   {}",
-                    format_line_num(lhs_line),
+                    apply_line_number_color(
+                        &format_line_num(lhs_line),
+                        false,
+                        true,
+                        display_options,
+                    ),
                     lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
@@ -98,7 +102,12 @@ pub fn print(
             if let Some(lhs_line) = lhs_line {
                 print!(
                     "{}   {}",
-                    format_line_num(*lhs_line).red().bold(),
+                    apply_line_number_color(
+                        &format_line_num(*lhs_line),
+                        true,
+                        true,
+                        display_options,
+                    ),
                     lhs_colored_lines[lhs_line.as_usize()]
                 );
             }
@@ -107,7 +116,12 @@ pub fn print(
             if let Some(rhs_line) = rhs_line {
                 print!(
                     "   {}{}",
-                    format_line_num(*rhs_line).green().bold(),
+                    apply_line_number_color(
+                        &format_line_num(*rhs_line),
+                        true,
+                        false,
+                        display_options,
+                    ),
                     rhs_colored_lines[rhs_line.as_usize()]
                 );
             }
@@ -117,7 +131,12 @@ pub fn print(
             if let Some(rhs_line) = rhs_line {
                 print!(
                     "   {}{}",
-                    format_line_num(*rhs_line),
+                    apply_line_number_color(
+                        &format_line_num(*rhs_line),
+                        false,
+                        false,
+                        display_options,
+                    ),
                     rhs_colored_lines[rhs_line.as_usize()]
                 );
             }
