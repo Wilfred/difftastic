@@ -38,8 +38,6 @@ pub type SyntaxId = NonZeroU32;
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
-    /// The previous node with the same parent as this one.
-    previous_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The next node with the same parent as this one.
     next_sibling: Cell<Option<&'a Syntax<'a>>>,
     /// The syntax node that occurs before this one, in a depth-first
@@ -69,7 +67,6 @@ pub struct SyntaxInfo<'a> {
 impl<'a> SyntaxInfo<'a> {
     pub fn new() -> Self {
         Self {
-            previous_sibling: Cell::new(None),
             next_sibling: Cell::new(None),
             prev: Cell::new(None),
             parent: Cell::new(None),
@@ -425,7 +422,6 @@ fn set_num_after(nodes: &[&Syntax], parent_num_after: usize) {
     }
 }
 pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
-    set_prev_sibling(roots);
     set_next_sibling(roots);
     set_prev(roots, None);
     set_prev_is_contiguous(roots);
@@ -478,21 +474,6 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
     let mut counts = HashMap::new();
     find_nodes_with_unique_content(nodes, &mut counts);
     set_content_is_unique_from_counts(nodes, &counts);
-}
-
-fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
-    for (i, node) in nodes.iter().enumerate() {
-        if i == 0 {
-            continue;
-        }
-
-        let sibling = nodes.get(i - 1).copied();
-        node.info().previous_sibling.set(sibling);
-
-        if let List { children, .. } = node {
-            set_prev_sibling(children);
-        }
-    }
 }
 
 fn set_next_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
