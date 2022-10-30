@@ -337,13 +337,13 @@ fn diff_file_content(
 
             let mut exceeded_graph_limit = false;
 
-            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
+            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed.iter() {
                 init_next_prev(&lhs_section_nodes);
                 init_next_prev(&rhs_section_nodes);
 
                 match mark_syntax(
-                    lhs_section_nodes.get(0).copied(),
-                    rhs_section_nodes.get(0).copied(),
+                    &lhs_section_nodes,
+                    &rhs_section_nodes,
                     &mut change_map,
                     graph_limit,
                 ) {

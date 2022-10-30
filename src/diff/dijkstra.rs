@@ -5,7 +5,7 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{get_set_neighbours, populate_change_map, Edge, Vertex},
+    diff::graph::{get_set_neighbours, populate_change_map, Edge, SyntaxInTree, Vertex},
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -19,6 +19,10 @@ pub struct ExceededGraphLimit {}
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'a, 'b>(
     start: &'b Vertex<'a, 'b>,
+    lhs_end_idx: u32,
+    rhs_end_idx: u32,
+    lhs_nodes: &Vec<SyntaxInTree<'a>>,
+    rhs_nodes: &Vec<SyntaxInTree<'a>>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
@@ -36,11 +40,13 @@ fn shortest_vertex_path<'a, 'b>(
     let end: &'b Vertex<'a, 'b> = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
-                if current.is_end() {
+                if current.lhs_pos == lhs_end_idx && current.rhs_pos == rhs_end_idx {
                     break current;
                 }
 
-                for neighbour in &get_set_neighbours(current, vertex_arena, &mut seen) {
+                for neighbour in
+                    &get_set_neighbours(current, vertex_arena, lhs_nodes, rhs_nodes, &mut seen)
+                {
                     let (edge, next) = neighbour;
                     let distance_to_next = distance + edge.cost();
 
@@ -107,12 +113,25 @@ fn shortest_path_with_edges<'a, 'b>(
 /// necessary because a route of N vertices only has N-1 edges.
 fn shortest_path<'a, 'b>(
     start: Vertex<'a, 'b>,
+    lhs_end_pos: u32,
+    rhs_end_pos: u32,
+    lhs_nodes: &Vec<SyntaxInTree<'a>>,
+    rhs_nodes: &Vec<SyntaxInTree<'a>>,
     vertex_arena: &'b Bump,
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
     let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
-    let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
+    let vertex_path = shortest_vertex_path(
+        start,
+        lhs_end_pos,
+        rhs_end_pos,
+        lhs_nodes,
+        rhs_nodes,
+        vertex_arena,
+        size_hint,
+        graph_limit,
+    )?;
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
@@ -167,32 +186,48 @@ fn node_count(root: Option<&Syntax>) -> u32 {
     count
 }
 
-/// How many top-level AST nodes do we have?
-fn tree_count(root: Option<&Syntax>) -> u32 {
-    let mut node = root;
-    let mut count = 0;
-    while let Some(current_node) = node {
-        count += 1;
-        node = current_node.next_sibling();
+/// Create SyntaxInTree nodes for the given list of Syntax objects and all their
+/// children, recursively. Vertex nodes will contain indexes to this array.
+pub fn flatten_syntax<'a>(
+    syntaxes: &'a Vec<&'a Syntax<'a>>,
+    nodes: &mut Vec<SyntaxInTree<'a>>,
+) -> (u32, u32) {
+    let start_idx = nodes.len();
+    for (i, syntax) in syntaxes.iter().enumerate() {
+        nodes.push(SyntaxInTree {
+            syntax: Some(syntax),
+            next_index: (start_idx + i + 1) as u32,
+            first_child: u32::MAX,
+        });
     }
-
-    count
+    nodes.push(SyntaxInTree {
+        syntax: None,
+        next_index: u32::MAX,
+        first_child: u32::MAX,
+    });
+    for (i, syntax) in syntaxes.iter().enumerate() {
+        if let Syntax::List { children, .. } = syntax {
+            let (first_child, _last_child) = flatten_syntax(children, nodes);
+            nodes[start_idx + i].first_child = first_child;
+        }
+    }
+    return (start_idx as u32, (start_idx + syntaxes.len()) as u32);
 }
 
 pub fn mark_syntax<'a>(
-    lhs_syntax: Option<&'a Syntax<'a>>,
-    rhs_syntax: Option<&'a Syntax<'a>>,
+    lhs: &'a Vec<&'a Syntax<'a>>,
+    rhs: &'a Vec<&'a Syntax<'a>>,
     change_map: &mut ChangeMap<'a>,
     graph_limit: usize,
 ) -> Result<(), ExceededGraphLimit> {
-    let lhs_node_count = node_count(lhs_syntax) as usize;
-    let rhs_node_count = node_count(rhs_syntax) as usize;
+    let lhs_node_count = node_count(lhs.get(0).and_then(|x| Some(*x))) as usize;
+    let rhs_node_count = node_count(rhs.get(0).and_then(|x| Some(*x))) as usize;
     info!(
         "LHS nodes: {} ({} toplevel), RHS nodes: {} ({} toplevel)",
         lhs_node_count,
-        tree_count(lhs_syntax),
+        lhs.len(),
         rhs_node_count,
-        tree_count(rhs_syntax),
+        rhs.len(),
     );
 
     // When there are a large number of changes, we end up building a
@@ -201,10 +236,24 @@ pub fn mark_syntax<'a>(
     // predecessors hashmap.
     let size_hint = lhs_node_count * rhs_node_count;
 
-    let start = Vertex::new(lhs_syntax, rhs_syntax);
+    let mut lhs_nodes: Vec<SyntaxInTree<'a>> = Vec::new();
+    let mut rhs_nodes: Vec<SyntaxInTree<'a>> = Vec::new();
+    let (lhs_start_idx, lhs_end_idx) = flatten_syntax(&lhs, &mut lhs_nodes);
+    let (rhs_start_idx, rhs_end_idx) = flatten_syntax(&rhs, &mut rhs_nodes);
+
+    let start = Vertex::new(lhs_start_idx, rhs_start_idx);
     let vertex_arena = Bump::new();
 
-    let route = shortest_path(start, &vertex_arena, size_hint, graph_limit)?;
+    let route = shortest_path(
+        start,
+        lhs_end_idx,
+        rhs_end_idx,
+        &lhs_nodes,
+        &rhs_nodes,
+        &vertex_arena,
+        size_hint,
+        graph_limit,
+    )?;
 
     let print_length = if env::var("DFT_VERBOSE").is_ok() {
         50
@@ -219,9 +268,9 @@ pub fn mark_syntax<'a>(
             .map(|x| {
                 format!(
                     "{:20} {:20} --- {:3} {:?}",
-                    x.1.lhs_syntax
+                    x.1.lhs_syntax(&lhs_nodes)
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.1.rhs_syntax
+                    x.1.rhs_syntax(&rhs_nodes)
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.0.cost(),
                     x.0,
@@ -231,7 +280,7 @@ pub fn mark_syntax<'a>(
             .collect_vec()
     );
 
-    populate_change_map(&route, change_map);
+    populate_change_map(&route, change_map, &lhs_nodes, &rhs_nodes);
     Ok(())
 }
 
