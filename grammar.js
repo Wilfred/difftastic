@@ -249,18 +249,30 @@ module.exports = grammar({
       seq(
         'local',
         choice(
-          alias($._name_list, $.variable_list),
+          alias($._att_name_list, $.variable_list),
           alias($._local_variable_assignment, $.assignment_statement)
         )
       ),
     _local_variable_assignment: ($) =>
       seq(
-        alias($._name_list, $.variable_list),
+        alias($._att_name_list, $.variable_list),
         '=',
         alias($._variable_assignment_explist, $.expression_list)
       ),
     // namelist ::= Name {',' Name}
     _name_list: ($) => name_list($),
+
+    // attnamelist ::=  Name attrib {‘,’ Name attrib}
+    _att_name_list: ($) =>
+      list_seq(
+        seq(
+          field('name', $.identifier),
+          optional(field('attribute', alias($._attrib, $.attribute)))
+        ),
+        ','
+      ),
+    // attrib ::= [‘<’ Name ‘>’]
+    _attrib: ($) => seq('<', $.identifier, '>'),
 
     // explist ::= exp {',' exp}
     _expression_list: ($) => list_seq($.expression, ','),

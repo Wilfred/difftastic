@@ -457,3 +457,38 @@ local v4, v4 = f1(), tbl:f2()
             table: (identifier)
             method: (identifier))
           arguments: (arguments))))))
+
+================================================================================
+variable_declaration ::: attribute [Lua 5.4]
+================================================================================
+
+local c <const>, x <const> = 42
+local f <close> = io.open('/file.lua')
+
+--------------------------------------------------------------------------------
+
+(chunk
+  local_declaration: (variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        attribute: (attribute
+          (identifier))
+        name: (identifier)
+        attribute: (attribute
+          (identifier)))
+      (expression_list
+        value: (number))))
+  local_declaration: (variable_declaration
+    (assignment_statement
+      (variable_list
+        name: (identifier)
+        attribute: (attribute
+          (identifier)))
+      (expression_list
+        value: (function_call
+          name: (dot_index_expression
+            table: (identifier)
+            field: (identifier))
+          arguments: (arguments
+            (string)))))))
