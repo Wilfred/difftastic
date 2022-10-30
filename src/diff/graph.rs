@@ -49,8 +49,11 @@ use Edge::*;
 /// ```
 #[derive(Debug, Clone)]
 pub struct Vertex<'a, 'b> {
-    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
-    pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub forward_neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
+    pub backward_neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
+    pub forward_predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub backward_predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub seen: Cell<(bool, bool)>, // Forward and backward, respectively.
     pub lhs_pos: u32,
     pub rhs_pos: u32,
     parents: Stack<EnteredDelimiter>,
@@ -232,8 +235,11 @@ impl<'a, 'b> Vertex<'a, 'b> {
     pub fn new(lhs_pos: u32, rhs_pos: u32) -> Self {
         let parents = Stack::new();
         Vertex {
-            neighbours: RefCell::new(None),
-            predecessor: Cell::new(None),
+            forward_neighbours: RefCell::new(None),
+            backward_neighbours: RefCell::new(None),
+            forward_predecessor: Cell::new(None),
+            backward_predecessor: Cell::new(None),
+            seen: Cell::new((false, false)),
             lhs_pos,
             rhs_pos,
             parents,
@@ -410,13 +416,120 @@ fn looks_like_punctuation(content: &str) -> bool {
 // that it probably doesn't matter.
 #[derive(Clone, Copy, Debug)]
 pub struct SyntaxInTree<'a> {
-    pub syntax: Option<&'a Syntax<'a>>, // None if we are a one-past-the-end node.
-    pub next_index: u32,                // u32::MAX if first in list.
-    pub first_child: u32,               // u32::MAX for no children.
+    // None if we are a one-past-the-end node.
+    pub syntax: Option<&'a Syntax<'a>>,
+
+    // u32::MAX if first in list.
+    pub next_index: u32,
+
+    // u32::MAX if the one-past-the-end node.
+    pub prev_index: u32,
+
+    // u32::MAX for no children.
+    pub first_child: u32,
+
+    // u32::MAX for no children, otherwise points to the children list's one-past-the-end node.
+    pub last_child: u32,
 }
 
-fn is_end<'a>(pos: u32, nodes: &Vec<SyntaxInTree<'a>>) -> bool {
-    nodes[pos as usize].next_index == u32::MAX
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Direction {
+    Forwards,
+    Backwards,
+}
+
+// Helpers to iterate through siblings, forwards or backwards. This is slightly tricky,
+// as forwards and backwards need to visit the exact same nodes, just in opposite orders.
+// E.g., assume we have three children. Forwards, we go through them as [0, 1, 2, end],
+// where the end (3) signals that we are done and need to go back up to our parent.
+// Backwards, similarly, we need to go [end, 2, 1, 0], _not_ [2, 1, 0, end]. This is fairly
+// simple as long as we have our one-past-the-end representation. When we go from 0 to 1,
+// we essentially emit the syntax node at 0; when we go from 1 to 0, we _also_ emit the
+// syntax node at 0. So the convention needs to be flipped when going backwards
+// (see get_advance_token()).
+//
+// However, recursion also needs to happen in the right order. Assume that 1 is a sublist
+// with two elements (1.0, 1.1 and then 1.end). When going forwards, we go
+//
+//   [0, 1, 1.0, 1.1, 1.end, 2]
+//
+// However, when going backwards, when progressing from 2, we need to recurse into _1_, not 2.
+// (If 2 has any children, we'll need to take them when we're processing end, not from 2.)
+// So this means that when we're at 2, we need to check whether _1_ has any children, and if so,
+// the first sub-node we'll see is 1.end. first_child() deals with this, and
+// node_to_visit_after_children() deals with the fact that after seeing 1.0 in a backwards
+// traversal, we'll need to go to 1, not to 2 (unlike in a forward traversal; when done with
+// 1.end, we'll go to 2, ie., the sibling of our parent).
+
+fn first_child<'a>(syntax: &SyntaxInTree<'a>, direction: Direction) -> u32 {
+    assert!(syntax.first_child != u32::MAX);
+    assert!(syntax.last_child != u32::MAX);
+    match direction {
+        Direction::Forwards => syntax.first_child,
+        Direction::Backwards => syntax.last_child,
+    }
+}
+
+fn next_sibling<'a>(syntax: u32, nodes: &Vec<SyntaxInTree<'a>>, direction: Direction) -> u32 {
+    assert!(!is_end(syntax, nodes, direction));
+    match direction {
+        Direction::Forwards => nodes[syntax as usize].next_index,
+        Direction::Backwards => nodes[syntax as usize].prev_index,
+    }
+}
+
+fn node_to_visit_after_children<'a>(
+    parent: u32,
+    nodes: &Vec<SyntaxInTree<'a>>,
+    direction: Direction,
+) -> u32 {
+    match direction {
+        Direction::Forwards => next_sibling(parent, nodes, direction),
+        Direction::Backwards => parent,
+    }
+}
+
+fn is_end<'a>(pos: u32, nodes: &Vec<SyntaxInTree<'a>>, direction: Direction) -> bool {
+    let syntax = &nodes[pos as usize];
+    match direction {
+        Direction::Forwards => syntax.next_index == u32::MAX,
+        Direction::Backwards => syntax.prev_index == u32::MAX,
+    }
+}
+
+// Get the token that is used on the edge between this and the next sibling
+// (we cannot be at the end). In the forward direction, e.g. if we're at 1,
+// this will be token 1 (to move us to 2). Since we need the edges to be
+// the same in either direction, backwards will not be the same; for 1,
+// this will emitting token 0 to go there, _not_ 1. Similarly, if we are
+// at the end and want to advance backwards (forwards would be impossible),
+// we'll need to emit 2.
+fn get_advance_token<'a>(
+    syntax: u32,
+    nodes: &Vec<SyntaxInTree<'a>>,
+    direction: Direction,
+) -> &'a Syntax<'a> {
+    nodes[get_advance_pos(syntax, nodes, direction) as usize]
+        .syntax
+        .unwrap()
+}
+
+fn get_advance_pos<'a>(syntax: u32, nodes: &Vec<SyntaxInTree<'a>>, direction: Direction) -> u32 {
+    assert!(!is_end(syntax, nodes, direction));
+    match direction {
+        Direction::Forwards => syntax,
+        Direction::Backwards => nodes[syntax as usize].prev_index,
+    }
+}
+
+fn neighbours<'a, 'b>(
+    vertex: &'b Vertex<'a, 'b>,
+    direction: Direction,
+) -> &'b RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>> {
+    match direction {
+        Direction::Forwards => &vertex.forward_neighbours,
+        Direction::Backwards => &vertex.backward_neighbours,
+    }
 }
 
 /// Compute the neighbours of `v` if we haven't previously done so,
@@ -427,28 +540,45 @@ pub fn get_set_neighbours<'syn, 'b>(
     lhs_nodes: &Vec<SyntaxInTree<'syn>>,
     rhs_nodes: &Vec<SyntaxInTree<'syn>>,
     seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
+    direction: Direction,
 ) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
-    match &*v.neighbours.borrow() {
+    match &*neighbours(v, direction).borrow() {
         Some(neighbours) => return neighbours.clone(),
         None => {}
     }
 
     let mut res: Vec<(Edge, &Vertex)> = vec![];
 
-    if is_end(v.lhs_pos, lhs_nodes) && is_end(v.rhs_pos, rhs_nodes) {
+    if is_end(v.lhs_pos, lhs_nodes, direction) && is_end(v.rhs_pos, rhs_nodes, direction) {
         if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&v.parents) {
             // We have exhausted all the nodes on both lists, so we can
             // move up to the parent node.
+            let lhs_pos = node_to_visit_after_children(lhs_parent, lhs_nodes, direction);
+            let rhs_pos = node_to_visit_after_children(rhs_parent, rhs_nodes, direction);
+            let edge = match direction {
+                Direction::Forwards => ExitDelimiterBoth,
+                Direction::Backwards => {
+                    let lhs_syntax = &lhs_nodes[lhs_pos as usize].syntax.unwrap();
+                    let rhs_syntax = &rhs_nodes[rhs_pos as usize].syntax.unwrap();
+                    let depth_difference = (lhs_syntax.num_ancestors() as i32
+                        - rhs_syntax.num_ancestors() as i32)
+                        .unsigned_abs();
+                    EnterUnchangedDelimiter { depth_difference }
+                }
+            };
 
             // Continue from sibling of parent.
             res.push((
-                ExitDelimiterBoth,
+                edge,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_pos: lhs_nodes[lhs_parent as usize].next_index,
-                        rhs_pos: rhs_nodes[rhs_parent as usize].next_index,
+                        forward_neighbours: RefCell::new(None),
+                        backward_neighbours: RefCell::new(None),
+                        forward_predecessor: Cell::new(None),
+                        backward_predecessor: Cell::new(None),
+                        seen: Cell::new((false, false)),
+                        lhs_pos: lhs_pos,
+                        rhs_pos: rhs_pos,
                         parents: parents_next,
                     },
                     alloc,
@@ -458,18 +588,31 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if is_end(v.lhs_pos, lhs_nodes) {
+    if is_end(v.lhs_pos, lhs_nodes, direction) {
         if let Some((lhs_parent, parents_next)) = try_pop_lhs(&v.parents) {
             // Move to next after LHS parent.
+            let lhs_pos = node_to_visit_after_children(lhs_parent, lhs_nodes, direction);
+            let edge = match direction {
+                Direction::Forwards => ExitDelimiterLHS,
+                Direction::Backwards => EnterNovelDelimiterLHS {
+                    contiguous: lhs_nodes[lhs_pos as usize]
+                        .syntax
+                        .unwrap()
+                        .prev_is_contiguous(),
+                },
+            };
 
             // Continue from sibling of parent.
             res.push((
-                ExitDelimiterLHS,
+                edge,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_pos: lhs_nodes[lhs_parent as usize].next_index,
+                        forward_neighbours: RefCell::new(None),
+                        backward_neighbours: RefCell::new(None),
+                        forward_predecessor: Cell::new(None),
+                        backward_predecessor: Cell::new(None),
+                        seen: Cell::new((false, false)),
+                        lhs_pos: lhs_pos,
                         rhs_pos: v.rhs_pos,
                         parents: parents_next,
                     },
@@ -480,19 +623,32 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if is_end(v.rhs_pos, rhs_nodes) {
+    if is_end(v.rhs_pos, rhs_nodes, direction) {
         if let Some((rhs_parent, parents_next)) = try_pop_rhs(&v.parents) {
             // Move to next after RHS parent.
+            let rhs_pos = node_to_visit_after_children(rhs_parent, rhs_nodes, direction);
+            let edge = match direction {
+                Direction::Forwards => ExitDelimiterRHS,
+                Direction::Backwards => EnterNovelDelimiterRHS {
+                    contiguous: rhs_nodes[rhs_pos as usize]
+                        .syntax
+                        .unwrap()
+                        .prev_is_contiguous(),
+                },
+            };
 
             // Continue from sibling of parent.
             res.push((
-                ExitDelimiterRHS,
+                edge,
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
+                        forward_neighbours: RefCell::new(None),
+                        backward_neighbours: RefCell::new(None),
+                        forward_predecessor: Cell::new(None),
+                        backward_predecessor: Cell::new(None),
+                        seen: Cell::new((false, false)),
                         lhs_pos: v.lhs_pos,
-                        rhs_pos: rhs_nodes[rhs_parent as usize].next_index,
+                        rhs_pos: node_to_visit_after_children(rhs_parent, rhs_nodes, direction),
                         parents: parents_next,
                     },
                     alloc,
@@ -502,9 +658,11 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if !is_end(v.lhs_pos, lhs_nodes) && !is_end(v.rhs_pos, rhs_nodes) {
-        let lhs_syntax = lhs_nodes[v.lhs_pos as usize].syntax.unwrap();
-        let rhs_syntax = rhs_nodes[v.rhs_pos as usize].syntax.unwrap();
+    if !is_end(v.lhs_pos, lhs_nodes, direction) && !is_end(v.rhs_pos, rhs_nodes, direction) {
+        let lhs_syntax = get_advance_token(v.lhs_pos, lhs_nodes, direction);
+        let rhs_syntax = get_advance_token(v.rhs_pos, rhs_nodes, direction);
+        let lhs_pos = get_advance_pos(v.lhs_pos, lhs_nodes, direction);
+        let rhs_pos = get_advance_pos(v.rhs_pos, rhs_nodes, direction);
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
@@ -515,10 +673,13 @@ pub fn get_set_neighbours<'syn, 'b>(
                 UnchangedNode { depth_difference },
                 allocate_if_new(
                     Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_pos: lhs_nodes[v.lhs_pos as usize].next_index,
-                        rhs_pos: rhs_nodes[v.rhs_pos as usize].next_index,
+                        forward_neighbours: RefCell::new(None),
+                        backward_neighbours: RefCell::new(None),
+                        forward_predecessor: Cell::new(None),
+                        backward_predecessor: Cell::new(None),
+                        seen: Cell::new((false, false)),
+                        lhs_pos: next_sibling(v.lhs_pos, lhs_nodes, direction),
+                        rhs_pos: next_sibling(v.rhs_pos, rhs_nodes, direction),
                         parents: v.parents.clone(),
                     },
                     alloc,
@@ -542,22 +703,28 @@ pub fn get_set_neighbours<'syn, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let lhs_next = lhs_nodes[v.lhs_pos as usize].first_child;
-                let rhs_next = rhs_nodes[v.rhs_pos as usize].first_child;
+                let lhs_next = first_child(&lhs_nodes[lhs_pos as usize], direction);
+                let rhs_next = first_child(&rhs_nodes[rhs_pos as usize], direction);
 
                 // TODO: be consistent between parents_next and next_parents.
-                let parents_next = push_both_delimiters(&v.parents, v.lhs_pos, v.rhs_pos);
+                let parents_next = push_both_delimiters(&v.parents, lhs_pos, rhs_pos);
 
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
 
                 res.push((
-                    EnterUnchangedDelimiter { depth_difference },
+                    match direction {
+                        Direction::Forwards => EnterUnchangedDelimiter { depth_difference },
+                        Direction::Backwards => ExitDelimiterBoth,
+                    },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
                             lhs_pos: lhs_next,
                             rhs_pos: rhs_next,
                             parents: parents_next,
@@ -591,10 +758,13 @@ pub fn get_set_neighbours<'syn, 'b>(
                     ReplacedComment { levenshtein_pct },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
-                            lhs_pos: lhs_nodes[v.lhs_pos as usize].next_index,
-                            rhs_pos: rhs_nodes[v.rhs_pos as usize].next_index,
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
+                            lhs_pos: next_sibling(v.lhs_pos, lhs_nodes, direction),
+                            rhs_pos: next_sibling(v.rhs_pos, rhs_nodes, direction),
                             parents: v.parents.clone(),
                         },
                         alloc,
@@ -605,8 +775,9 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if !is_end(v.lhs_pos, lhs_nodes) {
-        let lhs_syntax = lhs_nodes[v.lhs_pos as usize].syntax.unwrap();
+    if !is_end(v.lhs_pos, lhs_nodes, direction) {
+        let lhs_syntax = get_advance_token(v.lhs_pos, lhs_nodes, direction);
+        let lhs_pos = get_advance_pos(v.lhs_pos, lhs_nodes, direction);
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
@@ -619,9 +790,12 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
-                            lhs_pos: lhs_nodes[v.lhs_pos as usize].next_index,
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
+                            lhs_pos: next_sibling(v.lhs_pos, lhs_nodes, direction),
                             rhs_pos: v.rhs_pos,
                             parents: v.parents.clone(),
                         },
@@ -632,18 +806,24 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { .. } => {
-                let lhs_next = lhs_nodes[v.lhs_pos as usize].first_child;
+                let lhs_next = first_child(&lhs_nodes[lhs_pos as usize], direction);
 
-                let parents_next = push_lhs_delimiter(&v.parents, v.lhs_pos);
+                let parents_next = push_lhs_delimiter(&v.parents, lhs_pos);
 
                 res.push((
-                    EnterNovelDelimiterLHS {
-                        contiguous: lhs_syntax.prev_is_contiguous(),
+                    match direction {
+                        Direction::Forwards => EnterNovelDelimiterLHS {
+                            contiguous: lhs_syntax.prev_is_contiguous(),
+                        },
+                        Direction::Backwards => ExitDelimiterLHS,
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
                             lhs_pos: lhs_next,
                             rhs_pos: v.rhs_pos,
                             parents: parents_next,
@@ -656,8 +836,9 @@ pub fn get_set_neighbours<'syn, 'b>(
         }
     }
 
-    if !is_end(v.rhs_pos, rhs_nodes) {
-        let rhs_syntax = rhs_nodes[v.rhs_pos as usize].syntax.unwrap();
+    if !is_end(v.rhs_pos, rhs_nodes, direction) {
+        let rhs_syntax = get_advance_token(v.rhs_pos, rhs_nodes, direction);
+        let rhs_pos = get_advance_pos(v.rhs_pos, rhs_nodes, direction);
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
@@ -668,10 +849,13 @@ pub fn get_set_neighbours<'syn, 'b>(
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
                             lhs_pos: v.lhs_pos,
-                            rhs_pos: rhs_nodes[v.rhs_pos as usize].next_index,
+                            rhs_pos: next_sibling(v.rhs_pos, rhs_nodes, direction),
                             parents: v.parents.clone(),
                         },
                         alloc,
@@ -681,18 +865,24 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { .. } => {
-                let rhs_next = rhs_nodes[v.rhs_pos as usize].first_child;
+                let rhs_next = first_child(&rhs_nodes[rhs_pos as usize], direction);
 
-                let parents_next = push_rhs_delimiter(&v.parents, v.rhs_pos);
+                let parents_next = push_rhs_delimiter(&v.parents, rhs_pos);
 
                 res.push((
-                    EnterNovelDelimiterRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
+                    match direction {
+                        Direction::Forwards => EnterNovelDelimiterRHS {
+                            contiguous: rhs_syntax.prev_is_contiguous(),
+                        },
+                        Direction::Backwards => ExitDelimiterRHS,
                     },
                     allocate_if_new(
                         Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
+                            forward_neighbours: RefCell::new(None),
+                            backward_neighbours: RefCell::new(None),
+                            forward_predecessor: Cell::new(None),
+                            backward_predecessor: Cell::new(None),
+                            seen: Cell::new((false, false)),
                             lhs_pos: v.lhs_pos,
                             rhs_pos: rhs_next,
                             parents: parents_next,
@@ -709,7 +899,7 @@ pub fn get_set_neighbours<'syn, 'b>(
         "Must always find some next steps if node is not the end"
     );
 
-    v.neighbours.replace(Some(res.clone()));
+    neighbours(v, direction).replace(Some(res.clone()));
     res
 }
 

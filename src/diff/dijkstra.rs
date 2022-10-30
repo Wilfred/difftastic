@@ -5,7 +5,10 @@ use std::{cmp::Reverse, env};
 
 use crate::{
     diff::changes::ChangeMap,
-    diff::graph::{get_set_neighbours, populate_change_map, Edge, SyntaxInTree, Vertex},
+    diff::graph::{
+        get_set_neighbours, populate_change_map, Direction, Direction::*, Edge, SyntaxInTree,
+        Vertex,
+    },
     parse::syntax::Syntax,
 };
 use bumpalo::Bump;
@@ -13,14 +16,23 @@ use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
+fn predecessor<'a, 'b>(
+    vertex: &'b Vertex<'a, 'b>,
+    direction: Direction,
+) -> &'b std::cell::Cell<Option<(u64, &'b Vertex<'a, 'b>)>> {
+    match direction {
+        Forwards => &vertex.forward_predecessor,
+        Backwards => &vertex.backward_predecessor,
+    }
+}
+
 #[derive(Debug)]
 pub struct ExceededGraphLimit {}
 
 /// Return the shortest route from `start` to the end vertex.
 fn shortest_vertex_path<'a, 'b>(
     start: &'b Vertex<'a, 'b>,
-    lhs_end_idx: u32,
-    rhs_end_idx: u32,
+    end: &'b Vertex<'a, 'b>,
     lhs_nodes: &Vec<SyntaxInTree<'a>>,
     rhs_nodes: &Vec<SyntaxInTree<'a>>,
     vertex_arena: &'b Bump,
@@ -30,44 +42,100 @@ fn shortest_vertex_path<'a, 'b>(
     // We want to visit nodes with the shortest distance first, but
     // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
     // Reverse to flip comparisons.
-    let mut heap: RadixHeapMap<Reverse<_>, &'b Vertex<'a, 'b>> = RadixHeapMap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, (&'b Vertex<'a, 'b>, Direction)> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    start.seen.set((true, false));
+    end.seen.set((false, true));
+    heap.push(Reverse(0), (end, Backwards));
+    heap.push(Reverse(0), (start, Forwards));
 
     let mut seen = FxHashMap::default();
     seen.reserve(size_hint);
 
-    let end: &'b Vertex<'a, 'b> = loop {
-        match heap.pop() {
-            Some((Reverse(distance), current)) => {
-                if current.lhs_pos == lhs_end_idx && current.rhs_pos == rhs_end_idx {
-                    break current;
-                }
+    let mut min_cost_forwards = 0;
+    let mut min_cost_backwards = 0;
+    let mut best_meeting_cost = u64::MAX;
+    let mut best_meeting_point: Option<&'b Vertex<'a, 'b>> = None;
 
-                for neighbour in
-                    &get_set_neighbours(current, vertex_arena, lhs_nodes, rhs_nodes, &mut seen)
-                {
-                    let (edge, next) = neighbour;
-                    let distance_to_next = distance + edge.cost();
+    while let Some((Reverse(distance), (current, direction))) = heap.pop() {
+        match direction {
+            Forwards => {
+                min_cost_forwards = distance;
+                current.seen.set((true, current.seen.get().1));
+            }
+            Backwards => {
+                min_cost_backwards = distance;
+                current.seen.set((current.seen.get().0, true));
+            }
+        }
+        if min_cost_forwards + min_cost_backwards >= best_meeting_cost {
+            // We can no longer find a meeting point that is better
+            // than the one we already found, so the search is over.
+            break;
+        }
 
-                    let found_shorter_route = match next.predecessor.get() {
-                        Some((prev_shortest, _)) => distance_to_next < prev_shortest,
-                        None => true,
-                    };
+        // If this is an end node, don't bother looking for neighbors.
+        // This can happen in very small graphs (e.g. one token on both sides).
+        let end_node = match direction {
+            Forwards => current.lhs_pos == end.lhs_pos && current.rhs_pos == end.rhs_pos,
+            Backwards => current.lhs_pos == 0 && current.rhs_pos == 0,
+        };
+        if end_node {
+            let cost = predecessor(current, direction).get().unwrap().0;
+            if cost < best_meeting_cost {
+                best_meeting_cost = cost;
+                best_meeting_point = Some(current);
+            }
+            continue;
+        }
 
-                    if found_shorter_route {
-                        next.predecessor.replace(Some((distance_to_next, current)));
-                        heap.push(Reverse(distance_to_next), next);
+        for neighbour in &get_set_neighbours(
+            current,
+            vertex_arena,
+            lhs_nodes,
+            rhs_nodes,
+            &mut seen,
+            direction,
+        ) {
+            let (edge, next) = neighbour;
+            let distance_to_next = distance + edge.cost();
+
+            let found_shorter_route = match predecessor(next, direction).get() {
+                Some((prev_shortest, _)) => distance_to_next < prev_shortest,
+                None => true,
+            };
+
+            if found_shorter_route {
+                predecessor(next, direction).replace(Some((distance_to_next, current)));
+                heap.push(Reverse(distance_to_next), (next, direction));
+
+                // See if this node is a meeting point between the forward and backwards searches,
+                // and if so, whether it is a new best meeting point.
+                if let (Some((forward_cost, _)), Some((backward_cost, _))) = (
+                    next.forward_predecessor.get(),
+                    next.backward_predecessor.get(),
+                ) {
+                    if (direction == Forwards && next.seen.get().1)
+                        || (direction == Backwards && next.seen.get().0)
+                    {
+                        let meeting_cost = forward_cost + backward_cost;
+                        if meeting_cost < best_meeting_cost {
+                            best_meeting_cost = meeting_cost;
+                            best_meeting_point = Some(next);
+                        }
                     }
                 }
-
-                if seen.len() > graph_limit {
-                    return Err(ExceededGraphLimit {});
-                }
             }
-            None => panic!("Ran out of graph nodes before reaching end"),
         }
-    };
+
+        if seen.len() > graph_limit {
+            if best_meeting_point.is_some() {
+                break;
+            } else {
+                return Err(ExceededGraphLimit {});
+            }
+        }
+    }
 
     debug!(
         "Saw {} vertices (a Vertex is {} bytes), with {} left on heap.",
@@ -76,14 +144,38 @@ fn shortest_vertex_path<'a, 'b>(
         heap.len(),
     );
 
-    let mut current = Some((0, end));
     let mut vertex_route: Vec<&'b Vertex<'a, 'b>> = vec![];
+
+    // Backtrack to find the path from meet -> start.
+    let mut current = Some((0, best_meeting_point.unwrap()));
     while let Some((_, node)) = current {
         vertex_route.push(node);
-        current = node.predecessor.get();
+        current = node.forward_predecessor.get();
     }
 
+    // Reverse it, so that we have start, ..., meet, then chop off meet.
     vertex_route.reverse();
+    vertex_route.pop();
+
+    // Find the path meet -> end, and append it, so that we have start ... meet ... end.
+    // Also make sure we have forward edges for all of these nodes, as the later steps
+    // expect to use them to find the actual diff.
+    current = Some((0, best_meeting_point.unwrap()));
+    while let Some((_, node)) = current {
+        current = node.backward_predecessor.get();
+        if current.is_some() {
+            get_set_neighbours(
+                node,
+                vertex_arena,
+                lhs_nodes,
+                rhs_nodes,
+                &mut seen,
+                Forwards,
+            );
+        }
+        vertex_route.push(node);
+    }
+
     Ok(vertex_route)
 }
 
@@ -113,8 +205,7 @@ fn shortest_path_with_edges<'a, 'b>(
 /// necessary because a route of N vertices only has N-1 edges.
 fn shortest_path<'a, 'b>(
     start: Vertex<'a, 'b>,
-    lhs_end_pos: u32,
-    rhs_end_pos: u32,
+    end: Vertex<'a, 'b>,
     lhs_nodes: &Vec<SyntaxInTree<'a>>,
     rhs_nodes: &Vec<SyntaxInTree<'a>>,
     vertex_arena: &'b Bump,
@@ -122,10 +213,10 @@ fn shortest_path<'a, 'b>(
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
     let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
+    let end: &'b Vertex<'a, 'b> = vertex_arena.alloc(end.clone());
     let vertex_path = shortest_vertex_path(
         start,
-        lhs_end_pos,
-        rhs_end_pos,
+        end,
         lhs_nodes,
         rhs_nodes,
         vertex_arena,
@@ -135,16 +226,17 @@ fn shortest_path<'a, 'b>(
     Ok(shortest_path_with_edges(&vertex_path))
 }
 
-fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge {
-    assert_ne!(before, after);
-
+fn shortest_edge<'a, 'b>(
+    edges: &Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>,
+    target: &Vertex<'a, 'b>,
+) -> Option<Edge> {
     let mut shortest_edge: Option<Edge> = None;
-    if let Some(neighbours) = &*before.neighbours.borrow() {
+    if let Some(neighbours) = edges {
         for neighbour in neighbours {
             let (edge, next) = *neighbour;
             // If there are multiple edges that can take us to `next`,
             // prefer the shortest.
-            if *next == *after {
+            if *next == *target {
                 let is_shorter = match shortest_edge {
                     Some(prev_edge) => edge.cost() < prev_edge.cost(),
                     None => true,
@@ -156,8 +248,23 @@ fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge
             }
         }
     }
+    return shortest_edge;
+}
 
-    if let Some(edge) = shortest_edge {
+fn edge_between<'a, 'b>(before: &Vertex<'a, 'b>, after: &Vertex<'a, 'b>) -> Edge {
+    assert_ne!(before, after);
+
+    if let Some(edge) = shortest_edge(&*before.forward_neighbours.borrow(), after) {
+        return edge;
+    }
+
+    // Nominally, the forward and backward edge set should be identical.
+    // However, due to our conflation of different Vertex objects (see the implementation
+    // of PartialEq on Vertex), this object does not always hold in practice, and we can
+    // have a path that contains an backwards edge from B to A that does not actually
+    // match an edge from A to B. Thus, in rare cases, we will also need to look at
+    // backward edges to find the one we're looking for.
+    if let Some(edge) = shortest_edge(&*after.backward_neighbours.borrow(), before) {
         return edge;
     }
 
@@ -197,18 +304,31 @@ pub fn flatten_syntax<'a>(
         nodes.push(SyntaxInTree {
             syntax: Some(syntax),
             next_index: (start_idx + i + 1) as u32,
+            prev_index: if i == 0 {
+                u32::MAX
+            } else {
+                (start_idx + i - 1) as u32
+            },
             first_child: u32::MAX,
+            last_child: u32::MAX,
         });
     }
     nodes.push(SyntaxInTree {
         syntax: None,
         next_index: u32::MAX,
+        prev_index: if syntaxes.len() == 0 {
+            u32::MAX
+        } else {
+            (start_idx + syntaxes.len() - 1) as u32
+        },
         first_child: u32::MAX,
+        last_child: u32::MAX,
     });
     for (i, syntax) in syntaxes.iter().enumerate() {
         if let Syntax::List { children, .. } = syntax {
-            let (first_child, _last_child) = flatten_syntax(children, nodes);
+            let (first_child, last_child) = flatten_syntax(children, nodes);
             nodes[start_idx + i].first_child = first_child;
+            nodes[start_idx + i].last_child = last_child;
         }
     }
     return (start_idx as u32, (start_idx + syntaxes.len()) as u32);
@@ -242,12 +362,12 @@ pub fn mark_syntax<'a>(
     let (rhs_start_idx, rhs_end_idx) = flatten_syntax(&rhs, &mut rhs_nodes);
 
     let start = Vertex::new(lhs_start_idx, rhs_start_idx);
+    let end = Vertex::new(lhs_end_idx, rhs_end_idx);
     let vertex_arena = Bump::new();
 
     let route = shortest_path(
         start,
-        lhs_end_idx,
-        rhs_end_idx,
+        end,
         &lhs_nodes,
         &rhs_nodes,
         &vertex_arena,
