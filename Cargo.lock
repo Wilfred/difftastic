@@ -637,9 +637,8 @@ dependencies = [
 
 [[package]]
 name = "tree_magic_mini"
-version = "3.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91adfd0607cacf6e4babdb870e9bec4037c1c4b151cfd279ccefc5e0c7feaa6d"
+version = "3.0.2"
+source = "git+https://github.com/Wilfred/tree_magic?branch=fix-panic-for-empty-strings#13dd6dda15c7062bd8f7dd5bc9bb5b16ce9ee613"
 dependencies = [
  "bytecount",
  "fnv",

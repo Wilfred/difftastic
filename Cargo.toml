@@ -44,7 +44,7 @@ const_format = "0.2.22"
 owo-colors = "3.3.0"
 wu-diff = "0.1.2"
 rayon = "1.5.2"
-tree_magic_mini = "3.0.3"
+tree_magic_mini = "3.0.2"
 bumpalo = "3.9.1"
 unicode-width = "0.1.9"
 term_size = "0.3.2"
@@ -65,3 +65,7 @@ name = "difft"
 path = "src/main.rs"
 
 [features]
+
+[patch.crates-io]
+# https://github.com/mbrubeck/tree_magic/pull/13 hasn't been merged yet.
+tree_magic_mini = { git = 'https://github.com/Wilfred/tree_magic', branch = 'fix-panic-for-empty-strings' }

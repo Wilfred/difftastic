@@ -7,6 +7,9 @@ better results when difftastic doesn't fully support the syntax
 (e.g. PostCSS is a superset of CSS) or when there are actual syntax
 errors.
 
+Fixed a crash on file content detection when the local MIME database
+contains blank lines.
+
 ### Display
 
 Line numbers styling has been tweaked to make it more visually
