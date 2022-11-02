@@ -250,14 +250,11 @@ module.exports = grammar({
       optional(seq("=", $._expression))
     ),
 
-    _delegation_specifiers: $ => prec.left(seq(
-       sep1(
-         $.delegation_specifier,
-         // $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type m     odifiers
-         ","
-       ),
-       optional(",")
-     )),
+    _delegation_specifiers: $ => prec.left(sep1(
+      $.delegation_specifier,
+      // $._annotated_delegation_specifier, // TODO: Annotations cause ambiguities with type modifiers
+      ","
+    )),
 
     delegation_specifier: $ => prec.left(choice(
       $.constructor_invocation,
@@ -701,7 +698,16 @@ module.exports = grammar({
 
     type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
 
-    value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
+    value_arguments: $ => seq(
+      "(", 
+      optional(
+        seq(
+          sep1($.value_argument, ","),
+          optional(","),
+        )
+      ),
+      ")"
+    ),
 
     value_argument: $ => seq(
       optional($.annotation),
