@@ -174,3 +174,22 @@ a as T.() -> Unit
       (function_type_parameters)
       (user_type (type_identifier)))))
 
+==================
+Type constructor
+==================
+
+a as Foo(x = "hi", y = "bar")
+
+---
+
+(source_file (call_expression (as_expression (simple_identifier) (user_type (type_identifier))) (call_suffix (value_arguments (value_argument (simple_identifier) (line_string_literal)) (value_argument (simple_identifier) (line_string_literal)))))) 
+
+==================
+Type constructor with trailing comma
+==================
+
+a as Foo(x = "hi", y = "bar",)
+
+---
+
+(source_file (call_expression (as_expression (simple_identifier) (user_type (type_identifier))) (call_suffix (value_arguments (value_argument (simple_identifier) (line_string_literal)) (value_argument (simple_identifier) (line_string_literal)))))) 
