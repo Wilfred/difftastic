@@ -2,7 +2,11 @@ name: Build/test
 on:
   push:
     branches:
+      - master
+  pull_request:
+    branches:
       - "**"
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -17,6 +21,7 @@ jobs:
           node-version: 14
       - run: npm install
       - run: npm test
+
   test_windows:
     runs-on: windows-2019
     steps:
