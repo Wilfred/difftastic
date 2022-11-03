@@ -489,6 +489,10 @@ fn main() {
 
 let y = if x == 5 { 10 } else { 15 };
 
+if foo && bar {}
+
+if foo && bar || baz {}
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -520,7 +524,52 @@ let y = if x == 5 { 10 } else { 15 };
         (integer_literal))
       alternative: (else_clause
         (block
-          (integer_literal))))))
+          (integer_literal)))))
+  (expression_statement
+    (if_expression
+      condition: (binary_expression
+        left: (identifier)
+        right: (identifier))
+      consequence: (block)))
+  (expression_statement
+    (if_expression
+      condition: (binary_expression
+        left: (binary_expression
+          left: (identifier)
+          right: (identifier))
+        right: (identifier))
+      consequence: (block))))
+
+================================================================================
+Basic if let expressions
+================================================================================
+
+if let Some(a) = b
+    && c
+    && d
+    && let Some(e) = f
+{
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expression_statement
+    (if_expression
+      condition: (let_chain
+        (let_condition
+          pattern: (tuple_struct_pattern
+            type: (identifier)
+            (identifier))
+          value: (identifier))
+        (identifier)
+        (identifier)
+        (let_condition
+          pattern: (tuple_struct_pattern
+            type: (identifier)
+            (identifier))
+          value: (identifier)))
+      consequence: (block))))
 
 ================================================================================
 If let expressions
@@ -529,16 +578,65 @@ If let expressions
 if let ("Bacon", b) = dish {
 }
 
+if let Some("chained") = a && b && let (C, D) = e {
+}
+
+if foo && let bar = || baz && quux {}
+
+if a && let b = || c || d && e {}
+
 --------------------------------------------------------------------------------
 
 (source_file
   (expression_statement
-    (if_let_expression
-      (tuple_pattern
-        (string_literal)
-        (identifier))
-      (identifier)
-      (block))))
+    (if_expression
+      condition: (let_condition
+        pattern: (tuple_pattern
+          (string_literal)
+          (identifier))
+        value: (identifier))
+      consequence: (block)))
+  (expression_statement
+    (if_expression
+      condition: (let_chain
+        (let_condition
+          pattern: (tuple_struct_pattern
+            type: (identifier)
+            (string_literal))
+          value: (identifier))
+        (identifier)
+        (let_condition
+          pattern: (tuple_pattern
+            (identifier)
+            (identifier))
+          value: (identifier)))
+      consequence: (block)))
+  (expression_statement
+    (if_expression
+      condition: (let_chain
+        (identifier)
+        (let_condition
+          pattern: (identifier)
+          value: (closure_expression
+            parameters: (closure_parameters)
+            body: (binary_expression
+              left: (identifier)
+              right: (identifier)))))
+      consequence: (block)))
+  (expression_statement
+    (if_expression
+      condition: (let_chain
+        (identifier)
+        (let_condition
+          pattern: (identifier)
+          value: (closure_expression
+            parameters: (closure_parameters)
+            body: (binary_expression
+              left: (identifier)
+              right: (binary_expression
+                left: (identifier)
+                right: (identifier))))))
+      consequence: (block))))
 
 ================================================================================
 While let expressions
@@ -551,11 +649,12 @@ while let ("Bacon", b) = dish {
 
 (source_file
   (expression_statement
-    (while_let_expression
-      (tuple_pattern
-        (string_literal)
+    (while_expression
+      (let_condition
+        (tuple_pattern
+          (string_literal)
+          (identifier))
         (identifier))
-      (identifier)
       (block))))
 
 ================================================================================
@@ -581,6 +680,7 @@ let msg = match x {
       if a {
         "200 (but this is not very stylish)"
       }
+    y if let Some(z) = foo && z && let Some(w) = bar => "very chained",
     _ => "something else",
 };
 
@@ -657,6 +757,22 @@ let msg = match x {
             condition: (identifier)
             consequence: (block
               (string_literal))))
+        (match_arm
+          pattern: (match_pattern
+            (identifier)
+            condition: (let_chain
+              (let_condition
+                pattern: (tuple_struct_pattern
+                  type: (identifier)
+                  (identifier))
+                value: (identifier))
+              (identifier)
+              (let_condition
+                pattern: (tuple_struct_pattern
+                  type: (identifier)
+                  (identifier))
+                value: (identifier))))
+          value: (string_literal))
         (match_arm
           pattern: (match_pattern)
           value: (string_literal))))))

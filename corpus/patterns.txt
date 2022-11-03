@@ -255,15 +255,16 @@ if let x!() | y!() = () {}
 
 (source_file
   (expression_statement
-    (if_let_expression
-      pattern: (or_pattern
-        (tuple_struct_pattern
-          type: (identifier)
-          (identifier))
-        (tuple_struct_pattern
-          type: (identifier)
-          (identifier)))
-      value: (identifier)
+    (if_expression
+      condition: (let_condition
+        pattern: (or_pattern
+          (tuple_struct_pattern
+            type: (identifier)
+            (identifier))
+          (tuple_struct_pattern
+            type: (identifier)
+            (identifier)))
+        value: (identifier))
       consequence: (block
         (expression_statement
           (call_expression
@@ -271,15 +272,16 @@ if let x!() | y!() = () {}
             arguments: (arguments
               (identifier)))))))
   (expression_statement
-    (while_let_expression
-      pattern: (or_pattern
-        (tuple_struct_pattern
-          type: (identifier)
-          (identifier))
-        (tuple_struct_pattern
-          type: (identifier)
-          (identifier)))
-      value: (identifier)
+    (while_expression
+      condition: (let_condition
+        pattern: (or_pattern
+          (tuple_struct_pattern
+            type: (identifier)
+            (identifier))
+          (tuple_struct_pattern
+            type: (identifier)
+            (identifier)))
+        value: (identifier))
       body: (block
         (expression_statement
           (call_expression
@@ -369,15 +371,16 @@ if let x!() | y!() = () {}
         type: (primitive_type)))
     body: (block))
   (expression_statement
-    (if_let_expression
-      pattern: (or_pattern
-        (macro_invocation
-          macro: (identifier)
-          (token_tree))
-        (macro_invocation
-          macro: (identifier)
-          (token_tree)))
-      value: (unit_expression)
+    (if_expression
+      condition: (let_condition
+        pattern: (or_pattern
+          (macro_invocation
+            macro: (identifier)
+            (token_tree))
+          (macro_invocation
+            macro: (identifier)
+            (token_tree)))
+        value: (unit_expression))
       consequence: (block)))
   (line_comment)
   (line_comment)

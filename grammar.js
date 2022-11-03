@@ -874,10 +874,8 @@ module.exports = grammar({
       $.async_block,
       $.block,
       $.if_expression,
-      $.if_let_expression,
       $.match_expression,
       $.while_expression,
-      $.while_let_expression,
       $.loop_expression,
       $.for_expression,
       $.const_block
@@ -1096,27 +1094,37 @@ module.exports = grammar({
 
     if_expression: $ => prec.right(seq(
       'if',
-      field('condition', $._expression),
+      field('condition', $._condition),
       field('consequence', $.block),
       optional(field("alternative", $.else_clause))
     )),
 
-    if_let_expression: $ => prec.right(seq(
-      'if',
+    let_condition: $ => seq(
       'let',
       field('pattern', $._pattern),
       '=',
-      field('value', $._expression),
-      field('consequence', $.block),
-      optional(field('alternative', $.else_clause))
+      field('value', prec.left(PREC.and, $._expression))
+    ),
+
+    _let_chain: $ => prec.left(PREC.and, choice(
+      seq($._let_chain, '&&', $.let_condition),
+      seq($._let_chain, '&&', $._expression),
+      seq($.let_condition, '&&', $._expression),
+      seq($.let_condition, '&&', $.let_condition),
+      seq($._expression, '&&', $.let_condition),
     )),
+
+    _condition: $ => choice(
+      $._expression,
+      $.let_condition,
+      alias($._let_chain, $.let_chain),
+    ),
 
     else_clause: $ => seq(
       'else',
       choice(
         $.block,
-        $.if_expression,
-        $.if_let_expression
+        $.if_expression
       )
     ),
 
@@ -1155,23 +1163,13 @@ module.exports = grammar({
 
     match_pattern: $ => seq(
       $._pattern,
-      optional(seq('if', field('condition', $._expression)))
+      optional(seq('if', field('condition', $._condition)))
     ),
 
     while_expression: $ => seq(
       optional(seq($.loop_label, ':')),
       'while',
-      field('condition', $._expression),
-      field('body', $.block)
-    ),
-
-    while_let_expression: $ => seq(
-      optional(seq($.loop_label, ':')),
-      'while',
-      'let',
-      field('pattern', $._pattern),
-      '=',
-      field('value', $._expression),
+      field('condition', $._condition),
       field('body', $.block)
     ),
 
@@ -1478,6 +1476,10 @@ module.exports = grammar({
     metavariable: $ => /\$[a-zA-Z_]\w*/
   }
 })
+
+function sepBy2(sep, rule) {
+  return seq(rule, repeat1(seq(sep, rule)))
+}
 
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)))
