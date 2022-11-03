@@ -1477,10 +1477,6 @@ module.exports = grammar({
   }
 })
 
-function sepBy2(sep, rule) {
-  return seq(rule, repeat1(seq(sep, rule)))
-}
-
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)))
 }
