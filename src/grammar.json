@@ -4138,10 +4138,6 @@
               {
                 "type": "SYMBOL",
                 "name": "self"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_reserved_identifier"
               }
             ]
           }
@@ -7958,6 +7954,10 @@
         {
           "type": "SYMBOL",
           "name": "struct_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_reserved_identifier"
         },
         {
           "type": "SYMBOL",

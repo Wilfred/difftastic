@@ -710,7 +710,6 @@ module.exports = grammar({
       field('pattern', choice(
         $._pattern,
         $.self,
-        $._reserved_identifier,
       )),
       ':',
       field('type', $._type)
@@ -1351,6 +1350,7 @@ module.exports = grammar({
       $.tuple_pattern,
       $.tuple_struct_pattern,
       $.struct_pattern,
+      $._reserved_identifier,
       $.ref_pattern,
       $.slice_pattern,
       $.captured_pattern,
