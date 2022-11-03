@@ -176,13 +176,13 @@ fn accumulate(self) -> Machine<{State::Accumulate}> {}
     name: (identifier)
     parameters: (parameters
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)))
       (parameter
         pattern: (identifier)
         type: (primitive_type))
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)))
       (parameter
         pattern: (identifier)
@@ -578,7 +578,7 @@ struct Inches(i32);
         (field_identifier)
         (primitive_type))
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)))
       (field_declaration
         (field_identifier)
@@ -737,10 +737,10 @@ pub enum Node<T: Item> {
             (field_identifier)
             (primitive_type))))
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)))
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)))
       (enum_variant
         (identifier)
@@ -1030,50 +1030,44 @@ mod macos_only {}
 
 (source_file
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)))
   (function_item
     name: (identifier)
     parameters: (parameters)
     body: (block))
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)
-      arguments: (meta_arguments
-        (meta_item
-          (identifier)))))
+      arguments: (token_tree
+        (identifier))))
   (struct_item
     name: (type_identifier))
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)
-      arguments: (meta_arguments
-        (meta_item
-          (identifier))
-        (meta_item
-          (identifier)))))
+      arguments: (token_tree
+        (identifier)
+        (identifier))))
   (struct_item
     name: (type_identifier))
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)
-      arguments: (meta_arguments
-        (meta_item
-          (identifier)
-          value: (string_literal)))))
+      arguments: (token_tree
+        (identifier)
+        (string_literal))))
   (mod_item
     name: (identifier)
     body: (declaration_list))
   (inner_attribute_item
-    (meta_item
+    (attribute
       (identifier)
-      arguments: (meta_arguments
-        (meta_item
-          (scoped_identifier
-            path: (identifier)
-            name: (identifier))))))
+      arguments: (token_tree
+        (identifier)
+        (identifier))))
   (attribute_item
-    (attr_item
+    (attribute
       (scoped_identifier
         path: (identifier)
         name: (identifier))
@@ -1094,12 +1088,11 @@ mod macos_only {
     name: (identifier)
     body: (declaration_list
       (inner_attribute_item
-        (meta_item
+        (attribute
           (identifier)
-          arguments: (meta_arguments
-            (meta_item
-              (identifier)
-              value: (string_literal))))))))
+          arguments: (token_tree
+            (identifier)
+            (string_literal)))))))
 
 ================================================================================
 Key-Value Attribute Expressions
@@ -1115,7 +1108,7 @@ fn baz() {}
 
 (source_file
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)
       (macro_invocation
         (identifier)
@@ -1126,7 +1119,7 @@ fn baz() {}
     (parameters)
     (block))
   (attribute_item
-    (attr_item
+    (attribute
       (identifier)
       (scoped_identifier
         (identifier)
@@ -1152,7 +1145,7 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
       function: (identifier)
       arguments: (arguments
         (attribute_item
-          (attr_item
+          (attribute
             (identifier)
             arguments: (token_tree
               (identifier)
@@ -1164,7 +1157,7 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
       function: (identifier)
       arguments: (arguments
         (attribute_item
-          (attr_item
+          (attribute
             (identifier)
             arguments: (token_tree
               (identifier)
@@ -1203,19 +1196,17 @@ pub enum Error {
       (identifier)
       (identifier)))
   (attribute_item
-    (meta_item
+    (attribute
       (identifier)
-      (meta_arguments
-        (meta_item
-          (identifier))
-        (meta_item
-          (identifier)))))
+      (token_tree
+        (identifier)
+        (identifier))))
   (enum_item
     (visibility_modifier)
     (type_identifier)
     (enum_variant_list
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)
           (token_tree
             (string_literal)
@@ -1227,7 +1218,7 @@ pub enum Error {
         (ordered_field_declaration_list
           (type_identifier)))
       (attribute_item
-        (attr_item
+        (attribute
           (identifier)
           (token_tree
             (string_literal)
@@ -1270,18 +1261,17 @@ fn foo() {
           arguments: (arguments
             (identifier)
             (attribute_item
-              (meta_item
+              (attribute
                 (identifier)
-                arguments: (meta_arguments
-                  (meta_item
-                    (identifier)
-                    value: (string_literal)))))
+                arguments: (token_tree
+                  (identifier)
+                  (string_literal))))
             (identifier))))
       (let_declaration
         pattern: (identifier)
         value: (array_expression
           (attribute_item
-            (attr_item
+            (attribute
               (identifier)))
           (integer_literal)
           (integer_literal)
@@ -1290,7 +1280,7 @@ fn foo() {
         pattern: (identifier)
         value: (tuple_expression
           (attribute_item
-            (attr_item
+            (attribute
               (identifier)))
           (integer_literal)
           (integer_literal)

@@ -612,7 +612,7 @@ let msg = match x {
           value: (integer_literal))
         (match_arm
           (attribute_item
-            (attr_item
+            (attribute
               (identifier)))
           pattern: (match_pattern
             (integer_literal))
