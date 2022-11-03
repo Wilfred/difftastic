@@ -633,6 +633,10 @@ module.exports = grammar({
         '=',
         field('value', $._expression)
       )),
+      optional(seq(
+        'else',
+        field('alternative', $.block)
+      )),
       ';'
     ),
 
@@ -1174,14 +1178,14 @@ module.exports = grammar({
       $._expression
     ),
 
-    if_expression: $ => seq(
+    if_expression: $ => prec.right(seq(
       'if',
       field('condition', $._expression),
       field('consequence', $.block),
       optional(field("alternative", $.else_clause))
-    ),
+    )),
 
-    if_let_expression: $ => seq(
+    if_let_expression: $ => prec.right(seq(
       'if',
       'let',
       field('pattern', $._pattern),
@@ -1189,7 +1193,7 @@ module.exports = grammar({
       field('value', $._expression),
       field('consequence', $.block),
       optional(field('alternative', $.else_clause))
-    ),
+    )),
 
     else_clause: $ => seq(
       'else',

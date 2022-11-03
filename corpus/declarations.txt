@@ -432,6 +432,94 @@ let u32: str = "";
     (string_literal)))
 
 ================================================================================
+Let-else Statements
+================================================================================
+
+let Foo::Bar {
+    texts,
+    values,
+} = foo().bar().await? else {
+    return Err(index)
+};
+
+let Some(x) = y else {
+    let None = z else {
+        foo();
+        break;
+    };
+    continue;
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    pattern: (struct_pattern
+      type: (scoped_type_identifier
+        path: (identifier)
+        name: (type_identifier))
+      (field_pattern
+        name: (shorthand_field_identifier))
+      (field_pattern
+        name: (shorthand_field_identifier)))
+    value: (try_expression
+      (await_expression
+        (call_expression
+          function: (field_expression
+            value: (call_expression
+              function: (identifier)
+              arguments: (arguments))
+            field: (field_identifier))
+          arguments: (arguments))))
+    alternative: (block
+      (return_expression
+        (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (identifier))))))
+  (let_declaration
+    pattern: (tuple_struct_pattern
+      type: (identifier)
+      (identifier))
+    value: (identifier)
+    alternative: (block
+      (let_declaration
+        pattern: (identifier)
+        value: (identifier)
+        alternative: (block
+          (expression_statement
+            (call_expression
+              function: (identifier)
+              arguments: (arguments)))
+          (expression_statement
+            (break_expression))))
+      (expression_statement
+        (continue_expression)))))
+
+================================================================================
+Let declarations with if expressions as the value
+================================================================================
+
+let a = if b {
+    c
+} else {
+    d
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (let_declaration
+    (identifier)
+    (if_expression
+      (identifier)
+      (block
+        (identifier))
+      (else_clause
+        (block
+          (identifier))))))
+
+================================================================================
 Structs
 ================================================================================
 
@@ -1046,27 +1134,31 @@ foo(#[bar(some tokens are special in other contexts: $/';()*()+.)] x);
     (call_expression
       function: (identifier)
       arguments: (arguments
-        (attribute_item (attr_item
-          (identifier)
-          arguments: (token_tree (identifier) (identifier))))
+        (attribute_item
+          (attr_item
+            (identifier)
+            arguments: (token_tree
+              (identifier)
+              (identifier))))
         (identifier)
         (identifier))))
   (expression_statement
     (call_expression
       function: (identifier)
       arguments: (arguments
-        (attribute_item (attr_item
-          (identifier)
-          arguments: (token_tree
+        (attribute_item
+          (attr_item
             (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (identifier)
-            (token_tree)
-            (token_tree))))
+            arguments: (token_tree
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (identifier)
+              (token_tree)
+              (token_tree))))
         (identifier)))))
 
 ================================================================================
@@ -1090,36 +1182,51 @@ pub enum Error {
 (source_file
   (line_comment)
   (use_declaration
-    (scoped_identifier (identifier) (identifier)))
+    (scoped_identifier
+      (identifier)
+      (identifier)))
   (attribute_item
-    (meta_item (identifier)
+    (meta_item
+      (identifier)
       (meta_arguments
-        (meta_item (identifier))
-        (meta_item (identifier)))))
+        (meta_item
+          (identifier))
+        (meta_item
+          (identifier)))))
   (enum_item
     (visibility_modifier)
     (type_identifier)
     (enum_variant_list
-      (attribute_item (attr_item
+      (attribute_item
+        (attr_item
+          (identifier)
+          (token_tree
+            (string_literal)
+            (identifier)
+            (token_tree
+              (integer_literal)))))
+      (enum_variant
         (identifier)
-        (token_tree
-          (string_literal)
+        (ordered_field_declaration_list
+          (type_identifier)))
+      (attribute_item
+        (attr_item
           (identifier)
-          (token_tree (integer_literal)))))
-      (enum_variant (identifier)
-        (ordered_field_declaration_list (type_identifier)))
-      (attribute_item (attr_item
+          (token_tree
+            (string_literal)
+            (identifier)
+            (identifier)
+            (identifier)
+            (identifier))))
+      (enum_variant
         (identifier)
-        (token_tree
-          (string_literal)
-          (identifier)
-          (identifier)
-          (identifier)
-          (identifier))))
-      (enum_variant (identifier)
         (field_declaration_list
-          (field_declaration (field_identifier) (primitive_type))
-          (field_declaration (field_identifier) (type_identifier)))))))
+          (field_declaration
+            (field_identifier)
+            (primitive_type))
+          (field_declaration
+            (field_identifier)
+            (type_identifier)))))))
 
 ================================================================================
 Attributes and Expressions
