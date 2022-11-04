@@ -64,6 +64,8 @@ pub struct SyntaxInfo<'a> {
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique: Cell<bool>,
+
+    content_is_unique_both_sides: Cell<bool>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -79,6 +81,7 @@ impl<'a> SyntaxInfo<'a> {
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique: Cell::new(false),
+            content_is_unique_both_sides: Cell::new(false),
         }
     }
 }
@@ -293,6 +296,10 @@ impl<'a> Syntax<'a> {
         self.info().content_is_unique.get()
     }
 
+    pub fn content_is_unique_both_sides(&self) -> bool {
+        self.info().content_is_unique_both_sides.get()
+    }
+
     pub fn num_ancestors(&self) -> u32 {
         self.info().num_ancestors.get()
     }
@@ -357,8 +364,7 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     set_content_id(lhs_roots, &mut existing);
     set_content_id(rhs_roots, &mut existing);
 
-    set_content_is_unique(lhs_roots);
-    set_content_is_unique(rhs_roots);
+    set_unique_flags(lhs_roots, rhs_roots);
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -474,10 +480,36 @@ fn set_content_is_unique_from_counts(nodes: &[&Syntax], counts: &HashMap<u32, us
     }
 }
 
-fn set_content_is_unique(nodes: &[&Syntax]) {
-    let mut counts = HashMap::new();
-    find_nodes_with_unique_content(nodes, &mut counts);
-    set_content_is_unique_from_counts(nodes, &counts);
+fn set_unique_flags(lhs_roots: &[&Syntax], rhs_roots: &[&Syntax]) {
+    let mut lhs_counts = HashMap::new();
+    find_nodes_with_unique_content(lhs_roots, &mut lhs_counts);
+    let mut rhs_counts = HashMap::new();
+    find_nodes_with_unique_content(rhs_roots, &mut rhs_counts);
+
+    set_content_is_unique_from_counts(lhs_roots, &lhs_counts);
+    set_content_is_unique_from_counts(rhs_roots, &rhs_counts);
+
+    set_content_is_unique_both_sides(lhs_roots, &lhs_counts, &rhs_counts);
+    set_content_is_unique_both_sides(rhs_roots, &lhs_counts, &rhs_counts);
+}
+
+fn set_content_is_unique_both_sides(
+    nodes: &[&Syntax],
+    lhs_counts: &HashMap<u32, usize>,
+    rhs_counts: &HashMap<u32, usize>,
+) {
+    for node in nodes {
+        let lhs_count = *lhs_counts.get(&node.content_id()).unwrap_or(&0);
+        let rhs_count = *rhs_counts.get(&node.content_id()).unwrap_or(&0);
+
+        node.info()
+            .content_is_unique_both_sides
+            .set(lhs_count == 0 && rhs_count == 0);
+
+        if let List { children, .. } = node {
+            set_content_is_unique_both_sides(children, lhs_counts, rhs_counts);
+        }
+    }
 }
 
 fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
