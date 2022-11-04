@@ -504,7 +504,7 @@ fn set_content_is_unique_both_sides(
 
         node.info()
             .content_is_unique_both_sides
-            .set(lhs_count == 0 && rhs_count == 0);
+            .set(lhs_count == 1 && rhs_count == 1);
 
         if let List { children, .. } = node {
             set_content_is_unique_both_sides(children, lhs_counts, rhs_counts);

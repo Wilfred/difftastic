@@ -539,7 +539,11 @@ pub fn get_set_neighbours<'syn, 'b>(
         ) = (lhs_syntax, rhs_syntax)
         {
             // The list delimiters are equal, but children may not be.
-            if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
+            if lhs_open_content == rhs_open_content
+                && lhs_close_content == rhs_close_content
+                && !lhs_syntax.content_is_unique_both_sides()
+                && !rhs_syntax.content_is_unique_both_sides()
+            {
                 let lhs_next = lhs_children.get(0).copied();
                 let rhs_next = rhs_children.get(0).copied();
 
@@ -635,28 +639,50 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let lhs_next = children.get(0).copied();
-
-                let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
-
-                res.push((
-                    EnterNovelDelimiterLHS {
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                    },
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: v.rhs_syntax,
-                            parents: parents_next,
-                            lhs_parent_id: Some(lhs_syntax.id()),
-                            rhs_parent_id: v.rhs_parent_id,
+                if lhs_syntax.content_is_unique_both_sides() {
+                    res.push((
+                        NovelAtomLHS {
+                            contiguous: lhs_syntax.prev_is_contiguous(),
+                            probably_punctuation: false,
                         },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                        allocate_if_new(
+                            Vertex {
+                                neighbours: RefCell::new(None),
+                                predecessor: Cell::new(None),
+                                lhs_syntax: lhs_syntax.next_sibling(),
+                                rhs_syntax: v.rhs_syntax,
+                                parents: v.parents.clone(),
+                                lhs_parent_id: v.lhs_parent_id,
+                                rhs_parent_id: v.rhs_parent_id,
+                            },
+                            alloc,
+                            seen,
+                        ),
+                    ));
+                } else {
+                    let lhs_next = children.get(0).copied();
+
+                    let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
+
+                    res.push((
+                        EnterNovelDelimiterLHS {
+                            contiguous: lhs_syntax.prev_is_contiguous(),
+                        },
+                        allocate_if_new(
+                            Vertex {
+                                neighbours: RefCell::new(None),
+                                predecessor: Cell::new(None),
+                                lhs_syntax: lhs_next,
+                                rhs_syntax: v.rhs_syntax,
+                                parents: parents_next,
+                                lhs_parent_id: Some(lhs_syntax.id()),
+                                rhs_parent_id: v.rhs_parent_id,
+                            },
+                            alloc,
+                            seen,
+                        ),
+                    ));
+                }
             }
         }
     }
@@ -687,28 +713,50 @@ pub fn get_set_neighbours<'syn, 'b>(
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let rhs_next = children.get(0).copied();
-
-                let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
-
-                res.push((
-                    EnterNovelDelimiterRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                    },
-                    allocate_if_new(
-                        Vertex {
-                            neighbours: RefCell::new(None),
-                            predecessor: Cell::new(None),
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_next,
-                            parents: parents_next,
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: Some(rhs_syntax.id()),
+                if rhs_syntax.content_is_unique_both_sides() {
+                    res.push((
+                        NovelAtomLHS {
+                            contiguous: rhs_syntax.prev_is_contiguous(),
+                            probably_punctuation: false,
                         },
-                        alloc,
-                        seen,
-                    ),
-                ));
+                        allocate_if_new(
+                            Vertex {
+                                neighbours: RefCell::new(None),
+                                predecessor: Cell::new(None),
+                                lhs_syntax: v.lhs_syntax,
+                                rhs_syntax: rhs_syntax.next_sibling(),
+                                parents: v.parents.clone(),
+                                lhs_parent_id: v.lhs_parent_id,
+                                rhs_parent_id: v.rhs_parent_id,
+                            },
+                            alloc,
+                            seen,
+                        ),
+                    ));
+                } else {
+                    let rhs_next = children.get(0).copied();
+
+                    let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
+
+                    res.push((
+                        EnterNovelDelimiterRHS {
+                            contiguous: rhs_syntax.prev_is_contiguous(),
+                        },
+                        allocate_if_new(
+                            Vertex {
+                                neighbours: RefCell::new(None),
+                                predecessor: Cell::new(None),
+                                lhs_syntax: v.lhs_syntax,
+                                rhs_syntax: rhs_next,
+                                parents: parents_next,
+                                lhs_parent_id: v.lhs_parent_id,
+                                rhs_parent_id: Some(rhs_syntax.id()),
+                            },
+                            alloc,
+                            seen,
+                        ),
+                    ));
+                }
             }
         }
     }
