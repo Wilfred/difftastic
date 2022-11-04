@@ -377,7 +377,7 @@ fn allocate_if_new<'syn, 'b>(
             // nestings for each syntax node pair.
             if let Some(allocated) = existing.last() {
                 if existing.len() >= 2 {
-                    return *allocated;
+                    return allocated;
                 }
             }
 
