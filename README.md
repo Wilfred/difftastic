@@ -16,28 +16,6 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 
 - [ ] `async`, `var` and `await` cannot be used as identifiers everywhere they are valid
 
-#### C# 9.0 (complete)
-
-- [x] Covariant returns
-- [x] Extending partial methods
-- [x] Extension GetEnumerator
-- [x] Function pointers
-- [x] Init properties
-- [x] Lambda discard parameters
-- [x] Local function attributes
-- [x] Module initializers
-- [x] Native integers
-- [x] Patterns
-  - [x] Simple type patterns
-  - [x] Relational patterns
-  - [x] Logical patterns
-- [x] Records
-- [x] Skip Locals Init
-- [x] Static anonymous functions
-- [x] Target-typed conditional expression
-- [x] Target-typed new
-- [x] Top-level statements
-
 #### C# 10.0
 
 - [x] global using directives
