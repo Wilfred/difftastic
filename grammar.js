@@ -124,8 +124,64 @@ module.exports = grammar({
 
     list: $ => paren(repeat($._token)),
 
-    abbreviation: $ => seq($._abbreviation_prefix, repeat($._skip), $._datum),
-    _abbreviation_prefix: _ => choice("'", "`", ",", ",@", "#'", "#`", "#,", "#,@"),
+    abbreviation: $ =>
+      choice(
+        $.quote,
+        $.quasiquote,
+        $.unquote,
+        $.unquote_splicing,
+        $.syntax,
+        $.quasisyntax,
+        $.unsyntax,
+        $.unsyntax_splicing),
+
+    quote: $ =>
+      seq(
+        "'",
+        repeat($._skip),
+        $._datum),
+
+    quasiquote: $ =>
+      seq(
+        "`",
+        repeat($._skip),
+        $._datum),
+
+    syntax: $ =>
+      seq(
+        "#'",
+        repeat($._skip),
+        $._datum),
+
+    quasisyntax: $ =>
+      seq(
+        "#`",
+        repeat($._skip),
+        $._datum),
+
+    unquote: $ =>
+      seq(
+        ",",
+        repeat($._skip),
+        $._datum),
+
+    unquote_splicing: $ =>
+      seq(
+        ",@",
+        repeat($._skip),
+        $._datum),
+
+    unsyntax: $ =>
+      seq(
+        "#,",
+        repeat($._skip),
+        $._datum),
+
+    unsyntax_splicing: $ =>
+      seq(
+        "#,@",
+        repeat($._skip),
+        $._datum),
 
     _special_form: $ =>
       choice(
