@@ -12,7 +12,7 @@ use strsim::normalized_levenshtein;
 
 use crate::{
     diff::{
-        changes::{insert_deep_unchanged, ChangeKind, ChangeMap},
+        changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind, ChangeMap},
         stack::Stack,
     },
     parse::syntax::{AtomKind, Syntax, SyntaxId},
@@ -806,11 +806,19 @@ pub fn populate_change_map<'a, 'b>(
                     change_map.insert(rhs, ChangeKind::Novel);
                 }
             }
-            NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
+            NovelAtomLHS { .. } => {
+                let lhs = v.lhs_syntax.unwrap();
+                insert_deep_novel(lhs, change_map);
+            }
+            EnterNovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
             }
-            NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
+            NovelAtomRHS { .. } => {
+                let rhs = v.rhs_syntax.unwrap();
+                insert_deep_novel(rhs, change_map);
+            }
+            EnterNovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
             }
