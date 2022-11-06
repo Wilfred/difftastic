@@ -29,7 +29,7 @@ This page contains all visible nodes in yaml format.
 - quote # '
 - quasiquote # `
 - syntax # #'
-- unsyntax # #`
+- quasisyntax # #`
 - unquote # ,
 - unquote_splicing # ,@
 - unsyntax # #,

@@ -4,7 +4,8 @@ quote
 
 '123
 `(1 ,2)
-,@1
+#'123
+#`123
 
 ---
 
@@ -16,5 +17,22 @@ quote
       (number)
       (unquote
         (number))))
-  (unquote_splicing
+  (syntax (number))
+  (quasisyntax (number)))
+
+===
+unquote
+===
+
+,1
+,@1
+#,1
+#,@1
+
+---
+(program
+  (unquote (number))
+  (unquote_splicing (number))
+  (unsyntax (number))
+  (unsyntax_splicing
     (number)))
