@@ -26,8 +26,14 @@ This page contains all visible nodes in yaml format.
 - graph
 - structure
 - hash # hash table
-- quote # ' or ` or #' or #`
-- unquote # , or ,@ or #, or #,@
+- quote # '
+- quasiquote # `
+- syntax # #'
+- unsyntax # #`
+- unquote # ,
+- unquote_splicing # ,@
+- unsyntax # #,
+- unsyntax_splicing # #,@
 
 - list
 - vector

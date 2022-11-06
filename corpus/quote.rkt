@@ -11,10 +11,10 @@ quote
 (program
   (quote
     (number))
-  (quote
+  (quasiquote
     (list
       (number)
       (unquote
         (number))))
-  (unquote
+  (unquote_splicing
     (number)))

@@ -236,17 +236,59 @@ module.exports = grammar({
     _abbrev: $ =>
       choice(
         $.quote,
-        $.unquote),
+        $.quasiquote,
+        $.syntax,
+        $.quasisyntax,
+        $.unquote,
+        $.unquote_splicing,
+        $.unsyntax,
+        $.unsyntax_splicing),
 
     quote: $ =>
       seq(
-        choice("'", "`", "#'", "#`"),
+        "'",
+        repeat($._skip),
+        $._datum),
+
+    quasiquote: $ =>
+      seq(
+        "`",
+        repeat($._skip),
+        $._datum),
+
+    syntax: $ =>
+      seq(
+        "#'",
+        repeat($._skip),
+        $._datum),
+
+    quasisyntax: $ =>
+      seq(
+        "#`",
         repeat($._skip),
         $._datum),
 
     unquote: $ =>
       seq(
-        choice(",", ",@", "#,", "#,@"),
+        ",",
+        repeat($._skip),
+        $._datum),
+
+    unquote_splicing: $ =>
+      seq(
+        ",@",
+        repeat($._skip),
+        $._datum),
+
+    unsyntax: $ =>
+      seq(
+        "#,",
+        repeat($._skip),
+        $._datum),
+
+    unsyntax_splicing: $ =>
+      seq(
+        "#,@",
         repeat($._skip),
         $._datum),
 
