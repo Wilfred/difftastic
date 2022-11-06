@@ -110,7 +110,7 @@ module.exports = grammar({
         $.graph,
         $.structure,
         $.hash,
-        $.quote,
+        $._abbrev,
 
         $.list,
         $.vector),
@@ -233,9 +233,20 @@ module.exports = grammar({
             repeat($._skip),
             $._datum))),
 
+    _abbrev: $ =>
+      choice(
+        $.quote,
+        $.unquote),
+
     quote: $ =>
       seq(
-        choice("'", "`", ",", ",@", "#'", "#`", "#,", "#,@"),
+        choice("'", "`", "#'", "#`"),
+        repeat($._skip),
+        $._datum),
+
+    unquote: $ =>
+      seq(
+        choice(",", ",@", "#,", "#,@"),
         repeat($._skip),
         $._datum),
 

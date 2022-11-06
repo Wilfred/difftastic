@@ -14,7 +14,7 @@ quote
   (quote
     (list
       (number)
-      (quote
+      (unquote
         (number))))
-  (quote
+  (unquote
     (number)))

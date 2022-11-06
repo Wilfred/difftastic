@@ -95,6 +95,10 @@
           "named": true
         },
         {
+          "type": "unquote",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -206,6 +210,10 @@
           "named": true
         },
         {
+          "type": "unquote",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -294,6 +302,10 @@
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
           "named": true
         },
         {
@@ -412,6 +424,10 @@
           "named": true
         },
         {
+          "type": "unquote",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -503,6 +519,10 @@
           "named": true
         },
         {
+          "type": "unquote",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -587,6 +607,10 @@
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
           "named": true
         },
         {
@@ -692,6 +716,10 @@
           "named": true
         },
         {
+          "type": "unquote",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -732,6 +760,97 @@
     "type": "symbol",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "unquote",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "box",
+          "named": true
+        },
+        {
+          "type": "byte_string",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "graph",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "here_string",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "sexp_comment",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "structure",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "vector",

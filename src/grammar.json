@@ -255,7 +255,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "quote"
+          "name": "_abbrev"
         },
         {
           "type": "SYMBOL",
@@ -6007,6 +6007,19 @@
         }
       ]
     },
+    "_abbrev": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote"
+        }
+      ]
+    },
     "quote": {
       "type": "SEQ",
       "members": [
@@ -6023,19 +6036,40 @@
             },
             {
               "type": "STRING",
-              "value": ","
-            },
-            {
-              "type": "STRING",
-              "value": ",@"
-            },
-            {
-              "type": "STRING",
               "value": "#'"
             },
             {
               "type": "STRING",
               "value": "#`"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_skip"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_datum"
+        }
+      ]
+    },
+    "unquote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "STRING",
+              "value": ",@"
             },
             {
               "type": "STRING",
