@@ -768,3 +768,268 @@ var x = $@"/* {world} */";
               (interpolation
                 (identifier))
               (interpolated_verbatim_string_text))))))))
+
+==================================================
+Raw string literal (basic)
+==================================================
+
+var x = """Hello"""; 
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (raw_string_literal)))))))
+
+==================================================
+Raw string literal (multi-line)
+==================================================
+
+var x = """
+  Hello
+  """; 
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (raw_string_literal)))))))
+
+==================================================
+Raw string literal (embedded one double quotes)
+==================================================
+
+var x = """
+  Hello "Damien"
+  """; 
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (raw_string_literal)))))))
+
+
+==================================================
+Raw string literal (embedded two double quotes)
+==================================================
+
+var x = """
+  Hello ""Damien""
+  """; 
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (raw_string_literal)))))))
+
+==================================================
+Raw string literal (UTF-8)
+==================================================
+
+var x = """
+  Hello "Damien"
+  """u8; 
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (raw_string_literal)))))))
+
+==================================================
+Interpolated raw string literal (basic)
+==================================================
+
+var x = $"""The point {X}, {Y} is {Math.Sqrt(X * X + Y * Y)} from the origin""";
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolation
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (argument
+                      (binary_expression
+                        (binary_expression
+                          (identifier)
+                          (identifier))
+                        (binary_expression
+                          (identifier)
+                          (identifier)))))))
+              (interpolated_raw_string_text))))))))
+
+==================================================
+Interpolated raw string literal (one double quotes)
+==================================================
+
+var x = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (argument
+                      (binary_expression
+                        (binary_expression
+                          (identifier)
+                          (identifier))
+                        (binary_expression
+                          (identifier)
+                          (identifier)))))))
+              (interpolated_raw_string_text))))))))
+
+
+==================================================
+Interpolated raw string literal (two double quotes)
+==================================================
+
+var x = $"""The point ""{X}, {Y}"" is {Math.Sqrt(X * X + Y * Y)} from the origin""";
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (argument
+                      (binary_expression
+                        (binary_expression
+                          (identifier)
+                          (identifier))
+                        (binary_expression
+                          (identifier)
+                          (identifier)))))))
+              (interpolated_raw_string_text))))))))
+
+==================================================
+Interpolated raw string literal (multi-line)
+==================================================
+
+var x = $"""The point 
+  ""{X}, {Y}""
+  is {Math.Sqrt(X * X + Y * Y)}
+  from the origin""";
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_raw_string_text)
+              (interpolated_raw_string_text)
+              (interpolation
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list
+                    (argument
+                      (binary_expression
+                        (binary_expression
+                          (identifier)
+                          (identifier))
+                        (binary_expression
+                          (identifier)
+                          (identifier)))))))
+              (interpolated_raw_string_text))))))))

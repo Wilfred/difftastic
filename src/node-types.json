@@ -242,6 +242,10 @@
         "named": true
       },
       {
+        "type": "raw_string_literal",
+        "named": true
+      },
+      {
         "type": "real_literal",
         "named": true
       },
@@ -1702,6 +1706,10 @@
         },
         {
           "type": "prefix_unary_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string_literal",
           "named": true
         },
         {
@@ -3214,6 +3222,11 @@
     }
   },
   {
+    "type": "interpolated_raw_string_text",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "interpolated_string_expression",
     "named": true,
     "fields": {},
@@ -3221,6 +3234,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "interpolated_raw_string_text",
+          "named": true
+        },
         {
           "type": "interpolated_string_text",
           "named": true
@@ -6270,6 +6287,10 @@
     "named": false
   },
   {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
     "type": "\"U8",
     "named": false
   },
@@ -6279,6 +6300,10 @@
   },
   {
     "type": "$\"",
+    "named": false
+  },
+  {
+    "type": "$\"\"\"",
     "named": false
   },
   {
@@ -6868,6 +6893,10 @@
   {
     "type": "public",
     "named": false
+  },
+  {
+    "type": "raw_string_literal",
+    "named": true
   },
   {
     "type": "readonly",

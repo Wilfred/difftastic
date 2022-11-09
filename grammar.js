@@ -1219,6 +1219,7 @@ module.exports = grammar({
       seq('$"', repeat($._interpolated_string_content), '"'),
       seq('$@"', repeat($._interpolated_verbatim_string_content), '"'),
       seq('@$"', repeat($._interpolated_verbatim_string_content), '"'),
+      seq('$"""', repeat($._interpolated_raw_string_content), '"""'),
     ),
 
     _interpolated_string_content: $ => choice(
@@ -1228,6 +1229,11 @@ module.exports = grammar({
 
     _interpolated_verbatim_string_content: $ => choice(
       $.interpolated_verbatim_string_text,
+      $.interpolation
+    ),
+
+    _interpolated_raw_string_content: $ => choice(
+      $.interpolated_raw_string_text,
       $.interpolation
     ),
 
@@ -1243,6 +1249,12 @@ module.exports = grammar({
       '{{',
       $._interpolated_verbatim_string_text_fragment,
       '""'
+    ),
+
+    interpolated_raw_string_text: $ => choice(
+      $._interpolated_verbatim_string_text_fragment,
+      '"',
+      '""',
     ),
 
     _interpolated_verbatim_string_text_fragment: $ => token.immediate(prec(1, /[^{"]+/)),
@@ -1578,7 +1590,8 @@ module.exports = grammar({
       $.integer_literal,
       // Or strings and verbatim strings
       $.string_literal,
-      $.verbatim_string_literal
+      $.verbatim_string_literal,
+      $.raw_string_literal,
     ),
 
     boolean_literal: $ => choice(
@@ -1659,6 +1672,16 @@ module.exports = grammar({
       choice('"', '"U8', '"u8')
     )),
 
+    raw_string_literal: $ => token(seq(
+      '"""',
+      repeat(choice(
+        /[^"]/,
+        '"',
+        '""',
+      )),
+      choice('"""', '"""U8', '"""u8')
+    )),
+    
     // Comments
 
     comment: $ => token(choice(
