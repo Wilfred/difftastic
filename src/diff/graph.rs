@@ -71,70 +71,8 @@ impl<'a> SideSyntax<'a> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(u64)]
-enum EnteredDelimiter {
-    /// If we've entered the LHS or RHS separately, we can pop either
-    /// side independently.
-    PopEither = 0,
-    /// If we've entered the LHS and RHS together, we must pop both
-    /// sides together too. Otherwise we'd consider the following
-    /// case to have no changes.
-    ///
-    /// ```text
-    /// Old: (a b c)
-    /// New: (a b) c
-    /// ```
-    PopBoth = 1,
-}
-
-use EnteredDelimiter::*;
-
-/// LSB is the stack top. One bit represents one `EnteredDelimiter`.
-///
-/// Assume the underlying type is u8, then
-///
-/// ```text
-/// new:      0b00000001
-/// push x:   0b0000001x
-/// push y:   0b000001xy
-/// pop:      0b0000001x
-/// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-struct BitStack(u64);
-
-impl BitStack {
-    fn new() -> Self {
-        Self(1)
-    }
-
-    fn is_empty(&self) -> bool {
-        self.0 == 1
-    }
-
-    fn is_full(&self) -> bool {
-        self.0 & (1 << 63) != 0
-    }
-
-    fn peek(&self) -> Option<EnteredDelimiter> {
-        if self.is_empty() {
-            None
-        } else if self.0 & 1 == PopEither as u64 {
-            Some(PopEither)
-        } else {
-            Some(PopBoth)
-        }
-    }
-
-    fn push(&self, tag: EnteredDelimiter) -> Self {
-        assert!(!self.is_full(), "BitStack is full!");
-        Self((self.0 << 1) | tag as u64)
-    }
-
-    fn pop(&self) -> Self {
-        assert!(!self.is_empty(), "BitStack is empty!");
-        Self(self.0 >> 1)
-    }
+fn get_ptr<T>(opt: Option<&T>) -> *const T {
+    opt.map_or(std::ptr::null::<T>(), |t| t as *const _)
 }
 
 /// A vertex in a directed acyclic graph that represents a diff.
@@ -167,21 +105,36 @@ impl BitStack {
 /// ```
 #[derive(Debug)]
 pub struct Vertex<'a, 'b> {
+    // states
     pub is_visited: Cell<bool>,
     pub shortest_distance: Cell<u64>,
     pub predecessor: Cell<Option<(Edge, &'b Vertex<'a, 'b>)>>,
+
+    // core info
     pub lhs_syntax: SideSyntax<'a>,
     pub rhs_syntax: SideSyntax<'a>,
-    lhs_parent_stack: BitStack,
-    rhs_parent_stack: BitStack,
+    /// If we've entered the LHS and RHS together, we must pop both
+    /// sides together too. Otherwise we'd consider the following
+    /// case to have no changes.
+    ///
+    /// ```text
+    /// Old: (a b c)
+    /// New: (a b) c
+    /// ```
+    pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
+    /// If we've entered the LHS or RHS separately, we can pop either
+    /// side independently.
+    pop_lhs_cnt: u16,
+    pop_rhs_cnt: u16,
 }
 
 impl<'a, 'b> Vertex<'a, 'b> {
     pub fn is_end(&self) -> bool {
         !self.lhs_syntax.is_side()
             && !self.rhs_syntax.is_side()
-            && self.lhs_parent_stack.is_empty()
-            && self.rhs_parent_stack.is_empty()
+            && self.pop_both_ancestor.is_none()
+            && self.pop_lhs_cnt == 0
+            && self.pop_rhs_cnt == 0
     }
 
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
@@ -191,22 +144,21 @@ impl<'a, 'b> Vertex<'a, 'b> {
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
             rhs_syntax: rhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
-            lhs_parent_stack: BitStack::new(),
-            rhs_parent_stack: BitStack::new(),
+            pop_both_ancestor: None,
+            pop_lhs_cnt: 0,
+            pop_rhs_cnt: 0,
         }
     }
 
-    fn parents_eq(&self, other: &Vertex<'a, 'b>) -> bool {
-        self.lhs_parent_stack == other.lhs_parent_stack
-            && self.rhs_parent_stack == other.rhs_parent_stack
+    fn parent_stack_eq(&self, other: &Vertex<'a, 'b>) -> bool {
+        // Vertices are pinned so ptrs are unique IDs
+        get_ptr(self.pop_both_ancestor) == get_ptr(other.pop_both_ancestor)
+            && self.pop_lhs_cnt == other.pop_lhs_cnt
+            && self.pop_rhs_cnt == other.pop_rhs_cnt
     }
 
     fn can_pop_either(&self) -> bool {
-        // self.lhs_parent_stack.peek() == Some(PopEither)
-        //     || self.rhs_parent_stack.peek() == Some(PopEither)
-
-        // Utilize the fact that PopEither = 0 while stack top indicator is 1.
-        self.lhs_parent_stack.0 & 1 == 0 || self.rhs_parent_stack.0 & 1 == 0
+        self.pop_lhs_cnt != 0 || self.pop_rhs_cnt != 0
     }
 }
 
@@ -364,7 +316,7 @@ fn allocate_if_new<'syn, 'b>(
             if let Some(existing) = value {
                 return existing;
             }
-            if key.parents_eq(&v) {
+            if key.parent_stack_eq(&v) {
                 return key;
             }
             let allocated = alloc.alloc(v);
@@ -404,30 +356,33 @@ fn next_child<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSy
 fn next_vertex<'a, 'b>(
     mut lhs_syntax: SideSyntax<'a>,
     mut rhs_syntax: SideSyntax<'a>,
-    mut lhs_parent_stack: BitStack,
-    mut rhs_parent_stack: BitStack,
+    mut pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
+    mut pop_lhs_cnt: u16,
+    mut pop_rhs_cnt: u16,
 ) -> Vertex<'a, 'b> {
     loop {
-        while let (None, Some(PopEither)) = (lhs_syntax.get_side(), lhs_parent_stack.peek()) {
+        while !lhs_syntax.is_side() && pop_lhs_cnt > 0 {
             lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
-            lhs_parent_stack = lhs_parent_stack.pop();
+            pop_lhs_cnt -= 1;
         }
 
-        while let (None, Some(PopEither)) = (rhs_syntax.get_side(), rhs_parent_stack.peek()) {
+        while !rhs_syntax.is_side() && pop_rhs_cnt > 0 {
             rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
-            rhs_parent_stack = rhs_parent_stack.pop();
+            pop_rhs_cnt -= 1;
         }
 
-        if let (None, None, Some(PopBoth), Some(PopBoth)) = (
-            lhs_syntax.get_side(),
-            rhs_syntax.get_side(),
-            lhs_parent_stack.peek(),
-            rhs_parent_stack.peek(),
+        if let (false, false, Some(ancestor), 0, 0) = (
+            lhs_syntax.is_side(),
+            rhs_syntax.is_side(),
+            pop_both_ancestor,
+            pop_lhs_cnt,
+            pop_rhs_cnt,
         ) {
             lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
             rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
-            lhs_parent_stack = lhs_parent_stack.pop();
-            rhs_parent_stack = rhs_parent_stack.pop();
+            pop_both_ancestor = ancestor.pop_both_ancestor;
+            pop_lhs_cnt = ancestor.pop_lhs_cnt;
+            pop_rhs_cnt = ancestor.pop_rhs_cnt;
         } else {
             break;
         }
@@ -436,15 +391,16 @@ fn next_vertex<'a, 'b>(
     Vertex {
         lhs_syntax,
         rhs_syntax,
-        lhs_parent_stack,
-        rhs_parent_stack,
+        pop_both_ancestor,
+        pop_lhs_cnt,
+        pop_rhs_cnt,
         ..Default::default()
     }
 }
 
 /// Compute the neighbours of `v`.
 pub fn get_neighbours<'syn, 'b>(
-    v: &Vertex<'syn, 'b>,
+    v: &'b Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
     neighbors: &mut Vec<(Edge, &'b Vertex<'syn, 'b>)>,
@@ -473,8 +429,9 @@ pub fn get_neighbours<'syn, 'b>(
                 next_vertex(
                     next_sibling(lhs_syntax),
                     next_sibling(rhs_syntax),
-                    v.lhs_parent_stack,
-                    v.rhs_parent_stack,
+                    v.pop_both_ancestor,
+                    v.pop_lhs_cnt,
+                    v.pop_rhs_cnt,
                 ),
             );
         }
@@ -506,8 +463,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         next_child(lhs_syntax, lhs_children),
                         next_child(rhs_syntax, rhs_children),
-                        v.lhs_parent_stack.push(PopBoth),
-                        v.rhs_parent_stack.push(PopBoth),
+                        Some(v),
+                        0,
+                        0,
                     ),
                 );
             }
@@ -537,8 +495,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         next_sibling(lhs_syntax),
                         next_sibling(rhs_syntax),
-                        v.lhs_parent_stack,
-                        v.rhs_parent_stack,
+                        v.pop_both_ancestor,
+                        v.pop_lhs_cnt,
+                        v.pop_rhs_cnt,
                     ),
                 );
             }
@@ -558,8 +517,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         next_sibling(lhs_syntax),
                         v.rhs_syntax,
-                        v.lhs_parent_stack,
-                        v.rhs_parent_stack,
+                        v.pop_both_ancestor,
+                        v.pop_lhs_cnt,
+                        v.pop_rhs_cnt,
                     ),
                 );
             }
@@ -571,8 +531,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         next_child(lhs_syntax, children),
                         v.rhs_syntax,
-                        v.lhs_parent_stack.push(PopEither),
-                        v.rhs_parent_stack,
+                        v.pop_both_ancestor,
+                        v.pop_lhs_cnt + 1,
+                        v.pop_rhs_cnt,
                     ),
                 );
             }
@@ -590,8 +551,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         v.lhs_syntax,
                         next_sibling(rhs_syntax),
-                        v.lhs_parent_stack,
-                        v.rhs_parent_stack,
+                        v.pop_both_ancestor,
+                        v.pop_lhs_cnt,
+                        v.pop_rhs_cnt,
                     ),
                 );
             }
@@ -603,8 +565,9 @@ pub fn get_neighbours<'syn, 'b>(
                     next_vertex(
                         v.lhs_syntax,
                         next_child(rhs_syntax, children),
-                        v.lhs_parent_stack,
-                        v.rhs_parent_stack.push(PopEither),
+                        v.pop_both_ancestor,
+                        v.pop_lhs_cnt,
+                        v.pop_rhs_cnt + 1,
                     ),
                 );
             }
