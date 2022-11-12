@@ -90,7 +90,7 @@ enum EnteredDelimiter {
 
 use EnteredDelimiter::*;
 
-/// LSP is the stack top. One bit represents one `EnteredDelimiter`.
+/// LSB is the stack top. One bit represents one `EnteredDelimiter`.
 ///
 /// Assume the underlying type is u8, then
 ///
