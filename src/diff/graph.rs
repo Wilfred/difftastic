@@ -60,12 +60,8 @@ impl<'a> SideSyntax<'a> {
     }
 
     pub fn from_parent(parent: Option<&'a Syntax<'a>>) -> Self {
-        let data = match parent {
-            Some(p) => p as *const _ as usize | 1,
-            None => 1,
-        };
         Self {
-            data,
+            data: parent.map_or(0, |s| s as *const _ as usize) | 1,
             phantom: PhantomData,
         }
     }
