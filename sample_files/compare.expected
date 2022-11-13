@@ -1,5 +1,5 @@
 sample_files/b2_math_before.h sample_files/b2_math_after.h
-ec0854e630def8d7e6ce04cbcf1358f3  -
+ccbd784fa7df5d317fce588ac477956a  -
 
 sample_files/bad_combine_before.rs sample_files/bad_combine_after.rs
 affa06f407f8e07bc025c24e96d01298  -
@@ -68,7 +68,7 @@ sample_files/html_simple_before.html sample_files/html_simple_after.html
 ce3bfa12bc21d0eb5528766e18387e86  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-d948c1835eac1cdf4019edb6eed6bcaa  -
+94a49575858e6400ac95b80e5bc52dfe  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
@@ -104,7 +104,7 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 9886d61f459cdf566be9c42f7fa61a12  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
-a23d575010ed8d902740e7fa9ef6d15b  -
+8464059b3e1bb3b7109020386fc2985b  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
 7e578048e01b2c9eccf26c055c0eb9fd  -
@@ -116,7 +116,7 @@ sample_files/multiline_string_before.ml sample_files/multiline_string_after.ml
 ba135b1451962f563ce8c2f449a904bf  -
 
 sample_files/nest_before.rs sample_files/nest_after.rs
-e51eac2420b5bd0a6e156dc0bae28e4c  -
+a8d0454af5275807d425cdfa2d08dce8  -
 
 sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
 5c3dc3d870cdf182658da6a29650d911  -
@@ -155,7 +155,7 @@ sample_files/scala_before.scala sample_files/scala_after.scala
 dc36b671167f2b16c7800808d07197ee  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
-75db3872d74834ab70358bc50c50b072  -
+9def134da4bbc423a1fde93001618776  -
 
 sample_files/simple_before.js sample_files/simple_after.js
 43feeac1f3afe2c0c0b862009770f27a  -
@@ -170,7 +170,7 @@ sample_files/slider_before.rs sample_files/slider_after.rs
 52e0f2e690d11ef6f38704b8cee84d36  -
 
 sample_files/slow_before.rs sample_files/slow_after.rs
-0dba9e3e733237733a050435f0d741fc  -
+f67aeacbc7164dd076a9a6d6fe0413be  -
 
 sample_files/small_before.js sample_files/small_after.js
 b4300bfc0203acd8f2603b504b859dc8  -

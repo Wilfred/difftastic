@@ -18,6 +18,9 @@ distinct from file content.
 Fixed an issue with inline display discarding newlines when color is
 disabled, leading to broken display.
 
+Two column display now ensures that both columns have the same width,
+so line wrapping is at the same point on both sides.
+
 ## 0.37 (released 14th October 2022)
 
 ### Manual

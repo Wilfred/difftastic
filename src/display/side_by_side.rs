@@ -2,7 +2,10 @@
 
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
-use std::{cmp::max, collections::HashSet};
+use std::{
+    cmp::{max, min},
+    collections::HashSet,
+};
 
 use crate::{
     constants::Side,
@@ -147,11 +150,18 @@ fn display_line_nums(
 // Sizes used when displaying a hunk.
 #[derive(Debug)]
 struct SourceDimensions {
-    lhs_content_width: usize,
-    rhs_content_width: usize,
+    /// The number of characters used to display source lines. Any
+    /// line that exceeds this length will be wrapped.
+    content_width: usize,
+    /// The number of characters required to display line numbers on
+    /// the LHS.
     lhs_line_nums_width: usize,
+    /// The number of characters required to display line numbers on
+    /// the RHS.
     rhs_line_nums_width: usize,
+    /// The highest line number in the LHS source.
     lhs_max_line: LineNumber,
+    /// The highest line number in the RHS source.
     rhs_max_line: LineNumber,
 }
 
@@ -206,9 +216,13 @@ impl SourceDimensions {
                 - rhs_line_nums_width as isize,
         ) as usize;
 
+        // We want the content width to be the same on both
+        // sides. This ensures that line wrapping splits lines at the
+        // same point on both sides.
+        let content_width = min(lhs_content_width, rhs_content_width);
+
         Self {
-            lhs_content_width,
-            rhs_content_width,
+            content_width,
             lhs_line_nums_width,
             rhs_line_nums_width,
             lhs_max_line,
@@ -493,17 +507,17 @@ pub fn print(
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.as_usize()],
-                        source_dims.lhs_content_width,
+                        source_dims.content_width,
                         display_options.use_color,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
                     ),
-                    None => vec![" ".repeat(source_dims.lhs_content_width)],
+                    None => vec![" ".repeat(source_dims.content_width)],
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.as_usize()],
-                        source_dims.rhs_content_width,
+                        source_dims.content_width,
                         display_options.use_color,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
@@ -516,7 +530,7 @@ pub fn print(
                     .enumerate()
                 {
                     let lhs_line =
-                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.lhs_content_width));
+                        lhs_line.unwrap_or_else(|| " ".repeat(source_dims.content_width));
                     let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
