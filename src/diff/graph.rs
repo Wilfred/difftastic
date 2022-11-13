@@ -321,7 +321,7 @@ fn allocate_if_new<'syn, 'b>(
         }
         None => {
             let allocated = alloc.alloc(v);
-            seen.insert(allocated, None);
+            seen.insert_unique_unchecked(allocated, None);
             allocated
         }
     }
