@@ -17,6 +17,7 @@ include = [
         "/vendor/*-src/**/*.c",
         "/vendor/*-src/**/*.h",
         "/vendor/*-src/**/*.cc",
+        "/LICENSE",
         "/README.md",
 ]
 
