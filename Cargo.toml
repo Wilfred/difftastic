@@ -14,9 +14,9 @@ include = [
         "/build.rs",
         "/src/",
         "/vendor/highlights/*.scm",
-        "/vendor/*-src/**/*.c",
-        "/vendor/*-src/**/*.h",
-        "/vendor/*-src/**/*.cc",
+        "/vendor/**/*.c",
+        "/vendor/**/*.h",
+        "/vendor/**/*.cc",
         "/LICENSE",
         "/README.md",
 ]
