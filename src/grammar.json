@@ -1533,7 +1533,7 @@
     },
     "with_item": {
       "type": "PREC_DYNAMIC",
-      "value": -1,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
