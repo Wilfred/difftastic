@@ -6,7 +6,7 @@ do 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (int))))
 
@@ -18,7 +18,7 @@ do 4 3
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (int)
@@ -32,7 +32,7 @@ do 4 3 3
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (int)
@@ -47,7 +47,7 @@ do test
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (long_identifier (identifier)))))
@@ -60,7 +60,7 @@ do begin test end
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (long_identifier (identifier)))))
@@ -73,7 +73,7 @@ do begin 2 1 end
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
        (int)
@@ -87,7 +87,7 @@ do null
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (null))))
 
@@ -99,7 +99,7 @@ do (4)
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (int))))
 
@@ -111,7 +111,7 @@ do test (4)
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (long_identifier (identifier))
@@ -125,7 +125,7 @@ do (test.test)
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (dot_expression
@@ -140,7 +140,7 @@ do test.[test]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -155,7 +155,7 @@ do test[test]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -170,7 +170,7 @@ do test <- 2
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (mutate_expression
@@ -185,7 +185,7 @@ do test <- 2 <- 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (mutate_expression
@@ -202,7 +202,7 @@ do upcast 2
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (int))))
 
@@ -214,7 +214,7 @@ do downcast 2
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (int))))
 
@@ -226,7 +226,7 @@ do 2, 3, 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (int) (int) (int))))
 
@@ -238,7 +238,7 @@ do [2; 3; 4]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (list_expression
@@ -254,7 +254,7 @@ do [2; 3; 4][1]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -272,7 +272,7 @@ do [2][1]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -288,7 +288,7 @@ do [2] [1]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (list_expression (int))
@@ -302,7 +302,7 @@ do [|2; 3; 4|]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (array_expression
@@ -318,7 +318,7 @@ do [|2; 3; 4|][1]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -336,7 +336,7 @@ do [|2|][1]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (index_expression
@@ -352,7 +352,7 @@ do [|2|] [|1|]
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (array_expression (int))
@@ -366,7 +366,7 @@ do let name x = 4 in 5
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (function_defn
@@ -386,15 +386,16 @@ do
 
 ---
 
-(source_file
-  (module_function_or_value_defn
-    (do_expr
-      (function_defn
-        (identifier)
-        (argument_patterns
-          (long_identifier (identifier)))
-        (int))
-      (int))))
+(file
+  (value_declaration
+    (do
+      (let_expression
+        (function_declaration_left
+          (identifier)
+          (pattern
+            (identifier)))
+        (defn_body (int))
+      (int)))))
 
 
 ===
@@ -407,14 +408,37 @@ do
   5
 
 ---
+(file
+  (value_declaration
+    (do
+      (let_expression
+        (function_declaration_left
+          (identifier)
+          (pattern
+            (identifier)))
+        (defn_body (int))
+        (int)))))
 
-(source_file
-  (module_function_or_value_defn
-    (do_expr
-      (function_defn
-        (identifier)
-        (argument_patterns
-          (long_identifier (identifier)))
-        (int))
-      (int))))
+===
+function-align expressions 3
+===
 
+do
+  let name x =
+    1
+    2
+  5
+
+---
+(file
+  (value_declaration
+    (do
+      (let_expression
+        (function_declaration_left
+          (identifier)
+          (pattern
+            (identifier)))
+        (defn_body
+          (int)
+          (int))
+        (int)))))

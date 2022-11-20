@@ -7,13 +7,13 @@ module test =
 
 ---
 
-(source_file
+(file
   (module_defn
     (identifier)
-    (module_function_or_value_defn
-      (value_defn
-        (long_identifier (identifier))
-        (int)))))
+    (value_declaration
+      (value_declaration_left
+        (pattern (identifier)))
+      (defn_body (int)))))
 
 ===
 basic module with large indent
@@ -24,64 +24,57 @@ module test =
 
 ---
 
-(source_file
+(file
   (module_defn
     (identifier)
-    (module_function_or_value_defn
-      (value_defn
-        (long_identifier (identifier))
-        (int)))))
+    (value_declaration
+      (value_declaration_left
+        (pattern (identifier)))
+      (defn_body (int)))))
 
 ===
-basic module with begin/end same line
-===
-
-module test = begin let x = 4 end
-
----
-
-(source_file
-  (module_defn
-    (identifier)
-    (module_function_or_value_defn
-      (value_defn
-        (long_identifier (identifier))
-        (int)))))
-
-===
-basic module with begin/end new line
-===
-
-module test = begin
-let x = 4
-end
-
----
-
-(source_file
-  (module_defn
-    (identifier)
-    (module_function_or_value_defn
-      (value_defn
-        (long_identifier (identifier))
-        (int)))))
-
-===
-basic module with begin/end all new lines
+basic module with multiple elements
 ===
 
 module test =
-begin
-let x = 4
-end
+ let x = 4
+ let y = 5
 
 ---
 
-(source_file
+(file
   (module_defn
     (identifier)
-    (module_function_or_value_defn
-      (value_defn
-        (long_identifier (identifier))
-        (int)))))
+    (value_declaration
+      (value_declaration_left
+        (pattern (identifier)))
+      (defn_body (int)))
+    (value_declaration
+      (value_declaration_left
+        (pattern (identifier)))
+      (defn_body (int)))))
 
+===
+top-level module with multiple elements
+===
+
+module Test
+
+let x = 4
+let y = 5
+
+---
+(file
+  (named_module
+    name: (long_identifier
+      (identifier))
+    (value_declaration
+      (value_declaration_left
+        (pattern
+          (identifier)))
+        (defn_body (int)))
+    (value_declaration
+      (value_declaration_left
+        (pattern
+          (identifier)))
+        (defn_body (int)))))

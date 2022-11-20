@@ -6,7 +6,7 @@ basic compiler directive
 
 ---
 
-(source_file
+(file
   (compiler_directive_decl
     (identifier)
     (string)))
@@ -19,7 +19,7 @@ multiple compiler directive
 
 ---
 
-(source_file
+(file
   (compiler_directive_decl
     (identifier)
     (string)

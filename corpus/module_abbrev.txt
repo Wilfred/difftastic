@@ -6,7 +6,7 @@ module local = Mod.local
 
 ---
 
-(source_file
+(file
   (module_abbrev
     (identifier)
     (long_identifier (identifier) (identifier))))
