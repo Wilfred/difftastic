@@ -300,23 +300,23 @@ fn next_vertex<'a, 'b>(
     mut pop_rhs_cnt: u8,
 ) -> Vertex<'a, 'b> {
     loop {
-        while lhs_syntax.is_parent() && pop_lhs_cnt > 0 {
-            lhs_syntax = next_sibling(lhs_syntax.get_parent().unwrap());
+        while let (Some(lhs_parent), 1..) = (lhs_syntax.get_parent(), pop_lhs_cnt) {
+            lhs_syntax = next_sibling(lhs_parent);
             pop_lhs_cnt -= 1;
         }
 
-        while rhs_syntax.is_parent() && pop_rhs_cnt > 0 {
-            rhs_syntax = next_sibling(rhs_syntax.get_parent().unwrap());
+        while let (Some(rhs_parent), 1..) = (rhs_syntax.get_parent(), pop_rhs_cnt) {
+            rhs_syntax = next_sibling(rhs_parent);
             pop_rhs_cnt -= 1;
         }
 
-        if let (true, true, Some(ancestor)) = (
-            lhs_syntax.is_parent(),
-            rhs_syntax.is_parent(),
+        if let (Some(lhs_parent), Some(rhs_parent), Some(ancestor)) = (
+            lhs_syntax.get_parent(),
+            rhs_syntax.get_parent(),
             pop_both_ancestor,
         ) {
-            lhs_syntax = next_sibling(lhs_syntax.get_parent().unwrap());
-            rhs_syntax = next_sibling(rhs_syntax.get_parent().unwrap());
+            lhs_syntax = next_sibling(lhs_parent);
+            rhs_syntax = next_sibling(rhs_parent);
             pop_both_ancestor = ancestor.pop_both_ancestor;
             pop_lhs_cnt = ancestor.pop_lhs_cnt;
             pop_rhs_cnt = ancestor.pop_rhs_cnt;
