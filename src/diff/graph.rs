@@ -15,32 +15,33 @@ use crate::{
     parse::syntax::{AtomKind, Syntax},
 };
 
-/// Compress two `&Syntax` into a usize.
+/// Compress two `&Syntax` into a pointer.
 ///
 /// Utilize the LSB as flag since `&Syntax` is aligned.
 ///
 /// ```text
 /// LSB = 0 -> side syntax
-/// LSB = 1 -> optional parent syntax (side syntax is None)
+/// LSB = 1 -> optional parent syntax
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct SideSyntax<'a> {
-    data: usize,
+    data: *const u8,
     phantom: PhantomData<&'a Syntax<'a>>,
 }
 
 impl<'a> SideSyntax<'a> {
     pub fn is_side(&self) -> bool {
-        self.data & 1 == 0
+        self.data as usize & 1 == 0
     }
 
     pub fn is_parent(&self) -> bool {
-        self.data & 1 == 1
+        self.data as usize & 1 == 1
     }
 
     pub fn get_side(&self) -> Option<&'a Syntax<'a>> {
         if self.is_side() {
-            Some(unsafe { &*(self.data as *const _) })
+            let data = self.data;
+            unsafe { std::mem::transmute(data) }
         } else {
             None
         }
@@ -48,10 +49,8 @@ impl<'a> SideSyntax<'a> {
 
     pub fn get_parent(&self) -> Option<&'a Syntax<'a>> {
         if self.is_parent() {
-            match self.data ^ 1 {
-                0 => None,
-                d => Some(unsafe { &*(d as *const _) }),
-            }
+            let data = self.data.wrapping_sub(1);
+            unsafe { std::mem::transmute(data) }
         } else {
             None
         }
@@ -66,7 +65,7 @@ impl<'a> SideSyntax<'a> {
 
     pub fn from_parent(parent: Option<&'a Syntax<'a>>) -> Self {
         Self {
-            data: parent.map_or(0, |s| s as *const _ as usize) | 1,
+            data: (get_ptr(parent) as *const u8).wrapping_add(1),
             phantom: PhantomData,
         }
     }
