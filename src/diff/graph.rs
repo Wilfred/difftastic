@@ -277,15 +277,18 @@ fn looks_like_punctuation(content: &str) -> bool {
 
 #[inline(always)]
 fn next_sibling<'a>(syntax: &'a Syntax<'a>) -> SideSyntax<'a> {
-    let parent = SideSyntax::from_parent(syntax.parent());
-    syntax.next_sibling().map_or(parent, SideSyntax::from_side)
+    match syntax.next_sibling() {
+        Some(sibling) => SideSyntax::from_side(sibling),
+        None => SideSyntax::from_parent(syntax.parent()),
+    }
 }
 
 #[inline(always)]
 fn next_child<'a>(syntax: &'a Syntax<'a>, children: &[&'a Syntax<'a>]) -> SideSyntax<'a> {
-    let parent = SideSyntax::from_parent(Some(syntax));
-    let child = children.get(0).copied();
-    child.map_or(parent, SideSyntax::from_side)
+    match children.get(0).copied() {
+        Some(child) => SideSyntax::from_side(child),
+        None => SideSyntax::from_parent(Some(syntax)),
+    }
 }
 
 #[inline(always)]
