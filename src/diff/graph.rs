@@ -84,7 +84,7 @@ fn get_ptr<T>(opt: Option<&T>) -> *const T {
 ///      ^            ^
 /// ```
 ///
-/// From this vertex, we could take [`Edge::NovelAtomLHS`], bringing
+/// From this vertex, we could take [`Edge::NovelLhs`], bringing
 /// us to this vertex.
 ///
 /// ```text
@@ -92,7 +92,7 @@ fn get_ptr<T>(opt: Option<&T>) -> *const T {
 ///        ^          ^
 /// ```
 ///
-/// Alternatively, we could take the [`Edge::NovelAtomRHS`], bringing us
+/// Alternatively, we could take the [`Edge::NovelRhs`], bringing us
 /// to this vertex.
 ///
 /// ```text
@@ -220,12 +220,10 @@ pub enum Edge {
     EnterUnchangedDelimiter,
     ReplacedComment,
     NovelComment,
-    NovelAtomLHS,
-    NovelAtomRHS,
+    NovelLhs,
+    NovelRhs,
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
-    EnterNovelDelimiterLHS,
-    EnterNovelDelimiterRHS,
 }
 
 use Edge::*;
@@ -328,6 +326,38 @@ fn next_vertex<'a, 'b>(
         pop_rhs_cnt,
         ..Default::default()
     }
+}
+
+#[inline(always)]
+fn next_novel<'a>(syntax: &'a Syntax<'a>, pop_cnt: u16) -> (u64, SideSyntax<'a>, u16) {
+    let mut cost = 300;
+    // TODO: should this apply if prev is a parent
+    // node rather than a sibling?
+    if !syntax.prev_is_contiguous() {
+        cost += NOT_CONTIGUOUS_PENALTY;
+    }
+
+    let next_syntax;
+    let next_pop_cnt;
+
+    match syntax {
+        Syntax::Atom { content, .. } => {
+            // If it's only punctuation, decrease the cost
+            // slightly. It's better to have novel punctuation
+            // than novel variable names.
+            if looks_like_punctuation(content) {
+                cost -= 10;
+            }
+            next_syntax = next_sibling(syntax);
+            next_pop_cnt = pop_cnt;
+        }
+        Syntax::List { children, .. } => {
+            next_syntax = next_child(syntax, children);
+            next_pop_cnt = pop_cnt + 1;
+        }
+    };
+
+    (cost, next_syntax, next_pop_cnt)
 }
 
 /// Compute the neighbours of `v`.
@@ -440,88 +470,35 @@ pub fn get_neighbours<'syn, 'b>(
     }
 
     if let (Some(lhs_syntax), _) = v_info {
-        let mut cost = 300;
-        // TODO: should this apply if prev is a parent
-        // node rather than a sibling?
-        if !lhs_syntax.prev_is_contiguous() {
-            cost += NOT_CONTIGUOUS_PENALTY;
-        }
+        let (cost, next_syntax, next_pop_cnt) = next_novel(lhs_syntax, v.pop_lhs_cnt);
 
-        match lhs_syntax {
-            Syntax::Atom { content, .. } => {
-                // If it's only punctuation, decrease the cost
-                // slightly. It's better to have novel punctuation
-                // than novel variable names.
-                if looks_like_punctuation(content) {
-                    cost -= 10;
-                }
-
-                add_neighbor(
-                    NovelAtomLHS,
-                    cost,
-                    next_vertex(
-                        next_sibling(lhs_syntax),
-                        v.rhs_syntax,
-                        v.pop_both_ancestor,
-                        v.pop_lhs_cnt,
-                        v.pop_rhs_cnt,
-                    ),
-                );
-            }
-            Syntax::List { children, .. } => {
-                add_neighbor(
-                    EnterNovelDelimiterLHS,
-                    cost,
-                    next_vertex(
-                        next_child(lhs_syntax, children),
-                        v.rhs_syntax,
-                        v.pop_both_ancestor,
-                        v.pop_lhs_cnt + 1,
-                        v.pop_rhs_cnt,
-                    ),
-                );
-            }
-        };
+        add_neighbor(
+            NovelLhs,
+            cost,
+            next_vertex(
+                next_syntax,
+                v.rhs_syntax,
+                v.pop_both_ancestor,
+                next_pop_cnt,
+                v.pop_rhs_cnt,
+            ),
+        );
     }
 
     if let (_, Some(rhs_syntax)) = v_info {
-        let mut cost = 300;
-        if !rhs_syntax.prev_is_contiguous() {
-            cost += NOT_CONTIGUOUS_PENALTY;
-        }
+        let (cost, next_syntax, next_pop_cnt) = next_novel(rhs_syntax, v.pop_rhs_cnt);
 
-        match rhs_syntax {
-            Syntax::Atom { content, .. } => {
-                if looks_like_punctuation(content) {
-                    cost -= 10;
-                }
-
-                add_neighbor(
-                    NovelAtomRHS,
-                    cost,
-                    next_vertex(
-                        v.lhs_syntax,
-                        next_sibling(rhs_syntax),
-                        v.pop_both_ancestor,
-                        v.pop_lhs_cnt,
-                        v.pop_rhs_cnt,
-                    ),
-                );
-            }
-            Syntax::List { children, .. } => {
-                add_neighbor(
-                    EnterNovelDelimiterRHS,
-                    cost,
-                    next_vertex(
-                        v.lhs_syntax,
-                        next_child(rhs_syntax, children),
-                        v.pop_both_ancestor,
-                        v.pop_lhs_cnt,
-                        v.pop_rhs_cnt + 1,
-                    ),
-                );
-            }
-        };
+        add_neighbor(
+            NovelRhs,
+            cost,
+            next_vertex(
+                v.lhs_syntax,
+                next_syntax,
+                v.pop_both_ancestor,
+                v.pop_lhs_cnt,
+                next_pop_cnt,
+            ),
+        );
     }
 }
 
@@ -560,11 +537,11 @@ pub fn populate_change_map<'a, 'b>(
                 change_map.insert(lhs, ChangeKind::Novel);
                 change_map.insert(rhs, ChangeKind::Novel);
             }
-            NovelAtomLHS | EnterNovelDelimiterLHS => {
+            NovelLhs => {
                 let lhs = v.lhs_syntax.get_side().unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
             }
-            NovelAtomRHS | EnterNovelDelimiterRHS => {
+            NovelRhs => {
                 let rhs = v.rhs_syntax.get_side().unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
             }

@@ -241,7 +241,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![EnterUnchangedDelimiter, NovelAtomLHS,]);
+        assert_eq!(actions, vec![EnterUnchangedDelimiter, NovelLhs,]);
     }
 
     #[test]
@@ -277,7 +277,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![EnterUnchangedDelimiter, NovelAtomRHS, NovelAtomRHS,]
+            vec![EnterUnchangedDelimiter, NovelRhs, NovelRhs,]
         );
     }
 
@@ -318,8 +318,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS,
-                EnterNovelDelimiterLHS,
+                NovelRhs,
+                NovelLhs,
                 UnchangedNode,
                 UnchangedNode,
             ],
@@ -349,7 +349,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedNode, NovelAtomLHS, NovelAtomLHS,]);
+        assert_eq!(actions, vec![UnchangedNode, NovelLhs, NovelLhs,]);
     }
 
     #[test]
@@ -378,7 +378,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![EnterNovelDelimiterLHS, NovelAtomLHS,]);
+        assert_eq!(actions, vec![NovelLhs, NovelLhs,]);
     }
 
     #[test]
@@ -412,7 +412,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![EnterNovelDelimiterLHS, NovelAtomLHS, NovelAtomLHS,]
+            vec![NovelLhs, NovelLhs, NovelLhs,]
         );
     }
 
@@ -502,7 +502,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![ReplacedComment, NovelAtomLHS]);
+        assert_eq!(actions, vec![ReplacedComment, NovelLhs]);
     }
 
     #[test]
