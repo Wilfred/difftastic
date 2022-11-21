@@ -34,6 +34,10 @@ impl<'a> SideSyntax<'a> {
         self.data & 1 == 0
     }
 
+    pub fn is_parent(&self) -> bool {
+        self.data & 1 == 1
+    }
+
     pub fn get_side(&self) -> Option<&'a Syntax<'a>> {
         if self.is_side() {
             Some(unsafe { &*(self.data as *const _) })
@@ -42,13 +46,14 @@ impl<'a> SideSyntax<'a> {
         }
     }
 
-    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
-        match self.get_side() {
-            Some(side) => side.parent(),
-            None => match self.data ^ 1 {
+    pub fn get_parent(&self) -> Option<&'a Syntax<'a>> {
+        if self.is_parent() {
+            match self.data ^ 1 {
                 0 => None,
                 d => Some(unsafe { &*(d as *const _) }),
-            },
+            }
+        } else {
+            None
         }
     }
 
@@ -127,8 +132,8 @@ pub struct Vertex<'a, 'b> {
 
 impl<'a, 'b> Vertex<'a, 'b> {
     pub fn is_end(&self) -> bool {
-        !self.lhs_syntax.is_side()
-            && !self.rhs_syntax.is_side()
+        self.lhs_syntax.is_parent()
+            && self.rhs_syntax.is_parent()
             && self.pop_both_ancestor.is_none()
             && self.pop_lhs_cnt == 0
             && self.pop_rhs_cnt == 0
@@ -293,25 +298,23 @@ fn next_vertex<'a, 'b>(
     mut pop_rhs_cnt: u16,
 ) -> Vertex<'a, 'b> {
     loop {
-        while !lhs_syntax.is_side() && pop_lhs_cnt > 0 {
-            lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
+        while lhs_syntax.is_parent() && pop_lhs_cnt > 0 {
+            lhs_syntax = next_sibling(lhs_syntax.get_parent().unwrap());
             pop_lhs_cnt -= 1;
         }
 
-        while !rhs_syntax.is_side() && pop_rhs_cnt > 0 {
-            rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
+        while rhs_syntax.is_parent() && pop_rhs_cnt > 0 {
+            rhs_syntax = next_sibling(rhs_syntax.get_parent().unwrap());
             pop_rhs_cnt -= 1;
         }
 
-        if let (false, false, Some(ancestor), 0, 0) = (
-            lhs_syntax.is_side(),
-            rhs_syntax.is_side(),
+        if let (true, true, Some(ancestor)) = (
+            lhs_syntax.is_parent(),
+            rhs_syntax.is_parent(),
             pop_both_ancestor,
-            pop_lhs_cnt,
-            pop_rhs_cnt,
         ) {
-            lhs_syntax = next_sibling(lhs_syntax.parent().unwrap());
-            rhs_syntax = next_sibling(rhs_syntax.parent().unwrap());
+            lhs_syntax = next_sibling(lhs_syntax.get_parent().unwrap());
+            rhs_syntax = next_sibling(rhs_syntax.get_parent().unwrap());
             pop_both_ancestor = ancestor.pop_both_ancestor;
             pop_lhs_cnt = ancestor.pop_lhs_cnt;
             pop_rhs_cnt = ancestor.pop_rhs_cnt;
