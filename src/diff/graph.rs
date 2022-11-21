@@ -107,7 +107,7 @@ fn get_ptr<T>(opt: Option<&T>) -> *const T {
 pub struct Vertex<'a, 'b> {
     // states
     pub is_visited: Cell<bool>,
-    pub shortest_distance: Cell<u64>,
+    pub shortest_distance: Cell<u32>,
     pub pred_edge: Cell<Option<Edge>>,
     pub pred_vertex: Cell<Option<&'b Vertex<'a, 'b>>>,
 
@@ -125,8 +125,8 @@ pub struct Vertex<'a, 'b> {
     pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
     // If we've entered the LHS or RHS separately, we can pop either
     // side independently.
-    pop_lhs_cnt: u16,
-    pop_rhs_cnt: u16,
+    pop_lhs_cnt: u8,
+    pop_rhs_cnt: u8,
 }
 
 impl<'a, 'b> Vertex<'a, 'b> {
@@ -141,7 +141,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
     pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
         Vertex {
             is_visited: Cell::new(false),
-            shortest_distance: Cell::new(u64::MAX),
+            shortest_distance: Cell::new(u32::MAX),
             pred_edge: Cell::new(None),
             pred_vertex: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
@@ -234,7 +234,7 @@ pub enum Edge {
 
 use Edge::*;
 
-const NOT_CONTIGUOUS_PENALTY: u64 = 50;
+const NOT_CONTIGUOUS_PENALTY: u32 = 50;
 
 pub type SeenMap<'syn, 'b> = hashbrown::HashMap<
     &'b Vertex<'syn, 'b>,
@@ -293,8 +293,8 @@ fn next_vertex<'a, 'b>(
     mut lhs_syntax: SideSyntax<'a>,
     mut rhs_syntax: SideSyntax<'a>,
     mut pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
-    mut pop_lhs_cnt: u16,
-    mut pop_rhs_cnt: u16,
+    mut pop_lhs_cnt: u8,
+    mut pop_rhs_cnt: u8,
 ) -> Vertex<'a, 'b> {
     loop {
         while lhs_syntax.is_parent() && pop_lhs_cnt > 0 {
@@ -333,7 +333,7 @@ fn next_vertex<'a, 'b>(
 }
 
 #[inline(always)]
-fn next_novel<'a>(syntax: &'a Syntax<'a>, pop_cnt: u16) -> (u64, SideSyntax<'a>, u16) {
+fn next_novel<'a>(syntax: &'a Syntax<'a>, pop_cnt: u8) -> (u32, SideSyntax<'a>, u8) {
     let mut cost = 300;
     // TODO: should this apply if prev is a parent
     // node rather than a sibling?
@@ -369,7 +369,7 @@ pub fn get_neighbours<'syn, 'b>(
     v: &'b Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
-    neighbors: &mut Vec<(Edge, u64, &'b Vertex<'syn, 'b>)>,
+    neighbors: &mut Vec<(Edge, u32, &'b Vertex<'syn, 'b>)>,
 ) {
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
@@ -386,8 +386,8 @@ pub fn get_neighbours<'syn, 'b>(
     if let (Some(lhs_syntax), Some(rhs_syntax)) = v_info {
         if lhs_syntax == rhs_syntax {
             // Both nodes are equal, the happy case.
-            let depth_difference = (lhs_syntax.num_ancestors() as i64
-                - rhs_syntax.num_ancestors() as i64)
+            let depth_difference = (lhs_syntax.num_ancestors() as i32
+                - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
             let cost = min(40, depth_difference + 1);
 
@@ -419,8 +419,8 @@ pub fn get_neighbours<'syn, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                let depth_difference = (lhs_syntax.num_ancestors() as i64
-                    - rhs_syntax.num_ancestors() as i64)
+                let depth_difference = (lhs_syntax.num_ancestors() as i32
+                    - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
                 let cost = 100 + min(40, depth_difference);
 
@@ -451,8 +451,8 @@ pub fn get_neighbours<'syn, 'b>(
         {
             // Both sides are comments and their content is reasonably similar.
             let levenshtein_pct =
-                (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
-            let cost = 150 + u64::from(100 - levenshtein_pct);
+                (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u32;
+            let cost = 150 + (100 - levenshtein_pct);
 
             add_neighbor(
                 if levenshtein_pct > 40 {
