@@ -151,8 +151,10 @@ impl<'a, 'b> Vertex<'a, 'b> {
     fn parent_stack_eq(&self, other: &Vertex<'a, 'b>) -> bool {
         // Vertices are pinned so ptrs are unique IDs
         get_ptr(self.pop_both_ancestor) == get_ptr(other.pop_both_ancestor)
-            && self.pop_lhs_cnt == other.pop_lhs_cnt
-            && self.pop_rhs_cnt == other.pop_rhs_cnt
+        // Vertices are equal => LHS/RHS syntaxes are equal
+        // Then if PopBoth ancestors are equal => PopLhs/Rhs counts are equal
+        // && self.pop_lhs_cnt == other.pop_lhs_cnt
+        // && self.pop_rhs_cnt == other.pop_rhs_cnt
     }
 
     fn can_pop_either(&self) -> bool {
