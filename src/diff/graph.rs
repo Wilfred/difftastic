@@ -430,9 +430,7 @@ pub fn get_neighbours<'syn, 'b>(
                     v.pop_rhs_cnt,
                 ),
             );
-        }
-
-        if let (
+        } else if let (
             Syntax::List {
                 open_content: lhs_open_content,
                 close_content: lhs_close_content,
@@ -465,9 +463,7 @@ pub fn get_neighbours<'syn, 'b>(
                     ),
                 );
             }
-        }
-
-        if let (
+        } else if let (
             Syntax::Atom {
                 content: lhs_content,
                 kind: AtomKind::Comment,
@@ -480,23 +476,20 @@ pub fn get_neighbours<'syn, 'b>(
             },
         ) = (lhs_syntax, rhs_syntax)
         {
-            // Both sides are comments and their content is reasonably
-            // similar.
-            if lhs_content != rhs_content {
-                let levenshtein_pct =
-                    (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+            // Both sides are comments and their content is reasonably similar.
+            let levenshtein_pct =
+                (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
 
-                add_neighbor(
-                    ReplacedComment { levenshtein_pct },
-                    next_vertex(
-                        next_sibling(lhs_syntax),
-                        next_sibling(rhs_syntax),
-                        v.pop_both_ancestor,
-                        v.pop_lhs_cnt,
-                        v.pop_rhs_cnt,
-                    ),
-                );
-            }
+            add_neighbor(
+                ReplacedComment { levenshtein_pct },
+                next_vertex(
+                    next_sibling(lhs_syntax),
+                    next_sibling(rhs_syntax),
+                    v.pop_both_ancestor,
+                    v.pop_lhs_cnt,
+                    v.pop_rhs_cnt,
+                ),
+            );
         }
     }
 
