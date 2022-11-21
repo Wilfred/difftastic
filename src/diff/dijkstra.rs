@@ -52,12 +52,13 @@ fn shortest_path<'a, 'b>(
                 neighbors.clear();
                 get_neighbours(current, vertex_arena, &mut seen, &mut neighbors);
 
-                for &(edge, next) in neighbors.iter() {
-                    let distance_to_next = distance + edge.cost();
+                for &(edge, cost, next) in neighbors.iter() {
+                    let distance_to_next = distance + cost;
 
                     if distance_to_next < next.shortest_distance.get() {
                         next.shortest_distance.set(distance_to_next);
-                        next.predecessor.set(Some((edge, current)));
+                        next.last_edge.set(Some(edge));
+                        next.predecessor.set(Some(current));
                         heap.push(Reverse(distance_to_next), next);
                     }
                 }
@@ -77,8 +78,11 @@ fn shortest_path<'a, 'b>(
         heap.len(),
     );
 
-    let mut vertex_route =
-        successors(end.predecessor.get(), |&(_, node)| node.predecessor.get()).collect::<Vec<_>>();
+    let mut vertex_route = successors(
+        end.last_edge.get().zip(end.predecessor.get()),
+        |&(_, node)| node.last_edge.get().zip(node.predecessor.get()),
+    )
+    .collect::<Vec<_>>();
     vertex_route.reverse();
     Ok(vertex_route)
 }
@@ -139,14 +143,13 @@ pub fn mark_syntax<'a>(
             .iter()
             .map(|x| {
                 format!(
-                    "{:20} {:20} --- {:3} {:?}",
+                    "{:20} {:20} --- {:?}",
                     x.1.lhs_syntax
                         .get_side()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
                     x.1.rhs_syntax
                         .get_side()
                         .map_or_else(|| "None".into(), Syntax::dbg_content),
-                    x.0.cost(),
                     x.0,
                 )
             })
@@ -202,12 +205,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![UnchangedNode {
-                depth_difference: 0
-            }]
-        );
+        assert_eq!(actions, vec![UnchangedNode]);
     }
 
     #[test]
@@ -243,18 +241,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                EnterUnchangedDelimiter {
-                    depth_difference: 0
-                },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false,
-                },
-            ]
-        );
+        assert_eq!(actions, vec![EnterUnchangedDelimiter, NovelAtomLHS,]);
     }
 
     #[test]
@@ -290,19 +277,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                EnterUnchangedDelimiter {
-                    depth_difference: 0
-                },
-                NovelAtomRHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
-                NovelAtomRHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
-            ]
+            vec![EnterUnchangedDelimiter, NovelAtomRHS, NovelAtomRHS,]
         );
     }
 
@@ -343,14 +318,10 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                EnterNovelDelimiterRHS { contiguous: false },
-                EnterNovelDelimiterLHS { contiguous: false },
-                UnchangedNode {
-                    depth_difference: 0
-                },
-                UnchangedNode {
-                    depth_difference: 0
-                },
+                EnterNovelDelimiterRHS,
+                EnterNovelDelimiterLHS,
+                UnchangedNode,
+                UnchangedNode,
             ],
         );
     }
@@ -378,22 +349,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                UnchangedNode {
-                    depth_difference: 0
-                },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
-            ]
-        );
+        assert_eq!(actions, vec![UnchangedNode, NovelAtomLHS, NovelAtomLHS,]);
     }
 
     #[test]
@@ -422,16 +378,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
-            ]
-        );
+        assert_eq!(actions, vec![EnterNovelDelimiterLHS, NovelAtomLHS,]);
     }
 
     #[test]
@@ -465,17 +412,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                EnterNovelDelimiterLHS { contiguous: false },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: false
-                },
-                NovelAtomLHS {
-                    contiguous: true,
-                    probably_punctuation: true
-                },
-            ]
+            vec![EnterNovelDelimiterLHS, NovelAtomLHS, NovelAtomLHS,]
         );
     }
 
@@ -503,12 +440,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![ReplacedComment {
-                levenshtein_pct: 84
-            }]
-        );
+        assert_eq!(actions, vec![ReplacedComment]);
     }
 
     #[test]
@@ -535,12 +467,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![ReplacedComment {
-                levenshtein_pct: 11
-            }]
-        );
+        assert_eq!(actions, vec![NovelComment]);
     }
 
     #[test]
@@ -575,18 +502,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                ReplacedComment {
-                    levenshtein_pct: 95
-                },
-                NovelAtomLHS {
-                    contiguous: false,
-                    probably_punctuation: false
-                }
-            ]
-        );
+        assert_eq!(actions, vec![ReplacedComment, NovelAtomLHS]);
     }
 
     #[test]

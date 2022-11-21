@@ -104,7 +104,8 @@ pub struct Vertex<'a, 'b> {
     // states
     pub is_visited: Cell<bool>,
     pub shortest_distance: Cell<u64>,
-    pub predecessor: Cell<Option<(Edge, &'b Vertex<'a, 'b>)>>,
+    pub last_edge: Cell<Option<Edge>>,
+    pub predecessor: Cell<Option<&'b Vertex<'a, 'b>>>,
 
     // core info
     pub lhs_syntax: SideSyntax<'a>,
@@ -137,6 +138,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
         Vertex {
             is_visited: Cell::new(false),
             shortest_distance: Cell::new(u64::MAX),
+            last_edge: Cell::new(None),
             predecessor: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
             rhs_syntax: rhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
@@ -214,87 +216,21 @@ impl Default for Vertex<'_, '_> {
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
-    UnchangedNode {
-        depth_difference: u32,
-    },
-    EnterUnchangedDelimiter {
-        depth_difference: u32,
-    },
-    ReplacedComment {
-        levenshtein_pct: u8,
-    },
-    NovelAtomLHS {
-        contiguous: bool,
-        probably_punctuation: bool,
-    },
-    NovelAtomRHS {
-        contiguous: bool,
-        probably_punctuation: bool,
-    },
+    UnchangedNode,
+    EnterUnchangedDelimiter,
+    ReplacedComment,
+    NovelComment,
+    NovelAtomLHS,
+    NovelAtomRHS,
     // TODO: An EnterNovelDelimiterBoth edge might help performance
     // rather doing LHS and RHS separately.
-    EnterNovelDelimiterLHS {
-        contiguous: bool,
-    },
-    EnterNovelDelimiterRHS {
-        contiguous: bool,
-    },
+    EnterNovelDelimiterLHS,
+    EnterNovelDelimiterRHS,
 }
 
 use Edge::*;
 
 const NOT_CONTIGUOUS_PENALTY: u64 = 50;
-
-impl Edge {
-    pub fn cost(self) -> u64 {
-        match self {
-            // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
-            // Matching an outer delimiter is good.
-            EnterUnchangedDelimiter { depth_difference } => {
-                100 + min(40, u64::from(depth_difference))
-            }
-
-            // Replacing a comment is better than treating it as novel.
-            ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
-
-            // Otherwise, we've added/removed a node.
-            NovelAtomLHS {
-                contiguous,
-                probably_punctuation,
-            }
-            | NovelAtomRHS {
-                contiguous,
-                probably_punctuation,
-            } => {
-                let mut cost = 300;
-                if !contiguous {
-                    cost += NOT_CONTIGUOUS_PENALTY;
-                }
-                // If it's only punctuation, decrease the cost
-                // slightly. It's better to have novel punctuation
-                // than novel variable names.
-                if probably_punctuation {
-                    cost -= 10;
-                }
-                cost
-            }
-            EnterNovelDelimiterLHS { contiguous } | EnterNovelDelimiterRHS { contiguous } => {
-                let mut cost = 300;
-                if !contiguous {
-                    // This needs to be more than 40 greater than the
-                    // contiguous case. Otherwise, we end up choosing
-                    // a badly positioned unchanged delimiter just
-                    // because it has a better depth difference.
-                    //
-                    // TODO: write a test for this case.
-                    cost += NOT_CONTIGUOUS_PENALTY;
-                }
-                cost
-            }
-        }
-    }
-}
 
 pub type SeenMap<'syn, 'b> = hashbrown::HashMap<
     &'b Vertex<'syn, 'b>,
@@ -399,14 +335,14 @@ pub fn get_neighbours<'syn, 'b>(
     v: &'b Vertex<'syn, 'b>,
     alloc: &'b Bump,
     seen: &mut SeenMap<'syn, 'b>,
-    neighbors: &mut Vec<(Edge, &'b Vertex<'syn, 'b>)>,
+    neighbors: &mut Vec<(Edge, u64, &'b Vertex<'syn, 'b>)>,
 ) {
     let mut add_neighbor = std::convert::identity(
         #[inline(always)]
-        |edge, vertex| {
+        |edge, cost, vertex| {
             let neighbor = allocate_if_new(vertex, alloc, seen);
             if !neighbor.is_visited.get() {
-                neighbors.push((edge, neighbor));
+                neighbors.push((edge, cost, neighbor));
             }
         },
     );
@@ -415,13 +351,15 @@ pub fn get_neighbours<'syn, 'b>(
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = v_info {
         if lhs_syntax == rhs_syntax {
+            // Both nodes are equal, the happy case.
             let depth_difference = (lhs_syntax.num_ancestors() as i32
                 - rhs_syntax.num_ancestors() as i32)
                 .unsigned_abs();
+            let cost = min(40, u64::from(depth_difference) + 1);
 
-            // Both nodes are equal, the happy case.
             add_neighbor(
-                UnchangedNode { depth_difference },
+                UnchangedNode,
+                cost,
                 next_vertex(
                     next_sibling(lhs_syntax),
                     next_sibling(rhs_syntax),
@@ -451,9 +389,11 @@ pub fn get_neighbours<'syn, 'b>(
                 let depth_difference = (lhs_syntax.num_ancestors() as i32
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
+                let cost = 100 + min(40, u64::from(depth_difference));
 
                 add_neighbor(
-                    EnterUnchangedDelimiter { depth_difference },
+                    EnterUnchangedDelimiter,
+                    cost,
                     next_vertex(
                         next_child(lhs_syntax, lhs_children),
                         next_child(rhs_syntax, rhs_children),
@@ -479,9 +419,15 @@ pub fn get_neighbours<'syn, 'b>(
             // Both sides are comments and their content is reasonably similar.
             let levenshtein_pct =
                 (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+            let cost = 150 + u64::from(100 - levenshtein_pct);
 
             add_neighbor(
-                ReplacedComment { levenshtein_pct },
+                if levenshtein_pct > 40 {
+                    ReplacedComment
+                } else {
+                    NovelComment
+                },
+                cost,
                 next_vertex(
                     next_sibling(lhs_syntax),
                     next_sibling(rhs_syntax),
@@ -494,15 +440,25 @@ pub fn get_neighbours<'syn, 'b>(
     }
 
     if let (Some(lhs_syntax), _) = v_info {
+        let mut cost = 300;
+        // TODO: should this apply if prev is a parent
+        // node rather than a sibling?
+        if !lhs_syntax.prev_is_contiguous() {
+            cost += NOT_CONTIGUOUS_PENALTY;
+        }
+
         match lhs_syntax {
             Syntax::Atom { content, .. } => {
+                // If it's only punctuation, decrease the cost
+                // slightly. It's better to have novel punctuation
+                // than novel variable names.
+                if looks_like_punctuation(content) {
+                    cost -= 10;
+                }
+
                 add_neighbor(
-                    NovelAtomLHS {
-                        // TODO: should this apply if prev is a parent
-                        // node rather than a sibling?
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
+                    NovelAtomLHS,
+                    cost,
                     next_vertex(
                         next_sibling(lhs_syntax),
                         v.rhs_syntax,
@@ -514,9 +470,8 @@ pub fn get_neighbours<'syn, 'b>(
             }
             Syntax::List { children, .. } => {
                 add_neighbor(
-                    EnterNovelDelimiterLHS {
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                    },
+                    EnterNovelDelimiterLHS,
+                    cost,
                     next_vertex(
                         next_child(lhs_syntax, children),
                         v.rhs_syntax,
@@ -530,13 +485,20 @@ pub fn get_neighbours<'syn, 'b>(
     }
 
     if let (_, Some(rhs_syntax)) = v_info {
+        let mut cost = 300;
+        if !rhs_syntax.prev_is_contiguous() {
+            cost += NOT_CONTIGUOUS_PENALTY;
+        }
+
         match rhs_syntax {
             Syntax::Atom { content, .. } => {
+                if looks_like_punctuation(content) {
+                    cost -= 10;
+                }
+
                 add_neighbor(
-                    NovelAtomRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                        probably_punctuation: looks_like_punctuation(content),
-                    },
+                    NovelAtomRHS,
+                    cost,
                     next_vertex(
                         v.lhs_syntax,
                         next_sibling(rhs_syntax),
@@ -548,9 +510,8 @@ pub fn get_neighbours<'syn, 'b>(
             }
             Syntax::List { children, .. } => {
                 add_neighbor(
-                    EnterNovelDelimiterRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                    },
+                    EnterNovelDelimiterRHS,
+                    cost,
                     next_vertex(
                         v.lhs_syntax,
                         next_child(rhs_syntax, children),
@@ -572,14 +533,14 @@ pub fn populate_change_map<'a, 'b>(
 
     for (e, v) in route {
         match e {
-            UnchangedNode { .. } => {
+            UnchangedNode => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.get_side().unwrap();
                 let rhs = v.rhs_syntax.get_side().unwrap();
 
                 insert_deep_unchanged(lhs, rhs, change_map);
             }
-            EnterUnchangedDelimiter { .. } => {
+            EnterUnchangedDelimiter => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.get_side().unwrap();
@@ -587,23 +548,23 @@ pub fn populate_change_map<'a, 'b>(
                 change_map.insert(lhs, ChangeKind::Unchanged(rhs));
                 change_map.insert(rhs, ChangeKind::Unchanged(lhs));
             }
-            ReplacedComment { levenshtein_pct } => {
+            ReplacedComment => {
                 let lhs = v.lhs_syntax.get_side().unwrap();
                 let rhs = v.rhs_syntax.get_side().unwrap();
-
-                if *levenshtein_pct > 40 {
-                    change_map.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
-                    change_map.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));
-                } else {
-                    change_map.insert(lhs, ChangeKind::Novel);
-                    change_map.insert(rhs, ChangeKind::Novel);
-                }
+                change_map.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
+                change_map.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));
             }
-            NovelAtomLHS { .. } | EnterNovelDelimiterLHS { .. } => {
+            NovelComment => {
+                let lhs = v.lhs_syntax.get_side().unwrap();
+                let rhs = v.rhs_syntax.get_side().unwrap();
+                change_map.insert(lhs, ChangeKind::Novel);
+                change_map.insert(rhs, ChangeKind::Novel);
+            }
+            NovelAtomLHS | EnterNovelDelimiterLHS => {
                 let lhs = v.lhs_syntax.get_side().unwrap();
                 change_map.insert(lhs, ChangeKind::Novel);
             }
-            NovelAtomRHS { .. } | EnterNovelDelimiterRHS { .. } => {
+            NovelAtomRHS | EnterNovelDelimiterRHS => {
                 let rhs = v.rhs_syntax.get_side().unwrap();
                 change_map.insert(rhs, ChangeKind::Novel);
             }
