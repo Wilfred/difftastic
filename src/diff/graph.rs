@@ -104,23 +104,23 @@ pub struct Vertex<'a, 'b> {
     // states
     pub is_visited: Cell<bool>,
     pub shortest_distance: Cell<u64>,
-    pub last_edge: Cell<Option<Edge>>,
-    pub predecessor: Cell<Option<&'b Vertex<'a, 'b>>>,
+    pub pred_edge: Cell<Option<Edge>>,
+    pub pred_vertex: Cell<Option<&'b Vertex<'a, 'b>>>,
 
     // core info
     pub lhs_syntax: SideSyntax<'a>,
     pub rhs_syntax: SideSyntax<'a>,
-    /// If we've entered the LHS and RHS together, we must pop both
-    /// sides together too. Otherwise we'd consider the following
-    /// case to have no changes.
-    ///
-    /// ```text
-    /// Old: (a b c)
-    /// New: (a b) c
-    /// ```
+    // If we've entered the LHS and RHS together, we must pop both
+    // sides together too. Otherwise we'd consider the following
+    // case to have no changes.
+    //
+    // ```text
+    // Old: (a b c)
+    // New: (a b) c
+    // ```
     pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
-    /// If we've entered the LHS or RHS separately, we can pop either
-    /// side independently.
+    // If we've entered the LHS or RHS separately, we can pop either
+    // side independently.
     pop_lhs_cnt: u16,
     pop_rhs_cnt: u16,
 }
@@ -138,8 +138,8 @@ impl<'a, 'b> Vertex<'a, 'b> {
         Vertex {
             is_visited: Cell::new(false),
             shortest_distance: Cell::new(u64::MAX),
-            last_edge: Cell::new(None),
-            predecessor: Cell::new(None),
+            pred_edge: Cell::new(None),
+            pred_vertex: Cell::new(None),
             lhs_syntax: lhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
             rhs_syntax: rhs_syntax.map_or(SideSyntax::from_parent(None), SideSyntax::from_side),
             pop_both_ancestor: None,
@@ -382,10 +382,10 @@ pub fn get_neighbours<'syn, 'b>(
     if let (Some(lhs_syntax), Some(rhs_syntax)) = v_info {
         if lhs_syntax == rhs_syntax {
             // Both nodes are equal, the happy case.
-            let depth_difference = (lhs_syntax.num_ancestors() as i32
-                - rhs_syntax.num_ancestors() as i32)
+            let depth_difference = (lhs_syntax.num_ancestors() as i64
+                - rhs_syntax.num_ancestors() as i64)
                 .unsigned_abs();
-            let cost = min(40, u64::from(depth_difference) + 1);
+            let cost = min(40, depth_difference + 1);
 
             add_neighbor(
                 UnchangedNode,
@@ -415,11 +415,10 @@ pub fn get_neighbours<'syn, 'b>(
         {
             // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
-                // TODO: be consistent between parents_next and next_parents.
-                let depth_difference = (lhs_syntax.num_ancestors() as i32
-                    - rhs_syntax.num_ancestors() as i32)
+                let depth_difference = (lhs_syntax.num_ancestors() as i64
+                    - rhs_syntax.num_ancestors() as i64)
                     .unsigned_abs();
-                let cost = 100 + min(40, u64::from(depth_difference));
+                let cost = 100 + min(40, depth_difference);
 
                 add_neighbor(
                     EnterUnchangedDelimiter,

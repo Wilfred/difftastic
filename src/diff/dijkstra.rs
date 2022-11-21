@@ -57,8 +57,8 @@ fn shortest_path<'a, 'b>(
 
                     if distance_to_next < next.shortest_distance.get() {
                         next.shortest_distance.set(distance_to_next);
-                        next.last_edge.set(Some(edge));
-                        next.predecessor.set(Some(current));
+                        next.pred_edge.set(Some(edge));
+                        next.pred_vertex.set(Some(current));
                         heap.push(Reverse(distance_to_next), next);
                     }
                 }
@@ -79,8 +79,8 @@ fn shortest_path<'a, 'b>(
     );
 
     let mut vertex_route = successors(
-        end.last_edge.get().zip(end.predecessor.get()),
-        |&(_, node)| node.last_edge.get().zip(node.predecessor.get()),
+        end.pred_edge.get().zip(end.pred_vertex.get()),
+        |&(_, node)| node.pred_edge.get().zip(node.pred_vertex.get()),
     )
     .collect::<Vec<_>>();
     vertex_route.reverse();
@@ -275,10 +275,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![EnterUnchangedDelimiter, NovelRhs, NovelRhs,]
-        );
+        assert_eq!(actions, vec![EnterUnchangedDelimiter, NovelRhs, NovelRhs]);
     }
 
     #[test]
@@ -317,12 +314,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                NovelRhs,
-                NovelLhs,
-                UnchangedNode,
-                UnchangedNode,
-            ],
+            vec![NovelRhs, NovelLhs, UnchangedNode, UnchangedNode],
         );
     }
 
@@ -410,10 +402,7 @@ mod tests {
         let route = shortest_path(start, &vertex_arena, 0, DEFAULT_GRAPH_LIMIT).unwrap();
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![NovelLhs, NovelLhs, NovelLhs,]
-        );
+        assert_eq!(actions, vec![NovelLhs, NovelLhs, NovelLhs]);
     }
 
     #[test]
