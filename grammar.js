@@ -28,6 +28,9 @@ module.exports = grammar({
   supertypes: $ => [ $._module_elem ],
 
   rules: {
+    //
+    // Top-level rules (BEGIN)
+    //
     file: $ =>
       choice(
         $.named_module,
@@ -100,10 +103,6 @@ module.exports = grammar({
         $.long_identifier,
       ),
 
-    block_comment: $ => seq("(*", $._block_comment_content, "*)"),
-
-    line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
-
     value_declaration: $ =>
       choice(
         $._function_or_value_defn,
@@ -138,27 +137,105 @@ module.exports = grammar({
         optional("inline"),
         optional($.access_modifier),
         $._identifier_or_op,
-        repeat1($.pattern)
+        optional($.type_arguments),
+        $.argument_patterns,
+        optional(seq(":", $.type))
       ),
 
     value_declaration_left: $ =>
       seq(
         optional("mutable"),
         optional($.access_modifier),
-        $.pattern
+        $._pattern,
+        optional($.type_arguments),
+        optional(seq(":", $.type))
       ),
 
     access_modifier: $ => choice("private", "internal", "public"),
+    //
+    // Top-level rules (END)
+    //
 
-    pattern: $ =>
-      choice(
-        $.wildcard_pattern,
-        $._const,
-        $.identifier,
+    //
+    // Pattern rules (BEGIN)
+    _pattern: $ =>
+        choice(
+          alias("null", $.null_pattern),
+          alias("_", $.wildcard_pattern),
+          alias($._const, $.const_pattern),
+          $.identifier_pattern,
+          $.as_pattern,
+          $.disjunct_pattern,
+          $.conjunct_pattern,
+          $.cons_pattern,
+          prec.left(2,
+            seq(
+              $._pattern,
+              repeat1(seq(",", $._pattern)),
+          )),
+          seq("(", $._pattern, ")"),
+          $.list_pattern,
+          $.array_pattern,
+          $.record_pattern,
+          $.typed_pattern,
+          prec.left(seq($.attributes, $._pattern)),
+          // :? atomic-type
+          // :? atomic-type as ident
       ),
 
-    wildcard_pattern: $ => "_",
+    identifier_pattern: $ =>
+      prec.left(
+        seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
+      ),
 
+    as_pattern: $ => prec.left(3,seq($._pattern, "as", $.identifier)),
+    cons_pattern: $ => prec.left(3,seq($._pattern, "::", $._pattern)),
+    disjunct_pattern: $ => prec.left(3,seq($._pattern, "|", $._pattern)),
+    conjunct_pattern: $ => prec.left(3,seq($._pattern, "&", $._pattern)),
+    typed_pattern: $ => prec.left(3,seq($._pattern, ":", $.type)),
+
+    _argument_pattern: $ => prec.left(2,repeat1($._atomic_pattern)),
+    argument_patterns: $ => repeat1($._argument_pattern),
+
+    field_pattern: $ => seq($.long_identifier, '=', $._pattern),
+
+    _atomic_pattern: $ =>
+      choice(
+        "null",
+        "_",
+        $._const,
+        $.long_identifier,
+        $.list_pattern,
+        $.record_pattern,
+        $.array_pattern,
+        seq("(", $._pattern, ")"),
+        // :? atomic_type
+      ),
+
+    list_pattern: $ => choice(
+      seq('[', ']'),
+      seq('[', $._pattern, repeat(seq(';', $._pattern)), ']')),
+    array_pattern: $ => choice(
+      seq('[|', '|]'),
+      seq('[|', $._pattern, repeat(seq(';', $._pattern)), '|]')),
+    record_pattern: $ =>
+      prec.left(
+        seq(
+        '{', $.field_pattern, repeat(seq(';', $.field_pattern)))),
+
+    _pattern_param: $ =>
+      prec(2,
+        choice(
+          $._const
+        )
+      ),
+    //
+    // Pattern rules (END)
+    //
+
+    //
+    // Expressions (BEGIN)
+    //
     _expression: $ =>
       choice(
         $._const,
@@ -228,7 +305,13 @@ module.exports = grammar({
         ".",
         $._long_identifier_or_op,
       ),
+    //
+    // Expressions (END)
+    //
 
+    //
+    // Attributes (BEGIN)
+    //
     attributes: $ => prec.left(2, repeat1($.attribute_set)),
     attribute_set: $ => seq(
       "[<",
@@ -256,7 +339,127 @@ module.exports = grammar({
       //TODO:
       $.identifier
     ),
+    //
+    // Attributes (END)
+    //
 
+    //
+    // Type rules (BEGIN)
+    //
+    type: $ =>
+      prec.left(4,
+        choice(
+          $.long_identifier,
+          seq($.long_identifier, "<", $.type_attributes, ">"),
+          seq($.long_identifier, "<", ">"),
+          seq("(", $.type, ")"),
+          seq($.type, "->", $.type),
+          seq($.type, repeat1(seq("*", $.type))),
+          seq($.type, $.long_identifier),
+          seq($.type, "[", repeat(","), "]"),
+          seq($.type, $.type_arguments),
+          $.type_argument,
+          seq($.type_argument, ":>", $.type),
+          seq("#", $.type),
+        )
+      ),
+
+    type_attribute: $ =>
+      choice(
+        $.type,
+        // measure
+        // static-parameter
+      ),
+    type_attributes: $ => seq($.type_attribute, repeat(seq(",", $.type_attribute))),
+
+    atomic_type: $ =>
+      choice(
+        seq("#", $.type),
+        $.type_argument,
+        seq("(", $.type, ")"),
+        $.long_identifier,
+        seq($.long_identifier, "<", $.type_attributes, ">"),
+      ),
+
+    constraint: $ =>
+      choice(
+        seq($.type_argument, ":>", $.type),
+        seq($.type_argument, ":", "null"),
+        // static-typars : (member-sig)
+        seq($.type_argument, ":", "(", "new", ":", "unit", "->", "'T", ")"),
+        seq($.type_argument, ":", "struct"),
+        seq($.type_argument, ":", "not", "struct"),
+        seq($.type_argument, ":", "enum", "<", $.type, ">"),
+        seq($.type_argument, ":", "unmanaged"),
+        seq($.type_argument, ":", "delegate", "<", $.type, ",", $.type, ">"),
+      ),
+
+    type_argument_constraints: $ =>
+      seq(
+        "when",
+        $.constraint,
+        repeat(seq("and", $.constraint))
+      ),
+
+    type_argument: $ =>
+      seq(
+        optional($.attributes),
+        choice(
+          "_",
+          seq("'", $.identifier),
+          seq("^", $.identifier),
+        ),
+      ),
+
+    static_type_argument: $ =>
+      choice(
+        seq("^", $.identifier),
+        seq("^", $.identifier, repeat(seq("or", "^", $.identifier)))
+      ),
+
+    type_arguments: $ =>
+      seq(
+        "<",
+        $.type_argument,
+        repeat(seq(",", $.type_argument)),
+        optional($.type_argument_constraints),
+        ">"
+      ),
+
+    type_definition: $ =>
+      $.abbrev_type_defn,
+      // record-type-defn
+      // union-type-defn
+      // anon-type-defn
+      // class-type-defn
+      // struct-type-defn
+      // interface-type-defn
+      // enum-type-defn
+      // delegate-type-defn
+      // type-extension
+
+    type_name: $ =>
+      seq(
+        optional($.attributes),
+        optional($.access_modifier),
+        $.identifier,
+        optional($.type_arguments)
+      ),
+
+    abbrev_type_defn: $ =>
+      seq(
+        $.type_name,
+        "=",
+        $.type,
+      ),
+
+    //
+    // Type rules (END)
+    //
+
+    //
+    // Constants (BEGIN)
+    //
     _escape_char: $ => imm(/\\["\'ntbrafv]/),
     _non_escape_char: $ => imm(/\\[^"\'ntbrafv]/),
     // using \u0008 to model \b
@@ -412,8 +615,13 @@ module.exports = grammar({
 
     _float: $ => token(choice(
       seq(/[0-9]+/, imm(/\.[0-9]*/)),
-      seq(/[0-9]+/, optional(imm(/\.[0-9]*/)), imm(/[eE]/), optional(imm(/[+-]/)), imm(/[0-9]+/))))
+      seq(/[0-9]+/, optional(imm(/\.[0-9]*/)), imm(/[eE]/), optional(imm(/[+-]/)), imm(/[0-9]+/)))),
+    //
+    // Constants (END)
+    //
 
+    block_comment: $ => seq("(*", $._block_comment_content, "*)"),
+    line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
   }
 
 });
