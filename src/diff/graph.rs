@@ -114,17 +114,37 @@ pub struct Vertex<'a, 'b> {
     // core info
     pub lhs_syntax: SideSyntax<'a>,
     pub rhs_syntax: SideSyntax<'a>,
-    // If we've entered the LHS and RHS together, we must pop both
-    // sides together too. Otherwise we'd consider the following
-    // case to have no changes.
+    // If we've entered the LHS delimiter and RHS delimiter together,
+    // we must pop both sides together too. Otherwise we'd consider
+    // the following case to have no changes.
     //
     // ```text
     // Old: (a b c)
     // New: (a b) c
     // ```
+    //
+    // If we've entered the LHS delimiter or RHS delimiter separately,
+    // we can pop either side independently.
+    //
+    // So each entered delimiter belongs to one of two types, either
+    // PopBoth or PopEither. They form two stacks that are represented
+    // in the following structure.
+    //
+    // ```text
+    //   |         3, 2, None
+    //   |  |PopEither| |PopEither| <--+
+    //   |  |PopEither| |PopEither|    |
+    //   |  |PopEither|                |
+    //   |                             |
+    //   |         0, 0, Some ---------+
+    //   |  | PopBoth | | PopBoth | <--+
+    //   |                             |
+    //   |         1, 2, Some ---------+
+    //   |  | PopBoth | | PopBoth |
+    //   V  |PopEither| |PopEither|
+    //  Top             |PopEither|
+    // ```
     pop_both_ancestor: Option<&'b Vertex<'a, 'b>>,
-    // If we've entered the LHS or RHS separately, we can pop either
-    // side independently.
     pop_lhs_cnt: u8,
     pop_rhs_cnt: u8,
 }
@@ -152,11 +172,12 @@ impl<'a, 'b> Vertex<'a, 'b> {
         }
     }
 
-    fn parent_stack_eq(&self, other: &Vertex<'a, 'b>) -> bool {
-        // Vertices are pinned so ptrs are unique IDs
+    fn delim_stack_eq(&self, other: &Vertex<'a, 'b>) -> bool {
+        // Vertices are pinned so addresses can be used as unique IDs.
         get_ptr(self.pop_both_ancestor) == get_ptr(other.pop_both_ancestor)
-        // Vertices are equal => LHS/RHS syntaxes are equal
-        // Then if PopBoth ancestors are equal => PopLhs/Rhs counts are equal
+        // We've already checked that LHS/RHS syntaxes are equal.
+        // Then if their PopBoth ancestors are equal, PopLhs/Rhs
+        // counts must be equal.
         // && self.pop_lhs_cnt == other.pop_lhs_cnt
         // && self.pop_rhs_cnt == other.pop_rhs_cnt
     }
@@ -169,7 +190,7 @@ impl<'a, 'b> Vertex<'a, 'b> {
 impl PartialEq for Vertex<'_, '_> {
     fn eq(&self, other: &Self) -> bool {
         // Strictly speaking, we should compare the whole
-        // EnteredDelimiter stack, not just the immediate
+        // entered delimiter stack, not just the immediate
         // parents. By taking the immediate parent, we have
         // vertices with different stacks that are 'equal'.
         //
@@ -184,15 +205,13 @@ impl PartialEq for Vertex<'_, '_> {
         // Handling this properly would require considering many
         // more vertices to be distinct, exponentially increasing
         // the graph size relative to tree depth.
-
-        // We do want to distinguish whether we can pop each side
-        // independently though. Without this, if we find a case
-        // where we can pop sides together, we don't consider the
-        // case where we get a better diff by popping each side
-        // separately.
-
         self.lhs_syntax == other.lhs_syntax
             && self.rhs_syntax == other.rhs_syntax
+            // We do want to distinguish whether we can pop each side
+            // independently though. Without this, if we find a case
+            // where we can pop sides together, we don't consider the
+            // case where we get a better diff by popping each side
+            // separately.
             && self.can_pop_either() == other.can_pop_either()
     }
 }
@@ -213,13 +232,14 @@ impl Default for Vertex<'_, '_> {
     }
 }
 
-/// An edge in our graph, with an associated [`cost`](Edge::cost).
+/// An edge in our graph.
 ///
 /// A syntax node can always be marked as novel, so a vertex will have
 /// at least a NovelFoo edge. Depending on the syntax nodes of the
 /// current [`Vertex`], other edges may also be available.
 ///
-/// See [`neighbours`] for all the edges available for a given `Vertex`.
+/// See [`get_neighbours`] for all the edges available for a given
+/// `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
     UnchangedNode,
@@ -252,7 +272,7 @@ fn allocate_if_new<'syn, 'b>(
             if let Some(existing) = value {
                 return existing;
             }
-            if key.parent_stack_eq(&v) {
+            if key.delim_stack_eq(&v) {
                 return key;
             }
             let allocated = alloc.alloc(v);
