@@ -5,15 +5,17 @@
 ((enum_member (identifier) @name) (#set! role enum-member))
 
 ((class_declaration (identifier) @name) @subtree (#set! role class))
-((constructor) @subtree (#set! role constructor))
+((constructor (this) @name) @subtree (#set! role constructor))
+((destructor (this) @name) @subtree (#set! role destructor))
+((postblit (this) @name) @subtree (#set! role constructor))
 
 ((manifest_constant (identifier) @name) @subtree (#set! role constant))
 
 ((function_declaration (identifier) @name) @subtree (#set! role function-or-method))
 
-((variable_declaration (declarator (identifier) @name) @subtree (#set! role variable)))
+((aggregate_body (variable_declaration (declarator (identifier) @name) @subtree (#set! role property))))
 
-((variable_declaration (bitfield_declarator (identifier) @name) @subtree (#set! role variable)))
+((variable_declaration (declarator (identifier) @name) @subtree (#set! role variable)))
 
 ((union_declaration (identifier) @name) @subtree (#set! role union))
 

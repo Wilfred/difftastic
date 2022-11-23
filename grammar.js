@@ -472,7 +472,12 @@ module.exports = grammar({
     // Variable Declarations
     //
     variable_declaration: ($) =>
-      seq(repeat($.storage_class), $.type, commaSep1(choice($.declarator, $.bitfield_declarator)), ";"),
+      seq(
+        repeat($.storage_class),
+        $.type,
+        commaSep1(choice($.declarator, $.bitfield_declarator)),
+        ";"
+      ),
 
     _declarator_identifier_list: ($) => prec.right(commaSep1($.identifier)),
 
@@ -483,12 +488,14 @@ module.exports = grammar({
           optional(seq(optional($.template_parameters), "=", $._initializer))
         )
       ),
-    
+
     bitfield_declarator: ($) =>
-      prec.right(choice(
-        seq(":", $._expr),
-        seq($.identifier, ":", $._expr, optional(seq("=", $._initializer))),
-      )),
+      prec.right(
+        choice(
+          seq(":", $._expr),
+          seq($.identifier, ":", $._expr, optional(seq("=", $._initializer)))
+        )
+      ),
 
     manifest_constant: ($) =>
       seq(
@@ -1636,7 +1643,7 @@ module.exports = grammar({
     // Invariant was listed in 3.9 above already.
 
     //
-    // Constructor - we usea single form with optional shared static prefixes
+    // Constructor - we use a single form with optional shared static prefixes
     // instead of separate expansions.
     //
     constructor: ($) =>
