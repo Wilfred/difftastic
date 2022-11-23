@@ -13,6 +13,8 @@
 
 ((variable_declaration (declarator (identifier) @name) @subtree (#set! role variable)))
 
+((variable_declaration (bitfield_declarator (identifier) @name) @subtree (#set! role variable)))
+
 ((union_declaration (identifier) @name) @subtree (#set! role union))
 
 ((alias_declaration (alias_initializer . (identifier) @name) @subtree (#set! role type)))
