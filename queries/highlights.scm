@@ -81,6 +81,7 @@
   "todo"
   "try"
   "type"
+  "use"
 ] @keyword
 
 ; Punctuation
@@ -104,4 +105,5 @@
   "->"
   ".."
   "-"
+  "<-"
 ] @punctuation.delimiter

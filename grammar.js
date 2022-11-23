@@ -326,6 +326,7 @@ module.exports = grammar({
         $.expression_group,
         $.case,
         $.let,
+        $.use,
         $.assert,
         $.negation,
         $.record_update,
@@ -440,6 +441,13 @@ module.exports = grammar({
     _case_clause_tuple_access: ($) =>
       seq(field("tuple", $.identifier), ".", field("index", $.integer)),
     let: ($) => seq("let", $._assignment),
+    use: ($) =>
+      seq(
+        "use",
+        optional(series_of($.identifier, ",")),
+        "<-",
+        field("value", $._expression)
+      ),
     assert: ($) => seq("assert", $._assignment),
     negation: ($) => seq("!", $._expression_unit),
     _assignment: ($) =>
