@@ -21,6 +21,12 @@ include = [
         "/README.md",
 ]
 
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-format }"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"
+
 [dependencies]
 regex = "1.5.4"
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
