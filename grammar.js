@@ -19,6 +19,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
+    [$.type_argument, $.static_type_argument],
   ],
 
   words: $ => $.identifier,
@@ -357,7 +358,7 @@ module.exports = grammar({
           seq($.type, repeat1(seq("*", $.type))),
           seq($.type, $.long_identifier),
           seq($.type, "[", repeat(","), "]"),
-          seq($.type, $.type_arguments),
+          seq($.type, $.type_argument_defn),
           $.type_argument,
           seq($.type_argument, ":>", $.type),
           seq("#", $.type),
@@ -385,12 +386,14 @@ module.exports = grammar({
       choice(
         seq($.type_argument, ":>", $.type),
         seq($.type_argument, ":", "null"),
-        // static-typars : (member-sig)
+        seq($.static_type_argument, ":", "(", $.member_signature, ")"),
         seq($.type_argument, ":", "(", "new", ":", "unit", "->", "'T", ")"),
         seq($.type_argument, ":", "struct"),
         seq($.type_argument, ":", "not", "struct"),
         seq($.type_argument, ":", "enum", "<", $.type, ">"),
         seq($.type_argument, ":", "unmanaged"),
+        seq($.type_argument, ":", "equality"),
+        seq($.type_argument, ":", "comparison"),
         seq($.type_argument, ":", "delegate", "<", $.type, ",", $.type, ">"),
       ),
 
@@ -402,13 +405,16 @@ module.exports = grammar({
       ),
 
     type_argument: $ =>
+      choice(
+        "_",
+        seq("'", $.identifier),
+        seq("^", $.identifier),
+      ),
+
+    type_argument_defn: $ =>
       seq(
         optional($.attributes),
-        choice(
-          "_",
-          seq("'", $.identifier),
-          seq("^", $.identifier),
-        ),
+        $.type_argument
       ),
 
     static_type_argument: $ =>
@@ -420,10 +426,65 @@ module.exports = grammar({
     type_arguments: $ =>
       seq(
         "<",
-        $.type_argument,
-        repeat(seq(",", $.type_argument)),
+        $.type_argument_defn,
+        repeat(seq(",", $.type_argument_defn)),
         optional($.type_argument_constraints),
         ">"
+      ),
+
+    member_signature: $ =>
+      seq(
+        $.identifier,
+        optional($.type_arguments),
+        ":",
+        $.curried_signature,
+        optional(
+          choice(
+            seq("with", "get"),
+            seq("with", "set"),
+            seq("with", "get", ",", "set"),
+            seq("with", "set", ",", "get"),
+          )
+        )
+      ),
+
+    curried_signature: $ => seq(repeat1(seq($.arguments_spec, "->")), $.type),
+    uncurried_signaure: $ => seq($.arguments_spec, "->", $.type),
+    argument_spec: $ =>
+      seq(
+        optional($.attributes),
+        optional($.argument_name_spec),
+        $.type,
+      ),
+    arguments_spec: $ =>
+      seq(
+        $.argument_spec,
+        repeat(seq("*", $.argument_spec))
+      ),
+
+    argument_name_spec: $ =>
+      seq(
+        optional("?"),
+        $.identifier,
+        ":"
+      ),
+
+    interface_spec: $ =>
+      seq(
+        "interface",
+        $.type
+      ),
+
+    static_parameter: $ =>
+      choice(
+        $.static_parameter_value,
+        seq("id", "=", $.static_parameter_value)
+      ),
+
+    static_parameter_value: $ =>
+      choice(
+        $._const,
+        seq($._const, $._expression)
       ),
 
     type_definition: $ =>

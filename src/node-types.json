@@ -65,6 +65,21 @@
     }
   },
   {
+    "type": "argument_name_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument_patterns",
     "named": true,
     "fields": {},
@@ -202,6 +217,44 @@
         },
         {
           "type": "wildcard_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "argument_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_name_spec",
+          "named": true
+        },
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arguments_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_spec",
           "named": true
         }
       ]
@@ -801,11 +854,38 @@
       "required": true,
       "types": [
         {
+          "type": "member_signature",
+          "named": true
+        },
+        {
+          "type": "static_type_argument",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         },
         {
           "type": "type_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "curried_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments_spec",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -2039,6 +2119,29 @@
     }
   },
   {
+    "type": "member_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "curried_signature",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "module_abbrev",
     "named": true,
     "fields": {},
@@ -2329,6 +2432,136 @@
     }
   },
   {
+    "type": "static_parameter_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "bignum",
+          "named": true
+        },
+        {
+          "type": "byte",
+          "named": true
+        },
+        {
+          "type": "bytearray",
+          "named": true
+        },
+        {
+          "type": "bytechar",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "ieee32",
+          "named": true
+        },
+        {
+          "type": "ieee64",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "int16",
+          "named": true
+        },
+        {
+          "type": "int32",
+          "named": true
+        },
+        {
+          "type": "int64",
+          "named": true
+        },
+        {
+          "type": "let_expression",
+          "named": true
+        },
+        {
+          "type": "list_expression",
+          "named": true
+        },
+        {
+          "type": "long_identifier",
+          "named": true
+        },
+        {
+          "type": "mutate_expression",
+          "named": true
+        },
+        {
+          "type": "sbyte",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "triple_quoted_string",
+          "named": true
+        },
+        {
+          "type": "uint16",
+          "named": true
+        },
+        {
+          "type": "uint32",
+          "named": true
+        },
+        {
+          "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "verbatim_bytearray",
+          "named": true
+        },
+        {
+          "type": "verbatim_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "static_type_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {}
@@ -2364,7 +2597,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "type_argument_defn",
           "named": true
         },
         {
@@ -2379,13 +2612,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
-        {
-          "type": "attributes",
-          "named": true
-        },
         {
           "type": "identifier",
           "named": true
@@ -2409,6 +2638,25 @@
     }
   },
   {
+    "type": "type_argument_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "type_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_arguments",
     "named": true,
     "fields": {},
@@ -2417,11 +2665,11 @@
       "required": true,
       "types": [
         {
-          "type": "type_argument",
+          "type": "type_argument_constraints",
           "named": true
         },
         {
-          "type": "type_argument_constraints",
+          "type": "type_argument_defn",
           "named": true
         }
       ]
@@ -2934,6 +3182,10 @@
     "named": false
   },
   {
+    "type": "comparison",
+    "named": false
+  },
+  {
     "type": "constructor",
     "named": false
   },
@@ -2954,6 +3206,10 @@
     "named": false
   },
   {
+    "type": "equality",
+    "named": false
+  },
+  {
     "type": "event",
     "named": false
   },
@@ -2970,11 +3226,23 @@
     "named": false
   },
   {
+    "type": "get",
+    "named": false
+  },
+  {
     "type": "global",
     "named": false
   },
   {
+    "type": "id",
+    "named": false
+  },
+  {
     "type": "inline",
+    "named": false
+  },
+  {
+    "type": "interface",
     "named": false
   },
   {
@@ -3066,6 +3334,10 @@
     "named": false
   },
   {
+    "type": "set",
+    "named": false
+  },
+  {
     "type": "struct",
     "named": false
   },
@@ -3108,6 +3380,10 @@
   {
     "type": "wildcard_pattern",
     "named": true
+  },
+  {
+    "type": "with",
+    "named": false
   },
   {
     "type": "y",
