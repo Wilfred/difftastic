@@ -221,6 +221,11 @@
 	(cfloat)
 ] @invalid ; these types are deprecated
 
+(debug_condition (debug) (int_literal) @invalid) ; deprecated in 2.101
+(debug_specification (debug) (int_literal) @invalid) ; deprecated in 2.101
+(version_condition (version) (int_literal) @invalid) ; deprecated in 2.101
+(version_specification (version) (int_literal) @invalid) ; deprecated in 2.101
+
 (module_fqn) @cdata ; this is a crummy workaround since we don't have anything for imports
 (module_declaration (module_fqn)) @definition.package
 (class_declaration (identifier) @identifier.type.class)
