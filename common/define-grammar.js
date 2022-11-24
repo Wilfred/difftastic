@@ -47,7 +47,7 @@ module.exports = function defineGrammar(dialect) {
       [$.type_query, $.subscript_expression, $.expression],
       [$.type_query, $._type_query_subscript_expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
-      [$.cast_expression, $._primary_type],
+      [$.as_expression, $.satisfies_expression, $._primary_type],
       [$._type_query_member_expression, $.member_expression],
       [$._type_query_member_expression, $.primary_expression],
       [$._type_query_subscript_expression, $.subscript_expression],
@@ -207,7 +207,8 @@ module.exports = function defineGrammar(dialect) {
       // include type assertions. If the dialect is TSX, we do the opposite.
       expression: ($, previous) => {
         const choices = [
-          $.cast_expression,
+          $.as_expression,
+          $.satisfies_expression,
           $.internal_module,
         ];
 
@@ -403,9 +404,15 @@ module.exports = function defineGrammar(dialect) {
         $.expression
       )),
 
-      cast_expression: $ => prec.left('binary', seq(
+      as_expression: $ => prec.left('binary', seq(
         $.expression,
-        choice('as', 'satisfies'),
+        'as',
+        $._type
+      )),
+
+      satisfies_expression: $ => prec.left('binary', seq(
+        $.expression,
+        'satisfies',
         $._type
       )),
 
