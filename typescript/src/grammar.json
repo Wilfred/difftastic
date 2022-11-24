@@ -1902,6 +1902,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "satisfies_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "internal_module"
         },
         {
@@ -7438,7 +7442,7 @@
     },
     "as_expression": {
       "type": "PREC_LEFT",
-      "value": "binary_as",
+      "value": "binary",
       "content": {
         "type": "SEQ",
         "members": [
@@ -7451,17 +7455,29 @@
             "value": "as"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_literal_type"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_type"
+          }
+        ]
+      }
+    },
+    "satisfies_expression": {
+      "type": "PREC_LEFT",
+      "value": "binary",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "expression"
+          },
+          {
+            "type": "STRING",
+            "value": "satisfies"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_type"
           }
         ]
       }
@@ -10742,7 +10758,7 @@
       },
       {
         "type": "STRING",
-        "value": "binary_as"
+        "value": "binary"
       },
       {
         "type": "SYMBOL",
@@ -10772,7 +10788,7 @@
       },
       {
         "type": "STRING",
-        "value": "binary_as"
+        "value": "binary"
       },
       {
         "type": "SYMBOL",
@@ -10955,6 +10971,10 @@
       {
         "type": "SYMBOL",
         "name": "as_expression"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "satisfies_expression"
       },
       {
         "type": "SYMBOL",

@@ -196,6 +196,10 @@
         "named": true
       },
       {
+        "type": "satisfies_expression",
+        "named": true
+      },
+      {
         "type": "ternary_expression",
         "named": true
       },
@@ -4900,6 +4904,41 @@
     }
   },
   {
+    "type": "satisfies_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_primary_type",
+          "named": true
+        },
+        {
+          "type": "constructor_type",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "infer_type",
+          "named": true
+        },
+        {
+          "type": "readonly_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "sequence_expression",
     "named": true,
     "fields": {
@@ -6311,6 +6350,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "satisfies",
     "named": false
   },
   {
