@@ -456,14 +456,17 @@ Type casts
 =================================
 
 foo as any as Array<number>
+bar satisfies number[]
 
 ---
 
 (program
   (expression_statement
-    (as_expression
-      (as_expression (identifier) (predefined_type))
-      (generic_type (type_identifier) (type_arguments (predefined_type))))))
+    (cast_expression
+      (cast_expression (identifier) (predefined_type))
+      (generic_type (type_identifier) (type_arguments (predefined_type)))))
+  (expression_statement
+    (cast_expression (identifier) (array_type (predefined_type)))))
 
 =================================
 Ambient export function declarations
