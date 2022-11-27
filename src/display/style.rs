@@ -364,9 +364,16 @@ pub fn apply_colors(
     style_lines(&lines, &styles)
 }
 
-fn apply_header_color(s: &str, use_color: bool, background: BackgroundColor) -> String {
+fn apply_header_color(
+    s: &str,
+    use_color: bool,
+    background: BackgroundColor,
+    hunk_num: usize,
+) -> String {
     if use_color {
-        if background.is_dark() {
+        if hunk_num != 1 {
+            s.to_string()
+        } else if background.is_dark() {
             s.bright_yellow().to_string()
         } else {
             s.yellow().to_string()
@@ -424,11 +431,13 @@ pub fn header(
         rhs_display_path,
         display_options.use_color,
         display_options.background_color,
+        hunk_num,
     );
     let lhs_path_pretty = apply_header_color(
         lhs_display_path,
         display_options.use_color,
         display_options.background_color,
+        hunk_num,
     );
     if hunk_num == 1 && lhs_display_path != rhs_display_path && display_options.in_vcs {
         let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty);
