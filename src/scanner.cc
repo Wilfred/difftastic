@@ -170,7 +170,7 @@ struct Scanner {
             // Step over the backslash.
             lexer->advance(lexer, false);
             // Step over any escaped quotes.
-            if (lexer->lookahead == delimiter.end_character()) {
+            if (lexer->lookahead == delimiter.end_character() || lexer->lookahead == '\\') {
               lexer->advance(lexer, false);
             }
             continue;

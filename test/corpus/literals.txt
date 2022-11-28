@@ -193,6 +193,8 @@ ur"\n"
 # raw f-string
 fr"\{0}"
 
+r"\\"
+
 --------------------------------------------------------------------------------
 
 (module
@@ -211,7 +213,9 @@ fr"\{0}"
   (expression_statement
     (string
       (interpolation
-        (integer)))))
+        (integer))))
+  (expression_statement
+    (string)))
 
 ================================================================================
 Raw strings with escaped quotes
