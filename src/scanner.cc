@@ -89,9 +89,11 @@ struct Scanner {
   bool scan_heredoc_end_identifier(TSLexer *lexer) {
     current_leading_word.clear();
     // Scan the first 'n' characters on this line, to see if they match the heredoc delimiter
+    int32_t i = 0;
     while (
       lexer->lookahead != '\0' &&
       lexer->lookahead != '\n' &&
+      ((int32_t)heredoc_delimiter[i++]) == lexer->lookahead &&
       current_leading_word.length() < heredoc_delimiter.length()
     ) {
       current_leading_word += lexer->lookahead;
@@ -159,6 +161,14 @@ struct Scanner {
         }
 
         default: {
+          if (scan_heredoc_end_identifier(lexer)) {
+            heredoc_is_raw = false;
+            started_heredoc = false;
+            heredoc_allows_indent = false;
+            heredoc_delimiter.clear();
+            lexer->result_symbol = end_type;
+            return true;
+          }
           did_advance = true;
           advance(lexer);
           break;
