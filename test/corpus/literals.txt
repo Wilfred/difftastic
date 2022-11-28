@@ -190,6 +190,9 @@ Raw strings
 r'ab\x00cd'
 ur"\n"
 
+# raw f-string
+fr"\{0}"
+
 --------------------------------------------------------------------------------
 
 (module
@@ -203,7 +206,12 @@ ur"\n"
   (expression_statement
     (string))
   (expression_statement
-    (string)))
+    (string))
+  (comment)
+  (expression_statement
+    (string
+      (interpolation
+        (integer)))))
 
 ================================================================================
 Raw strings with escaped quotes

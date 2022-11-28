@@ -167,7 +167,13 @@ struct Scanner {
           return has_content;
         } else if (lexer->lookahead == '\\') {
           if (delimiter.is_raw()) {
+            // Step over the backslash.
             lexer->advance(lexer, false);
+            // Step over any escaped quotes.
+            if (lexer->lookahead == delimiter.end_character()) {
+              lexer->advance(lexer, false);
+            }
+            continue;
           } else if (delimiter.is_bytes()) {
               lexer->mark_end(lexer);
               lexer->advance(lexer, false);
