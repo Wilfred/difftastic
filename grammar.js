@@ -103,11 +103,12 @@ module.exports = grammar({
       seq(
         'export',
         choice(
-          seq('*', $._from_clause, $._semicolon),
-          seq(alias($.namespace_import_export, $.namespace_export), $._from_clause, $._semicolon),
-          seq($.export_clause, $._from_clause, $._semicolon),
-          seq($.export_clause, $._semicolon)
-        )
+          seq('*', $._from_clause),
+          seq($.namespace_export, $._from_clause),
+          seq($.export_clause, $._from_clause),
+          $.export_clause,
+        ),
+        $._semicolon,
       ),
       seq(
         repeat(field('decorator', $.decorator)),
@@ -128,19 +129,28 @@ module.exports = grammar({
       )
     ),
 
+    namespace_export: $ => seq(
+      '*', 'as', $._module_export_name
+    ),
+
     export_clause: $ => seq(
       '{',
-      commaSep(alias($._import_export_specifier, $.export_specifier)),
+      commaSep($.export_specifier),
       optional(','),
       '}'
     ),
 
-    _import_export_specifier: $ => seq(
-      field('name', $.identifier),
+    export_specifier: $ => seq(
+      field('name', $._module_export_name),
       optional(seq(
         'as',
-        field('alias', $.identifier)
+        field('alias', $._module_export_name)
       ))
+    ),
+
+    _module_export_name: $ => choice(
+      $.identifier,
+      $.string,
     ),
 
     declaration: $ => choice(
@@ -167,14 +177,14 @@ module.exports = grammar({
     ),
 
     import_clause: $ => choice(
-      alias($.namespace_import_export, $.namespace_import),
+      $.namespace_import,
       $.named_imports,
       seq(
         $.identifier,
         optional(seq(
           ',',
           choice(
-            alias($.namespace_import_export, $.namespace_import),
+            $.namespace_import,
             $.named_imports
           )
         ))
@@ -185,15 +195,24 @@ module.exports = grammar({
       "from", field('source', $.string)
     ),
 
-    namespace_import_export: $ => seq(
+    namespace_import: $ => seq(
       "*", "as", $.identifier
     ),
 
     named_imports: $ => seq(
       '{',
-      commaSep(alias($._import_export_specifier, $.import_specifier)),
+      commaSep($.import_specifier),
       optional(','),
       '}'
+    ),
+
+    import_specifier: $ => choice(
+      field('name', $.identifier),
+      seq(
+        field('name', $._module_export_name),
+        'as',
+        field('alias', $.identifier)
+      ),
     ),
 
     //
