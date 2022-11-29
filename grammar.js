@@ -1103,6 +1103,7 @@ module.exports = grammar({
       repeat(choice(
         seq(field('member', $.method_definition), optional(';')),
         seq(field('member', $.field_definition), $._semicolon),
+        field('member', $.class_static_block),
         field('template', $.glimmer_template)
       )),
       '}'
@@ -1122,6 +1123,11 @@ module.exports = grammar({
         optional(',')
       )),
       ')'
+    ),
+
+    class_static_block: $ => seq(
+      'static',
+      field('body', $.statement_block)
     ),
 
     // This negative dynamic precedence ensures that during error recovery,

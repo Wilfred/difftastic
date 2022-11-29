@@ -360,6 +360,10 @@ class Foo extends require('another-class') {
     super()
   }
 
+  static {
+    this.#foo = 'bar';
+  }
+
   bar() {
     super.a()
     this.#baz()
@@ -403,6 +407,15 @@ class Foo extends require('another-class') {
         (formal_parameters)
         (statement_block
           (expression_statement (call_expression (super) (arguments)))))
+      (class_static_block
+        (statement_block
+          (expression_statement
+            (assignment_expression
+              (member_expression
+                (this)
+                (private_property_identifier))
+              (string
+                (string_fragment))))))
       (method_definition
         (property_identifier)
         (formal_parameters)
