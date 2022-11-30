@@ -2,7 +2,6 @@
 
 ((struct_declaration (struct) . (identifier) @name) @subtree (#set! role struct))
 ((enum_declaration (enum) . (identifier) @name) @subtree (#set! role enum))
-((enum_member (identifier) @name) (#set! role enum-member))
 
 ((class_declaration (class) . (identifier) @name) @subtree (#set! role class))
 ((constructor (this) @name) @subtree (#set! role constructor))
@@ -18,3 +17,7 @@
 ((union_declaration (union) . (identifier) @name) @subtree (#set! role union))
 
 ((alias_declaration (alias_initializer . (identifier) @name) @subtree (#set! role type)))
+
+((anonymous_enum_declaration ((enum_member . (identifier) @name) @subtree (#set! role constant))))
+
+((enum_declaration ((enum_member . (identifier) @name) @subtree (#set! role enum-member))))
