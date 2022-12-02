@@ -480,8 +480,12 @@ Let
       (word))
     (text
       (word)
+      (superscript
+        (word))
       (operator)
-      (word))
+      (word)
+      (superscript
+        (word)))
     (text_mode
       (curly_group
         (text
@@ -492,8 +496,12 @@ Let
       (word))
     (text
       (word)
+      (superscript
+        (word))
       (operator)
-      (word))
+      (word)
+      (superscript
+        (word)))
     (end
       (curly_group_text
         (text
