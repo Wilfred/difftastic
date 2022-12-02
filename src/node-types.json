@@ -6106,6 +6106,30 @@
     }
   },
   {
+    "type": "subscript",
+    "named": true,
+    "fields": {
+      "subscript": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "generic_command",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "subsection",
     "named": true,
     "fields": {
@@ -6602,6 +6626,30 @@
     }
   },
   {
+    "type": "superscript",
+    "named": true,
+    "fields": {
+      "superscript": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "curly_group",
+            "named": true
+          },
+          {
+            "type": "generic_command",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "svg_include",
     "named": true,
     "fields": {
@@ -6767,6 +6815,14 @@
           },
           {
             "type": "placeholder",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "superscript",
             "named": true
           },
           {

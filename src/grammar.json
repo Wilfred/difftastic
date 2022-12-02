@@ -1641,6 +1641,14 @@
               {
                 "type": "SYMBOL",
                 "name": "_command"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "superscript"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "subscript"
               }
             ]
           }
@@ -1649,7 +1657,7 @@
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s\\\\%\\{\\},\\$\\[\\]\\(\\)=\\#]+"
+      "value": "[^\\s\\\\%\\{\\},\\$\\[\\]\\(\\)=\\#_\\^\\-\\+\\/\\*]+"
     },
     "placeholder": {
       "type": "PATTERN",
@@ -1720,14 +1728,6 @@
         },
         {
           "type": "STRING",
-          "value": "^"
-        },
-        {
-          "type": "STRING",
-          "value": "_"
-        },
-        {
-          "type": "STRING",
           "value": "<"
         },
         {
@@ -1749,6 +1749,66 @@
         {
           "type": "STRING",
           "value": "'"
+        }
+      ]
+    },
+    "subscript": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "_"
+        },
+        {
+          "type": "FIELD",
+          "name": "subscript",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "curly_group"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "word"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "generic_command"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "superscript": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "^"
+        },
+        {
+          "type": "FIELD",
+          "name": "superscript",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "curly_group"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "word"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "generic_command"
+              }
+            ]
+          }
         }
       ]
     },
@@ -3115,7 +3175,7 @@
     },
     "command_name": {
       "type": "PATTERN",
-      "value": "\\\\([^\\r\\n]|[@a-zA-Z:_]+\\*?)?"
+      "value": "\\\\([^\\r\\n]|[@a-zA-Z]+\\*?)?"
     },
     "title_declaration": {
       "type": "SEQ",

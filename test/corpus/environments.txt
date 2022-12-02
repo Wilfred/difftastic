@@ -231,13 +231,13 @@ Math environment
         (text
           (word))))
     (text
-      (word))
-    (curly_group
-      (text
+     (word)
+     (superscript
+      (curly_group
+       (text
         (word)
         (generic_command
-          (command_name))))
-    (text
+         (command_name)))))
       (operator)
       (word))
     (text

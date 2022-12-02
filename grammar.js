@@ -384,13 +384,15 @@ module.exports = grammar({
               $.word,
               $.placeholder,
               $.block_comment,
-              $._command
+              $._command,
+              $.superscript,
+              $.subscript,
             )
           )
         )
       ),
 
-    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#]+/,
+    word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#_\^\-\+\/\*]+/,
 
     placeholder: $ => /#\d/,
 
@@ -407,7 +409,29 @@ module.exports = grammar({
       ),
 
     operator: $ =>
-      choice('+', '-', '*', '/', '^', '_', '<', '>', '!', '|', ':', "'"),
+      choice('+', '-', '*', '/', '<', '>', '!', '|', ':', "'"),
+
+    subscript: $ =>
+      seq('_', field(
+        'subscript', 
+        choice(
+          $.curly_group,
+          $.word,
+          $.generic_command
+          )
+        )
+      ),
+
+    superscript: $ =>
+      seq('^', field(
+        'superscript',
+        choice(
+          $.curly_group,
+          $.word,
+          $.generic_command
+          )
+        )
+      ),
 
     //--- Key / Value
 
@@ -572,7 +596,7 @@ module.exports = grammar({
         )
       ),
 
-    command_name: $ => /\\([^\r\n]|[@a-zA-Z:_]+\*?)?/,
+    command_name: $ => /\\([^\r\n]|[@a-zA-Z]+\*?)?/,
 
     title_declaration: $ =>
       seq(
