@@ -19,7 +19,7 @@
   "main": "./bindings/node",
   "devDependencies": {
     "tree-sitter-cli": "^0.20.6",
-    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#936d976"
+    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#7a29d06"
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",

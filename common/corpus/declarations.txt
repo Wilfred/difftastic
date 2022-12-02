@@ -756,6 +756,42 @@ class Foo<Bar> extends Baz { bar = 5; static one(a) { return a; }; two(b) { retu
         (statement_block (return_statement (identifier)))))))
 
 =======================================
+Classes with static blocks
+=======================================
+
+class Foo {
+  static {
+    this.#bar = '';
+  }
+  static {
+    this.baz();
+  }
+}
+
+---
+
+(program
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (class_static_block
+        (statement_block
+          (expression_statement
+            (assignment_expression
+              (member_expression
+                (this)
+                (private_property_identifier))
+              (string)))))
+      (class_static_block
+        (statement_block
+          (expression_statement
+            (call_expression
+              (member_expression
+                (this)
+                (property_identifier))
+              (arguments))))))))
+
+=======================================
 Global namespace declarations
 =======================================
 

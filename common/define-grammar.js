@@ -257,7 +257,12 @@ module.exports = function defineGrammar(dialect) {
         '>'
       )),
 
-      _import_export_specifier: ($, previous) => seq(
+      export_specifier: ($, previous) => seq(
+        optional(choice('type', 'typeof')),
+        previous
+      ),
+
+      import_specifier: ($, previous) => seq(
         optional(choice('type', 'typeof')),
         previous
       ),
@@ -360,6 +365,7 @@ module.exports = function defineGrammar(dialect) {
           // The same rule applies for functions and that's why we use
           // "_function_signature_automatic_semicolon".
           seq($.method_signature, choice($._function_signature_automatic_semicolon, ',')),
+          $.class_static_block,
           seq(
             choice(
               $.abstract_method_signature,
