@@ -941,6 +941,88 @@
         }
       ]
     },
+    "block_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "endblock_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "endblock"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "block_def": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "block_command"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_untrimmed_command_invocation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "endblock_command"
+        }
+      ]
+    },
     "normal_command": {
       "type": "SEQ",
       "members": [
@@ -998,6 +1080,10 @@
         {
           "type": "SYMBOL",
           "name": "macro_def"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_def"
         }
       ]
     },
@@ -1069,6 +1155,14 @@
     "endmacro": {
       "type": "PATTERN",
       "value": "[eE][nN][dD][mM][aA][cC][rR][oO]"
+    },
+    "block": {
+      "type": "PATTERN",
+      "value": "[bB][lL][oO][cC][kK]"
+    },
+    "endblock": {
+      "type": "PATTERN",
+      "value": "[eE][nN][dD][bB][lL][oO][cC][kK]"
     },
     "identifier": {
       "type": "PATTERN",

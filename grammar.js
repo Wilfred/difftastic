@@ -11,6 +11,8 @@ commands = [
   "endfunction",
   "macro",
   "endmacro",
+  "block",
+  "endblock"
 ];
 
 module.exports = grammar({
@@ -75,10 +77,14 @@ module.exports = grammar({
     endmacro_command: ($) => command($.endmacro, repeat($._untrimmed_argument)),
     macro_def: ($) => seq($.macro_command, repeat($._untrimmed_command_invocation), $.endmacro_command),
 
+    block_command: ($) => command($.block, repeat($._untrimmed_argument)),
+    endblock_command: ($) => command($.endblock, repeat($._untrimmed_argument)),
+    block_def: ($) => seq($.block_command, repeat($._untrimmed_command_invocation), $.endblock_command),
+
     normal_command: ($) => command($.identifier, repeat($._untrimmed_argument)),
 
     _command_invocation: ($) =>
-      choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def),
+      choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def, $.block_def),
     _untrimmed_command_invocation: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $._command_invocation),
 
     ...commandNames(...commands),
