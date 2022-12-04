@@ -25,5 +25,5 @@ Rust grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 
 * [The Rust Grammar Reference](https://doc.rust-lang.org/grammar.html) - The grammar reference provides chapters that formally define the language grammar.
 * [The Rust Reference](https://doc.rust-lang.org/reference/) - While Rust does not have a specification, the reference tries to describe its working in detail. It tends to be out of date.
-* [Keywords](https://doc.rust-lang.org/stable/book/appendix-01-keywords.html) and [Operators and Symbols](https://doc.rust-lang.org/stable/book/appendix-02-operators.html)
+* [Keywords](https://doc.rust-lang.org/stable/book/appendix-01-keywords.html) and [Operators and Symbols](https://doc.rust-lang.org/stable/book/appendix-02-operators.html).
 * Archive of the outdated [Syntax Index](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/first-edition/syntax-index.html) that contains examples of all syntax in Rust cross-referenced with the section of The Book that describes it.
