@@ -895,19 +895,15 @@ module.exports = grammar({
     false: $ => 'false',
     iota: $ => 'iota',
 
-    // https://tip.golang.org/doc/comment#syntax
-    directive: $ => token(/(line |extern |export |[a-z0-9]+:[a-z0-9])/),
-
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: $ => choice(
-      seq('//', $.directive, /.*/),
-      seq('// ', /.*/),
+    comment: $ => token(choice(
+      seq('//', /.*/),
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
       )
-    )
+    ))
   }
 })
 
