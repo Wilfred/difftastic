@@ -100,6 +100,54 @@ const d
   (comment)
   (const_declaration (const_spec (identifier))))
 
+================================================================================
+Directive comments
+================================================================================
+
+package main
+
+//extern test_extern
+func testExtern() {}
+
+//export text_export
+func textExport() {}
+
+//line test:123
+type testLine int
+
+//nolint:unused
+type Custom int
+
+---
+
+(source_file
+  (package_clause
+    (package_identifier))
+  (comment
+    (directive))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block))
+  (comment
+    (directive))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block))
+  (comment
+    (directive))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (type_identifier)))
+  (comment
+    (directive))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (type_identifier))))
+
 ============================================
 Non-ascii variable names
 ============================================
