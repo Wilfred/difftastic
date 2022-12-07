@@ -1451,11 +1451,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "format_specifier",
+          "named": true
+        },
+        {
+          "type": "type_conversion",
           "named": true
         }
       ]
