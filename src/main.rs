@@ -158,6 +158,7 @@ fn main() {
             display_options,
             missing_as_empty,
             language_override,
+            default_parser,
             lhs_path,
             rhs_path,
             lhs_display_path,
@@ -187,6 +188,7 @@ fn main() {
                         graph_limit,
                         byte_limit,
                         language_override,
+                        default_parser,
                     )
                     .for_each(|diff_result| {
                         print_diff_result(&display_options, &diff_result);
@@ -203,6 +205,7 @@ fn main() {
                         graph_limit,
                         byte_limit,
                         language_override,
+                        default_parser,
                     );
                     print_diff_result(&display_options, &diff_result);
                 }
@@ -232,6 +235,7 @@ fn diff_file(
     graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
+    default_parser: bool,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
@@ -245,6 +249,7 @@ fn diff_file(
         graph_limit,
         byte_limit,
         language_override,
+        default_parser,
     )
 }
 
@@ -259,6 +264,7 @@ fn diff_file_content(
     graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
+    default_parser: bool,
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
@@ -296,7 +302,12 @@ fn diff_file_content(
         FileArgument::DevNull => (&lhs_src, Path::new(&lhs_display_path)),
     };
 
-    let language = language_override.or_else(|| guess(guess_path, guess_src));
+    let language = if default_parser {
+        None
+    } else {
+        language_override.or_else(|| guess(guess_path, guess_src))
+    };
+
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
@@ -414,6 +425,7 @@ fn diff_directories<'a>(
     graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
+    default_parser: bool,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let display_options = display_options.clone();
 
@@ -438,6 +450,7 @@ fn diff_directories<'a>(
             graph_limit,
             byte_limit,
             language_override,
+            default_parser,
         )
     })
 }
