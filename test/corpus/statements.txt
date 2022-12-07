@@ -583,6 +583,9 @@ with (open('d') as d,
       open('e') as e):
   f
 
+with e as f, g as h,:
+  i
+
 --------------------------------------------------------------------------------
 
 (module
@@ -616,7 +619,23 @@ with (open('d') as d,
             (identifier)))))
     (block
       (expression_statement
+        (identifier))))
+  (with_statement
+    (with_clause
+      (with_item
+        (as_pattern
+          (identifier)
+          (as_pattern_target
+            (identifier))))
+      (with_item
+        (as_pattern
+          (identifier)
+          (as_pattern_target
+            (identifier)))))
+    (block
+      (expression_statement
         (identifier)))))
+
 ================================================================================
 Async Function definitions
 ================================================================================
