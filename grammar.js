@@ -378,7 +378,7 @@ module.exports = grammar({
       seq('(', commaSep1($.with_item), ')')
     ),
 
-    with_item: $ => prec.dynamic(-1, seq(
+    with_item: $ => prec.dynamic(1, seq(
       field('value', $.expression),
     )),
 

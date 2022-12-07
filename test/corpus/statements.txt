@@ -599,25 +599,24 @@ with (open('d') as d,
   (with_statement
     (with_clause
       (with_item
-        (tuple
-          (as_pattern
-            (call
-              (identifier)
-              (argument_list
-                (string)))
-            (as_pattern_target
-              (identifier)))
-          (as_pattern
-            (call
-              (identifier)
-              (argument_list
-                (string)))
-            (as_pattern_target
-              (identifier))))))
+        (as_pattern
+          (call
+            (identifier)
+            (argument_list
+              (string)))
+          (as_pattern_target
+            (identifier))))
+      (with_item
+        (as_pattern
+          (call
+            (identifier)
+            (argument_list
+              (string)))
+          (as_pattern_target
+            (identifier)))))
     (block
       (expression_statement
         (identifier)))))
-
 ================================================================================
 Async Function definitions
 ================================================================================
