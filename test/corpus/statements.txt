@@ -1018,6 +1018,10 @@ class C:
   async def f():
     g
 
+@buttons[0].clicked.connect
+def spam():
+    ...
+
 --------------------------------------------------------------------------------
 
 (module
@@ -1059,7 +1063,23 @@ class C:
             (parameters)
             (block
               (expression_statement
-                (identifier)))))))))
+                (identifier))))))))
+  (decorated_definition
+    (decorator
+      (attribute
+        (attribute
+          (subscript
+            (identifier)
+            (integer))
+          (identifier))
+        (identifier)))
+    (function_definition
+      (identifier)
+      (parameters)
+      (block
+        (expression_statement
+          (ellipsis))))))
+
 
 ================================================================================
 Raise statements

@@ -478,7 +478,7 @@ module.exports = grammar({
 
     decorator: $ => seq(
       '@',
-      $.primary_expression,
+      $.expression,
       $._newline
     ),
 
