@@ -1311,46 +1311,36 @@
               "name": "expr"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "expr"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "expr"
+                  }
+                ]
+              }
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "named_argument"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "named_argument"
+                  }
+                ]
+              }
             },
             {
               "type": "CHOICE",
@@ -1374,25 +1364,20 @@
               "name": "named_argument"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "named_argument"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "named_argument"
+                  }
+                ]
+              }
             },
             {
               "type": "CHOICE",

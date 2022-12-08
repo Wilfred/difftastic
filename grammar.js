@@ -190,13 +190,13 @@ module.exports = grammar({
             choice(
                 seq(
                     $.expr,
-                    optional(seq(",", $.expr)),
-                    optional(seq(",", $.named_argument)),
+                    repeat(seq(",", $.expr)),
+                    repeat(seq(",", $.named_argument)),
                     optional(",")
                 ),
                 seq(
                     $.named_argument,
-                    optional(seq(",", $.named_argument)),
+                    repeat(seq(",", $.named_argument)),
                     optional(",")
                 )
             ),

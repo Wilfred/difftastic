@@ -1,6 +1,7 @@
 ======================
 Parses example 2
 ======================
+
 {
   person1: {
     name: "Alice",
@@ -10,7 +11,6 @@ Parses example 2
 }
 
 ---
-
 
 (document
   (expr
@@ -68,3 +68,39 @@ Parses example 2
                   (string_start)
                   (string_content)
                   (string_end))))))))))
+
+=================================
+should parse basic call foo(1,2)
+=================================
+
+{
+  x1: foo(1,2)
+}
+
+---
+
+(document
+  (expr
+     (member (field (fieldname (id))
+       	       (expr (expr (id))
+	       	     (args (expr (number))
+		           (expr (number))))))))
+
+=================================
+should parse basic call foo(1,2,3)
+=================================
+
+{
+  x1: foo(1,2,3)
+}
+
+---
+
+(document
+  (expr
+     (member (field (fieldname (id))
+       	       (expr (expr (id))
+	       	     (args (expr (number))
+		           (expr (number))
+			   (expr (number))
+			   ))))))
