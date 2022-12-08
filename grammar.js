@@ -932,23 +932,33 @@ module.exports = grammar({
     ),
 
     string: $ => seq(
-      alias($._string_start, '"'),
-      repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
-      alias($._string_end, '"')
+      field('prefix', alias($._string_start, '"')),
+      repeat(choice(
+        field('interpolation', $.interpolation),
+        field('string_content', $.string_content)
+      )),
+      field('suffix', alias($._string_end, '"'))
     ),
+
+    string_content: $ => prec.right(0, repeat1(
+      choice(
+        $._escape_interpolation,
+        $.escape_sequence,
+        $._not_escape_sequence,
+        $._string_content
+      ))),
 
     interpolation: $ => seq(
-      '{',
-      $.expression,
+      token.immediate('{'),
+      field('expression', $.expression),
       optional('='),
-      optional($.type_conversion),
-      optional($.format_specifier),
+      optional(field('type_conversion', $.type_conversion)),
+      optional(field('format_specifier', $.format_specifier)),
       '}'
     ),
+    _escape_interpolation: $ => token.immediate(choice('{{', '}}')),
 
-    _escape_interpolation: $ => choice('{{', '}}'),
-
-    escape_sequence: $ => token(prec(1, seq(
+    escape_sequence: $ => token.immediate(prec(1, seq(
       '\\',
       choice(
         /u[a-fA-F\d]{4}/,
@@ -960,7 +970,7 @@ module.exports = grammar({
       )
     ))),
 
-    _not_escape_sequence: $ => '\\',
+    _not_escape_sequence: $ => token.immediate('\\'),
 
     format_specifier: $ => seq(
       ':',
