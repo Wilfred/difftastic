@@ -182,20 +182,36 @@ const CHARACTER =
                        UNICODE,
                        ANY_CHAR)));
 
+// Now excludes the / character
 const SYMBOL_HEAD =
-      /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+  /[^\f\n\r\t \/()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+
+const SYMBOL_NS_DELIMITER =
+  token("/");
 
 const SYMBOL_BODY =
-      choice(SYMBOL_HEAD,
-             /[:#'0-9]/);
+  choice(
+    SYMBOL_HEAD,
+    /[:#'0-9]/
+  );
+
+const SYMBOL_NAMESPACED_NAME =
+  token(repeat(
+    choice(
+      SYMBOL_HEAD,
+      /[\/:#'0-9]/
+    )
+  ));
 
 // XXX: no attempt is made to enforce certain complex things, e.g.
 //
 //        Symbols beginning or ending with ':' are reserved by Clojure.
 //        A symbol can contain one or more non-repeating ':'s
 const SYMBOL =
-      token(seq(SYMBOL_HEAD,
-                repeat(SYMBOL_BODY)));
+  token(seq(
+    SYMBOL_HEAD,
+    repeat(SYMBOL_BODY)
+  ));
 
 module.exports = grammar({
   name: 'clojure',
@@ -277,9 +293,27 @@ module.exports = grammar({
     bool_lit: $ =>
       BOOLEAN,
 
+    _sym_qualified: $ =>
+      prec(1, seq(
+        field('namespace', alias(SYMBOL, $.sym_ns)),
+        field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
+        field('name',      alias(SYMBOL_NAMESPACED_NAME, $.sym_name))
+      )),
+
+    _sym_unqualified: $ =>
+      field('name', alias(
+        choice(
+          seq(SYMBOL_NS_DELIMITER, $._ws), // division symbol, must be followed by whitespace
+          SYMBOL
+        ),
+        $.sym_name
+      )),
+
     sym_lit: $ =>
-      seq(repeat($._metadata_lit),
-          SYMBOL),
+      seq(
+        repeat($._metadata_lit),
+        choice($._sym_qualified, $._sym_unqualified)
+      ),
 
     _metadata_lit: $ =>
       seq(choice(field('meta', $.meta_lit),

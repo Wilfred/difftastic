@@ -712,6 +712,154 @@
         ]
       }
     },
+    "_sym_qualified": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "namespace",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^\\f\\n\\r\\t \\/()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\\f\\n\\r\\t \\/()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[:#'0-9]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "named": true,
+              "value": "sym_ns"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "delimiter",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "STRING",
+                  "value": "/"
+                }
+              },
+              "named": true,
+              "value": "delimiter"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[^\\f\\n\\r\\t \\/()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "[\\/:#'0-9]"
+                      }
+                    ]
+                  }
+                }
+              },
+              "named": true,
+              "value": "sym_name"
+            }
+          }
+        ]
+      }
+    },
+    "_sym_unqualified": {
+      "type": "FIELD",
+      "name": "name",
+      "content": {
+        "type": "ALIAS",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "/"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_ws"
+                }
+              ]
+            },
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[^\\f\\n\\r\\t \\/()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\\f\\n\\r\\t \\/()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "[:#'0-9]"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "named": true,
+        "value": "sym_name"
+      }
+    },
     "sym_lit": {
       "type": "SEQ",
       "members": [
@@ -723,32 +871,17 @@
           }
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^\\f\\n\\r\\t ()\\[\\]{}\"@~^;`\\\\,:#'0-9\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "[:#'0-9]"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_sym_qualified"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_sym_unqualified"
+            }
+          ]
         }
       ]
     },
@@ -1671,4 +1804,3 @@
   "inline": [],
   "supertypes": []
 }
-

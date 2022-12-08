@@ -1997,12 +1997,42 @@
     "type": "sym_lit",
     "named": true,
     "fields": {
+      "delimiter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "delimiter",
+            "named": true
+          }
+        ]
+      },
       "meta": {
         "multiple": true,
         "required": false,
         "types": [
           {
             "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "sym_name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sym_ns",
             "named": true
           }
         ]
@@ -3110,6 +3140,10 @@
     "named": true
   },
   {
+    "type": "delimiter",
+    "named": true
+  },
+  {
     "type": "kwd_lit",
     "named": true
   },
@@ -3119,6 +3153,14 @@
   },
   {
     "type": "num_lit",
+    "named": true
+  },
+  {
+    "type": "sym_name",
+    "named": true
+  },
+  {
+    "type": "sym_ns",
     "named": true
   },
   {
