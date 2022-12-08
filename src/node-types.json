@@ -1714,24 +1714,37 @@
   {
     "type": "interpolation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "format_specifier",
-          "named": true
-        },
-        {
-          "type": "type_conversion",
-          "named": true
-        }
-      ]
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "format_specifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "format_specifier",
+            "named": true
+          }
+        ]
+      },
+      "type_conversion": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_conversion",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2299,6 +2312,52 @@
   {
     "type": "string",
     "named": true,
+    "fields": {
+      "interpolation": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "interpolation",
+            "named": true
+          }
+        ]
+      },
+      "prefix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      },
+      "string_content": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      },
+      "suffix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "string_content",
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2306,10 +2365,6 @@
       "types": [
         {
           "type": "escape_sequence",
-          "named": true
-        },
-        {
-          "type": "interpolation",
           "named": true
         }
       ]
@@ -3030,10 +3085,6 @@
     "named": false
   },
   {
-    "type": "{{",
-    "named": false
-  },
-  {
     "type": "|",
     "named": false
   },
@@ -3043,10 +3094,6 @@
   },
   {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "}}",
     "named": false
   },
   {
