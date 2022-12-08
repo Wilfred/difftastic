@@ -3361,34 +3361,44 @@
                         "value": "in"
                       },
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "not"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "in"
-                          }
-                        ]
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": "not"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "in"
+                            }
+                          ]
+                        },
+                        "named": false,
+                        "value": "not in"
                       },
                       {
                         "type": "STRING",
                         "value": "is"
                       },
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "is"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "not"
-                          }
-                        ]
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": "is"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "not"
+                            }
+                          ]
+                        },
+                        "named": false,
+                        "value": "is not"
                       }
                     ]
                   }
