@@ -310,8 +310,8 @@ def foo(**match): pass
         (string))))
   (expression_statement
     (assignment
-      (list_splat_pattern
-        (ERROR
+      (pattern_list
+        (list_splat_pattern
           (identifier))
         (identifier))
       (list
@@ -321,7 +321,7 @@ def foo(**match): pass
   (function_definition
     (identifier)
     (parameters
-      (ERROR
+      (dictionary_splat_pattern
         (identifier)))
     (block
       (pass_statement))))
