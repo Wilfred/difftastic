@@ -101,7 +101,9 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
     }
 }
 
-fn utf16_from_bytes_lossy(bytes: &[u8]) -> String {
+/// Group bytes into u16 values for conversion to UTF-16, respecting
+/// the byte order mark if present.
+fn u16_from_bytes(bytes: &[u8]) -> Vec<u16> {
     let is_big_endian = match &bytes {
         [0xfe, 0xff, ..] => true,
         [0xff, 0xfe, ..] => false,
@@ -109,7 +111,7 @@ fn utf16_from_bytes_lossy(bytes: &[u8]) -> String {
     };
 
     // https://stackoverflow.com/a/57172592
-    let u16_values: Vec<u16> = bytes
+    bytes
         .chunks_exact(2)
         .into_iter()
         .map(|a| {
@@ -119,8 +121,7 @@ fn utf16_from_bytes_lossy(bytes: &[u8]) -> String {
                 u16::from_le_bytes([a[0], a[1]])
             }
         })
-        .collect();
-    String::from_utf16_lossy(u16_values.as_slice())
+        .collect()
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -138,7 +139,32 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         magic_bytes = &magic_bytes[..1000];
     }
 
+    // Null bytes are rare in typical text files, but common in binary
+    // files like images. A surprising number of binary files are also
+    // valid UTF-8/UTF-16, so consider null bytes to be a strong hint
+    // that it's binary.
+    let null_byte_count = magic_bytes.iter().filter(|b| **b == 0).count();
+    if null_byte_count >= 10 {
+        return ProbableFileKind::Binary;
+    }
+
+    // If the bytes are entirely valid UTF-8, treat them as a string.
+    if let Ok(valid_utf8_string) = std::str::from_utf8(bytes) {
+        return ProbableFileKind::Text(valid_utf8_string.to_string());
+    }
+
+    // If the bytes are is entirely valid UTF-16, treat them as a
+    // string.
+    let u16_values = u16_from_bytes(bytes);
+    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
+        return ProbableFileKind::Text(valid_utf16_string);
+    }
+
+    // Use MIME type detection to guess whether a file is binary. This
+    // has false positives and false negatives, so only check the MIME
+    // type after allowing perfect text files (see issue #433).
     let mime = tree_magic_mini::from_u8(magic_bytes);
+    info!("MIME type detected: {}", mime);
     match mime {
         // Treat pdf as binary.
         "application/pdf" => return ProbableFileKind::Binary,
@@ -157,26 +183,28 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         _ => {}
     }
 
-    // If more than 20 of the first 1,000 characters are null bytes or
-    // invalid UTF-8, we assume it's binary.
+    // If the input bytes are *almost* valid UTF-8, treat them as UTF-8.
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
-
     let num_utf8_invalid = utf8_string
         .chars()
         .take(1000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
         .count();
     if num_utf8_invalid <= 10 {
+        info!("Input file is mostly valid UTF-8");
         return ProbableFileKind::Text(utf8_string);
     }
 
-    let utf16_string = utf16_from_bytes_lossy(bytes);
+    // If the input bytes are *almost* valid UTF-16, treat them as
+    // UTF-16.
+    let utf16_string = String::from_utf16_lossy(&u16_values);
     let num_utf16_invalid = utf16_string
         .chars()
         .take(1000)
-        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER || *c == '\0')
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
         .count();
     if num_utf16_invalid <= 5 {
+        info!("Input file is mostly valid UTF-16");
         return ProbableFileKind::Text(utf16_string);
     }
 
@@ -259,12 +287,14 @@ mod tests {
             ProbableFileKind::Text(_)
         ));
     }
+
     #[test]
-    fn test_null_bytes_are_binary() {
-        let s = "\0".repeat(1000);
-        assert!(matches!(
-            guess_content(s.as_bytes()),
-            ProbableFileKind::Binary
-        ));
+    fn test_png_bytes_are_binary() {
+        let bytes = vec![
+            0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49, 0x48,
+            0x44, 0x52, 0x00, 0x00, 0x01, 0x2c, 0x00, 0x00, 0x01, 0x2c, 0x08, 0x02, 0x00, 0x00,
+            0x00, 0xf6, 0x1f, 0x19,
+        ];
+        assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
     }
 }

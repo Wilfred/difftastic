@@ -1,5 +1,10 @@
 ## 0.39 (unreleased)
 
+### Parsing
+
+Improved detection of binary content when the MIME type database
+incorrectly claims a text file is another format.
+
 ### Display
 
 Fixed a race condition where diffing directories would lead to
