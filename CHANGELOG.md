@@ -1,5 +1,10 @@
 ## 0.39 (unreleased)
 
+### Display
+
+Fixed a race condition where diffing directories would lead to
+interleaved output from different files.
+
 ## 0.38 (released 14th November 2022)
 
 ### Parsing

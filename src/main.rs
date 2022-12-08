@@ -180,6 +180,19 @@ fn main() {
                     options::FileArgument::NamedPath(lhs_path),
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
+                    // We want to diff files in the directory in
+                    // parallel, but print the results serially (to
+                    // prevent display interleaving).
+                    // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
+                    let (send, recv) = std::sync::mpsc::sync_channel(1);
+
+                    let print_options = display_options.clone();
+                    let printing_thread = std::thread::spawn(move || {
+                        for diff_result in recv.into_iter() {
+                            print_diff_result(&print_options, &diff_result);
+                        }
+                    });
+
                     diff_directories(
                         lhs_path,
                         rhs_path,
@@ -188,9 +201,10 @@ fn main() {
                         byte_limit,
                         language_override,
                     )
-                    .for_each(|diff_result| {
-                        print_diff_result(&display_options, &diff_result);
-                    });
+                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                    .expect("Receiver should be connected");
+
+                    printing_thread.join().expect("Printing thread should not panic");
                 }
                 _ => {
                     let diff_result = diff_file(
