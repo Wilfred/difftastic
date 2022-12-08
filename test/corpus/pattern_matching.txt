@@ -276,6 +276,8 @@ match = 2
 match, a = 2, 3
 match: int = secret
 x, match = 2, "hey, what's up?"
+*match, last = [1, 2, 3]
+def foo(**match): pass
 
 --------------------------------------------------------------------------------
 
@@ -305,7 +307,24 @@ x, match = 2, "hey, what's up?"
         (identifier))
       (expression_list
         (integer)
-        (string)))))
+        (string))))
+  (expression_statement
+    (assignment
+      (list_splat_pattern
+        (ERROR
+          (identifier))
+        (identifier))
+      (list
+        (integer)
+        (integer)
+        (integer))))
+  (function_definition
+    (identifier)
+    (parameters
+      (ERROR
+        (identifier)))
+    (block
+      (pass_statement))))
 
 ================================================================================
 Match is match but not pattern matching
