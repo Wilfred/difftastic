@@ -123,6 +123,7 @@ fn utf16_from_bytes_lossy(bytes: &[u8]) -> String {
     String::from_utf16_lossy(u16_values.as_slice())
 }
 
+#[derive(Debug, Eq, PartialEq)]
 pub enum ProbableFileKind {
     Text(String),
     Binary,
