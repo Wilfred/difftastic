@@ -161,8 +161,8 @@ print >> a, "b", "c"
   (print_statement
     (chevron
       (identifier))
-    (string)
-    (string)))
+    (string (string_content))
+    (string (string_content))))
 
 ================================================================================
 Assert statements
@@ -606,7 +606,7 @@ with e as f, g as h,:
           (call
             (identifier)
             (argument_list
-              (string)))
+              (string (string_content))))
           (as_pattern_target
             (identifier))))
       (with_item
@@ -614,7 +614,7 @@ with e as f, g as h,:
           (call
             (identifier)
             (argument_list
-              (string)))
+              (string (string_content))))
           (as_pattern_target
             (identifier)))))
     (block
@@ -760,7 +760,7 @@ async def d(a:str="default", b=c) -> None:
         name: (identifier)
         type: (type
           (identifier))
-        value: (string))
+        value: (string string_content: (string_content)))
       (default_parameter
         name: (identifier)
         value: (identifier)))
@@ -1077,12 +1077,12 @@ raise RunTimeError('NO') from e
     (call
       (identifier)
       (argument_list
-        (string))))
+        (string (string_content)))))
   (raise_statement
     (call
       (identifier)
       (argument_list
-        (string)))
+        (string (string_content))))
     (identifier)))
 
 ================================================================================
@@ -1200,7 +1200,7 @@ print "a"
 
 (module
   (print_statement
-    (string))
+    (string (string_content)))
   (comment))
 
 ================================================================================
@@ -1231,12 +1231,12 @@ exec 'x+=1' in a, b
 
 (module
   (exec_statement
-    (string))
+    (string (string_content)))
   (exec_statement
-    (string)
+    (string (string_content))
     (none))
   (exec_statement
-    (string)
+    (string (string_content))
     (identifier)
     (identifier)))
 
@@ -1303,11 +1303,11 @@ or len("aa")
       (call
         (identifier)
         (argument_list
-          (string)))
+          (string (string_content))))
       (call
         (identifier)
         (argument_list
-          (string))))))
+          (string (string_content)))))))
 
 ================================================================================
 Statements with semicolons

@@ -139,31 +139,31 @@ b"\x12\u12\U12\x13\N{WINKING FACE}"
 
 (module
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string
-      (escape_sequence)))
+    (string (string_content
+      (escape_sequence))))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string
-      (escape_sequence)))
+    (string (string_content
+      (escape_sequence))))
   (expression_statement
-    (string
+    (string (string_content
       (escape_sequence)
-      (escape_sequence)))
+      (escape_sequence))))
   (expression_statement
-    (string
+    (string (string_content
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)
@@ -175,9 +175,9 @@ b"\x12\u12\U12\x13\N{WINKING FACE}"
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)
-      (escape_sequence)))
+      (escape_sequence))))
   (expression_statement
-    (string)))
+    (string (string_content))))
 
 ================================================================================
 Raw strings
@@ -194,16 +194,16 @@ ur"\n"
 
 (module
   (expression_statement
-    (string
-      (escape_sequence)))
+    (string (string_content
+      (escape_sequence))))
   (expression_statement
-    (string
-      (escape_sequence)))
+    (string (string_content
+      (escape_sequence))))
   (comment)
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string)))
+    (string (string_content))))
 
 ================================================================================
 Raw strings with escaped quotes
@@ -222,8 +222,8 @@ re.compile(r"(\n|\A)#include\s*['\"]"
         (identifier))
       (argument_list
         (concatenated_string
-          (string)
-          (string))))))
+          (string (string_content))
+          (string (string_content)))))))
 
 ================================================================================
 Format strings
@@ -245,37 +245,50 @@ f"a {{{b}}}"
   (comment)
   (expression_statement
     (string
+      (string_content)
       (interpolation
         (call
           (identifier)
           (argument_list
             (string
+              (string_content)
               (interpolation
-                (identifier))))))))
+                (identifier))
+              (string_content)))))
+      (string_content)))
   (expression_statement
     (string
+      (string_content)
+      (interpolation
+        (identifier))
+      (string_content)))
+  (expression_statement
+    (string
+      (string_content)
+      (interpolation
+        (identifier))
+      (string_content)))
+  (expression_statement
+    (string (string_content)))
+  (expression_statement
+    (string
+      (string_content)
+      (interpolation
+        (identifier))
+      (string_content)))
+  (expression_statement
+    (string
+      (string_content)
       (interpolation
         (identifier))))
   (expression_statement
-    (string
-      (interpolation
-        (identifier))))
-  (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
     (string
+      (string_content)
       (interpolation
-        (identifier))))
-  (expression_statement
-    (string
-      (interpolation
-        (identifier))))
-  (expression_statement
-    (string))
-  (expression_statement
-    (string
-      (interpolation
-        (identifier)))))
+        (identifier))
+      (string_content))))
 
 ================================================================================
 Format strings with format specifiers
@@ -292,9 +305,11 @@ f"{a=:.2f}"
 (module
   (expression_statement
     (string
+      (string_content)
       (interpolation
         (identifier)
         (format_specifier))
+      (string_content)
       (interpolation
         (identifier)
         (format_specifier))))
@@ -330,10 +345,10 @@ Unicode escape sequences
 
 (module
   (expression_statement
-    (string
+    (string (string_content
       (escape_sequence)
       (escape_sequence)
-      (escape_sequence))))
+      (escape_sequence)))))
 
 ================================================================================
 Other primitives
@@ -364,9 +379,9 @@ Concatenated strings
 (module
   (expression_statement
     (concatenated_string
-      (string)
-      (string)
-      (string))))
+      (string (string_content))
+      (string (string_content))
+      (string (string_content)))))
 
 ================================================================================
 Multi-line strings
@@ -412,25 +427,25 @@ and another escaped newline\n\
 
 (module
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (expression_statement
-    (string
+    (string (string_content
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)
-      (escape_sequence))))
+      (escape_sequence)))))
 
 ================================================================================
 Lists
