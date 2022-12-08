@@ -204,7 +204,9 @@ fn main() {
                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
                     .expect("Receiver should be connected");
 
-                    printing_thread.join().expect("Printing thread should not panic");
+                    printing_thread
+                        .join()
+                        .expect("Printing thread should not panic");
                 }
                 _ => {
                     let diff_result = diff_file(
