@@ -108,28 +108,21 @@ const KEYWORD_HEAD =
       /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const KEYWORD_BODY =
-      choice(/[:'/]/,
-             KEYWORD_HEAD);
+      choice(/[:']/, // removed the / character which will be used as a delimiter.
+        KEYWORD_HEAD);
+
+const KEYWORD_NAMESPACED_BODY =
+  token(repeat(choice(/[:'/]/, KEYWORD_HEAD)));
 
 const KEYWORD_NO_SIGIL =
-      seq(KEYWORD_HEAD,
-          repeat(KEYWORD_BODY));
+  token(seq(KEYWORD_HEAD,
+          repeat(KEYWORD_BODY)));
+
+const KEYWORD_MARK =
+  token(":");
 
 const AUTO_RESOLVE_MARK =
       token("::");
-
-const KEYWORD =
-      token(choice(// :my-ns/hi
-                   // :a
-                   // :/ is neither invalid nor valid, but repl accepts
-                   seq(":",
-                       choice("/",
-                             KEYWORD_NO_SIGIL)),
-                   // ::my-alias/hi
-                   // ::a
-                   // ::/ is invalid
-                   seq(AUTO_RESOLVE_MARK,
-                       KEYWORD_NO_SIGIL)));
 
 const STRING =
       token(seq('"',
@@ -220,7 +213,7 @@ module.exports = grammar({
     [],
 
   conflicts: $ =>
-    [],
+    [[$._kwd_qualified, $._kwd_unqualified]],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
@@ -278,8 +271,22 @@ module.exports = grammar({
     num_lit: $ =>
       NUMBER,
 
+    _kwd_qualified: $ =>
+      prec.dynamic(2, seq(
+        field('marker', alias(choice(KEYWORD_MARK, AUTO_RESOLVE_MARK), $.kwd_marker)),
+        field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
+        field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
+        field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))
+      )),
+
+    _kwd_unqualified: $ =>
+      prec.dynamic(1, seq(
+        field('marker', alias(choice(KEYWORD_MARK, AUTO_RESOLVE_MARK), $.kwd_marker)),
+        field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name))
+      )),
+
     kwd_lit: $ =>
-      KEYWORD,
+      choice($._kwd_qualified, $._kwd_unqualified),
 
     str_lit: $ =>
       STRING,

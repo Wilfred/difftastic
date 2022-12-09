@@ -176,6 +176,11 @@
     }
   },
   {
+    "type": "auto_res_mark",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "derefing_lit",
     "named": true,
     "fields": {
@@ -533,6 +538,52 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "kwd_lit",
+    "named": true,
+    "fields": {
+      "delimiter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "delimiter",
+            "named": true
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kwd_marker",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kwd_name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "kwd_ns",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3104,6 +3155,10 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": "@",
     "named": false
   },
@@ -3124,10 +3179,6 @@
     "named": false
   },
   {
-    "type": "auto_res_mark",
-    "named": true
-  },
-  {
     "type": "bool_lit",
     "named": true
   },
@@ -3144,7 +3195,15 @@
     "named": true
   },
   {
-    "type": "kwd_lit",
+    "type": "kwd_marker",
+    "named": true
+  },
+  {
+    "type": "kwd_name",
+    "named": true
+  },
+  {
+    "type": "kwd_ns",
     "named": true
   },
   {
