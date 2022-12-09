@@ -303,7 +303,7 @@ module.exports = grammar({
     _sym_unqualified: $ =>
       field('name', alias(
         choice(
-          seq(SYMBOL_NS_DELIMITER, $._ws), // division symbol, must be followed by whitespace
+          SYMBOL_NS_DELIMITER, // division symbol
           SYMBOL
         ),
         $.sym_name
