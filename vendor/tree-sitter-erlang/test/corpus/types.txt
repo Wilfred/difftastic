@@ -1,0 +1,191 @@
+================================================================================
+binary type
+================================================================================
+
+-type x() :: {<<>>, <<_:_*8>>, <<_:8, _:_*8>>, <<_:_*1>>, <<_:1, _:_*1>>}.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (tuple
+      (binary)
+      (binary
+        (bin_element
+          (var)
+          (bit_size_expr
+            (binary_op_expr
+              (var)
+              (integer)))))
+      (binary
+        (bin_element
+          (var)
+          (bit_size_expr
+            (integer)))
+        (bin_element
+          (var)
+          (bit_size_expr
+            (binary_op_expr
+              (var)
+              (integer)))))
+      (binary
+        (bin_element
+          (var)
+          (bit_size_expr
+            (binary_op_expr
+              (var)
+              (integer)))))
+      (binary
+        (bin_element
+          (var)
+          (bit_size_expr
+            (integer)))
+        (bin_element
+          (var)
+          (bit_size_expr
+            (binary_op_expr
+              (var)
+              (integer))))))))
+
+================================================================================
+ann type
+================================================================================
+
+-type x() :: A :: B :: atom().
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (ann_type
+      (ann_var
+        (var))
+      (ann_type
+        (ann_var
+          (var))
+        (call
+          (atom)
+          (expr_args))))))
+
+================================================================================
+union type
+================================================================================
+
+-type x() :: atom() | integer() | float().
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (pipe
+      (call
+        (atom)
+        (expr_args))
+      (pipe
+        (call
+          (atom)
+          (expr_args))
+        (call
+          (atom)
+          (expr_args))))))
+
+================================================================================
+union type in list
+================================================================================
+
+-type x() :: [atom() | integer() | float()].
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (list
+      (pipe
+        (call
+          (atom)
+          (expr_args))
+        (pipe
+          (call
+            (atom)
+            (expr_args))
+          (call
+            (atom)
+            (expr_args)))))))
+
+================================================================================
+union and ann types mixed
+================================================================================
+
+-type x() :: A :: B :: atom() | C :: term() | none().
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (ann_type
+      (ann_var
+        (var))
+      (ann_type
+        (ann_var
+          (var))
+        (pipe
+          (call
+            (atom)
+            (expr_args))
+          (ann_type
+            (ann_var
+              (var))
+            (pipe
+              (call
+                (atom)
+                (expr_args))
+              (call
+                (atom)
+                (expr_args)))))))))
+
+================================================================================
+fun types
+================================================================================
+
+-type x() :: {fun(), fun((...) -> atom()), fun((atom()) -> atom())}.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_name
+      (atom)
+      (var_args))
+    (tuple
+      (fun_type)
+      (fun_type
+        (fun_type_sig
+          (expr_args
+            (dotdotdot))
+          (call
+            (atom)
+            (expr_args))))
+      (fun_type
+        (fun_type_sig
+          (expr_args
+            (call
+              (atom)
+              (expr_args)))
+          (call
+            (atom)
+            (expr_args)))))))
