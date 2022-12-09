@@ -1,0 +1,44 @@
+================================================================================
+top level error
+================================================================================
+
+-if (true).
+-define(CASE_START_PEER_NODE,
+    case true of
+        Node ->
+            Node;
+).
+-else.
+-define(CASE_START_PEER_NODE,
+    case true of
+        Node ->
+            Node;).
+-endif.
+
+
+--------------------------------------------------------------------------------
+
+    (ERROR
+      (pp_if
+        (paren_expr
+          (atom)))
+      (macro_lhs
+        (var))
+      (atom)
+      (cr_clause
+        (var)
+        (clause_body
+          (var)))
+      (ERROR)
+      (atom)
+      (ERROR)
+      (atom)
+      (var)
+      (atom)
+      (cr_clause
+        (var)
+        (clause_body
+          (var)))
+      (ERROR)
+      (unary_op_expr
+        (atom)))
