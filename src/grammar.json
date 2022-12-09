@@ -427,6 +427,25 @@
         }
       }
     },
+    "kwd_marker": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "::"
+          }
+        }
+      ]
+    },
     "_kwd_qualified": {
       "type": "PREC_DYNAMIC",
       "value": 2,
@@ -437,28 +456,8 @@
             "type": "FIELD",
             "name": "marker",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "STRING",
-                      "value": ":"
-                    }
-                  },
-                  {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "STRING",
-                      "value": "::"
-                    }
-                  }
-                ]
-              },
-              "named": true,
-              "value": "kwd_marker"
+              "type": "SYMBOL",
+              "name": "kwd_marker"
             }
           },
           {
@@ -555,28 +554,8 @@
             "type": "FIELD",
             "name": "marker",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "STRING",
-                      "value": ":"
-                    }
-                  },
-                  {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "STRING",
-                      "value": "::"
-                    }
-                  }
-                ]
-              },
-              "named": true,
-              "value": "kwd_marker"
+              "type": "SYMBOL",
+              "name": "kwd_marker"
             }
           },
           {

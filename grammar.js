@@ -271,9 +271,12 @@ module.exports = grammar({
     num_lit: $ =>
       NUMBER,
 
+    kwd_marker: $ =>
+      choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
+
     _kwd_qualified: $ =>
       prec.dynamic(2, seq(
-        field('marker', alias(choice(KEYWORD_MARK, AUTO_RESOLVE_MARK), $.kwd_marker)),
+        field('marker', $.kwd_marker),
         field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
         field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
         field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))
@@ -281,7 +284,7 @@ module.exports = grammar({
 
     _kwd_unqualified: $ =>
       prec.dynamic(1, seq(
-        field('marker', alias(choice(KEYWORD_MARK, AUTO_RESOLVE_MARK), $.kwd_marker)),
+        field('marker', $.kwd_marker),
         field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name))
       )),
 

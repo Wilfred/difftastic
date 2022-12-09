@@ -587,6 +587,11 @@
     }
   },
   {
+    "type": "kwd_marker",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "list_lit",
     "named": true,
     "fields": {
@@ -3155,6 +3160,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "::",
     "named": false
   },
@@ -3192,10 +3201,6 @@
   },
   {
     "type": "delimiter",
-    "named": true
-  },
-  {
-    "type": "kwd_marker",
     "named": true
   },
   {
