@@ -33,12 +33,14 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
-    $._simple_string,
-    $._simple_multiline_string,
+    $._indent,
     $._interpolated_string_middle,
     $._interpolated_string_end,
     $._interpolated_multiline_string_middle,
     $._interpolated_multiline_string_end,
+    $._outdent,
+    $._simple_multiline_string,
+    $._simple_string,
     'else',
     'catch',
     'finally',

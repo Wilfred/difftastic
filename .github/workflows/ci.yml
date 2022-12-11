@@ -16,5 +16,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
-      - run: npm install
-      - run: npm test
+      - shell: bash
+        run: |
+          gcc test/test-stack.c -o a.out
+          a.out
+          npm install
+          npm test
