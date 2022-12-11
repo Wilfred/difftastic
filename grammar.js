@@ -112,7 +112,7 @@ const KEYWORD_BODY =
         KEYWORD_HEAD);
 
 const KEYWORD_NAMESPACED_BODY =
-  token(repeat(choice(/[:'\/]/, KEYWORD_HEAD)));
+  token(repeat1(choice(/[:'\/]/, KEYWORD_HEAD)));
 
 const KEYWORD_NO_SIGIL =
   token(seq(KEYWORD_HEAD,
@@ -189,7 +189,7 @@ const SYMBOL_BODY =
   );
 
 const SYMBOL_NAMESPACED_NAME =
-  token(repeat(
+  token(repeat1(
     choice(
       SYMBOL_HEAD,
       /[\/:#'0-9]/

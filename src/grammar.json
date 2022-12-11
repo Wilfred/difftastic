@@ -487,7 +487,7 @@
                     "content": {
                       "type": "TOKEN",
                       "content": {
-                        "type": "REPEAT",
+                        "type": "REPEAT1",
                         "content": {
                           "type": "CHOICE",
                           "members": [
@@ -604,7 +604,7 @@
               "content": {
                 "type": "TOKEN",
                 "content": {
-                  "type": "REPEAT",
+                  "type": "REPEAT1",
                   "content": {
                     "type": "CHOICE",
                     "members": [
@@ -962,7 +962,7 @@
               "content": {
                 "type": "TOKEN",
                 "content": {
-                  "type": "REPEAT",
+                  "type": "REPEAT1",
                   "content": {
                     "type": "CHOICE",
                     "members": [
