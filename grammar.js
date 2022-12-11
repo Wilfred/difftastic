@@ -112,7 +112,7 @@ const KEYWORD_BODY =
         KEYWORD_HEAD);
 
 const KEYWORD_NAMESPACED_BODY =
-  token(repeat(choice(/[:'/]/, KEYWORD_HEAD)));
+  token(repeat(choice(/[:'\/]/, KEYWORD_HEAD)));
 
 const KEYWORD_NO_SIGIL =
   token(seq(KEYWORD_HEAD,
@@ -213,7 +213,7 @@ module.exports = grammar({
     [],
 
   conflicts: $ =>
-    [[$._kwd_qualified, $._kwd_unqualified]],
+    [],
 
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
@@ -292,7 +292,7 @@ module.exports = grammar({
       ),
 
     _kwd_qualified: $ =>
-      prec.dynamic(2, seq(
+      prec(2, seq(
         field('marker', $.kwd_marker),
         field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
         field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
@@ -300,7 +300,7 @@ module.exports = grammar({
       )),
 
     _kwd_unqualified: $ =>
-      prec.dynamic(1, seq(
+      prec(1, seq(
         field('marker', $.kwd_marker),
         field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name))
       )),

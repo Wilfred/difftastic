@@ -493,7 +493,7 @@
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "[:'/]"
+                              "value": "[:'\\/]"
                             },
                             {
                               "type": "PATTERN",
@@ -530,7 +530,7 @@
       ]
     },
     "_kwd_qualified": {
-      "type": "PREC_DYNAMIC",
+      "type": "PREC",
       "value": 2,
       "content": {
         "type": "SEQ",
@@ -610,7 +610,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[:'/]"
+                        "value": "[:'\\/]"
                       },
                       {
                         "type": "PATTERN",
@@ -628,7 +628,7 @@
       }
     },
     "_kwd_unqualified": {
-      "type": "PREC_DYNAMIC",
+      "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
@@ -1972,7 +1972,7 @@
     }
   },
   "extras": [],
-  "conflicts": [["_kwd_qualified", "_kwd_unqualified"]],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],
