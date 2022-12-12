@@ -390,6 +390,18 @@
               {
                 "type": "STRING",
                 "value": ")"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "tailstrict"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           },
@@ -765,6 +777,10 @@
     "local": {
       "type": "STRING",
       "value": "local"
+    },
+    "tailstrict": {
+      "type": "STRING",
+      "value": "tailstrict"
     },
     "objinside": {
       "type": "CHOICE",

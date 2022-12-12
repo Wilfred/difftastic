@@ -104,3 +104,24 @@ should parse basic call foo(1,2,3)
 		           (expr (number))
 			   (expr (number))
 			   ))))))
+
+=================================
+should parse tailstrict
+=================================
+
+{
+  x1: foo(1,2,3) tailstrict
+}
+
+---
+
+(document
+  (expr
+     (member (field (fieldname (id))
+       	       (expr (expr (id))
+	       	     (args (expr (number))
+		           (expr (number))
+			   (expr (number))
+			   )
+	             (tailstrict)
+   )))))

@@ -312,6 +312,10 @@
           "named": true
         },
         {
+          "type": "tailstrict",
+          "named": true
+        },
+        {
           "type": "true",
           "named": true
         }
@@ -809,6 +813,10 @@
   },
   {
     "type": "super",
+    "named": true
+  },
+  {
+    "type": "tailstrict",
     "named": true
   },
   {
