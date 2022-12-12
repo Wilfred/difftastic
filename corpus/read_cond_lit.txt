@@ -10,9 +10,9 @@ Platform Reader Conditional
 
 (source
   (read_cond_lit
-    (kwd_lit)
-    (kwd_lit)
-    (kwd_lit)
-    (kwd_lit)
-    (kwd_lit)
-    (kwd_lit)))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))))

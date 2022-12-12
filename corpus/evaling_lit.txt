@@ -9,6 +9,6 @@ Not Officially Supported
 (source
   (evaling_lit
     (list_lit
-      (sym_lit)
+      (sym_lit (sym_name))
       (num_lit)
       (num_lit))))

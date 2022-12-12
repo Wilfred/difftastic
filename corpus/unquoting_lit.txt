@@ -9,7 +9,7 @@ Unquoting Symbol
 (source
   (syn_quoting_lit
     (unquoting_lit
-      (sym_lit))))
+      (sym_lit (sym_name)))))
 
 ================================================================================
 Unquoting List
@@ -22,9 +22,9 @@ Unquoting List
 (source
   (syn_quoting_lit
     (list_lit
-      (sym_lit)
+      (sym_lit (sym_name))
       (unquoting_lit
         (list_lit
-          (sym_lit)
+          (sym_lit (sym_name))
           (num_lit)
-          (sym_lit))))))
+          (sym_lit (sym_name)))))))

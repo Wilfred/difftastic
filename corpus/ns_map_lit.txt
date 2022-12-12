@@ -8,10 +8,10 @@ Simple Namespace Map
 
 (source
   (ns_map_lit
-    (kwd_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
     (num_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
     (num_lit)))
 
 ================================================================================
@@ -26,15 +26,15 @@ Nested Namespace Maps
 
 (source
   (ns_map_lit
-    (kwd_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
     (str_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
     (str_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
     (ns_map_lit
-      (kwd_lit)
-      (kwd_lit)
+      (kwd_lit (kwd_name))
+      (kwd_lit (kwd_name))
       (str_lit))))
 
 ================================================================================
@@ -59,8 +59,8 @@ Namespace Map that Autoresolves with Alias
 
 (source
   (ns_map_lit
-    (kwd_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
     (num_lit)
-    (kwd_lit)
+    (kwd_lit (kwd_name))
     (num_lit)))
