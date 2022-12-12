@@ -271,18 +271,18 @@ module.exports = grammar({
     num_lit: $ =>
       NUMBER,
 
-    kwd_marker: $ =>
+    _kwd_marker: $ =>
       choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
 
     // for keywords like :/usr/bin/env or :/
     _kwd_leading_slash: $ =>
       seq(
-        field('marker', $.kwd_marker),
+        field('marker', $._kwd_marker),
         choice(
           seq(
             // (namespace :/usr/bin/env) ; => ""
             // (name :/usr/bin/env) ; => "usr/bin/env"
-            field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
+            field('delimiter', SYMBOL_NS_DELIMITER),
             field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))
           ),
           // (namespace :/) ;=> nil
@@ -293,15 +293,15 @@ module.exports = grammar({
 
     _kwd_qualified: $ =>
       prec(2, seq(
-        field('marker', $.kwd_marker),
+        field('marker', $._kwd_marker),
         field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
-        field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
+        field('delimiter', SYMBOL_NS_DELIMITER),
         field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))
       )),
 
     _kwd_unqualified: $ =>
       prec(1, seq(
-        field('marker', $.kwd_marker),
+        field('marker', $._kwd_marker),
         field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name))
       )),
 
@@ -323,7 +323,7 @@ module.exports = grammar({
     _sym_qualified: $ =>
       prec(1, seq(
         field('namespace', alias(SYMBOL, $.sym_ns)),
-        field('delimiter', alias(SYMBOL_NS_DELIMITER, $.delimiter)),
+        field('delimiter', SYMBOL_NS_DELIMITER),
         field('name',      alias(SYMBOL_NAMESPACED_NAME, $.sym_name))
       )),
 

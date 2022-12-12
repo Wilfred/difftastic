@@ -427,7 +427,7 @@
         }
       }
     },
-    "kwd_marker": {
+    "_kwd_marker": {
       "type": "CHOICE",
       "members": [
         {
@@ -454,7 +454,7 @@
           "name": "marker",
           "content": {
             "type": "SYMBOL",
-            "name": "kwd_marker"
+            "name": "_kwd_marker"
           }
         },
         {
@@ -467,16 +467,11 @@
                   "type": "FIELD",
                   "name": "delimiter",
                   "content": {
-                    "type": "ALIAS",
+                    "type": "TOKEN",
                     "content": {
-                      "type": "TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "/"
-                      }
-                    },
-                    "named": true,
-                    "value": "delimiter"
+                      "type": "STRING",
+                      "value": "/"
+                    }
                   }
                 },
                 {
@@ -540,7 +535,7 @@
             "name": "marker",
             "content": {
               "type": "SYMBOL",
-              "name": "kwd_marker"
+              "name": "_kwd_marker"
             }
           },
           {
@@ -584,16 +579,11 @@
             "type": "FIELD",
             "name": "delimiter",
             "content": {
-              "type": "ALIAS",
+              "type": "TOKEN",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "STRING",
-                  "value": "/"
-                }
-              },
-              "named": true,
-              "value": "delimiter"
+                "type": "STRING",
+                "value": "/"
+              }
             }
           },
           {
@@ -638,7 +628,7 @@
             "name": "marker",
             "content": {
               "type": "SYMBOL",
-              "name": "kwd_marker"
+              "name": "_kwd_marker"
             }
           },
           {
@@ -942,16 +932,11 @@
             "type": "FIELD",
             "name": "delimiter",
             "content": {
-              "type": "ALIAS",
+              "type": "TOKEN",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "STRING",
-                  "value": "/"
-                }
-              },
-              "named": true,
-              "value": "delimiter"
+                "type": "STRING",
+                "value": "/"
+              }
             }
           },
           {

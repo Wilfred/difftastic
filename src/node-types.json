@@ -549,8 +549,8 @@
         "required": false,
         "types": [
           {
-            "type": "delimiter",
-            "named": true
+            "type": "/",
+            "named": false
           }
         ]
       },
@@ -559,8 +559,12 @@
         "required": true,
         "types": [
           {
-            "type": "kwd_marker",
-            "named": true
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "::",
+            "named": false
           }
         ]
       },
@@ -585,11 +589,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "kwd_marker",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "list_lit",
@@ -2058,8 +2057,8 @@
         "required": false,
         "types": [
           {
-            "type": "delimiter",
-            "named": true
+            "type": "/",
+            "named": false
           }
         ]
       },
@@ -3160,6 +3159,10 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -3197,10 +3200,6 @@
   },
   {
     "type": "comment",
-    "named": true
-  },
-  {
-    "type": "delimiter",
     "named": true
   },
   {
