@@ -1,4 +1,19 @@
 ======================
+Indexing priority
+======================
+
+"Hello " + xxx.name
+
+---
+
+(document
+  (expr
+    left: (expr (string (string_start) (string_content) (string_end)))
+    operator: (binaryop)
+    right: (expr (expr (id)) (id))
+  ))
+
+======================
 Parses example 2
 ======================
 
@@ -11,63 +26,43 @@ Parses example 2
 }
 
 ---
-
 (document
   (expr
     (member
-      (field
-        (fieldname
-          (id))
+      (field (fieldname (id))
         (expr
           (member
-            (field
-              (fieldname
-                (id))
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end)))))
+            (field (fieldname (id))
+              (expr (string (string_start) (string_content) (string_end)))
+            ))
           (member
-            (field
-              (fieldname
-                (id))
-              (expr
-                (expr
-                  (expr
-                    (string
-                      (string_start)
-                      (string_content)
-                      (string_end)))
-                  (binaryop)
-                  (expr
+            (field (fieldname (id))
+               (expr
+                 left:
+                   (expr
+                      left:
+                        (expr
+                          (string (string_start) (string_content) (string_end))
+                          )
+                      operator: (binaryop)
+                      right: (expr (expr (self)) (id))
+		   )
+                  operator: (binaryop)
+                  right:
                     (expr
-                      (self))
-                    (id)))
-                (binaryop)
-                (expr
-                  (string
-                    (string_start)
-                    (string_content)
-                    (string_end)))))))))
-    (member
-      (field
-        (fieldname
-          (id))
-        (expr
+                       (string (string_start) (string_content) (string_end))
+                       )
+                 )))
+            )))
+      (member
+        (field (fieldname (id))
           (expr
-            (expr
-              (self))
-            (id))
-          (member
-            (field
-              (fieldname
-                (id))
-              (expr
-                (string
-                  (string_start)
-                  (string_content)
-                  (string_end))))))))))
+             (expr (expr (self)) (id))
+             (member
+               (field (fieldname (id))
+                  (expr
+                    (string (string_start) (string_content) (string_end))
+       ))))))))
 
 =================================
 should parse basic call foo(1,2)
@@ -82,9 +77,9 @@ should parse basic call foo(1,2)
 (document
   (expr
      (member (field (fieldname (id))
-       	       (expr (expr (id))
-	       	     (args (expr (number))
-		           (expr (number))))))))
+               (expr (expr (id))
+                     (args (expr (number))
+                           (expr (number))))))))
 
 =================================
 should parse basic call foo(1,2,3)
@@ -99,11 +94,11 @@ should parse basic call foo(1,2,3)
 (document
   (expr
      (member (field (fieldname (id))
-       	       (expr (expr (id))
-	       	     (args (expr (number))
-		           (expr (number))
-			   (expr (number))
-			   ))))))
+               (expr (expr (id))
+                     (args (expr (number))
+                           (expr (number))
+                           (expr (number))
+                           ))))))
 
 =================================
 should parse tailstrict
@@ -118,10 +113,48 @@ should parse tailstrict
 (document
   (expr
      (member (field (fieldname (id))
-       	       (expr (expr (id))
-	       	     (args (expr (number))
-		           (expr (number))
-			   (expr (number))
-			   )
-	             (tailstrict)
+               (expr (expr (id))
+                     (args (expr (number))
+                           (expr (number))
+                           (expr (number))
+                           )
+                     (tailstrict)
    )))))
+
+=================================
+should parse if-then-else
+=================================
+
+if x > 0 then x + 2 else x - 2
+
+---
+(document
+  (expr
+    condition:
+      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+    consequence:
+      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+    alternative:
+      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))))
+
+=================================
+if-then-else vs local priority
+=================================
+
+local a = if x > 0 then x + 2 else x - 2; a + 2
+
+---
+(document
+  (expr
+    (local_bind
+      (local)
+      (bind (id)
+        (expr
+          condition:
+            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+          consequence:
+            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+          alternative:
+            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+         ))
+      (expr left: (expr (id)) operator: (binaryop) right: (expr (number))))))
