@@ -9,7 +9,6 @@ Indexing priority
 (document
   (expr
     left: (expr (string (string_start) (string_content) (string_end)))
-    operator: (binaryop)
     right: (expr (expr (id)) (id))
   ))
 
@@ -44,10 +43,8 @@ Parses example 2
                         (expr
                           (string (string_start) (string_content) (string_end))
                           )
-                      operator: (binaryop)
                       right: (expr (expr (self)) (id))
 		   )
-                  operator: (binaryop)
                   right:
                     (expr
                        (string (string_start) (string_content) (string_end))
@@ -131,11 +128,11 @@ if x > 0 then x + 2 else x - 2
 (document
   (expr
     condition:
-      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+      (expr left: (expr (id)) right: (expr (number)))
     consequence:
-      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+      (expr left: (expr (id)) right: (expr (number)))
     alternative:
-      (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))))
+      (expr left: (expr (id)) right: (expr (number)))))
 
 =================================
 if-then-else vs local priority
@@ -151,10 +148,25 @@ local a = if x > 0 then x + 2 else x - 2; a + 2
       (bind (id)
         (expr
           condition:
-            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+            (expr left: (expr (id)) right: (expr (number)))
           consequence:
-            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+            (expr left: (expr (id)) right: (expr (number)))
           alternative:
-            (expr left: (expr (id)) operator: (binaryop) right: (expr (number)))
+            (expr left: (expr (id)) right: (expr (number)))
          ))
-      (expr left: (expr (id)) operator: (binaryop) right: (expr (number))))))
+      (expr left: (expr (id)) right: (expr (number))))))
+
+=================================
+operator precedence
+=================================
+3 + 4 * true
+
+---
+
+(document
+  (expr
+     left: (expr (number))
+     right:
+        (expr
+	   left: (expr (number))
+	   right: (expr (true)))))

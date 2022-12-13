@@ -1,7 +1,7 @@
 const PREC = {
-    // The priority below are taken from the spec here:
+    // The priorities below are taken from the spec here:
     // https://jsonnet.org/ref/spec.html#associativity_precedence
-    // The order is reversed though. In the spec, '1' means high priority
+    // The order is reversed though: In the spec, '1' means high priority
     // but with tree-sitter it means low priority.
     application_indexing: 13,
     //TODO:
@@ -10,14 +10,14 @@ const PREC = {
     additive: 10,
     bitshift: 9,
     comparison: 8,
-    equal: 7,
+    equality: 7,
     bitand: 6,
     bitxor: 5,
     bitor: 4,
     and: 3,
     or: 2,
     // This is not in the spec, which is why we go from 2 to 13 above
-    // while in the spec it was going from 1 to 12.
+    // while in the spec it is going from 1 to 12.
     member: 1,
 };
 
@@ -115,38 +115,27 @@ module.exports = grammar({
         local: () => "local",
 	tailstrict: () => "tailstrict",
 	
-	_binary_expr: ($) =>
-	    prec.left(
-                seq(
-                    field("left", $.expr),
-                    field("operator", $.binaryop),
-                    field("right", $.expr)
-                )
-        ),
-	
-        // TODO: Precendence?
-        binaryop: () =>
-                choice(
-                    "*",
-                    "/",
-                    "%",
-                    "+",
-                    "-",
-                    "<<",
-                    ">>",
-                    "<",
-                    "<=",
-                    ">",
-                    ">=",
-                    "==",
-                    "!=",
-                    // "in",
-                    "&",
-                    "^",
-                    "|",
-                    "&&",
-                    "||"
-                ),
+	_binary_expr: ($) => {
+           const table = [
+               [PREC.multiplicative, choice("*", "/", "%")],
+               [PREC.additive, choice("+", "-")],
+               [PREC.bitshift, choice("<<", ">>")],
+               [PREC.comparison, choice("<", "<=", ">", ">=")],
+	       [PREC.equality, choice("==", "!=")],
+               [PREC.bitand, '&'],
+               [PREC.bitxor, '^'],
+               [PREC.bitor, '|'],
+               [PREC.and, '&&'],
+               [PREC.or, '||'],
+           ];
+           return choice(...table.map(([precedence, operator]) =>
+             prec.left(precedence, seq(
+               field('left', $.expr),
+               field('operator', operator),
+               field('right', $.expr)
+             ))
+           ));
+        },
 
         unaryop: () => choice("-", "+", "!", "~"),
 	
