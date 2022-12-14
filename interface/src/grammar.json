@@ -10677,7 +10677,7 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "PATTERN",
           "value": "#"
         },
         {
@@ -10699,7 +10699,7 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "PATTERN",
           "value": "'"
         },
         {
@@ -10721,7 +10721,7 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "PATTERN",
           "value": "`"
         },
         {
@@ -10761,8 +10761,8 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "STRING",
-                "value": "."
+                "type": "PATTERN",
+                "value": "\\."
               },
               {
                 "type": "CHOICE",

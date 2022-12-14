@@ -2025,10 +2025,10 @@ module.exports = grammar({
     _capitalized_identifier: $ => /[A-Z][a-zA-Z0-9_']*/,
 
     _label: $ => seq(choice('~', '?'), $._label_name),
-    directive: $ => seq('#', choice($._identifier, $._capitalized_identifier)),
-    type_variable: $ => seq("'", choice($._identifier, $._capitalized_identifier)),
-    tag: $ => seq('`', choice($._identifier, $._capitalized_identifier)),
-    attribute_id: $ => sep1('.', choice($._identifier, $._capitalized_identifier))
+    directive: $ => seq(/#/, choice($._identifier, $._capitalized_identifier)),
+    type_variable: $ => seq(/'/, choice($._identifier, $._capitalized_identifier)),
+    tag: $ => seq(/`/, choice($._identifier, $._capitalized_identifier)),
+    attribute_id: $ => sep1(/\./, choice($._identifier, $._capitalized_identifier))
   },
 
   externals: $ => [
