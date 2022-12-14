@@ -8,9 +8,9 @@
       ],
       "sources": [
         "ocaml/src/parser.c",
-        "ocaml/src/scanner.c",
+        "ocaml/src/scanner.cc",
         "interface/src/parser.c",
-        "interface/src/scanner.c",
+        "interface/src/scanner.cc",
         "bindings/node/binding.cc"
       ],
       "cflags_c": [
