@@ -291,7 +291,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language,
                 atom_nodes: [].into(),
-                delimiter_tokens: vec![("(", ")")],
+                delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
