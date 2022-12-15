@@ -1093,7 +1093,7 @@ module.exports = grammar({
     ),
 
     anonymous_method_expression: $ => seq(
-      optional('async'),
+      optional(alias(choice('async', 'static', seq('async', 'static'), seq('static', 'async')), $.modifier)),
       'delegate',
       optional(field('parameters', $.parameter_list)),
       $.block
@@ -1681,7 +1681,7 @@ module.exports = grammar({
       )),
       choice('"""', '"""U8', '"""u8')
     )),
-    
+
     // Comments
 
     comment: $ => token(choice(

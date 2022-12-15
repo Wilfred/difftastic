@@ -184,7 +184,7 @@ b = +a[0];
             (bracketed_argument_list (argument (integer_literal)))))))))
 
 =====================================
-Precedence of switch_expression and binary_expression 
+Precedence of switch_expression and binary_expression
 =====================================
 
 b = 2 * a switch
@@ -521,6 +521,89 @@ void a() {
               (parameter (predefined_type) (identifier))
               (parameter (predefined_type) (identifier)))
             (block (return_statement (identifier)))))))))
+
+============================
+Anonymous method expression with modifiers
+============================
+
+void m() {
+  var a = static delegate(int a) { return a; };
+  var b = async delegate(int a) { return a; };
+  var c = async static delegate(int a) { return a; };
+  var d = static async delegate(int a) { return a; };
+}
+
+---
+
+    (compilation_unit
+      (global_statement
+        (local_function_statement
+          (void_keyword)
+          (identifier)
+          (parameter_list)
+          (block
+            (local_declaration_statement
+              (variable_declaration
+                (implicit_type)
+                (variable_declarator
+                  (identifier)
+                  (equals_value_clause
+                    (anonymous_method_expression
+                      (modifier)
+                      (parameter_list
+                        (parameter
+                          (predefined_type)
+                          (identifier)))
+                      (block
+                        (return_statement
+                          (identifier))))))))
+            (local_declaration_statement
+              (variable_declaration
+                (implicit_type)
+                (variable_declarator
+                  (identifier)
+                  (equals_value_clause
+                    (anonymous_method_expression
+                      (modifier)
+                      (parameter_list
+                        (parameter
+                          (predefined_type)
+                          (identifier)))
+                      (block
+                        (return_statement
+                          (identifier))))))))
+            (local_declaration_statement
+              (variable_declaration
+                (implicit_type)
+                (variable_declarator
+                  (identifier)
+                  (equals_value_clause
+                    (anonymous_method_expression
+                      (modifier)
+                      (modifier)
+                      (parameter_list
+                        (parameter
+                          (predefined_type)
+                          (identifier)))
+                      (block
+                        (return_statement
+                          (identifier))))))))
+            (local_declaration_statement
+              (variable_declaration
+                (implicit_type)
+                (variable_declarator
+                  (identifier)
+                  (equals_value_clause
+                    (anonymous_method_expression
+                      (modifier)
+                      (modifier)
+                      (parameter_list
+                        (parameter
+                          (predefined_type)
+                          (identifier)))
+                      (block
+                        (return_statement
+                          (identifier))))))))))))
 
 ============================
 Lambda expressions
