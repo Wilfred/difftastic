@@ -108,8 +108,7 @@ const KEYWORD_HEAD =
       /[^\f\n\r\t ()\[\]{}"@~^;`\\,:/\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const KEYWORD_BODY =
-      choice(/[:']/, // removed the / character which will be used as a delimiter.
-        KEYWORD_HEAD);
+      choice(/[:']/, KEYWORD_HEAD);
 
 const KEYWORD_NAMESPACED_BODY =
   token(repeat1(choice(/[:'\/]/, KEYWORD_HEAD)));
@@ -175,7 +174,6 @@ const CHARACTER =
                        UNICODE,
                        ANY_CHAR)));
 
-// Now excludes the / character
 const SYMBOL_HEAD =
   /[^\f\n\r\t \/()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
