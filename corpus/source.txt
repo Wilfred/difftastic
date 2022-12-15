@@ -164,14 +164,17 @@ $"node/path"
 $ "node/path"
 var x = $"node/path"
 
+%node
+
 ---
 
 (source
   (expression_statement (get_node))
   (expression_statement (get_node))
   (expression_statement (get_node))
-  (ERROR (UNEXPECTED ' ')) (expression_statement (string))
-  (variable_statement (name) (get_node)))
+  (ERROR (UNEXPECTED '$')) (expression_statement (string))
+  (variable_statement (name) (get_node))
+  (expression_statement (get_node)))
 
 =====================================
 Breakpoint Statement
@@ -257,6 +260,8 @@ export(Type, "Param") var a = "a"
 export(Type,) var a
 export(,) var a
 
+@export(Type) var a
+
 ---
 
 (source
@@ -269,7 +274,8 @@ export(,) var a
   (export_variable_statement (export_argument_list (identifier) (identifier)) (name))
   (export_variable_statement (export_argument_list (identifier) (string)) (name) (string))
   (export_variable_statement (export_argument_list (identifier)) (name))
-  (export_variable_statement (export_argument_list (ERROR)) (name)))
+  (export_variable_statement (export_argument_list (ERROR)) (name))
+  (export_variable_statement (export_argument_list (identifier)) (name)))
 
 =====================================
 SetGet Variables
@@ -294,10 +300,13 @@ Onready Variables
 onready var hello
 onready var hello: World
 
+@onready var hello: World
+
 ---
 
 (source
   (onready_variable_statement (name))
+  (onready_variable_statement (name) (type))
   (onready_variable_statement (name) (type)))
 
 =====================================
@@ -326,7 +335,8 @@ var x :=
 ---
 
 (source
-  (variable_statement (name) (ERROR (identifier)) (identifier))
+  (variable_statement (name) (identifier))
+  (ERROR)
   (ERROR (name)  (inferred_type)))
 
 =====================================
@@ -592,6 +602,10 @@ signal x(a, b)
 signal x(a,)
 signal x(,)
 
+signal x(a: Type)
+signal x(a: Type,)
+signal x(a, b: Type)
+
 ---
 
 (source
@@ -599,7 +613,26 @@ signal x(,)
   (signal_statement (name) (signal_argument_list))
   (signal_statement (name) (signal_argument_list (identifier) (identifier)))
   (signal_statement (name) (signal_argument_list (identifier)))
-  (signal_statement (name) (signal_argument_list (ERROR))))
+  (signal_statement (name) (signal_argument_list (ERROR)))
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (typed_parameter
+     (identifier)
+     (type))))
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (typed_parameter
+     (identifier)
+     (type)))) 
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (identifier)
+    (typed_parameter
+     (identifier)
+     (type)))))
 
 =====================================
 Class Name
@@ -608,11 +641,14 @@ Class Name
 class_name Name
 class_name Name, "icon"
 
+@icon("res://icon.png")
+
 ---
 
 (source
   (class_name_statement (name))
-  (class_name_statement (name) (class_name_icon_path (string))))
+  (class_name_statement (name) (class_name_icon_path (string)))
+  (icon_statement (string)))
 
 =====================================
 Tool and Extend
@@ -626,6 +662,8 @@ extends Ident
 extends Ident.Attr
 extends Ident.Attr.Attr
 
+@tool
+
 ---
 (source
   (tool_statement)
@@ -634,7 +672,8 @@ extends Ident.Attr.Attr
   (extends_statement (string) (dotted_type (type) (type)))
   (extends_statement (dotted_type (type)))
   (extends_statement (dotted_type (type) (type)))
-  (extends_statement (dotted_type (type) (type) (type))))
+  (extends_statement (dotted_type (type) (type) (type)))
+  (tool_statement))
 
 =====================================
 Inner Class

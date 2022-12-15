@@ -128,7 +128,7 @@ module.exports = grammar({
     get_node: ($) =>
       token(
         seq(
-          "$",
+          choice("$", "%"),
           choice(
             seq(choice("'", '"'), /[0-9a-zA-Z_/\- ]*/, choice("'", '"')),
             /[a-zA-Z_][a-zA-Z_/0-9]*/
@@ -163,6 +163,7 @@ module.exports = grammar({
         $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
+        $.icon_statement,
         $.extends_statement,
         $.expression_statement,
         $.match_statement,
@@ -222,13 +223,35 @@ module.exports = grammar({
 
     export_variable_statement: ($) =>
       seq(
-        "export",
+        choice(
+          "export",
+          "@export",
+          "@export_enum",
+          "@export_file",
+          "@export_dir",
+          "@export_global_file",
+          "@export_global_dir",
+          "@export_multiline",
+          "@export_placeholder",
+          "@export_range",
+          "@export_exp_easing",
+          "@export_color_no_alpha",
+          "@export_node_path",
+          "@export_flags",
+          "@export_flags_2d_physics",
+          "@export_flags_2d_render",
+          "@export_flags_2d_navigation",
+          "@export_flags_3d_physics",
+          "@export_flags_3d_render",
+          "@export_flags_3d_navigation"
+        ),
         optional($.export_argument_list),
         optional($.remote_keyword),
         $._variable_statement
       ),
 
-    onready_variable_statement: ($) => seq("onready", $._variable_statement),
+    onready_variable_statement: ($) =>
+      seq(choice("onready", "@onready"), $._variable_statement),
 
     const_statement: ($) =>
       seq(
@@ -247,16 +270,22 @@ module.exports = grammar({
     break_statement: ($) => prec.left("break"),
     breakpoint_statement: ($) => "breakpoint",
     continue_statement: ($) => prec.left("continue"),
-    tool_statement: ($) => "tool",
+    tool_statement: ($) => choice("tool", "@tool"),
 
     signal_argument_list: ($) =>
-      seq("(", optional(trailCommaSep1($.identifier, ",")), ")"),
+      seq(
+        "(",
+        optional(trailCommaSep1(choice($.identifier, $.typed_parameter), ",")),
+        ")"
+      ),
     signal_statement: ($) =>
       seq("signal", $.name, optional($.signal_argument_list)),
 
     class_name_icon_path: ($) => $.string,
     class_name_statement: ($) =>
       seq("class_name", $.name, optional(seq(",", $.class_name_icon_path))),
+
+    icon_statement: ($) => seq("@icon(", $.string, ")"),
 
     dotted_type: ($) => sep1($.type, "."),
     extends_statement: ($) =>
