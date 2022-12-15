@@ -31,6 +31,7 @@ pub enum Language {
     Elm,
     Elvish,
     EmacsLisp,
+    Erlang,
     Gleam,
     Go,
     Hack,
@@ -83,6 +84,7 @@ pub fn language_name(language: Language) -> &'static str {
         Elm => "Elm",
         Elvish => "Elvish",
         EmacsLisp => "Emacs Lisp",
+        Erlang => "Erlang",
         Gleam => "Gleam",
         Go => "Go",
         Hack => "Hack",
@@ -148,6 +150,12 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
     (EmacsLisp, &["el"]),
     (Elixir, &["ex", "exs"]),
     (Elvish, &["elv"]),
+    // TODO: confirm that we support multiple extensions for files
+    // like foo.app.src.
+    (
+        Erlang,
+        &["erl", "app.src", "es", "escript", "hrl", "xrl", "yrl"],
+    ),
     (Gleam, &["gleam"]),
     (Go, &["go"]),
     (Hack, &["hack", "hck", "hhi"]),
@@ -303,6 +311,7 @@ fn from_shebang(src: &str) -> Option<Language> {
                     "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
                     "elvish" => return Some(Elvish),
+                    "escript" => return Some(Erlang),
                     "hhvm" => return Some(Hack),
                     "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
                     "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
@@ -338,6 +347,7 @@ fn from_name(path: &Path) -> Option<Language> {
             | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
             "CMakeLists.txt" => Some(CMake),
             ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
+            "Emakefile" | "rebar.config" | "rebar.config.lock" | "rebar.lock" => Some(Erlang),
             ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
             | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
             | "composer.lock" | "mcmod.info" => Some(Json),
