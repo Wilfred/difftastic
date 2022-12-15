@@ -269,8 +269,8 @@ module.exports = grammar({
     num_lit: $ =>
       NUMBER,
 
-    _kwd_marker: $ =>
-      choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
+    kwd_lit: ($) =>
+      choice($._kwd_leading_slash, $._kwd_qualified, $._kwd_unqualified),
 
     // for keywords like :/usr/bin/env or :/
     _kwd_leading_slash: $ =>
@@ -303,8 +303,7 @@ module.exports = grammar({
         field('name', alias(KEYWORD_NO_SIGIL, $.kwd_name))
       )),
 
-    kwd_lit: $ =>
-      choice($._kwd_leading_slash, $._kwd_qualified, $._kwd_unqualified),
+    _kwd_marker: ($) => choice(KEYWORD_MARK, AUTO_RESOLVE_MARK),
 
     str_lit: $ =>
       STRING,
@@ -318,12 +317,21 @@ module.exports = grammar({
     bool_lit: $ =>
       BOOLEAN,
 
-    _sym_qualified: $ =>
-      prec(1, seq(
-        field('namespace', alias(SYMBOL, $.sym_ns)),
-        field('delimiter', SYMBOL_NS_DELIMITER),
-        field('name',      alias(SYMBOL_NAMESPACED_NAME, $.sym_name))
-      )),
+    sym_lit: ($) =>
+      seq(
+        repeat($._metadata_lit),
+        choice($._sym_qualified, $._sym_unqualified)
+      ),
+
+    _sym_qualified: ($) =>
+      prec(
+        1,
+        seq(
+          field("namespace", alias(SYMBOL, $.sym_ns)),
+          field("delimiter", SYMBOL_NS_DELIMITER),
+          field("name", alias(SYMBOL_NAMESPACED_NAME, $.sym_name))
+        )
+      ),
 
     _sym_unqualified: $ =>
       field('name', alias(
@@ -334,16 +342,11 @@ module.exports = grammar({
         $.sym_name
       )),
 
-    sym_lit: $ =>
+    _metadata_lit: ($) =>
       seq(
-        repeat($._metadata_lit),
-        choice($._sym_qualified, $._sym_unqualified)
+        choice(field("meta", $.meta_lit), field("old_meta", $.old_meta_lit)),
+        optional(repeat($._gap))
       ),
-
-    _metadata_lit: $ =>
-      seq(choice(field('meta', $.meta_lit),
-                 field('old_meta', $.old_meta_lit)),
-          optional(repeat($._gap))),
 
     meta_lit: $ =>
       seq(field('marker', "^"),

@@ -427,22 +427,20 @@
         }
       }
     },
-    "_kwd_marker": {
+    "kwd_lit": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": ":"
-          }
+          "type": "SYMBOL",
+          "name": "_kwd_leading_slash"
         },
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "::"
-          }
+          "type": "SYMBOL",
+          "name": "_kwd_qualified"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_kwd_unqualified"
         }
       ]
     },
@@ -671,20 +669,22 @@
         ]
       }
     },
-    "kwd_lit": {
+    "_kwd_marker": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_kwd_leading_slash"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "_kwd_qualified"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_kwd_unqualified"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "::"
+          }
         }
       ]
     },
@@ -885,6 +885,31 @@
         ]
       }
     },
+    "sym_lit": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_metadata_lit"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_sym_qualified"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_sym_unqualified"
+            }
+          ]
+        }
+      ]
+    },
     "_sym_qualified": {
       "type": "PREC",
       "value": 1,
@@ -1018,31 +1043,6 @@
         "named": true,
         "value": "sym_name"
       }
-    },
-    "sym_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_metadata_lit"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_sym_qualified"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_sym_unqualified"
-            }
-          ]
-        }
-      ]
     },
     "_metadata_lit": {
       "type": "SEQ",
