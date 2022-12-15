@@ -1,0 +1,405 @@
+================================================================================
+expr
+================================================================================
+
+-define(X, a).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (atom)))
+
+================================================================================
+guard and
+================================================================================
+
+-define(X, a, b, c).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (replacement_guard_and
+      (atom)
+      (atom)
+      (atom))))
+
+================================================================================
+guard or
+================================================================================
+
+-define(X, a; b, c).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (replacement_guard_or
+      (replacement_guard_and
+        (atom))
+      (replacement_guard_and
+        (atom)
+        (atom)))))
+
+================================================================================
+function clauses
+================================================================================
+
+-define(X,
+foo() -> ok;
+foo() -> not_ok
+).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (replacement_function_clauses
+      (function_clause
+        (atom)
+        (expr_args)
+        (clause_body
+          (atom)))
+      (function_clause
+        (atom)
+        (expr_args)
+        (clause_body
+          (atom))))))
+
+================================================================================
+statement list
+================================================================================
+
+-define(IS_STRING(X), is_binary(X); is_list(X); is_atom(X)).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)))
+    (replacement_guard_or
+      (replacement_guard_and
+        (call
+          (atom)
+          (expr_args
+            (var))))
+      (replacement_guard_and
+        (call
+          (atom)
+          (expr_args
+            (var))))
+      (replacement_guard_and
+        (call
+          (atom)
+          (expr_args
+            (var)))))))
+
+================================================================================
+function clause
+================================================================================
+
+-define(MATCH(Type, Predicate),
+    match({type, _, Type, []}, Val) ->
+        ?CHECK(Predicate(Val), ?FMT("Expected ~p, got ~p", [Type, Val]))
+).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)
+        (var)))
+    (replacement_function_clauses
+      (function_clause
+        (atom)
+        (expr_args
+          (tuple
+            (atom)
+            (var)
+            (var)
+            (list))
+          (var))
+        (clause_body
+          (macro_call_expr
+            (var)
+            (macro_call_args
+              (macro_expr
+                (call
+                  (var)
+                  (expr_args
+                    (var))))
+              (macro_expr
+                (macro_call_expr
+                  (var)
+                  (macro_call_args
+                    (macro_expr
+                      (string))
+                    (macro_expr
+                      (list
+                        (var)
+                        (var)))))))))))))
+
+================================================================================
+LOOP macro
+================================================================================
+
+-define(LOOP(),
+    [] when Suffix =:= []; length(Prefix) > 3 ->
+        null;
+    [] ->
+        [Digit | Rest] = Suffix,
+        ?FUNCTION_NAME(Prefix ++ [Digit], Rest)
+).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args))
+    (replacement_cr_clauses
+      (cr_clause
+        (list)
+        (guard
+          (guard_clause
+            (binary_op_expr
+              (var)
+              (list)))
+          (guard_clause
+            (binary_op_expr
+              (call
+                (atom)
+                (expr_args
+                  (var)))
+              (integer))))
+        (clause_body
+          (atom)))
+      (cr_clause
+        (list)
+        (clause_body
+          (match_expr
+            (list
+              (pipe
+                (var)
+                (var)))
+            (var))
+          (macro_call_expr
+            (var)
+            (macro_call_args
+              (macro_expr
+                (binary_op_expr
+                  (var)
+                  (list
+                    (var))))
+              (macro_expr
+                (var)))))))))
+
+================================================================================
+Comma separated macro
+================================================================================
+
+-define(SECURE_REQUEST(SessionID, Env, ImplFun, Args, Flag),
+    {current_function, {_Mod, CurFunction, _Arity}} = process_info(
+        self(),
+        current_function
+    ),
+    secure_req(SessionID, Env, CurFunction, ImplFun, Args, Flag)
+).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)
+        (var)
+        (var)
+        (var)
+        (var)))
+    (replacement_guard_and
+      (match_expr
+        (tuple
+          (atom)
+          (tuple
+            (var)
+            (var)
+            (var)))
+        (call
+          (atom)
+          (expr_args
+            (call
+              (atom)
+              (expr_args))
+            (atom))))
+      (call
+        (atom)
+        (expr_args
+          (var)
+          (var)
+          (var)
+          (var)
+          (var)
+          (var))))))
+
+================================================================================
+Empty macro
+================================================================================
+
+-define(E2E_SPEC, ).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))))
+
+================================================================================
+Calling a macro
+================================================================================
+
+lookup(Prefix, Suffix) ->
+    case ets:select(Prefix) of
+        [CCI] ->
+            {CCI, Suffix};
+        ?LOOP()
+    end.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args
+        (var)
+        (var))
+      (clause_body
+        (case_expr
+          (call
+            (remote
+              (remote_module
+                (atom))
+              (atom))
+            (expr_args
+              (var)))
+          (cr_clause
+            (list
+              (var))
+            (clause_body
+              (tuple
+                (var)
+                (var))))
+          (macro_call_expr
+            (var)
+            (macro_call_args)))))))
+
+================================================================================
+Macro type
+================================================================================
+
+-define(TYPE, integer() | atom()).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (pipe
+      (call
+        (atom)
+        (expr_args))
+      (call
+        (atom)
+        (expr_args)))))
+
+================================================================================
+Concatables
+================================================================================
+
+-define(TXT(Str), "abc" Str ??Str).
+-define(TXT(Str), Str "abc").
+-define(TXT(Str), ??Str "abc").
+-define(TXT(Str), "abc" "def").
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)))
+    (concatables
+      (string)
+      (var)
+      (macro_string
+        (var))))
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)))
+    (concatables
+      (var)
+      (string)))
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)))
+    (concatables
+      (macro_string
+        (var))
+      (string)))
+  (pp_define
+    (macro_lhs
+      (var)
+      (var_args
+        (var)))
+    (concatables
+      (string)
+      (string))))
+
+================================================================================
+Macro type in call
+================================================================================
+
+-define(X, ?MACRO(integer() | atom())).
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pp_define
+    (macro_lhs
+      (var))
+    (macro_call_expr
+      (var)
+      (macro_call_args
+        (macro_expr
+          (pipe
+            (call
+              (atom)
+              (expr_args))
+            (call
+              (atom)
+              (expr_args))))))))
