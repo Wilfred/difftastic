@@ -113,8 +113,9 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     lexer->result_symbol = INDENT;
     return true;
   }
-  if (valid_symbols[OUTDENT] && newline_count > 0 && prev != -1 &&
-      indentation_size < prev) {
+  if (valid_symbols[OUTDENT] &&
+      (lexer->lookahead == 0 || (
+        newline_count > 0 && prev != -1 && indentation_size < prev))) {
     popStack(stack);
     LOG("pop\n");
     lexer->result_symbol = OUTDENT;

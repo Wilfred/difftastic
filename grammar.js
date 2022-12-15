@@ -1,20 +1,21 @@
 const PREC = {
-  end_decl: 0,
-  stable_type_id: 1,
-  lambda: 1,
-  binding_decl: 1,
-  binding_def: 2,
-  stable_id: 3,
+  control: 1,
+  stable_type_id: 2,
+  lambda: 2,
+  binding_decl: 2,
+  binding_def: 3,
   assign: 3,
-  unit: 3,
-  ascription: 3,
-  postfix: 4,
-  infix: 5,
-  new: 6,
-  prefix: 6,
-  compound: 6,
-  call: 7,
-  field: 7,
+  stable_id: 4,
+  unit: 4,
+  ascription: 4,
+  postfix: 5,
+  infix: 6,
+  new: 7,
+  prefix: 7,
+  compound: 7,
+  call: 8,
+  field: 8,
+  end_marker: 9,
 }
 
 module.exports = grammar({
@@ -60,6 +61,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
     [$.binding, $.expression],
+    [$.if_expression, $.expression],
   ],
 
   word: $ => $.identifier,
@@ -137,7 +139,7 @@ module.exports = grammar({
 
     renamed_identifier: $ => seq(
       field('name', $.identifier),
-      choice('=>', 'as'),
+      choice($._arrow, 'as'),
       field('alias', choice($.identifier, $.wildcard))
     ),
 
@@ -228,13 +230,13 @@ module.exports = grammar({
      * TemplateBody      ::=  :<<< [SelfType] TemplateStat {semi TemplateStat} >>>
      */
     template_body: $ => choice(
-      prec.left(PREC.end_decl, seq(
+      prec.left(PREC.control, seq(
         ':',
         // TODO: self type
-        // TODO: indentation. currently second `val` declaration in the block will
-        // be treated as a top-level declaration instead of belonging to the template.
+        $._indent,
         $._block,
-        optional($._end_signifier),
+        $._outdent,
+        optional($._end_marker),
       )),
       seq(
         '{',
@@ -244,9 +246,9 @@ module.exports = grammar({
       ),
     ),
 
-    _end_signifier: $ => prec.left(PREC.end_decl, seq(
+    _end_marker: $ => prec.left(PREC.end_marker, seq(
       'end',
-      $._end_identifier,
+      alias($.identifier, '_end_ident'),
     )),
 
     annotation: $ => prec.right(seq(
@@ -260,7 +262,7 @@ module.exports = grammar({
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
-      field('value', $.expression)
+      field('value', $._indentable_expression)
     )),
 
     val_declaration: $ => prec(PREC.binding_decl, seq(
@@ -288,7 +290,7 @@ module.exports = grammar({
       field('pattern', $._pattern),
       optional(seq(':', field('type', $._type))),
       '=',
-      field('value', $.expression)
+      field('value', $._indentable_expression)
     )),
 
     _start_var: $ => seq(
@@ -316,7 +318,7 @@ module.exports = grammar({
       field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type))),
       choice(
-        seq('=', field('body', $.expression)),
+        seq('=', field('body', $._indentable_expression)),
         field('body', $.block)
       )
     ),
@@ -393,16 +395,29 @@ module.exports = grammar({
     _block: $ => prec.left(seq(
       sep1($._semicolon, choice(
         $.expression,
-        $._definition
+        $._definition,
+        $._end_marker,
       )),
       optional($._semicolon),
     )),
+
+    _indentable_expression: $ => choice(
+      $.indented_block,
+      $.expression,
+    ),
 
     block: $ => seq(
       '{',
       optional($._block),
       '}'
     ),
+
+    indented_block: $ => prec.left(PREC.control, seq(
+      $._indent,
+      $._block,
+      $._outdent,
+      optional($._end_marker),
+    )),
 
     // ---------------------------------------------------------------
     // Types
@@ -471,7 +486,7 @@ module.exports = grammar({
 
     function_type: $ => prec.right(seq(
       field('parameter_types', $.parameter_types),
-      '=>',
+      $._arrow,
       field('return_type', $._type)
     )),
 
@@ -491,7 +506,7 @@ module.exports = grammar({
     ),
 
     lazy_parameter_type: $ => seq(
-      '=>',
+      $._arrow,
       field('type', $._type)
     ),
 
@@ -565,38 +580,53 @@ module.exports = grammar({
       $.match_expression,
       $.try_expression,
       $.call_expression,
-      $.generic_function,
       $.assignment_expression,
-      $.parenthesized_expression,
-      $.interpolated_string_expression,
       $.lambda_expression,
-      $.field_expression,
-      $.instance_expression,
       $.postfix_expression,
       $.ascription_expression,
       $.infix_expression,
       $.prefix_expression,
       $.tuple_expression,
       $.case_block,
-      $.block,
-      $.identifier,
-      $.literal,
-      $.unit,
       $.return_expression,
       $.throw_expression,
       $.while_expression,
       $.do_while_expression,
       $.for_expression,
+      $.identifier,
+      $.unit,
+      $.block,
+      $.field_expression,
+      $.parenthesized_expression,
+      $.interpolated_string_expression,
+      $.literal,
+      $.instance_expression,
+      $.wildcard,
+      $.generic_function,
     ),
 
-    if_expression: $ => prec.right(seq(
+    lambda_expression: $ => prec.right(PREC.lambda, seq(
+      choice(
+          $.bindings,
+          $.identifier,
+          $.wildcard,
+      ),
+      $._arrow,
+      $._block,
+    )),
+
+    if_expression: $ => prec.right(PREC.control, seq(
       'if',
-      field('condition', $.parenthesized_expression),
-      field('consequence', $.expression),
+      field('condition', choice(
+        $.parenthesized_expression,
+        seq($._indentable_expression, 'then'),
+      )),
+      field('consequence', $._indentable_expression),
       optional(seq(
         'else',
-        field('alternative', $.expression)
-      ))
+        field('alternative', $._indentable_expression),
+      )),
+      optional(seq('end', 'if')),
     )),
 
     match_expression: $ => prec.left(PREC.postfix, seq(
@@ -605,7 +635,7 @@ module.exports = grammar({
       field('body', $.case_block)
     )),
 
-    try_expression: $ => prec.right(seq(
+    try_expression: $ => prec.right(PREC.control, seq(
       'try',
       field('body', $.expression),
       optional($.catch_clause),
@@ -627,15 +657,6 @@ module.exports = grammar({
       ')',
     ),
 
-    lambda_expression: $ => prec.right(PREC.lambda, seq(
-      choice(
-          $.bindings,
-          $.identifier,
-      ),
-      '=>',
-      optional($._block),
-    )),
-
     case_block: $ => choice(
       prec(-1, seq('{', '}')),
       seq('{', repeat1($.case_clause), '}'),
@@ -645,7 +666,7 @@ module.exports = grammar({
       'case',
       field('pattern', $._pattern),
       optional($.guard),
-      '=>',
+      $._arrow,
       field('body', optional($._block)),
     )),
 
@@ -731,10 +752,9 @@ module.exports = grammar({
     // TODO: Include operators.
     identifier: $ => /[a-zA-Z_]\w*/,
 
-    // workaround for https://github.com/tree-sitter/tree-sitter/issues/867
-    _end_identifier: $ => /(end)?[a-zA-Z_]\w*/,
-
     wildcard: $ => '_',
+
+    _arrow: $ => '=>',
 
     operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 

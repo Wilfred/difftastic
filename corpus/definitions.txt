@@ -365,7 +365,8 @@ Value declarations (Scala 3 syntax)
 =======================================
 
 class A:
-  val b: String
+  val b, c : Int
+  val d : String
 
 ---
 
@@ -373,6 +374,10 @@ class A:
   (class_definition
     (identifier)
     (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
       (val_declaration
         (identifier)
         (type_identifier)))))
@@ -441,6 +446,35 @@ class A {
         (identifier)
         (type_identifier)
         (integer_literal)))))
+
+=======================================
+Variable definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  var b: Int = 1
+  var c: Int =
+    val d = 2
+    d
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (integer_literal))
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (indented_block
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (identifier))))))
 
 =======================================
 Type definitions
@@ -523,6 +557,30 @@ class A {
         (identifier)
         (parameters (parameter (identifier) (type_identifier)))
         (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+
+=======================================
+Function definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  def foo(c: C): Int =
+    val x = 1
+    val y = 2
+    x + y
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter (identifier) (type_identifier)))
+        (type_identifier)
+        (indented_block
+          (val_definition (identifier) (integer_literal)) (val_definition (identifier) (integer_literal)) (infix_expression (identifier) (operator_identifier) (identifier)))))))
 
 =======================================
 Initialization expressions

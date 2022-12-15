@@ -156,6 +156,51 @@ def other() {
         (call_expression (identifier) (arguments))))))
 
 ===============================
+If expressions (Scala 3 syntax)
+===============================
+
+class C:
+  def main() =
+    if a then b()
+    end if
+
+    if
+      val c = false
+      c
+    then
+      d()
+      1
+    else if f then
+      g()
+    else
+      h()
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters)
+        (indented_block
+          (if_expression
+            (identifier)
+            (call_expression (identifier) (arguments)))
+          (if_expression
+            (indented_block
+              (val_definition (identifier) (boolean_literal))
+              (identifier))
+            (indented_block
+              (call_expression (identifier) (arguments))
+              (integer_literal))
+            (if_expression
+              (identifier)
+              (indented_block (call_expression (identifier) (arguments)))
+              (indented_block (call_expression (identifier) (arguments))))))))))
+
+===============================
 Try expressions
 ===============================
 
@@ -436,7 +481,8 @@ object O {
 
 (compilation_unit
   (object_definition (identifier)
-    (template_body (val_definition
+    (template_body
+      (val_definition
         (identifier) (lambda_expression
           (identifier) (infix_expression
             (identifier) (operator_identifier) (integer_literal))))
@@ -447,7 +493,7 @@ object O {
           (block (infix_expression
               (identifier) (operator_identifier) (identifier)))))
       (val_definition (identifier)
-        (lambda_expression (identifier) (integer_literal)))
+        (lambda_expression (wildcard) (integer_literal)))
       (lambda_expression
         (bindings
           (binding (identifier))
@@ -623,9 +669,9 @@ def main() {
       (call_expression
         (field_expression (identifier) (identifier))
         (arguments (infix_expression
-          (identifier) (operator_identifier) (integer_literal))))
+          (wildcard) (operator_identifier) (integer_literal))))
       (call_expression
         (field_expression (identifier) (identifier))
         (arguments (infix_expression
-          (identifier) (operator_identifier) (integer_literal))))
+          (wildcard) (operator_identifier) (integer_literal))))
       (field_expression (identifier) (identifier)))))
