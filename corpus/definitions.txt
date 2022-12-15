@@ -16,6 +16,39 @@ package c {
       (object_definition (identifier)))))
 
 ================================
+Package (Scala 3 syntax)
+================================
+
+package a.b
+package c:
+  object A
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier)))
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier)))))
+
+================================
+Package (Scala 3 syntax with end)
+================================
+
+package a.b
+package c:
+  object A
+end c
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier)))
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier)))))
+
+================================
 Package object
 ================================
 
@@ -323,6 +356,23 @@ class A {
         (identifier)
         (identifier)
         (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+=======================================
+Value declarations (Scala 3 syntax)
+=======================================
+
+class A:
+  val b: String
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
       (val_declaration
         (identifier)
         (type_identifier)))))

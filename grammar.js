@@ -1,4 +1,5 @@
 const PREC = {
+  end_decl: 0,
   stable_type_id: 1,
   lambda: 1,
   binding_decl: 1,
@@ -221,12 +222,30 @@ module.exports = grammar({
 
     context_bound: $ => seq(':', field('type', $._type)),
 
-    template_body: $ => seq(
-      '{',
-      // TODO: self type
-      optional($._block),
-      '}'
+    /*
+     * TemplateBody      ::=  :<<< [SelfType] TemplateStat {semi TemplateStat} >>>
+     */
+    template_body: $ => choice(
+      prec.left(PREC.end_decl, seq(
+        ':',
+        // TODO: self type
+        // TODO: indentation. currently second `val` declaration in the block will
+        // be treated as a top-level declaration instead of belonging to the template.
+        $._block,
+        optional($._end_signifier),
+      )),
+      seq(
+        '{',
+        // TODO: self type
+        optional($._block),
+        '}',
+      ),
     ),
+
+    _end_signifier: $ => prec.left(PREC.end_decl, seq(
+      'end',
+      $._end_identifier,
+    )),
 
     annotation: $ => prec.right(seq(
       '@',
@@ -709,6 +728,9 @@ module.exports = grammar({
 
     // TODO: Include operators.
     identifier: $ => /[a-zA-Z_]\w*/,
+
+    // workaround for https://github.com/tree-sitter/tree-sitter/issues/867
+    _end_identifier: $ => /(end)?[a-zA-Z_]\w*/,
 
     wildcard: $ => '_',
 
