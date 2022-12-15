@@ -12,7 +12,7 @@ struct TreeSitterParser {
     extra_files: Vec<&'static str>,
 }
 
-/// Emit linking flags for this library, but specifcy `+whole-archive`.
+/// Emit linking flags for this library, but specify `+whole-archive`.
 ///
 /// This should be possible in the cc crate directly after
 /// https://github.com/rust-lang/cc-rs/pull/671
