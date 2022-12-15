@@ -91,9 +91,24 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
   ScannerStack *stack = (ScannerStack *)payload;
+  int prev = peekStack(stack);
   unsigned newline_count = 0;
-  unsigned indentation_size = 0;
+  int indentation_size = 0;
   LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
+
+  // Before advancing the lexer, check if we can double outdent
+  if (valid_symbols[OUTDENT] &&
+      (lexer->lookahead == 0 || (
+        stack->last_indentation_size != -1 &&
+        prev != -1 &&
+        stack->last_indentation_size < prev))) {
+    popStack(stack);
+    LOG("    pop\n");
+    LOG("    OUTDENT\n");
+    lexer->result_symbol = OUTDENT;
+    return true;
+  }
+  stack->last_indentation_size = -1;
 
   while (iswspace(lexer->lookahead)) {
     if (lexer->lookahead == '\n') {
@@ -104,27 +119,32 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       indentation_size++;
     lexer->advance(lexer, true);
   }
-  int prev = peekStack(stack);
-  printStack(stack, "before");
+  printStack(stack, "    before");
 
   if (valid_symbols[INDENT] && newline_count > 0 &&
       (isEmptyStack(stack) || indentation_size > peekStack(stack))) {
     pushStack(stack, indentation_size);
     lexer->result_symbol = INDENT;
+    LOG("    INDENT\n");
     return true;
   }
+
+  // This saves the newline_count into the stack since
+  // sometimes we need to outdent multiple times.
   if (valid_symbols[OUTDENT] &&
       (lexer->lookahead == 0 || (
         newline_count > 0 && prev != -1 && indentation_size < prev))) {
     popStack(stack);
-    LOG("pop\n");
+    LOG("    pop\n");
+    LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
+    stack->last_indentation_size = indentation_size;
     return true;
   }
 
-  printStack(stack, "after");
+  printStack(stack, "    after");
 
-  LOG("indentation_size: %d, newline_count: %d, column: %d, indent_is_valid: %d, dedent_is_valid: %d\n", indentation_size,
+  LOG("    indentation_size: %d, newline_count: %d, column: %d, indent_is_valid: %d, dedent_is_valid: %d\n", indentation_size,
       newline_count, lexer->get_column(lexer), valid_symbols[INDENT], valid_symbols[OUTDENT]);
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {

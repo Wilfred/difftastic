@@ -73,6 +73,7 @@ module.exports = grammar({
       $.package_clause,
       $.package_object,
       $._definition,
+      $._end_marker,
     ),
 
     _definition: $ => choice(
@@ -236,7 +237,6 @@ module.exports = grammar({
         $._indent,
         $._block,
         $._outdent,
-        optional($._end_marker),
       )),
       seq(
         '{',
@@ -248,7 +248,19 @@ module.exports = grammar({
 
     _end_marker: $ => prec.left(PREC.end_marker, seq(
       'end',
-      alias($.identifier, '_end_ident'),
+      choice(
+        'if',
+        'while',
+        'for',
+        'match',
+        'try',
+        'new',
+        'this',
+        'given',
+        'extension',
+        'val',
+        alias($.identifier, '_end_ident'),
+      ),
     )),
 
     annotation: $ => prec.right(seq(
@@ -626,7 +638,6 @@ module.exports = grammar({
         'else',
         field('alternative', $._indentable_expression),
       )),
-      optional(seq('end', 'if')),
     )),
 
     match_expression: $ => prec.left(PREC.postfix, seq(

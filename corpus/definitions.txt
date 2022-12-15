@@ -23,27 +23,18 @@ package a.b
 package c:
   object A
 
+package d:
+  object A
+end d
+
 ---
 
 (compilation_unit
   (package_clause (package_identifier (identifier) (identifier)))
   (package_clause (package_identifier (identifier))
     (template_body
-      (object_definition (identifier)))))
+      (object_definition (identifier))))
 
-================================
-Package (Scala 3 syntax with end)
-================================
-
-package a.b
-package c:
-  object A
-end c
-
----
-
-(compilation_unit
-  (package_clause (package_identifier (identifier) (identifier)))
   (package_clause (package_identifier (identifier))
     (template_body
       (object_definition (identifier)))))
@@ -581,6 +572,32 @@ class A:
         (type_identifier)
         (indented_block
           (val_definition (identifier) (integer_literal)) (val_definition (identifier) (integer_literal)) (infix_expression (identifier) (operator_identifier) (identifier)))))))
+
+=======================================
+Top-level Definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  def a() =
+    ()
+
+def a() = 1
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters)
+        (indented_block
+          (unit)))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (integer_literal)))
 
 =======================================
 Initialization expressions

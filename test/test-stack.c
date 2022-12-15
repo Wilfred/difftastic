@@ -32,11 +32,11 @@ int main() {
     pushStack(stack, i);
   }
 
-  assert(serialiseStack(stack, buf) == sizeof(int) * 250);
+  assert(serialiseStack(stack, buf) == sizeof(int) * 251);
 
   ScannerStack *newStack = createStack();
 
-  deserialiseStack(newStack, buf, sizeof(int) * 250);
+  deserialiseStack(newStack, buf, sizeof(int) * 251);
   assert(newStack -> top == 250);
   assert(popStack(newStack) == 249);
 
