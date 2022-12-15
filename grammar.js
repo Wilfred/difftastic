@@ -415,6 +415,7 @@ module.exports = grammar({
 
     _indentable_expression: $ => choice(
       $.indented_block,
+      $.indented_cases,
       $.expression,
     ),
 
@@ -429,6 +430,12 @@ module.exports = grammar({
       $._block,
       $._outdent,
       optional($._end_marker),
+    )),
+
+    indented_cases: $ => prec.left(PREC.end_marker, seq(
+      $._indent,
+      repeat1($.case_clause),
+      $._outdent,
     )),
 
     // ---------------------------------------------------------------
@@ -648,14 +655,17 @@ module.exports = grammar({
 
     try_expression: $ => prec.right(PREC.control, seq(
       'try',
-      field('body', $.expression),
+      field('body', $._indentable_expression),
       optional($.catch_clause),
       optional($.finally_clause)
     )),
 
-    catch_clause: $ => prec.right(seq('catch', $.case_block)),
+    /*
+     *   Catches           ::=  'catch' (Expr | ExprCaseClause)
+     */
+    catch_clause: $ => prec.right(seq('catch', $._indentable_expression)),
 
-    finally_clause: $ => prec.right(seq('finally', $.expression)),
+    finally_clause: $ => prec.right(seq('finally', $._indentable_expression)),
 
     binding: $ => prec.dynamic(PREC.binding_decl, seq(
       field('name', $.identifier),

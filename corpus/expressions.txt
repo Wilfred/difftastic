@@ -266,6 +266,64 @@ def main() {
         (finally_clause (call_expression (identifier) (arguments)))))))
 
 ===============================
+Try expressions (Scala 3 syntax)
+===============================
+
+def main(): Unit =
+  try a() finally depth -= 1
+
+  try
+    a()
+    b()
+  catch
+    case e: SomeException => prinlnt(e.message)
+    case NonFatal(ex)     => throw new SomeException(ex)
+  finally
+    tryAnotherThing()
+    tryAnotherThing2()
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters)
+    (type_identifier)
+    (indented_block
+      (try_expression
+        (call_expression (identifier) (arguments))
+        (finally_clause (infix_expression (identifier) (operator_identifier) (integer_literal))))
+      (try_expression
+        (indented_block
+          (call_expression (identifier) (arguments))
+          (call_expression (identifier) (arguments)))
+        (catch_clause
+          (indented_cases
+            (case_clause
+              (typed_pattern
+                (identifier)
+                (type_identifier))
+              (call_expression
+                (identifier)
+                (arguments (field_expression
+                  (identifier)
+                  (identifier)))))
+            (case_clause
+              (case_class_pattern
+                (type_identifier)
+                (identifier))
+              (throw_expression (instance_expression (call_expression (identifier) (arguments (identifier))))
+              )
+            )
+          )
+        )
+        (finally_clause
+          (indented_block
+            (call_expression (identifier) (arguments))
+            (call_expression (identifier) (arguments)))))
+    )))
+
+===============================
 Match expressions
 ===============================
 
