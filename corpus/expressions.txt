@@ -356,6 +356,43 @@ def matchTest(x: Int): String = x match {
       (case_clause (wildcard) (val_definition (identifier) (string)) (string))))))
 
 ===============================
+Match expressions (Scala 3 syntax)
+===============================
+
+def matchTest(x: Int): String =
+  x match
+    case 0 =>
+    case 1 => "one"; "uno"
+    case 2 => "two"
+    case x if x == 3 =>
+      val x = "3"
+      x
+    case ((i, _)) => i
+    case _ =>
+      val x = "many"
+      "more"
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters (parameter (identifier) (type_identifier)))
+    (type_identifier)
+    (indented_block
+      (match_expression (identifier) (indented_cases
+        (case_clause (integer_literal))
+        (case_clause (integer_literal) (string) (string))
+        (case_clause (integer_literal) (string))
+        (case_clause
+          (identifier)
+          (guard (infix_expression (identifier) (operator_identifier) (integer_literal)))
+          (val_definition (identifier) (string))
+          (identifier))
+        (case_clause (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier))
+        (case_clause (wildcard) (val_definition (identifier) (string)) (string)))))))
+
+===============================
 Field expressions
 ===============================
 

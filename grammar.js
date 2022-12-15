@@ -647,10 +647,13 @@ module.exports = grammar({
       )),
     )),
 
+    /*
+     *   MatchClause       ::=  'match' <<< CaseClauses >>>
+     */
     match_expression: $ => prec.left(PREC.postfix, seq(
       field('value', $.expression),
       'match',
-      field('body', $.case_block)
+      field('body', choice($.case_block, $.indented_cases))
     )),
 
     try_expression: $ => prec.right(PREC.control, seq(
