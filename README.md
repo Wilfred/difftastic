@@ -1,4 +1,4 @@
-![GitHub Workflow Status: CI](https://img.shields.io/github/workflow/status/MunifTanjim/tree-sitter-lua/CI/main?label=CI&style=for-the-badge)
+![GitHub Workflow Status: CI](https://img.shields.io/github/actions/workflow/status/MunifTanjim/tree-sitter-lua/ci.yml?branch=main&label=CI&style=for-the-badge)
 
 # tree-sitter-lua
 
