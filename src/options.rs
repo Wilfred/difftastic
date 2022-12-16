@@ -1,6 +1,6 @@
 //! CLI option parsing.
 
-use std::{borrow::Borrow, env, ffi::OsStr, path::PathBuf};
+use std::{borrow::Borrow, env, ffi::OsStr, path::Path, path::PathBuf};
 
 use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
@@ -197,6 +197,16 @@ pub enum FileArgument {
     DevNull,
 }
 
+fn relative_to_current(path: &Path) -> PathBuf {
+    if let Ok(current_path) = std::env::current_dir() {
+        if let Ok(rel_path) = path.strip_prefix(current_path) {
+            return rel_path.into();
+        }
+    }
+
+    path.into()
+}
+
 impl FileArgument {
     /// Return a `FileArgument` representing this command line
     /// argument.
@@ -218,7 +228,7 @@ impl FileArgument {
 
     pub fn display(&self) -> String {
         match self {
-            FileArgument::NamedPath(path) => path.display().to_string(),
+            FileArgument::NamedPath(path) => relative_to_current(path).display().to_string(),
             FileArgument::Stdin => "(stdin)".to_string(),
             FileArgument::DevNull => "/dev/null".to_string(),
         }

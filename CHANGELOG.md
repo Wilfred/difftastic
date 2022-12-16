@@ -9,6 +9,9 @@ incorrectly claims a text file is another format.
 
 ### Display
 
+Paths are now always displayed relative to the current working
+directory.
+
 Fixed a race condition where diffing directories would lead to
 interleaved output from different files.
 
