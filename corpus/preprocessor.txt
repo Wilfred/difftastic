@@ -47,7 +47,7 @@ Complex if conditions
 ---
 (compilation_unit
   (if_directive (prefix_unary_expression (identifier)))
-  (if_directive      
+  (if_directive
     (binary_expression (identifier) (boolean_literal)))
   (if_directive
     (binary_expression (prefix_unary_expression (identifier)) (boolean_literal)))
@@ -116,6 +116,8 @@ class Of1879 {
 #line 2001 "A Space" // Comment
 #line hidden
 #line default
+#line (1, 1) - (1, 3) 1 "a.cs"
+#line (2, 1) - (2, 3) "a.cs"
   }
 }
 
@@ -131,7 +133,20 @@ class Of1879 {
       (block
         (line_directive (preproc_integer_literal) (preproc_string_literal)) (comment)
         (line_directive)
-        (line_directive))))))
+        (line_directive)
+        (line_directive
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_string_literal))
+        (line_directive
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_integer_literal)
+          (preproc_string_literal)))))))
 
 ===================================
 Spaces in directives

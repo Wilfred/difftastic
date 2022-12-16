@@ -1781,7 +1781,12 @@ module.exports = grammar({
       choice(
         'default',
         'hidden',
-        seq($.preproc_integer_literal, optional($.preproc_string_literal))
+        seq($.preproc_integer_literal, optional($.preproc_string_literal)),
+        seq(
+          '(', $.preproc_integer_literal, ',', $.preproc_integer_literal, ')',
+          '-',
+          '(', $.preproc_integer_literal, ',', $.preproc_integer_literal, ')',
+          optional($.preproc_integer_literal), $.preproc_string_literal),
       )
     ),
     pragma_directive: $ => seq('pragma',
