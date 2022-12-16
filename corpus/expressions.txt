@@ -648,8 +648,8 @@ While loops
 ===============================
 
 def f = {
-  while(a) g()
-  while(b < c) {
+  while (a) g()
+  while (b < c) {
     d
   }
 }
@@ -666,6 +666,36 @@ def f = {
       (while_expression
         (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier)))
         (block (identifier))))))
+
+===============================
+While loops (Scala 3 syntax)
+===============================
+
+def f: Unit =
+  while a do g()
+
+  while
+    val x = 1
+    b < x
+  do
+    ()
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (type_identifier)
+    (indented_block
+      (while_expression
+        (identifier)
+        (call_expression (identifier) (arguments)))
+      (while_expression
+        (indented_block
+          (val_definition (identifier) (integer_literal))
+          (infix_expression (identifier) (operator_identifier) (identifier)))
+        (indented_block
+          (unit))))))
 
 ===============================
 Do-while loops

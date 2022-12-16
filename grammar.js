@@ -3,6 +3,7 @@ const PREC = {
   stable_type_id: 2,
   lambda: 2,
   binding_decl: 2,
+  while: 2,
   binding_def: 3,
   assign: 3,
   stable_id: 4,
@@ -62,6 +63,7 @@ module.exports = grammar({
     [$.tuple_type, $.parameter_types],
     [$.binding, $.expression],
     [$.if_expression, $.expression],
+    [$.while_expression, $.expression],
   ],
 
   word: $ => $.identifier,
@@ -905,10 +907,21 @@ module.exports = grammar({
 
     throw_expression: $ => prec.left(seq('throw', $.expression)),
 
-    while_expression: $ => prec.right(seq(
-      'while',
-      field('condition', $.parenthesized_expression),
-      field('body', $.expression)
+    /*
+     *   Expr1             ::=  'while' '(' Expr ')' {nl} Expr
+     *                       |  'while' Expr 'do' Expr
+     */
+    while_expression: $ => prec(PREC.while, choice(
+      prec.right(seq(
+        'while',
+        field('condition', $.parenthesized_expression),
+        field('body', $.expression)
+      )),
+      prec.right(seq(
+        'while',
+        field('condition', seq($._indentable_expression, 'do')),
+        field('body', $._indentable_expression)
+      )),
     )),
 
     do_while_expression: $ => prec.right(seq(
