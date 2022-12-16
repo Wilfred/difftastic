@@ -19,6 +19,7 @@ with `difft --list-languages`.
 | Elixir          | [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)                                                                            |
 | Elm             | [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)                                                                                  |
 | Elvish          | [ckafi/tree-sitter-elvish](https://github.com/ckafi/tree-sitter-elvish)                                                                                        |
+| Erlang          | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)                                                                                  |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                                                                                      |
 | Gleam           | [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)                                                                                |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                                                                                    |

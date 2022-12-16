@@ -43,6 +43,9 @@ sample_files/elm_before.elm sample_files/elm_after.elm
 sample_files/elvish_before.elv sample_files/elvish_after.elv
 dd6575e62ddbb4604de8e5dae7991815  -
 
+sample_files/erlang_before.erl sample_files/erlang_after.erl
+e5c989cce93d63604e4e71b83c39c5d4  -
+
 sample_files/hack_before.php sample_files/hack_after.php
 83d4a92c596b5d465ff024aa1b30be92  -
 

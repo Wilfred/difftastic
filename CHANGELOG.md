@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for Erlang.
+
 Improved detection of binary content when the MIME type database
 incorrectly claims a text file is another format.
 
