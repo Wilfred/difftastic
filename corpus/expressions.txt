@@ -766,6 +766,37 @@ def f() = {
        (block (call_expression (identifier) (arguments (identifier) (identifier))))))))
 
 ===============================
+For comprehensions (Scala 3 syntax)
+===============================
+
+def f(): Unit =
+  for n <- nums yield n + 1
+
+  for
+    x <- xs
+    y <- ys
+  yield
+    g(x, y)
+
+---
+
+(compilation_unit
+ (function_definition
+   (identifier)
+   (parameters)
+   (type_identifier)
+   (indented_block
+     (for_expression
+       (enumerators (enumerator (identifier) (identifier)))
+       (infix_expression (identifier) (operator_identifier) (integer_literal)))
+     (for_expression
+       (enumerators
+         (enumerator (identifier) (identifier))
+         (enumerator (identifier) (identifier)))
+       (indented_block
+         (call_expression (identifier) (arguments (identifier) (identifier))))))))
+
+===============================
 Chained expressions
 ===============================
 

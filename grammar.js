@@ -64,6 +64,8 @@ module.exports = grammar({
     [$.binding, $.expression],
     [$.if_expression, $.expression],
     [$.while_expression, $.expression],
+    [$.for_expression, $.infix_expression],
+    [$._indentable_expression, $.do_while_expression],
   ],
 
   word: $ => $.identifier,
@@ -931,19 +933,44 @@ module.exports = grammar({
       field('condition', $.parenthesized_expression)
     )),
 
-    for_expression: $ => prec.right(seq(
-      'for',
-      field('enumerators', choice(
-        seq("(", $.enumerators, ")"),
-        seq("{", $.enumerators, "}")
+    /*
+     *  ForExpr           ::=  'for' '(' Enumerators0 ')' {nl} ['do' | 'yield'] Expr
+     *                      |  'for' '{' Enumerators0 '}' {nl} ['do' | 'yield'] Expr
+     *                      |  'for'     Enumerators0          ('do' | 'yield') Expr
+     */
+    for_expression: $ => choice(
+      prec.right(PREC.control, seq(
+        'for',
+        field('enumerators', choice(
+          seq("(", $.enumerators, ")"),
+          seq("{", $.enumerators, "}"),
+        )),
+        choice(
+          seq(field('body', $.expression)),
+          seq('yield', field('body', $._indentable_expression)),
+        ),
       )),
-      optional('yield'),
-      field('body', $.expression)
-    )),
+      prec.right(PREC.control, seq(
+        'for',
+        field('enumerators', $.enumerators),
+        choice(
+          seq('do', field('body', $._indentable_expression)),
+          seq('yield', field('body', $._indentable_expression)),
+        ),
+      )),
+    ),
 
-    enumerators: $ => seq(
-      sep1($._semicolon, $.enumerator),
-      optional($._automatic_semicolon)
+    enumerators: $ => choice(
+      seq(
+        sep1($._semicolon, $.enumerator),
+        optional($._automatic_semicolon)
+      ),
+      seq(
+        $._indent,
+        sep1($._semicolon, $.enumerator),
+        optional($._automatic_semicolon),
+        $._outdent,
+      ),
     ),
 
     enumerator: $ => seq(
