@@ -279,7 +279,7 @@ fn diff_file(
         rhs_path,
         &lhs_bytes,
         &rhs_bytes,
-        &display_options,
+        display_options,
         graph_limit,
         byte_limit,
         language_override,
@@ -537,7 +537,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options,
                         &summary.lhs_positions,
                         &summary.rhs_positions,
-                        &hunks,
+                        hunks,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &lang_name,
@@ -546,7 +546,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
                     display::side_by_side::print(
-                        &hunks,
+                        hunks,
                         display_options,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
