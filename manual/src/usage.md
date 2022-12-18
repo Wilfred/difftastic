@@ -53,3 +53,14 @@ are also visible in `--help`.
 For example, `DFT_BACKGROUND=light` is equivalent to
 `--background=light`. This is useful when using VCS tools like git,
 where you are not invoking the `difft` binary directly.
+
+## Exit Codes
+
+0: Difftastic found no syntactic changes (in text files) or no byte
+changes (in binary files).
+
+1: Difftastic found syntactic changes (in text files) or byte changes
+(in binary files).
+
+2: Difftastic was given invalid arguments, such as file paths that it
+couldn't read, or the wrong number of arguments.

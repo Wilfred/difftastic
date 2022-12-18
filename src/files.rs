@@ -10,6 +10,7 @@ use std::{
 use rustc_hash::FxHashSet;
 use walkdir::WalkDir;
 
+use crate::exit_codes::EXIT_BAD_ARGUMENTS;
 use crate::options::FileArgument;
 
 pub fn read_files_or_die(
@@ -39,7 +40,7 @@ pub fn read_files_or_die(
             if let Err(e) = rhs_res {
                 eprint_read_error(rhs_path, &e);
             }
-            std::process::exit(1);
+            std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     }
 }
@@ -96,7 +97,7 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
         Ok(src) => src,
         Err(e) => {
             eprint_read_error(&FileArgument::NamedPath(path.to_path_buf()), &e);
-            std::process::exit(1);
+            std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     }
 }

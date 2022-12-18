@@ -23,3 +23,15 @@ pub struct DiffResult {
     pub rhs_positions: Vec<MatchedPos>,
     pub has_same_bytes: bool,
 }
+
+impl DiffResult {
+    pub fn has_reportable_change(&self) -> bool {
+        if matches!(self.lhs_src, FileContent::Binary)
+            || matches!(self.rhs_src, FileContent::Binary)
+        {
+            return !self.has_same_bytes;
+        }
+
+        !self.hunks.is_empty()
+    }
+}

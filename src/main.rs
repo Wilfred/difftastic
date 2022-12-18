@@ -22,6 +22,7 @@
 mod constants;
 mod diff;
 mod display;
+mod exit_codes;
 mod files;
 mod line_parser;
 mod lines;
@@ -40,6 +41,7 @@ use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
 use display::context::opposite_positions;
+use exit_codes::{EXIT_FOUND_CHANGES, EXIT_SUCCESS};
 use files::{
     guess_content, read_files_or_die, read_or_die, relative_paths_in_either, ProbableFileKind,
 };
@@ -58,6 +60,8 @@ use diff::sliders::fix_all_sliders;
 use options::{DisplayMode, DisplayOptions, FileArgument, Mode, DEFAULT_TAB_WIDTH};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
 use std::{env, path::Path};
 use summary::{DiffResult, FileContent};
 use syntax::init_next_prev;
@@ -175,6 +179,7 @@ fn main() {
                 );
             }
 
+            let encountered_changes = Arc::new(AtomicBool::new(false));
             match (&lhs_path, &rhs_path) {
                 (
                     options::FileArgument::NamedPath(lhs_path),
@@ -186,10 +191,16 @@ fn main() {
                     // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
                     let (send, recv) = std::sync::mpsc::sync_channel(1);
 
+                    let encountered_changes = encountered_changes.clone();
                     let print_options = display_options.clone();
+
                     let printing_thread = std::thread::spawn(move || {
                         for diff_result in recv.into_iter() {
                             print_diff_result(&print_options, &diff_result);
+
+                            if diff_result.has_reportable_change() {
+                                encountered_changes.store(true, Ordering::Relaxed);
+                            }
                         }
                     });
 
@@ -221,8 +232,19 @@ fn main() {
                         language_override,
                     );
                     print_diff_result(&display_options, &diff_result);
+
+                    if diff_result.has_reportable_change() {
+                        encountered_changes.store(true, Ordering::Relaxed);
+                    }
                 }
             }
+
+            let exit_code = if encountered_changes.load(Ordering::Relaxed) {
+                EXIT_FOUND_CHANGES
+            } else {
+                EXIT_SUCCESS
+            };
+            std::process::exit(exit_code);
         }
     };
 }

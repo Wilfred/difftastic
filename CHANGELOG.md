@@ -15,6 +15,12 @@ directory.
 Fixed a race condition where diffing directories would lead to
 interleaved output from different files.
 
+### Command Line Interface
+
+Difftastic now sets the exit code if it finds changes. See [usage in
+the manual](https://difftastic.wilfred.me.uk/usage.html) for the full
+list of exit codes used.
+
 ## 0.38 (released 14th November 2022)
 
 ### Parsing

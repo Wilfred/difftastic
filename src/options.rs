@@ -6,7 +6,9 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
 
-use crate::{display::style::BackgroundColor, parse::guess_language};
+use crate::{
+    display::style::BackgroundColor, exit_codes::EXIT_BAD_ARGUMENTS, parse::guess_language,
+};
 
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
 // Chosen experimentally: this is sufficiently many for all the sample
@@ -383,7 +385,7 @@ pub fn parse_args() -> Mode {
             }
             eprintln!("USAGE:\n\n    {}\n", USAGE);
             eprintln!("For more information try --help");
-            std::process::exit(1);
+            std::process::exit(EXIT_BAD_ARGUMENTS);
         }
     };
 
