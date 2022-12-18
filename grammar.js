@@ -205,6 +205,15 @@ module.exports = grammar({
   conflicts: $ =>
   [],
 
+  inline: $ =>
+  [$._kwd_leading_slash,
+   $._kwd_just_slash,
+   $._kwd_qualified,
+   $._kwd_unqualified,
+   $._kwd_marker,
+   $._sym_qualified,
+   $._sym_unqualified],
+
   rules: {
     // THIS MUST BE FIRST -- even though this doesn't look like it matters
     source: $ =>
@@ -261,19 +270,24 @@ module.exports = grammar({
     NUMBER,
 
     kwd_lit: $ =>
-    choice($._kwd_leading_slash, $._kwd_qualified, $._kwd_unqualified),
+    choice($._kwd_leading_slash,
+           $._kwd_just_slash,
+           $._kwd_qualified,
+           $._kwd_unqualified),
 
-    // for keywords like :/usr/bin/env or :/
+    // (namespace :/usr/bin/env) ; => ""
+    // (name :/usr/bin/env) ; => "usr/bin/env"
     _kwd_leading_slash: $ =>
     seq(field('marker', $._kwd_marker),
-        choice(
-          // (namespace :/usr/bin/env) ; => ""
-          // (name :/usr/bin/env) ; => "usr/bin/env"
-          seq(field('delimiter', SYMBOL_NS_DELIMITER),
-              field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))),
-          // (namespace :/) ;=> nil
-          // (name :/) ;=> "/"
-          field('name', alias(SYMBOL_NS_DELIMITER, $.kwd_name)))),
+        field('delimiter', SYMBOL_NS_DELIMITER),
+        field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))),
+
+    // (namespace :/) ;=> nil
+    // (name :/) ;=> "/"
+    _kwd_just_slash: $ =>
+    seq(field('marker', $._kwd_marker),
+        field('name', alias(SYMBOL_NS_DELIMITER, $.kwd_name))),
+
 
     _kwd_qualified: $ =>
     prec(2, seq(field('marker', $._kwd_marker),
