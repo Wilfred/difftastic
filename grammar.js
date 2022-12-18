@@ -177,7 +177,7 @@ const CHARACTER =
 const SYMBOL_HEAD =
       /[^\f\n\r\t \/()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
-const SYMBOL_NS_DELIMITER =
+const NS_DELIMITER =
       token("/");
 
 const SYMBOL_BODY =
@@ -279,20 +279,20 @@ module.exports = grammar({
     // (name :/usr/bin/env) ; => "usr/bin/env"
     _kwd_leading_slash: $ =>
     seq(field('marker', $._kwd_marker),
-        field('delimiter', SYMBOL_NS_DELIMITER),
+        field('delimiter', NS_DELIMITER),
         field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name))),
 
     // (namespace :/) ;=> nil
     // (name :/) ;=> "/"
     _kwd_just_slash: $ =>
     seq(field('marker', $._kwd_marker),
-        field('name', alias(SYMBOL_NS_DELIMITER, $.kwd_name))),
+        field('name', alias(NS_DELIMITER, $.kwd_name))),
 
 
     _kwd_qualified: $ =>
     prec(2, seq(field('marker', $._kwd_marker),
                 field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
-                field('delimiter', SYMBOL_NS_DELIMITER),
+                field('delimiter', NS_DELIMITER),
                 field('name', alias(KEYWORD_NAMESPACED_BODY, $.kwd_name)))),
 
     _kwd_unqualified: $ =>
@@ -320,11 +320,11 @@ module.exports = grammar({
 
     _sym_qualified: $ =>
     prec(1, seq(field("namespace", alias(SYMBOL, $.sym_ns)),
-                field("delimiter", SYMBOL_NS_DELIMITER),
+                field("delimiter", NS_DELIMITER),
                 field("name", alias(SYMBOL_NAMESPACED_NAME, $.sym_name)))),
 
     _sym_unqualified: $ =>
-    field('name', alias(choice(SYMBOL_NS_DELIMITER, // division symbol
+    field('name', alias(choice(NS_DELIMITER, // division symbol
                                SYMBOL),
                         $.sym_name)),
 
