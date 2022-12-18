@@ -284,9 +284,8 @@ fn diff_file_content(
                 rhs_display_path: rhs_display_path.into(),
                 language: None,
                 detected_language: None,
-                // TODO: do we need to store the actual bytes?
-                lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
-                rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
+                lhs_src: FileContent::Binary,
+                rhs_src: FileContent::Binary,
                 lhs_positions: vec![],
                 rhs_positions: vec![],
                 hunks: vec![],
@@ -539,9 +538,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 }
             }
         }
-        (FileContent::Binary(lhs_bytes), FileContent::Binary(rhs_bytes)) => {
-            let changed = lhs_bytes != rhs_bytes;
-            if display_options.print_unchanged || changed {
+        (FileContent::Binary, FileContent::Binary) => {
+            if display_options.print_unchanged || !summary.has_same_bytes {
                 println!(
                     "{}",
                     display::style::header(
@@ -553,14 +551,15 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options
                     )
                 );
-                if changed {
-                    println!("Binary contents changed.");
-                } else {
+                if summary.has_same_bytes {
                     println!("No changes.");
+                } else {
+                    println!("Binary contents changed.");
                 }
             }
         }
-        (_, FileContent::Binary(_)) | (FileContent::Binary(_), _) => {
+        (FileContent::Text(_), FileContent::Binary)
+        | (FileContent::Binary, FileContent::Text(_)) => {
             // We're diffing a binary file against a text file.
             println!(
                 "{}",

@@ -5,7 +5,7 @@ use crate::{display::hunks::Hunk, parse::syntax::MatchedPos};
 #[derive(Debug, PartialEq, Eq)]
 pub enum FileContent {
     Text(String),
-    Binary(Vec<u8>),
+    Binary,
 }
 
 #[derive(Debug)]
