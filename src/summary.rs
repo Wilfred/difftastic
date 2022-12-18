@@ -1,6 +1,6 @@
 //! Data types summarising the result of diffing content.
 
-use crate::parse::syntax::MatchedPos;
+use crate::{display::hunks::Hunk, parse::syntax::MatchedPos};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum FileContent {
@@ -17,6 +17,9 @@ pub struct DiffResult {
     pub detected_language: Option<crate::parse::guess_language::Language>,
     pub lhs_src: FileContent,
     pub rhs_src: FileContent,
+    pub hunks: Vec<Hunk>,
+
     pub lhs_positions: Vec<MatchedPos>,
     pub rhs_positions: Vec<MatchedPos>,
+    pub has_same_bytes: bool,
 }

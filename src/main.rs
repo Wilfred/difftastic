@@ -257,7 +257,7 @@ fn diff_file(
         rhs_path,
         &lhs_bytes,
         &rhs_bytes,
-        display_options.tab_width,
+        &display_options,
         graph_limit,
         byte_limit,
         language_override,
@@ -271,30 +271,34 @@ fn diff_file_content(
     rhs_path: &FileArgument,
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
-    tab_width: usize,
+    display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
+            let has_changes = lhs_bytes == rhs_bytes;
             return DiffResult {
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
                 language: None,
                 detected_language: None,
+                // TODO: do we need to store the actual bytes?
                 lhs_src: FileContent::Binary(lhs_bytes.to_vec()),
                 rhs_src: FileContent::Binary(rhs_bytes.to_vec()),
                 lhs_positions: vec![],
                 rhs_positions: vec![],
+                hunks: vec![],
+                has_same_bytes: has_changes,
             };
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
     };
 
     // TODO: don't replace tab characters inside string literals.
-    lhs_src = replace_tabs(&lhs_src, tab_width);
-    rhs_src = replace_tabs(&rhs_src, tab_width);
+    lhs_src = replace_tabs(&lhs_src, display_options.tab_width);
+    rhs_src = replace_tabs(&rhs_src, display_options.tab_width);
 
     // Ignore the trailing newline, if present.
     // TODO: highlight if this has changes (#144).
@@ -327,6 +331,8 @@ fn diff_file_content(
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
             rhs_positions: vec![],
+            hunks: vec![],
+            has_same_bytes: true,
         };
     }
 
@@ -405,6 +411,18 @@ fn diff_file_content(
         }
     };
 
+    let opposite_to_lhs = opposite_positions(&lhs_positions);
+    let opposite_to_rhs = opposite_positions(&rhs_positions);
+
+    let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
+    let hunks = merge_adjacent(
+        &hunks,
+        &opposite_to_lhs,
+        &opposite_to_rhs,
+        lhs_src.max_line(),
+        rhs_src.max_line(),
+        display_options.num_context_lines as usize,
+    );
     DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
@@ -414,6 +432,8 @@ fn diff_file_content(
         rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
         rhs_positions,
+        hunks,
+        has_same_bytes: false,
     }
 }
 
@@ -461,18 +481,7 @@ fn diff_directories<'a>(
 fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
     match (&summary.lhs_src, &summary.rhs_src) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
-            let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
-            let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
-
-            let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
-            let hunks = merge_adjacent(
-                &hunks,
-                &opposite_to_lhs,
-                &opposite_to_rhs,
-                lhs_src.max_line(),
-                rhs_src.max_line(),
-                display_options.num_context_lines as usize,
-            );
+            let hunks = &summary.hunks;
 
             let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());
             if hunks.is_empty() {
@@ -574,10 +583,25 @@ mod tests {
     use std::ffi::OsStr;
 
     use super::*;
-    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT, DEFAULT_TAB_WIDTH};
+    use crate::{
+        display::style::BackgroundColor,
+        options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT},
+    };
 
     #[test]
     fn test_diff_identical_content() {
+        let display_options = DisplayOptions {
+            background_color: BackgroundColor::Dark,
+            use_color: false,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            display_width: 80,
+            num_context_lines: 3,
+            in_vcs: false,
+            syntax_highlight: true,
+        };
+
         let s = "foo";
         let res = diff_file_content(
             "foo.el",
@@ -586,7 +610,7 @@ mod tests {
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
             s.as_bytes(),
             s.as_bytes(),
-            DEFAULT_TAB_WIDTH,
+            &display_options,
             DEFAULT_GRAPH_LIMIT,
             DEFAULT_BYTE_LIMIT,
             None,
