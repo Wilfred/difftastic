@@ -19,6 +19,6 @@ jobs:
       - shell: bash
         run: |
           gcc test/test-stack.c -o a.out
-          a.out
+          ./a.out
           npm install
           npm test
