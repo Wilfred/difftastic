@@ -37,6 +37,22 @@ pub struct DisplayOptions {
     pub syntax_highlight: bool,
 }
 
+impl Default for DisplayOptions {
+    fn default() -> Self {
+        Self {
+            background_color: BackgroundColor::Dark,
+            use_color: false,
+            display_mode: DisplayMode::SideBySide,
+            print_unchanged: true,
+            tab_width: 8,
+            display_width: 80,
+            num_context_lines: 3,
+            in_vcs: false,
+            syntax_highlight: true,
+        }
+    }
+}
+
 fn app() -> clap::Command<'static> {
     Command::new("Difftastic")
         .override_usage(USAGE)

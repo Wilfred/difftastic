@@ -655,18 +655,6 @@ mod tests {
 
     #[test]
     fn test_display_single_column() {
-        let display_options = DisplayOptions {
-            background_color: BackgroundColor::Dark,
-            use_color: false,
-            display_mode: DisplayMode::SideBySide,
-            print_unchanged: true,
-            tab_width: 8,
-            display_width: 80,
-            num_context_lines: 3,
-            in_vcs: false,
-            syntax_highlight: true,
-        };
-
         // Basic smoke test.
         let res_lines = display_single_column(
             "foo.py",
@@ -674,7 +662,7 @@ mod tests {
             "Python",
             &["print(123)\n".to_string()],
             Side::Right,
-            &display_options,
+            &DisplayOptions::default(),
         );
         let res = res_lines.join("");
         assert!(res.len() > 10);
@@ -722,22 +710,10 @@ mod tests {
             lines: vec![(Some(0.into()), Some(0.into()))],
         }];
 
-        let display_options = DisplayOptions {
-            background_color: BackgroundColor::Dark,
-            use_color: true,
-            display_mode: DisplayMode::SideBySide,
-            print_unchanged: true,
-            tab_width: 8,
-            display_width: 80,
-            num_context_lines: 3,
-            syntax_highlight: true,
-            in_vcs: true,
-        };
-
         // Simple smoke test.
         print(
             &hunks,
-            &display_options,
+            &DisplayOptions::default(),
             "foo-old.el",
             "foo-new.el",
             "Emacs Lisp",

@@ -582,25 +582,10 @@ mod tests {
     use std::ffi::OsStr;
 
     use super::*;
-    use crate::{
-        display::style::BackgroundColor,
-        options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT},
-    };
+    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT};
 
     #[test]
     fn test_diff_identical_content() {
-        let display_options = DisplayOptions {
-            background_color: BackgroundColor::Dark,
-            use_color: false,
-            display_mode: DisplayMode::SideBySide,
-            print_unchanged: true,
-            tab_width: 8,
-            display_width: 80,
-            num_context_lines: 3,
-            in_vcs: false,
-            syntax_highlight: true,
-        };
-
         let s = "foo";
         let res = diff_file_content(
             "foo.el",
@@ -609,7 +594,7 @@ mod tests {
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
             s.as_bytes(),
             s.as_bytes(),
-            &display_options,
+            &DisplayOptions::default(),
             DEFAULT_GRAPH_LIMIT,
             DEFAULT_BYTE_LIMIT,
             None,
