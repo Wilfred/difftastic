@@ -90,12 +90,12 @@ const INTEGER =
 
 const NUMBER =
       token(prec(10, seq(optional(/[+-]/),
-                choice(HEX_NUMBER,
-                       OCTAL_NUMBER,
-                       RADIX_NUMBER,
-                       RATIO,
-                       DOUBLE,
-                       INTEGER))));
+                         choice(HEX_NUMBER,
+                                OCTAL_NUMBER,
+                                RADIX_NUMBER,
+                                RATIO,
+                                DOUBLE,
+                                INTEGER))));
 
 const NIL =
       token('nil');
