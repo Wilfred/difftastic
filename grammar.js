@@ -484,3 +484,9 @@ module.exports = grammar({
         field('value', $._form)),
   }
 });
+
+// Local Variables:
+// mode: js-mode
+// js-indent-align-list-continuation: t
+// js-indent-level: 2
+// End:
