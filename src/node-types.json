@@ -2028,10 +2028,6 @@
           {
             "type": "_type",
             "named": true
-          },
-          {
-            "type": "void_keyword",
-            "named": true
           }
         ]
       },
@@ -2806,10 +2802,6 @@
       "types": [
         {
           "type": "_type",
-          "named": true
-        },
-        {
-          "type": "void_keyword",
           "named": true
         }
       ]
@@ -3718,10 +3710,6 @@
           {
             "type": "_type",
             "named": true
-          },
-          {
-            "type": "void_keyword",
-            "named": true
           }
         ]
       },
@@ -3903,10 +3891,6 @@
         "types": [
           {
             "type": "_type",
-            "named": true
-          },
-          {
-            "type": "void_keyword",
             "named": true
           }
         ]
@@ -7025,10 +7009,6 @@
   {
     "type": "virtual",
     "named": false
-  },
-  {
-    "type": "void_keyword",
-    "named": true
   },
   {
     "type": "volatile",

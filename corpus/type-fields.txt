@@ -84,6 +84,7 @@ Class field pointer type
 class A {
   public readonly int* i;
   private Byte* b;
+  private void* c;
 }
 
 ---
@@ -93,15 +94,27 @@ class A {
     (identifier)
     (declaration_list
       (field_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (variable_declaration
-          (pointer_type (predefined_type))
-          (variable_declarator (identifier))))
+          (pointer_type
+            (predefined_type))
+          (variable_declarator
+            (identifier))))
       (field_declaration
         (modifier)
         (variable_declaration
-          (pointer_type (identifier))
-          (variable_declarator (identifier)))))))
+          (pointer_type
+            (identifier))
+          (variable_declarator
+            (identifier))))
+      (field_declaration
+        (modifier)
+        (variable_declaration
+          (pointer_type
+            (predefined_type))
+          (variable_declarator
+            (identifier)))))))
 
 =======================================
 Function pointer type

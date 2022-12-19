@@ -39,7 +39,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (identifier) (identifier))
@@ -62,7 +62,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (type_parameter_list (type_parameter (identifier)))
         (parameter_list
@@ -85,7 +85,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (type_parameter_list (type_parameter (identifier)))
         (parameter_list
@@ -113,7 +113,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (type_parameter_list
           (type_parameter (identifier))
@@ -146,7 +146,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (parameter_modifier) (predefined_type) (identifier)))
@@ -168,7 +168,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (parameter_modifier) (predefined_type) (identifier)))
@@ -190,7 +190,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (parameter_modifier) (predefined_type) (identifier)))
@@ -212,7 +212,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (predefined_type) (identifier))
@@ -235,7 +235,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter

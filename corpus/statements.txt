@@ -37,7 +37,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list)
         (block
@@ -60,7 +60,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list)
         (block
@@ -83,7 +83,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -106,7 +106,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -128,7 +128,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -150,7 +150,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list
         (parameter (predefined_type) (identifier)))
@@ -177,7 +177,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -359,7 +359,7 @@ void M() {
 
 (compilation_unit
   (global_statement
-    (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (local_function_statement (predefined_type) (identifier) (parameter_list)
       (block
         (local_function_statement
           (tuple_type
@@ -552,7 +552,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -579,7 +579,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -608,7 +608,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -639,7 +639,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -670,7 +670,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -699,7 +699,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -725,7 +725,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -751,7 +751,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -802,7 +802,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -837,9 +837,9 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list
-      (method_declaration (void_keyword) (identifier) (parameter_list)
+      (method_declaration (predefined_type) (identifier) (parameter_list)
       (block
-        (local_function_statement (modifier) (void_keyword) (identifier)
+        (local_function_statement (modifier) (predefined_type) (identifier)
           (type_parameter_list
             (type_parameter (identifier))
             (type_parameter (identifier)))
@@ -872,11 +872,11 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
-        (local_function_statement (void_keyword) (identifier)
+        (local_function_statement (predefined_type) (identifier)
           (type_parameter_list
             (type_parameter (identifier))
             (type_parameter (identifier)))
@@ -905,7 +905,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -931,7 +931,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -963,7 +963,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -991,7 +991,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1023,7 +1023,7 @@ class A {
   (identifier)
   (declaration_list
     (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1077,7 +1077,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1109,7 +1109,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1140,7 +1140,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1168,7 +1168,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1200,7 +1200,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1226,7 +1226,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1257,7 +1257,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1287,7 +1287,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1317,7 +1317,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1345,7 +1345,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1376,7 +1376,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1416,7 +1416,7 @@ class A {
   (class_declaration
     (identifier)
     (declaration_list (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -1445,7 +1445,7 @@ class A {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list)
         (block
@@ -1494,7 +1494,7 @@ void A() {
 
 (compilation_unit
   (global_statement
-    (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (local_function_statement (predefined_type) (identifier) (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration (identifier)
@@ -1519,7 +1519,7 @@ async void Sample() {
   (global_statement
     (local_function_statement
       (modifier)
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block

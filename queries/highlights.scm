@@ -45,7 +45,6 @@
 [
   (boolean_literal)
   (null_literal)
-  (void_keyword)
 ] @constant.builtin
 
 ;; Comments

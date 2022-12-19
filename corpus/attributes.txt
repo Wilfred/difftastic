@@ -258,7 +258,7 @@ class Class<[A, B][C()]T1> {
         (attribute_list (attribute (identifier) (attribute_argument_list)))
         (identifier)))
       (declaration_list
-        (method_declaration (void_keyword) (identifier)
+        (method_declaration (predefined_type) (identifier)
           (type_parameter_list
             (type_parameter
               (attribute_list (attribute (identifier)))
@@ -312,7 +312,7 @@ void A() { }
   (global_statement
     (local_function_statement
       (attribute_list (attribute (identifier)))
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block))))
@@ -330,7 +330,7 @@ void A() { }
     (local_function_statement
       (attribute_list
         (attribute (generic_name (identifier) (type_argument_list (identifier) (identifier)))))
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block))))

@@ -99,7 +99,6 @@ module.exports = grammar({
   ],
 
   inline: $ => [
-    $.return_type,
     $._identifier_or_global,
   ],
 
@@ -391,7 +390,7 @@ module.exports = grammar({
     method_declaration: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
-      field('type', $.return_type),
+      field('type', $._type),
       optional($.explicit_interface_specifier),
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
@@ -587,7 +586,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       repeat($.modifier),
       'delegate',
-      field('type', $.return_type),
+      field('type', $._type),
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
@@ -720,7 +719,7 @@ module.exports = grammar({
 
     function_pointer_parameter: $ => seq(
       optional(choice('ref', 'out', 'in', seq('ref', 'readonly'))),
-      choice($._type, $.void_keyword)
+      $._type
     ),
 
     predefined_type: $ => token(choice(
@@ -740,8 +739,8 @@ module.exports = grammar({
       'ulong',
       'ushort',
       'nint',
-      'nuint'
-      // void is handled in return_type for better matching
+      'nuint',
+      'void'
     )),
 
     ref_type: $ => seq(
@@ -870,7 +869,7 @@ module.exports = grammar({
     local_function_statement: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
-      field('type', $.return_type),
+      field('type', $._type),
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
@@ -1732,10 +1731,6 @@ module.exports = grammar({
       'when',
       'yield'
     ),
-
-    // We use this instead of type so 'void' is only treated as type in the right contexts
-    return_type: $ => choice($._type, $.void_keyword),
-    void_keyword: $ => 'void',
 
     _preprocessor_call: $ => seq(
       $._preproc_directive_start,

@@ -127,7 +127,7 @@ class Of1879 {
   (identifier)
   (declaration_list
     (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -166,7 +166,7 @@ class Of1879 {
   (identifier)
   (declaration_list
     (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block
@@ -206,7 +206,7 @@ class Of1879 {
   (identifier)
   (declaration_list
     (method_declaration
-      (void_keyword)
+      (predefined_type)
       (identifier)
       (parameter_list)
       (block

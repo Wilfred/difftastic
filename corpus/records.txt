@@ -267,7 +267,7 @@ void A() {
 
 (compilation_unit
   (global_statement
-    (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (local_function_statement (predefined_type) (identifier) (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -297,7 +297,7 @@ void A() {
 
 (compilation_unit
   (global_statement
-    (local_function_statement (void_keyword) (identifier) (parameter_list)
+    (local_function_statement (predefined_type) (identifier) (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration

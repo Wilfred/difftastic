@@ -1620,7 +1620,7 @@
           "name": "type",
           "content": {
             "type": "SYMBOL",
-            "name": "return_type"
+            "name": "_type"
           }
         },
         {
@@ -2910,7 +2910,7 @@
           "name": "type",
           "content": {
             "type": "SYMBOL",
-            "name": "return_type"
+            "name": "_type"
           }
         },
         {
@@ -3775,17 +3775,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_type"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "void_keyword"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_type"
         }
       ]
     },
@@ -3861,6 +3852,10 @@
           {
             "type": "STRING",
             "value": "nuint"
+          },
+          {
+            "type": "STRING",
+            "value": "void"
           }
         ]
       }
@@ -4608,7 +4603,7 @@
           "name": "type",
           "content": {
             "type": "SYMBOL",
-            "name": "return_type"
+            "name": "_type"
           }
         },
         {
@@ -9570,23 +9565,6 @@
         }
       ]
     },
-    "return_type": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "void_keyword"
-        }
-      ]
-    },
-    "void_keyword": {
-      "type": "STRING",
-      "value": "void"
-    },
     "_preprocessor_call": {
       "type": "SEQ",
       "members": [
@@ -10493,7 +10471,6 @@
     }
   ],
   "inline": [
-    "return_type",
     "_identifier_or_global"
   ],
   "supertypes": [

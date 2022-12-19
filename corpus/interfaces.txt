@@ -64,7 +64,7 @@ interface IOne {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list))
       (method_declaration
@@ -72,7 +72,7 @@ interface IOne {
         (identifier)
         (parameter_list))
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list (parameter (predefined_type) (identifier))))
       (method_declaration
@@ -251,7 +251,7 @@ interface MyDefault {
     (identifier)
     (declaration_list
       (method_declaration
-        (void_keyword)
+        (predefined_type)
         (identifier)
         (parameter_list
           (parameter (predefined_type) (identifier)))
