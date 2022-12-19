@@ -122,6 +122,9 @@ pub fn language_name(language: Language) -> &'static str {
     }
 }
 
+use Language::*;
+
+/// Which file extensions are associated with which languages.
 pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
     (
         Bash,
@@ -210,7 +213,92 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
     (Zig, &["zig"]),
 ];
 
-use Language::*;
+/// Which file names are associated with which languages.
+pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
+    (
+        Bash,
+        &[
+            ".bash_aliases",
+            ".bash_history",
+            ".bash_logout",
+            ".bash_profile",
+            ".bashrc",
+            ".cshrc",
+            ".env",
+            ".env.example",
+            ".flaskenv",
+            ".kshrc",
+            ".login",
+            ".profile",
+            ".zlogin",
+            ".zlogout",
+            ".zprofile",
+            ".zshenv",
+            ".zshrc",
+            "9fs",
+            "PKGBUILD",
+            "bash_aliases",
+            "bash_logout",
+            "bash_profile",
+            "bashrc",
+            "cshrc",
+            "gradlew",
+            "kshrc",
+            "login",
+            "man",
+            "profile",
+            "zlogin",
+            "zlogout",
+            "zprofile",
+            "zshenv",
+            "zshrc",
+        ],
+    ),
+    (CMake, &["CMakeLists.txt"]),
+    (EmacsLisp, &[".emacs", "_emacs", "Cask"]),
+    (Erlang, &["Emakefile"]),
+    (
+        Json,
+        &[
+            ".arcconfig",
+            ".auto-changelog",
+            ".c8rc",
+            ".htmlhintrc",
+            ".imgbotconfig",
+            ".nycrc",
+            ".tern-config",
+            ".tern-project",
+            ".watchmanconfig",
+            "Pipfile.lock",
+            "composer.lock",
+            "mcmod.info",
+        ],
+    ),
+    (
+        Make,
+        &[
+            "BSDmakefile",
+            "GNUmakefile",
+            "Kbuild",
+            "Makefile",
+            "Makefile.am",
+            "Makefile.boot",
+            "Makefile.frag",
+            "Makefile.in",
+            "Makefile.inc",
+            "Makefile.wat",
+            "makefile",
+            "makefile.sco",
+            "mkfile",
+        ],
+    ),
+    (Python, &["TARGETS", "BUCK", "DEPS"]),
+    (Ruby, &["Gemfile", "Rakefile"]),
+    (
+        Toml,
+        &["Cargo.lock", "Gopkg.lock", "Pipfile", "poetry.lock"],
+    ),
+];
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
     if let Some(lang) = from_emacs_mode_header(src) {
@@ -338,27 +426,18 @@ fn from_shebang(src: &str) -> Option<Language> {
 
 fn from_name(path: &Path) -> Option<Language> {
     match path.file_name() {
-        Some(name) => match name.to_string_lossy().borrow() {
-            ".bash_aliases" | ".bash_history" | ".bash_logout" | ".bash_profile" | ".bashrc"
-            | ".cshrc" | ".env" | ".env.example" | ".flaskenv" | ".kshrc" | ".login"
-            | ".profile" | ".zlogin" | ".zlogout" | ".zprofile" | ".zshenv" | ".zshrc" | "9fs"
-            | "PKGBUILD" | "bash_aliases" | "bash_logout" | "bash_profile" | "bashrc" | "cshrc"
-            | "gradlew" | "kshrc" | "login" | "man" | "profile" | "zlogin" | "zlogout"
-            | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
-            "CMakeLists.txt" => Some(CMake),
-            ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
-            "Emakefile" => Some(Erlang),
-            ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
-            | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
-            | "composer.lock" | "mcmod.info" => Some(Json),
-            "BSDmakefile" | "GNUmakefile" | "Kbuild" | "Makefile" | "Makefile.am"
-            | "Makefile.boot" | "Makefile.frag" | "Makefile.in" | "Makefile.inc"
-            | "Makefile.wat" | "makefile" | "makefile.sco" | "mkfile" => Some(Make),
-            "TARGETS" | "BUCK" | "DEPS" => Some(Python),
-            "Gemfile" | "Rakefile" => Some(Ruby),
-            "Cargo.lock" | "Gopkg.lock" | "Pipfile" | "poetry.lock" => Some(Toml),
-            _ => None,
-        },
+        Some(name) => {
+            let name = name.to_string_lossy().into_owned();
+            for (language, known_file_names) in LANG_FILE_NAMES {
+                for known_file_name in *known_file_names {
+                    if &name == known_file_name {
+                        return Some(*language);
+                    }
+                }
+            }
+
+            None
+        }
         None => None,
     }
 }
