@@ -17,9 +17,10 @@ interleaved output from different files.
 
 ### Command Line Interface
 
-Difftastic now sets the exit code if it finds changes. See [usage in
-the manual](https://difftastic.wilfred.me.uk/usage.html) for the full
-list of exit codes used.
+Difftastic now sets the exit code if it finds changes and
+`--exit-code` is set. See [usage in the
+manual](https://difftastic.wilfred.me.uk/usage.html) for the full list
+of exit codes used.
 
 ## 0.38 (released 14th November 2022)
 

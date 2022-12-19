@@ -161,6 +161,7 @@ fn main() {
             byte_limit,
             display_options,
             missing_as_empty,
+            set_exit_code,
             language_override,
             lhs_path,
             rhs_path,
@@ -239,7 +240,7 @@ fn main() {
                 }
             }
 
-            let exit_code = if encountered_changes.load(Ordering::Relaxed) {
+            let exit_code = if set_exit_code && encountered_changes.load(Ordering::Relaxed) {
                 EXIT_FOUND_CHANGES
             } else {
                 EXIT_SUCCESS
