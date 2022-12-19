@@ -347,7 +347,7 @@ fn from_name(path: &Path) -> Option<Language> {
             | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
             "CMakeLists.txt" => Some(CMake),
             ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
-            "Emakefile" | "rebar.config" | "rebar.config.lock" | "rebar.lock" => Some(Erlang),
+            "Emakefile" => Some(Erlang),
             ".arcconfig" | ".auto-changelog" | ".c8rc" | ".htmlhintrc" | ".imgbotconfig"
             | ".nycrc" | ".tern-config" | ".tern-project" | ".watchmanconfig" | "Pipfile.lock"
             | "composer.lock" | "mcmod.info" => Some(Json),
