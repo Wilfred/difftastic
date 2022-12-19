@@ -1,5 +1,10 @@
 ## 0.40 (unreleased)
 
+### Command Line Interface
+
+`--list-languages` now shows filenames associated with languages
+(e.g. `Cargo.lock` is TOML) in addition to extensions.
+
 ## 0.39 (released 19th December 2022)
 
 ### Parsing
