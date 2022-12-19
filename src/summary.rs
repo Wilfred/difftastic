@@ -23,6 +23,7 @@ pub struct DiffResult {
     pub rhs_positions: Vec<MatchedPos>,
 
     pub has_byte_changes: bool,
+    pub has_syntactic_changes: bool,
 }
 
 impl DiffResult {
@@ -33,6 +34,6 @@ impl DiffResult {
             return self.has_byte_changes;
         }
 
-        !self.hunks.is_empty()
+        self.has_syntactic_changes
     }
 }

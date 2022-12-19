@@ -312,6 +312,7 @@ fn diff_file_content(
                 rhs_positions: vec![],
                 hunks: vec![],
                 has_byte_changes: lhs_bytes != rhs_bytes,
+                has_syntactic_changes: false,
             };
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
@@ -354,6 +355,7 @@ fn diff_file_content(
             rhs_positions: vec![],
             hunks: vec![],
             has_byte_changes: false,
+            has_syntactic_changes: false,
         };
     }
 
@@ -444,6 +446,8 @@ fn diff_file_content(
         rhs_src.max_line(),
         display_options.num_context_lines as usize,
     );
+    let has_syntactic_changes = !hunks.is_empty();
+
     DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
@@ -455,6 +459,7 @@ fn diff_file_content(
         rhs_positions,
         hunks,
         has_byte_changes: true,
+        has_syntactic_changes,
     }
 }
 
