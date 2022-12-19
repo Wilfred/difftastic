@@ -301,7 +301,6 @@ fn diff_file_content(
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
-            let has_changes = lhs_bytes == rhs_bytes;
             return DiffResult {
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
@@ -312,7 +311,7 @@ fn diff_file_content(
                 lhs_positions: vec![],
                 rhs_positions: vec![],
                 hunks: vec![],
-                has_same_bytes: has_changes,
+                has_byte_changes: lhs_bytes != rhs_bytes,
             };
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
@@ -354,7 +353,7 @@ fn diff_file_content(
             lhs_positions: vec![],
             rhs_positions: vec![],
             hunks: vec![],
-            has_same_bytes: true,
+            has_byte_changes: false,
         };
     }
 
@@ -455,7 +454,7 @@ fn diff_file_content(
         lhs_positions,
         rhs_positions,
         hunks,
-        has_same_bytes: false,
+        has_byte_changes: true,
     }
 }
 
@@ -562,7 +561,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || !summary.has_same_bytes {
+            if display_options.print_unchanged || summary.has_byte_changes {
                 println!(
                     "{}",
                     display::style::header(
@@ -574,10 +573,10 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options
                     )
                 );
-                if summary.has_same_bytes {
-                    println!("No changes.");
-                } else {
+                if summary.has_byte_changes {
                     println!("Binary contents changed.");
+                } else {
+                    println!("No changes.");
                 }
             }
         }

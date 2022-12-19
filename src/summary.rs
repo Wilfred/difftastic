@@ -21,7 +21,8 @@ pub struct DiffResult {
 
     pub lhs_positions: Vec<MatchedPos>,
     pub rhs_positions: Vec<MatchedPos>,
-    pub has_same_bytes: bool,
+
+    pub has_byte_changes: bool,
 }
 
 impl DiffResult {
@@ -29,7 +30,7 @@ impl DiffResult {
         if matches!(self.lhs_src, FileContent::Binary)
             || matches!(self.rhs_src, FileContent::Binary)
         {
-            return !self.has_same_bytes;
+            return self.has_byte_changes;
         }
 
         !self.hunks.is_empty()
