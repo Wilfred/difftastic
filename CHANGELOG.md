@@ -17,6 +17,10 @@ interleaved output from different files.
 
 ### Command Line Interface
 
+Added a `--check-only` flag that reports if there are any syntactic
+differences, but doesn't calculate or print them. This is much faster
+than normal syntactic diffing.
+
 Difftastic now sets the exit code if it finds changes and
 `--exit-code` is set. See [usage in the
 manual](https://difftastic.wilfred.me.uk/usage.html) for the full list

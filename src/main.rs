@@ -162,6 +162,7 @@ fn main() {
             display_options,
             missing_as_empty,
             set_exit_code,
+            check_only,
             language_override,
             lhs_path,
             rhs_path,
@@ -211,6 +212,7 @@ fn main() {
                         &display_options,
                         graph_limit,
                         byte_limit,
+                        check_only,
                         language_override,
                     )
                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
@@ -230,6 +232,7 @@ fn main() {
                         missing_as_empty,
                         graph_limit,
                         byte_limit,
+                        check_only,
                         language_override,
                     );
                     print_diff_result(&display_options, &diff_result);
@@ -270,6 +273,7 @@ fn diff_file(
     missing_as_empty: bool,
     graph_limit: usize,
     byte_limit: usize,
+    check_only: bool,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
@@ -283,6 +287,7 @@ fn diff_file(
         display_options,
         graph_limit,
         byte_limit,
+        check_only,
         language_override,
     )
 }
@@ -297,6 +302,7 @@ fn diff_file_content(
     display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,
+    check_only: bool,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
@@ -375,6 +381,25 @@ fn diff_file_content(
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
 
             init_all_info(&lhs, &rhs);
+
+            if check_only {
+                let lang_name = language.map(|l| language_name(l).into());
+                let has_syntactic_changes = lhs != rhs;
+
+                return DiffResult {
+                    lhs_display_path: lhs_display_path.into(),
+                    rhs_display_path: rhs_display_path.into(),
+                    language: lang_name,
+                    detected_language: language,
+                    lhs_src: FileContent::Text(lhs_src),
+                    rhs_src: FileContent::Text(rhs_src),
+                    lhs_positions: vec![],
+                    rhs_positions: vec![],
+                    hunks: vec![],
+                    has_byte_changes: true,
+                    has_syntactic_changes,
+                };
+            }
 
             let mut change_map = ChangeMap::default();
             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
@@ -475,6 +500,7 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     graph_limit: usize,
     byte_limit: usize,
+    check_only: bool,
     language_override: Option<parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let display_options = display_options.clone();
@@ -499,6 +525,7 @@ fn diff_directories<'a>(
             true,
             graph_limit,
             byte_limit,
+            check_only,
             language_override,
         )
     })
@@ -510,7 +537,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             let hunks = &summary.hunks;
 
             let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());
-            if hunks.is_empty() {
+            if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
                     println!(
                         "{}",
@@ -531,6 +558,29 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         println!("No syntactic changes.\n");
                     }
                 }
+                return;
+            }
+
+            if summary.has_syntactic_changes && hunks.is_empty() {
+                println!(
+                    "{}",
+                    display::style::header(
+                        &summary.lhs_display_path,
+                        &summary.rhs_display_path,
+                        1,
+                        1,
+                        &lang_name,
+                        display_options
+                    )
+                );
+                if lang_name == "Text" {
+                    // TODO: there are other Text names now, so
+                    // they will hit the second case incorrectly.
+                    println!("Has changes.\n");
+                } else {
+                    println!("Has syntactic changes.\n");
+                }
+
                 return;
             }
 
@@ -624,6 +674,7 @@ mod tests {
             &DisplayOptions::default(),
             DEFAULT_GRAPH_LIMIT,
             DEFAULT_BYTE_LIMIT,
+            false,
             None,
         );
 
