@@ -92,7 +92,7 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
   ScannerStack *stack = (ScannerStack *)payload;
   int prev = peekStack(stack);
-  unsigned newline_count = 0;
+  int newline_count = 0;
   int indentation_size = 0;
   LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
 
@@ -121,26 +121,39 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   }
   printStack(stack, "    before");
 
-  if (valid_symbols[INDENT] && newline_count > 0 &&
-      (isEmptyStack(stack) || indentation_size > peekStack(stack))) {
+  if (valid_symbols[INDENT] &&
+      newline_count > 0 &&
+      (isEmptyStack(stack) ||
+        indentation_size > peekStack(stack))) {
     pushStack(stack, indentation_size);
     lexer->result_symbol = INDENT;
     LOG("    INDENT\n");
     return true;
   }
 
-  // This saves the newline_count into the stack since
-  // sometimes we need to outdent multiple times.
+  // This saves the indentation_size and newline_count so it can be used
+  // in subsequent calls for multiple outdent or autosemicolon.
   if (valid_symbols[OUTDENT] &&
       (lexer->lookahead == 0 || (
-        newline_count > 0 && prev != -1 && indentation_size < prev))) {
+        newline_count > 0 &&
+        prev != -1 &&
+        indentation_size < prev))) {
     popStack(stack);
     LOG("    pop\n");
     LOG("    OUTDENT\n");
     lexer->result_symbol = OUTDENT;
     stack->last_indentation_size = indentation_size;
+    stack->last_newline_count = newline_count;
+    stack->last_column = lexer->get_column(lexer);
     return true;
   }
+
+  // Recover newline_count from the outdent reset
+  if (stack->last_newline_count > 0 &&
+    lexer->get_column(lexer) == stack->last_column) {
+    newline_count += stack->last_newline_count;
+  }
+  stack->last_newline_count = 0;
 
   printStack(stack, "    after");
 

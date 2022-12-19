@@ -16,6 +16,8 @@ typedef struct ScannerStack {
   unsigned int stack[STACK_SIZE];
   int top;
   int last_indentation_size;
+  int last_newline_count;
+  int last_column;
 } ScannerStack;
 
 ScannerStack* createStack() {
@@ -23,6 +25,8 @@ ScannerStack* createStack() {
 
   ptr -> top = 0;
   ptr -> last_indentation_size = -1;
+  ptr -> last_newline_count = 0;
+  ptr -> last_column = -1;
   memset(ptr -> stack, STACK_SIZE, (0));
 
   return ptr;
@@ -60,10 +64,12 @@ void printStack(ScannerStack *stack, char *msg) {
 
 unsigned serialiseStack(ScannerStack *stack, char *buf) {
   unsigned elements = isEmptyStack(stack) ? 0 : stack->top;
-  unsigned result_length = (elements + 1) * sizeof(int);
+  unsigned result_length = (elements + 3) * sizeof(int);
   int *placement = (int *)buf;
   memcpy(placement, stack->stack, elements * sizeof(int));
   placement[elements] = stack->last_indentation_size;
+  placement[elements + 1] = stack->last_newline_count;
+  placement[elements + 2] = stack->last_column;
 
   return result_length;
 }
@@ -72,14 +78,18 @@ void deserialiseStack(ScannerStack* stack, const char* buf, unsigned n) {
   if (n != 0) {
     int *intBuf = (int *)buf;
 
-    unsigned elements = n / sizeof(int) - 1;
+    unsigned elements = n / sizeof(int) - 3;
     stack->top = elements;
     memcpy(stack->stack, intBuf, elements * sizeof(int));
     stack->last_indentation_size = intBuf[elements];
+    stack->last_newline_count = intBuf[elements + 1];
+    stack->last_column = intBuf[elements + 2];
   }
 }
 
 void resetStack(ScannerStack *p) {
   p->top = 0;
   p->last_indentation_size = -1;
+  p->last_newline_count = 0;
+  p->last_column = -1;
 }
