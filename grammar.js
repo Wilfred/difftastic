@@ -1732,6 +1732,8 @@ module.exports = grammar({
       'yield'
     ),
 
+    // Preprocessor
+
     _preprocessor_call: $ => seq(
       $._preproc_directive_start,
       choice(
@@ -1747,7 +1749,10 @@ module.exports = grammar({
         $.error_directive,
         $.warning_directive,
         $.line_directive,
-        $.pragma_directive
+        $.pragma_directive,
+        $.reference_directive,
+        $.load_directive,
+        $.shebang_directive
       ),
       $._preproc_directive_end
     ),
@@ -1759,8 +1764,6 @@ module.exports = grammar({
       choice('disable', 'enable', 'restore'),
       optional(choice('annotations', 'warnings'))
     ),
-
-    // Preprocessor
 
     define_directive: $ => seq('define', $.identifier),
     undef_directive: $ => seq('undef', $.identifier),
@@ -1796,6 +1799,9 @@ module.exports = grammar({
         seq('checksum', $.preproc_string_literal, $.preproc_string_literal, $.preproc_string_literal)
       )
     ),
+    reference_directive: $ => seq('r', $.preproc_string_literal),
+    load_directive: $ => seq('load', $.preproc_string_literal),
+    shebang_directive: $ => seq('!', /[^\n\r]*/),
 
     preproc_message: $ => /[^\n\r]+/,
     preproc_integer_literal: $ => /[0-9]+/,

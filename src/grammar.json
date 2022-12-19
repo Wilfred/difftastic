@@ -9626,6 +9626,18 @@
             {
               "type": "SYMBOL",
               "name": "pragma_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "reference_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "load_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "shebang_directive"
             }
           ]
         },
@@ -10037,6 +10049,45 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "reference_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "r"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_string_literal"
+        }
+      ]
+    },
+    "load_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "load"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preproc_string_literal"
+        }
+      ]
+    },
+    "shebang_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^\\n\\r]*"
         }
       ]
     },

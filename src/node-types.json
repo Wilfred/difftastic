@@ -3647,6 +3647,21 @@
     }
   },
   {
+    "type": "load_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "preproc_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "local_declaration_statement",
     "named": true,
     "fields": {},
@@ -5259,6 +5274,21 @@
     }
   },
   {
+    "type": "reference_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "preproc_string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "region_directive",
     "named": true,
     "fields": {},
@@ -5317,6 +5347,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "shebang_directive",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "simple_assignment_expression",
@@ -6763,6 +6798,10 @@
     "named": false
   },
   {
+    "type": "load",
+    "named": false
+  },
+  {
     "type": "lock",
     "named": false
   },
@@ -6880,6 +6919,10 @@
   },
   {
     "type": "public",
+    "named": false
+  },
+  {
+    "type": "r",
     "named": false
   },
   {

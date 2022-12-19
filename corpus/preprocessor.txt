@@ -215,3 +215,36 @@ class Of1879 {
             (variable_declarator (identifier)
               (equals_value_clause (verbatim_string_literal)))))
         (comment))))))
+
+===================================
+Reference (r) directive
+===================================
+
+#r "Microsoft.WindowsAzure.Storage"
+
+---
+
+(compilation_unit
+  (reference_directive (preproc_string_literal)))
+
+===================================
+Load directive
+===================================
+
+#load "mylogger.csx"
+
+---
+
+(compilation_unit
+  (load_directive (preproc_string_literal)))
+
+===================================
+Shebang directive
+===================================
+
+#!/usr/bin/env scriptcs
+
+---
+
+(compilation_unit
+  (shebang_directive))
