@@ -63,7 +63,7 @@ module.exports = grammar({
         $.module_abbrev,
         $.import_decl,
         $.compiler_directive_decl,
-        // $.type_defns
+        $.type_definition,
         // $.exception_defn
       ),
 
@@ -112,12 +112,15 @@ module.exports = grammar({
 
     do: $ => seq( "do", $._expression),
 
+    _function_or_value_defns : $ =>
+      seq($._function_or_value_defn_body, repeat1(seq("and", $._function_or_value_defn_body))),
+
     _function_or_value_defn: $ =>
       seq(
         "let",
         choice(
           $._function_or_value_defn_body,
-          seq("rec", $._function_or_value_defn_body, repeat1(seq("and", $._function_or_value_defn_body)))
+          seq("rec", $._function_or_value_defns)
         )
       ),
 
@@ -306,6 +309,7 @@ module.exports = grammar({
         ".",
         $._long_identifier_or_op,
       ),
+
     //
     // Expressions (END)
     //
@@ -449,7 +453,7 @@ module.exports = grammar({
       ),
 
     curried_signature: $ => seq(repeat1(seq($.arguments_spec, "->")), $.type),
-    uncurried_signaure: $ => seq($.arguments_spec, "->", $.type),
+    uncurried_signature: $ => seq($.arguments_spec, "->", $.type),
     argument_spec: $ =>
       seq(
         optional($.attributes),
@@ -488,16 +492,20 @@ module.exports = grammar({
       ),
 
     type_definition: $ =>
-      $.abbrev_type_defn,
-      // record-type-defn
-      // union-type-defn
-      // anon-type-defn
-      // class-type-defn
-      // struct-type-defn
-      // interface-type-defn
-      // enum-type-defn
-      // delegate-type-defn
-      // type-extension
+      seq(
+        "type",
+        choice(
+          $.record_type_defn,
+          $.union_type_defn,
+          $.anon_type_defn,
+          $.class_type_defn,
+          // struct-type-defn
+          // interface-type-defn
+          // enum-type-defn
+          // delegate-type-defn
+          $.type_extension,
+        )
+      ),
 
     type_name: $ =>
       seq(
@@ -507,11 +515,228 @@ module.exports = grammar({
         optional($.type_arguments)
       ),
 
-    abbrev_type_defn: $ =>
+    type_extension: $ =>
+      seq(
+        $.type_name,
+        $.type_extension_elements,
+      ),
+
+    class_type_defn: $ =>
+      seq(
+        $.type_name,
+        optional($.primary_constr_args),
+        "=",
+        "class",
+        $.class_type_body,
+        "end",
+      ),
+
+    _class_type_body_inner: $ =>
+      choice(
+        $.class_inherits_decl,
+        $.class_function_or_value_defn,
+        $.type_defn_elements,
+      ),
+
+    class_type_body: $ =>
+      seq(
+        $._virtual_open_section,
+        repeat1($._class_type_body_inner),
+        $._virtual_end_section,
+      ),
+
+    record_type_defn: $ =>
       seq(
         $.type_name,
         "=",
+        "{",
+        $.record_fields,
+        "}",
+        optional($.type_extension_elements)
+      ),
+
+    record_fields: $ =>
+      seq(
+        $.record_field,
+        repeat(seq(";",$.record_field))
+      ),
+
+    record_field: $ =>
+      seq(
+        optional($.attributes),
+        optional("mutable"),
+        optional($.access_modifier),
+        $.identifier,
+        ":",
+        $.type
+      ),
+
+    union_type_defn: $ =>
+      seq(
+        $.type_name,
+        "=",
+        $.union_type_cases,
+        optional($.type_extension_elements)
+      ),
+
+    union_type_cases: $ =>
+      seq(
+        optional("|"),
+        $.union_type_case,
+        repeat(seq("|", $.union_type_case))
+      ),
+
+    union_type_case: $ =>
+      seq(
+        optional($.attributes),
+        choice(
+          $.identifier,
+          seq($.identifier, "of", $.union_type_field),
+          seq($.identifier, ":", $.uncurried_signature),
+        )
+      ),
+
+    union_type_field: $ =>
+      choice(
         $.type,
+        seq($.identifier, ":", $.type)
+      ),
+
+    anon_type_defn: $ =>
+      seq(
+        $.type_name,
+        optional($.primary_constr_args),
+        "=",
+        $.class_type_body
+      ),
+
+    primary_constr_args: $ =>
+      seq(
+        optional($.attributes),
+        optional($.access_modifier),
+        "(",
+        optional(seq(
+            $.simple_pattern,
+            repeat(seq(",", $.simple_pattern)))),
+        ")"
+      ),
+
+    simple_pattern: $ =>
+      choice(
+        $.identifier,
+        seq($.simple_pattern, ":", $.type)
+      ),
+
+    class_function_or_value_defn: $ =>
+      seq(
+        optional($.attributes),
+        optional("static"),
+        choice(
+          seq("let", optional("rec"), $._function_or_value_defns),
+          seq("do", $._expression),
+        )
+      ),
+
+    type_extension_elements: $ =>
+      seq(
+        "with",
+        $._virtual_open_section,
+        $.type_defn_elements,
+        $._virtual_end_section,
+      ),
+
+    type_defn_elements: $ =>
+      choice(
+        $.member_defn,
+        $.interface_implementation,
+        // $.interface_signature
+      ),
+
+    interface_implementations: $ => repeat1($.interface_implementation),
+    interface_implementation: $ =>
+      seq(
+        "interface",
+        $.type,
+        optional($.object_members),
+      ),
+
+    object_members: $ => seq("with", $.member_defns, "end"),
+    member_defns: $ => repeat1($.member_defn),
+
+    member_defn: $ =>
+      seq(
+        optional($.attributes),
+        choice(
+          seq(optional("static"), "member", optional($.access_modifier), $.method_or_prop_defn),
+          seq("abstract", optional("member"), optional($.access_modifier), $.member_signature),
+          seq("override", optional($.access_modifier), $.method_or_prop_defn),
+          seq("default", optional($.access_modifier), $.method_or_prop_defn),
+          seq(optional("static"), "val", optional("mutable"), optional($.access_modifier), $.identifier, ":", $.type),
+          $.additional_constr_defn,
+        ),
+      ),
+
+    property_or_ident: $ =>
+      choice(
+        seq($.identifier, ".", $.identifier),
+        $.identifier
+      ),
+
+    method_or_prop_defn: $ =>
+      prec(3,
+        choice(
+          seq($.property_or_ident, "with", $._function_or_value_defns),
+          seq($.property_or_ident, "=", $._expression),
+          seq($.property_or_ident, "=", $._expression, "with", "get"),
+          seq($.property_or_ident, "=", $._expression, "with", "set"),
+          seq($.property_or_ident, "=", $._expression, "with", "get", ",", "set"),
+          seq($.property_or_ident, "=", $._expression, "with", "set", ",", "get"),
+        )
+      ),
+
+    additional_constr_defn: $ =>
+      seq(
+        // optional($.attributes),
+        optional($.access_modifier),
+        "new",
+        $._pattern,
+        $.as_defn,
+        "=",
+        // $.additional_constr_expr
+      ),
+
+    additional_constr_expr: $ =>
+      choice(
+        seq($.additional_constr_expr, ";", $.additional_constr_expr),
+        seq($.additional_constr_expr, "then", $._expression),
+        seq("if", $._expression, "then", $.additional_constr_expr, "else", $.additional_constr_expr),
+        seq("let", $._function_or_value_defn_body, "in", $.additional_constr_expr),
+        $.additional_constr_init_expr
+      ),
+
+    additional_constr_init_expr: $ =>
+      choice(
+        seq("{", $.class_inherits_decl, $.field_initializers, "}"),
+        seq("new", $.type, $._expression)
+      ),
+
+    class_inherits_decl: $ =>
+      prec.left(
+        seq(
+          "inherit",
+          $.type,
+          optional($._expression),
+        )
+      ),
+
+    as_defn: $ => seq("as", $.identifier),
+
+    field_initializer: $ => seq($.long_identifier, "=", $._expression),
+
+    field_initializers: $ =>
+      seq(
+        $.field_initializer,
+        repeat(seq(";", $.field_initializer))
       ),
 
     //

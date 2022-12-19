@@ -1,1 +1,2 @@
-let f (x : int) (y : x -> f * g) = x
+type Person with
+  member x.Info = ()
