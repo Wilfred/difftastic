@@ -168,6 +168,50 @@ b = (float)a[0];
             (bracketed_argument_list (argument (integer_literal)))))))))
 
 =====================================
+Cast with parenthesized expression
+=====================================
+
+(A.A)(a.a.a);
+(Int32)(1);
+(Int32)(1);
+(Int32)((1));
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (cast_expression
+        (qualified_name
+          (identifier)
+          (identifier))
+        (parenthesized_expression
+          (member_access_expression
+            (member_access_expression
+              (identifier)
+              (identifier))
+            (identifier))))))
+  (global_statement
+    (expression_statement
+      (cast_expression
+        (identifier)
+        (parenthesized_expression
+          (integer_literal)))))
+  (global_statement
+    (expression_statement
+      (cast_expression
+        (identifier)
+        (parenthesized_expression
+          (integer_literal)))))
+  (global_statement
+    (expression_statement
+      (cast_expression
+        (identifier)
+        (parenthesized_expression
+          (parenthesized_expression
+            (integer_literal)))))))
+
+=====================================
 Precedence of unary prefix operator and element access
 =====================================
 

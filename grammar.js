@@ -1161,12 +1161,12 @@ module.exports = grammar({
 
     await_expression: $ => prec.right(PREC.UNARY, seq('await', $._expression)),
 
-    cast_expression: $ => prec.right(PREC.CAST, seq(
+    cast_expression: $ => prec.right(PREC.CAST, prec.dynamic(1, seq(
       '(',
       field('type', $._type),
       ')',
       field('value', $._expression)
-    )),
+    ))),
 
     checked_expression: $ => choice(
       seq('checked', '(', $._expression, ')'),
