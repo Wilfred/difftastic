@@ -161,6 +161,8 @@ Delegates
 =====================================
 
 public delegate int Global(ref char a = '\n');
+public delegate ref int Global(ref char a = '\n');
+public delegate ref readonly int Global(ref char a = '\n');
 
 delegate void A<T>() where T:class;
 
@@ -183,8 +185,38 @@ class Z {
         (predefined_type)
         (identifier)
         (equals_value_clause (character_literal (escape_sequence))))))
-  (delegate_declaration (predefined_type) (identifier)
-    (type_parameter_list (type_parameter (identifier)))
+  (delegate_declaration
+    (modifier)
+    (ref_type
+      (predefined_type))
+    (identifier)
+    (parameter_list
+      (parameter
+        (parameter_modifier)
+        (predefined_type)
+        (identifier)
+        (equals_value_clause
+          (character_literal
+            (escape_sequence))))))
+  (delegate_declaration
+    (modifier)
+    (ref_type
+      (predefined_type))
+    (identifier)
+    (parameter_list
+      (parameter
+        (parameter_modifier)
+        (predefined_type)
+        (identifier)
+        (equals_value_clause
+          (character_literal
+            (escape_sequence))))))
+  (delegate_declaration
+    (predefined_type)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
     (parameter_list)
     (type_parameter_constraints_clause (identifier) (type_parameter_constraint)))
   (delegate_declaration (predefined_type) (identifier)
