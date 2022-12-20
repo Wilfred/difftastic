@@ -454,6 +454,10 @@
         "named": true
       },
       {
+        "type": "ref_type",
+        "named": true
+      },
+      {
         "type": "tuple_type",
         "named": true
       }
@@ -2797,11 +2801,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "_type",
+          "named": true
+        },
+        {
+          "type": "parameter_modifier",
           "named": true
         }
       ]
@@ -5227,6 +5235,21 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ref_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
           "named": true
         }
       ]

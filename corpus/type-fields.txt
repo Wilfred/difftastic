@@ -123,7 +123,7 @@ Function pointer type
 class A {
   // Function pointer equivalent without calling convention
   delegate*<string, int> a;
-  delegate*<delegate*<in string, int>, delegate*<string, ref readonly int>> b;
+  delegate*<delegate*<in string, int>, delegate*<ref string, ref readonly int>> b;
 
   // Function pointer equivalent with calling convention
   delegate* managed<string, int> c;
@@ -148,12 +148,12 @@ class A {
           (function_pointer_type
             (function_pointer_parameter
               (function_pointer_type
-                (function_pointer_parameter (predefined_type))
+                (function_pointer_parameter (parameter_modifier) (predefined_type))
                 (function_pointer_parameter (predefined_type))))
             (function_pointer_parameter
               (function_pointer_type
-                (function_pointer_parameter (predefined_type))
-                (function_pointer_parameter (predefined_type)))))
+                (function_pointer_parameter (parameter_modifier) (predefined_type))
+                (function_pointer_parameter (ref_type (predefined_type))))))
           (variable_declarator (identifier))))
       (comment)
       (field_declaration
@@ -186,6 +186,9 @@ Ref readonly
 
 class A {
   ref readonly Point Origin => ref origin;
+  ref readonly Point* Origin;
+  ref readonly Point[] Origin;
+  ref readonly Point? Origin;
 }
 
 ---
@@ -195,11 +198,32 @@ class A {
     (identifier)
     (declaration_list
       (property_declaration
-        (modifier)
-        (modifier)
+        (ref_type
+          (identifier))
         (identifier)
-        (identifier)
-          (arrow_expression_clause (ref_expression (identifier)))))))
+        (arrow_expression_clause (ref_expression (identifier))))
+      (field_declaration
+        (variable_declaration
+          (ref_type
+            (pointer_type
+              (identifier)))
+          (variable_declarator
+            (identifier))))
+      (field_declaration
+        (variable_declaration
+          (ref_type
+            (array_type
+              (identifier)
+              (array_rank_specifier)))
+          (variable_declarator
+            (identifier))))
+          (field_declaration
+            (variable_declaration
+              (ref_type
+                (nullable_type
+                  (identifier)))
+              (variable_declarator
+                (identifier)))))))
 
 =======================================
 Nullable reference types

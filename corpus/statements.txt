@@ -317,14 +317,14 @@ int x = 0;
     (expression_statement
       (assignment_expression
         (tuple_expression
-          (argument 
+          (argument
             (identifier))
           (argument
             (declaration_expression
               (predefined_type)
               (identifier))))
         (assignment_operator)
-        (identifier))))) 
+        (identifier)))))
 
 =====================================
 Invocation with inline tuple_type declaration
@@ -1028,9 +1028,9 @@ class A {
       (parameter_list)
       (block
         (local_declaration_statement
-          (modifier)
           (variable_declaration
-            (implicit_type)
+            (ref_type
+              (implicit_type))
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -1099,7 +1099,7 @@ class A {
   void Sample() {
     using (Stream a = File.OpenRead("a"), b = new BinaryReader(a)) {
       return;
-    } 
+    }
   }
 }
 
@@ -1118,7 +1118,7 @@ class A {
             (variable_declarator (identifier)
               (equals_value_clause
                 (invocation_expression
-                (member_access_expression (identifier) (identifier)) (argument_list (argument (string_literal)))))) 
+                (member_access_expression (identifier) (identifier)) (argument_list (argument (string_literal))))))
             (variable_declarator (identifier)
               (equals_value_clause
                 (object_creation_expression (identifier) (argument_list (argument (identifier)))))))
@@ -1572,14 +1572,14 @@ ref T Choice(bool condition, ref T a, ref T b)
 
 (compilation_unit
   (global_statement
-    (local_function_statement (modifier) (identifier) (identifier)
+    (local_function_statement (ref_type (identifier)) (identifier)
       (parameter_list
         (parameter (predefined_type) (identifier))
         (parameter (parameter_modifier) (identifier) (identifier))
         (parameter (parameter_modifier) (identifier) (identifier)))
       (block
-        (local_declaration_statement (modifier)
-          (variable_declaration (implicit_type)
+        (local_declaration_statement
+          (variable_declaration (ref_type (implicit_type))
             (variable_declarator (identifier)
               (equals_value_clause
                 (ref_expression

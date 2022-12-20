@@ -1574,7 +1574,7 @@ int b = default;
             (default_expression)))))))
 
 =====================================
-Generic type name no type args
+Ref local declaration and ref expression
 =====================================
 
 ref VeryLargeStruct reflocal = ref veryLargeStruct;
@@ -1585,9 +1585,9 @@ ref var elementRef = ref arr[0];
 (compilation_unit
   (global_statement
     (local_declaration_statement
-      (modifier)
       (variable_declaration
-        (identifier)
+        (ref_type
+          (identifier))
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -1595,9 +1595,9 @@ ref var elementRef = ref arr[0];
               (identifier)))))))
   (global_statement
     (local_declaration_statement
-      (modifier)
       (variable_declaration
-        (implicit_type)
+        (ref_type
+          (implicit_type))
         (variable_declarator
           (identifier)
           (equals_value_clause

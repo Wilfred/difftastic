@@ -22,6 +22,8 @@ const PREC = {
   COND: 2,
   ASSIGN: 1,
   SELECT: 0,
+
+  PARAMETER: 1, // Needs higher precedence than ref_type, which is 0.
 };
 
 const decimalDigitSequence = /([0-9][0-9_]*[0-9]|[0-9])/;
@@ -86,6 +88,11 @@ module.exports = grammar({
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $._pattern],
     [$.parameter, $.declaration_expression],
+
+    [$.ref_type, $.declaration_expression],
+    [$.ref_type, $.parameter, $.declaration_expression],
+    [$.ref_type, $.parameter],
+    [$.ref_type, $.function_pointer_parameter],
 
     [$.tuple_element],
     [$.tuple_element, $.declaration_expression],
@@ -259,7 +266,7 @@ module.exports = grammar({
       'public',
       'readonly',
       'required',
-      prec(1, 'ref'), //make sure that 'ref' is treated as a modifier for local variable declarations instead of as a ref expression
+      // 'ref', // `ref` as a modifier can only be used on struct declarations. Other than that it's a ref type or a ref parameter in a declaration.
       'sealed',
       'static',
       'unsafe',
@@ -330,13 +337,13 @@ module.exports = grammar({
       $._parameter_array
     )),
 
-    parameter: $ => seq(
+    parameter: $ => prec.dynamic(PREC.PARAMETER, seq(
       repeat($.attribute_list),
       optional(alias(choice('ref', 'out', 'this', 'in'), $.parameter_modifier)),
       optional(field('type', $._type)),
       field('name', $.identifier),
       optional($.equals_value_clause)
-    ),
+    )),
 
     parameter_modifier: $ => choice('ref', 'out', 'this', 'in'),
 
@@ -573,6 +580,7 @@ module.exports = grammar({
     struct_declaration: $ => seq(
       repeat($.attribute_list),
       repeat($.modifier),
+      optional(alias('ref', $.modifier)),
       'struct',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
@@ -662,6 +670,7 @@ module.exports = grammar({
       $.function_pointer_type,
       $.predefined_type,
       $.tuple_type,
+      $.ref_type,
     ),
 
     implicit_type: $ => 'var',
@@ -693,7 +702,8 @@ module.exports = grammar({
       '*',
       optional($.function_pointer_calling_convention),
       '<',
-      commaSep1($.function_pointer_parameter),
+      repeat(seq($.function_pointer_parameter, ',')),
+      alias($.function_pointer_return_type, $.function_pointer_parameter),
       '>'
     ),
 
@@ -717,10 +727,13 @@ module.exports = grammar({
       $.identifier
     ),
 
-    function_pointer_parameter: $ => seq(
-      optional(choice('ref', 'out', 'in', seq('ref', 'readonly'))),
-      $._type
-    ),
+    function_pointer_parameter: $ => prec(PREC.PARAMETER,
+      seq(
+        optional(alias(choice('ref', 'out', 'in'), $.parameter_modifier)),
+        $._type
+      )),
+
+    function_pointer_return_type: $ => $._type,
 
     predefined_type: $ => token(choice(
       'bool',
