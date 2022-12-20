@@ -1,5 +1,5 @@
 =====================================
-Sample
+Sample - GDScript 1
 =====================================
 
 tool
@@ -50,3 +50,4 @@ func _ready():
               (call (identifier) (argument_list (string) (identifier)))))
           (expression_statement
             (call (identifier) (argument_list (identifier)))))))))
+

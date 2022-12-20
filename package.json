@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "GDScript grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "prebuild": "^10.0.1",
+    "prettier": "^2.8.1",
     "tree-sitter-cli": "^0.20.0"
   },
   "scripts": {
@@ -23,7 +24,8 @@
     "prebuild:upload": "prebuild --upload-all",
     "test": "tree-sitter --version && tree-sitter test",
     "generate": "tree-sitter --version && tree-sitter generate",
-    "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test"
+    "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test",
+    "format": "prettier -w grammar.js package.json && prettier -w --parser json binding.gyp"
   },
   "repository": "https://github.com/PrestonKnopp/tree-sitter-gdscript"
 }

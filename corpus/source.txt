@@ -164,14 +164,17 @@ $"node/path"
 $ "node/path"
 var x = $"node/path"
 
+%node
+
 ---
 
 (source
   (expression_statement (get_node))
   (expression_statement (get_node))
   (expression_statement (get_node))
-  (ERROR (UNEXPECTED ' ')) (expression_statement (string))
-  (variable_statement (name) (get_node)))
+  (ERROR (UNEXPECTED '$')) (expression_statement (string))
+  (variable_statement (name) (get_node))
+  (expression_statement (get_node)))
 
 =====================================
 Breakpoint Statement
@@ -326,7 +329,8 @@ var x :=
 ---
 
 (source
-  (variable_statement (name) (ERROR (identifier)) (identifier))
+  (variable_statement (name) (identifier))
+  (ERROR)
   (ERROR (name)  (inferred_type)))
 
 =====================================
@@ -592,6 +596,10 @@ signal x(a, b)
 signal x(a,)
 signal x(,)
 
+signal x(a: Type)
+signal x(a: Type,)
+signal x(a, b: Type)
+
 ---
 
 (source
@@ -599,7 +607,26 @@ signal x(,)
   (signal_statement (name) (signal_argument_list))
   (signal_statement (name) (signal_argument_list (identifier) (identifier)))
   (signal_statement (name) (signal_argument_list (identifier)))
-  (signal_statement (name) (signal_argument_list (ERROR))))
+  (signal_statement (name) (signal_argument_list (ERROR)))
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (typed_parameter
+     (identifier)
+     (type))))
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (typed_parameter
+     (identifier)
+     (type)))) 
+  (signal_statement
+   (name)
+   (signal_argument_list
+    (identifier)
+    (typed_parameter
+     (identifier)
+     (type)))))
 
 =====================================
 Class Name

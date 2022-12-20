@@ -2880,6 +2880,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "typed_parameter",
+          "named": true
         }
       ]
     }
