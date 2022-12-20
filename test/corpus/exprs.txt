@@ -2,7 +2,7 @@
 Indexing priority
 ======================
 
-"Hello " + xxx.name
+"Hello" + xxx.name
 
 ---
 
@@ -10,6 +10,34 @@ Indexing priority
   (expr
     left: (expr (string (string_start) (string_content) (string_end)))
     right: (expr (expr (id)) (id))
+  ))
+
+======================
+Indexing priority 2
+======================
+
+"Hello" + xxx[name]
+
+---
+
+(document
+  (expr
+    left: (expr (string (string_start) (string_content) (string_end)))
+    right: (expr (expr (id)) (expr (id)))
+  ))
+
+======================
+Indexing priority 3
+======================
+
+"Hello" + super.name
+
+---
+
+(document
+  (expr
+    left: (expr (string (string_start) (string_content) (string_end)))
+    right: (expr (super) (id))
   ))
 
 ======================
@@ -170,3 +198,17 @@ operator precedence
         (expr
 	   left: (expr (number))
 	   right: (expr (true)))))
+
+======================
+Application priority
+======================
+
+!foo(2, 3)
+
+---
+(document
+  (expr
+    (unaryop)
+    (expr
+      (expr (id))
+      (args (expr (number)) (expr (number))))))

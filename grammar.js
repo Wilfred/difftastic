@@ -4,7 +4,6 @@ const PREC = {
     // The order is reversed though: In the spec, '1' means high priority
     // but with tree-sitter it means low priority.
     application_indexing: 13,
-    //TODO:
     unary: 12,
     multiplicative: 11,
     additive: 10,
@@ -60,8 +59,11 @@ module.exports = grammar({
                         optional($.compspec),
                         "]"
                     ),
-                    prec(PREC.application_indexing, seq($.expr, ".", $.id)),
-                    seq(
+                    prec(PREC.application_indexing,
+                      seq($.expr, ".", $.id)),
+                    seq($.super, ".", $.id),
+                    prec(PREC.application_indexing,
+                      seq(
                         $.expr,
                         "[",
                         optional($.expr),
@@ -73,10 +75,10 @@ module.exports = grammar({
                             )
                         ),
                         "]"
-                    ),
-                    seq($.super, ".", $.id),
+                      )),
                     seq($.super, "[", $.expr, "]"),
-                    seq($.expr, "(", optional($.args), ")", optional($.tailstrict)),
+                    prec(PREC.application_indexing,
+                        seq($.expr, "(", optional($.args), ")", optional($.tailstrict))),
                     $.id,
                     $.local_bind,
                     prec.right(seq(
@@ -87,7 +89,7 @@ module.exports = grammar({
                         optional(seq("else", field("alternative", $.expr)))
                     )),
                     $._binary_expr,
-                    prec.left(
+                    prec(PREC.unary,
                         seq(
                             field("operator", $.unaryop),
                             field("argument", $.expr)
@@ -108,20 +110,20 @@ module.exports = grammar({
         true: () => "true",
         false: () => "false",
 
-	// Keywords
+        // Keywords
         self: () => "self",
         dollar: () => "$",
         super: () => "super",
         local: () => "local",
-	tailstrict: () => "tailstrict",
-	
-	_binary_expr: ($) => {
+        tailstrict: () => "tailstrict",
+
+        _binary_expr: ($) => {
            const table = [
                [PREC.multiplicative, choice("*", "/", "%")],
                [PREC.additive, choice("+", "-")],
                [PREC.bitshift, choice("<<", ">>")],
                [PREC.comparison, choice("<", "<=", ">", ">=")],
-	       [PREC.equality, choice("==", "!=")],
+               [PREC.equality, choice("==", "!=")],
                [PREC.bitand, '&'],
                [PREC.bitxor, '^'],
                [PREC.bitor, '|'],
@@ -138,7 +140,7 @@ module.exports = grammar({
         },
 
         unaryop: () => choice("-", "+", "!", "~"),
-	
+
         local_bind: ($) =>
             prec.right(seq($.local, commaSep1($.bind, false), ";", $.expr)),
 
@@ -191,9 +193,9 @@ module.exports = grammar({
 
         h: () => choice(":", "::", ":::"),
 
-	// assert in objects
+        // assert in objects
         assert: ($) => seq("assert", $.expr, optional(seq(":", $.expr))),
-	
+
         objlocal: ($) => seq($.local, $.bind),
 
         compspec: ($) => repeat1(choice($.forspec, $.ifspec)),
