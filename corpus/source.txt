@@ -260,8 +260,6 @@ export(Type, "Param") var a = "a"
 export(Type,) var a
 export(,) var a
 
-@export(Type) var a
-
 ---
 
 (source
@@ -274,8 +272,7 @@ export(,) var a
   (export_variable_statement (export_argument_list (identifier) (identifier)) (name))
   (export_variable_statement (export_argument_list (identifier) (string)) (name) (string))
   (export_variable_statement (export_argument_list (identifier)) (name))
-  (export_variable_statement (export_argument_list (ERROR)) (name))
-  (export_variable_statement (export_argument_list (identifier)) (name)))
+  (export_variable_statement (export_argument_list (ERROR)) (name)))
 
 =====================================
 SetGet Variables
@@ -300,13 +297,10 @@ Onready Variables
 onready var hello
 onready var hello: World
 
-@onready var hello: World
-
 ---
 
 (source
   (onready_variable_statement (name))
-  (onready_variable_statement (name) (type))
   (onready_variable_statement (name) (type)))
 
 =====================================
@@ -641,14 +635,11 @@ Class Name
 class_name Name
 class_name Name, "icon"
 
-@icon("res://icon.png")
-
 ---
 
 (source
   (class_name_statement (name))
-  (class_name_statement (name) (class_name_icon_path (string)))
-  (icon_statement (string)))
+  (class_name_statement (name) (class_name_icon_path (string))))
 
 =====================================
 Tool and Extend
@@ -662,8 +653,6 @@ extends Ident
 extends Ident.Attr
 extends Ident.Attr.Attr
 
-@tool
-
 ---
 (source
   (tool_statement)
@@ -672,8 +661,7 @@ extends Ident.Attr.Attr
   (extends_statement (string) (dotted_type (type) (type)))
   (extends_statement (dotted_type (type)))
   (extends_statement (dotted_type (type) (type)))
-  (extends_statement (dotted_type (type) (type) (type)))
-  (tool_statement))
+  (extends_statement (dotted_type (type) (type) (type))))
 
 =====================================
 Inner Class

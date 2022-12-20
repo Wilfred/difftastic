@@ -715,10 +715,6 @@
           "named": true
         },
         {
-          "type": "icon_statement",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -1983,21 +1979,6 @@
     "fields": {}
   },
   {
-    "type": "icon_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "identifier",
     "named": true,
     "fields": {}
@@ -2987,10 +2968,6 @@
           "named": true
         },
         {
-          "type": "icon_statement",
-          "named": true
-        },
-        {
           "type": "if_statement",
           "named": true
         },
@@ -3134,11 +3111,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "tool_statement",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "type",
@@ -3681,94 +3653,6 @@
     "named": false
   },
   {
-    "type": "@export",
-    "named": false
-  },
-  {
-    "type": "@export_color_no_alpha",
-    "named": false
-  },
-  {
-    "type": "@export_dir",
-    "named": false
-  },
-  {
-    "type": "@export_enum",
-    "named": false
-  },
-  {
-    "type": "@export_exp_easing",
-    "named": false
-  },
-  {
-    "type": "@export_file",
-    "named": false
-  },
-  {
-    "type": "@export_flags",
-    "named": false
-  },
-  {
-    "type": "@export_flags_2d_navigation",
-    "named": false
-  },
-  {
-    "type": "@export_flags_2d_physics",
-    "named": false
-  },
-  {
-    "type": "@export_flags_2d_render",
-    "named": false
-  },
-  {
-    "type": "@export_flags_3d_navigation",
-    "named": false
-  },
-  {
-    "type": "@export_flags_3d_physics",
-    "named": false
-  },
-  {
-    "type": "@export_flags_3d_render",
-    "named": false
-  },
-  {
-    "type": "@export_global_dir",
-    "named": false
-  },
-  {
-    "type": "@export_global_file",
-    "named": false
-  },
-  {
-    "type": "@export_multiline",
-    "named": false
-  },
-  {
-    "type": "@export_node_path",
-    "named": false
-  },
-  {
-    "type": "@export_placeholder",
-    "named": false
-  },
-  {
-    "type": "@export_range",
-    "named": false
-  },
-  {
-    "type": "@icon(",
-    "named": false
-  },
-  {
-    "type": "@onready",
-    "named": false
-  },
-  {
-    "type": "@tool",
-    "named": false
-  },
-  {
     "type": "[",
     "named": false
   },
@@ -3957,8 +3841,8 @@
     "named": true
   },
   {
-    "type": "tool",
-    "named": false
+    "type": "tool_statement",
+    "named": true
   },
   {
     "type": "true",

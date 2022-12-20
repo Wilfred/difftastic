@@ -625,10 +625,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "icon_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "extends_statement"
         },
         {
@@ -979,89 +975,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
-              "type": "STRING",
-              "value": "@export"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_enum"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_file"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_dir"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_global_file"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_global_dir"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_multiline"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_placeholder"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_range"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_exp_easing"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_color_no_alpha"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_node_path"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_2d_physics"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_2d_render"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_2d_navigation"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_3d_physics"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_3d_render"
-            },
-            {
-              "type": "STRING",
-              "value": "@export_flags_3d_navigation"
-            }
-          ]
+          "type": "STRING",
+          "value": "export"
         },
         {
           "type": "CHOICE",
@@ -1097,17 +1012,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "onready"
-            },
-            {
-              "type": "STRING",
-              "value": "@onready"
-            }
-          ]
+          "type": "STRING",
+          "value": "onready"
         },
         {
           "type": "SYMBOL",
@@ -1195,17 +1101,8 @@
       }
     },
     "tool_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "tool"
-        },
-        {
-          "type": "STRING",
-          "value": "@tool"
-        }
-      ]
+      "type": "STRING",
+      "value": "tool"
     },
     "signal_argument_list": {
       "type": "SEQ",
@@ -1348,23 +1245,6 @@
               "type": "BLANK"
             }
           ]
-        }
-      ]
-    },
-    "icon_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@icon("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
