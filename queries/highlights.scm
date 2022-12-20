@@ -12,7 +12,28 @@
 (identity_expression (in) @operator)
 (identity_expression (is) @operator)
 
-(storage_class) @keyword.storage
+[
+	(lazy)
+	(align)
+	(extern)
+	(static)
+	(abstract)
+	(final)
+	(override)
+	(synchronized)
+	(auto)
+	(scope)
+	(gshared)
+	(ref)
+	(deprecated)
+	(nothrow)
+	(pure)
+	(type_ctor)
+] @keyword.storage
+
+(parameter_attribute (return) @keyword.storage)
+(parameter_attribute (in) @keyword.storage)
+(parameter_attribute (out) @keyword.storage)
 
 (function_declaration (identifier) @function)
 

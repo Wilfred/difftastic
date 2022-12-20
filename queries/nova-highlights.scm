@@ -39,10 +39,28 @@
 ] @keyword.operator
 
 [
-	(parameter_attribute)
-	(storage_class)
+	(lazy)
+	(align)
+	(extern)
+	(static)
+	(abstract)
+	(final)
+	(override)
+	(synchronized)
+	(auto)
+	(scope)
+	(gshared)
+	(ref)
+	(deprecated)
+	(nothrow)
+	(pure)
 	(type_ctor)
 ] @keyword.modifier
+
+; these are special only when it shows up here
+(parameter_attribute (return) @keyword.modifier)
+(parameter_attribute (in) @keyword.modifier)
+(parameter_attribute (out) @keyword.modifier)
 
 (function_declaration (identifier) @identifier.function)
 (call_expression (type (identifier) @identifier.function))
