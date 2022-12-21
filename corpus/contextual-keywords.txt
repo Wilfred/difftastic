@@ -16,4 +16,25 @@ var a = Assert.Range(from, to);
           (equals_value_clause
             (invocation_expression
               (member_access_expression (identifier) (identifier))
-              (argument_list (argument (identifier)) (argument (identifier)))))))))) 
+              (argument_list (argument (identifier)) (argument (identifier))))))))))
+
+=======================================
+File keyword in invocation
+=======================================
+
+file.Method(1, 2);
+
+---
+
+    (compilation_unit
+      (global_statement
+        (expression_statement
+          (invocation_expression
+            (member_access_expression
+              (identifier)
+              (identifier))
+            (argument_list
+              (argument
+                (integer_literal))
+              (argument
+                (integer_literal)))))))

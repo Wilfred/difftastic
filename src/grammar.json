@@ -746,6 +746,10 @@
           },
           {
             "type": "STRING",
+            "value": "file"
+          },
+          {
+            "type": "STRING",
             "value": "fixed"
           },
           {
@@ -9583,6 +9587,10 @@
         {
           "type": "STRING",
           "value": "yield"
+        },
+        {
+          "type": "STRING",
+          "value": "file"
         }
       ]
     },
@@ -10441,6 +10449,10 @@
     [
       "_contextual_keywords",
       "type_parameter_constraint"
+    ],
+    [
+      "_contextual_keywords",
+      "modifier"
     ],
     [
       "_type",

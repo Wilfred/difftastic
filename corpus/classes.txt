@@ -560,3 +560,18 @@ class Ωµ {
         parameters: (parameter_list)
         body: (block
           (return_statement (null_literal)))))))
+
+=================================
+File scoped class
+=================================
+
+file class A {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    name: (identifier)
+    body: (declaration_list)))
+    
