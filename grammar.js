@@ -288,7 +288,6 @@ module.exports = grammar({
     seq(field('marker', $._kwd_marker),
         field('name', alias(NS_DELIMITER, $.kwd_name))),
 
-
     _kwd_qualified: $ =>
     prec(2, seq(field('marker', $._kwd_marker),
                 field('namespace', alias(KEYWORD_NO_SIGIL, $.kwd_ns)),
