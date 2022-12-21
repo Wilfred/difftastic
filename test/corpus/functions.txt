@@ -274,3 +274,14 @@ val anon = fun() { assert(true) }
               (value_arguments
                 (value_argument
                   (boolean_literal))))))))))
+
+==================
+Function with backticked name
+==================
+
+fun `this is a test function`() = true
+
+---
+
+(source_file
+  (function_declaration (simple_identifier) (function_body (boolean_literal))))
