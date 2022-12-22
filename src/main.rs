@@ -57,7 +57,7 @@ use parse::guess_language::{guess, language_name};
 static GLOBAL: MiMalloc = MiMalloc;
 
 use diff::sliders::fix_all_sliders;
-use options::{DisplayMode, DisplayOptions, FileArgument, Mode, DEFAULT_TAB_WIDTH};
+use options::{DiffOptions, DisplayMode, DisplayOptions, FileArgument, Mode, DEFAULT_TAB_WIDTH};
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -168,12 +168,10 @@ fn main() {
             }
         }
         Mode::Diff {
-            graph_limit,
-            byte_limit,
+            diff_options,
             display_options,
             missing_as_empty,
             set_exit_code,
-            check_only,
             language_override,
             lhs_path,
             rhs_path,
@@ -221,9 +219,7 @@ fn main() {
                         lhs_path,
                         rhs_path,
                         &display_options,
-                        graph_limit,
-                        byte_limit,
-                        check_only,
+                        &diff_options,
                         language_override,
                     )
                     .try_for_each_with(send, |s, diff_result| s.send(diff_result))
@@ -240,10 +236,8 @@ fn main() {
                         &lhs_path,
                         &rhs_path,
                         &display_options,
+                        &diff_options,
                         missing_as_empty,
-                        graph_limit,
-                        byte_limit,
-                        check_only,
                         language_override,
                     );
                     print_diff_result(&display_options, &diff_result);
@@ -281,10 +275,8 @@ fn diff_file(
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
+    diff_options: &DiffOptions,
     missing_as_empty: bool,
-    graph_limit: usize,
-    byte_limit: usize,
-    check_only: bool,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
@@ -296,9 +288,7 @@ fn diff_file(
         &lhs_bytes,
         &rhs_bytes,
         display_options,
-        graph_limit,
-        byte_limit,
-        check_only,
+        diff_options,
         language_override,
     )
 }
@@ -311,9 +301,7 @@ fn diff_file_content(
     lhs_bytes: &[u8],
     rhs_bytes: &[u8],
     display_options: &DisplayOptions,
-    graph_limit: usize,
-    byte_limit: usize,
-    check_only: bool,
+    diff_options: &DiffOptions,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
@@ -377,7 +365,9 @@ fn diff_file_content(
     }
 
     let (lang_name, lhs_positions, rhs_positions) = match lang_config {
-        _ if lhs_bytes.len() > byte_limit || rhs_bytes.len() > byte_limit => {
+        _ if lhs_bytes.len() > diff_options.byte_limit
+            || rhs_bytes.len() > diff_options.byte_limit =>
+        {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
             (
@@ -393,7 +383,7 @@ fn diff_file_content(
 
             init_all_info(&lhs, &rhs);
 
-            if check_only {
+            if diff_options.check_only {
                 let lang_name = language.map(|l| language_name(l).into());
                 let has_syntactic_changes = lhs != rhs;
 
@@ -429,7 +419,7 @@ fn diff_file_content(
                     lhs_section_nodes.get(0).copied(),
                     rhs_section_nodes.get(0).copied(),
                     &mut change_map,
-                    graph_limit,
+                    diff_options.graph_limit,
                 ) {
                     Ok(()) => {}
                     Err(ExceededGraphLimit {}) => {
@@ -509,11 +499,10 @@ fn diff_directories<'a>(
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
-    graph_limit: usize,
-    byte_limit: usize,
-    check_only: bool,
+    diff_options: &DiffOptions,
     language_override: Option<parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
+    let diff_options = diff_options.clone();
     let display_options = display_options.clone();
 
     // We greedily list all files in the directory, and then diff them
@@ -533,10 +522,8 @@ fn diff_directories<'a>(
             &FileArgument::NamedPath(lhs_path),
             &FileArgument::NamedPath(rhs_path),
             &display_options,
+            &diff_options,
             true,
-            graph_limit,
-            byte_limit,
-            check_only,
             language_override,
         )
     })
@@ -670,7 +657,6 @@ mod tests {
     use std::ffi::OsStr;
 
     use super::*;
-    use crate::options::{DEFAULT_BYTE_LIMIT, DEFAULT_GRAPH_LIMIT};
 
     #[test]
     fn test_diff_identical_content() {
@@ -683,9 +669,7 @@ mod tests {
             s.as_bytes(),
             s.as_bytes(),
             &DisplayOptions::default(),
-            DEFAULT_GRAPH_LIMIT,
-            DEFAULT_BYTE_LIMIT,
-            false,
+            &DiffOptions::default(),
             None,
         );
 
