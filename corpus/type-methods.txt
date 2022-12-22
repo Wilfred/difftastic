@@ -217,7 +217,7 @@ class A {
         (parameter_list
           (parameter (predefined_type) (identifier))
           (parameter (predefined_type) (identifier)))
-        (block)))))        
+        (block)))))
 
 =======================================
 Class method with default parameter
@@ -345,4 +345,65 @@ class A {
           (identifier))
         (arrow_expression_clause
           (integer_literal))))))
-          
+
+=======================================
+Method with scoped parameter and scoped local variable
+=======================================
+
+ref struct S {
+    void M(scoped ref System.Span<int> p) {
+        scoped ref System.Span<int> i = ref p;
+        scoped System.Span<int> j = p;
+    }
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (predefined_type)
+        (identifier)
+        (parameter_list
+          (parameter
+            (parameter_modifier)
+            (parameter_modifier)
+            (qualified_name
+              (identifier)
+              (generic_name
+                (identifier)
+                (type_argument_list
+                  (predefined_type))))
+            (identifier)))
+        (block
+          (local_declaration_statement
+            (variable_declaration
+              (scoped_type
+                (ref_type
+                  (qualified_name
+                    (identifier)
+                    (generic_name
+                      (identifier)
+                      (type_argument_list
+                        (predefined_type))))))
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (ref_expression
+                    (identifier))))))
+          (local_declaration_statement
+            (variable_declaration
+              (scoped_type
+                (qualified_name
+                  (identifier)
+                  (generic_name
+                    (identifier)
+                    (type_argument_list
+                      (predefined_type)))))
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (identifier))))))))))

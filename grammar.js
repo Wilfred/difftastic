@@ -84,6 +84,7 @@ module.exports = grammar({
     [$._ref_base_type, $._array_base_type],
     [$._ref_base_type, $._nullable_base_type],
     [$._ref_base_type, $._pointer_base_type],
+    [$._ref_base_type, $._scoped_base_type],
 
     [$._object_creation_type, $._array_base_type],
     [$._object_creation_type, $._nullable_base_type],
@@ -272,7 +273,8 @@ module.exports = grammar({
       'public',
       'readonly',
       'required',
-      // 'ref', // `ref` as a modifier can only be used on struct declarations. Other than that it's a ref type or a ref parameter in a declaration.
+      // 'ref',     // `ref` as a modifier can only be used on struct declarations. Other than that it's a ref type or a ref parameter in a declaration.
+      // 'scoped',  // `scoped` is either part of a scoped type or a scoped parameter. Both of which are handled outside of `modifier`.
       'sealed',
       'static',
       'unsafe',
@@ -345,6 +347,7 @@ module.exports = grammar({
 
     parameter: $ => seq(
       repeat($.attribute_list),
+      alias(optional('scoped'), $.parameter_modifier),
       optional(alias(choice('ref', 'out', 'this', 'in'), $.parameter_modifier)),
       optional(field('type', $._ref_base_type)),
       field('name', $.identifier),
@@ -677,6 +680,7 @@ module.exports = grammar({
       $.predefined_type,
       $.tuple_type,
       $.ref_type,
+      $.scoped_type,
     ),
 
     implicit_type: $ => 'var',
@@ -795,6 +799,16 @@ module.exports = grammar({
       $.function_pointer_type,
       $.predefined_type,
       $.tuple_type
+    ),
+
+    scoped_type: $ => seq(
+      'scoped',
+      $._scoped_base_type
+    ),
+
+    _scoped_base_type: $ => choice(
+      $._name,
+      $.ref_type,
     ),
 
     tuple_type: $ => seq(

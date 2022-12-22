@@ -1222,6 +1222,23 @@
           }
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "scoped"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          "named": true,
+          "value": "parameter_modifier"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -3446,6 +3463,10 @@
         {
           "type": "SYMBOL",
           "name": "ref_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scoped_type"
         }
       ]
     },
@@ -3986,6 +4007,32 @@
         {
           "type": "SYMBOL",
           "name": "tuple_type"
+        }
+      ]
+    },
+    "scoped_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "scoped"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_scoped_base_type"
+        }
+      ]
+    },
+    "_scoped_base_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ref_type"
         }
       ]
     },
@@ -10625,6 +10672,10 @@
     [
       "_ref_base_type",
       "_pointer_base_type"
+    ],
+    [
+      "_ref_base_type",
+      "_scoped_base_type"
     ],
     [
       "_object_creation_type",

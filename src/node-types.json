@@ -458,6 +458,10 @@
         "named": true
       },
       {
+        "type": "scoped_type",
+        "named": true
+      },
+      {
         "type": "tuple_type",
         "named": true
       }
@@ -5557,6 +5561,41 @@
     }
   },
   {
+    "type": "scoped_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "alias_qualified_name",
+          "named": true
+        },
+        {
+          "type": "generic_name",
+          "named": true
+        },
+        {
+          "type": "global",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "select_clause",
     "named": true,
     "fields": {},
@@ -7190,6 +7229,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "scoped",
     "named": false
   },
   {

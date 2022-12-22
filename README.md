@@ -39,7 +39,7 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] File scoped classes
 - [ ] Raw string literals
 - [x] File scoped types
-- [ ] Scoped ref
+- [x] Scoped ref
 
 ### References
 
