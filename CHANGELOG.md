@@ -1,5 +1,11 @@
 ## 0.40 (unreleased)
 
+### Parsing
+
+`rebar` files (e.g. `rebar.lock`) are no longer associated with
+Erlang, only `*.erl` files, as the Erlang parser does not currently
+support them.
+
 ### Command Line Interface
 
 `--list-languages` now shows filenames associated with languages
