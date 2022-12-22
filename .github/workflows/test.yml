@@ -5,7 +5,7 @@ name: Continuous integration
 jobs:
   test_linux:
     name: Test Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
@@ -13,7 +13,7 @@ jobs:
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
@@ -21,7 +21,7 @@ jobs:
 
   # test_linux_arm64:
   #   name: Test Linux arm64 (build only)
-  #   runs-on: ubuntu-latest
+  #   runs-on: ubuntu-20.04
   #   steps:
   #     - uses: actions/checkout@v3
   #     - uses: dtolnay/rust-toolchain@1.57.0
@@ -47,7 +47,7 @@ jobs:
 
   regression_test:
     name: Output Regression Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
@@ -58,7 +58,7 @@ jobs:
 
   package:
     name: Check Linux Packaging
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
@@ -66,7 +66,7 @@ jobs:
 
   fmt:
     name: Rustfmt
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
