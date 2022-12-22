@@ -22,8 +22,6 @@ const PREC = {
   COND: 2,
   ASSIGN: 1,
   SELECT: 0,
-
-  PARAMETER: 1, // Needs higher precedence than ref_type, which is 0.
 };
 
 const decimalDigitSequence = /([0-9][0-9_]*[0-9]|[0-9])/;
@@ -72,12 +70,27 @@ module.exports = grammar({
     [$._contextual_keywords, $.type_parameter_constraint],
     [$._contextual_keywords, $.modifier],
 
-    [$._type, $.array_creation_expression],
     [$._type, $.attribute],
-    [$._type, $.stack_alloc_array_creation_expression],
     [$._type, $._nullable_base_type],
-    [$._type, $._nullable_base_type, $.array_creation_expression],
+    [$._type, $._array_base_type],
+    [$._type, $._pointer_base_type],
+    [$._type, $._ref_base_type],
+
     [$._nullable_base_type, $.stack_alloc_array_creation_expression],
+    [$._array_base_type, $.stack_alloc_array_creation_expression],
+    [$._pointer_base_type, $.stack_alloc_array_creation_expression],
+
+    [$._ref_base_type, $._array_base_type],
+    [$._ref_base_type, $._nullable_base_type],
+    [$._ref_base_type, $._pointer_base_type],
+
+    [$._object_creation_type, $._array_base_type],
+    [$._object_creation_type, $._nullable_base_type],
+    [$._object_creation_type, $._pointer_base_type],
+
+    [$.array_creation_expression, $._array_base_type],
+    [$.array_creation_expression, $._nullable_base_type],
+    [$.array_creation_expression, $._pointer_base_type],
 
     [$.parameter, $.this_expression],
     [$.parameter, $._simple_name],
@@ -85,10 +98,7 @@ module.exports = grammar({
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $.declaration_expression],
 
-    [$.ref_type, $.declaration_expression],
-    [$.ref_type, $.parameter, $.declaration_expression],
     [$.ref_type, $.parameter],
-    [$.ref_type, $.function_pointer_parameter],
 
     [$.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
@@ -331,13 +341,13 @@ module.exports = grammar({
       $._parameter_array
     )),
 
-    parameter: $ => prec.dynamic(PREC.PARAMETER, seq(
+    parameter: $ => seq(
       repeat($.attribute_list),
       optional(alias(choice('ref', 'out', 'this', 'in'), $.parameter_modifier)),
-      optional(field('type', $._type)),
+      optional(field('type', $._ref_base_type)),
       field('name', $.identifier),
       optional($.equals_value_clause)
-    )),
+    ),
 
     parameter_modifier: $ => choice('ref', 'out', 'this', 'in'),
 
@@ -669,10 +679,20 @@ module.exports = grammar({
 
     implicit_type: $ => 'var',
 
-    array_type: $ => prec(PREC.POSTFIX, seq(
-      field('type', $._type),
+    array_type: $ => seq(
+      field('type', $._array_base_type),
       field('rank', $.array_rank_specifier)
-    )),
+    ),
+
+    _array_base_type: $ => choice(
+      $.array_type,
+      $._name,
+      $.nullable_type,
+      $.pointer_type,
+      $.function_pointer_type,
+      $.predefined_type,
+      $.tuple_type,
+    ),
 
     // grammar.txt marks this non-optional and includes omitted_array_size_expression in
     // expression but we can't match empty rules.
@@ -683,13 +703,22 @@ module.exports = grammar({
     _nullable_base_type: $ => choice(
       $.array_type,
       $._name,
-      $.pointer_type,
       $.function_pointer_type,
       $.predefined_type,
       $.tuple_type
     ),
 
-    pointer_type: $ => prec(PREC.POSTFIX, seq($._type, '*')),
+    pointer_type: $ => seq($._pointer_base_type, '*'),
+
+    _pointer_base_type: $ => choice(
+      $.array_type,
+      $._name,
+      $.nullable_type,
+      $.pointer_type,
+      $.function_pointer_type,
+      $.predefined_type,
+      $.tuple_type,
+    ),
 
     function_pointer_type: $ => seq(
       'delegate',
@@ -721,11 +750,10 @@ module.exports = grammar({
       $.identifier
     ),
 
-    function_pointer_parameter: $ => prec(PREC.PARAMETER,
-      seq(
-        optional(alias(choice('ref', 'out', 'in'), $.parameter_modifier)),
-        $._type
-      )),
+    function_pointer_parameter: $ => seq(
+      optional(alias(choice('ref', 'out', 'in'), $.parameter_modifier)),
+      $._ref_base_type
+    ),
 
     function_pointer_return_type: $ => $._type,
 
@@ -753,7 +781,18 @@ module.exports = grammar({
     ref_type: $ => seq(
       'ref',
       optional('readonly'),
-      $._type
+      $._ref_base_type
+    ),
+
+    _ref_base_type: $ => choice(
+      $.implicit_type,
+      $.array_type,
+      $._name,
+      $.nullable_type,
+      $.pointer_type,
+      $.function_pointer_type,
+      $.predefined_type,
+      $.tuple_type
     ),
 
     tuple_type: $ => seq(
@@ -1308,10 +1347,19 @@ module.exports = grammar({
 
     object_creation_expression: $ => prec.right(seq(
       'new',
-      field('type', $._type),
+      field('type', $._object_creation_type),
       field('arguments', optional($.argument_list)),
       field('initializer', optional($.initializer_expression))
     )),
+
+    _object_creation_type: $ => choice(
+      $._name,
+      $.nullable_type,
+      $.pointer_type,
+      $.function_pointer_type,
+      $.predefined_type,
+      $.tuple_type
+    ),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
