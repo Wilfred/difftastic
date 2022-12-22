@@ -38,7 +38,7 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Required members
 - [x] File scoped classes
 - [ ] Raw string literals
-- [ ] File scoped types
+- [x] File scoped types
 - [ ] Scoped ref
 
 ### References
