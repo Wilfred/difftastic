@@ -3241,7 +3241,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "_type"
                 },
                 {
                   "type": "REPEAT",
@@ -3254,7 +3254,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "identifier"
+                        "name": "_type"
                       }
                     ]
                   }
@@ -3325,7 +3325,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_type"
         },
         {
           "type": "SYMBOL",

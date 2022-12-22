@@ -210,6 +210,36 @@ record Teacher(string FirstName, string LastName, string Subject) : Person(First
       (identifier))))
 
 =====================================
+Record inheritance with generic base
+=====================================
+
+record Teacher() : Entity<Person>(), I1;
+
+record A : System.IEquatable<A>;
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (parameter_list)
+    (base_list
+      (primary_constructor_base_type
+        (generic_name (identifier)
+          (type_argument_list (identifier)))
+        (argument_list))
+    (identifier)))
+      (record_declaration
+        (identifier)
+        (base_list
+          (qualified_name
+            (identifier)
+            (generic_name
+              (identifier)
+              (type_argument_list
+                (identifier)))))))
+
+=====================================
 Record types can end with a semicolon
 =====================================
 

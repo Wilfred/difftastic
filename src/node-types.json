@@ -4958,11 +4958,11 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "_type",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "argument_list",
           "named": true
         }
       ]
