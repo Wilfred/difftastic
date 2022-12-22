@@ -656,6 +656,7 @@ Lambda expressions
 void a() {
   x => x + 1;
   (A a, B b) => { return a.c(b); };
+  RetType (A a, B b) => { return 1; };
 }
 
 ---
@@ -676,7 +677,20 @@ void a() {
             (block (return_statement
               (invocation_expression
                 (member_access_expression (identifier) (identifier))
-                (argument_list (argument (identifier))))))))))))
+                (argument_list (argument (identifier))))))))
+            (expression_statement
+              (lambda_expression
+                (identifier)
+                (parameter_list
+                  (parameter
+                    (identifier)
+                    (identifier))
+                  (parameter
+                    (identifier)
+                    (identifier)))
+                (block
+                  (return_statement
+                    (integer_literal)))))))))
 
 ============================
 Async Lambda

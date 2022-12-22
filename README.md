@@ -26,7 +26,7 @@ Comprehensive supports C# 1 through 10.0 with the following exceptions:
 - [x] Allow both assignment and declaration in the same deconstruction
 - [x] Allow AsyncMethodBuilder attribute on methods
 - [x] Record structs
-- [ ] Lambda improvements
+- [x] Lambda improvements
 
 #### C# 11.0 (under development)
 

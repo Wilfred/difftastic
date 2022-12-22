@@ -3583,11 +3583,11 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_list",
+          "type": "_type",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "attribute_list",
           "named": true
         },
         {
