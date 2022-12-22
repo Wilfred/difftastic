@@ -11,6 +11,12 @@ support them.
 `--list-languages` now shows filenames associated with languages
 (e.g. `Cargo.lock` is TOML) in addition to extensions.
 
+### Build
+
+Difftastic is now built with Ubuntu 20.04 on GitHub, so prebuilt
+binaries do not require libc version 2.32. This was broken in 0.39 due
+to a GitHub default changing.
+
 ## 0.39 (released 19th December 2022)
 
 ### Parsing
