@@ -182,3 +182,240 @@ class A
         (parameter_list
           (parameter (identifier) (identifier)))
         (arrow_expression_clause (integer_literal))))))
+
+=======================================
+Unary operator overloads 
+=======================================
+
+class A
+{
+  public static A operator +(A a) { return a; }
+  public static A operator -(A a) { return a; }
+  public static A operator !(A a) { return a; }
+  public static A operator ~(A a) { return a; }
+  public static A operator ++(A a) { return a; }
+  public static A operator --(A a) { return a; }
+  public static bool operator true (A a) { return true; }
+  public static bool operator false(A a) { return true; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (identifier))))
+      (operator_declaration (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (boolean_literal))))
+      (operator_declaration (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (boolean_literal)))))))
+
+=======================================
+Binary unpaired operator overloads 
+=======================================
+
+class A
+{
+  public static A operator +(A a, A b) { return a == b; }
+  public static A operator -(A a, A b) { return a != b; }
+  public static A operator *(A a, A b) { return a < b; }
+  public static A operator /(A a, A b) { return a <= b; }
+  public static A operator %(A a, A b) { return a > b; }
+  public static A operator &(A a, A b) { return a >= b; }
+  public static A operator |(A a, A b) { return a >= b; }
+  public static A operator ^(A a, A b) { return a >= b; }
+  public static A operator <<(A a, A b) { return a >= b; }
+  public static A operator >>(A a, A b) { return a >= b; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier))))))))
+
+=======================================
+Binary paired operator overloads 
+=======================================
+
+class A
+{
+  public static A operator ==(A a, A b) { return a == b; }
+  public static A operator !=(A a, A b) { return a != b; }
+  public static A operator <(A a, A b) { return a < b; }
+  public static A operator <=(A a, A b) { return a <= b; }
+  public static A operator >(A a, A b) { return a > b; }
+  public static A operator >=(A a, A b) { return a >= b; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier))))))))

@@ -1,4 +1,314 @@
 =====================================
+Assignment to Prefix Unary Expressions
+=====================================
+
+a = +a;
+a = -a;
+a = !a;
+a = ~a;
+a = ++a;
+a = --a;
+a = a++;
+a = a--;
+a = a!;
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (prefix_unary_expression
+            (identifier)))))
+      (global_statement
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (postfix_unary_expression
+              (identifier)))))
+      (global_statement
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (postfix_unary_expression
+              (identifier)))))
+      (global_statement
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (postfix_unary_expression
+              (identifier))))))
+
+=====================================
+Assignment to Binary Expressions
+=====================================
+
+a = a + a;
+a = a - a;
+a = a * a;
+a = a / a;
+a = a % a;
+a = a & a;
+a = a | a;
+a = a ^ a;
+a = a >> a;
+a = a << a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+=====================================
+Assignment to Binary Equality Expressions
+=====================================
+
+a = a == b;
+a = a != b;
+a = a < b;
+a = a <= b;
+a = a > b;
+a = a >= b;
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+=====================================
+Assignment Binary Expressions
+=====================================
+
+a += a;
+a -= a;
+a *= a;
+a /= a;
+a %= a;
+a++;
+a--;
+a <<= a;
+a >>= a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (postfix_unary_expression
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (postfix_unary_expression
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (identifier)))))
+
+=====================================
 Ternary Expression
 =====================================
 
