@@ -242,8 +242,15 @@ pub enum FileArgument {
     DevNull,
 }
 
+fn try_canonicalize(path: &Path) -> PathBuf {
+    path.canonicalize().unwrap_or_else(|_| path.into())
+}
+
 fn relative_to_current(path: &Path) -> PathBuf {
     if let Ok(current_path) = std::env::current_dir() {
+        let path = try_canonicalize(path);
+        let current_path = try_canonicalize(&current_path);
+
         if let Ok(rel_path) = path.strip_prefix(current_path) {
             return rel_path.into();
         }

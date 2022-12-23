@@ -11,6 +11,11 @@ support them.
 `--list-languages` now shows filenames associated with languages
 (e.g. `Cargo.lock` is TOML) in addition to extensions.
 
+### Display
+
+Symlinks are now expanded before calculating relative paths, resulting
+in relative paths being shown in more cases.
+
 ### Build
 
 Difftastic is now built with Ubuntu 20.04 on GitHub, so prebuilt
