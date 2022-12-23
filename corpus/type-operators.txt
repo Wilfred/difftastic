@@ -262,6 +262,7 @@ class A
   public static A operator ^(A a, A b) { return a >= b; }
   public static A operator <<(A a, A b) { return a >= b; }
   public static A operator >>(A a, A b) { return a >= b; }
+  public static A operator >>>(A a, A b) { return a >= b; }
 }
 
 ---
@@ -270,6 +271,14 @@ class A
   (class_declaration
     (identifier)
     (declaration_list
+      (operator_declaration (modifier) (modifier)
+        (identifier)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block
+          (return_statement
+            (binary_expression (identifier) (identifier)))))
       (operator_declaration (modifier) (modifier)
         (identifier)
         (parameter_list

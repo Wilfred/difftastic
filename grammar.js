@@ -466,7 +466,7 @@ module.exports = grammar({
       '*', '/',
       '%', '^',
       '|', '&',
-      '<<', '>>',
+      '<<', '>>', '>>>',
       '==', '!=',
       '>', '<',
       '>=', '<='
@@ -1207,7 +1207,7 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
-    assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '??='),
+    assignment_operator: $ => choice('=', '+=', '-=', '*=', '/=', '%=', '&=', '^=', '|=', '<<=', '>>=', '>>>=', '??='),
 
     await_expression: $ => prec.right(PREC.UNARY, seq('await', $._expression)),
 
@@ -1602,6 +1602,7 @@ module.exports = grammar({
         ['&&', PREC.LOGAND], // logical_and_expression
         ['||', PREC.LOGOR], // logical_or_expression
         ['>>', PREC.SHIFT], // right_shift_expression
+        ['>>>', PREC.SHIFT], // right_shift_expression
         ['<<', PREC.SHIFT], // left_shift_expression
         ['&', PREC.AND],  // bitwise_and_expression
         ['^', PREC.XOR], // exclusive_or_expression

@@ -92,10 +92,19 @@ a = a | a;
 a = a ^ a;
 a = a >> a;
 a = a << a;
+a = a >>> a;
 
 ---
 
 (compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (identifier)
+          (identifier)))))
   (global_statement
     (expression_statement
       (assignment_expression
@@ -253,6 +262,7 @@ a++;
 a--;
 a <<= a;
 a >>= a;
+a >>>= a;
 
 ---
 
@@ -294,6 +304,12 @@ a >>= a;
   (global_statement
     (expression_statement
       (postfix_unary_expression
+        (identifier))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
         (identifier))))
   (global_statement
     (expression_statement
