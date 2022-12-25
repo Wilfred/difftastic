@@ -1,5 +1,14 @@
 ## 0.40 (unreleased)
 
+### Diffing
+
+Diffing is now more efficient: the generated graphs have ~20% fewer
+vertices. This improves performance (less memory, shorter runtime),
+and also enables difftastic to handle larger files (you're less likely
+to reach `DFT_GRAPH_LIMIT`).
+
+This improvement was contributed by @QuarticCat, thanks!
+
 ### Parsing
 
 `rebar` files (e.g. `rebar.lock`) are no longer associated with

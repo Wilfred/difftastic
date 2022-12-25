@@ -330,7 +330,6 @@ mod tests {
                     contiguous: false,
                     probably_punctuation: false,
                 },
-                ExitDelimiterBoth,
             ]
         );
     }
@@ -380,7 +379,6 @@ mod tests {
                     contiguous: false,
                     probably_punctuation: false
                 },
-                ExitDelimiterBoth,
             ]
         );
     }
@@ -430,8 +428,6 @@ mod tests {
                 UnchangedNode {
                     depth_difference: 0
                 },
-                ExitDelimiterRHS,
-                ExitDelimiterLHS,
             ],
         );
     }
@@ -511,7 +507,6 @@ mod tests {
                     contiguous: true,
                     probably_punctuation: false
                 },
-                ExitDelimiterLHS,
             ]
         );
     }
@@ -553,7 +548,6 @@ mod tests {
                     contiguous: true,
                     probably_punctuation: false
                 },
-                ExitDelimiterLHS,
                 NovelAtomLHS {
                     contiguous: true,
                     probably_punctuation: true

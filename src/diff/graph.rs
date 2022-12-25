@@ -297,9 +297,6 @@ pub enum Edge {
     EnterNovelDelimiterRHS {
         contiguous: bool,
     },
-    ExitDelimiterLHS,
-    ExitDelimiterRHS,
-    ExitDelimiterBoth,
 }
 
 const NOT_CONTIGUOUS_PENALTY: u64 = 50;
@@ -307,17 +304,6 @@ const NOT_CONTIGUOUS_PENALTY: u64 = 50;
 impl Edge {
     pub fn cost(self) -> u64 {
         match self {
-            // When we're at the end of a list, there's only one exit
-            // delimiter possibility, so the cost doesn't matter. We
-            // choose a non-zero number as it's easier to reason
-            // about.
-            ExitDelimiterBoth => 1,
-            // Choose a higher value for exiting individually. This
-            // shouldn't matter since entering a novel delimiter is
-            // already more expensive than entering a matched
-            // delimiter, but be defensive.
-            ExitDelimiterLHS | ExitDelimiterRHS => 2,
-
             // Matching nodes is always best.
             UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
             // Matching an outer delimiter is good.
@@ -420,6 +406,73 @@ fn looks_like_punctuation(content: &str) -> bool {
     content == "," || content == ";" || content == "."
 }
 
+/// Pop as many parents of `lhs_node` and `rhs_node` as
+/// possible. Return the new syntax nodes and parents.
+fn pop_all_parents<'a>(
+    lhs_node: Option<&'a Syntax<'a>>,
+    rhs_node: Option<&'a Syntax<'a>>,
+    lhs_parent_id: Option<SyntaxId>,
+    rhs_parent_id: Option<SyntaxId>,
+    parents: &Stack<EnteredDelimiter<'a>>,
+) -> (
+    Option<&'a Syntax<'a>>,
+    Option<&'a Syntax<'a>>,
+    Option<SyntaxId>,
+    Option<SyntaxId>,
+    Stack<EnteredDelimiter<'a>>,
+) {
+    let mut lhs_node = lhs_node;
+    let mut rhs_node = rhs_node;
+    let mut lhs_parent_id = lhs_parent_id;
+    let mut rhs_parent_id = rhs_parent_id;
+    let mut parents = parents.clone();
+
+    loop {
+        if lhs_node.is_none() {
+            if let Some((lhs_parent, parents_next)) = try_pop_lhs(&parents) {
+                // Move to next after LHS parent.
+
+                // Continue from sibling of parent.
+                lhs_node = lhs_parent.next_sibling();
+                lhs_parent_id = lhs_parent.parent().map(Syntax::id);
+                parents = parents_next;
+                continue;
+            }
+        }
+
+        if rhs_node.is_none() {
+            if let Some((rhs_parent, parents_next)) = try_pop_rhs(&parents) {
+                // Move to next after RHS parent.
+
+                // Continue from sibling of parent.
+                rhs_node = rhs_parent.next_sibling();
+                rhs_parent_id = rhs_parent.parent().map(Syntax::id);
+                parents = parents_next;
+                continue;
+            }
+        }
+
+        if lhs_node.is_none() && rhs_node.is_none() {
+            // We have exhausted all the nodes on both lists, so we can
+            // move up to the parent node.
+
+            // Continue from sibling of parent.
+            if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&parents) {
+                lhs_node = lhs_parent.next_sibling();
+                rhs_node = rhs_parent.next_sibling();
+                lhs_parent_id = lhs_parent.parent().map(Syntax::id);
+                rhs_parent_id = rhs_parent.parent().map(Syntax::id);
+                parents = parents_next;
+                continue;
+            }
+        }
+
+        break;
+    }
+
+    (lhs_node, rhs_node, lhs_parent_id, rhs_parent_id, parents)
+}
+
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// write them to the .neighbours cell inside `v`, and return them.
 pub fn get_set_neighbours<'syn, 'b>(
@@ -434,79 +487,6 @@ pub fn get_set_neighbours<'syn, 'b>(
 
     let mut res: Vec<(Edge, &Vertex)> = vec![];
 
-    if v.lhs_syntax.is_none() && v.rhs_syntax.is_none() {
-        if let Some((lhs_parent, rhs_parent, parents_next)) = try_pop_both(&v.parents) {
-            // We have exhausted all the nodes on both lists, so we can
-            // move up to the parent node.
-
-            // Continue from sibling of parent.
-            res.push((
-                ExitDelimiterBoth,
-                allocate_if_new(
-                    Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: rhs_parent.next_sibling(),
-                        parents: parents_next,
-                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
-        }
-    }
-
-    if v.lhs_syntax.is_none() {
-        if let Some((lhs_parent, parents_next)) = try_pop_lhs(&v.parents) {
-            // Move to next after LHS parent.
-
-            // Continue from sibling of parent.
-            res.push((
-                ExitDelimiterLHS,
-                allocate_if_new(
-                    Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_syntax: lhs_parent.next_sibling(),
-                        rhs_syntax: v.rhs_syntax,
-                        parents: parents_next,
-                        lhs_parent_id: lhs_parent.parent().map(Syntax::id),
-                        rhs_parent_id: v.rhs_parent_id,
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
-        }
-    }
-
-    if v.rhs_syntax.is_none() {
-        if let Some((rhs_parent, parents_next)) = try_pop_rhs(&v.parents) {
-            // Move to next after RHS parent.
-
-            // Continue from sibling of parent.
-            res.push((
-                ExitDelimiterRHS,
-                allocate_if_new(
-                    Vertex {
-                        neighbours: RefCell::new(None),
-                        predecessor: Cell::new(None),
-                        lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_parent.next_sibling(),
-                        parents: parents_next,
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: rhs_parent.parent().map(Syntax::id),
-                    },
-                    alloc,
-                    seen,
-                ),
-            ));
-        }
-    }
-
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i32
@@ -514,17 +494,25 @@ pub fn get_set_neighbours<'syn, 'b>(
                 .unsigned_abs();
 
             // Both nodes are equal, the happy case.
+            let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) = pop_all_parents(
+                lhs_syntax.next_sibling(),
+                rhs_syntax.next_sibling(),
+                v.lhs_parent_id,
+                v.rhs_parent_id,
+                &v.parents,
+            );
+
             res.push((
                 UnchangedNode { depth_difference },
                 allocate_if_new(
                     Vertex {
                         neighbours: RefCell::new(None),
                         predecessor: Cell::new(None),
-                        lhs_syntax: lhs_syntax.next_sibling(),
-                        rhs_syntax: rhs_syntax.next_sibling(),
-                        parents: v.parents.clone(),
-                        lhs_parent_id: v.lhs_parent_id,
-                        rhs_parent_id: v.rhs_parent_id,
+                        lhs_syntax,
+                        rhs_syntax,
+                        parents,
+                        lhs_parent_id,
+                        rhs_parent_id,
                     },
                     alloc,
                     seen,
@@ -559,17 +547,28 @@ pub fn get_set_neighbours<'syn, 'b>(
                     - rhs_syntax.num_ancestors() as i32)
                     .unsigned_abs();
 
+                // When we enter a list, we may need to immediately
+                // pop several levels if the list has no children.
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_next,
+                        rhs_next,
+                        Some(lhs_syntax.id()),
+                        Some(rhs_syntax.id()),
+                        &parents_next,
+                    );
+
                 res.push((
                     EnterUnchangedDelimiter { depth_difference },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: rhs_next,
-                            parents: parents_next,
-                            lhs_parent_id: Some(lhs_syntax.id()),
-                            rhs_parent_id: Some(rhs_syntax.id()),
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -596,17 +595,26 @@ pub fn get_set_neighbours<'syn, 'b>(
             if lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_syntax.next_sibling(),
+                        rhs_syntax.next_sibling(),
+                        v.lhs_parent_id,
+                        v.rhs_parent_id,
+                        &v.parents,
+                    );
                 res.push((
                     ReplacedComment { levenshtein_pct },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: lhs_syntax.next_sibling(),
-                            rhs_syntax: rhs_syntax.next_sibling(),
-                            parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -620,22 +628,33 @@ pub fn get_set_neighbours<'syn, 'b>(
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
+                // TODO: should this apply if prev is a parent node
+                // rather than a sibling?
+                let contiguous = lhs_syntax.prev_is_contiguous();
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_syntax.next_sibling(),
+                        v.rhs_syntax,
+                        v.lhs_parent_id,
+                        v.rhs_parent_id,
+                        &v.parents,
+                    );
+
                 res.push((
                     NovelAtomLHS {
-                        // TODO: should this apply if prev is a parent
-                        // node rather than a sibling?
-                        contiguous: lhs_syntax.prev_is_contiguous(),
+                        contiguous,
                         probably_punctuation: looks_like_punctuation(content),
                     },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: lhs_syntax.next_sibling(),
-                            rhs_syntax: v.rhs_syntax,
-                            parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -648,19 +667,28 @@ pub fn get_set_neighbours<'syn, 'b>(
 
                 let parents_next = push_lhs_delimiter(&v.parents, lhs_syntax);
 
+                let contiguous = lhs_syntax.prev_is_contiguous();
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        lhs_next,
+                        v.rhs_syntax,
+                        Some(lhs_syntax.id()),
+                        v.rhs_parent_id,
+                        &parents_next,
+                    );
+
                 res.push((
-                    EnterNovelDelimiterLHS {
-                        contiguous: lhs_syntax.prev_is_contiguous(),
-                    },
+                    EnterNovelDelimiterLHS { contiguous },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: lhs_next,
-                            rhs_syntax: v.rhs_syntax,
-                            parents: parents_next,
-                            lhs_parent_id: Some(lhs_syntax.id()),
-                            rhs_parent_id: v.rhs_parent_id,
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -674,20 +702,31 @@ pub fn get_set_neighbours<'syn, 'b>(
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { content, .. } => {
+                let contiguous = rhs_syntax.prev_is_contiguous();
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        v.lhs_syntax,
+                        rhs_syntax.next_sibling(),
+                        v.lhs_parent_id,
+                        v.rhs_parent_id,
+                        &v.parents,
+                    );
+
                 res.push((
                     NovelAtomRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
+                        contiguous,
                         probably_punctuation: looks_like_punctuation(content),
                     },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_syntax.next_sibling(),
-                            parents: v.parents.clone(),
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: v.rhs_parent_id,
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -697,22 +736,29 @@ pub fn get_set_neighbours<'syn, 'b>(
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
                 let rhs_next = children.get(0).copied();
-
                 let parents_next = push_rhs_delimiter(&v.parents, rhs_syntax);
+                let contiguous = rhs_syntax.prev_is_contiguous();
+
+                let (lhs_syntax, rhs_syntax, lhs_parent_id, rhs_parent_id, parents) =
+                    pop_all_parents(
+                        v.lhs_syntax,
+                        rhs_next,
+                        v.lhs_parent_id,
+                        Some(rhs_syntax.id()),
+                        &parents_next,
+                    );
 
                 res.push((
-                    EnterNovelDelimiterRHS {
-                        contiguous: rhs_syntax.prev_is_contiguous(),
-                    },
+                    EnterNovelDelimiterRHS { contiguous },
                     allocate_if_new(
                         Vertex {
                             neighbours: RefCell::new(None),
                             predecessor: Cell::new(None),
-                            lhs_syntax: v.lhs_syntax,
-                            rhs_syntax: rhs_next,
-                            parents: parents_next,
-                            lhs_parent_id: v.lhs_parent_id,
-                            rhs_parent_id: Some(rhs_syntax.id()),
+                            lhs_syntax,
+                            rhs_syntax,
+                            parents,
+                            lhs_parent_id,
+                            rhs_parent_id,
                         },
                         alloc,
                         seen,
@@ -736,9 +782,6 @@ pub fn populate_change_map<'a, 'b>(
 ) {
     for (e, v) in route {
         match e {
-            ExitDelimiterBoth | ExitDelimiterLHS | ExitDelimiterRHS => {
-                // Nothing to do: we have already marked this node when we entered it.
-            }
             UnchangedNode { .. } => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
