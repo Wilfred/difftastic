@@ -6,7 +6,7 @@ open test
 
 ---
 
-(source_file
+(file
   (import_decl
     (long_identifier (identifier))))
 
@@ -18,6 +18,6 @@ open Mod.Test
 
 ---
 
-(source_file
+(file
   (import_decl
     (long_identifier (identifier) (identifier))))

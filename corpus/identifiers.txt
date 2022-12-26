@@ -6,7 +6,7 @@ do sample
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (long_identifier (identifier)))))
 
@@ -18,7 +18,7 @@ do wh0ar3y0u
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr
       (long_identifier (identifier)))))
@@ -31,7 +31,7 @@ do ``I can have anything in here ASDFAS?DFS``
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (long_identifier (identifier)))))
 
@@ -43,7 +43,7 @@ do _yo
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (do_expr (long_identifier (identifier)))))
 
@@ -53,7 +53,7 @@ long ident
 module test = foo.bar.baz
 ---
 
-(source_file
+(file
   (module_abbrev
       (identifier)
       (long_identifier
@@ -66,7 +66,7 @@ long ident with tick
 ===
 module _ = foo.bar.``baz``
 ---
-(source_file
+(file
   (module_abbrev
       (identifier)
       (long_identifier

@@ -6,7 +6,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (value_defn
       (long_identifier (identifier))
@@ -21,7 +21,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (named_module
     (long_identifier (identifier))
     (module_function_or_value_defn
@@ -39,7 +39,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (named_module
     (long_identifier (identifier))
     (module_function_or_value_defn
@@ -57,7 +57,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (named_module
     (long_identifier (identifier))
     (module_function_or_value_defn
@@ -75,7 +75,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (namespace
     (long_identifier (identifier))
     (module_function_or_value_defn
@@ -93,7 +93,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (namespace
     (long_identifier (identifier))
     (module_function_or_value_defn
@@ -111,7 +111,7 @@ let x = 4
 
 ---
 
-(source_file
+(file
   (namespace
     (long_identifier
       (identifier)

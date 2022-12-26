@@ -371,8 +371,8 @@ do let name x = 4 in 5
     (do_expr
       (function_defn
         (identifier)
-        (argument_patterns
-          (long_identifier (identifier)))
+        (pattern
+          (identifier))
         (int))
       (int))))
 

@@ -6,7 +6,7 @@ let functionName x = 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (function_defn
       name: (identifier)
@@ -23,7 +23,7 @@ let inline functionName x = 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (function_defn
       name: (identifier)
@@ -40,7 +40,7 @@ let private functionName x = 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (function_defn
       name: (identifier)
@@ -57,7 +57,7 @@ let inline private functionName x = 4
 
 ---
 
-(source_file
+(file
   (module_function_or_value_defn
     (function_defn
       name: (identifier)

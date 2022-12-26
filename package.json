@@ -20,7 +20,7 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.python",
+      "scope": "source.fsharp",
       "file-types": [ "fs", "fsx"]
     }
   ]

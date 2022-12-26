@@ -1,5 +1,137 @@
 [
   {
+    "type": "_comp_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "do_ce_expression",
+        "named": true
+      },
+      {
+        "type": "let_ce_expression",
+        "named": true
+      },
+      {
+        "type": "use_ce_expression",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_expression",
+        "named": true
+      },
+      {
+        "type": "begin_end_expression",
+        "named": true
+      },
+      {
+        "type": "brace_expression",
+        "named": true
+      },
+      {
+        "type": "ce_expression",
+        "named": true
+      },
+      {
+        "type": "const",
+        "named": true
+      },
+      {
+        "type": "declaration_expression",
+        "named": true
+      },
+      {
+        "type": "dot_expression",
+        "named": true
+      },
+      {
+        "type": "for_expression",
+        "named": true
+      },
+      {
+        "type": "fun_expression",
+        "named": true
+      },
+      {
+        "type": "function_expression",
+        "named": true
+      },
+      {
+        "type": "if_expression",
+        "named": true
+      },
+      {
+        "type": "index_expression",
+        "named": true
+      },
+      {
+        "type": "infix_expression",
+        "named": true
+      },
+      {
+        "type": "list_expression",
+        "named": true
+      },
+      {
+        "type": "literal_expression",
+        "named": true
+      },
+      {
+        "type": "long_identifier_or_op",
+        "named": true
+      },
+      {
+        "type": "match_expression",
+        "named": true
+      },
+      {
+        "type": "mutate_expression",
+        "named": true
+      },
+      {
+        "type": "null",
+        "named": false
+      },
+      {
+        "type": "object_instantiation_expression",
+        "named": true
+      },
+      {
+        "type": "paren_expression",
+        "named": true
+      },
+      {
+        "type": "prefixed_expression",
+        "named": true
+      },
+      {
+        "type": "sequential_expression",
+        "named": true
+      },
+      {
+        "type": "try_expression",
+        "named": true
+      },
+      {
+        "type": "typecast_expression",
+        "named": true
+      },
+      {
+        "type": "typed_expression",
+        "named": true
+      },
+      {
+        "type": "while_expression",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "_module_elem",
     "named": true,
     "subtypes": [
@@ -30,9 +162,70 @@
     ]
   },
   {
-    "type": "access_modifier",
+    "type": "_pattern",
     "named": true,
-    "fields": {}
+    "subtypes": [
+      {
+        "type": "array_pattern",
+        "named": true
+      },
+      {
+        "type": "as_pattern",
+        "named": true
+      },
+      {
+        "type": "attribute_pattern",
+        "named": true
+      },
+      {
+        "type": "conjunct_pattern",
+        "named": true
+      },
+      {
+        "type": "cons_pattern",
+        "named": true
+      },
+      {
+        "type": "const_pattern",
+        "named": true
+      },
+      {
+        "type": "disjunct_pattern",
+        "named": true
+      },
+      {
+        "type": "identifier_pattern",
+        "named": true
+      },
+      {
+        "type": "list_pattern",
+        "named": true
+      },
+      {
+        "type": "null_pattern",
+        "named": true
+      },
+      {
+        "type": "paren_pattern",
+        "named": true
+      },
+      {
+        "type": "record_pattern",
+        "named": true
+      },
+      {
+        "type": "repeat_pattern",
+        "named": true
+      },
+      {
+        "type": "typed_pattern",
+        "named": true
+      },
+      {
+        "type": "wildcard_pattern",
+        "named": true
+      }
+    ]
   },
   {
     "type": "active_pattern_op_name",
@@ -58,63 +251,11 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifier",
-          "named": true
-        },
-        {
-          "type": "array_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
           "type": "as_defn",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -129,6 +270,10 @@
       "required": true,
       "types": [
         {
+          "type": "_expression",
+          "named": true
+        },
+        {
           "type": "additional_constr_expr",
           "named": true
         },
@@ -137,35 +282,7 @@
           "named": true
         },
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
           "type": "defn_body",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
           "named": true
         },
         {
@@ -173,83 +290,7 @@
           "named": true
         },
         {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
           "type": "value_declaration_left",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -264,27 +305,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
+          "type": "_expression",
           "named": true
         },
         {
@@ -292,91 +313,11 @@
           "named": true
         },
         {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
           "type": "field_initializers",
           "named": true
         },
         {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -429,135 +370,15 @@
       "required": false,
       "types": [
         {
-          "type": "array_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
+          "type": "const",
           "named": true
         },
         {
           "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -587,21 +408,6 @@
     }
   },
   {
-    "type": "arguments_spec",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "argument_spec",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "array_expression",
     "named": true,
     "fields": {},
@@ -610,107 +416,7 @@
       "required": false,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -725,55 +431,7 @@
       "required": false,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
+          "type": "_pattern",
           "named": true
         }
       ]
@@ -803,59 +461,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -875,6 +485,25 @@
         },
         {
           "type": "object_construction",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "attributes",
           "named": true
         }
       ]
@@ -916,6 +545,21 @@
     }
   },
   {
+    "type": "begin_end_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bignum",
     "named": true,
     "fields": {},
@@ -934,6 +578,29 @@
     "type": "block_comment",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "brace_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "object_expression",
+          "named": true
+        },
+        {
+          "type": "with_field_expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "byte",
@@ -965,6 +632,29 @@
     "fields": {}
   },
   {
+    "type": "ce_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_comp_expression",
+          "named": true
+        },
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "short_comp_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "char",
     "named": true,
     "fields": {}
@@ -975,10 +665,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "array_expression",
+          "type": "_expression",
           "named": true
         },
         {
@@ -986,115 +676,7 @@
           "named": true
         },
         {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "defn_body",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "function_declaration_left",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "value_declaration_left",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "function_or_value_defn",
           "named": true
         }
       ]
@@ -1109,111 +691,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -1266,6 +748,40 @@
     }
   },
   {
+    "type": "comp_rule",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_comp_expression",
+          "named": true
+        },
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "comp_rules",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comp_rule",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "compiler_directive_decl",
     "named": true,
     "fields": {},
@@ -1293,55 +809,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
+          "type": "_pattern",
           "named": true
         }
       ]
@@ -1356,55 +824,94 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "const",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "bignum",
           "named": true
         },
         {
-          "type": "as_pattern",
+          "type": "byte",
           "named": true
         },
         {
-          "type": "attributes",
+          "type": "bytearray",
           "named": true
         },
         {
-          "type": "conjunct_pattern",
+          "type": "bytechar",
           "named": true
         },
         {
-          "type": "cons_pattern",
+          "type": "char",
           "named": true
         },
         {
-          "type": "const_pattern",
+          "type": "ieee32",
           "named": true
         },
         {
-          "type": "disjunct_pattern",
+          "type": "ieee64",
           "named": true
         },
         {
-          "type": "identifier_pattern",
+          "type": "int",
           "named": true
         },
         {
-          "type": "list_pattern",
+          "type": "int16",
           "named": true
         },
         {
-          "type": "null_pattern",
+          "type": "int32",
           "named": true
         },
         {
-          "type": "record_pattern",
+          "type": "int64",
           "named": true
         },
         {
-          "type": "typed_pattern",
+          "type": "sbyte",
           "named": true
         },
         {
-          "type": "wildcard_pattern",
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "triple_quoted_string",
+          "named": true
+        },
+        {
+          "type": "uint16",
+          "named": true
+        },
+        {
+          "type": "uint32",
+          "named": true
+        },
+        {
+          "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "verbatim_bytearray",
+          "named": true
+        },
+        {
+          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -1525,7 +1032,7 @@
     }
   },
   {
-    "type": "curried_signature",
+    "type": "declaration_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -1533,9 +1040,28 @@
       "required": true,
       "types": [
         {
-          "type": "arguments_spec",
+          "type": "_expression",
           "named": true
         },
+        {
+          "type": "function_or_value_defn",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "delegate_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "type",
           "named": true
@@ -1544,115 +1070,19 @@
     }
   },
   {
-    "type": "defn_body",
+    "type": "delegate_type_defn",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "array_expression",
+          "type": "delegate_signature",
           "named": true
         },
         {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "type_name",
           "named": true
         }
       ]
@@ -1667,55 +1097,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
+          "type": "_pattern",
           "named": true
         }
       ]
@@ -1726,111 +1108,30 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "array_expression",
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "do_ce_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_comp_expression",
           "named": true
         },
         {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -1839,113 +1140,118 @@
   {
     "type": "dot_expression",
     "named": true,
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "long_identifier_or_op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elif_expression",
+    "named": true,
+    "fields": {
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "then": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "enum_type_case",
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "array_expression",
+          "type": "const",
           "named": true
         },
         {
-          "type": "bignum",
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_type_cases",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enum_type_case",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_type_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enum_type_cases",
           "named": true
         },
         {
-          "type": "byte",
+          "type": "type_name",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "field_initializers",
           "named": true
         }
       ]
@@ -1960,107 +1266,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
+          "type": "_expression",
           "named": true
         },
         {
           "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -2090,59 +1300,11 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
           "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -2172,7 +1334,7 @@
     }
   },
   {
-    "type": "function_declaration_left",
+    "type": "for_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -2180,9 +1342,51 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifier",
+          "type": "_expression",
           "named": true
         },
+        {
+          "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "range_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fun_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "argument_patterns",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_declaration_left",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "argument_patterns",
           "named": true
@@ -2207,6 +1411,44 @@
     }
   },
   {
+    "type": "function_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "rules",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_or_value_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "defn_body",
+          "named": true
+        },
+        {
+          "type": "function_declaration_left",
+          "named": true
+        },
+        {
+          "type": "value_declaration_left",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "identifier",
     "named": true,
     "fields": {}
@@ -2220,135 +1462,15 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
+          "type": "const",
           "named": true
         },
         {
           "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -2385,6 +1507,52 @@
     }
   },
   {
+    "type": "if_expression",
+    "named": true,
+    "fields": {
+      "else": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "then": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "elif_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "import_decl",
     "named": true,
     "fields": {},
@@ -2405,110 +1573,44 @@
     "fields": {},
     "children": {
       "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "infix_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "infix_op",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "infix_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "symbolic_op",
           "named": true
         }
       ]
@@ -2596,127 +1698,61 @@
     }
   },
   {
-    "type": "let_expression",
+    "type": "interface_implementations",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "array_expression",
+          "type": "interface_implementation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface_type_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_type_body",
           "named": true
         },
         {
-          "type": "bignum",
+          "type": "primary_constr_args",
           "named": true
         },
         {
-          "type": "byte",
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "let_ce_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_comp_expression",
           "named": true
         },
         {
-          "type": "bytearray",
+          "type": "_expression",
           "named": true
         },
         {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "defn_body",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "function_declaration_left",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "value_declaration_left",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "_pattern",
           "named": true
         }
       ]
@@ -2731,107 +1767,7 @@
       "required": false,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -2846,55 +1782,22 @@
       "required": false,
       "types": [
         {
-          "type": "array_pattern",
+          "type": "_pattern",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "literal_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -2920,7 +1823,7 @@
     }
   },
   {
-    "type": "member_defn",
+    "type": "long_identifier_or_op",
     "named": true,
     "fields": {},
     "children": {
@@ -2928,9 +1831,39 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifier",
+          "type": "long_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "match_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         },
+        {
+          "type": "rules",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "member_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "additional_constr_defn",
           "named": true
@@ -2982,11 +1915,11 @@
       "required": true,
       "types": [
         {
-          "type": "curried_signature",
+          "type": "identifier",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "type",
           "named": true
         },
         {
@@ -3005,27 +1938,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
+          "type": "_expression",
           "named": true
         },
         {
@@ -3033,55 +1946,7 @@
           "named": true
         },
         {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
           "type": "function_declaration_left",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
           "named": true
         },
         {
@@ -3089,39 +1954,7 @@
           "named": true
         },
         {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
           "type": "value_declaration_left",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
           "named": true
         }
       ]
@@ -3159,10 +1992,6 @@
           "named": true
         },
         {
-          "type": "access_modifier",
-          "named": true
-        },
-        {
           "type": "attributes",
           "named": true
         },
@@ -3176,116 +2005,27 @@
   {
     "type": "mutate_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
-          "named": true
-        }
-      ]
+    "fields": {
+      "assignee": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3356,6 +2096,52 @@
     }
   },
   {
+    "type": "object_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "interface_implementations",
+          "named": true
+        },
+        {
+          "type": "object_construction",
+          "named": true
+        },
+        {
+          "type": "object_members",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "object_instantiation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "object_members",
     "named": true,
     "fields": {},
@@ -3394,6 +2180,51 @@
     }
   },
   {
+    "type": "paren_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paren_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prefixed_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "primary_constr_args",
     "named": true,
     "fields": {},
@@ -3401,10 +2232,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "access_modifier",
-          "named": true
-        },
         {
           "type": "attributes",
           "named": true
@@ -3432,6 +2259,21 @@
     }
   },
   {
+    "type": "range_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "range_op_name",
     "named": true,
     "fields": {}
@@ -3444,10 +2286,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "access_modifier",
-          "named": true
-        },
         {
           "type": "attributes",
           "named": true
@@ -3517,6 +2355,55 @@
     }
   },
   {
+    "type": "repeat_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rule",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rules",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "rule",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "sbyte",
     "named": true,
     "fields": {},
@@ -3530,6 +2417,44 @@
         },
         {
           "type": "xint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sequential_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "short_comp_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "_pattern",
+          "named": true
+        },
+        {
+          "type": "range_expression",
           "named": true
         }
       ]
@@ -3564,110 +2489,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "array_expression",
-          "named": true
-        },
-        {
-          "type": "bignum",
-          "named": true
-        },
-        {
-          "type": "byte",
-          "named": true
-        },
-        {
-          "type": "bytearray",
-          "named": true
-        },
-        {
-          "type": "bytechar",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "ieee32",
-          "named": true
-        },
-        {
-          "type": "ieee64",
-          "named": true
-        },
-        {
-          "type": "index_expression",
-          "named": true
-        },
-        {
-          "type": "int",
-          "named": true
-        },
-        {
-          "type": "int16",
-          "named": true
-        },
-        {
-          "type": "int32",
-          "named": true
-        },
-        {
-          "type": "int64",
-          "named": true
-        },
-        {
-          "type": "let_expression",
-          "named": true
-        },
-        {
-          "type": "list_expression",
-          "named": true
-        },
-        {
-          "type": "long_identifier",
-          "named": true
-        },
-        {
-          "type": "mutate_expression",
-          "named": true
-        },
-        {
-          "type": "sbyte",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "triple_quoted_string",
-          "named": true
-        },
-        {
-          "type": "uint16",
-          "named": true
-        },
-        {
-          "type": "uint32",
-          "named": true
-        },
-        {
-          "type": "uint64",
-          "named": true
-        },
-        {
-          "type": "verbatim_bytearray",
-          "named": true
-        },
-        {
-          "type": "verbatim_string",
+          "type": "_expression",
           "named": true
         }
       ]
@@ -3694,6 +2519,29 @@
     "fields": {}
   },
   {
+    "type": "struct_type_defn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_type_body",
+          "named": true
+        },
+        {
+          "type": "primary_constr_args",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "symbolic_op",
     "named": true,
     "fields": {}
@@ -3702,6 +2550,25 @@
     "type": "triple_quoted_string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "try_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "rules",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "type",
@@ -3849,7 +2716,23 @@
           "named": true
         },
         {
+          "type": "delegate_type_defn",
+          "named": true
+        },
+        {
+          "type": "enum_type_defn",
+          "named": true
+        },
+        {
+          "type": "interface_type_defn",
+          "named": true
+        },
+        {
           "type": "record_type_defn",
+          "named": true
+        },
+        {
+          "type": "struct_type_defn",
           "named": true
         },
         {
@@ -3925,10 +2808,6 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifier",
-          "named": true
-        },
-        {
           "type": "attributes",
           "named": true
         },
@@ -3944,6 +2823,44 @@
     }
   },
   {
+    "type": "typecast_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typed_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "types",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "typed_pattern",
     "named": true,
     "fields": {},
@@ -3952,59 +2869,26 @@
       "required": true,
       "types": [
         {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
           "type": "type",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "types",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
+          "type": "type",
           "named": true
         }
       ]
@@ -4068,25 +2952,6 @@
     }
   },
   {
-    "type": "uncurried_signature",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "arguments_spec",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "union_type_case",
     "named": true,
     "fields": {},
@@ -4103,7 +2968,7 @@
           "named": true
         },
         {
-          "type": "uncurried_signature",
+          "type": "type",
           "named": true
         },
         {
@@ -4171,27 +3036,42 @@
     }
   },
   {
-    "type": "value_declaration",
+    "type": "use_ce_expression",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "defn_body",
+          "type": "_comp_expression",
           "named": true
         },
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "do",
           "named": true
         },
         {
-          "type": "function_declaration_left",
-          "named": true
-        },
-        {
-          "type": "value_declaration_left",
+          "type": "function_or_value_defn",
           "named": true
         }
       ]
@@ -4206,51 +3086,7 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifier",
-          "named": true
-        },
-        {
-          "type": "array_pattern",
-          "named": true
-        },
-        {
-          "type": "as_pattern",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "conjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "cons_pattern",
-          "named": true
-        },
-        {
-          "type": "const_pattern",
-          "named": true
-        },
-        {
-          "type": "disjunct_pattern",
-          "named": true
-        },
-        {
-          "type": "identifier_pattern",
-          "named": true
-        },
-        {
-          "type": "list_pattern",
-          "named": true
-        },
-        {
-          "type": "null_pattern",
-          "named": true
-        },
-        {
-          "type": "record_pattern",
+          "type": "_pattern",
           "named": true
         },
         {
@@ -4259,14 +3095,6 @@
         },
         {
           "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "typed_pattern",
-          "named": true
-        },
-        {
-          "type": "wildcard_pattern",
           "named": true
         }
       ]
@@ -4281,6 +3109,40 @@
     "type": "verbatim_string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "while_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_field_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "field_initializers",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "xint",
@@ -4300,6 +3162,10 @@
     "named": false
   },
   {
+    "type": "!=",
+    "named": false
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -4316,7 +3182,23 @@
     "named": false
   },
   {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%%",
+    "named": false
+  },
+  {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "&&",
     "named": false
   },
   {
@@ -4356,7 +3238,23 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+.",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-.",
     "named": false
   },
   {
@@ -4384,7 +3282,19 @@
     "named": false
   },
   {
+    "type": ":=",
+    "named": false
+  },
+  {
     "type": ":>",
+    "named": false
+  },
+  {
+    "type": ":?",
+    "named": false
+  },
+  {
+    "type": ":?>",
     "named": false
   },
   {
@@ -4500,6 +3410,14 @@
     "named": false
   },
   {
+    "type": "assert",
+    "named": false
+  },
+  {
+    "type": "begin",
+    "named": false
+  },
+  {
     "type": "class",
     "named": false
   },
@@ -4524,7 +3442,19 @@
     "named": false
   },
   {
+    "type": "do!",
+    "named": false
+  },
+  {
+    "type": "done",
+    "named": false
+  },
+  {
     "type": "downcast",
+    "named": false
+  },
+  {
+    "type": "elif",
     "named": false
   },
   {
@@ -4557,6 +3487,22 @@
   },
   {
     "type": "field",
+    "named": false
+  },
+  {
+    "type": "finally",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "fun",
+    "named": false
+  },
+  {
+    "type": "function",
     "named": false
   },
   {
@@ -4600,7 +3546,15 @@
     "named": false
   },
   {
+    "type": "lazy",
+    "named": false
+  },
+  {
     "type": "let",
+    "named": false
+  },
+  {
+    "type": "let!",
     "named": false
   },
   {
@@ -4610,6 +3564,10 @@
   {
     "type": "line_comment",
     "named": true
+  },
+  {
+    "type": "match",
+    "named": false
   },
   {
     "type": "member",
@@ -4688,6 +3646,10 @@
     "named": false
   },
   {
+    "type": "return!",
+    "named": false
+  },
+  {
     "type": "s",
     "named": false
   },
@@ -4708,7 +3670,15 @@
     "named": false
   },
   {
+    "type": "to",
+    "named": false
+  },
+  {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "try",
     "named": false
   },
   {
@@ -4736,6 +3706,14 @@
     "named": false
   },
   {
+    "type": "use",
+    "named": false
+  },
+  {
+    "type": "use!",
+    "named": false
+  },
+  {
     "type": "uy",
     "named": false
   },
@@ -4745,6 +3723,10 @@
   },
   {
     "type": "when",
+    "named": false
+  },
+  {
+    "type": "while",
     "named": false
   },
   {
@@ -4760,6 +3742,14 @@
     "named": false
   },
   {
+    "type": "yield",
+    "named": false
+  },
+  {
+    "type": "yield!",
+    "named": false
+  },
+  {
     "type": "{",
     "named": false
   },
@@ -4772,7 +3762,15 @@
     "named": false
   },
   {
+    "type": "||",
+    "named": false
+  },
+  {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

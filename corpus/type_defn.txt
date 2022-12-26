@@ -1,0 +1,40 @@
+===
+Enum type definition
+===
+
+type Test = Red = 1
+
+---
+
+(file
+  (type_definition
+    (enum_type_defn
+      (type_name
+        (identifier))
+      (enum_type_cases
+        (enum_type_case
+          (identifier)
+          (int))))))
+
+===
+Enum type definition - multi line
+===
+
+type Test =
+  | Red = "red"
+  | Blue = "blue"
+
+---
+
+(file
+  (type_definition
+    (enum_type_defn
+      (type_name
+        (identifier
+      (enum_type_cases
+        (enum_type_case
+          (identifier)
+          (string))
+        (enum_type_case
+          (identifier)
+          (string))))))
