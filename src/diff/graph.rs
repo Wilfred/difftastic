@@ -397,7 +397,16 @@ fn allocate_if_new<'syn, 'b>(
         }
         None => {
             let allocated = alloc.alloc(v);
-            seen.insert(allocated, vec![allocated]);
+
+            // We know that this vec will never have more than 2
+            // nodes, and this code is very hot, so reserve.
+            //
+            // We still use a vec to enable experiments with the value
+            // of how many possible parenthesis nestings to explore.
+            let mut existing: Vec<&'b Vertex<'syn, 'b>> = Vec::with_capacity(2);
+            existing.push(allocated);
+
+            seen.insert(allocated, existing);
             allocated
         }
     }
