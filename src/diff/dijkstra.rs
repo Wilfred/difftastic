@@ -63,7 +63,7 @@ fn shortest_vertex_path<'a, 'b>(
         }
     };
 
-    debug!(
+    info!(
         "Saw {} vertices (a Vertex is {} bytes), with {} left on heap.",
         seen.len(),
         std::mem::size_of::<Vertex>(),
