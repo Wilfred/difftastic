@@ -16,59 +16,13 @@ struct TreeSitterParser {
     extra_files: Vec<&'static str>,
 }
 
-/// Emit linking flags for this library, but specify `+whole-archive`.
-///
-/// This should be possible in the cc crate directly after
-/// https://github.com/rust-lang/cc-rs/pull/671
-fn emit_whole_archive_link_flags(build: &mut cc::Build, lib_name: &str, is_cpp: bool) {
-    if rustc::is_max_version("1.60.0").unwrap_or(false) {
-        // whole-archive was only stabilised in 1.61, and we don't
-        // need it in earlier versions.
-        return;
-    }
-
-    build.cargo_metadata(false);
-
-    println!("cargo:rustc-link-lib=static:+whole-archive={}", lib_name);
-    println!(
-        "cargo:rustc-link-search=native={}",
-        std::env::var("OUT_DIR").expect("did not set OUT_DIR")
-    );
-
-    if is_cpp {
-        let cpp_stdlib = if let Ok(stdlib) = std::env::var("CXXSTDLIB") {
-            if stdlib.is_empty() {
-                None
-            } else {
-                Some(stdlib)
-            }
-        } else {
-            let target = std::env::var("TARGET").expect("TARGET environment should be set");
-
-            // Equivalent to https://github.com/rust-lang/cc-rs/blob/53fb72c87e5769a299f1886ead831901b9c775d6/src/lib.rs#L2528
-            if target.contains("msvc") {
-                None
-            } else if target.contains("apple") {
-                Some("c++".to_string())
-            } else if target.contains("freebsd") {
-                Some("c++".to_string())
-            } else if target.contains("openbsd") {
-                Some("c++".to_string())
-            } else if target.contains("android") {
-                Some("c++_shared".to_string())
-            } else {
-                Some("stdc++".to_string())
-            }
-        };
-
-        if let Some(cpp_stdlib) = cpp_stdlib {
-            println!("cargo:rustc-link-lib={}", cpp_stdlib);
-        }
-    }
-}
-
 impl TreeSitterParser {
     fn build(&self) {
+        // In rustc 1.61+, we need to specify +whole-archive.
+        // See https://github.com/rust-lang/rust/blob/1.61.0/RELEASES.md#compatibility-notes
+        // and https://github.com/Wilfred/difftastic/issues/339.
+        let rustc_supports_whole_archive = !rustc::is_max_version("1.60.0").unwrap_or(false);
+
         let dir = PathBuf::from(&self.src_dir);
 
         let mut c_files = vec!["parser.c"];
@@ -110,7 +64,10 @@ impl TreeSitterParser {
                 cpp_build.file(dir.join(file));
             }
 
-            emit_whole_archive_link_flags(&mut cpp_build, &format!("{}-cpp", self.name), true);
+            if rustc_supports_whole_archive {
+                cpp_build.link_lib_modifier("+whole-archive");
+            }
+
             cpp_build.compile(&format!("{}-cpp", self.name));
         }
 
@@ -123,7 +80,10 @@ impl TreeSitterParser {
             build.file(dir.join(file));
         }
 
-        emit_whole_archive_link_flags(&mut build, self.name, false);
+        if rustc_supports_whole_archive {
+            build.link_lib_modifier("+whole-archive");
+        }
+
         build.compile(self.name);
     }
 }

@@ -60,7 +60,7 @@ term_size = "0.3.2"
 pretty_assertions = "1.2.1"
 
 [build-dependencies]
-cc = "1.0.73"
+cc = "1.0.78"
 rayon = "1.5.2"
 version_check = "0.9.4"
 
