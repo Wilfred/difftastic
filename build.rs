@@ -1,3 +1,7 @@
+// Clippy errors in this file should not stop build errors being
+// reported elsewhere.
+// https://github.com/rust-lang/rust-clippy/issues/9534
+#![warn(clippy::all)]
 // Has false positives on else if chains that sometimes have the same
 // body for readability.
 #![allow(clippy::if_same_then_else)]
