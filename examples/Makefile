@@ -7,4 +7,4 @@ all: qtdeclarative
 qtdeclarative:
 	[ -d $@ ] || $(GIT) clone git://code.qt.io/qt/qtdeclarative.git $@
 	$(GIT) -C $@ fetch
-	$(GIT) -C $@ reset --hard 93ff9bb648e7361b8f553fe99d4f9ba68a14bae5
+	$(GIT) -C $@ reset --hard 6ac764a4d9e3bd723e955e8e9d5efd8ef6900214

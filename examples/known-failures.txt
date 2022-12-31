@@ -25,4 +25,4 @@ qtdeclarative/tests/auto/qml/qqmllanguage/data/signal.3.qml
 qtdeclarative/tests/auto/qml/qqmllanguage/data/signal.5.qml
 qtdeclarative/tests/auto/qml/qquickfolderlistmodel/data/dummy.qml
 qtdeclarative/tests/auto/quick/qquickloader/data/InvalidSourceComponent.qml
-qtdeclarative/tests/auto/quickcontrols2/controls/data/tst_scrollbar.qml
+qtdeclarative/tests/auto/quickcontrols/controls/data/tst_scrollbar.qml
