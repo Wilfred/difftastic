@@ -92,7 +92,7 @@ bool tree_sitter_latex_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
   bool found = false;
   TSSymbol type = 0xFFFF;
-  for (int i = 0; i <= TRIVIA_RAW_ENV_MINTED; i++) {
+  for (int i = 0; i <= TRIVIA_RAW_ENV_PYCODE; i++) {
     if (valid_symbols[i]) {
       if (found) {
         return false;
