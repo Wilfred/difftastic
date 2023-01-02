@@ -106,6 +106,9 @@ sample_files/load_before.js sample_files/load_after.js
 sample_files/lua_before.lua sample_files/lua_after.lua
 9886d61f459cdf566be9c42f7fa61a12  -
 
+sample_files/makefile_before.mk sample_files/makefile_after.mk
+43524233cc128cbd5c23673874095251  -
+
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 e8e76c97731accc5572708664bb61910  -
 

@@ -30,16 +30,20 @@ impl BackgroundColor {
 /// Find the largest byte offset in `s` that gives the longest
 /// starting substring whose display width does not exceed `width`.
 ///
-/// Note that the resulting substring may have a display width less
-/// than `width`, if the string contains full-width or emoji
-/// characters which have a display width greater than 1.
-fn byte_offset_for_width(s: &str, width: usize) -> usize {
+/// If `s` contains full-width Unicode characters, or emoji, or tabs,
+/// its display width may be less than `width`.
+fn byte_offset_for_width(s: &str, width: usize, tab_width: usize) -> usize {
     let mut current_offset = 0;
     let mut current_width = 0;
 
     for (offset, ch) in s.char_indices() {
         current_offset = offset;
-        let char_width = ch.width().unwrap_or(0);
+
+        let char_width = if ch == '\t' {
+            tab_width
+        } else {
+            ch.width().unwrap_or(0)
+        };
         current_width += char_width;
 
         if current_width > width {
@@ -54,27 +58,52 @@ fn substring_by_byte(s: &str, start: usize, end: usize) -> &str {
     &s[start..end]
 }
 
-/// Split a string into equal length parts and how many spaces should be padded.
+fn substring_by_byte_replace_tabs(s: &str, start: usize, end: usize, tab_width: usize) -> String {
+    let s = s[start..end].to_string();
+    s.replace('\t', &" ".repeat(tab_width))
+}
+
+fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
+    let display_width = s.width();
+
+    // .width() on tabs returns 0, wheras we want to model them as
+    // `tab_width` spaces.
+    debug_assert_eq!("\t".width(), 0);
+    let tab_count = s.matches('\t').count();
+    let tab_display_width_extra = tab_count * tab_width;
+
+    display_width + tab_display_width_extra
+}
+
+/// Split a string into parts whose display length does not
+/// exceed `max_width`.
 ///
-/// Return splitted strings and how many spaces each should be padded with.
+/// If any part has a display width less than `max_width`, also
+/// specify the number of spaces required to pad the part to reach the
+/// desired width.
 ///
 /// ```
 /// split_string_by_width("fooba", 3, true) // vec![("foo", 0), ("ba", 1)]
 /// split_string_by_width("一个汉字两列宽", 8, false) // vec![("一个汉字", 0), ("两列宽", 0)]
 /// ```
-fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(&str, usize)> {
-    let mut res = vec![];
+fn split_string_by_width(
+    s: &str,
+    max_width: usize,
+    tab_width: usize,
+    pad: bool,
+) -> Vec<(&str, usize)> {
+    let mut res: Vec<(&str, usize)> = vec![];
     let mut s = s;
 
-    while s.width() > max_width {
-        let offset = byte_offset_for_width(s, max_width);
+    while width_respecting_tabs(s, tab_width) > max_width {
+        let offset = byte_offset_for_width(s, max_width, tab_width);
 
         let part = substring_by_byte(s, 0, offset);
         s = substring_by_byte(s, offset, s.len());
 
-        let padding = if pad && part.width() < max_width {
-            // a fullwidth char is followed
-            1
+        let part_width = width_respecting_tabs(part, tab_width);
+        let padding = if pad && part_width < max_width {
+            max_width - part_width
         } else {
             0
         };
@@ -82,7 +111,11 @@ fn split_string_by_width(s: &str, max_width: usize, pad: bool) -> Vec<(&str, usi
     }
 
     if res.is_empty() || !s.is_empty() {
-        let padding = if pad { max_width - s.width() } else { 0 };
+        let padding = if pad {
+            max_width - width_respecting_tabs(s, tab_width)
+        } else {
+            0
+        };
         res.push((s, padding));
     }
 
@@ -93,29 +126,48 @@ fn highlight_missing_style_bug(s: &str) -> String {
     s.on_purple().to_string()
 }
 
+/// Return a copy of `src` with all the tab characters replaced by
+/// `tab_width` strings.
+fn replace_tabs(src: &str, tab_width: usize) -> String {
+    let tab_as_spaces = " ".repeat(tab_width);
+    src.replace('\t', &tab_as_spaces)
+}
+
 /// Split `line` (from the source code) into multiple lines of
 /// `max_len` (i.e. word wrapping), and apply `styles` to each part
 /// according to its original position in `line`.
 pub fn split_and_apply(
     line: &str,
     max_len: usize,
+    tab_width: usize,
     use_color: bool,
     styles: &[(SingleLineSpan, Style)],
     side: Side,
 ) -> Vec<String> {
-    assert!(max_len > 0);
+    assert!(
+        max_len > 0,
+        "Splitting lines into pieces of length 0 will never terminate"
+    );
+    assert!(
+        max_len > tab_width,
+        "Parts must be big enough to hold at least one tab (max_len = {} tab_width = {})",
+        max_len,
+        tab_width
+    );
 
     if styles.is_empty() && !line.trim().is_empty() {
-        return split_string_by_width(line, max_len, matches!(side, Side::Left))
+        return split_string_by_width(line, max_len, tab_width, matches!(side, Side::Left))
             .into_iter()
             .map(|(part, pad)| {
+                let part = replace_tabs(part, tab_width);
+
                 let mut res = String::with_capacity(part.len() + pad);
                 if use_color {
                     // If we're syntax highlighting and have no
                     // styles, that's a bug.
-                    res.push_str(&highlight_missing_style_bug(part));
+                    res.push_str(&highlight_missing_style_bug(&part));
                 } else {
-                    res.push_str(part);
+                    res.push_str(&part);
                 }
 
                 res.push_str(&" ".repeat(pad));
@@ -127,7 +179,9 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for (line_part, pad) in split_string_by_width(line, max_len, matches!(side, Side::Left)) {
+    for (line_part, pad) in
+        split_string_by_width(line, max_len, tab_width, matches!(side, Side::Left))
+    {
         let mut res = String::with_capacity(line_part.len() + pad);
         let mut prev_style_end = 0;
         for (span, style) in styles {
@@ -143,19 +197,21 @@ pub fn split_and_apply(
             if start_col > part_start && prev_style_end < start_col {
                 // Then append that text without styling.
                 let unstyled_start = max(prev_style_end, part_start);
-                res.push_str(substring_by_byte(
+                res.push_str(&substring_by_byte_replace_tabs(
                     line_part,
                     unstyled_start - part_start,
                     start_col - part_start,
+                    tab_width,
                 ));
             }
 
             // Apply style to the substring in this span.
             if end_col > part_start {
-                let span_s = substring_by_byte(
+                let span_s = substring_by_byte_replace_tabs(
                     line_part,
                     max(0, span.start_col as isize - part_start as isize) as usize,
                     min(byte_len(line_part), end_col - part_start),
+                    tab_width,
                 );
                 res.push_str(&span_s.style(*style).to_string());
             }
@@ -170,10 +226,15 @@ pub fn split_and_apply(
 
         // Unstyled text after the last span.
         if prev_style_end < part_start + byte_len(line_part) {
-            let span_s =
-                substring_by_byte(line_part, prev_style_end - part_start, byte_len(line_part));
+            let span_s = &substring_by_byte_replace_tabs(
+                line_part,
+                prev_style_end - part_start,
+                byte_len(line_part),
+                tab_width,
+            );
             res.push_str(span_s);
         }
+
         res.push_str(&" ".repeat(pad));
 
         styled_parts.push(res);
@@ -460,13 +521,15 @@ pub fn header(
 
 #[cfg(test)]
 mod tests {
+    const TAB_WIDTH: usize = 2;
+
     use super::*;
     use pretty_assertions::assert_eq;
 
     #[test]
     fn split_string_simple() {
         assert_eq!(
-            split_string_by_width("fooba", 3, true),
+            split_string_by_width("fooba", 3, TAB_WIDTH, true),
             vec![("foo", 0), ("ba", 1)]
         );
     }
@@ -474,7 +537,7 @@ mod tests {
     #[test]
     fn split_string_simple_no_pad() {
         assert_eq!(
-            split_string_by_width("fooba", 3, false),
+            split_string_by_width("fooba", 3, TAB_WIDTH, false),
             vec![("foo", 0), ("ba", 0)]
         );
     }
@@ -482,7 +545,7 @@ mod tests {
     #[test]
     fn split_string_unicode() {
         assert_eq!(
-            split_string_by_width("ab📦def", 4, true),
+            split_string_by_width("ab📦def", 4, TAB_WIDTH, true),
             vec![("ab📦", 0), ("def", 1)]
         );
     }
@@ -490,7 +553,7 @@ mod tests {
     #[test]
     fn test_combining_char() {
         assert_eq!(
-            split_string_by_width("aabbcc\u{300}x", 6, false),
+            split_string_by_width("aabbcc\u{300}x", 6, TAB_WIDTH, false),
             vec![("aabbcc\u{300}", 0), ("x", 0)],
         );
     }
@@ -498,7 +561,7 @@ mod tests {
     #[test]
     fn split_string_cjk() {
         assert_eq!(
-            split_string_by_width("一个汉字两列宽", 8, false),
+            split_string_by_width("一个汉字两列宽", 8, TAB_WIDTH, false),
             vec![("一个汉字", 0), ("两列宽", 0)]
         );
     }
@@ -506,14 +569,14 @@ mod tests {
     #[test]
     fn split_string_cjk2() {
         assert_eq!(
-            split_string_by_width("你好啊", 5, true),
+            split_string_by_width("你好啊", 5, TAB_WIDTH, true),
             vec![("你好", 1), ("啊", 3)]
         );
     }
 
     #[test]
     fn test_split_and_apply_missing() {
-        let res = split_and_apply("foo", 3, true, &[], Side::Left);
+        let res = split_and_apply("foo", 3, TAB_WIDTH, true, &[], Side::Left);
         assert_eq!(res, vec![highlight_missing_style_bug("foo")])
     }
 
@@ -522,6 +585,7 @@ mod tests {
         let res = split_and_apply(
             "foo",
             3,
+            TAB_WIDTH,
             true,
             &[(
                 SingleLineSpan {
@@ -541,6 +605,7 @@ mod tests {
         let res = split_and_apply(
             "foobar",
             6,
+            TAB_WIDTH,
             true,
             &[(
                 SingleLineSpan {
@@ -560,6 +625,7 @@ mod tests {
         let res = split_and_apply(
             "foobar",
             3,
+            TAB_WIDTH,
             true,
             &[
                 (
@@ -589,6 +655,7 @@ mod tests {
         let res = split_and_apply(
             "foobar      ",
             6,
+            TAB_WIDTH,
             true,
             &[(
                 SingleLineSpan {

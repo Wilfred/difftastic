@@ -508,6 +508,7 @@ pub fn print(
                     Some(lhs_line_num) => split_and_apply(
                         lhs_lines[lhs_line_num.as_usize()],
                         source_dims.content_width,
+                        display_options.tab_width,
                         display_options.use_color,
                         lhs_highlights.get(lhs_line_num).unwrap_or(&vec![]),
                         Side::Left,
@@ -518,6 +519,7 @@ pub fn print(
                     Some(rhs_line_num) => split_and_apply(
                         rhs_lines[rhs_line_num.as_usize()],
                         source_dims.content_width,
+                        display_options.tab_width,
                         display_options.use_color,
                         rhs_highlights.get(rhs_line_num).unwrap_or(&vec![]),
                         Side::Right,
