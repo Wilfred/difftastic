@@ -83,15 +83,9 @@ fn width_respecting_tabs(s: &str, tab_width: usize) -> usize {
 /// desired width.
 ///
 /// ```
-/// split_string_by_width("fooba", 3, true) // vec![("foo", 0), ("ba", 1)]
-/// split_string_by_width("一个汉字两列宽", 8, false) // vec![("一个汉字", 0), ("两列宽", 0)]
+/// split_string_by_width("fooba", 3) // vec![("foo", 0), ("ba", 1)]
 /// ```
-fn split_string_by_width(
-    s: &str,
-    max_width: usize,
-    tab_width: usize,
-    pad: bool,
-) -> Vec<(&str, usize)> {
+fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&str, usize)> {
     let mut res: Vec<(&str, usize)> = vec![];
     let mut s = s;
 
@@ -102,7 +96,7 @@ fn split_string_by_width(
         s = substring_by_byte(s, offset, s.len());
 
         let part_width = width_respecting_tabs(part, tab_width);
-        let padding = if pad && part_width < max_width {
+        let padding = if part_width < max_width {
             max_width - part_width
         } else {
             0
@@ -111,12 +105,7 @@ fn split_string_by_width(
     }
 
     if res.is_empty() || !s.is_empty() {
-        let padding = if pad {
-            max_width - width_respecting_tabs(s, tab_width)
-        } else {
-            0
-        };
-        res.push((s, padding));
+        res.push((s, max_width - width_respecting_tabs(s, tab_width)));
     }
 
     res
@@ -156,7 +145,7 @@ pub fn split_and_apply(
     );
 
     if styles.is_empty() && !line.trim().is_empty() {
-        return split_string_by_width(line, max_len, tab_width, matches!(side, Side::Left))
+        return split_string_by_width(line, max_len, tab_width)
             .into_iter()
             .map(|(part, pad)| {
                 let part = replace_tabs(part, tab_width);
@@ -170,7 +159,9 @@ pub fn split_and_apply(
                     res.push_str(&part);
                 }
 
-                res.push_str(&" ".repeat(pad));
+                if matches!(side, Side::Left) {
+                    res.push_str(&" ".repeat(pad));
+                }
                 res
             })
             .collect();
@@ -179,9 +170,7 @@ pub fn split_and_apply(
     let mut styled_parts = vec![];
     let mut part_start = 0;
 
-    for (line_part, pad) in
-        split_string_by_width(line, max_len, tab_width, matches!(side, Side::Left))
-    {
+    for (line_part, pad) in split_string_by_width(line, max_len, tab_width) {
         let mut res = String::with_capacity(line_part.len() + pad);
         let mut prev_style_end = 0;
         for (span, style) in styles {
@@ -235,7 +224,9 @@ pub fn split_and_apply(
             res.push_str(span_s);
         }
 
-        res.push_str(&" ".repeat(pad));
+        if matches!(side, Side::Left) {
+            res.push_str(&" ".repeat(pad));
+        }
 
         styled_parts.push(res);
         part_start += byte_len(line_part);
@@ -529,23 +520,15 @@ mod tests {
     #[test]
     fn split_string_simple() {
         assert_eq!(
-            split_string_by_width("fooba", 3, TAB_WIDTH, true),
+            split_string_by_width("fooba", 3, TAB_WIDTH),
             vec![("foo", 0), ("ba", 1)]
-        );
-    }
-
-    #[test]
-    fn split_string_simple_no_pad() {
-        assert_eq!(
-            split_string_by_width("fooba", 3, TAB_WIDTH, false),
-            vec![("foo", 0), ("ba", 0)]
         );
     }
 
     #[test]
     fn split_string_unicode() {
         assert_eq!(
-            split_string_by_width("ab📦def", 4, TAB_WIDTH, true),
+            split_string_by_width("ab📦def", 4, TAB_WIDTH),
             vec![("ab📦", 0), ("def", 1)]
         );
     }
@@ -553,23 +536,23 @@ mod tests {
     #[test]
     fn test_combining_char() {
         assert_eq!(
-            split_string_by_width("aabbcc\u{300}x", 6, TAB_WIDTH, false),
-            vec![("aabbcc\u{300}", 0), ("x", 0)],
+            split_string_by_width("aabbcc\u{300}x", 6, TAB_WIDTH),
+            vec![("aabbcc\u{300}", 0), ("x", 5)],
         );
     }
 
     #[test]
     fn split_string_cjk() {
         assert_eq!(
-            split_string_by_width("一个汉字两列宽", 8, TAB_WIDTH, false),
-            vec![("一个汉字", 0), ("两列宽", 0)]
+            split_string_by_width("一个汉字两列宽", 8, TAB_WIDTH),
+            vec![("一个汉字", 0), ("两列宽", 2)]
         );
     }
 
     #[test]
     fn split_string_cjk2() {
         assert_eq!(
-            split_string_by_width("你好啊", 5, TAB_WIDTH, true),
+            split_string_by_width("你好啊", 5, TAB_WIDTH),
             vec![("你好", 1), ("啊", 3)]
         );
     }
