@@ -54,6 +54,15 @@ pub fn print(
         )
     };
 
+    let lhs_colored_lines: Vec<_> = lhs_colored_lines
+        .into_iter()
+        .map(|line| style::replace_tabs(&line, display_options.tab_width))
+        .collect();
+    let rhs_colored_lines: Vec<_> = rhs_colored_lines
+        .into_iter()
+        .map(|line| style::replace_tabs(&line, display_options.tab_width))
+        .collect();
+
     let opposite_to_lhs = opposite_positions(lhs_positions);
     let opposite_to_rhs = opposite_positions(rhs_positions);
 

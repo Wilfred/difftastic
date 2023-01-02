@@ -117,7 +117,7 @@ fn highlight_missing_style_bug(s: &str) -> String {
 
 /// Return a copy of `src` with all the tab characters replaced by
 /// `tab_width` strings.
-fn replace_tabs(src: &str, tab_width: usize) -> String {
+pub fn replace_tabs(src: &str, tab_width: usize) -> String {
     let tab_as_spaces = " ".repeat(tab_width);
     src.replace('\t', &tab_as_spaces)
 }

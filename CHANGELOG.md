@@ -6,6 +6,10 @@ Tab replacement is now done after parsing. If tab characters are
 syntactically important, they are now handled correctly. This was
 particularly an issue in Makefiles, where indentation must be tabs.
 
+### Display
+
+`--display=inline` now respects `--tab-width`.
+
 ## 0.40 (released 28th December 2022)
 
 ### Diffing
