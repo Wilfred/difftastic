@@ -2,11 +2,38 @@
 
 set -eu
 
-known_failures="$(cat script/known-failures.txt)"
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
+
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" > /dev/null
+  actual_sha=$(git rev-parse HEAD)
+  if [ "$actual_sha" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
+
+clone_repo JamesNK Newtonsoft.Json 7c3d7f8da7e35dde8fa74188b0decff70f8f10e3
+clone_repo nunit nunit             ad49f27294bd0f2677d8699756c6ccb10df600f8
+clone_repo OrchardCMS orchard      0a82721968232b07354edcaac63a9ccea02220c6
+
+known_failures="$(cat script/known_failures.txt)"
 
 tree-sitter parse -q \
   'examples/**/*.cs' \
-  $(for file in $known_failures; do echo "!${file}"; done)
+  $(for failure in $known_failures; do echo "!${failure}"; done)
 
 example_count=$(find examples -name '*.cs' | wc -l)
 failure_count=$(wc -w <<< "$known_failures")

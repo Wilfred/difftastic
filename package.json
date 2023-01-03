@@ -21,7 +21,8 @@
     "tree-sitter-cli": "^0.20.0"
   },
   "scripts": {
-    "test": "tree-sitter test && node test.js"
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "tree-sitter": [
     {
