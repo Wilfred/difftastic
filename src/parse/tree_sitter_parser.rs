@@ -434,6 +434,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language,
                 atom_nodes: vec![
+                    "doctype",
                     "quoted_attribute_value",
                     "comment",
                     "raw_text",
