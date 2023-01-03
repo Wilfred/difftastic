@@ -8,7 +8,7 @@ sample_files/change_outer_before.el sample_files/change_outer_after.el
 4d202515307556b443806ea25aac0b84  -
 
 sample_files/chinese_before.po sample_files/chinese_after.po
-599f3ee8c40984fa04c9b6cc57ba1fcb  -
+46cc71b46688dd2abc51f9fd82864c90  -
 
 sample_files/clojure_before.clj sample_files/clojure_after.clj
 b8e17b8eb649ba0b8d29b57a23e4ac81  -
@@ -17,7 +17,7 @@ sample_files/comma_before.js sample_files/comma_after.js
 e615c73ff860651f7749dc13cb3f110f  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-70db55f8e3539241a990264f1516de72  -
+9af41b8c280d4ce94a19023f652e46fb  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 eac81f7ca15eff973498a4d8b050ec34  -
@@ -53,10 +53,10 @@ sample_files/hare_before.ha sample_files/hare_after.ha
 2af3b9897290b3652d7aef626d5787e6  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
-0cefa44fdf56edf504f50506bbcded4e  -
+5a2c0c5d4a04f79e2f8f32299e6cd364  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-9ddd6895114fa14ef2c51da9cb9e5ecf  -
+24c6205befd0fd1b44f21dd039cafb48  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
 65ad6cb40353750f05d183f9276930b6  -
@@ -65,13 +65,13 @@ sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 ce09e8127c21b8c186cd8a2143035b28  -
 
 sample_files/html_before.html sample_files/html_after.html
-bc74f6e9dce3ee8bdc959fbc61c05947  -
+58999a8ea998f3319aacd3e940af450f  -
 
 sample_files/html_simple_before.html sample_files/html_simple_after.html
 ce3bfa12bc21d0eb5528766e18387e86  -
 
 sample_files/huge_cpp_before.cpp sample_files/huge_cpp_after.cpp
-84d9d0852e835bd922d4ad9cb572a7a9  -
+5ce6b92e727e0cd4cb2bf40272c4b952  -
 
 sample_files/identical_before.scala sample_files/identical_after.scala
 9c7319f61833e46a0a8cb6c01cc997c9  -
@@ -143,7 +143,7 @@ sample_files/pascal_before.pascal sample_files/pascal_after.pascal
 dfea5599b7f5e180d0fafab326f612cc  -
 
 sample_files/perl_before.pl sample_files/perl_after.pl
-dee83b2433974ee8ac13a7d3febac7fa  -
+4217d530a95049f6732aa84070792e0b  -
 
 sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
 de31a80dc8a06987aeff4aaa04ce3b87  -

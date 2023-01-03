@@ -637,7 +637,7 @@ pub fn split_words(s: &str) -> Vec<&str> {
     let mut res = vec![];
     let mut word_start = None;
     for (idx, c) in s.char_indices() {
-        if c.is_alphanumeric() {
+        if c.is_alphanumeric() || c == '-' || c == '_' {
             if word_start.is_none() {
                 word_start = Some(idx);
             }
@@ -678,16 +678,20 @@ fn split_comment_words(
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
-                res.push(MatchedPos {
-                    kind: MatchKind::NovelWord {
-                        highlight: TokenKind::Atom(AtomKind::Comment),
-                    },
-                    pos: content_newlines.from_offsets_relative_to(
-                        pos,
-                        offset,
-                        offset + word.len(),
-                    )[0],
-                });
+
+                let all_whitespace = word.chars().all(|c| c.is_whitespace());
+                if !all_whitespace {
+                    res.push(MatchedPos {
+                        kind: MatchKind::NovelWord {
+                            highlight: TokenKind::Atom(AtomKind::Comment),
+                        },
+                        pos: content_newlines.from_offsets_relative_to(
+                            pos,
+                            offset,
+                            offset + word.len(),
+                        )[0],
+                    });
+                }
                 offset += word.len();
             }
             myers_diff::DiffResult::Both(word, opposite_word) => {

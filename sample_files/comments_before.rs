@@ -13,6 +13,10 @@ if true {
      */
 }
 
+// An example environment variable: FOO="a-b"
+
+// A single line comment.
+
 /** A doc comment.
  *
  * This line will change.

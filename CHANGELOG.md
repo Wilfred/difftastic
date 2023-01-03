@@ -6,6 +6,12 @@ Tab replacement is now done after parsing. If tab characters are
 syntactically important, they are now handled correctly. This was
 particularly an issue in Makefiles, where indentation must be tabs.
 
+### Diffing
+
+Improved word highlighting in changed comments. Whitespace is never
+underlined and the characters `-` and `_` are now considered word
+constituents.
+
 ### Display
 
 `--display=inline` now respects `--tab-width`.
