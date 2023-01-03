@@ -16,6 +16,30 @@ package c {
       (object_definition (identifier)))))
 
 ================================
+Package (Scala 3 syntax)
+================================
+
+package a.b
+package c:
+  object A
+
+package d:
+  object A
+end d
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier)))
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier))))
+
+  (package_clause (package_identifier (identifier))
+    (template_body
+      (object_definition (identifier)))))
+
+================================
 Package object
 ================================
 
@@ -328,6 +352,28 @@ class A {
         (type_identifier)))))
 
 =======================================
+Value declarations (Scala 3 syntax)
+=======================================
+
+class A:
+  val b, c : Int
+  val d : String
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+=======================================
 Value definitions
 =======================================
 
@@ -393,6 +439,35 @@ class A {
         (integer_literal)))))
 
 =======================================
+Variable definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  var b: Int = 1
+  var c: Int =
+    val d = 2
+    d
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (integer_literal))
+      (var_definition
+        (identifier)
+        (type_identifier)
+        (indented_block
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (identifier))))))
+
+=======================================
 Type definitions
 =======================================
 
@@ -450,6 +525,11 @@ class A {
     j
   }
   def h(x: T)(implicit ev: Reads[T])
+
+  def l: Int =
+    1
+
+  def m = ()
 }
 
 ---
@@ -472,7 +552,59 @@ class A {
       (function_declaration
         (identifier)
         (parameters (parameter (identifier) (type_identifier)))
-        (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+        (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier))))))
+      (function_definition (identifier) (type_identifier) (indented_block (integer_literal)))
+      (function_definition (identifier) (unit)))))
+
+=======================================
+Function definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  def foo(c: C): Int =
+    val x = 1
+    val y = 2
+    x + y
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter (identifier) (type_identifier)))
+        (type_identifier)
+        (indented_block
+          (val_definition (identifier) (integer_literal)) (val_definition (identifier) (integer_literal)) (infix_expression (identifier) (operator_identifier) (identifier)))))))
+
+=======================================
+Top-level Definitions (Scala 3 syntax)
+=======================================
+
+class A:
+  def a() =
+    ()
+
+def a() = 1
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (parameters)
+        (indented_block
+          (unit)))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (integer_literal)))
 
 =======================================
 Initialization expressions

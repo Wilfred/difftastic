@@ -250,6 +250,10 @@
       {
         "type": "while_expression",
         "named": true
+      },
+      {
+        "type": "wildcard",
+        "named": true
       }
     ]
   },
@@ -671,8 +675,56 @@
             "named": true
           },
           {
+            "type": "_end_ident",
+            "named": false
+          },
+          {
+            "type": "end",
+            "named": false
+          },
+          {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "extension",
+            "named": false
+          },
+          {
+            "type": "for",
+            "named": false
+          },
+          {
+            "type": "given",
+            "named": false
+          },
+          {
+            "type": "if",
+            "named": false
+          },
+          {
+            "type": "match",
+            "named": false
+          },
+          {
+            "type": "new",
+            "named": false
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "try",
+            "named": false
+          },
+          {
+            "type": "val",
+            "named": false
+          },
+          {
+            "type": "while",
+            "named": false
           }
         ]
       },
@@ -707,7 +759,15 @@
       "required": true,
       "types": [
         {
-          "type": "case_block",
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "indented_block",
+          "named": true
+        },
+        {
+          "type": "indented_cases",
           "named": true
         }
       ]
@@ -1284,6 +1344,14 @@
         {
           "type": "expression",
           "named": true
+        },
+        {
+          "type": "indented_block",
+          "named": true
+        },
+        {
+          "type": "indented_cases",
+          "named": true
         }
       ]
     }
@@ -1298,6 +1366,14 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
             "named": true
           }
         ]
@@ -1436,6 +1512,14 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
             "named": true
           }
         ]
@@ -1685,16 +1769,36 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
           }
         ]
       },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "parenthesized_expression",
+            "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
+          },
+          {
+            "type": "then",
+            "named": false
           }
         ]
       },
@@ -1704,6 +1808,14 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
             "named": true
           }
         ]
@@ -1807,6 +1919,40 @@
     "type": "import_wildcard",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "indented_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_definition",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "indented_cases",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "infix_expression",
@@ -2181,6 +2327,10 @@
         "types": [
           {
             "type": "case_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
             "named": true
           }
         ]
@@ -2831,6 +2981,14 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
           }
         ]
       }
@@ -3372,6 +3530,14 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
           }
         ]
       }
@@ -3526,6 +3692,14 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
           }
         ]
       }
@@ -3604,15 +3778,35 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
+            "named": true
           }
         ]
       },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "parenthesized_expression",
+            "type": "do",
+            "named": false
+          },
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "indented_block",
+            "named": true
+          },
+          {
+            "type": "indented_cases",
             "named": true
           }
         ]
@@ -3689,10 +3883,6 @@
     "named": false
   },
   {
-    "type": "=>",
-    "named": false
-  },
-  {
     "type": ">:",
     "named": false
   },
@@ -3710,6 +3900,10 @@
   },
   {
     "type": "_",
+    "named": false
+  },
+  {
+    "type": "_end_ident",
     "named": false
   },
   {
@@ -3753,7 +3947,15 @@
     "named": false
   },
   {
+    "type": "end",
+    "named": false
+  },
+  {
     "type": "extends",
+    "named": false
+  },
+  {
+    "type": "extension",
     "named": false
   },
   {
@@ -3851,6 +4053,14 @@
   {
     "type": "symbol_literal",
     "named": true
+  },
+  {
+    "type": "then",
+    "named": false
+  },
+  {
+    "type": "this",
+    "named": false
   },
   {
     "type": "throw",
