@@ -89,6 +89,7 @@ class X {
           (annotation (user_type (type_identifier)))
           (annotation (user_type (type_identifier))))
         (simple_identifier)
+        (function_value_parameters)
         (user_type (type_identifier))
       )
     )
@@ -111,6 +112,7 @@ fun foo() = bar {}
         (user_type
           (type_identifier))))
     (simple_identifier)
+    (function_value_parameters)
     (function_body
       (call_expression
         (simple_identifier)

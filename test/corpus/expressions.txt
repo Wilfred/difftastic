@@ -212,8 +212,8 @@ expect fun randomUUID(): String
     (modifiers
       (platform_modifier))
     (simple_identifier)
-    (user_type
-      (type_identifier))))
+    (function_value_parameters)
+    (user_type (type_identifier))))
 
 ================================================================================
 Less than for generics
@@ -346,6 +346,7 @@ when (dir) {
 (source_file
   (function_declaration
     (simple_identifier)
+    (function_value_parameters)
     (function_body
       (statements
         (property_declaration

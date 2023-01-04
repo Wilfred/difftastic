@@ -31,11 +31,13 @@ class HelloWorld {
     (type_identifier)
     (class_body
       (function_declaration
-        (simple_identifier)
-        (function_body))
+       (simple_identifier)
+       (function_value_parameters)
+       (function_body))
       (function_declaration
-        (simple_identifier)
-        (function_body)))))
+       (simple_identifier)
+       (function_value_parameters)
+       (function_body)))))
 
 ================================================================================
 Generic class
@@ -70,14 +72,16 @@ class Strings {
     (type_identifier)
     (class_body
       (function_declaration
-        (simple_identifier)
-        (function_body
-          (string_literal)))
+       (simple_identifier)
+       (function_value_parameters)
+       (function_body
+        (string_literal)))
       (function_declaration
-        (simple_identifier)
-        (function_body
+       (simple_identifier)
+       (function_value_parameters)
+       (function_body
+        (additive_expression
           (additive_expression
-            (additive_expression
               (string_literal)
               (string_literal))
             (string_literal)))))))
@@ -101,10 +105,11 @@ internal open class Test {
     (class_body
       (function_declaration
         (modifiers
-          (visibility_modifier)
-          (inheritance_modifier)
-          (function_modifier))
-        (simple_identifier)))))
+         (visibility_modifier)
+         (inheritance_modifier)
+         (function_modifier))
+        (simple_identifier)
+        (function_value_parameters)))))
 
 ================================================================================
 Objects
@@ -121,7 +126,8 @@ object Singleton {
     (type_identifier)
     (class_body
       (function_declaration
-        (simple_identifier)))))
+       (simple_identifier)
+       (function_value_parameters)))))
 
 ================================================================================
 Primary constructors
@@ -250,7 +256,7 @@ class Test(x: Int, y: Int) {
         (user_type
           (type_identifier))))
     (class_body
-      (secondary_constructor
+      (secondary_constructor (function_value_parameters)
         (constructor_delegation_call
           (value_arguments
             (value_argument
@@ -315,6 +321,7 @@ enum class Color(val rgb: Int) {
         (modifiers
           (member_modifier))
         (simple_identifier)
+        (function_value_parameters)
         (function_body
           (call_expression
             (navigation_expression
