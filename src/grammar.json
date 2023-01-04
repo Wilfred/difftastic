@@ -1,6 +1,6 @@
 {
   "name": "scala",
-  "word": "identifier",
+  "word": "_plainid",
   "rules": {
     "compilation_unit": {
       "type": "REPEAT",
@@ -3956,9 +3956,26 @@
         }
       ]
     },
-    "identifier": {
+    "_plainid": {
       "type": "PATTERN",
       "value": "[a-zA-Z_]\\w*"
+    },
+    "_backquoted_id": {
+      "type": "PATTERN",
+      "value": "`[^\\n`]+`"
+    },
+    "identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_plainid"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_backquoted_id"
+        }
+      ]
     },
     "wildcard": {
       "type": "STRING",

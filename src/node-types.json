@@ -258,6 +258,11 @@
     ]
   },
   {
+    "type": "_end_ident",
+    "named": false,
+    "fields": {}
+  },
+  {
     "type": "access_modifier",
     "named": true,
     "fields": {},
@@ -1759,6 +1764,11 @@
     }
   },
   {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "if_expression",
     "named": true,
     "fields": {
@@ -3215,6 +3225,11 @@
     }
   },
   {
+    "type": "type_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_parameters",
     "named": true,
     "fields": {
@@ -3903,10 +3918,6 @@
     "named": false
   },
   {
-    "type": "_end_ident",
-    "named": false
-  },
-  {
     "type": "abstract",
     "named": false
   },
@@ -3981,10 +3992,6 @@
   {
     "type": "given",
     "named": false
-  },
-  {
-    "type": "identifier",
-    "named": true
   },
   {
     "type": "if",
@@ -4081,10 +4088,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "type_identifier",
-    "named": true
   },
   {
     "type": "val",
