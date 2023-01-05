@@ -22,6 +22,10 @@
       {
         "type": "type_declaration",
         "named": true
+      },
+      {
+        "type": "view_declaration",
+        "named": true
       }
     ]
   },
@@ -854,6 +858,25 @@
     "fields": {}
   },
   {
+    "type": "view_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "statement_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!=",
     "named": false
   },
@@ -1019,6 +1042,10 @@
   },
   {
     "type": "type",
+    "named": false
+  },
+  {
+    "type": "view",
     "named": false
   },
   {
