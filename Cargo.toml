@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-scala"
 description = "scala grammar for the tree-sitter parsing library"
-version = "0.19.0"
+version = "0.19.1"
 keywords = ["incremental", "parsing", "scala"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-javascript"
