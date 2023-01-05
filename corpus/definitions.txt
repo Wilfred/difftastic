@@ -352,6 +352,30 @@ class A {
         (type_identifier)))))
 
 =======================================
+$ in identifier names
+=======================================
+
+class $A$B$ {
+  val b$, c$ : Int
+  val d$ : String
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+
+=======================================
 Value declarations (Scala 3 syntax)
 =======================================
 
