@@ -8,7 +8,7 @@ Syntax Quoted Symbol
 
 (source
   (syn_quoting_lit
-    (sym_lit)))
+    (sym_lit (sym_name))))
 
 ================================================================================
 Syntax Quoted List
@@ -21,7 +21,7 @@ Syntax Quoted List
 (source
   (syn_quoting_lit
     (list_lit
-      (sym_lit)
+      (sym_lit (sym_name))
       (unquoting_lit
-        (sym_lit))
+        (sym_lit (sym_name)))
       (num_lit))))

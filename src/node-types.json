@@ -176,6 +176,11 @@
     }
   },
   {
+    "type": "auto_res_mark",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "derefing_lit",
     "named": true,
     "fields": {
@@ -533,6 +538,56 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "kwd_lit",
+    "named": true,
+    "fields": {
+      "delimiter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "/",
+            "named": false
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "::",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kwd_name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "kwd_ns",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1997,12 +2052,42 @@
     "type": "sym_lit",
     "named": true,
     "fields": {
+      "delimiter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "/",
+            "named": false
+          }
+        ]
+      },
       "meta": {
         "multiple": true,
         "required": false,
         "types": [
           {
             "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "sym_name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sym_ns",
             "named": true
           }
         ]
@@ -3074,6 +3159,18 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": "@",
     "named": false
   },
@@ -3094,10 +3191,6 @@
     "named": false
   },
   {
-    "type": "auto_res_mark",
-    "named": true
-  },
-  {
     "type": "bool_lit",
     "named": true
   },
@@ -3110,7 +3203,11 @@
     "named": true
   },
   {
-    "type": "kwd_lit",
+    "type": "kwd_name",
+    "named": true
+  },
+  {
+    "type": "kwd_ns",
     "named": true
   },
   {
@@ -3119,6 +3216,14 @@
   },
   {
     "type": "num_lit",
+    "named": true
+  },
+  {
+    "type": "sym_name",
+    "named": true
+  },
+  {
+    "type": "sym_ns",
     "named": true
   },
   {

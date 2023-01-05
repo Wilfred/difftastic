@@ -19,6 +19,6 @@ Anonymous Function
 
 (source
   (anon_fn_lit
-    (sym_lit)
-    (sym_lit)
+    (sym_lit (sym_name))
+    (sym_lit (sym_name))
     (num_lit)))

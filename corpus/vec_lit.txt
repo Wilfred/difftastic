@@ -36,13 +36,13 @@ Vector with Different Types
 
 (source
   (vec_lit
-    (kwd_lit)
+    (kwd_lit (kwd_name))
     (num_lit)
     (quoting_lit
-      (sym_lit))
+      (sym_lit (sym_name)))
     (map_lit
-      (kwd_lit)
+      (kwd_lit (kwd_name))
       (num_lit)
-      (kwd_lit)
+      (kwd_lit (kwd_name))
       (num_lit))
     (set_lit)))

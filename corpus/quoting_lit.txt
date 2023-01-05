@@ -8,7 +8,7 @@ Quoted Symbol
 
 (source
   (quoting_lit
-    (sym_lit)))
+    (sym_lit (sym_name))))
 
 ================================================================================
 Quoted List

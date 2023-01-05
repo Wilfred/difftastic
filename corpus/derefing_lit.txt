@@ -8,7 +8,7 @@ Simple Deref
 
 (source
   (derefing_lit
-    (sym_lit)))
+    (sym_lit (sym_name))))
 
 ================================================================================
 Deref of Call
@@ -21,5 +21,5 @@ Deref of Call
 (source
   (derefing_lit
     (list_lit
-      (sym_lit)
-      (sym_lit))))
+      (sym_lit (sym_name))
+      (sym_lit (sym_name)))))
