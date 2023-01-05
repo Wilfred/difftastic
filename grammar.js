@@ -24,7 +24,8 @@ module.exports = grammar(C, {
   name: 'cpp',
 
   externals: $ => [
-    $.raw_string_literal
+    $.raw_string_delimiter,
+    $.raw_string_content,
   ],
 
   conflicts: ($, original) => original.concat([
@@ -826,6 +827,24 @@ module.exports = grammar(C, {
       $.raw_string_literal,
       $.user_defined_literal,
       $.fold_expression
+    ),
+
+    raw_string_literal: $ => seq(
+      choice('R"', 'LR"', 'uR"', 'UR"', 'u8R"'),
+      choice(
+        seq(
+          field('delimiter', $.raw_string_delimiter),
+          '(',
+          $.raw_string_content,
+          ')',
+          $.raw_string_delimiter,
+        ),
+        seq(
+          '(',
+          $.raw_string_content,
+          ')',
+        )),
+      '"',
     ),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(

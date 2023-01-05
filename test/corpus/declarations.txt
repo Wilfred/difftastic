@@ -1170,7 +1170,7 @@ static_assert(true, R"FOO(string)FOO");
     message: (concatenated_string (string_literal) (string_literal)))
   (static_assert_declaration
     condition: (true)
-    message: (raw_string_literal)))
+    message: (raw_string_literal delimiter: (raw_string_delimiter) (raw_string_content) (raw_string_delimiter))))
 
 =========================================
 Cast operator overload declarations

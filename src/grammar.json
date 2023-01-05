@@ -10408,6 +10408,91 @@
         }
       ]
     },
+    "raw_string_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "R\""
+            },
+            {
+              "type": "STRING",
+              "value": "LR\""
+            },
+            {
+              "type": "STRING",
+              "value": "uR\""
+            },
+            {
+              "type": "STRING",
+              "value": "UR\""
+            },
+            {
+              "type": "STRING",
+              "value": "u8R\""
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "delimiter",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "raw_string_delimiter"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "raw_string_content"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "raw_string_delimiter"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "raw_string_content"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
     "co_await_expression": {
       "type": "PREC_LEFT",
       "value": 13,
@@ -12829,7 +12914,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "raw_string_literal"
+      "name": "raw_string_delimiter"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "raw_string_content"
     }
   ],
   "inline": [
