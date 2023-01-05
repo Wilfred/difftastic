@@ -11,8 +11,27 @@ jobs:
       fail-fast: true
       matrix:
         os: [macos-latest, ubuntu-20.04, windows-2019]
+    env:
+      SCALA_SCALA_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
+      DOTTY_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout tree-sitter-scala
+        uses: actions/checkout@v3
+
+      - name: checkout scala/scala
+        uses: actions/checkout@v3
+        with:
+          repository: scala/scala
+          ref: v2.13.10
+          path: scala_scala
+
+      - name: checkout lampepfl/dotty
+        uses: actions/checkout@v3
+        with:
+          repository: lampepfl/dotty
+          ref: 3.2.1
+          path: dotty
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -21,11 +40,16 @@ jobs:
         run: gcc test/test-stack.c -o a.out && ./a.out
 
       - name: Generate and check parser
-        if: matrix.os == 'ubuntu-20.04'
+        if: ${{ runner.os == 'Linux' }}
         run: |
           npm install && npm run build
           git diff --quiet || (echo "::error file=grammar.js::Generated parser differs from the checked in version" && exit 1)
 
-      - name: Parser tests 
+      - name: Parser tests
         shell: bash
         run: npm install && npm run test
+
+      - name: Smoke test
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: script/smoke_test.sh
