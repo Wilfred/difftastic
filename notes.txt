@@ -1,10 +1,12 @@
 // NOTES
+// - (UNRELEASED)
+//   - update tree-sitter and friends to 0.19.5 or 0.20.x
 //
-// - 0.0.10 (possibly)
-//   - rename _form -> _lit
-//   - update tree-sitter and friends to latest
-//   - regenerate
-//   - test
+//   0.0.10
+//   - Fix issue #28 - Tokenize namespace and name parts of symbols and keywords separately
+//     - https://github.com/sogaiu/tree-sitter-clojure/issues/28
+//   - Fix issue #21, where symbol "name" field is dropped when metadata is present
+//     - https://github.com/sogaiu/tree-sitter-clojure/issues/21
 //
 //   0.0.9
 //   - misc doc updates
