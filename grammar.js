@@ -778,7 +778,7 @@ module.exports = grammar({
     ),
 
     // TODO: Include operators.
-    _plainid: $ => /[a-zA-Z_]\w*/,
+    _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
     _backquoted_id: $=> /`[^\n`]+`/,
     identifier: $ => choice(
       $._plainid, 

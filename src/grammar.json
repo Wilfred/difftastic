@@ -3958,7 +3958,7 @@
     },
     "_plainid": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_]\\w*"
+      "value": "[a-zA-Z_\\\\$][\\w\\\\$]*"
     },
     "_backquoted_id": {
       "type": "PATTERN",
