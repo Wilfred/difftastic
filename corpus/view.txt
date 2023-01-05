@@ -1,0 +1,413 @@
+========================
+Simple View definition
+========================
+
+view User {
+  id         Int
+  email      String?
+  posts      Post[]
+  type       String
+  number     Int?
+  circle     Unsupported("circle")?
+  square     Unsupported("square")[]
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+          (maybe)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+          (array)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+          (maybe)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+          (maybe)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+          (array)
+        )
+      )
+    )
+  )
+)
+
+=========================
+View with attributes
+=========================
+
+view User {
+  id         String     @default(cuid()) @id
+  email      String     @unique
+  createdAt  DateTime   @default()
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments)
+              )
+            )
+          )
+        )
+        (attribute
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments)
+          )
+        )
+      )
+    )
+  )
+)
+
+=========================
+View with object attribute
+=========================
+
+view User {
+  id  Number  @id @db.int
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+        (attribute
+          (member_expression
+            (identifier)
+            (property_identifier)
+          )
+        )
+      )
+    )
+  )
+)
+
+============================
+View with complex attribute
+============================
+
+view User {
+  id         Number                   @id @default(sequence(maxValue: 4294967295))
+  circle     Unsupported("circle")?   @default(dbgenerated("'<(10,4),11>'::circle"))
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments
+                  (type_expression
+                    (identifier)
+                    (number)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (call_expression
+            (identifier)
+            (arguments
+              (string)
+            )
+          )
+          (maybe)
+        )
+        (attribute
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (identifier)
+                (arguments
+                  (string)
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+===============================
+View with multiline column
+===============================
+
+view User {
+  id          String       @id
+                           @default
+  first_name  LongNumeric  @default
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+      )
+      (column_declaration
+        (identifier)
+        (column_type
+          (identifier)
+        )
+        (attribute
+          (identifier)
+        )
+      )
+    )
+  )
+)
+
+===============================
+View with blockattributes
+===============================
+
+view Post {
+  @@unique([ title, slug ])
+  @@attribute0
+  @@pg.Point
+  @@pg.index([ email, first_name ], name: "my_index", partial: true)
+  @@check(a > b, name: "a_b_constraint")
+  @@pg.numeric(precision: 5, scale: 2)
+}
+
+---
+
+(program
+  (view_declaration (identifier)
+    (statement_block
+      (block_attribute_declaration
+        (call_expression
+          (identifier)
+          (arguments
+            (array
+              (identifier)
+              (identifier)
+            )
+          )
+        )
+      )
+      (block_attribute_declaration
+        (identifier)
+      )
+      (block_attribute_declaration
+        (member_expression
+          (identifier)
+          (property_identifier)
+        )
+      )
+      (block_attribute_declaration
+        (call_expression
+          (member_expression
+            (identifier)
+            (property_identifier)
+          )
+          (arguments
+            (array
+              (identifier)
+              (identifier)
+            )
+            (type_expression
+              (identifier)
+              (string)
+            )
+            (type_expression
+              (identifier)
+              (true)
+            )
+          )
+        )
+      )
+      (block_attribute_declaration
+        (call_expression
+          (identifier)
+          (arguments
+            (binary_expression
+              (identifier)
+              (identifier)
+            )
+            (type_expression
+              (identifier)
+              (string)
+            )
+          )
+        )
+      )
+      (block_attribute_declaration
+        (call_expression
+          (member_expression
+            (identifier)
+            (property_identifier)
+          )
+          (arguments
+            (type_expression
+              (identifier)
+              (number)
+            )
+            (type_expression
+              (identifier)
+              (number)
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+===============================
+Views with special names
+===============================
+
+view my-model {
+}
+
+view -my-model {
+}
+
+view _my-model {
+}
+
+view _MY_MODEL {
+}
+
+---
+
+(program
+  (view_declaration
+    (identifier)
+    (statement_block)
+  )
+  (view_declaration
+    (identifier)
+    (statement_block)
+  )
+  (view_declaration
+    (identifier)
+    (statement_block)
+  )
+  (view_declaration
+    (identifier)
+    (statement_block)
+  )
+)

@@ -55,6 +55,12 @@ module.exports = grammar({
       $.statement_block,
     )),
 
+    view_declaration: $ => prec(PREC.MEMBER, seq(
+      'view',
+      $.identifier,
+      $.statement_block,
+    )),
+
     generator_declaration: $ => prec(PREC.MEMBER, seq(
       'generator',
       $.identifier,
@@ -83,6 +89,7 @@ module.exports = grammar({
     declaration: $ => choice(
       $.datasource_declaration,
       $.model_declaration,
+      $.view_declaration,
       $.generator_declaration,
       $.type_declaration,
       $.enum_declaration,
@@ -91,6 +98,7 @@ module.exports = grammar({
     _declaration: $ => choice(
       $.datasource_declaration,
       $.model_declaration,
+      $.view_declaration,
       $.generator_declaration,
       $.type_declaration,
       $.enum_declaration,

@@ -50,6 +50,27 @@
         ]
       }
     },
+    "view_declaration": {
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "view"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "statement_block"
+          }
+        ]
+      }
+    },
     "generator_declaration": {
       "type": "PREC",
       "value": 9,
@@ -193,6 +214,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "view_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "generator_declaration"
         },
         {
@@ -215,6 +240,10 @@
         {
           "type": "SYMBOL",
           "name": "model_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "view_declaration"
         },
         {
           "type": "SYMBOL",
