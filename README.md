@@ -1,5 +1,15 @@
 # tree-sitter-clojure
 
+## Notice
+
+Although no major changes are anticipated at this point, there are no
+guarantees.  To get a heads-up before such changes occur, please
+consider subscribing to the [Potential Changes Announcements
+issue](https://github.com/sogaiu/tree-sitter-clojure/issues/33) to be
+notified beforehand.  The hope is that by commnuicating early enough
+about these sorts of things, unnecessary breakage can be avoided
+and/or mitigated.
+
 ## Status
 
 tree-sitter-clojure has been:
