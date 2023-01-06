@@ -5,20 +5,41 @@ on:
     branches:
       - master
 jobs:
+  changedfiles:
+    runs-on: ubuntu-20.04
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
+      c: ${{ steps.changes.outputs.c }}
+    steps:
+      - name: checkout tree-sitter-scala
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Get changed files
+        id: changes
+        run: |
+          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
+          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
+
   test:
     runs-on: ${{ matrix.os }}
+    needs: changedfiles
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-20.04, windows-2019]
+        os: [ubuntu-20.04, macos-latest, windows-2019]
     env:
       SCALA_SCALA_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
       DOTTY_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
     steps:
       - name: checkout tree-sitter-scala
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
 
       - name: checkout scala/scala
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v3
         with:
           repository: scala/scala
@@ -26,6 +47,7 @@ jobs:
           path: scala_scala
 
       - name: checkout lampepfl/dotty
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v3
         with:
           repository: lampepfl/dotty
@@ -39,15 +61,26 @@ jobs:
       - name: Test C stack code
         run: gcc test/test-stack.c -o a.out && ./a.out
 
-      - name: Generate and check parser
+      - name: Generate parser
         if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: npm install && npm run build
+
+      - name: Check parser (Linux)
+        if: ${{ runner.os == 'Linux' && needs.changedfiles.outputs.c }}
+        shell: bash
         run: |
-          npm install && npm run build
-          git diff --quiet || (echo "::error file=grammar.js::Generated parser differs from the checked in version" && exit 1)
+          # `git diff --quiet` doesn't seem to work on Github Actions
+          changes=$(git diff --name-only --diff-filter=ACMRT | xargs)
+          if [ ! "$changes" ]; then
+            echo "::error file=grammar.js::Generated parser differs from the checked in version"
+            exit 1
+          fi
 
       - name: Parser tests
+        if: ${{ runner.os == 'Linux' || needs.changedfiles.outputs.c }}
         shell: bash
-        run: npm install && npm run test
+        run: npm run test
 
       - name: Smoke test
         if: ${{ runner.os == 'Linux' }}
