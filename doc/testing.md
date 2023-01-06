@@ -85,10 +85,9 @@ A less fancy, but easier to maintain (i.e. not written in Rust) tool --
 developed as an alternative to `a-tsclj-checker`.  Strictly speaking,
 `ts-grammar-checker` may not be necessary as one can probably employ
 tree-sitter's `parse` command in combination with `find`, `xargs` and the like
-if on some kind of \*nix.  An example of a not-quite-comparable (.cljc
-files ignored) invocation is:
+if on some kind of \*nix.  An example of a comparable invocation is:
 ```
-find ~/src/clojars-cljish -type f -regex '.*\.cljs?$' -print0 | xargs -0 npx tree-sitter parse --quiet > my-results.txt
+find ~/src/clojars-cljish -type f -regex '.*\.clj[cs]?$' -print0 | xargs -0 npx tree-sitter parse --quiet > my-results.txt
 ```
 
 `a-tsclj-checker` is the fastest tool but it has not been updated to the most
