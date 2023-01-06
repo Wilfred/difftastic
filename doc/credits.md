@@ -12,7 +12,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * carocad - parcera and discussions
 * clojars - including everyone who has uploaded there
 * CoenraadS - Bracket-Pair-Colorizer-2
-* dannyfreeman - clojure-ts-mode and discussions
+* dannyfreeman - grammar.js enhancements and fixes, clojure-ts-mode and discussions
 * EvegeniyPeshkov - syntax-highlighter
 * georgewfraser - vscode-tree-sitter
 * gfredericks - test.check, generators, and discussions
