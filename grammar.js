@@ -81,6 +81,7 @@ module.exports = grammar({
     ),
 
     _definition: $ => choice(
+      $.given_definition,
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -92,7 +93,7 @@ module.exports = grammar({
       $.var_declaration,
       $.type_definition,
       $.function_definition,
-      $.function_declaration
+      $.function_declaration,
     ),
 
     enum_definition: $ => seq(
@@ -313,6 +314,16 @@ module.exports = grammar({
       ),
     ),
 
+    /*
+     * WithTemplateBody  ::=  <<< [SelfType] TemplateStat {semi TemplateStat} >>>
+     */
+    with_template_body: $ => prec.left(PREC.control, seq(
+      // TODO: self type
+      $._indent,
+      $._block,
+      $._outdent,
+    )),
+
     _end_marker: $ => prec.left(PREC.end_marker, seq(
       'end',
       choice(
@@ -416,6 +427,40 @@ module.exports = grammar({
     )),
 
     opaque_modifier: $ => 'opaque',
+
+    /**
+     * GivenDef          ::=  [GivenSig] (AnnotType ['=' Expr] | StructuralInstance)
+     * GivenSig          ::=  [id] [DefTypeParamClause] {UsingParamClause} ':'
+     */
+    given_definition: $ => prec.right(seq(
+      repeat($.annotation),
+      optional($.modifiers),
+      'given',
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameters)),
+      field('parameters', repeat($.parameters)),
+      ':',
+      choice(
+        field('return_type', $._structural_instance),
+        seq(
+          field('return_type', $._annotated_type),
+          '=',
+          field('body', $.expression),
+        )
+      ),
+    )),
+
+    /**
+     * StructuralInstance ::=  ConstrApp {'with' ConstrApp} ['with' WithTemplateBody]
+     */
+    _structural_instance: $ => seq(
+      choice(
+        $._annotated_type,
+        $.compound_type,
+      ),
+      'with',
+      field('body', $.with_template_body),
+    ),
 
     modifiers: $ => repeat1(choice(
       'abstract',
