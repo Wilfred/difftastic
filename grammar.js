@@ -318,9 +318,12 @@ module.exports = grammar({
     type_definition: $ => seq(
       repeat($.annotation),
       optional($.modifiers),
+      optional($.opaque_modifier),
       'type',
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
+      field('bound', optional($.upper_bound)),
+      field('bound', optional($.lower_bound)),
       '=',
       field('type', $._type)
     ),
@@ -348,6 +351,8 @@ module.exports = grammar({
       field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type)))
     )),
+
+    opaque_modifier: $ => 'opaque',
 
     modifiers: $ => repeat1(choice(
       'abstract',
