@@ -12,15 +12,21 @@ Bits may be missing and/or inaccurate :)
 
 ### v0.0.10 - 2023-01-06
 
-* Tokenize symbols and keywords further (#31) - dannyfreeman
-* Address symbols after metadata issue (#21) - dannyfreeman
+* Tokenize symbols and keywords further
+  ([#31](https://github.com/sogaiu/tree-sitter-clojure/issues/31)) -
+  dannyfreeman
+* Address symbols after metadata issue
+  ([#21](https://github.com/sogaiu/tree-sitter-clojure/issues/21)) -
+  dannyfreeman
 * Change formatting of grammar.js
 
 ### v0.0.9 - 2022-06-03
 
 * Add corpus for light testing
-* Add highlighting queries for difftastic (#20)
-* Remove web-tree-sitter dependency (#19)
+* Add highlighting queries for difftastic
+  ([#20](https://github.com/sogaiu/tree-sitter-clojure/issues/20))
+* Remove web-tree-sitter dependency
+  ([#19](https://github.com/sogaiu/tree-sitter-clojure/issues/19))
 * Re-add binding.gyp
 
 ### v0.0.8 - 2021-03-17
@@ -32,7 +38,7 @@ Bits may be missing and/or inaccurate :)
 
 ### v0.0.7 - 2021-01-05
 
-* CC0-1.0 (#11)
+* CC0-1.0 ([#11](https://github.com/sogaiu/tree-sitter-clojure/issues/11))
 * Tweak grammar.js
 
 ### v0.0.3 - 2020-10-30
@@ -42,7 +48,8 @@ Bits may be missing and/or inaccurate :)
 * More fields
 * Refine metadata bits
 * Refine \_bare\_\* constructs usage
-* Address discard / number parsing issue (#7)
+* Address discard / number parsing issue
+  ([#7](https://github.com/sogaiu/tree-sitter-clojure/issues/7))
 * Octal number tweak
 * Restore visibility of comment nodes
 * ?
