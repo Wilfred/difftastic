@@ -1,31 +1,4 @@
 // NOTES
-// - (UNRELEASED)
-//   - update tree-sitter and friends to 0.19.5 or 0.20.x
-//
-//   0.0.10
-//   - Fix issue #28 - Tokenize namespace and name parts of symbols and keywords separately
-//     - https://github.com/sogaiu/tree-sitter-clojure/issues/28
-//   - Fix issue #21, where symbol "name" field is dropped when metadata is present
-//     - https://github.com/sogaiu/tree-sitter-clojure/issues/21
-//
-//   0.0.9
-//   - misc doc updates
-//   - add corpus
-//   - add minimal highlighting queries
-//   - remove web-tree-sitter dependency
-//   - add binding.gyp
-//
-//   0.0.8
-//   - upgrade tree-sitter bits to 0.19.3
-//   - misc
-//
-//   0.0.7
-//   - add COPYING.txt (cc0)
-//   - misc
-//
-//   0.0.3
-//   - major renaming effort
-//   - misc
 //
 // - possibilities (may be as separate grammars?)
 //   - no fields (but likely that means metadata lives "outside")
