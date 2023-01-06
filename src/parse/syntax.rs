@@ -9,7 +9,7 @@ use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
     diff::myers_diff,
-    lines::{LineNumber, NewlinePositions},
+    lines::{LineNumber, NewlinePositions, is_all_whitespace},
     positions::SingleLineSpan,
 };
 use Syntax::*;
@@ -678,9 +678,7 @@ fn split_comment_words(
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.
-
-                let all_whitespace = word.chars().all(|c| c.is_whitespace());
-                if !all_whitespace {
+                if !is_all_whitespace(word) {
                     res.push(MatchedPos {
                         kind: MatchKind::NovelWord {
                             highlight: TokenKind::Atom(AtomKind::Comment),
