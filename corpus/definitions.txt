@@ -666,3 +666,42 @@ def mkLines(header: String, indented: Boolean = false, repeated: Long = 0L): Str
       (parameter (identifier) (type_identifier) (boolean_literal))
       (parameter (identifier) (type_identifier) (integer_literal)))
     (type_identifier) (block)))
+
+===================================
+Enums (Scala 3)
+===================================
+
+enum Hello[Y] extends java.Enumeration derives Codec, Eq {
+  case World, You
+  case Test[A](bla: Int, yo: String) extends Hello[A]
+}
+
+---
+
+(compilation_unit
+  (enum_definition
+    (identifier)
+    (type_parameters (identifier))
+    (extends_clause (stable_type_identifier (identifier) (type_identifier)))
+    (derives_clause (type_identifier) (type_identifier))
+    (enum_body
+      (enum_case_definitions
+        (simple_enum_case (identifier))
+        (simple_enum_case (identifier)))
+      (enum_case_definitions
+        (full_enum_case
+          (identifier)
+          (type_parameters (identifier))
+
+          (class_parameters
+            (class_parameter
+              (identifier)
+              (type_identifier))
+            (class_parameter
+              (identifier)
+              (type_identifier)))
+          (extends_clause
+            (generic_type (type_identifier) (type_arguments (type_identifier))))))
+      )
+    )
+  )
