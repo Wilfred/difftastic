@@ -448,6 +448,7 @@ module.exports = grammar({
       $.compound_type,
       $.infix_type,
       $._annotated_type,
+      $.literal_type
     ),
 
     // TODO: Make this a visible type, so that _type can be a supertype.
@@ -789,13 +790,20 @@ module.exports = grammar({
 
     operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 
+    _non_null_literal: $ => 
+      choice(
+        $.integer_literal,
+        $.floating_point_literal,
+        $.boolean_literal,
+        $.character_literal,
+        $.symbol_literal,
+        $.string
+      ),
+
+    literal_type: $ => $._non_null_literal,
+
     literal: $ => choice(
-      $.integer_literal,
-      $.floating_point_literal,
-      $.boolean_literal,
-      $.character_literal,
-      $.symbol_literal,
-      $.string,
+      $._non_null_literal,
       $.null_literal
     ),
 
