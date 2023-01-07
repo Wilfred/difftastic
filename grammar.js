@@ -201,7 +201,7 @@ module.exports = grammar({
 
     renamed_identifier: $ => seq(
       field('name', $.identifier),
-      choice($._arrow, 'as'),
+      choice('=>', 'as'),
       field('alias', choice($.identifier, $.wildcard))
     ),
 
@@ -435,21 +435,19 @@ module.exports = grammar({
 
     derives_clause: $ => seq(
       'derives',
-      commaSep1(field('type', $._type_identifier)),
+      commaSep1(field('type', $._type_identifier))
     ),
 
-    // TODO: Allow only the last parameter list to be implicit.
     class_parameters: $ => prec(1, seq(
       '(',
-      optional('implicit'),
+      optional(choice('implicit', 'using')),
       commaSep($.class_parameter),
       ')'
     )),
 
-    // TODO: Allow only the last parameter list to be implicit.
     parameters: $ => seq(
       '(',
-      optional('implicit'),
+      optional(choice('implicit', 'using')),
       commaSep($.parameter),
       ')'
     ),
@@ -512,6 +510,7 @@ module.exports = grammar({
       $.compound_type,
       $.infix_type,
       $._annotated_type,
+      $.literal_type
     ),
 
     // TODO: Make this a visible type, so that _type can be a supertype.
@@ -571,7 +570,7 @@ module.exports = grammar({
 
     function_type: $ => prec.right(seq(
       field('parameter_types', $.parameter_types),
-      $._arrow,
+      '=>',
       field('return_type', $._type)
     )),
 
@@ -591,7 +590,7 @@ module.exports = grammar({
     ),
 
     lazy_parameter_type: $ => seq(
-      $._arrow,
+      '=>',
       field('type', $._type)
     ),
 
@@ -696,7 +695,7 @@ module.exports = grammar({
           $.identifier,
           $.wildcard,
       ),
-      $._arrow,
+      '=>',
       $._block,
     )),
 
@@ -756,7 +755,7 @@ module.exports = grammar({
       'case',
       field('pattern', $._pattern),
       optional($.guard),
-      $._arrow,
+      '=>',
       field('body', optional($._block)),
     )),
 
@@ -849,17 +848,22 @@ module.exports = grammar({
 
     wildcard: $ => '_',
 
-    _arrow: $ => '=>',
-
     operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 
+    _non_null_literal: $ => 
+      choice(
+        $.integer_literal,
+        $.floating_point_literal,
+        $.boolean_literal,
+        $.character_literal,
+        $.symbol_literal,
+        $.string
+      ),
+
+    literal_type: $ => $._non_null_literal,
+
     literal: $ => choice(
-      $.integer_literal,
-      $.floating_point_literal,
-      $.boolean_literal,
-      $.character_literal,
-      $.symbol_literal,
-      $.string,
+      $._non_null_literal,
       $.null_literal
     ),
 

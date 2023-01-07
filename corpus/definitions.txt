@@ -263,6 +263,23 @@ class Point(val x: Int, val y: Int)(implicit coord: Coord)
       (class_parameter (identifier) (type_identifier)))))
 
 =======================================
+Class definitions with parameters (Scala 3 syntax)
+=======================================
+
+class Point(val x: Int, val y: Int)(using coord: Coord)
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter (identifier) (type_identifier))
+      (class_parameter (identifier) (type_identifier)))
+    (class_parameters
+      (class_parameter (identifier) (type_identifier)))))
+
+=======================================
 Modifiers
 =======================================
 

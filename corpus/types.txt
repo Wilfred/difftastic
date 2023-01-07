@@ -250,3 +250,41 @@ type A = B with B1 with B2 ! C with C1
       (compound_type (type_identifier) (type_identifier) (type_identifier))
       (operator_identifier)
       (compound_type (type_identifier) (type_identifier)))))
+
+==================================
+Literal type aliases (Scala 2.13+)
+==================================
+
+type A = "hello"
+type B = 25
+type C = false
+type D = 0.5f
+
+class Test(d: "hello", b: 25)
+
+---
+
+(compilation_unit
+  (type_definition 
+    (type_identifier) (literal_type (string)))
+
+  (type_definition 
+    (type_identifier) (literal_type (integer_literal)))
+
+  (type_definition 
+    (type_identifier) (literal_type (boolean_literal)))
+
+  (type_definition 
+    (type_identifier) (literal_type (floating_point_literal)))
+
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (literal_type
+          (string)))
+      (class_parameter
+        (identifier)
+        (literal_type
+          (integer_literal))))))

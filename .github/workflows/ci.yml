@@ -20,7 +20,7 @@ jobs:
         id: changes
         run: |
           echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
+          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ${{ matrix.os }}
@@ -69,14 +69,15 @@ jobs:
           npm run build
           npm test
 
-      - name: Check parser (Linux)
+      - name: Check parser
         if: ${{ runner.os == 'macOS' && needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
           changes=$(git diff --name-only --diff-filter=ACMRT | xargs)
-          if [ ! "$changes" ]; then
-            echo "::error file=grammar.js::Generated parser differs from the checked in version"
+          if [ ! -z "$changes" ]; then
+            echo "::error file=grammar.js::Generated $changes differs from the checked in version"
+            git diff --exit-code
             exit 1
           fi
 
