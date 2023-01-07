@@ -39,6 +39,8 @@
 
 (comment) @comment
 
+(opaque_modifier) @keyword
+
 ;; Keywords
 
 [

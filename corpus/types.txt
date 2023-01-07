@@ -288,3 +288,31 @@ class Test(d: "hello", b: 25)
         (identifier)
         (literal_type
           (integer_literal))))))
+
+==================================
+Opaque type aliases (Scala 3)
+==================================
+
+opaque type A = Int
+private opaque type B = String
+opaque type B <: Test >: Help = String
+
+---
+
+(compilation_unit
+  (type_definition 
+    (opaque_modifier) (type_identifier) (type_identifier))
+
+  (type_definition 
+    (modifiers (access_modifier))
+    (opaque_modifier) 
+    (type_identifier) 
+    (type_identifier))
+
+  (type_definition 
+    (opaque_modifier) 
+    (type_identifier) 
+    (upper_bound (type_identifier))
+    (lower_bound (type_identifier))
+    (type_identifier))
+)
