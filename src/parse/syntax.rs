@@ -9,7 +9,7 @@ use crate::{
     diff::changes::ChangeKind,
     diff::changes::{ChangeKind::*, ChangeMap},
     diff::myers_diff,
-    lines::{LineNumber, NewlinePositions, is_all_whitespace},
+    lines::{is_all_whitespace, LineNumber, NewlinePositions},
     positions::SingleLineSpan,
 };
 use Syntax::*;

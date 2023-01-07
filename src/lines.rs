@@ -332,5 +332,4 @@ mod tests {
     fn test_is_all_whiteapce() {
         assert!(is_all_whitespace(" \n\t"));
     }
-
 }
