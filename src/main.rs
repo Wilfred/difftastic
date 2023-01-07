@@ -325,7 +325,7 @@ fn diff_file_content(
         FileArgument::DevNull => (&lhs_src, Path::new(&lhs_display_path)),
     };
 
-    let language = language_override.or_else(|| guess(guess_path, guess_src));
+    let mut language = language_override.or_else(|| guess(guess_path, guess_src));
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
@@ -414,6 +414,7 @@ fn diff_file_content(
             if exceeded_graph_limit {
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+                language = None;
                 (
                     Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
                     lhs_positions,
