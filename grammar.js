@@ -144,7 +144,7 @@ module.exports = grammar({
 
     renamed_identifier: $ => seq(
       field('name', $.identifier),
-      choice($._arrow, 'as'),
+      choice('=>', 'as'),
       field('alias', choice($.identifier, $.wildcard))
     ),
 
@@ -513,7 +513,7 @@ module.exports = grammar({
 
     function_type: $ => prec.right(seq(
       field('parameter_types', $.parameter_types),
-      $._arrow,
+      '=>',
       field('return_type', $._type)
     )),
 
@@ -533,7 +533,7 @@ module.exports = grammar({
     ),
 
     lazy_parameter_type: $ => seq(
-      $._arrow,
+      '=>',
       field('type', $._type)
     ),
 
@@ -638,7 +638,7 @@ module.exports = grammar({
           $.identifier,
           $.wildcard,
       ),
-      $._arrow,
+      '=>',
       $._block,
     )),
 
@@ -698,7 +698,7 @@ module.exports = grammar({
       'case',
       field('pattern', $._pattern),
       optional($.guard),
-      $._arrow,
+      '=>',
       field('body', optional($._block)),
     )),
 
@@ -790,8 +790,6 @@ module.exports = grammar({
     ),
 
     wildcard: $ => '_',
-
-    _arrow: $ => '=>',
 
     operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 

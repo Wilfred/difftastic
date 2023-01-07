@@ -20,7 +20,7 @@ jobs:
         id: changes
         run: |
           echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
+          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ${{ matrix.os }}
