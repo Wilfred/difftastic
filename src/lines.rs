@@ -327,4 +327,10 @@ mod tests {
     fn test_split_line_with_trailing_newline() {
         assert_eq!(split_on_newlines("foo\nbar\n"), vec!["foo", "bar", ""]);
     }
+
+    #[test]
+    fn test_is_all_whiteapce() {
+        assert!(is_all_whitespace(" \n\t"));
+    }
+
 }
