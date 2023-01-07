@@ -30,8 +30,8 @@ jobs:
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-2019]
     env:
-      SCALA_SCALA_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
-      DOTTY_DIR: /home/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
+      SCALA_SCALA_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
+      DOTTY_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
     steps:
       - name: checkout tree-sitter-scala
         uses: actions/checkout@v3
@@ -39,7 +39,7 @@ jobs:
           fetch-depth: 10
 
       - name: checkout scala/scala
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ runner.os == 'macOS' }}
         uses: actions/checkout@v3
         with:
           repository: scala/scala
@@ -47,7 +47,7 @@ jobs:
           path: scala_scala
 
       - name: checkout lampepfl/dotty
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ runner.os == 'macOS' }}
         uses: actions/checkout@v3
         with:
           repository: lampepfl/dotty
@@ -62,12 +62,15 @@ jobs:
         run: gcc test/test-stack.c -o a.out && ./a.out
 
       - name: Generate parser
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ runner.os == 'macOS' }}
         shell: bash
-        run: npm install && npm run build
+        run: |
+          npm install
+          npm run build
+          npm test
 
       - name: Check parser (Linux)
-        if: ${{ runner.os == 'Linux' && needs.changedfiles.outputs.c }}
+        if: ${{ runner.os == 'macOS' && needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
@@ -78,11 +81,11 @@ jobs:
           fi
 
       - name: Parser tests
-        if: ${{ runner.os == 'Linux' || needs.changedfiles.outputs.c }}
+        if: ${{ needs.changedfiles.outputs.c }}
         shell: bash
-        run: npm run test
+        run: npm install && npm test
 
       - name: Smoke test
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ runner.os == 'macOS' }}
         shell: bash
         run: script/smoke_test.sh
