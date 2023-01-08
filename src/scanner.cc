@@ -20,7 +20,7 @@ const unsigned RAW_STRING_DELIMITER_MAX = 16;
 struct Scanner {
   // Last raw_string_delimiter, used to detect when raw_string_content ends.
   wstring delimiter;
-  
+
   // Scan a raw string delimiter in R"delimiter(content)delimiter".
   bool scan_raw_string_delimiter(TSLexer *lexer) {
     if (!delimiter.empty()) {
@@ -39,7 +39,7 @@ struct Scanner {
     // d-char is any basic character except parens, backslashes, and spaces.
     for (;;) {
       if (delimiter.size() > RAW_STRING_DELIMITER_MAX ||
-          lexer->lookahead == 0 || lexer->lookahead == '\\' || iswspace(lexer->lookahead)) {
+          lexer->eof(lexer) || lexer->lookahead == '\\' || iswspace(lexer->lookahead)) {
         return false;
       }
       if (lexer->lookahead == '(') {
@@ -58,11 +58,8 @@ struct Scanner {
     // The delimiter may not contain ')' so a single counter suffices.
     int delimiter_index = -1;
     for (;;) {
-      // If we hit EOF, consider the content to terminate there.
-      // This forms an incomplete raw_string_literal, and models the code well.
-      if (lexer->lookahead == 0) {
-        lexer->mark_end(lexer);
-        return true;
+      if (lexer->eof(lexer)) {
+        return false;
       }
 
       if (delimiter_index >= 0) {
@@ -91,7 +88,7 @@ struct Scanner {
       lexer->advance(lexer, false);
     }
   }
-  
+
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     // No skipping leading whitespace: raw-string grammar is space-sensitive.
@@ -100,12 +97,12 @@ struct Scanner {
       lexer->result_symbol = RAW_STRING_CONTENT;
       return scan_raw_string_content(lexer);
     }
-      
+
     if (valid_symbols[RAW_STRING_DELIMITER]) {
       lexer->result_symbol = RAW_STRING_DELIMITER;
       return scan_raw_string_delimiter(lexer);
     }
-    
+
     return false;
   }
 };
