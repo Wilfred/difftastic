@@ -256,12 +256,9 @@ const opcodes = [
   "rsub-int/lit8",
 ];
 
-function commaSep1(rule) {
-  return seq(rule, repeat(seq(",", rule)));
-}
-
 function commaSep(rule) {
-  return optional(commaSep1(rule));
+  const sep1 = seq(rule, repeat(seq(",", rule)));
+  return optional(sep1);
 }
 
 module.exports = grammar({
@@ -285,7 +282,7 @@ module.exports = grammar({
     class_directive: $ =>
       seq(
         ".class",
-        field("modifiers", $.access_modifiers),
+        optional(field("modifiers", $.access_modifiers)),
         field("identifier", $.class_identifier)
       ),
     super_directive: $ =>
