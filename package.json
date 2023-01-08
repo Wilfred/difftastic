@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-scala",
-  "version": "0.19.1",
+  "version": "0.20.7",
   "description": "Scala grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -13,7 +13,7 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.5"
+    "tree-sitter-cli": "^0.20.7"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
