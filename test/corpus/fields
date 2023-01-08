@@ -1,0 +1,24 @@
+========================================================================
+Test a field without an access modifier
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.field a:Ljava/lang/String;
+
+---
+
+(class_definition
+  (class_directive
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
+  (super_directive
+    identifier: (class_identifier))
+  (source_directive
+    (string_literal))
+  (field_definition
+    (field_declaration
+      identifier: (field_identifier
+        (class_identifier)))))

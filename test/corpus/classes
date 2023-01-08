@@ -111,3 +111,23 @@ Test a class with a non valid Java character
     identifier: (class_identifier))
   (source_directive
     (string_literal)))
+
+
+
+========================================================================
+Test a class without an access modifier
+========================================================================
+
+.class LA/-BC;
+.super Ljava/lang/Object;
+.source ""
+
+---
+
+(class_definition
+  (class_directive
+    identifier: (class_identifier))
+  (super_directive
+    identifier: (class_identifier))
+  (source_directive
+    (string_literal)))
