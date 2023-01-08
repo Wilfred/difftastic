@@ -202,6 +202,9 @@ b142169ae6ac08ef64d0cf67a2e66f5b  -
 sample_files/toml_before.toml sample_files/toml_after.toml
 08dad07d7c85b807094b5b4cf065cda9  -
 
+sample_files/typescript_before.ts sample_files/typescript_after.ts
+06648ebbe63a69e29de54b541fa2b3b8  -
+
 sample_files/typing_before.ml sample_files/typing_after.ml
 544c31c1d6651437ba9ed3a3a3524d76  -
 

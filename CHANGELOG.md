@@ -23,6 +23,8 @@ constituents.
 Fixed an issue with unwanted underlines with textual diffing when
 DFT_GRAPH_LIMIT is reached.
 
+Improved syntax highlighintg for predefined types in TypeScript.
+
 ## 0.40 (released 28th December 2022)
 
 ### Diffing

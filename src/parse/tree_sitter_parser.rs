@@ -859,7 +859,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_typescript() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string", "template_string", "regex"]
+                atom_nodes: vec!["string", "template_string", "regex", "predefined_type"]
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
