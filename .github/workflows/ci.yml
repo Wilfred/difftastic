@@ -39,7 +39,7 @@ jobs:
           fetch-depth: 10
 
       - name: checkout scala/scala
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os != 'Windows' }}
         uses: actions/checkout@v3
         with:
           repository: scala/scala
@@ -47,7 +47,7 @@ jobs:
           path: scala_scala
 
       - name: checkout lampepfl/dotty
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os != 'Windows' }}
         uses: actions/checkout@v3
         with:
           repository: lampepfl/dotty
@@ -62,7 +62,7 @@ jobs:
         run: gcc test/test-stack.c -o a.out && ./a.out
 
       - name: Generate parser
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os != 'Windows' }}
         shell: bash
         run: |
           npm install
@@ -70,7 +70,7 @@ jobs:
           npm test
 
       - name: Check parser
-        if: ${{ runner.os == 'macOS' && needs.changedfiles.outputs.c }}
+        if: ${{ runner.os != 'Windows' && needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
@@ -87,6 +87,6 @@ jobs:
         run: npm install && npm test
 
       - name: Smoke test
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os != 'Windows' }}
         shell: bash
         run: script/smoke_test.sh

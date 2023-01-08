@@ -28,7 +28,9 @@ run_tree_sitter () {
   out=$((eval $cmd) || true)
 
   if [ ! -e "$PRODUCE_REPORTS" ]; then
+    local report_file="report-$name.txt"
     echo "$out" | sed G | sed -E 's/([0-9]+) ms//' | grep -v 'success percentage' > "report-$name.txt" 
+    echo "Report written to $report_file"
   fi
 
   actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f1 | rev | sed 's/%//g' )
