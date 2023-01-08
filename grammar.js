@@ -98,10 +98,7 @@ module.exports = grammar({
 
     enum_definition: $ => seq(
       'enum',
-      field('name', $.identifier),
-      field('type_parameters', optional($.type_parameters)),
-      optional($.access_modifier),
-      field('class_parameters', repeat($.class_parameters)),
+      $._class_constructor,
       field('extend', optional($.extends_clause)),
       field('derive', optional($.derives_clause)),
       field('body', $.enum_body)
@@ -389,27 +386,29 @@ module.exports = grammar({
       'var',
     ),
 
-    type_definition: $ => seq(
+    type_definition: $ => prec.left(seq(
       repeat($.annotation),
       optional($.modifiers),
       optional($.opaque_modifier),
       'type',
+      $._type_constructor,
+      '=',
+      field('type', $._type)
+    )),
+
+    // Created for memory-usage optimization during codegen.
+    _type_constructor: $ => prec.left(seq(
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
       field('bound', optional($.upper_bound)),
       field('bound', optional($.lower_bound)),
-      '=',
-      field('type', $._type)
-    ),
+    )),
 
     function_definition: $ => seq(
       repeat($.annotation),
       optional($.modifiers),
       'def',
-      field('name', choice($.identifier, $.operator_identifier)),
-      field('type_parameters', optional($.type_parameters)),
-      field('parameters', repeat($.parameters)),
-      optional(seq(':', field('return_type', $._type))),
+      $._function_constructor,
       choice(
         seq('=', field('body', $._indentable_expression)),
         field('body', $.block)
@@ -420,10 +419,15 @@ module.exports = grammar({
       repeat($.annotation),
       optional($.modifiers),
       'def',
+      $._function_constructor,
+    )),
+
+    // Created for memory-usage optimization during codegen.
+    _function_constructor: $ => prec.left(seq(
       field('name', choice($.identifier, $.operator_identifier)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),
-      optional(seq(':', field('return_type', $._type)))
+      optional(seq(':', field('return_type', $._type))),
     )),
 
     opaque_modifier: $ => 'opaque',
@@ -432,13 +436,11 @@ module.exports = grammar({
      * GivenDef          ::=  [GivenSig] (AnnotType ['=' Expr] | StructuralInstance)
      * GivenSig          ::=  [id] [DefTypeParamClause] {UsingParamClause} ':'
      */
-    given_definition: $ => prec.right(seq(
+    given_definition: $ => prec.left(seq(
       repeat($.annotation),
       optional($.modifiers),
       'given',
-      field('name', $.identifier),
-      field('type_parameters', optional($.type_parameters)),
-      field('parameters', repeat($.parameters)),
+      $._function_constructor,
       ':',
       choice(
         field('return_type', $._structural_instance),
