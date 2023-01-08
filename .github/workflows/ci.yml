@@ -29,9 +29,6 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-2019]
-    env:
-      SCALA_SCALA_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
-      DOTTY_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
     steps:
       - name: checkout tree-sitter-scala
         uses: actions/checkout@v3
@@ -89,4 +86,7 @@ jobs:
       - name: Smoke test
         if: ${{ runner.os != 'Windows' }}
         shell: bash
+        env: 
+          SCALA_SCALA_DIR: scala_scala
+          DOTTY_DIR: dotty
         run: script/smoke_test.sh
