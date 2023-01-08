@@ -1,11 +1,12 @@
 [package]
 name = "tree-sitter-smali"
-description = "smali grammar for the tree-sitter parsing library"
 version = "0.0.1"
+authors = ["Yotam Nachum", "Amaan Qureshi <amaanq12@gmail.com>"]
+description = "smali grammar for the tree-sitter parsing library"
 keywords = ["incremental", "parsing", "smali"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-smali"
-edition = "2018"
+repository = "https://github.com/amaanq/tree-sitter-smali"
+edition = "2021"
 license = "MIT"
 
 build = "bindings/rust/build.rs"
