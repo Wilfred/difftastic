@@ -1,56 +1,60 @@
 ; CREDITS @stumash (stuart.mashaal@gmail.com)
 
+(class_definition
+  name: (identifier) @type.definition)
+
+(enum_definition
+  name: (identifier) @type.definition)
+
+(object_definition
+  name: (identifier) @type.definition)
+
+(trait_definition
+  name: (identifier) @type.definition)
+
+(full_enum_case
+  name: (identifier) @type.definition)
+
+(simple_enum_case
+  name: (identifier) @type.definition)
+
 ;; variables
 
-(identifier) @variable
+(class_parameter 
+  name: (identifier) @parameter)
 
-((identifier) @variable.builtin
- (#lua-match? @variable.builtin "^this$"))
 
 (interpolation) @none
 
-; Assume other uppercase names constants.
-; NOTE: In order to distinguish constants we highlight
-; all the identifiers that are uppercased. But this solution
-; is not suitable for all occurrences e.g. it will highlight
-; an uppercased method as a constant if used with no params.
-; Introducing highlighting for those specific cases, is probably
-; best way to resolve the issue.
-((identifier) @constant (#lua-match? @constant "^[A-Z]"))
-
 ;; types
-
-(type_identifier) @type
-
-(class_definition
-  name: (identifier) @type)
-
-(enum_definition
-  name: (identifier) @type)
-
-(object_definition
-  name: (identifier) @type)
-
-(trait_definition
-  name: (identifier) @type)
 
 (type_definition
   name: (type_identifier) @type.definition)
 
+(type_identifier) @type
+
+
+;; val/var definitions/declarations
+
+(val_definition
+  pattern: (identifier) @variable)
+
+(var_definition
+  pattern: (identifier) @variable)
+
+(val_declaration
+  name: (identifier) @variable)
+
+(var_declaration
+  name: (identifier) @variable)
+
 ; method definition
 
-(class_definition
-  body: (template_body
-    (function_definition
-      name: (identifier) @method)))
-(object_definition
-  body: (template_body
-    (function_definition
-      name: (identifier) @method)))
-(trait_definition
-  body: (template_body
-    (function_definition
-      name: (identifier) @method)))
+(function_declaration
+      name: (identifier) @method)
+
+(function_definition
+      name: (identifier) @method)
 
 ; imports
 
@@ -81,10 +85,11 @@
 (generic_function
   function: (identifier) @function.call)
 
-(
-  (identifier) @function.builtin
-  (#lua-match? @function.builtin "^super$")
-)
+;; I think this is broken
+; (
+;   (identifier) @function.builtin
+;   (#lua-match? @function.builtin "^super$")
+; )
 
 ; function definitions
 
@@ -143,12 +148,12 @@
   "with"
   "given"
   "end"
+  "implicit"
 ] @keyword
 
 [
   "abstract"
   "final"
-  "implicit"
   "using"
   "lazy"
   "private"
@@ -217,3 +222,8 @@
 
 (case_block
   (case_clause ("case") @conditional))
+
+((identifier) @constant (#lua-match? @constant "^[A-Z]"))
+((identifier) @variable.builtin
+ (#lua-match? @variable.builtin "^this$"))
+
