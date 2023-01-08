@@ -219,25 +219,31 @@ module.exports = grammar({
       field('body', optional($.template_body)),
     )),
 
-    class_definition: $ => prec.right(seq(
+    class_definition: $ => prec.left(seq(
       repeat($.annotation),
       optional($.modifiers),
       optional('case'),
       'class',
+      $._class_constructor,
+      field('extend', optional($.extends_clause)),
+      field('body', optional($.template_body))
+    )),
+
+    /**
+     * ClassConstr       ::=  [ClsTypeParamClause] [ConstrMods] ClsParamClauses
+     */
+    _class_constructor: $ => prec.right(seq(
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameters)),
       optional($.access_modifier),
       field('class_parameters', repeat($.class_parameters)),
-      field('extend', optional($.extends_clause)),
-      field('body', optional($.template_body))
     )),
 
     trait_definition: $ => prec.left(seq(
       repeat($.annotation),
        optional($.modifiers),
       'trait',
-      field('name', $.identifier),
-      field('type_parameters', optional($.type_parameters)),
+      $._class_constructor,
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body))
     )),
