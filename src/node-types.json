@@ -66,6 +66,10 @@
           "named": true
         },
         {
+          "type": "character_literal",
+          "named": true
+        },
+        {
           "type": "class_identifier",
           "named": true
         },
@@ -384,6 +388,10 @@
           "named": true
         },
         {
+          "type": "character_literal",
+          "named": true
+        },
+        {
           "type": "null_literal",
           "named": true
         },
@@ -531,6 +539,10 @@
       "types": [
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
           "named": true
         },
         {
@@ -913,6 +925,10 @@
           },
           {
             "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "character_literal",
             "named": true
           },
           {
@@ -1339,6 +1355,10 @@
   {
     "type": "build",
     "named": false
+  },
+  {
+    "type": "character_literal",
+    "named": true
   },
   {
     "type": "check-cast",

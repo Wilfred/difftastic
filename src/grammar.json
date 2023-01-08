@@ -2319,6 +2319,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "character_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "null_literal"
         }
       ]
@@ -2352,6 +2356,10 @@
           "value": "false"
         }
       ]
+    },
+    "character_literal": {
+      "type": "PATTERN",
+      "value": "'(.|\\\\[bt0nr\"'\\\\]|\\\\u[0-9a-fA-f]{4})'"
     },
     "null_literal": {
       "type": "STRING",

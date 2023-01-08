@@ -514,12 +514,14 @@ module.exports = grammar({
         $.number_literal,
         $.string_literal,
         $.boolean_literal,
+		$.character_literal,
         $.null_literal
       ),
     number_literal: _ =>
       choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+(\.\d+)?(f)?/),
     string_literal: _ => /".*"/,
     boolean_literal: _ => choice("true", "false"),
+	character_literal: _ => /'(.|\\[bt0nr"'\\]|\\u[0-9a-fA-f]{4})'/,
     null_literal: _ => "null",
   },
 });
