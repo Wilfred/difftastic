@@ -86,10 +86,6 @@
   function: (identifier) @function.call)
 
 ;; I think this is broken
-; (
-;   (identifier) @function.builtin
-;   (#lua-match? @function.builtin "^super$")
-; )
 
 ; function definitions
 
@@ -227,3 +223,7 @@
 ((identifier) @variable.builtin
  (#lua-match? @variable.builtin "^this$"))
 
+(
+  (identifier) @function.builtin
+  (#lua-match? @function.builtin "^super$")
+)
