@@ -366,7 +366,7 @@
       },
       "modifiers": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "access_modifiers",

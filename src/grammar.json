@@ -175,12 +175,20 @@
           "value": ".field"
         },
         {
-          "type": "FIELD",
-          "name": "modifiers",
-          "content": {
-            "type": "SYMBOL",
-            "name": "access_modifiers"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "modifiers",
+              "content": {
+                "type": "SYMBOL",
+                "name": "access_modifiers"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "FIELD",

@@ -299,7 +299,7 @@ module.exports = grammar({
     field_declaration: $ =>
       seq(
         ".field",
-        field("modifiers", $.access_modifiers),
+        optional(field("modifiers", $.access_modifiers)),
         field("identifier", $.field_identifier),
         optional(seq("=", $._literal))
       ),
