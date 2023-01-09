@@ -858,3 +858,67 @@ class B {
           (class_parameter
             (identifier)
             (type_identifier)))))))
+
+
+
+===================================
+Operator identifiers
+===================================
+
+type ::[+Ab] = scala.collection.immutable.::[Ab]
+val :: = scala.collection.immutable.::
+
+val +: = scala.collection.+:
+val :+ = scala.collection.:+
+
+val test = id.##
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (covariant_type_parameter
+        (identifier)))
+    (infix_type
+      (stable_type_identifier
+        (stable_identifier
+          (identifier)
+          (identifier))
+        (type_identifier))
+      (operator_identifier)
+      (generic_type
+        (type_identifier
+          (MISSING _plainid))
+        (type_arguments
+          (type_identifier)))))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (field_expression
+          (identifier)
+          (identifier))
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (identifier)
+    (postfix_expression
+      (identifier)
+      (operator_identifier))))
+

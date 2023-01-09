@@ -55,8 +55,8 @@ module.exports = grammar({
     $._pattern,
     $._semicolon,
     $._definition,
-    $._type_identifier,
     $._param_type,
+    $._identifier,
     $.literal,
   ],
 
@@ -278,7 +278,7 @@ module.exports = grammar({
     ),
 
     _type_parameter: $ => seq(
-      field('name', choice($.wildcard, $.identifier)),
+      field('name', choice($.wildcard, $._identifier)),
       field('type_parameters', optional($.type_parameters)),
       field('bound', optional($.upper_bound)),
       field('bound', optional($.lower_bound)),
@@ -445,7 +445,7 @@ module.exports = grammar({
 
     // Created for memory-usage optimization during codegen.
     _function_constructor: $ => prec.left(PREC.control, seq(
-      field('name', choice($.identifier, $.operator_identifier)),
+      field('name', $._identifier),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),
       optional(seq(':', field('return_type', $._type))),
@@ -556,6 +556,7 @@ module.exports = grammar({
       optional(choice('val', 'var')),
       field('name', $.identifier),
       optional(seq(':', field('type', $._type))),
+      optional('*'),
       optional(seq('=', field('default_value', $.expression)))
     ),
 
@@ -634,7 +635,7 @@ module.exports = grammar({
 
     infix_type: $ => prec.left(PREC.infix, seq(
       field('left', choice($.compound_type, $.infix_type, $._annotated_type)),
-      field('operator', choice($.identifier, $.operator_identifier)),
+      field('operator', $._identifier),
       field('right', choice($.compound_type, $.infix_type, $._annotated_type))
     )),
 
@@ -698,13 +699,13 @@ module.exports = grammar({
       '*',
     ),
 
-    _type_identifier: $ => alias($.identifier, $.type_identifier),
+    _type_identifier: $ => alias($._identifier, $.type_identifier),
 
     // ---------------------------------------------------------------
     // Patterns
 
     _pattern: $ => choice(
-      $.identifier,
+      $._identifier,
       $.stable_identifier,
       $.capture_pattern,
       $.tuple_pattern,
@@ -726,7 +727,7 @@ module.exports = grammar({
 
     infix_pattern: $ => prec.left(PREC.infix, seq(
       field('left', $._pattern),
-      field('operator', choice($.identifier, $.operator_identifier)),
+      field('operator', $._identifier),
       field('right', $._pattern),
     )),
 
@@ -938,7 +939,7 @@ module.exports = grammar({
         $.prefix_expression,
         $._simple_expression,
       )),
-      field('operator', choice($.identifier, $.operator_identifier)),
+      field('operator', $._identifier),
       field('right', choice(
         $.prefix_expression,
         $._simple_expression,
@@ -954,7 +955,7 @@ module.exports = grammar({
         $.prefix_expression,
         $._simple_expression,
       ),
-      choice($.identifier, $.operator_identifier),
+      $._identifier,
     )),
 
     /**
@@ -1030,9 +1031,11 @@ module.exports = grammar({
 
     symbol_literal: $ => '__no_longer_used',
 
-    // TODO: Include operators.
     _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
     _backquoted_id: $=> /`[^\n`]+`/,
+
+    _identifier: $ => choice($.identifier, $.operator_identifier),
+
     identifier: $ => choice(
       $._plainid,
       $._backquoted_id,
@@ -1045,7 +1048,7 @@ module.exports = grammar({
 
     wildcard: $ => '_',
 
-    operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
+    operator_identifier: $ => /[!#%&*+-\/:<=>?@'^\|‘~]+/,
 
     _non_null_literal: $ => 
       choice(
