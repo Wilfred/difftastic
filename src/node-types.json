@@ -4796,6 +4796,10 @@
         "required": false,
         "types": [
           {
+            "type": "decltype",
+            "named": true
+          },
+          {
             "type": "dependent_name",
             "named": true
           },

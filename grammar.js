@@ -73,10 +73,10 @@ module.exports = grammar(C, {
 
     // Types
 
-    placeholder_type_specifier: $ => seq(
+    placeholder_type_specifier: $ => prec(1, seq(
       field('constraint', optional($._type_specifier)),
       choice($.auto, alias($.decltype_auto, $.decltype))
-    ),
+    )),
 
     auto: $ => 'auto',
     decltype_auto: $ => seq(
@@ -1101,6 +1101,7 @@ module.exports = grammar(C, {
       field('scope', optional(choice(
         $._namespace_identifier,
         $.template_type,
+        $.decltype,
         alias($.dependent_type_identifier, $.dependent_name)
       ))),
       '::',
