@@ -141,11 +141,11 @@ module.exports = grammar({
       )
     ),
 
-    simple_enum_case: $ => field('name', $.identifier),
+    simple_enum_case: $ => seq(field('name', $.identifier), field('extend', optional($.extends_clause))),
 
-    full_enum_case: $ => seq(field('name', $.identifier), $._extended_enum_def),
+    full_enum_case: $ => seq(field('name', $.identifier), $._full_enum_def),
 
-    _extended_enum_def: $ => seq(
+    _full_enum_def: $ => seq(
       field('type_parameters', optional($.type_parameters)),
       field('class_parameters', repeat1($.class_parameters)),
       field('extend', optional($.extends_clause))

@@ -131,6 +131,7 @@
   "class"
   "enum"
   "extends"
+  "derives"
   "finally"
 ;; `forSome` existential types not implemented yet
 ;; `macro` not implemented yet
