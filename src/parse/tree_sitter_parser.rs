@@ -935,7 +935,7 @@ pub fn parse_subtrees(
     src: &str,
     config: &TreeSitterConfig,
     tree: &tree_sitter::Tree,
-) -> HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)> {
+) -> HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)> {
     let mut subtrees = HashMap::new();
 
     for language in &config.sub_languages {
@@ -958,7 +958,7 @@ pub fn parse_subtrees(
             let tree = parser.parse(src, None).unwrap();
             let sub_highlights = tree_highlights(&tree, src, &subconfig);
 
-            subtrees.insert(node.id(), (tree, sub_highlights));
+            subtrees.insert(node.id(), (tree, subconfig, sub_highlights));
         }
     }
 
@@ -1193,7 +1193,7 @@ fn all_syntaxes_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
@@ -1219,19 +1219,19 @@ fn syntax_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
 
     // See if we should go into a sub-document instead (e.g. embedded JavaScript in HTML).
-    if let Some((subtree, subhighlights)) = subtrees.get(&node.id()) {
+    if let Some((subtree, subconfig, subhighlights)) = subtrees.get(&node.id()) {
         let mut sub_cursor = subtree.walk();
         return syntax_from_cursor(
             arena,
             src,
             nl_pos,
             &mut sub_cursor,
-            config,
+            subconfig,
             subhighlights,
             &HashMap::new(),
         );
@@ -1270,7 +1270,7 @@ fn list_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
-    subtrees: &HashMap<usize, (tree_sitter::Tree, HighlightedNodeIds)>,
+    subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 

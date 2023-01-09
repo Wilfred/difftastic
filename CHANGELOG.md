@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Improved CSS parsing.
+Improved CSS parsing and HTML sublanguage parsing.
 
 ## 0.41 (released 8th January 2023)
 
