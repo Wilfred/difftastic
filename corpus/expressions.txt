@@ -870,3 +870,76 @@ class A:
             (identifier))))
       )))
 
+
+
+=======================================
+Inline matches (Scala 3)
+=======================================
+
+def hello = 
+  inline c match {
+    case 1 => 
+  }
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (indented_block
+      (match_expression
+        (inline_modifier)
+        (identifier)
+        (case_block
+          (case_clause
+            (integer_literal)))))))
+
+
+=======================================
+Inline if (Scala 3)
+=======================================
+
+def hello =
+  inline if (x) {} else {}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (indented_block
+      (if_expression
+        (inline_modifier)
+        (parenthesized_expression
+          (identifier))
+        (block)
+        (block)))))
+
+
+
+=======================================
+Nested inline if and match (Scala 3)
+=======================================
+
+def hello =
+  inline if (x) {
+    inline x match {
+
+    }
+  }
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (indented_block
+      (if_expression
+        (inline_modifier)
+        (parenthesized_expression
+          (identifier))
+        (block
+          (match_expression
+            (inline_modifier)
+            (identifier)
+            (case_block)))))))

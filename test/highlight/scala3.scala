@@ -6,7 +6,8 @@ enum Test(a: Int) derives Codec:
 //    ^type.definition
 //        ^parameter
   case Test(b: String)
-// ^keyword     ^type
+// ^keyword     
+//               ^type
 //      ^type.definition
 //          ^parameter
   case Hello, Bla
@@ -20,3 +21,17 @@ opaque type Blow <: Int = 25
 //      ^keyword     
 //                   ^type     
 //            ^type.definition
+
+inline given Test = new Test {
+// ^ keyword
+  inline def hello(inline x: Boolean) = 
+// ^ keyword
+//                   ^ keyword
+    inline if x then "hi" else "bye" 
+    // ^keyword
+    //            ^conditional
+    inline x match 
+    // ^keyword
+      case true => 25 
+      case false => 26 
+}
