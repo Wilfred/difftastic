@@ -35,3 +35,12 @@ inline given Test = new Test {
       case true => 25 
       case false => 26 
 }
+
+object A:
+// ^ keyword
+//     ^type.definition
+
+  ::(123)
+//^function.call
+//   ^number
+
