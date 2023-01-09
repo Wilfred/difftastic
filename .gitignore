@@ -8,3 +8,6 @@ Cargo.lock
 .scalafmt.conf
 *worksheet.sc
 *.out
+
+./scala 
+./dotty

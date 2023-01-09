@@ -424,7 +424,7 @@ module.exports = grammar({
     )),
 
     // Created for memory-usage optimization during codegen.
-    _function_constructor: $ => prec.left(seq(
+    _function_constructor: $ => prec.left(PREC.control, seq(
       field('name', choice($.identifier, $.operator_identifier)),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),
@@ -442,8 +442,10 @@ module.exports = grammar({
       repeat($.annotation),
       optional($.modifiers),
       'given',
-      $._function_constructor,
-      ':',
+      optional(seq(
+        $._function_constructor,
+        ':',
+      )),
       choice(
         field('return_type', $._structural_instance),
         seq(
