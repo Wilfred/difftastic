@@ -50,7 +50,7 @@ use Edge::*;
 #[derive(Debug, Clone)]
 pub struct Vertex<'a, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
-    pub predecessor: Cell<Option<(u64, &'b Vertex<'a, 'b>)>>,
+    pub predecessor: Cell<Option<(u32, &'b Vertex<'a, 'b>)>>,
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
@@ -299,20 +299,18 @@ pub enum Edge {
     },
 }
 
-const NOT_CONTIGUOUS_PENALTY: u64 = 50;
+const NOT_CONTIGUOUS_PENALTY: u32 = 50;
 
 impl Edge {
-    pub fn cost(self) -> u64 {
+    pub fn cost(self) -> u32 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, u64::from(depth_difference) + 1),
+            UnchangedNode { depth_difference } => min(40, depth_difference + 1),
             // Matching an outer delimiter is good.
-            EnterUnchangedDelimiter { depth_difference } => {
-                100 + min(40, u64::from(depth_difference))
-            }
+            EnterUnchangedDelimiter { depth_difference } => 100 + min(40, depth_difference),
 
             // Replacing a comment is better than treating it as novel.
-            ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
+            ReplacedComment { levenshtein_pct } => 150 + u32::from(100 - levenshtein_pct),
 
             // Otherwise, we've added/removed a node.
             NovelAtomLHS {
