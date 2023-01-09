@@ -993,6 +993,8 @@ module.exports = grammar({
       ),
     )),
 
+    symbol_literal: $ => '__no_longer_used',
+
     // TODO: Include operators.
     _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
     _backquoted_id: $=> /`[^\n`]+`/,
