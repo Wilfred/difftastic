@@ -17,6 +17,7 @@ const PREC = {
   call: 8,
   field: 8,
   end_marker: 9,
+  macro: 10,
 }
 
 module.exports = grammar({
@@ -432,6 +433,7 @@ module.exports = grammar({
 
     opaque_modifier: $ => 'opaque',
 
+
     /**
      * GivenDef          ::=  [GivenSig] (AnnotType ['=' Expr] | StructuralInstance)
      * GivenSig          ::=  [id] [DefTypeParamClause] {UsingParamClause} ':'
@@ -472,6 +474,7 @@ module.exports = grammar({
       'lazy',
       'override',
       $.access_modifier,
+      $.inline_modifier,
     )),
 
     access_modifier: $ => prec.left(seq(
@@ -484,6 +487,8 @@ module.exports = grammar({
       $.identifier,
       ']',
     ),
+
+    inline_modifier: $ => 'inline',
 
     extends_clause: $ => prec.left(seq(
       'extends',
@@ -521,6 +526,7 @@ module.exports = grammar({
 
     parameter: $ => seq(
       repeat($.annotation),
+      optional($.inline_modifier),
       field('name', $.identifier),
       optional(seq(':', field('type', $._param_type))),
       optional(seq('=', field('default_value', $.expression)))
@@ -671,6 +677,7 @@ module.exports = grammar({
       $.infix_pattern,
       $.alternative_pattern,
       $.typed_pattern,
+      $.quote_expression,
       $.literal,
       $.wildcard
     ),
@@ -761,7 +768,9 @@ module.exports = grammar({
       $.tuple_expression,
       $.wildcard,
       $.block,
+      $.splice_expression,
       $.case_block,
+      $.quote_expression,
       $.instance_expression,
       $.parenthesized_expression,
       $.field_expression,
@@ -949,6 +958,41 @@ module.exports = grammar({
       ')'
     ),
 
+    splice_expression: $ => prec.left(PREC.macro, seq(
+      '$',
+      choice(
+        seq(
+          '{',
+          $._block,
+          '}',
+        ),
+        seq(
+          '[',
+          $._type,
+          ']',
+        ),
+        // TODO: This would never hit, since identifier permits $ sign
+        $.identifier,
+      ),
+    )),
+
+    quote_expression: $ => prec.left(PREC.macro, seq(
+      "'",
+      choice(
+        seq(
+          '{',
+          $._block,
+          '}',
+        ),
+        seq(
+          '[',
+          $._type,
+          ']',
+        ),
+        $.identifier,
+      ),
+    )),
+
     // TODO: Include operators.
     _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
     _backquoted_id: $=> /`[^\n`]+`/,
@@ -972,7 +1016,6 @@ module.exports = grammar({
         $.floating_point_literal,
         $.boolean_literal,
         $.character_literal,
-        $.symbol_literal,
         $.string
       ),
 
@@ -1040,11 +1083,6 @@ module.exports = grammar({
         /[^\\'\n]/
       )),
       '\''
-    )),
-
-    symbol_literal: $ => token(seq(
-      "'",
-      repeat1(/[^\\'\n]/)
     )),
 
     interpolated_string_expression: $ => seq(

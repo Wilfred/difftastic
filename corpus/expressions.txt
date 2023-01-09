@@ -834,3 +834,39 @@ def main() {
         (arguments (infix_expression
           (wildcard) (operator_identifier) (integer_literal))))
       (field_expression (identifier) (identifier)))))
+
+=======================================
+Macros (Scala 3 syntax)
+=======================================
+
+class A:
+  inline def inspect(inline a: Any): Any =
+    ${ inspectCode('a) }
+
+  def foo =
+    '{ $b }
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (modifiers (inline_modifier))
+        (identifier)
+        (parameters
+          (parameter (inline_modifier) (identifier) (type_identifier)))
+        (type_identifier)
+        (indented_block
+          (splice_expression
+            (call_expression
+              (identifier)
+              (arguments (quote_expression (identifier)))))))
+      (function_definition
+        (identifier)
+        (indented_block
+          (quote_expression
+            (identifier))))
+      )))
+

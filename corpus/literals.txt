@@ -152,20 +152,6 @@ def foo(a: Char = 'c') = a + 'd'
       (character_literal))))
 
 ==========================
-Symbol literals
-==========================
-
-val mySymbol = 'c
-
-val myOtherSymbol = 'thing
-
----
-
-(compilation_unit
-  (val_definition (identifier) (symbol_literal))
-  (val_definition (identifier) (symbol_literal)))
-
-==========================
 Null
 ==========================
 
