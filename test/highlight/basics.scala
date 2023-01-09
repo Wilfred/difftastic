@@ -33,5 +33,13 @@ object Hello {
   // ^keyword
   //    ^type.definition 
   //            ^string
-} 
+
+  class A {
+// ^ keyword
+//      ^ type.definition
+    self: X =>
+//  ^constant
+//        ^type
+  }
+}
 
