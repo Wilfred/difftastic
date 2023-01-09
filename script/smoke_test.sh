@@ -2,9 +2,9 @@
 
 # This is an integration test to generally check the quality of parsing.
 
-SCALA_SCALA_LIBRARY_EXPECTED=95
+SCALA_SCALA_LIBRARY_EXPECTED=98
 SCALA_SCALA_COMPILER_EXPECTED=63
-DOTTY_COMPILER_EXPECTED=60
+DOTTY_COMPILER_EXPECTED=63
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
   echo "\$SCALA_SCALA_DIR must be set"
