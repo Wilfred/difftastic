@@ -169,3 +169,26 @@ val x = y match {
                 (tuple_pattern (alternative_pattern (identifier) (identifier))))
               (operator_identifier) (identifier)) (operator_identifier) (string))
               (integer_literal))))))
+
+============================
+Quoted patterns (Scala 3 syntax)
+============================
+
+def foo =
+  x match
+    case '{ $boolExpr } => Some(true)
+    case _              => None
+
+---
+
+(compilation_unit
+  (function_definition (identifier)
+    (indented_block
+    (match_expression (identifier)
+      (indented_cases
+        (case_clause
+          (quote_expression (identifier))
+          (call_expression (identifier) (arguments (boolean_literal))))
+        (case_clause (wildcard)
+          (identifier)))))))
+
