@@ -634,6 +634,8 @@ object A:
   private given listFoo[A1](using ev: CanFoo[A1]): CanFoo[List[A1]] with
     def foo(xs: List[A1]): Int = 0
 
+  given Context = ctx
+
 ---
 
 (compilation_unit
@@ -677,7 +679,10 @@ object A:
                 (identifier)
                 (generic_type (type_identifier) (type_arguments (type_identifier)))))
             (type_identifier)
-            (integer_literal)))))))
+            (integer_literal))))
+      (given_definition
+        (type_identifier)
+        (identifier)))))
 
 =======================================
 Top-level Definitions (Scala 3 syntax)
