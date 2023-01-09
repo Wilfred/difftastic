@@ -3677,7 +3677,7 @@
       }
     },
     "enum_specifier": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",

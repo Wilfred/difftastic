@@ -1117,6 +1117,12 @@ enum Foo::Oof : Bar::Rab { };
 enum class Foo;
 enum struct Foo : char { };
 
+class Foo {
+  enum Bar {
+    A, B
+  };
+};
+
 ---
 
 (translation_unit
@@ -1127,7 +1133,11 @@ enum struct Foo : char { };
   (enum_specifier (type_identifier) (qualified_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
   (enum_specifier (qualified_identifier (namespace_identifier) (type_identifier)) (qualified_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
   (enum_specifier (type_identifier))
-  (enum_specifier (type_identifier) (type_identifier) (enumerator_list)))
+  (enum_specifier (type_identifier) (type_identifier) (enumerator_list))
+  (class_specifier (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (enum_specifier (type_identifier) (enumerator_list (enumerator (identifier)) (enumerator (identifier))))))))
 
 ============================
 static_assert declarations

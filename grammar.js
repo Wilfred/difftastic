@@ -213,7 +213,7 @@ module.exports = grammar(C, {
       ))
     ),
 
-    enum_specifier: $ => prec.left(seq(
+    enum_specifier: $ => prec.right(seq(
       'enum',
       optional(choice('class', 'struct')),
       choice(
