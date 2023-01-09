@@ -83,6 +83,7 @@ module.exports = grammar({
 
     _definition: $ => choice(
       $.given_definition,
+      $.extension_definition,
       $.class_definition,
       $.import_declaration,
       $.object_definition,
@@ -322,6 +323,19 @@ module.exports = grammar({
       $._outdent,
     )),
 
+    _extension_template_body: $ => choice(
+      prec.left(PREC.control, seq(
+        $._indent,
+        $._block,
+        $._outdent,
+      )),
+      seq(
+        '{',
+        optional($._block),
+        '}',
+      ),
+    ),
+
     _end_marker: $ => prec.left(PREC.end_marker, seq(
       'end',
       choice(
@@ -433,6 +447,19 @@ module.exports = grammar({
 
     opaque_modifier: $ => 'opaque',
 
+    /**
+     *   Extension         ::=  'extension' [DefTypeParamClause] {UsingParamClause}
+     *                          '(' DefParam ')' {UsingParamClause} ExtMethods 
+     */
+    extension_definition: $ => prec.left(seq(
+      'extension',
+      field('type_parameters', optional($.type_parameters)),
+      field('parameters', repeat($.parameters)),
+      field('body', choice(
+        $._extension_template_body,
+        $.function_definition,
+      )),
+    )),
 
     /**
      * GivenDef          ::=  [GivenSig] (AnnotType ['=' Expr] | StructuralInstance)

@@ -622,6 +622,37 @@ class A:
           (val_definition (identifier) (integer_literal)) (val_definition (identifier) (integer_literal)) (infix_expression (identifier) (operator_identifier) (identifier)))))))
 
 =======================================
+Extension methods (Scala 3 syntax)
+=======================================
+
+object A:
+  extension (c: C)
+    def foo: Int = 1
+  
+  extension [A1](d: D) def foo = "foo"
+
+---
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (extension_definition
+        (parameters
+          (parameter (identifier) (type_identifier)))
+        (function_definition
+          (identifier)
+          (type_identifier)
+          (integer_literal)))
+      (extension_definition
+        (type_parameters (identifier))
+        (parameters
+          (parameter (identifier) (type_identifier)))
+        (function_definition
+          (identifier)
+          (string))))))
+
+=======================================
 Given instance definitions (Scala 3 syntax)
 =======================================
 
