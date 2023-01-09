@@ -1,5 +1,9 @@
 ## 0.42 (unreleased)
 
+### Parsing
+
+Improved CSS parsing.
+
 ## 0.41 (released 8th January 2023)
 
 ### Parsing
