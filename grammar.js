@@ -67,6 +67,8 @@ module.exports = grammar({
     [$.while_expression, $._simple_expression],
     [$.for_expression, $.infix_expression],
     [$._indentable_expression, $.do_while_expression],
+    [$.if_expression],
+    [$.match_expression],
   ],
 
   word: $ => $._plainid,
@@ -825,6 +827,7 @@ module.exports = grammar({
     )),
 
     if_expression: $ => prec.right(PREC.control, seq(
+      optional($.inline_modifier),
       'if',
       field('condition', choice(
         $.parenthesized_expression,
@@ -841,6 +844,7 @@ module.exports = grammar({
      *   MatchClause       ::=  'match' <<< CaseClauses >>>
      */
     match_expression: $ => prec.left(PREC.postfix, seq(
+      optional($.inline_modifier),
       field('value', $.expression),
       'match',
       field('body', choice($.case_block, $.indented_cases))

@@ -934,3 +934,77 @@ val test = id.##
       (identifier)
       (operator_identifier))))
 
+
+
+=======================================
+Inline methods and parameters (Scala 3)
+=======================================
+
+inline def mkLines(inline header: String, indented: Boolean = false): String = {}
+
+---
+
+(compilation_unit
+  (function_definition
+    (modifiers
+      (inline_modifier))
+    (identifier)
+    (parameters
+      (parameter (inline_modifier) (identifier) (type_identifier))
+      (parameter (identifier) (type_identifier) (boolean_literal)))
+    (type_identifier) (block)))
+
+
+
+=======================================
+Inline val (Scala 3)
+=======================================
+
+inline def test() =
+  inline val x = true
+
+---
+
+(compilation_unit
+  (function_definition
+    (modifiers
+      (inline_modifier))
+    (identifier)
+    (parameters)
+    (indented_block
+     (val_definition
+       (modifiers
+         (inline_modifier))
+       (identifier)
+       (boolean_literal)
+     ) 
+    )))
+
+
+=======================================
+Inline given (Scala 3)
+=======================================
+
+inline given Test = 
+  new Test:
+    def apply(i: Int) = 2
+
+---
+
+(compilation_unit
+  (given_definition
+    (modifiers (inline_modifier))
+    (type_identifier)
+    (assignment_expression
+      (instance_expression
+        (ascription_expression
+          (identifier)
+          (infix_type
+            (type_identifier)
+            (identifier)
+            (tuple_type
+              (infix_type
+                (type_identifier)
+                (operator_identifier)
+                (type_identifier))))))
+      (integer_literal))))

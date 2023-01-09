@@ -125,6 +125,7 @@
 ;; keywords
 
 (opaque_modifier) @type.qualifier
+(inline_modifier) @keyword
 
 [
   "case"
@@ -172,6 +173,7 @@
   "else"
   "if"
   "match"
+  "then"
 ] @conditional
 
 [
