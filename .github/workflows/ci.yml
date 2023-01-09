@@ -44,7 +44,7 @@ jobs:
           path: scala_scala
 
       - name: checkout lampepfl/dotty
-        if: ${{ runner.os != 'Windows' }}
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v3
         with:
           repository: lampepfl/dotty
@@ -58,8 +58,8 @@ jobs:
       - name: Test C stack code
         run: gcc test/test-stack.c -o a.out && ./a.out
 
-      - name: Generate parser
-        if: ${{ runner.os != 'Windows' }}
+      - name: Generate parser from scratch and test it
+        if: ${{ runner.os == 'Linux' }}
         shell: bash
         run: |
           npm install
@@ -67,7 +67,7 @@ jobs:
           npm test
 
       - name: Check parser
-        if: ${{ runner.os != 'Windows' && needs.changedfiles.outputs.c }}
+        if: ${{ runner.os != 'Linux' && needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
@@ -84,7 +84,7 @@ jobs:
         run: npm install && npm test
 
       - name: Smoke test
-        if: ${{ runner.os != 'Windows' }}
+        if: ${{ runner.os == 'Linux' }}
         shell: bash
         env: 
           SCALA_SCALA_DIR: scala_scala
