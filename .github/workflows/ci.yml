@@ -29,9 +29,6 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-20.04, macos-latest, windows-2019]
-    env:
-      SCALA_SCALA_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/scala_scala
-      DOTTY_DIR: /Users/runner/work/tree-sitter-scala/tree-sitter-scala/dotty
     steps:
       - name: checkout tree-sitter-scala
         uses: actions/checkout@v3
@@ -39,7 +36,7 @@ jobs:
           fetch-depth: 10
 
       - name: checkout scala/scala
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os != 'Windows' }}
         uses: actions/checkout@v3
         with:
           repository: scala/scala
@@ -47,7 +44,7 @@ jobs:
           path: scala_scala
 
       - name: checkout lampepfl/dotty
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v3
         with:
           repository: lampepfl/dotty
@@ -61,8 +58,8 @@ jobs:
       - name: Test C stack code
         run: gcc test/test-stack.c -o a.out && ./a.out
 
-      - name: Generate parser
-        if: ${{ runner.os == 'macOS' }}
+      - name: Generate parser from scratch and test it
+        if: ${{ runner.os == 'Linux' }}
         shell: bash
         run: |
           npm install
@@ -70,7 +67,7 @@ jobs:
           npm test
 
       - name: Check parser
-        if: ${{ runner.os == 'macOS' && needs.changedfiles.outputs.c }}
+        if: ${{ runner.os != 'Linux' && needs.changedfiles.outputs.c }}
         shell: bash
         run: |
           # `git diff --quiet` doesn't seem to work on Github Actions
@@ -87,6 +84,9 @@ jobs:
         run: npm install && npm test
 
       - name: Smoke test
-        if: ${{ runner.os == 'macOS' }}
+        if: ${{ runner.os == 'Linux' }}
         shell: bash
+        env: 
+          SCALA_SCALA_DIR: scala_scala
+          DOTTY_DIR: dotty
         run: script/smoke_test.sh
