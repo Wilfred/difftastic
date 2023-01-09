@@ -785,6 +785,7 @@ Enums (Scala 3)
 enum Hello[Y] extends java.Enumeration derives Codec, Eq {
   case World, You
   case Test[A](bla: Int, yo: String) extends Hello[A]
+  case T extends Hello[String](25)
 }
 
 ---
@@ -812,7 +813,18 @@ enum Hello[Y] extends java.Enumeration derives Codec, Eq {
               (identifier)
               (type_identifier)))
           (extends_clause
-            (generic_type (type_identifier) (type_arguments (type_identifier))))))
+            (generic_type (type_identifier) (type_arguments (type_identifier)))))
+      )
+      (enum_case_definitions
+        (simple_enum_case
+          (identifier)
+          (extends_clause
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))
+            (arguments
+              (integer_literal)))))
       )
     )
   )

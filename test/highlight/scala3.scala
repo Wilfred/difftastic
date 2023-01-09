@@ -1,5 +1,8 @@
-enum Test(a: Int):
-// ^keyword   ^type
+enum Test(a: Int) derives Codec:
+// ^keyword   
+//            ^type
+//                   ^keyword
+//                          ^type
 //    ^type.definition
 //        ^parameter
   case Test(b: String)
@@ -9,6 +12,8 @@ enum Test(a: Int):
   case Hello, Bla
 //      ^type.definition
 //             ^type.definition
+  case Bla extends Test(256)
+//          ^keyword
 
 opaque type Blow <: Int = 25
 // ^type.qualifier
