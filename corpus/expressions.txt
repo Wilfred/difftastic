@@ -540,6 +540,7 @@ object O {
   val x = 2: Byte
   Nil: List[String]
   3: _*
+  x: @unchecked
 }
 
 ---
@@ -558,7 +559,9 @@ object O {
         (generic_type (type_identifier)
           (type_arguments (type_identifier))))
       (ascription_expression (integer_literal)
-        (repeated_parameter_type (type_identifier))))))
+        (repeated_parameter_type (type_identifier)))
+      (ascription_expression (identifier)
+        (annotation (type_identifier))))))
 
 ================================================================================
 Lambda Expression

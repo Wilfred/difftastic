@@ -61,9 +61,9 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
-    [$.binding, $.expression],
+    [$.binding, $._simple_expression],
     [$.if_expression, $.expression],
-    [$.while_expression, $.expression],
+    [$.while_expression, $._simple_expression],
     [$.for_expression, $.infix_expression],
     [$._indentable_expression, $.do_while_expression],
   ],
@@ -721,30 +721,52 @@ module.exports = grammar({
       $.if_expression,
       $.match_expression,
       $.try_expression,
-      $.call_expression,
       $.assignment_expression,
       $.lambda_expression,
       $.postfix_expression,
       $.ascription_expression,
       $.infix_expression,
       $.prefix_expression,
-      $.tuple_expression,
-      $.case_block,
       $.return_expression,
       $.throw_expression,
       $.while_expression,
       $.do_while_expression,
       $.for_expression,
+      $._simple_expression,
+    ),
+
+    /**
+      *  SimpleExpr        ::=  SimpleRef
+      *                      |  Literal
+      *                      |  '_'
+      *                      |  BlockExpr
+      *                      |  ExprSplice
+      *                      |  Quoted
+      *                      |  quoteId
+      *                      |  'new' ConstrApp {'with' ConstrApp} [TemplateBody]
+      *                      |  'new' TemplateBody
+      *                      |  '(' ExprsInParens ')'
+      *                      |  SimpleExpr '.' id
+      *                      |  SimpleExpr '.' MatchClause
+      *                      |  SimpleExpr TypeArgs
+      *                      |  SimpleExpr ArgumentExprs
+      *                      |  SimpleExpr ColonArgument
+      * TODO: ColonArgument
+      */
+    _simple_expression: $ => choice(
       $.identifier,
-      $.unit,
-      $.block,
-      $.field_expression,
-      $.parenthesized_expression,
-      $.interpolated_string_expression,
       $.literal,
-      $.instance_expression,
+      $.interpolated_string_expression,
+      $.unit,
+      $.tuple_expression,
       $.wildcard,
+      $.block,
+      $.case_block,
+      $.instance_expression,
+      $.parenthesized_expression,
+      $.field_expression,
       $.generic_function,
+      $.call_expression,
     ),
 
     lambda_expression: $ => prec.right(PREC.lambda, seq(
@@ -834,12 +856,12 @@ module.exports = grammar({
     )),
 
     call_expression: $ => prec(PREC.call, seq(
-      field('function', $.expression),
+      field('function', $._simple_expression),
       field('arguments', choice($.arguments, $.case_block, $.block)),
     )),
 
-    field_expression: $ => prec(PREC.field, seq(
-      field('value', $.expression),
+    field_expression: $ => prec.left(PREC.field, seq(
+      field('value', $._simple_expression),
       '.',
       field('field', $.identifier)
     )),
@@ -849,26 +871,57 @@ module.exports = grammar({
       $.expression
     )),
 
+    /**
+     * PostfixExpr [Ascription]
+     */
     ascription_expression: $ => prec.right(PREC.ascription, seq(
-        $.expression,
+        choice(
+          $.postfix_expression,
+          $.infix_expression,
+          $.prefix_expression,
+          $._simple_expression,
+        ),
         ':',
-        $._param_type,
+        choice(
+          $._param_type,
+          $.annotation,
+        ),
     )),
 
     infix_expression: $ => prec.left(PREC.infix, seq(
-      field('left', $.expression),
+      field('left', choice(
+        $.infix_expression,
+        $.prefix_expression,
+        $._simple_expression,
+      )),
       field('operator', choice($.identifier, $.operator_identifier)),
-      field('right', $.expression)
+      field('right', choice(
+        $.prefix_expression,
+        $._simple_expression,
+      )),
     )),
 
+    /**
+     * PostfixExpr       ::=  InfixExpr [id]
+     */
     postfix_expression: $ => prec.left(PREC.postfix, seq(
-      $.expression,
+      choice(
+        $.infix_expression,
+        $.prefix_expression,
+        $._simple_expression,
+      ),
       choice($.identifier, $.operator_identifier),
     )),
 
+    /**
+     * PrefixExpr        ::=  [PrefixOperator] SimpleExpr
+     */
     prefix_expression: $ => prec(PREC.prefix, seq(
       choice('+', '-', '!', '~'),
-      $.expression
+      choice(
+        $.prefix_expression, 
+        $._simple_expression,
+      ),
     )),
 
     tuple_expression: $ => seq(
@@ -900,8 +953,13 @@ module.exports = grammar({
     _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
     _backquoted_id: $=> /`[^\n`]+`/,
     identifier: $ => choice(
-      $._plainid, 
-      $._backquoted_id
+      $._plainid,
+      $._backquoted_id,
+      'unary_~',
+      'unary_+',
+      'unary_-',
+      'unary_!',
+      '???',
     ),
 
     wildcard: $ => '_',
