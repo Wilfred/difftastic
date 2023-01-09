@@ -104,8 +104,8 @@ $ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow
 $ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
 ```
 
-Many more profiling techniques are discussed in the [The Rust
-Performance Book](https://nnethercote.github.io/perf-book/).
+Many more profiling techniques are discussed in [The Rust Performance
+Book](https://nnethercote.github.io/perf-book/).
 
 ## Releasing
 
