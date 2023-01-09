@@ -51,6 +51,8 @@ use Edge::*;
 pub struct Vertex<'a, 'b> {
     pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
     pub predecessor: Cell<Option<(u32, &'b Vertex<'a, 'b>)>>,
+    // TODO: experiment with storing SyntaxId only, and have a HashMap
+    // from SyntaxId to &Syntax.
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
     parents: Stack<EnteredDelimiter<'a>>,
