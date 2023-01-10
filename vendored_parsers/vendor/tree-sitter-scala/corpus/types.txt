@@ -1,0 +1,252 @@
+===================================
+Stable type identifiers
+===================================
+
+object Main {
+  type A = B.C
+  type D = E.F.G
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (stable_type_identifier (identifier) (type_identifier)))
+    (type_definition
+      (type_identifier)
+      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier))))))
+
+===================================
+Generic types
+===================================
+
+object Main {
+  type A = B[C, D]
+  type E = F.G[H]
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (generic_type
+        (type_identifier)
+        (type_arguments (type_identifier) (type_identifier))))
+    (type_definition
+      (type_identifier)
+      (generic_type
+        (stable_type_identifier (identifier) (type_identifier))
+        (type_arguments (type_identifier)))))))
+
+===================================
+Tuple types
+===================================
+
+object Main {
+  type A = (B, C)
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (tuple_type
+        (type_identifier)
+        (type_identifier))))))
+
+===================================
+Function types
+===================================
+
+object Main {
+  type A = (B, C) => D
+
+  type A = (B, C) => (D, E)
+
+  type A = B => (D, E)
+}
+
+---
+
+(compilation_unit
+  (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (function_type
+        (parameter_types (type_identifier) (type_identifier))
+        (type_identifier)))
+    (type_definition
+      (type_identifier)
+      (function_type
+        (parameter_types (type_identifier) (type_identifier))
+        (tuple_type (type_identifier) (type_identifier))))
+    (type_definition
+      (type_identifier)
+      (function_type
+        (parameter_types (type_identifier))
+        (tuple_type (type_identifier) (type_identifier)))))))
+
+==================================
+Compound types
+==================================
+
+def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
+}
+
+class F extends Cloneable with Resetable with Serializable {}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters (parameter (identifier) (compound_type (type_identifier) (type_identifier))))
+    (type_identifier) (block))
+  (class_definition (identifier)
+    (extends_clause
+      (compound_type (type_identifier) (type_identifier) (type_identifier)))
+    (template_body)))
+
+==================================
+Infix types
+==================================
+
+type A = B Foo C
+
+type A = B ! C or D
+
+type A = (B, C) ~ D
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (infix_type (type_identifier) (identifier) (type_identifier)))
+  (type_definition
+    (type_identifier)
+    (infix_type
+      (infix_type (type_identifier) (operator_identifier) (type_identifier))
+      (identifier)
+      (type_identifier)))
+  (type_definition
+    (type_identifier)
+    (infix_type
+      (tuple_type (type_identifier) (type_identifier))
+      (operator_identifier)
+      (type_identifier))))
+
+
+==================================
+Variant Types
+==================================
+
+class Function1[-T1, +R]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (contravariant_type_parameter (identifier))
+      (covariant_type_parameter (identifier)))))
+
+
+==================================
+Upper bound
+==================================
+
+class A[B <: C]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (upper_bound (type_identifier)))))
+
+==================================
+Lower bound
+==================================
+
+class A[B >: C]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (lower_bound (type_identifier)))))
+
+==================================
+View bound
+==================================
+
+
+class A[B <% C <% D]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (view_bound (type_identifier))
+      (view_bound (type_identifier)))))
+
+==================================
+Context bound
+==================================
+
+class A[B : C : D]
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (context_bound (type_identifier))
+      (context_bound (type_identifier)))))
+
+==================================
+Projections
+==================================
+
+type A = B[C]#D
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (projected_type
+      (generic_type (type_identifier) (type_arguments (type_identifier)))
+      (type_identifier))))
+
+==================================
+Complex types
+==================================
+
+type A = B with B1 with B2 ! C with C1
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (infix_type
+      (compound_type (type_identifier) (type_identifier) (type_identifier))
+      (operator_identifier)
+      (compound_type (type_identifier) (type_identifier)))))

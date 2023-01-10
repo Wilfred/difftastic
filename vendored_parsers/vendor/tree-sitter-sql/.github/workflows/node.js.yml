@@ -1,0 +1,60 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2019, macos-latest]
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npx prettier --check .
+    - run: npm run gen
+    - name: Verify generated code
+      if: runner.os == 'Linux'
+      run: |
+        if ! git diff --quiet --ignore-submodules -- src/
+        then
+          echo >&2 "Generated files in src/ differ, please run 'npm run gen' to update generated code"
+          git diff-index --name-status -r --ignore-submodules HEAD src/ >&2
+          exit 1
+        fi
+    - run: npm test
+    - name: Parse real world examples (ignoring errors for now)
+      continue-on-error: true
+      run: npm acceptance
+
+  compile:
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
+          compiler: [gcc, clang++]
+
+      name: compile
+      runs-on: ${{ matrix.os }}
+      steps:
+        - uses: actions/checkout@v2
+
+        - if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
+          uses: egor-tensin/setup-mingw@v2
+
+        - name: build
+          run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.cc -Werror

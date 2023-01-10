@@ -1,0 +1,220 @@
+========================================
+simple flutter example
+========================================
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
+---
+
+(program 
+(import_or_export 
+  (library_import (import_specification (configurable_uri (uri (string_literal)))))) 
+(function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block (expression_statement (identifier) (selector (argument_part 
+  (arguments (argument (identifier) (selector (argument_part (arguments)))))))))) 
+(class_definition (identifier) (superclass (type_identifier)) 
+  (class_body 
+    (declaration (constant_constructor_signature (const_builtin) (qualified (identifier)) 
+      (formal_parameter_list (optional_formal_parameters (formal_parameter (type_identifier) (identifier))))) 
+        (initializers (initializer_list_entry (arguments (named_argument (label (identifier)) (identifier)))))) 
+    (marker_annotation (identifier)) 
+    (method_signature (function_signature (type_identifier) (identifier) 
+      (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
+      (function_body (block (return_statement (identifier) (selector (argument_part (arguments)))))))))
+
+
+
+===============================================
+ben's flutter error testing
+===============================================
+
+
+class CatalogThumbnailUI extends StatelessWidget {
+  static const routeName = '/catalog';
+  CatalogThumbnailUI(this.thread);
+  final ThreadModel thread;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    var op = thread.posts.first;
+    var remainingPosts = thread.posts.getRange(1, thread.posts.length);
+    var previewRemaining = remainingPosts.map((f) => Column(
+      children: <Widget>[
+        Divider(),
+        Row(children: <Widget>[
+          Text(f.utc.difference(DateTime.now()).inHours.toString()),
+          Text(f.text),
+          Text('...')
+        ],)
+      ],
+    ));
+    return Card(
+      child: Column(
+        children: <Widget>[
+          Expanded(child: PostUI(op, true)),
+          ...previewRemaining
+        ],
+      ),
+    );
+  }
+}
+
+------------------------------
+
+(program
+    (class_definition (identifier) (superclass (type_identifier))
+        (class_body
+            (declaration (const_builtin) (static_final_declaration_list (static_final_declaration (identifier) (string_literal))))
+            (declaration (constructor_signature (identifier)
+                (formal_parameter_list (formal_parameter (constructor_param (this) (identifier))))))
+            (declaration (final_builtin) (type_identifier) (initialized_identifier_list (initialized_identifier (identifier))))
+            (marker_annotation (identifier))
+            (method_signature
+                (function_signature (type_identifier) (identifier)
+                    (formal_parameter_list (formal_parameter (type_identifier) (identifier)))))
+            (function_body
+                (block (comment)
+                    (local_variable_declaration
+                        (initialized_variable_definition (inferred_type) (identifier) (identifier)
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (unconditional_assignable_selector (identifier)))))
+                    (local_variable_declaration
+                        (initialized_variable_definition (inferred_type) (identifier) (identifier)
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (argument_part (arguments (argument (decimal_integer_literal)) (argument (identifier)
+                                (selector (unconditional_assignable_selector (identifier)))
+                                (selector (unconditional_assignable_selector (identifier)))))))))
+                    (local_variable_declaration
+                        (initialized_variable_definition (inferred_type) (identifier) (identifier)
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector
+                                (argument_part
+                                    (arguments
+                                      (argument
+                                        (function_expression
+                                            (formal_parameter_list (formal_parameter (identifier)))
+                                            (function_expression_body (identifier)
+                                                (selector
+                                                    (argument_part
+                                                        (arguments
+                                                            (named_argument (label (identifier))
+                                                                (list_literal
+                                                                    (type_arguments (type_identifier)) (identifier)
+                                                                    (selector (argument_part (arguments))) (identifier)
+                                                                    (selector
+                                                                        (argument_part
+                                                                            (arguments
+                                                                                (named_argument (label (identifier))
+                                                                                    (list_literal
+                                                                                        (type_arguments (type_identifier))
+                                                                                        (identifier)
+                                                                                        (selector
+                                                                                            (argument_part
+                                                                                                (arguments (argument (identifier)
+                                                                                                    (selector
+                                                                                                      (unconditional_assignable_selector
+                                                                                                      (identifier)))
+                                                                                                    (selector
+                                                                                                      (unconditional_assignable_selector
+                                                                                                      (identifier)))
+                                                                                                    (selector
+                                                                                                        (argument_part
+                                                                                                            (arguments (argument (identifier)
+                                                                                                                (selector
+                                                                                                                  (unconditional_assignable_selector (identifier)))
+                                                                                                                (selector (argument_part (arguments)))))))
+                                                                                                    (selector
+                                                                                                            (unconditional_assignable_selector (identifier)))
+                                                                                                    (selector
+                                                                                                            (unconditional_assignable_selector (identifier)))
+                                                                                                    (selector (argument_part (arguments)))))))
+                                                                                        (identifier)
+                                                                                        (selector
+                                                                                            (argument_part
+                                                                                                (arguments (argument (identifier)
+                                                                                                    (selector
+                                                                                                            (unconditional_assignable_selector (identifier)))))))
+                                                                                        (identifier)
+                                                                                        (selector
+                                                                                            (argument_part
+                                                                                                (arguments (argument 
+                                                                                                    (string_literal)))))
+                                                                                    ))))))))))))))))))
+                    (return_statement
+                        (identifier)
+                        (selector
+                            (argument_part
+                                (arguments
+                                    (named_argument
+                                        (label (identifier))
+                                        (identifier)
+                                        (selector
+                                            (argument_part
+                                                (arguments
+                                                    (named_argument (label (identifier))
+                                                    (list_literal
+                                                        (type_arguments (type_identifier))
+                                                        (identifier)
+                                                        (selector
+                                                            (argument_part
+                                                                (arguments
+                                                                    (named_argument (label (identifier))
+                                                                    (identifier)
+                                                                    (selector
+                                                                        (argument_part (arguments (argument (identifier)) (argument (true)))))))))
+                                                        (spread_element (identifier))))))))))))
+                    )))))
+
+
+======================
+Const list constructors
+======================
+
+import 'package:flutter/material.dart';
+
+class AWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+            children: const [
+              Flexible(child: ColoredBox(color: Colors.white)),
+              Flexible(child: ColoredBox(color: Colors.blue))
+            ],
+          );
+  }
+}
+
+---
+
+(program 
+  (import_or_export (library_import (import_specification (configurable_uri (uri (string_literal)))))) 
+  (class_definition (identifier) (superclass (type_identifier)) 
+    (class_body (marker_annotation (identifier)) 
+      (method_signature (function_signature (type_identifier) (identifier) (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
+        (function_body (block 
+          (return_statement (identifier) 
+            (selector (argument_part (arguments (named_argument (label (identifier)) 
+              (list_literal (const_builtin) (identifier) 
+                (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (unconditional_assignable_selector (identifier))))))))))) (identifier) 
+                (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
+                  (selector (unconditional_assignable_selector (identifier))))))))))))))))))))))
+

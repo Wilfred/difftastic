@@ -1,0 +1,45 @@
+{
+  "name": "tree-sitter-ocaml",
+  "version": "0.20.0",
+  "description": "OCaml grammar for tree-sitter",
+  "keywords": [
+    "parser",
+    "ocaml"
+  ],
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.16.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "scripts": {
+    "build": "npm run build-ocaml && npm run build-interface",
+    "build-ocaml": "cd ocaml && tree-sitter generate",
+    "build-interface": "cd interface && tree-sitter generate",
+    "test": "npm run test-ocaml && npm run test-interface && npm run test-highlight && script/parse-examples",
+    "test-ocaml": "cd ocaml && tree-sitter test",
+    "test-interface": "cd interface && tree-sitter test",
+    "test-highlight": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.ocaml",
+      "file-types": [
+        "ml"
+      ],
+      "first-line-regex": "",
+      "path": "ocaml",
+      "injection-regex": "^(ocaml|ml)$"
+    },
+    {
+      "scope": "source.ocaml.interface",
+      "file-types": [
+        "mli"
+      ],
+      "path": "interface",
+      "injection-regex": "^ocaml_interface$"
+    }
+  ]
+}

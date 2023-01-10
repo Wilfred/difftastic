@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+root="$PWD"
+
+clone_repo() {
+  local owner=$1
+  local name=$2
+  local sha=$3
+  local path="$root/examples/$name"
+
+  if [ -d "$path" ]; then
+    pushd "$path" > /dev/null
+    if [ "$(git rev-parse HEAD 2>/dev/null)" == "$sha"  ]; then
+      popd > /dev/null
+      return
+    else
+      popd > /dev/null
+      rm -rf "$path"
+      echo "Updating $owner/$name to $sha"
+    fi
+  else
+    echo "Cloning $owner/$name"
+  fi
+
+  mkdir -p "$path"
+  pushd "$path" > /dev/null
+  git init
+  git remote add origin "https://github.com/$owner/$name"
+  git pull --ff-only --depth 1 origin "$sha"
+  popd > /dev/null
+}
+
+clone_repo desktop desktop d1324f56d02dd9afca5d2e9da545905a7d41d671
+clone_repo reduxjs redux 45111a63d39a0c0fbd8b5417b2ad623718d42d66
+clone_repo microsoft vscode bead496a613e475819f89f08e9e882b841bc1fe8
+
+known_failures="$(cat script/known-failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.ts' \
+  'examples/**/*.tsx' \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.ts*' -or -name '*.tx' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent

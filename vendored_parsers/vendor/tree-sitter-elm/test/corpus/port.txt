@@ -1,0 +1,37 @@
+================================================================================
+module statement exposing all
+================================================================================
+
+
+port module Ports exposing (foo)
+
+
+port foo : String -> Cmd msg
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (port)
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier))))
+  (port_annotation
+    (port)
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_variable
+          (lower_case_identifier))))))

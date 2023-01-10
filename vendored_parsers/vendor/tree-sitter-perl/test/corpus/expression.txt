@@ -1,0 +1,204 @@
+=================================================
+scalar declaration
+=================================================
+
+my $a;
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (scalar_variable)
+  ) (semi_colon))
+)
+
+
+=================================================
+scalar declaration with initialization
+=================================================
+
+my $a = 3;
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (scalar_variable)) (integer) (semi_colon))
+)
+
+=================================================
+multi declaration with initialization
+=================================================
+
+my ($self, $args) = @_;
+
+---
+
+(source_file
+  (variable_declaration (scope)
+    (multi_var_declaration
+      (variable_declarator (scalar_variable)) (variable_declarator (scalar_variable))
+    ) (special_array_variable) (semi_colon)
+  )
+)
+
+=================================================
+array declaration
+=================================================
+
+my @array;
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (array_variable)
+  ) (semi_colon))
+)
+
+=================================================
+array declaration with initialization
+=================================================
+
+my @array = ('meow', 'woof', 'burp');
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration
+    (array_variable)) (array (string_single_quoted) (string_single_quoted) (string_single_quoted)) (semi_colon))
+)
+
+=================================================
+hash ref with initialization
+=================================================
+
+my $hash = {
+  'cat' => 'meow',
+  "cow" => 'moo',
+  dog => 'woof',
+};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable))
+    (hash_ref
+      (string_single_quoted) (hash_arrow_operator) (string_single_quoted)
+      (string_double_quoted) (hash_arrow_operator) (string_single_quoted)
+      (bareword) (hash_arrow_operator) (string_single_quoted))
+    (semi_colon)))
+
+=================================================
+use statement
+=================================================
+
+use Data::Dumper;
+
+---
+
+(source_file
+  (use_no_statement (package_name (identifier) (identifier)) (semi_colon))
+)
+
+=================================================
+no statement
+=================================================
+
+no strict 'refs';
+
+---
+
+(source_file
+  (use_no_statement (package_name (identifier)) (string_single_quoted) (semi_colon))
+)
+
+=================================================
+require statement
+=================================================
+
+require Data::Dumper;
+
+---
+
+(source_file
+  (require_statement (package_name (identifier) (identifier)) (semi_colon))
+)
+
+=================================================
+single line comment
+=================================================
+
+# this is a single line comment
+
+---
+
+(source_file
+  (comments)
+)
+
+=================================================
+length of an array
+=================================================
+
+$#array;
+
+---
+
+(source_file
+  (scalar_variable) (semi_colon)
+)
+
+=================================================
+single quoted string with # in it
+=================================================
+
+my $string = 'I have # in me';
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+)
+
+=================================================
+single quoted string with the only one supported escaping
+=================================================
+
+my $string = 'I have \' escaping in me';
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+)
+
+=================================================
+Double quoted string with escape sequence
+=================================================
+
+"this is a string \n in next line at the end";
+
+---
+
+(source_file
+  (string_double_quoted (escape_sequence)) (semi_colon)
+)
+
+=================================================
+<STDIN>
+=================================================
+
+while (<>) {}
+my $fh = \*STDIN;
+my $line = <$fh>;
+
+---
+
+(source_file
+  (while_statement (empty_parenthesized_expression (standard_input))
+    (block)
+  )
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input_to_variable (scalar_variable)) (semi_colon))
+)

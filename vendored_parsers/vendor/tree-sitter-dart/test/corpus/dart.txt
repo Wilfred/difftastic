@@ -1,0 +1,360 @@
+========================================
+dart if statements
+========================================
+
+if (z) return n;
+
+---
+
+(program
+(if_statement
+      (parenthesized_expression (identifier))
+      (return_statement (identifier))))
+
+=========================================
+dart string literals
+=========================================
+
+get a => "";
+get a => "\"";
+get a => "This' is a string $mystring";
+get a => '''This" is a
+string ${mystring}''';
+get a => 'Also a string';
+
+---
+
+(program
+  (getter_signature (identifier)) (function_body (string_literal))
+  (getter_signature (identifier)) (function_body (string_literal (escape_sequence)))
+  (getter_signature (identifier)) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+   (getter_signature (identifier)) (function_body (string_literal (template_substitution (identifier))))
+  (getter_signature (identifier)) (function_body (string_literal)))
+
+=========================================
+dart string literals 2
+=========================================
+
+get a => "";
+get a => "\"";
+get a => """This' is a string $mystring""";
+get a => '''This" is a $
+string mystring''';
+get a => '''Also a string''';
+
+---
+
+(program
+(getter_signature   (identifier)) (function_body (string_literal))
+ (getter_signature (identifier)) (function_body (string_literal (escape_sequence)))
+  (getter_signature (identifier)) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+  (getter_signature (identifier)) (function_body (string_literal))
+  (getter_signature (identifier)) (function_body (string_literal)))
+=========================================
+dart string literals raw
+=========================================
+
+get a => "";
+get a => r"\";
+get a => """This' is a string $mystring""";
+get a => '''This" is a $
+string mystring''';
+get a => r'''Also a string''';
+
+---
+
+(program
+  (getter_signature (identifier)) (function_body  (string_literal))
+  (getter_signature (identifier)) (function_body (string_literal))
+  (getter_signature (identifier)) (function_body (string_literal (template_substitution (identifier_dollar_escaped))))
+  (getter_signature (identifier)) (function_body (string_literal))
+  (getter_signature (identifier)) (function_body (string_literal)))
+
+
+==================================================
+dart identifier name r (used to conflict/error with raw string literal)
+==================================================
+
+String hello(r) => 'hello';
+
+---
+(program 
+  (function_signature (type_identifier) (identifier) 
+    (formal_parameter_list (formal_parameter (identifier)))) (function_body (string_literal))) 
+
+==================================================
+dart set literals
+==================================================
+
+class A {
+  int b() {
+    var c = {vala};
+    var c = {vala: 'g'};
+  }
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature (function_signature
+        (type_identifier)
+        name: (identifier)
+        (formal_parameter_list)))
+        (function_body (block
+          (local_variable_declaration
+          (initialized_variable_definition
+
+            (inferred_type)
+
+              name: (identifier)
+              value: (set_or_map_literal (identifier))
+              ))
+           (local_variable_declaration
+           (initialized_variable_definition
+
+              (inferred_type)
+              name: (identifier)
+              value: (set_or_map_literal (pair key: (identifier) value: (string_literal)))
+           )
+           ))
+              ))))
+
+==================================================
+embedded control flow for collections
+==================================================
+
+class A {
+  int b() {
+    var c = {if (z) vala};
+    var c = {vala: 'g'};
+  }
+}
+
+---
+
+(program
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature (function_signature
+        (type_identifier)
+        name: (identifier)
+        (formal_parameter_list)))
+        (function_body (block
+          (local_variable_declaration
+          (initialized_variable_definition
+                      (inferred_type)
+                        name: (identifier)
+                        value: (set_or_map_literal (if_element
+                        condition: (parenthesized_expression (identifier))
+                        consequence: (identifier)
+                        ))
+          )
+              )
+           (local_variable_declaration
+           (initialized_variable_definition
+                        (inferred_type)
+                         name: (identifier)
+                         value: (set_or_map_literal (pair key: (identifier) value: (string_literal)))
+           )
+              ))
+              )
+              )))
+===================
+Positional Parameters
+===================
+
+class Beyonce {
+  void calculateAnswer(double wingSpan, int numberOfEngines,
+                       [double length, double grossTons]) {
+      //do the calculation here
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))
+          (optional_formal_parameters
+          (formal_parameter (type_identifier) (identifier))
+          (formal_parameter (type_identifier) (identifier))))))
+        (function_body (block (comment))))))
+
+==================================================
+collection trailing commas
+==================================================
+
+final map = {"hello": "world",};
+final set = {"hello", "world"};
+
+---
+
+(program 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) 
+    (set_or_map_literal (pair (string_literal) (string_literal))))) 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) 
+    (set_or_map_literal (string_literal) (string_literal)))))
+
+==================================================
+collection literal type parameters
+==================================================
+
+final dynamic opts = <dynamic, dynamic>{
+  'transports': ['websocket'],
+  'forceNew': true,
+};
+
+---
+
+(program (final_builtin) (type_identifier) (static_final_declaration_list (static_final_declaration (identifier) 
+  (set_or_map_literal (type_arguments (type_identifier) (type_identifier)) (pair (string_literal) 
+    (list_literal (string_literal))) (pair (string_literal) (true))))))
+
+==================================================
+extensions on integer literals
+==================================================
+
+void main() {
+  await Future.delayed(10.milliseconds, () {});
+}
+
+---
+
+(program 
+  (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block (expression_statement (unary_expression 
+    (await_expression (identifier) (selector (unconditional_assignable_selector (identifier))) (selector (argument_part 
+    (arguments (argument (decimal_integer_literal) (selector (unconditional_assignable_selector (identifier))))
+      (argument (function_expression (formal_parameter_list) (function_expression_body (block)))))))))))))
+
+
+==================================================
+part directive
+==================================================
+
+part 'hello.dart';
+
+---
+
+(program (part_directive (uri (string_literal))))
+
+==================================================
+part of directive
+==================================================
+
+part of 'hello.dart';
+
+---
+
+(program (part_of_directive (uri (string_literal))))
+
+==================================================
+extension methods
+==================================================
+
+extension Hello on String {
+  String get hello => 'hello';
+}
+
+---
+
+(program 
+  (extension_declaration (identifier) (type_identifier) (extension_body 
+    (method_signature (getter_signature (type_identifier) (identifier))) (function_body (string_literal)))))
+
+==================================================
+library directive
+==================================================
+
+library myLibrary;
+
+---
+
+(program (library_name (dotted_identifier_list (identifier))))
+
+==================================================
+scoped library directive
+==================================================
+
+library myLibrary.a.cool.library;
+
+---
+
+(program (library_name (dotted_identifier_list (identifier) (identifier) (identifier) (identifier))))
+
+
+==================================================
+redirecting factories
+==================================================
+@freezed
+abstract class MyDataClass implements _$MyDataClass {
+  const factory MyDataClass.initialize({@Default(false) bool debug}) =  _MyDataClassInitialize;
+  factory MyDataClass.debug() => MyDataClass.initialize(debug: true);
+}
+
+---
+
+(program 
+  (marker_annotation (identifier)) 
+  (class_definition (identifier) (interfaces (type_identifier)) 
+    (class_body 
+      (declaration (redirecting_factory_constructor_signature (const_builtin) (identifier) (identifier) (formal_parameter_list 
+        (optional_formal_parameters (formal_parameter 
+          (annotation (identifier) (arguments (argument (false)))) (type_identifier) (identifier)))) (type_identifier))) 
+      (method_signature (factory_constructor_signature (identifier) (identifier) (formal_parameter_list))) 
+        (function_body (identifier) (selector (unconditional_assignable_selector (identifier))) 
+          (selector (argument_part (arguments (named_argument (label (identifier)) (true)))))))))
+
+
+======================================
+setter expressions
+======================================
+
+class MyClass {
+  set editing(bool value) {
+    _editing = value;
+  }
+}
+
+---
+
+(program (class_definition (identifier) 
+  (class_body (method_signature 
+    (setter_signature (identifier) 
+      (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
+        (function_body (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
+
+
+======================================
+Basic selector
+======================================
+
+void main() {
+  f(a.b);
+}
+
+---
+
+ (program 
+  (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block 
+    (expression_statement 
+      (identifier) 
+        (selector (argument_part 
+          (arguments 
+            (argument 
+              (identifier) 
+              (selector (unconditional_assignable_selector (identifier)))))))))))

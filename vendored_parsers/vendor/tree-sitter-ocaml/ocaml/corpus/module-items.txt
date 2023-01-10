@@ -1,0 +1,215 @@
+==============================
+External
+==============================
+
+external x : int = "x"
+external x : 'a . 'a = "x"
+
+---
+
+(compilation_unit
+  (external
+    (value_name)
+    (type_constructor_path (type_constructor))
+    (string (string_content)))
+  (external
+    (value_name)
+    (polymorphic_type (type_variable) (type_variable))
+    (string (string_content))))
+
+==============================
+Type definition
+==============================
+
+type t
+type nonrec 'a t = t and ('a, 'b) t = t
+type t = private t
+type t = A | B of t | C of t * t | D of {x : t}
+type _ t =
+  | A : t -> t
+  | B : 'a . 'a -> 'a t
+type t = {
+  mutable x : t;
+}
+type t = t constraint 'a = t
+type t = |
+
+---
+
+(compilation_unit
+  (type_definition (type_binding (type_constructor)))
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_constructor)
+      (type_constructor_path (type_constructor)))
+    (type_binding
+      (type_variable) (type_variable)
+      (type_constructor)
+      (type_constructor_path (type_constructor))))
+  (type_definition (type_binding (type_constructor) (type_constructor_path (type_constructor))))
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (variant_declaration
+        (constructor_declaration (constructor_name))
+        (constructor_declaration
+          (constructor_name)
+          (type_constructor_path (type_constructor)))
+        (constructor_declaration
+          (constructor_name)
+          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
+        (constructor_declaration
+          (constructor_name)
+          (record_declaration
+            (field_declaration
+              (field_name)
+              (type_constructor_path (type_constructor))))))))
+  (type_definition
+    (type_binding
+      (type_variable)
+      (type_constructor)
+      (variant_declaration
+        (constructor_declaration
+          (constructor_name)
+          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
+        (constructor_declaration
+          (constructor_name)
+          (type_variable)
+          (type_variable)
+          (constructed_type (type_variable) (type_constructor_path (type_constructor)))))))
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (record_declaration
+        (field_declaration (field_name) (type_constructor_path (type_constructor))))))
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (type_constructor_path (type_constructor))
+      (type_constraint (type_variable) (type_constructor_path (type_constructor)))))
+  (type_definition
+    (type_binding
+      (type_constructor)
+      (variant_declaration))))
+
+==============================
+Exception definition
+==============================
+
+exception E
+exception E of t
+
+---
+
+(compilation_unit
+  (exception_definition (constructor_declaration (constructor_name)))
+  (exception_definition
+    (constructor_declaration
+      (constructor_name)
+      (type_constructor_path (type_constructor)))))
+
+==============================
+Module definition
+==============================
+
+module M
+module M : T
+module M (M : T) : E
+module rec M : T and M : T
+
+module M = M
+module M := M
+module M : T = M
+module M (M : T) = M
+module rec M = N and N = M
+
+module _ (_ : T) = M
+
+---
+
+(compilation_unit
+  (module_definition
+    (module_binding
+      (module_name)))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_path (module_type_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_parameter (module_name) (module_type_path (module_type_name)))
+      (module_type_path (module_type_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_path (module_type_name)))
+    (module_binding
+      (module_name)
+      (module_type_path (module_type_name))))
+
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_type_path (module_type_name))
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_parameter (module_name) (module_type_path (module_type_name)))
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path (module_name)))
+    (module_binding
+      (module_name)
+      (module_path (module_name))))
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_parameter (module_name) (module_type_path (module_type_name)))
+      (module_path (module_name)))))
+
+==============================
+Module type definition
+==============================
+
+module type T = T
+module type T := T
+
+---
+
+(compilation_unit
+  (module_type_definition
+    (module_type_name)
+    (module_type_path (module_type_name)))
+  (module_type_definition
+    (module_type_name)
+    (module_type_path (module_type_name))))
+
+==============================
+Open
+==============================
+
+open M
+open! M
+open ! M
+
+---
+
+(compilation_unit
+  (open_module (module_path (module_name)))
+  (open_module (module_path (module_name)))
+  (open_module (module_path (module_name))))

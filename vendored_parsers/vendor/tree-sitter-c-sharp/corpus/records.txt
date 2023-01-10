@@ -1,0 +1,411 @@
+=====================================
+Basic record declaration
+=====================================
+
+record F {
+  int Age { get; init; }
+}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Basic record struct declaration
+=====================================
+
+record struct F {
+  int Age { get; init; }
+}
+
+---
+
+(compilation_unit
+  (record_struct_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Record class with optional `class` specification
+=====================================
+
+record class F {
+  int Age { get; init; }
+}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Record with a type parameter struct constraint
+=====================================
+
+public record F<T> where T:struct {}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier) (type_parameter_constraint))
+    (declaration_list)))
+
+=====================================
+Record with a type parameter class constraint
+=====================================
+
+public record F<T> where T:class {}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier) (type_parameter_constraint))
+    (declaration_list)))
+
+=====================================
+Record with type parameter new constraint
+=====================================
+
+public record F<T> where T: new() {}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (constructor_constraint)))
+    (declaration_list)))
+
+=====================================
+Record with interface
+=====================================
+
+public record A : ISomething { }
+
+---
+
+(compilation_unit
+  (record_declaration
+    (modifier)
+    (identifier)
+    (base_list (identifier))
+    (declaration_list)))
+
+=====================================
+Record with multiple type parameter constraints
+=====================================
+
+[Nice]
+private record F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+
+---
+
+(compilation_unit
+  (record_declaration
+    (attribute_list
+      (attribute (identifier)))
+    (modifier)
+    (identifier)
+     (type_parameter_list
+      (type_parameter (identifier))
+      (type_parameter (identifier)))
+     (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (type_constraint (identifier)))
+      (type_parameter_constraint (type_constraint (identifier)))
+      (type_parameter_constraint (constructor_constraint)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (type_constraint (identifier))))
+    (declaration_list)))
+
+=====================================
+Record with constructor
+=====================================
+
+record Person(string FirstName, string LastName);
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (parameter_list
+      (parameter (predefined_type) (identifier))
+      (parameter (predefined_type) (identifier)))))
+
+=====================================
+Record inheritance with constructor overload
+=====================================
+
+record Teacher(string FirstName, string LastName, string Subject) : Person(FirstName, LastName);
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (parameter_list (parameter (predefined_type) (identifier))
+      (parameter (predefined_type) (identifier))
+      (parameter (predefined_type) (identifier)))
+    (base_list
+      (primary_constructor_base_type
+        (identifier)
+        (argument_list
+          (argument (identifier))
+          (argument (identifier)))))))
+
+=====================================
+Record inheritance with constructor overload and interfaces
+=====================================
+
+record Teacher(string FirstName, string LastName, string Subject) : Person(FirstName, LastName), I1, I2;
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (parameter_list (parameter (predefined_type) (identifier))
+      (parameter (predefined_type) (identifier))
+      (parameter (predefined_type) (identifier)))
+    (base_list
+      (primary_constructor_base_type
+        (identifier)
+        (argument_list
+          (argument (identifier))
+          (argument (identifier))))
+      (identifier)
+      (identifier))))
+
+=====================================
+Record types can seal ToString()
+=====================================
+
+record A{
+  public sealed override string ToString(){
+      return "";
+  }
+}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (modifier)
+        (modifier)
+        (modifier)
+        (predefined_type)
+        (identifier)
+        (parameter_list)
+        (block
+          (return_statement (string_literal))))))) 
+
+=====================================
+With expression typical basic form
+=====================================
+
+void A() {
+  var newFriend = friend with { LastName = "Edwards" };
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (with_expression
+                  (identifier)
+                  (with_initializer_expression
+                    (simple_assignment_expression
+                      (identifier)
+                      (string_literal))))))))))))
+
+=====================================
+With expression using expressions
+=====================================
+
+void A() {
+  var friend = GetAFriend() with {
+      ForeName = RandomFirstName(),
+      LastName = RandomLastName()
+  };
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement (void_keyword) (identifier) (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (with_expression
+                  (invocation_expression (identifier) (argument_list))
+                  (with_initializer_expression
+                    (simple_assignment_expression
+                      (identifier)
+                      (invocation_expression (identifier) (argument_list)))
+                    (simple_assignment_expression
+                      (identifier)
+                      (invocation_expression (identifier) (argument_list)))))))))))))
+
+=====================================
+Precedence between with and cast
+=====================================
+
+var x = (Point) p1 with {X = 3};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (with_expression
+              (cast_expression
+                (identifier)
+                (identifier))
+              (with_initializer_expression
+                (simple_assignment_expression
+                  (identifier)
+                  (integer_literal))))))))))
+
+=====================================
+Precedence between with and switch
+=====================================
+
+var x = p1 with {X = 3} switch { _ => 3 };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (switch_expression
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (switch_expression_arm
+                (discard)
+                (integer_literal)))))))))
+
+=====================================
+Precedence between with and equals
+=====================================
+
+var x = p1 with {X = 3} == p1 with {X = 4};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal)))))))))))
+
+=====================================
+Associativity of with expression
+=====================================
+
+var x = p1 with {X = 3} with {X = 4} with {X = 5};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (with_expression
+              (with_expression
+                (with_expression
+                  (identifier)
+                  (with_initializer_expression
+                    (simple_assignment_expression
+                      (identifier)
+                      (integer_literal))))
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (with_initializer_expression
+                (simple_assignment_expression
+                  (identifier)
+                  (integer_literal))))))))))

@@ -1,0 +1,84 @@
+=====================================
+simple literal
+=====================================
+
+:atom
+:_az_AZ_19_
+:nonode@nohost
+:bang!
+:question?
+
+---
+
+(source
+  (atom)
+  (atom)
+  (atom)
+  (atom)
+  (atom))
+
+=====================================
+operators
+=====================================
+
+[:~~~, :~>>, :~>, :|||, :||, :|>, :|, :>>>, :>=, :>, :=~, :===, :==, :=, :<~>, :<~, :<|>, :<>, :<=, :<<~, :<<<, :<-, :<, :+++, :++, :+, :^^^, :^, :&&&, :&&, :&, :\\, :/, :**, :*, :@, :.., :., :!==, :!=, :!, :::, :->, :---, :--, :-]
+
+---
+
+(source
+  (list (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom) (atom)))
+
+=====================================
+special operator-like atoms
+=====================================
+
+[:..., :%{}, :{}, :%, :<<>>, :..//]
+
+---
+
+(source
+  (list
+    (atom)
+    (atom)
+    (atom)
+    (atom)
+    (atom)
+    (atom)))
+
+=====================================
+quoted atom
+=====================================
+
+:"atom ?? !! ' \n"
+:'atom ?? !! " \n'
+
+---
+
+(source
+  (quoted_atom
+    (quoted_content)
+    (escape_sequence))
+  (quoted_atom
+    (quoted_content)
+    (escape_sequence)))
+
+=====================================
+interpolation
+=====================================
+
+:"hey #{name}!"
+:'hey #{name}!'
+
+---
+
+(source
+  (quoted_atom
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content))
+  (quoted_atom
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content)))

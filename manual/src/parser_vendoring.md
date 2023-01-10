@@ -12,7 +12,7 @@ To update a parser, pull commits from the upstream git repository. For
 example, the following command will update the Java parser:
 
 ```
-$ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
+$ git subtree pull --prefix=vendored_parsers/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
 ```
 
 To see when each parser was last updated, use the following shell

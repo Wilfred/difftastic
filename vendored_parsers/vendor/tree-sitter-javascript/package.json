@@ -1,0 +1,40 @@
+{
+  "name": "tree-sitter-javascript",
+  "version": "0.20.0",
+  "description": "Javascript grammar for node-tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-javascript.git"
+  },
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "scripts": {
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.js",
+      "file-types": [
+        "js"
+      ],
+      "highlights": [
+        "queries/highlights-jsx.scm",
+        "queries/highlights-params.scm",
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^(js|javascript)$"
+    }
+  ]
+}

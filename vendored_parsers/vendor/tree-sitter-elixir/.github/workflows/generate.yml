@@ -1,0 +1,44 @@
+name: Generate
+on:
+  push:
+    branches:
+      - main
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Generate parser
+        run: |
+          npx tree-sitter generate
+          npx tree-sitter build-wasm
+      - name: Update parser files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Generate parser
+          file_pattern: src
+      - name: Checkout gh-pages branch to ./gh-pages
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: ./gh-pages
+      - run: mv *.wasm ./gh-pages
+      - name: Update WASM file on gh-pages branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Generate WASM
+          file_pattern: "*.wasm"
+          repository: ./gh-pages

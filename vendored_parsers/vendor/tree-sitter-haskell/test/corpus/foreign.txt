@@ -1,0 +1,49 @@
+================================================================================
+foreign: safety, calling convention
+================================================================================
+
+foreign import ccall interruptible "safe import" a :: A
+foreign import prim "prim" a :: (# A#, A# #)
+foreign export stdcall unsafe "unsafe import" a :: A
+foreign export cplusplus safe "safe import" a :: A
+foreign import jvm unsafe "unsafe import" a :: A
+foreign import dotnet unsafe "unsafe import" a :: A
+foreign import capi unsafe "unsafe import" a :: A
+
+---
+
+(haskell
+ (foreign_import
+  (calling_convention)
+  (safety)
+  (impent (string))
+  (signature (variable) (type_name (type))))
+ (foreign_import
+  (calling_convention)
+  (impent (string))
+  (signature (variable) (type_unboxed_tuple (type_name (type)) (comma) (type_name (type)))))
+ (foreign_export
+  (calling_convention)
+  (safety)
+  (expent (string))
+  (signature (variable) (type_name (type))))
+ (foreign_export
+  (calling_convention)
+  (safety)
+  (expent (string))
+  (signature (variable) (type_name (type))))
+ (foreign_import
+  (calling_convention)
+  (safety)
+  (impent (string))
+  (signature (variable) (type_name (type))))
+ (foreign_import
+  (calling_convention)
+  (safety)
+  (impent (string))
+  (signature (variable) (type_name (type))))
+ (foreign_import
+  (calling_convention)
+  (safety)
+  (impent (string))
+  (signature (variable) (type_name (type)))))

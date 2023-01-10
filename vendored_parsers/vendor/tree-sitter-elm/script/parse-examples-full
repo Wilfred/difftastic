@@ -1,0 +1,65 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.."
+
+function checkout() {
+  repo=$1; url=$2;
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard HEAD
+  popd
+}
+
+# Define list of arguments expected in the input
+optstring="s"
+
+while getopts ${optstring} arg; do
+  case ${arg} in
+    s)
+      SKIP_DOWNLOAD='true'
+      echo "Skip download"
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      ;;
+  esac
+done
+
+echo "Finding libs"
+libs_to_parse=$(grep -Po '"name":.*?[^\\]",' ./script/search.json | perl -pe 's/"name": "//; s/^"//; s/",$//')
+libs_not_to_parse=$(grep -Po '".+"' ./script/error-packages.json | perl -pe 's/^"//; s/"$//')
+
+for lib in $libs_to_parse; do
+    if [[ $libs_not_to_parse != *$lib* && $SKIP_DOWNLOAD != 'true' ]]; then
+      echo $lib
+      checkout "examples-full/$lib" "$lib"
+    fi
+done
+
+echo "Finding applications"
+applications_to_parse=$(grep -Po '".+"' ./script/applications.json | perl -pe 's/^"//; s/"$//')
+
+if [[ $SKIP_DOWNLOAD != 'true' ]]; then
+  for project in $applications_to_parse; do
+        echo $project
+        checkout "examples-full/$project" "$project"
+  done
+fi
+
+
+start=`date +%s.%N`
+tree_sitter_report=$(npx tree-sitter parse examples-full/**/*.elm --quiet --stat)
+end=`date +%s.%N`
+
+ret_code=$?
+
+echo -e "-----------------------------------------------------------------\n$tree_sitter_report \n -----------------------------------------------------------------\n"
+
+runtime=$( echo "$end - $start" | bc -l )
+
+printf "Took: %s\n" $runtime
+
+exit $ret_code

@@ -1,0 +1,192 @@
+================================================================================
+basic block
+================================================================================
+
+block_1 {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (block_end))))
+
+================================================================================
+basic block on one line
+================================================================================
+
+block_1 {}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (block_end))))
+
+================================================================================
+basic block with empty type
+================================================================================
+
+block_1 "" {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (quoted_template_end))
+      (block_start)
+      (block_end))))
+
+================================================================================
+block with attribute
+================================================================================
+
+block_1 "strlit1" "strlit2" {
+    attr1 = "val1"
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))))
+
+================================================================================
+nested block
+================================================================================
+
+block_1 {
+  block_2 {
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (block
+          (identifier)
+          (block_start)
+          (block_end)))
+      (block_end))))
+
+================================================================================
+nested block on one line
+================================================================================
+
+block_1 {
+  block_2 {}
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (block
+          (identifier)
+          (block_start)
+          (block_end)))
+      (block_end))))
+
+================================================================================
+nested blocks
+================================================================================
+
+block_1 {
+  block_2 {}
+  block_3 {}
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (block
+          (identifier)
+          (block_start)
+          (block_end))
+        (block
+          (identifier)
+          (block_start)
+          (block_end)))
+      (block_end))))
+
+================================================================================
+one line block
+================================================================================
+
+locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
+
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (function_call
+              (identifier)
+              (function_arguments
+                (expression
+                  (function_call
+                    (identifier)))
+                (expression
+                  (literal_value
+                    (string_lit
+                      (quoted_template_start)
+                      (template_literal)
+                      (quoted_template_end))))
+                (expression
+                  (literal_value
+                    (string_lit
+                      (quoted_template_start)
+                      (quoted_template_end)))))))))
+      (block_end))))

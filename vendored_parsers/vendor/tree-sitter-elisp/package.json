@@ -1,0 +1,33 @@
+{
+  "name": "tree-sitter-elisp",
+  "version": "1.3.0",
+  "description": "tree-sitter grammar for Emacs Lisp",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "highlight": "tree-sitter highlight",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test"
+  },
+  "author": "Wilfred Hughes <me@wilfred.me.uk>",
+  "repository": "https://github.com/Wilfred/tree-sitter-elisp",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.emacs.lisp",
+      "file-types": [
+        "el"
+      ]
+    }
+  ]
+}

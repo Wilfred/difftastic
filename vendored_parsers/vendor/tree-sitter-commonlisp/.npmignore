@@ -1,0 +1,4 @@
+test
+node_modules
+build
+*.lisp

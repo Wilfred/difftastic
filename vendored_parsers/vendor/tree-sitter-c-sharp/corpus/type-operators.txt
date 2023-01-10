@@ -1,0 +1,184 @@
+=======================================
+Operator declarations
+=======================================
+
+class A
+{
+  [SomeAttribute]
+  public static int operator +(A a) { return 0; }
+
+  public static int operator +(A a, A b) { return 0; }
+
+  int operator -(A a) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration
+        (attribute_list (attribute (identifier)))
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (integer_literal))))
+      (operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (block (return_statement (integer_literal))))
+      (operator_declaration
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (integer_literal)))))))
+
+=======================================
+boolean operator declarations
+=======================================
+
+class A
+{
+  public static bool operator true(A a) { return true; }
+  bool operator false(A a) { return false; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (boolean_literal))))
+      (operator_declaration
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (block (return_statement (boolean_literal)))))))
+
+=======================================
+conversion operator declaration
+=======================================
+
+class A
+{
+  public static implicit operator int (A a) { return 0; }
+  explicit operator int (A a) { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (conversion_operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list (parameter (identifier) (identifier)))
+        (block (return_statement (integer_literal))))
+      (conversion_operator_declaration
+        (predefined_type)
+        (parameter_list (parameter (identifier) (identifier)))
+        (block (return_statement (integer_literal)))))))
+
+=======================================
+conversion operator with expression body
+=======================================
+
+class A
+{
+  public static implicit operator int (A a) => 0;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (conversion_operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list (parameter (identifier) (identifier)))
+        (arrow_expression_clause (integer_literal))))))
+
+=======================================
+extern operators
+=======================================
+
+class A
+{
+  public static extern int operator + (A a);
+  public static extern bool operator <(A a, A b);
+  public static explicit operator int (A a);
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration
+        (modifier) (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier))))
+      (operator_declaration
+        (modifier) (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier))))
+      (conversion_operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list (parameter (identifier) (identifier)))))))
+
+=======================================
+Class conversion operators with expression body
+=======================================
+
+class A
+{
+  public static extern int operator + (A a) => 0;
+  public static extern bool operator <(A a, A b) => true;
+  public static explicit operator int (A a) => 0;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (operator_declaration
+        (modifier) (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (arrow_expression_clause (integer_literal)))
+      (operator_declaration
+        (modifier) (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier))
+          (parameter (identifier) (identifier)))
+        (arrow_expression_clause (boolean_literal)))
+      (conversion_operator_declaration
+        (modifier) (modifier)
+        (predefined_type)
+        (parameter_list
+          (parameter (identifier) (identifier)))
+        (arrow_expression_clause (integer_literal))))))

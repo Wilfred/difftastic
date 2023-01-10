@@ -1,0 +1,27 @@
+================================================================================
+consym: valid
+================================================================================
+
+data A = Int :+ Int
+
+---
+
+(haskell
+ (adt
+  (type)
+  (constructors
+   (data_constructor_infix
+    (type_name (type))
+    (constructor_operator)
+    (type_name (type))))))
+
+
+================================================================================
+consym: error: ::
+================================================================================
+
+data A = Int :: Int
+
+---
+
+(haskell (adt (type) (constructors (data_constructor (constructor) (ERROR) (type_name (type))))))

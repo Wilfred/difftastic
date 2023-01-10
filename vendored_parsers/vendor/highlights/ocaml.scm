@@ -1,0 +1,1 @@
+../tree-sitter-ocaml/queries/highlights.scm

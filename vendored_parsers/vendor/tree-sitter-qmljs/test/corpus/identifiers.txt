@@ -1,0 +1,690 @@
+================================================================================
+Reserved words as identifiers
+================================================================================
+
+MyItem {
+    NumberAnimation {
+        required property
+    }
+
+    NumberAnimation {
+        property: "foo"
+    }
+
+    Component {
+        id: component
+    }
+
+    QtObject {
+        property var any
+        property var async
+        property var component
+        property var declare
+        property var from
+        property var get
+        property var module
+        property var namespace
+        property var never
+        property var number
+        property var object
+        property var of
+        property var on
+        property var override
+        property var property
+        property var readonly
+        property var required
+        property var set
+        property var signal
+        property var string
+        property var symbol
+        property var type
+        property var unknown
+        property var yield
+    }
+
+    QtObject {
+        signal any
+        signal async
+        signal declare
+        signal module
+        signal namespace
+        signal never
+        signal number
+        signal object
+        signal override
+        signal string
+        signal symbol
+        signal type
+        signal unknown
+        signal yield
+    }
+
+    QtObject {
+        function any() {}
+        function async() {}
+        function component() {}
+        function declare() {}
+        function from() {}
+        function get() {}
+        function module() {}
+        function namespace() {}
+        function never() {}
+        function number() {}
+        function object() {}
+        function of() {}
+        function on() {}
+        function override() {}
+        function property() {}
+        function readonly() {}
+        function required() {}
+        function set() {}
+        function signal() {}
+        function static() {}
+        function string() {}
+        function symbol() {}
+        function type() {}
+        function unknown() {}
+        function yield() {}
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_required
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))
+          (ui_property
+            type: (type_identifier)
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))
+          (ui_signal
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (function_declaration
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (statement_block)))))))
+
+================================================================================
+Reserved words as expressions
+================================================================================
+
+MyItem {
+    QtObject { id: any }
+    // qml accepts this but doesn't look valid: QtObject { id: as }
+    QtObject { id: async }
+    QtObject { id: component }
+    QtObject { id: declare }
+    QtObject { id: false }
+    QtObject { id: from }
+    QtObject { id: get }
+    QtObject { id: module }
+    QtObject { id: namespace }
+    QtObject { id: never }
+    QtObject { id: null }
+    QtObject { id: number }
+    QtObject { id: object }
+    QtObject { id: of }
+    QtObject { id: on }
+    QtObject { id: override }
+    QtObject { id: property }
+    QtObject { id: readonly }
+    QtObject { id: required }
+    QtObject { id: set }
+    QtObject { id: signal }
+    QtObject { id: static }
+    QtObject { id: string }
+    QtObject { id: symbol }
+    QtObject { id: this }
+    QtObject { id: true }
+    QtObject { id: type }
+    QtObject { objectName: undefined }
+    QtObject { id: unknown }
+    QtObject { id: yield }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (false)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (null)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (this)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (true)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (undefined)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (yield_expression))))))))
+
+================================================================================
+Non-ascii type names
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qqmllanguage/data/i18nNameSpace.qml
+OtObject {
+    Áâãäå {}
+    Áâãäå.Áâãäå {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (ui_object_definition
+        (nested_identifier
+          (identifier)
+          (identifier))
+        (ui_object_initializer)))))
+
+================================================================================
+Escaped type names
+================================================================================
+
+OtObject {
+    \u0041lice {}     // "A"lice
+    B\u006f {}        // B"o"b
+    \u{00043}arol {}  // "C"arol
+    \u004audy {}      // "J"udy
+    \u005A {}         // "Z"
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment))))
+
+================================================================================
+Escaped property names
+================================================================================
+
+OtObject {
+    \u0061lice: "alice"
+    b\u006Fb: "bob"
+    \u{00063}arol: "carol"
+    \u006Audy: "judy"
+    \u007a: "z"
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment)))))))

@@ -1,0 +1,102 @@
+================================================================================
+UPDATE statement
+================================================================================
+
+UPDATE table1 SET col1 = 3, col2 = 4
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (update_statement
+    (identifier)
+    (set_clause
+      (set_clause_body
+        (assigment_expression
+          (identifier)
+          (number))
+        (assigment_expression
+          (identifier)
+          (number))))))
+
+================================================================================
+UPDATE statement with WHERE clause
+================================================================================
+
+UPDATE table1 SET col1 = 3, col2 = 4 WHERE col1 > col2
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (update_statement
+    (identifier)
+    (set_clause
+      (set_clause_body
+        (assigment_expression
+          (identifier)
+          (number))
+        (assigment_expression
+          (identifier)
+          (number))))
+    (where_clause
+      (binary_expression
+        (identifier)
+        (identifier)))))
+
+================================================================================
+UPDATE statement with FROM clause
+================================================================================
+
+UPDATE foo SET col1 = 1 FROM bar WHERE foo.id = bar.foo_id;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (update_statement
+    (identifier)
+    (set_clause
+      (set_clause_body
+        (assigment_expression
+          (identifier)
+          (number))))
+    (from_clause
+      (identifier))
+    (where_clause
+      (binary_expression
+        (dotted_name
+          (identifier)
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))))))
+
+================================================================================
+UPDATE with CTE
+================================================================================
+
+WITH t AS (
+    SELECT * FROM foo
+)
+UPDATE bar SET col1 = 3, col2 = 4;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (update_statement
+    (with_clause
+      (cte
+        (identifier)
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (asterisk_expression)))
+          (from_clause
+            (identifier)))))
+    (identifier)
+    (set_clause
+      (set_clause_body
+        (assigment_expression
+          (identifier)
+          (number))
+        (assigment_expression
+          (identifier)
+          (number))))))

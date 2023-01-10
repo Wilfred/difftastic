@@ -1,0 +1,109 @@
+=====================================
+atom
+=====================================
+
+:time_μs
+:"£"
+:'£'
+:こんにちは世界
+:Ólá
+:olá
+:Olá
+
+---
+
+(source
+  (atom)
+  (quoted_atom
+    (quoted_content))
+  (quoted_atom
+    (quoted_content))
+  (atom)
+  (atom)
+  (atom)
+  (atom))
+
+=====================================
+string
+=====================================
+
+"time_μs"
+"£"
+"こんにちは世界"
+"Ólá"
+"olá"
+"Olá"
+
+---
+
+(source
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
+    (quoted_content)))
+
+=====================================
+charlist
+=====================================
+
+'time_μs'
+'£'
+'こんにちは世界'
+'Ólá'
+'olá'
+'Olá'
+---
+
+(source
+  (charlist
+    (quoted_content))
+  (charlist
+    (quoted_content))
+  (charlist
+    (quoted_content))
+  (charlist
+    (quoted_content))
+  (charlist
+    (quoted_content))
+  (charlist
+    (quoted_content)))
+
+=====================================
+char
+=====================================
+
+?ł
+?μ
+?£
+?こ
+
+---
+
+(source
+  (char)
+  (char)
+  (char)
+  (char))
+
+=====================================
+variable
+=====================================
+
+time_μs
+こんにちは世界
+olá
+
+---
+
+(source
+  (identifier)
+  (identifier)
+  (identifier))

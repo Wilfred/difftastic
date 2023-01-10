@@ -1,0 +1,15 @@
+node_modules
+.node-version
+build
+*.log
+/test.js
+/examples/npm
+package-lock.json
+/parser.exp
+/parser.lib
+/parser.obj
+/scanner.obj
+/.idea/
+.dart_tool
+.packages
+pubspec.lock

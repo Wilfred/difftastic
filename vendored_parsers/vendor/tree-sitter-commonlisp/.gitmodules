@@ -1,0 +1,6 @@
+[submodule "test/Petalisp"]
+	path = test/Petalisp
+	url = https://github.com/marcoheisig/Petalisp.git
+[submodule "test/sly"]
+	path = test/sly
+	url = https://github.com/joaotavora/sly.git

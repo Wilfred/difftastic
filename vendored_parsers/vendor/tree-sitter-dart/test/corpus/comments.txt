@@ -1,0 +1,123 @@
+====
+comment
+====
+
+// This is a comment
+// comment with a link made in https://github.com/flutter/flutter/pull/48547
+// Changes made in https://github.com/flutter/flutter/pull/48547
+/* This is also a comment */
+/* this comment /* // /** ends here: */
+
+---
+
+(program (comment) (comment) (comment) (comment) (comment))
+
+======================
+comments and literals
+======================
+
+123;
+// comment
+
+---
+
+(program
+  (expression_statement (decimal_integer_literal))
+  (comment))
+
+======================
+documentation comment
+======================
+
+///  * [defaultSchedulingStrategy], the default [SchedulingStrategy] for [SchedulerBinding.schedulingStrategy].
+
+---
+(program (documentation_comment))
+
+
+======================
+documentation comment 1
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+  * with [: /// :].
+  */
+
+---
+
+(program (documentation_comment))
+
+======================
+documentation comment 2
+======================
+
+/**
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in [: /** ... */ :] or starts
+
+  */
+
+---
+
+(program (documentation_comment))
+
+======================
+fake documentation comment
+======================
+
+/*
+  * Is [:true:] if this comment is a documentation comment.
+  *
+  * That is, that the comment is either enclosed in /* var ...  */ var or starts
+
+  */
+
+---
+
+(program (comment))
+
+
+======================
+documentation comment 3
+======================
+
+/**
+  * Is this comment is a documentation comment.
+  *
+  * That is, that the comment i
+
+  */
+
+---
+
+(program (documentation_comment))
+
+
+
+======================
+regular comment 2
+======================
+
+/*
+  
+   Nested comment /* ... */ bbbbbbbbbbbb
+
+  */
+
+---
+
+(program (comment))
+
+======================
+regular comment 3
+======================
+
+/*/* ... */*/
+
+---
+
+(program (comment))

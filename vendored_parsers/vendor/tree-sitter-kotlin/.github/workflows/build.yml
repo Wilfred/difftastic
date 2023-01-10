@@ -1,0 +1,27 @@
+name: Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Compile grammar
+        run: npm run generate
+      - name: Run tests
+        run: npm test
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build and test crate
+        uses: actions-rs/cargo@v1
+        with:
+          command: test

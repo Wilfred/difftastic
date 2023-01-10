@@ -1,0 +1,31 @@
+[package]
+name = "tree-sitter-typescript"
+description = "Typescript grammar for the tree-sitter parsing library"
+version = "0.20.1"
+authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["incremental", "parsing", "typescript", "tsx"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-typescript"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "common",
+  "bindings/rust",
+  "typescript/grammar.js",
+  "typescript/src",
+  "tsx/grammar.js",
+  "tsx/src",
+  "queries"
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = ">= 0.19, < 0.21"
+
+[build-dependencies]
+cc = "1.0"

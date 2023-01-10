@@ -1,0 +1,23 @@
+.DS_Store
+.vscode
+.idea
+bin
+build
+local
+public
+node_modules
+*.swp
+*.wasm
+
+# Windows compiler
+*.exp
+*.lib
+*.obj
+
+# WASM
+*.asm.js
+*.wasm
+*.wasm.mem
+
+# Rust build artifacts
+target

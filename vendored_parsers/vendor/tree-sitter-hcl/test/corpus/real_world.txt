@@ -1,0 +1,547 @@
+================================================================================
+example 1
+================================================================================
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  token                  = data.aws_eks_cluster_auth.cluster.token
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (function_call
+              (identifier)
+              (function_arguments
+                (expression
+                  (variable_expr
+                    (identifier))
+                  (get_attr
+                    (identifier))
+                  (get_attr
+                    (identifier))
+                  (get_attr
+                    (identifier))
+                  (index
+                    (legacy_index))
+                  (get_attr
+                    (identifier))))))))
+      (block_end))))
+
+================================================================================
+example 2
+================================================================================
+
+locals {
+  storage_account_container_name           = var.storage_account_container_name == "" ? azurerm_storage_container.storage_account_container[0].name : var.storage_account_container_name
+  bootstrap_storage_account_container_name = var.bootstrap_storage_account_container_name == "" ? azurerm_storage_container.bootstrap_storage_account_container[0].name : var.bootstrap_storage_account_container_name
+}
+
+resource "azurerm_storage_container" "storage_account_container" {
+  count = var.storage_account_container_name == "" ? 1 : 0
+
+  name                  = var.storage_account_name
+  storage_account_name  = var.storage_account_name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "bootstrap_storage_account_container" {
+  count = var.bootstrap_storage_account_container_name == "" ? 1 : 0
+
+  name                  = var.bootstrap_storage_account_name
+  storage_account_name  = var.bootstrap_storage_account_name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "bootstrap_license" {
+  count = var.bootstrap_storage_account_container_name == "" ? 1 : 0
+
+  source                 = var.tfe_license_filepath
+  name                   = var.tfe_license_name
+  storage_account_name   = var.bootstrap_storage_account_name
+  storage_container_name = azurerm_storage_container.bootstrap_storage_account_container[0].name
+  type                   = "Page"
+}
+
+resource "azurerm_storage_blob" "proxy_cert" {
+  count = var.proxy_cert_name != "" && var.bootstrap_storage_account_container_name == "" ? 1 : 0
+
+  source                 = var.proxy_cert_path
+  name                   = var.proxy_cert_name
+  storage_account_name   = var.bootstrap_storage_account_name
+  storage_container_name = azurerm_storage_container.bootstrap_storage_account_container[0].name
+  type                   = "Block"
+}
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (variable_expr
+                  (identifier))
+                (get_attr
+                  (identifier))
+                (index
+                  (new_index
+                    (expression
+                      (literal_value
+                        (numeric_lit)))))
+                (get_attr
+                  (identifier)))
+              (expression
+                (variable_expr
+                  (identifier))
+                (get_attr
+                  (identifier))))))
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (variable_expr
+                  (identifier))
+                (get_attr
+                  (identifier))
+                (index
+                  (new_index
+                    (expression
+                      (literal_value
+                        (numeric_lit)))))
+                (get_attr
+                  (identifier)))
+              (expression
+                (variable_expr
+                  (identifier))
+                (get_attr
+                  (identifier)))))))
+      (block_end))
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))
+            (index
+              (new_index
+                (expression
+                  (literal_value
+                    (numeric_lit)))))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))
+    (block
+      (identifier)
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (conditional
+              (expression
+                (operation
+                  (binary_operation
+                    (operation
+                      (binary_operation
+                        (operation
+                          (binary_operation
+                            (variable_expr
+                              (identifier))
+                            (get_attr
+                              (identifier))
+                            (literal_value
+                              (string_lit
+                                (quoted_template_start)
+                                (quoted_template_end)))))
+                        (variable_expr
+                          (identifier))))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))
+            (index
+              (new_index
+                (expression
+                  (literal_value
+                    (numeric_lit)))))
+            (get_attr
+              (identifier))))
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))))
+
+================================================================================
+example 3
+================================================================================
+
+private_key_pem = element(tls_private_key.server.*.private_key_pem, count.index)
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (function_call
+          (identifier)
+          (function_arguments
+            (expression
+              (variable_expr
+                (identifier))
+              (get_attr
+                (identifier))
+              (splat
+                (attr_splat
+                  (get_attr
+                    (identifier)))))
+            (expression
+              (variable_expr
+                (identifier))
+              (get_attr
+                (identifier)))))))))
+
+================================================================================
+example 4
+================================================================================
+
+locals {
+  bootstrapping_host = "${var.tectonic_azure_private_cluster ?
+    module.vnet.master_private_ip_addresses[0] :
+    module.vnet.api_fqdn}"
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (template_expr
+              (quoted_template
+                (quoted_template_start)
+                (template_interpolation
+                  (template_interpolation_start)
+                  (expression
+                    (conditional
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier)))
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (index
+                          (new_index
+                            (expression
+                              (literal_value
+                                (numeric_lit))))))
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (get_attr
+                          (identifier)))))
+                  (template_interpolation_end))
+                (quoted_template_end))))))
+      (block_end))))

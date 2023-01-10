@@ -1,0 +1,48 @@
+==============
+Target groups
+==============
+
+if erlang {
+   const a = 1
+}
+
+if javascript {
+   const a = 1
+   const b = "Hello"
+}
+
+---
+
+(source_file
+  (target_group
+    target: (target)
+    (constant
+      name: (identifier)
+      value: (integer)))
+  (target_group
+    target: (target)
+    (constant
+      name: (identifier)
+      value: (integer))
+    (constant
+      name: (identifier)
+      value: (string
+        (quoted_content)))))
+
+========================
+Target group edge cases
+========================
+
+if erlang {}
+if javascript {const a = 1}
+
+---
+
+(source_file
+  (target_group
+    target: (target))
+  (target_group
+    target: (target)
+    (constant
+      name: (identifier)
+      value: (integer))))

@@ -1,0 +1,31 @@
+[package]
+name = "tree-sitter-ocaml"
+description = "OCaml grammar for the tree-sitter parsing library"
+version = "0.20.0"
+authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
+license = "MIT"
+readme = "bindings/rust/README.md"
+keywords = ["incremental", "parsing", "ocaml"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "common/*",
+  "bindings/rust/*",
+  "ocaml/grammar.js",
+  "ocaml/src/*",
+  "interface/grammar.js",
+  "interface/src/*",
+  "queries/*"
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.20"
+
+[build-dependencies]
+cc = "1.0"

@@ -131,7 +131,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/bash.scm"),
+                    include_str!("../../vendored_parsers/highlights/bash.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -145,7 +145,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/c.scm"),
+                    include_str!("../../vendored_parsers/highlights/c.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -162,8 +162,8 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     concat!(
-                        include_str!("../../vendor/highlights/c.scm"),
-                        include_str!("../../vendor/highlights/cpp.scm")
+                        include_str!("../../vendored_parsers/highlights/c.scm"),
+                        include_str!("../../vendored_parsers/highlights/cpp.scm")
                     ),
                 )
                 .unwrap(),
@@ -180,7 +180,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/clojure.scm"),
+                    include_str!("../../vendored_parsers/highlights/clojure.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -194,7 +194,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")")].into_iter().collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/cmake.scm"),
+                    include_str!("../../vendored_parsers/highlights/cmake.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -224,7 +224,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/c-sharp.scm"),
+                    include_str!("../../vendored_parsers/highlights/c-sharp.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -240,7 +240,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/css.scm"),
+                    include_str!("../../vendored_parsers/highlights/css.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -254,7 +254,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/dart.scm"),
+                    include_str!("../../vendored_parsers/highlights/dart.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -270,7 +270,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/elisp.scm"),
+                    include_str!("../../vendored_parsers/highlights/elisp.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -286,7 +286,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/elixir.scm"),
+                    include_str!("../../vendored_parsers/highlights/elixir.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -300,7 +300,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/elm.scm"),
+                    include_str!("../../vendored_parsers/highlights/elm.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -314,7 +314,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/elvish.scm"),
+                    include_str!("../../vendored_parsers/highlights/elvish.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -328,7 +328,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/erlang.scm"),
+                    include_str!("../../vendored_parsers/highlights/erlang.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -342,7 +342,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/gleam.scm"),
+                    include_str!("../../vendored_parsers/highlights/gleam.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -360,7 +360,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/go.scm"),
+                    include_str!("../../vendored_parsers/highlights/go.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -374,7 +374,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("[", "]"), ("(", ")"), ("<", ">"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/hack.scm"),
+                    include_str!("../../vendored_parsers/highlights/hack.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -390,7 +390,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/hare.scm"),
+                    include_str!("../../vendored_parsers/highlights/hare.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -404,7 +404,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("[", "]"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/haskell.scm"),
+                    include_str!("../../vendored_parsers/highlights/haskell.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -425,7 +425,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/hcl.scm"),
+                    include_str!("../../vendored_parsers/highlights/hcl.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -450,7 +450,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/html.scm"),
+                    include_str!("../../vendored_parsers/highlights/html.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![
@@ -484,7 +484,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/janet_simple.scm"),
+                    include_str!("../../vendored_parsers/highlights/janet_simple.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -498,7 +498,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/java.scm"),
+                    include_str!("../../vendored_parsers/highlights/java.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -522,7 +522,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/javascript.scm"),
+                    include_str!("../../vendored_parsers/highlights/javascript.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -536,7 +536,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/json.scm"),
+                    include_str!("../../vendored_parsers/highlights/json.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -557,7 +557,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]"), ("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/julia.scm"),
+                    include_str!("../../vendored_parsers/highlights/julia.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -575,7 +575,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/kotlin.scm"),
+                    include_str!("../../vendored_parsers/highlights/kotlin.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -591,7 +591,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/lua.scm"),
+                    include_str!("../../vendored_parsers/highlights/lua.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -605,7 +605,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")")].into_iter().collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/make.scm"),
+                    include_str!("../../vendored_parsers/highlights/make.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![TreeSitterSubLanguage {
@@ -625,7 +625,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]")].into_iter().collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/nix.scm"),
+                    include_str!("../../vendored_parsers/highlights/nix.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -639,7 +639,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/ocaml.scm"),
+                    include_str!("../../vendored_parsers/highlights/ocaml.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -653,7 +653,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/ocaml.scm"),
+                    include_str!("../../vendored_parsers/highlights/ocaml.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -667,7 +667,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/pascal.scm"),
+                    include_str!("../../vendored_parsers/highlights/pascal.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -692,7 +692,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/perl.scm"),
+                    include_str!("../../vendored_parsers/highlights/perl.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -706,7 +706,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/php.scm"),
+                    include_str!("../../vendored_parsers/highlights/php.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -720,7 +720,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")"), ("[", "]"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/python.scm"),
+                    include_str!("../../vendored_parsers/highlights/python.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -737,9 +737,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     concat!(
-                        include_str!("../../vendor/highlights/javascript.scm"),
-                        include_str!("../../vendor/highlights/typescript.scm"),
-                        include_str!("../../vendor/highlights/qmljs.scm"),
+                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
+                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
+                        include_str!("../../vendored_parsers/highlights/qmljs.scm"),
                     ),
                 )
                 .unwrap(),
@@ -764,7 +764,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 ],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/ruby.scm"),
+                    include_str!("../../vendored_parsers/highlights/ruby.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -778,7 +778,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/rust.scm"),
+                    include_str!("../../vendored_parsers/highlights/rust.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -792,7 +792,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/scala.scm"),
+                    include_str!("../../vendored_parsers/highlights/scala.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -806,7 +806,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("(", ")")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/sql.scm"),
+                    include_str!("../../vendored_parsers/highlights/sql.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -820,7 +820,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/swift.scm"),
+                    include_str!("../../vendored_parsers/highlights/swift.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -834,7 +834,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: vec![("{", "}"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/toml.scm"),
+                    include_str!("../../vendored_parsers/highlights/toml.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -849,8 +849,8 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     concat!(
-                        include_str!("../../vendor/highlights/javascript.scm"),
-                        include_str!("../../vendor/highlights/typescript.scm"),
+                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
+                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
                     ),
                 )
                 .unwrap(),
@@ -868,8 +868,8 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     concat!(
-                        include_str!("../../vendor/highlights/javascript.scm"),
-                        include_str!("../../vendor/highlights/typescript.scm"),
+                        include_str!("../../vendored_parsers/highlights/javascript.scm"),
+                        include_str!("../../vendored_parsers/highlights/typescript.scm"),
                     ),
                 )
                 .unwrap(),
@@ -891,7 +891,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/yaml.scm"),
+                    include_str!("../../vendored_parsers/highlights/yaml.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
@@ -909,7 +909,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .collect(),
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendor/highlights/zig.scm"),
+                    include_str!("../../vendored_parsers/highlights/zig.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

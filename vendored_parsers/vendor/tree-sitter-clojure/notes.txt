@@ -1,0 +1,362 @@
+// NOTES
+//
+// - 0.0.9 (planning)
+//   - rename _form -> _lit
+//   - update tree-sitter and friends to latest
+//   - regenerate
+//   - test
+//
+//   0.0.8
+//   - upgrade tree-sitter bits to 0.19.3
+//   - misc
+//
+//   0.0.7
+//   - add COPYING.txt (cc0)
+//   - misc
+//
+//   0.0.3
+//   - major renaming effort
+//   - misc
+//
+// - possibilities (may be as separate grammars?)
+//   - no fields (but likely that means metadata lives "outside")
+//   - retain whitespace and comments (for round-tripping)
+//   - clojure clr's pipe-escaping:
+//       https://github.com/clojure/clojure-clr/wiki/Specifying-types
+//
+// - traveral issues
+//   - use of fields (e.g. value, prefix, tag, metadata)
+//     - allows skipping certain nodes such as:
+//       - metadata
+//       - comment
+//       - discard-related
+//     - allows targeted navigation without having to know the
+//       node type (e.g. field value vs node type map)
+//     - limitations
+//       - a bit slower?
+//       - cannot use fields for things without names, e.g.
+//         - seq(...) cannot be the 2nd arg to field()
+//         - $._foo won't work unless it "resolves" to $.bar (non underscore)
+//   - for a given node, examine child nodes in reverse, that is,
+//     starting at the end and working backwards
+//
+// - probably won't do
+//   - support def, if, and other "primitives"
+//   - support for {{}} template constructs
+//
+// - testing
+//   - clj, cljc, cljs
+//   - what about edn?
+//   - approaches
+//     - "port" hand-written tests
+//       - oakmac (done)
+//       - Tavistock (done)
+//       - tonsky
+//     - generative testing for token testing (done via hypothesis and py-tree-sitter)
+//     - look for parsing errors across large sample (e.g. clojars) (done)
+//   - how to "package" testing facilities
+//     - currently each approach has its own project directory
+//
+// - debugging
+//   - npx tree-sitter parse filepath + look for ERROR in console output
+//   - npx tree-sitter parse --debug-graph filepath + view log.html
+//   - npx tree-sitter parse --debug filepath + view console output
+//
+// - loosening ideas:
+//   - allow ##Other (not just ##Inf, -##Inf, ##NaN)
+//   - allow # in keywords
+//   - allow ::/
+//   - don't handle "no repeating colons" in symbols and in non-leading
+//     portions of keywords (currently unimplemented anyway)
+//
+// - can strings have unicode escapes in them?
+//
+// - tree-sitter
+//   - parse subcommand
+//     - parse from stdin
+//     - recursively traverse multiple directories (globbing exists)
+//     - parsing within zips/jars
+//     - more flexible file type specification
+//     - custom parsing / processing per "file"
+//   - web-ui subcommand
+//     - didn't work when grammar used externals
+//     - file browsing + loading better than copy-paste
+//     - indiciate error via color
+//     - jump to error
+//     - somehow searching for error doesn't seem to work sometimes
+//   - ~/.tree-sitter
+//     - bin
+//       - contains shared libraries for each grammar
+//       - parse command seems to install stuff here
+//     - config.json
+//       - parser-directories used to customize "scan" for grammars
+//       - theme used for highlight subcommand
+
+// symbolPat from LispReader.java (for keywords and symbols?)
+//   "[:]?([\\D&&[^/]].*/)?(/|[\\D&&[^/]][^/]*)"
+//
+// https://clojure.org/reference/reader#_symbols
+//   1. Symbols begin with a non-numeric char -- XXX: see 2 for limits?
+//   2. Can contain alphanumeric chars and *, +, !, -, _, ', ?, <, > and =
+//   3. / can be used once in the middle of a symbol (sep the ns from the name)
+//   4. / by itself names the division function
+//   5. . special meaning can be used >= 1 times in the middle of a symbol
+//        to designate a fully-qualified class name, e.g. java.util.BitSet,
+//        or in namespace names.
+//   6. Symbols beginning or ending with . are reserved by Clojure
+//   7. Symbols beginning or ending with : are reserved by Clojure
+//   8. A symbol can contain one or more non-repeating ':'s
+//
+// missing
+//   9. $, &, % -- in body and end of symbol
+//
+// undocumented
+//   -1a can be made a symbol, but reader will reject?  repl rejects
+//     => number parsing takes priority?
+//   'a can be made a symbol, but reader will reject?  repl -> quote
+//
+// implied?
+//   doesn't start with ,
+//   doesn't start with '
+//   doesn't start with #
+//   doesn't start with `
+//   doesn't start with @
+//   doesn't start with ^
+//   doesn't start with \
+//   doesn't start with ;
+//   doesn't start with ~
+//   doesn't start with "
+//   doesn't start with ( )
+//   doesn't start with { }
+//   doesn't start with [ ]
+//
+// extra:
+//
+//   is my-ns// valid?
+//
+//     "Consistency of symbols between different readers/edn"
+//
+//     foo// should be valid.
+//
+//     2014-09-16 clojure-dev google group alex miller
+//
+//     https://groups.google.com/d/msg/clojure-dev/b09WvRR90Zc/c3zzMFqDsRYJ
+//
+//     "CLJ-1238 Allow EdnReader to read foo// (matches LispReader behavior)"
+//
+//     changelog for clojure 1.6
+//
+//   is # allowed as a constituent character in keywords?
+//
+//     following points are reasoning based on edn docs
+//
+//     "Bug in reader or repl? reading keyword :#abc"
+//
+//     Symbols begin with a non-numeric character and can contain
+//     alphanumeric characters and . * + ! - _ ? $ % & =. If -, + or
+//     . are the first character, the second character must be
+//     non-numeric. Additionally, : # are allowed as constituent
+//     characters in symbols other than as the first character.
+//
+//     2013-05-02 clojure google group colin jones (fwd by dave sann)
+//
+//     https://groups.google.com/d/msg/clojure/lK7juHxsPCc/TeYjxoW_3csJ
+//
+//     Keywords are identifiers that typically designate
+//     themselves. They are semantically akin to enumeration
+//     values. Keywords follow the rules of symbols, except they can
+//     (and must) begin with :, e.g. :fred or :my/fred. If the target
+//     platform does not have a keyword type distinct from a symbol
+//     type, the same type can be used without conflict, since the
+//     mandatory leading : of keywords is disallowed for symbols.
+//
+//     https://github.com/edn-format/edn#symbols
+//
+// https://clojure.org/reference/reader#_literals
+//   0. Keywords are like symbols, except:
+//   1. They can and must begin with a colon, e.g. :fred.
+//   ~~2. They cannot contain '.' in the name part, or name classes.~~
+//   3. They can contain a namespace, :person/name, which may contain '.'s.
+//   4. A keyword that begins with two colons is auto-resolved in the current
+//      namespace to a qualified keyword:
+//      - If the keyword is unqualified, the namespace will be the current
+//        namespace. In user, ::rect is read as :user/rect.
+//      - If the keyword is qualified, the namespace will be resolved using
+//        aliases in the current namespace. In a namespace where x is aliased
+//        to example, ::x/foo resolves to :example/foo.
+//
+// extra:
+//
+//   :/ is a legal keyword(?):
+//
+//     alexmiller: @gfredericks :/ is "open for the language to start
+//     interpreting" and not an invalid keyword so should be ok to generate.
+//     and cljs should fix it's weirdness. (#clojure-dev 2019-06-07)
+//
+//     https://clojurians-log.clojureverse.org/clojure-dev/2019-06-07
+//
+//     It is undefined/left for future expansion.
+//
+//     Clojurescript's reading seems weird but given that this is undefined
+//     it's hard to say it's wrong. :)
+//
+//     2020-07-10 (or so) alexmiller
+//
+//     https://ask.clojure.org/index.php/9427/clarify-the-position-of-as-a-keyword
+//     https://clojure.atlassian.net/browse/TCHECK-155
+//
+//   . CAN be in the name part:
+//
+//     "[Bug?] Keyword constraints not enforced"
+//
+//     I think you've both misread "they cannot name classes" to be - "They
+//     cannot contain class names".
+//
+//     The symbol String can name a class but the keyword :String can't,
+//     that's all I meant there.
+//
+//     As far as '.', that restriction has been relaxed. I'll try to touch
+//     up the docs for the next release.
+//
+//     2008-11-25 clojure google group rich hickey
+//
+//     https://groups.google.com/d/msg/clojure/CCuIp_bZ-ZM/THea7NF91Z4J
+//
+//   Whether keywords can start with numbers:
+//
+//     "puzzled by RuntimeException"
+//
+//     we currently allow keywords starting with numbers and seem to have
+//     decided this is ok. I would like to get Rich to approve a change to
+//     the page and do so.
+//
+//     2014-04-25 clojure google group alex miller
+//
+//     https://groups.google.com/forum/#!msg/clojure/XP1XAaDdKLY/kodfZTk8eeoJ
+//
+//     From a discussion in #clojure, it emerged that while :foo/1 is
+//     currently not allowed, ::1 is.
+//
+//     2014-12-10 nicola mometto
+//
+//     https://clojure.atlassian.net/browse/CLJ-1286
+//
+//     "Clarify and align valid symbol and keyword rules for Clojure (and edn)"
+//
+//     https://clojure.atlassian.net/browse/CLJ-1527
+//
+//     consistency of symbols between different readers/edn
+//
+//     https://groups.google.com/forum/#!topic/clojure-dev/b09WvRR90Zc
+//
+//     :1 is accepted because it once accidentally worked and they
+//     don't like breaking existing code
+//
+//     it was never meant to
+//
+//     2020-06-14 ish noisesmith on #clojure (slack)
+//
+//     There are libraries out there that assume :1 works.  They changed
+//     Clojure at one point in an alpha to disallow such keywords and it broke
+//     code so they decided to continue allowing them (even tho' they are
+//     not "legal").
+//
+//     2020-06-14 ish seancorfield on #clojure (slack)
+//
+//   Whether # is allowed in a keyword:
+//
+//     "Clarification on # as valid symbol character"
+//
+//     this works now, but is not guaranteed to always be valid
+//
+//     2016-11-08 clojure google group alex miller
+//
+//     https://groups.google.com/forum/#!topic/clojure/CwZHu1Eszbk
+
+// https://clojure.org/reference/reader#_literals
+//   1. Integers can be indefinitely long and will be read as Longs when
+//      in range and clojure.lang.BigInts otherwise.
+//   2. Integers with an N suffix are always read as BigInts.
+//   3. When possible, they can be specified in any base with radix from
+//      2 to 36 (see Long.parseLong()); for example 2r101010, 8r52, 36r16,
+//      and 42 are all the same Long.
+//   4. Floating point numbers are read as Doubles; with M suffix they are
+//      read as BigDecimals.
+//   5. Ratios are supported, e.g. 22/7.
+
+// intPat
+//   "([-+]?)(?:(0)|([1-9][0-9]*)|0[xX]([0-9A-Fa-f]+)|0([0-7]+)|([1-9][0-9]?)[rR]([0-9A-Za-z]+)|0[0-9]+)(N)?"
+
+// 0[0-9]+ is for better errors -- thanks seancorfield and andyfingerhut
+
+// ratioPat
+//   "([-+]?[0-9]+)/([0-9]+)"
+
+// floatPat
+//   "([-+]?[0-9]+(\\.[0-9]*)?([eE][-+]?[0-9]+)?)(M)?"
+
+// patterns in the grammar
+//
+// token-ish
+//   _ws
+//   comment
+//   num_lit
+//   kwd_lit
+//   str_lit
+//   char_lit
+//   nil_lit
+//   bool_lit
+//   auto_res_mark
+//
+// choice
+//   _gap
+//   _lit
+//
+// choice + optional
+//   _metadata_lit
+//
+// marker + inline token
+//   regex_lit
+//
+// marker + _gap + specific form
+//   sym_val_lit
+//
+// marker + _gap + choice of specific form
+//   meta_lit
+//   old_meta_lit
+//
+// marker + _gap + generic form
+//   dis_expr
+//
+// metadata + inline token
+//   sym_lit
+//
+// metadata + inline specific form
+//   list_lit
+//   map_lit
+//   set_lit
+//   vector_lit
+//
+// metadata + marker + inline bare list
+//   anon_fn_lit
+//
+// metadata + marker + _ws + inline bare list
+//   read_cond_lit
+//   read_cond_splicing_lit
+//
+// metadata + marker + prefix + _gap + inline bare map
+//   ns_map_lit
+//
+// metadata + marker + _gap + specific form
+//   evaling_lit
+//
+// metadata + marker + _gap + generic form
+//   derefing_lit
+//   quoting_lit
+//   syn_quoting_lit
+//   unquoting_lit
+//   unquote_splicing_lit
+//   var_quoting_lit (possibly limit form in future?)
+//
+// metadata + marker + _gap + tag + _gap + generic form
+//   tagged_or_ctor_lit

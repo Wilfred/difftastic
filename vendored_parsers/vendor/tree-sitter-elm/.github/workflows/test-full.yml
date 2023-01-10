@@ -1,0 +1,36 @@
+name: Test full Linux
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [14, 16]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Npm install
+        run: |
+          npm i
+      - name: Unit tests
+        run: |
+          npx tree-sitter test
+      - name: Test examples
+        continue-on-error: true
+        run: |
+          script/parse-examples-full

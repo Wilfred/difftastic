@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+IMAGE_NAME="tree-sitter-hack"
+CONTAINER_NAME="tree-sitter-hack"
+
+docker build --rm $DIR -t $IMAGE_NAME
+
+if docker ps -a --format '{{.Names}}' | grep -Eq "^${CONTAINER_NAME}\$"; then
+  docker stop $CONTAINER_NAME >/dev/null
+  docker rm $CONTAINER_NAME >/dev/null
+fi
+
+docker run -td \
+  --name $CONTAINER_NAME \
+  -v $(realpath .):/mnt/tree-sitter-hack:rw \
+  $IMAGE_NAME
+
+docker exec -it $CONTAINER_NAME sh -c 'ln -s /mnt/tree-sitter-hack/* /tree-sitter-hack'
+docker exec -it $CONTAINER_NAME sh -c 'rm -rf build node_modules package-lock.json'
+docker exec -it $CONTAINER_NAME sh -c 'npm install'

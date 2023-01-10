@@ -1,0 +1,2 @@
+// This is only for reference and not used automatically
+examples-full/MacCASOutreach/graphicsvg/src/GraphicSVG/Widget.elm // Errors, but intelliJ does the same

@@ -1,0 +1,3 @@
+ocaml/src/parser.c linguist-vendored
+interface/src/parser.c linguist-vendored
+/examples/** linguist-vendored

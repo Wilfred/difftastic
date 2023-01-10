@@ -1,0 +1,9 @@
+node_modules
+build
+target
+*.log
+test.scala
+package-lock.json
+Cargo.lock
+.scalafmt.conf
+*worksheet.sc

@@ -1,0 +1,42 @@
+{
+  "name": "tree-sitter-cpp",
+  "version": "0.20.0",
+  "description": "C++ grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "c++"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-cpp.git"
+  },
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-c": "^0.20.1",
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "scripts": {
+    "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.cpp",
+      "file-types": [
+        "cc",
+        "cpp",
+        "hpp",
+        "h"
+      ],
+      "highlights": [
+        "queries/highlights.scm",
+        "node_modules/tree-sitter-c/queries/highlights.scm"
+      ]
+    }
+  ]
+}

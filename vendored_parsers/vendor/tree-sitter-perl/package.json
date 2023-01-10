@@ -1,0 +1,36 @@
+{
+  "name": "@ganezdragon/tree-sitter-perl",
+  "version": "0.3.0",
+  "description": "a tree-sitter for perl language.",
+  "main": "bindings/node",
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "example": "tree-sitter parse examples/*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "keywords": [
+    "perl",
+    "parser",
+    "nodejs"
+  ],
+  "repository": "git://github.com/ganezdragon/tree-sitter-perl.git",
+  "author": "ganezdragon",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.4"
+  },
+  "tree-sitter": [
+      {
+          "scope": "source.perl",
+          "file-types": [
+              "pl"
+          ]
+      }
+  ]
+}

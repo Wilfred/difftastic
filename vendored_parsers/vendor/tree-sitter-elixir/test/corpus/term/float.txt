@@ -1,0 +1,48 @@
+=====================================
+simple literal
+=====================================
+
+1234567890.1234567890
+-1234567890.1234567890
+-1_234_567_890.123_456_789_0
+
+---
+
+(source
+  (float)
+  (unary_operator
+    (float))
+  (unary_operator
+    (float)))
+
+=====================================
+scientific notation
+=====================================
+
+1.0e6
+1.0e+6
+1.0e-6
+-1.0e6
+-1.0e+6
+-1.0e-6
+1.0E6
+1.0E+6
+1.0E-6
+1_234_567_890.123_456_789_0e1_234_567_890
+
+---
+
+(source
+  (float)
+  (float)
+  (float)
+  (unary_operator
+    (float))
+  (unary_operator
+    (float))
+  (unary_operator
+    (float))
+  (float)
+  (float)
+  (float)
+  (float))

@@ -1,0 +1,12 @@
+#*#
+*.orig
+*~
+.#*
+\#*#
+
+/Cargo.lock
+/build/
+/examples/qtdeclarative
+/node_modules/
+/package-lock.json
+/target/

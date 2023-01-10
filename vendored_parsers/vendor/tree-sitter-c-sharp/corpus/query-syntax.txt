@@ -1,0 +1,429 @@
+=====================================
+Query from select
+=====================================
+
+var x = from a in source select a.B;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+                (select_clause
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))))))))
+
+=====================================
+Query from select with operator
+=====================================
+
+var x = from a in source select a * 2;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal))))))))))
+
+=====================================
+Query from select with method call
+=====================================
+
+var x = from a in source select a.B();
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (invocation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (argument_list))))))))))
+
+=====================================
+Query from select with conditional operator
+=====================================
+
+var x = from a in source select a ? 0 : 1;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (conditional_expression
+                  (identifier)
+                  (integer_literal)
+                  (integer_literal))))))))))
+
+=====================================
+Query from select with assignment
+=====================================
+
+var x = from a in source select somevar = a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (select_clause
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
+
+=====================================
+Query from select projection
+=====================================
+
+var x = from a in source select new { Name = a.B };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+                (select_clause
+                  (anonymous_object_creation_expression
+                    (name_equals (identifier))
+                    (member_access_expression
+                      (identifier)
+                      (identifier)))))))))))
+
+=====================================
+Query from select with where
+=====================================
+
+var x = from a in source
+  where a.B == "A"
+  select a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
+                (binary_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (string_literal)))
+              (select_clause
+                (identifier)))))))))
+
+=====================================
+Query from select with where and projection
+=====================================
+
+var x = from a in source
+  where a.B == "A" && a.C == "D"
+  select new { Name = a.B };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
+                (binary_expression
+                  (binary_expression
+                    (member_access_expression
+                      (identifier)
+                      (identifier))
+                    (string_literal))
+                  (binary_expression
+                    (member_access_expression
+                      (identifier)
+                      (identifier))
+                    (string_literal))))
+                (select_clause
+                  (anonymous_object_creation_expression
+                    (name_equals (identifier))
+                    (member_access_expression
+                      (identifier)
+                      (identifier)))))))))))
+
+=====================================
+Query from select with orderby
+=====================================
+
+var x = from a in source
+  orderby a.A descending
+  orderby a.C ascending
+  orderby 1
+  select a;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (order_by_clause
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (order_by_clause
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (order_by_clause
+                (integer_literal))
+              (select_clause
+                (identifier)))))))))
+
+=====================================
+Query from select with let
+=====================================
+
+var x = from a in source
+  let z = new { a.A, a.B }
+  select z;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (let_clause
+                (identifier)
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))
+              (select_clause
+                (identifier)))))))))
+
+=====================================
+Query from select with join
+=====================================
+
+var x = from a in sourceA
+  join b in sourceB on a.FK equals b.PK
+  select new { A.A, B.B };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (join_clause
+                (identifier)
+                (identifier)
+                (member_access_expression
+                  (identifier)
+                  (identifier))
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (select_clause
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier)))))))))))
+
+=====================================
+Query from select with multiple from
+=====================================
+
+var x = from a in sourceA
+  from b in sourceB
+  where a.FK == b.FK
+  select new { A.A, B.B };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (from_clause
+                (identifier)
+                (identifier))
+              (where_clause
+                (binary_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier))))
+              (select_clause
+                (anonymous_object_creation_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (member_access_expression
+                    (identifier)
+                    (identifier)))))))))))
+
+=====================================
+Query from select with group by & continuation
+=====================================
+
+var x = from a in sourceA
+  group a by a.Country into g
+  select new { Country = g.Key, Population = g.Sum(p => p.Population) };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (query_expression
+              (from_clause
+                (identifier)
+                (identifier))
+              (group_clause
+                (identifier)
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
+              (query_continuation
+                (identifier)
+                (select_clause
+                  (anonymous_object_creation_expression
+                    (name_equals (identifier))
+                    (member_access_expression
+                      (identifier)
+                      (identifier))
+                    (name_equals (identifier))
+                    (invocation_expression
+                      (member_access_expression
+                        (identifier)
+                        (identifier))
+                      (argument_list
+                        (argument
+                          (lambda_expression
+                            (identifier)
+                            (member_access_expression
+                              (identifier)
+                              (identifier))))))))))))))))

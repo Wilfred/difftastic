@@ -1,0 +1,34 @@
+[package]
+name = "tree-sitter-elm"
+description = "elm grammar for the tree-sitter parsing library"
+authors = [
+    "Harry Sarson <harry.sarson@hotmail.co.uk>",
+    "Kolja Lampe <razzeee@gmail.com>"
+
+]
+homepage = "https://tree-sitter.github.io/tree-sitter/"
+repository = "https://github.com/elm-tooling/tree-sitter-elm"
+keywords = ["elm", "tree", "sitter", "parsing", "incremental"]
+categories = ["parser-implementations", "api-bindings", "text-editors", "parsing"]
+edition = "2018"
+license = "MIT"
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+  "LICENSE.md",
+]
+
+# Keep in sync with package.json
+version = "5.6.0"
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "~0.20"
+
+[build-dependencies]
+cc = "1.0"

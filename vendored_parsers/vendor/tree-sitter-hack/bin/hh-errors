@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+# Print files with hh_parse errors and filter out the rest.
+
+hh_parse --show-file-name --full-fidelity-errors-all $@ |
+  grep -v 'A \.php file must begin with' |
+  grep -v 'Nested ternary expressions inside ternary expressions are ambiguous' |
+
+  # Only print file paths that have errors
+  ruby -e "$(
+    cat <<-RUBY
+    path = nil
+
+    ARGF.each_line do |line|
+      # Consume lines until we have something that does *not* look like a file path.
+      next path = line if line =~ /(^.*\.(php|hack))\s/
+
+      unless path.nil?
+        # Print the file path before we print any errors.
+        puts path
+        # Only print the file path once.
+        path = nil
+      end
+
+      puts line
+    end
+RUBY
+  )"

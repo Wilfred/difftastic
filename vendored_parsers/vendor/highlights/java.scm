@@ -1,0 +1,1 @@
+../tree-sitter-java/queries/highlights.scm

@@ -1,0 +1,41 @@
+{
+  "name": "tree-sitter-sql",
+  "version": "0.1.0",
+  "description": "SQL grammar fom tree-sitter",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter generate && tree-sitter test",
+    "acceptance": "tree-sitter generate && tree-sitter parse --quiet --stat examples/real_world_stuff/*/*.sql",
+    "gen": "tree-sitter generate",
+    "hl": "tree-sitter highlight",
+    "parse": "tree-sitter parse",
+    "prettier": "prettier --write .",
+    "build-wasm": "tree-sitter build-wasm",
+    "update-playground": "rm -f tree-sitter-sql.wasm && npm run gen && tree-sitter build-wasm",
+    "playground": "npm run update-playground && tree-sitter playground",
+    "extract-error": "node ./scripts/extract_error.js"
+  },
+  "keywords": [
+    "parser",
+    "lexer",
+    "sql"
+  ],
+  "repository": "https://github.com/m-novikov/tree-sitter-sql",
+  "author": "Maksim Novikov <mnovikov.work@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.4.1",
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.sql",
+      "file-types": [
+        "sql"
+      ]
+    }
+  ]
+}

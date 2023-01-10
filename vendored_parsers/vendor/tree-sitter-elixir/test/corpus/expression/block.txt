@@ -1,0 +1,230 @@
+=====================================
+empty
+=====================================
+
+()
+
+---
+
+(source
+  (block))
+
+=====================================
+single expression
+=====================================
+
+(1)
+
+---
+
+(source
+  (block
+    (integer)))
+
+=====================================
+multiple expressions separated by newline
+=====================================
+
+(
+  1
+  2
+)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+multiple expressions separated by semicolon
+=====================================
+
+(1;2)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+multiple expressions separated by mixed separators
+=====================================
+
+(
+  1
+
+  ;
+
+  2
+)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+leading semicolon
+=====================================
+
+(;1;2)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+trailing semicolon
+=====================================
+
+(1;2;)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+stab clause / multiple clauses
+=====================================
+
+(x -> x; y -> y
+ z -> z)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))))
+
+=====================================
+stab clause / multiple arguments
+=====================================
+
+(x, y, z -> x)
+((x, y, z) -> x)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier)
+        (identifier))
+      (body
+        (identifier))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier)
+        (identifier))
+      (body
+        (identifier)))))
+
+=====================================
+stab clause / guard
+=====================================
+
+(x, y when x == y -> 1)
+((x, y when x == y -> 1))
+((x, y when x == y) -> 1)
+(x, y when x, z -> 1)
+((x, y when x, z -> 1))
+((x, y when x, z) -> 1)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier)
+          (identifier))
+        (binary_operator
+          (identifier)
+          (identifier)))
+      (body
+        (integer))))
+  (block
+    (block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (identifier)))
+        (body
+          (integer)))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (body
+        (integer))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier))
+      (body
+        (integer))))
+  (block
+    (block
+      (stab_clause
+        (arguments
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))
+          (identifier))
+        (body
+          (integer)))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier))
+      (body
+        (integer)))))

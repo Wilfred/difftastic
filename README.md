@@ -105,8 +105,8 @@ Difftastic is open source under the MIT license, see LICENSE for more
 details.
 
 This repository also includes tree-sitter parsers by other authors in
-the `vendor/` directory. These are a mix of the MIT license and the
-Apache license. See `vendor/*/LICENSE` for more details.
+the `vendored_parsers/` directory. These are a mix of the MIT license and the
+Apache license. See `vendored_parsers/*/LICENSE` for more details.
 
 Files in `sample_files/` are also under the MIT license unless stated
 otherwise in their header.

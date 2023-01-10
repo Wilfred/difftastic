@@ -1,0 +1,271 @@
+================================================================================
+char: [a-zA-Z0-9_]
+================================================================================
+
+a = 'a'
+a = 'b'
+a = '0'
+a = '1'
+a = '_'
+a = 'A'
+a = 'B'
+a = ','
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+================================================================================
+char: symbols
+================================================================================
+
+a = '!'
+a = '#'
+a = '$'
+a = '%'
+a = '&'
+a = '⋆'
+a = '+'
+a = '.'
+a = '/'
+a = '<'
+a = '='
+a = '>'
+a = '?'
+a = '^'
+a = '|'
+a = '-'
+a = '~'
+a = ':'
+a = '"'
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+================================================================================
+char: special symbols
+================================================================================
+
+a = '('
+a = ')'
+a = ';'
+a = '['
+a = ']'
+a = '`'
+a = '{'
+a = '}'
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+================================================================================
+char: character escape
+================================================================================
+
+a = '\a'
+a = '\b'
+a = '\f'
+a = '\n'
+a = '\r'
+a = '\t'
+a = '\v'
+a = '\\'
+a = '\"'
+a = '\''
+a = '\&'
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+================================================================================
+char: space
+================================================================================
+
+a = ' '
+
+---
+
+(haskell (function (variable) (exp_literal (char))))
+
+================================================================================
+char: escape ascii
+================================================================================
+
+a = '\NUL'
+a = '\SOH'
+a = '\STX'
+a = '\ETX'
+a = '\EOT'
+a = '\ENQ'
+a = '\ACK'
+a = '\BEL'
+a = '\BS'
+a = '\HT'
+a = '\LF'
+a = '\VT'
+a = '\FF'
+a = '\CR'
+a = '\SO'
+a = '\SI'
+a = '\DLE'
+a = '\DC1'
+a = '\DC2'
+a = '\DC3'
+a = '\DC4'
+a = '\NAK'
+a = '\SYN'
+a = '\ETB'
+a = '\CAN'
+a = '\EM'
+a = '\SUB'
+a = '\ESC'
+a = '\FS'
+a = '\GS'
+a = '\RS'
+a = '\US'
+a = '\SP'
+a = '\DEL'
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+================================================================================
+char: Escape Control Characters
+================================================================================
+
+a = '\^A'
+a = '\^Z'
+a = '\^@'
+a = '\^['
+a = '\^]'
+a = '\^\'
+a = '\^^'
+a = '\^_'
+
+---
+
+(haskell
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char)))
+ (function (variable) (exp_literal (char))))
+
+
+================================================================================
+char: non-ascii unicode
+================================================================================
+
+a = '‘'
+
+---
+
+(haskell (function (variable) (exp_literal (char))))
+
+================================================================================
+char: unicode whitespace
+================================================================================
+
+a = a a
+
+---
+
+(haskell (function (variable) (exp_apply (exp_name (variable)) (exp_name (variable)))))
+
+================================================================================
+char: magic hash
+================================================================================
+
+a = 'a'#
+a = 'a'##
+
+---
+
+(haskell (function (variable) (exp_literal (char))) (function (variable) (exp_literal (char))))

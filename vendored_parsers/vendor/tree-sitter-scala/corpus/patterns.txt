@@ -1,0 +1,171 @@
+=========================
+Alternative patterns
+=========================
+
+val x = y match {
+  case 1 | a => b
+  case "c" | "d" | "e" => f
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression (identifier) (case_block
+      (case_clause
+        (alternative_pattern (integer_literal) (identifier))
+        (identifier))
+      (case_clause
+        (alternative_pattern
+          (alternative_pattern (string) (string))
+          (string))
+        (identifier))))))
+
+=========================
+Typed patterns
+=========================
+
+val x = y match {
+  case 1 : Int => 2
+  case a : B with C => d
+  case _: B | _: C => 3
+  case Object.Constant => 3
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression (identifier) (case_block
+      (case_clause
+        (typed_pattern (integer_literal) (type_identifier)) (integer_literal))
+      (case_clause
+        (typed_pattern (identifier) (compound_type (type_identifier) (type_identifier)))
+        (identifier))
+      (case_clause
+        (alternative_pattern
+          (typed_pattern (wildcard) (type_identifier))
+          (typed_pattern (wildcard) (type_identifier)))
+        (integer_literal))
+      (case_clause
+        (stable_identifier (identifier) (identifier))
+        (integer_literal))))))
+
+============================
+Tuple patterns
+============================
+
+val (a, b) = if (c) (d, e) else (f, g)
+
+val x = y match {
+  case (A, B) => X
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (tuple_pattern (identifier) (identifier))
+    (if_expression
+      (parenthesized_expression (identifier))
+      (tuple_expression (identifier) (identifier))
+      (tuple_expression (identifier) (identifier))))
+  (val_definition (identifier)
+    (match_expression (identifier)
+      (case_block
+        (case_clause
+          (tuple_pattern (identifier) (identifier)) (identifier))))))
+
+============================
+Case class patterns
+============================
+
+def showNotification(notification: Notification): String = {
+  notification match {
+    case Email(email, title, _) =>
+      s"You got an email from $email with title: $title"
+    case SMS(number, message) =>
+      s"You got an SMS from $number! Message: $message"
+    case VoiceRecording(name, link) =>
+      s"you received a Voice Recording from $name! Click the link to hear it: $link"
+  }
+}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters (parameter (identifier) (type_identifier)))
+    (type_identifier)
+    (block
+      (match_expression (identifier) (case_block
+        (case_clause
+          (case_class_pattern (type_identifier) (identifier) (identifier) (wildcard))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier)))))
+        (case_clause
+          (case_class_pattern (type_identifier) (identifier) (identifier))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier)))))
+        (case_clause
+          (case_class_pattern (type_identifier) (identifier) (identifier))
+          (interpolated_string_expression (identifier) (interpolated_string (interpolation (identifier)) (interpolation (identifier))))))))))
+
+============================
+Infix patterns
+============================
+
+def first(x: Seq[Int]) = x match {
+  case e :+ _ => Some(e)
+  case _ => None
+}
+
+---
+
+(compilation_unit
+  (function_definition (identifier)
+    (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier)))))
+    (match_expression (identifier)
+      (case_block
+        (case_clause (infix_pattern (identifier) (operator_identifier) (wildcard))
+          (call_expression (identifier) (arguments (identifier))))
+        (case_clause (wildcard)
+          (identifier))))))
+
+============================
+Capture patterns
+============================
+
+val x = y match {
+  case a @ B(1) => a
+  case b @ C(d @ (e @ X, _: Y)) => e
+  case req @ (POST | GET) -> Root / "test" => 5
+}
+
+---
+
+(compilation_unit
+  (val_definition
+    (identifier)
+    (match_expression
+      (identifier)
+      (case_block
+        (case_clause
+          (capture_pattern (identifier) (case_class_pattern (type_identifier) (integer_literal)))
+          (identifier))
+        (case_clause
+          (capture_pattern (identifier)
+            (case_class_pattern (type_identifier)
+              (capture_pattern (identifier)
+                (tuple_pattern
+                  (capture_pattern (identifier) (identifier))
+                  (typed_pattern (wildcard) (type_identifier))))))
+          (identifier))
+        (case_clause
+          (infix_pattern
+            (infix_pattern
+              (capture_pattern (identifier)
+                (tuple_pattern (alternative_pattern (identifier) (identifier))))
+              (operator_identifier) (identifier)) (operator_identifier) (string))
+              (integer_literal))))))

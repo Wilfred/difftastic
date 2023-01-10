@@ -1,0 +1,52 @@
+================================================================================
+External types
+================================================================================
+
+external type IODevice
+external type IODevice()
+external type Map(key, value)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (external_type
+    (type_name
+      name: (type_identifier)))
+  (external_type
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters)))
+  (external_type
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters
+        (type_parameter)
+        (type_parameter)))))
+
+================================================================================
+Public external types
+================================================================================
+
+pub external type IODevice
+pub external type IODevice()
+pub external type Map(key, value)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (external_type
+    (visibility_modifier)
+    (type_name
+      name: (type_identifier)))
+  (external_type
+    (visibility_modifier)
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters)))
+  (external_type
+    (visibility_modifier)
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters
+        (type_parameter)
+        (type_parameter)))))

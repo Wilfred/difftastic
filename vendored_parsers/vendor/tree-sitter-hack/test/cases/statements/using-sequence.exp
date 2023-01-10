@@ -1,0 +1,19 @@
+(script
+  (using_statement
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments)))
+    (binary_expression
+      left: (variable)
+      right: (new_expression
+        (qualified_identifier
+          (identifier))
+        (arguments
+          (argument
+            (string))
+          (argument
+            (string)))))
+    (compound_statement)))

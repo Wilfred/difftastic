@@ -1,0 +1,45 @@
+{
+  "name": "tree-sitter-gleam",
+  "version": "0.22.1",
+  "description": "A tree-sitter grammar for the Gleam programming language",
+  "main": "bindings/node",
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "format": "prettier --write grammar.js",
+    "check-formatted": "prettier --check grammar.js",
+    "build-wasm": "tree-sitter build-wasm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/J3RN/tree-sitter-gleam.git"
+  },
+  "keywords": [
+    "gleam",
+    "parser",
+    "lexer",
+    "tree-sitter"
+  ],
+  "author": "Jonathan Arnett",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/J3RN/tree-sitter-gleam/issues"
+  },
+  "homepage": "https://github.com/J3RN/tree-sitter-gleam#readme",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.gleam",
+      "file-types": [
+        "gleam"
+      ],
+      "injection-regex": "^gleam$"
+    }
+  ]
+}

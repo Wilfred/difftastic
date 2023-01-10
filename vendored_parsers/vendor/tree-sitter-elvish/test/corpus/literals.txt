@@ -1,0 +1,118 @@
+===
+Strings
+===
+
+nop '*\' 'it''s'
+nop "my name is $name" "quoted \" test"
+
+---
+(source_file
+  (command (identifier) (string) (string))
+  (command (identifier) (string) (string)))
+
+
+===
+Barewords
+===
+
+nop a.txt long-bareword elf@elv.sh /usr/local/bin 7of9
+
+---
+(source_file
+  (command
+    (identifier)
+    (bareword)
+    (bareword)
+    (bareword)
+    (bareword)
+    (bareword)))
+
+
+===
+Integers
+===
+
+nop 10 0xaAbBcC_eE_fF 0o1_2_3 0b10_10 1_000_000
+
+---
+(source_file
+  (command
+    (identifier)
+    (number)
+    (number)
+    (number)
+    (number)
+    (number)))
+
+
+===
+Rationals
+===
+
+nop 1/2 0x10/100
+
+---
+(source_file
+  (command
+    (identifier)
+    (number)
+    (number)))
+
+
+===
+Floats
+===
+
+nop 10.0 .1 10. 1e1 1.234_567e-1_2_3 Inf NaN
+
+---
+(source_file
+  (command
+    (identifier)
+    (number)
+    (number)
+    (number)
+    (number)
+    (number)
+    (number)
+    (number)))
+
+
+===
+Lists
+===
+
+nop [] [[]] [a b] [
+  a
+  b
+  ]
+
+---
+(source_file
+  (command
+    (identifier)
+    (list)
+    (list (list))
+    (list (bareword) (bareword))
+    (list (bareword) (bareword))))
+
+
+===
+Maps
+===
+
+nop [&foo=bar &lorem = ipsum] [
+  &foo=bar
+  &lorem = ipsum
+  ]
+
+---
+(source_file
+  (command
+    (identifier)
+    (map
+      (pair (identifier) (bareword))
+      (pair (identifier) (bareword)))
+    (map
+      (pair (identifier) (bareword))
+      (pair (identifier) (bareword)))))

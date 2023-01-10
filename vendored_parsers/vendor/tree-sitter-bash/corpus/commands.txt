@@ -1,0 +1,267 @@
+===============================
+Commands
+===============================
+
+whoami
+
+---
+
+(program
+  (command (command_name (word))))
+
+===============================
+Commands with arguments
+===============================
+
+cat file1.txt
+git diff --word-diff=color -- file1.txt file2.txt
+
+---
+
+(program
+  (command (command_name (word)) (word))
+  (command (command_name (word)) (word) (word) (word) (word) (word)))
+
+===============================
+Quoted command names
+===============================
+
+"$a/$b" c
+
+---
+
+(program
+  (command
+    (command_name (string (simple_expansion (variable_name)) (simple_expansion (variable_name))))
+    (word)))
+
+===============================
+Commands with numeric arguments
+===============================
+
+exit 1
+
+---
+
+(program
+  (command (command_name (word)) (word)))
+
+===================================
+Commands with environment variables
+===================================
+
+VAR1=1 ./script/test
+VAR1=a VAR2="ok" git diff --word-diff=color
+
+---
+
+(program
+  (command
+    (variable_assignment (variable_name) (word))
+    (command_name (word)))
+  (command
+    (variable_assignment (variable_name) (word))
+    (variable_assignment (variable_name) (string))
+    (command_name (word))
+    (word)
+    (word)))
+
+===================================
+Empty environment variables
+===================================
+
+VAR1=
+VAR2= echo
+
+---
+
+(program
+  (variable_assignment (variable_name))
+  (command (variable_assignment (variable_name)) (command_name (word))))
+
+===============================
+File redirects
+===============================
+
+whoami > /dev/null
+cat a b > /dev/null
+2>&1 whoami
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (file_redirect (word)))
+  (redirected_statement
+    (command (command_name (word)) (word) (word))
+    (file_redirect (word)))
+  (command
+    (file_redirect (file_descriptor) (word))
+    (command_name (word))))
+
+===============================
+File redirects (noclobber override)
+===============================
+
+whoami >| /dev/null
+cat a b >| /dev/null
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (file_redirect (word)))
+  (redirected_statement
+    (command (command_name (word)) (word) (word))
+    (file_redirect (word))))
+
+===============================
+Heredoc redirects
+===============================
+
+node <<JS
+console.log("hi")
+JS
+
+bash -c <<JS
+echo hi
+JS
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (heredoc_redirect (heredoc_start)))
+  (heredoc_body)
+  (redirected_statement
+    (command (command_name (word)) (word))
+    (heredoc_redirect (heredoc_start)))
+  (heredoc_body))
+
+===============================
+Heredocs with variables
+===============================
+
+node <<JS
+a $B ${C}
+JS
+
+exit
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (heredoc_redirect (heredoc_start)))
+  (heredoc_body
+    (simple_expansion (variable_name))
+    (expansion (variable_name)))
+  (command (command_name (word))))
+
+=================================
+Heredocs with file redirects
+================================
+
+cat <<EOF > $tmpfile
+a $B ${C}
+EOF
+
+wc -l $tmpfile
+
+---
+
+(program
+  (redirected_statement
+    (command (command_name (word)))
+    (heredoc_redirect (heredoc_start))
+    (file_redirect (simple_expansion (variable_name))))
+  (heredoc_body
+    (simple_expansion (variable_name))
+    (expansion (variable_name)))
+  (command
+    (command_name (word))
+    (word)
+    (simple_expansion (variable_name))))
+
+=================================
+Heredocs with pipes
+================================
+
+one <<EOF | grep two
+three
+EOF
+
+---
+
+(program
+  (pipeline
+    (redirected_statement
+      (command (command_name (word)))
+      (heredoc_redirect (heredoc_start)))
+    (command (command_name (word)) (word)))
+    (heredoc_body))
+
+======================================
+Heredocs with escaped expansions
+======================================
+
+cat  << EOF
+DEV_NAME=\$(lsblk)
+EOF
+
+---
+
+(program (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))
+
+======================================
+Quoted Heredocs
+======================================
+
+cat << 'EOF'
+a=$b
+EOF
+
+cat << "EOF"
+a=$b
+EOF
+
+cat <<"END OF FILE"
+hello,
+world
+END OF FILE
+
+cat << \EOF
+EOF
+
+---
+
+(program
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body)
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body (simple_expansion (variable_name)))
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body)
+  (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))
+
+==========================================
+Heredocs with indented closing delimiters
+==========================================
+
+usage() {
+	cat <<-EOF
+		Usage: ${0##*/} FOO BAR
+	EOF
+}
+
+---
+
+(program
+  (function_definition
+    (word)
+    (compound_statement
+      (redirected_statement
+        (command (command_name (word)))
+        (heredoc_redirect (heredoc_start)))
+      (heredoc_body (expansion (special_variable_name) (word))))))

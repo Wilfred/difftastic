@@ -1,0 +1,1008 @@
+================================================================================
+Matching a list
+================================================================================
+
+getFirstMatch state =
+    case state.unvisited of
+      [] ->
+        Just state.value
+
+      [""] ->
+        Just state.value
+
+      _ ->
+        getFirstMatch rest
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (field_access_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (dot)
+        (lower_case_identifier))
+      (of)
+      (case_of_branch
+        (pattern
+          (list_pattern))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier)))
+          (field_access_expr
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (dot)
+            (lower_case_identifier))))
+      (case_of_branch
+        (pattern
+          (list_pattern
+            (pattern
+              (string_constant_expr
+                (open_quote)
+                (close_quote)))))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier)))
+          (field_access_expr
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (dot)
+            (lower_case_identifier))))
+      (case_of_branch
+        (pattern
+          (anything_pattern
+            (underscore)))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+Type with non english characters
+================================================================================
+
+type Color
+    = Color赤
+    | Color緑
+    | Color青
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))))
+
+================================================================================
+Negate
+================================================================================
+
+negate n =
+  -n
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (negate_expr
+      (operator_identifier)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Negate and negative number
+================================================================================
+
+xsOpp =
+    List.range -n -1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (negate_expr
+        (operator_identifier)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (number_constant_expr
+        (number_literal)))))
+
+================================================================================
+Char Escaped
+================================================================================
+
+charTest =
+  '\''
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (char_constant_expr
+      (open_char)
+      (string_escape)
+      (close_char))))
+
+================================================================================
+Chars
+================================================================================
+
+lower =
+    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ]
+
+
+upper =
+    [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' ]
+
+
+dec =
+    [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (list_expr
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (list_expr
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (list_expr
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char))
+      (char_constant_expr
+        (open_char)
+        (regular_string_part)
+        (close_char)))))
+
+================================================================================
+Strings
+================================================================================
+
+string1 =
+        ""
+
+string2 =
+        "15131465"
+
+string3 =
+        "string1"
+
+string4 =
+        "string{(*)]+]}"
+
+string5 =
+        "string with space"
+
+string7 =
+        "-"
+
+string8 =
+        "--"
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote))))
+
+================================================================================
+Numbers
+================================================================================
+
+number =
+    1
+
+minusNumber =
+    -1
+
+float =
+    1.5
+
+eNumber =
+    1e12
+
+eNumberWithDot =
+    1.0e-12
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (number_constant_expr
+      (number_literal))))
+
+================================================================================
+Tuples
+================================================================================
+
+tuple1 =
+        ()
+tuple2 =
+        (0, 15)
+tuple3 =
+        (0,15)
+tuple4 =
+        ("string",  "string")
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (unit_expr))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (tuple_expr
+      (number_constant_expr
+        (number_literal))
+      (number_constant_expr
+        (number_literal))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (tuple_expr
+      (number_constant_expr
+        (number_literal))
+      (number_constant_expr
+        (number_literal))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (tuple_expr
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote))
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote)))))
+
+================================================================================
+Infix operators
+================================================================================
+
+infix right 0 (<|) = apL
+infix left  0 (|>) = apR
+infix right 2 (||) = or
+infix right 3 (&&) = and
+infix non   4 (==) = eq
+infix non   4 (/=) = neq
+infix non   4 (<) = lt
+infix non   4 (>) = gt
+infix non   4 (<=) = le
+infix non   4 (>=) = ge
+infix right 5 (++) = append
+infix left  6 (+) = add
+infix left  6 (-) = sub
+infix left  7 (*) = mul
+infix left  7 (/) = fdiv
+infix left  7 (//) = idiv
+infix right 8 (^) = pow
+infix left  9 (<<) = composeL
+infix right 9 (>>) = composeR
+
+--------------------------------------------------------------------------------
+
+(file
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier))))
+  (infix_declaration
+    (infix)
+    (lower_case_identifier)
+    (number_literal)
+    (operator_identifier)
+    (eq)
+    (value_expr
+      (value_qid
+        (lower_case_identifier)))))
+
+================================================================================
+Number literal
+================================================================================
+
+isUpper : Char -> Bool
+isUpper char =
+  let
+    code =
+      toCode char
+  in
+    code <= 0x5A && 0x41 <= code
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (bin_op_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (operator
+          (operator_identifier))
+        (number_constant_expr
+          (number_literal))
+        (operator
+          (operator_identifier))
+        (number_constant_expr
+          (number_literal))
+        (operator
+          (operator_identifier))
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))))))
+
+================================================================================
+One line if
+================================================================================
+
+abs n =
+  if lt n 0 then -n else n
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (if_else_expr
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (number_constant_expr
+          (number_literal)))
+      (negate_expr
+        (operator_identifier)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+Named anonymous function
+================================================================================
+
+makePows start base =
+    if start < 0 then
+        \x -> -(base ^ -x)
+
+    else
+        \x -> base ^ x
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (if_else_expr
+      (bin_op_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (operator
+          (operator_identifier))
+        (number_constant_expr
+          (number_literal)))
+      (anonymous_function_expr
+        (backslash)
+        (pattern
+          (lower_pattern
+            (lower_case_identifier)))
+        (arrow)
+        (negate_expr
+          (operator_identifier)
+          (parenthesized_expr
+            (bin_op_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (operator
+                (operator_identifier))
+              (negate_expr
+                (operator_identifier)
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier))))))))
+      (anonymous_function_expr
+        (backslash)
+        (pattern
+          (lower_pattern
+            (lower_case_identifier)))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))

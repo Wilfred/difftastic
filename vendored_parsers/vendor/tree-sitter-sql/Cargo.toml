@@ -1,0 +1,27 @@
+[package]
+name = "tree-sitter-sql"
+description = "SQL grammar for the tree-sitter parsing library"
+authors = ["Maksim Novikov <mnovikov.work@gmail.com>"]
+version = "0.0.2"
+keywords = ["incremental", "parsing", "sql"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/m-novikov/tree-sitter-sql"
+edition = "2018"
+license = "MIT"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.19.3"
+
+[build-dependencies]
+cc = "1.0"

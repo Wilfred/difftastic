@@ -1,0 +1,27 @@
+(script
+  (enum_declaration
+    name: (identifier)
+    type: (type_specifier))
+  (enum_declaration
+    (attribute_modifier
+      (qualified_identifier
+        (identifier)))
+    name: (identifier)
+    type: (type_specifier)
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (integer))
+    (enumerator
+      (identifier)
+      (scoped_identifier
+        (qualified_identifier
+          (identifier))
+        (identifier)))
+    (enumerator
+      (identifier)
+      (binary_expression
+        left: (string)
+        right: (string)))))

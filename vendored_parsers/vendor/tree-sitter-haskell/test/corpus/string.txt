@@ -1,0 +1,36 @@
+================================================================================
+string: special chars
+================================================================================
+
+a = "\\\"\a\b\f\n\r\t\v\&\NUL\SOH\STX\ETX\EOT\ENQ\ACK\BEL\BS\HT\LF\VT\FF\CR\SO\SI\DLE\DC1\DC2\DC3\DC4\NAK\SYN\ETB\CAN\EM\SUB\ESC\FS\GS\RS\US\SP\DEL\^A\^Z\^@\^[\^]\^\\^^\^_"
+
+---
+
+(haskell (function (variable) (exp_literal (string))))
+
+================================================================================
+string: gap
+================================================================================
+
+a = "start\
+     \"
+
+a = "start\
+    \end"
+
+---
+
+(haskell
+ (function (variable) (exp_literal (string)))
+ (function (variable) (exp_literal (string))))
+
+================================================================================
+string: magic hash
+================================================================================
+
+a = "a"#
+a = "a"##
+
+---
+
+(haskell (function (variable) (exp_literal (string))) (function (variable) (exp_literal (string))))

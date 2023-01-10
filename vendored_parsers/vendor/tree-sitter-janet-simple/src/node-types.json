@@ -1,0 +1,1192 @@
+[
+  {
+    "type": "kwd_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "num_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "par_arr_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "par_tup_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qq_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quote_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "short_fn_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "splice_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sqr_arr_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sqr_tup_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tbl_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquote_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "buf_lit",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "long_buf_lit",
+          "named": true
+        },
+        {
+          "type": "long_str_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "par_arr_lit",
+          "named": true
+        },
+        {
+          "type": "par_tup_lit",
+          "named": true
+        },
+        {
+          "type": "qq_lit",
+          "named": true
+        },
+        {
+          "type": "quote_lit",
+          "named": true
+        },
+        {
+          "type": "short_fn_lit",
+          "named": true
+        },
+        {
+          "type": "splice_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_arr_lit",
+          "named": true
+        },
+        {
+          "type": "sqr_tup_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "struct_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "tbl_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "@(",
+    "named": false
+  },
+  {
+    "type": "@[",
+    "named": false
+  },
+  {
+    "type": "@{",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "bool_lit",
+    "named": true
+  },
+  {
+    "type": "buf_lit",
+    "named": true
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "long_buf_lit",
+    "named": true
+  },
+  {
+    "type": "long_str_lit",
+    "named": true
+  },
+  {
+    "type": "nil_lit",
+    "named": true
+  },
+  {
+    "type": "str_lit",
+    "named": true
+  },
+  {
+    "type": "sym_lit",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  }
+]

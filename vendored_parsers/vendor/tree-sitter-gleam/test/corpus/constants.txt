@@ -1,0 +1,388 @@
+================================================================================
+Constants
+================================================================================
+
+const a = "hello"
+const a = "hello\nworld!"
+const a = 1_234
+const a = 0b110
+const a = 0o7224
+const a = 0xBEef
+const a: Int = 1234
+const a: Float = -1_234.53__23
+const a: Float = 0.
+const a: #(Int, String) = #(1, "Hello!")
+const a: #() = #()
+const a: List(Int) = [1, 2]
+const a: List(_) = []
+const a = <<3>>
+const a = <<0:4, 1:3, 1:1>>
+const a = <<3:size(8)>>
+const a = <<52:size(4)-unit(4)>>
+const a = <<"Hello Gleam 💫":utf8>>
+const a = Node
+const a = Node()
+const a = Cat("Ginny", 1950)
+const a = Person(name: "Billy", age: 52)
+const a = uri.Uri(host: "github.com")
+const a: option.Option(String) = option.Some("Hello, World!")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constant
+    name: (identifier)
+    value: (string
+      (quoted_content)))
+  (constant
+    name: (identifier)
+    value: (string
+      (quoted_content)
+      (escape_sequence)
+      (quoted_content)))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (integer))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (float))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (float))
+  (constant
+    name: (identifier)
+    type: (tuple_type
+      (type
+        name: (type_identifier))
+      (type
+        name: (type_identifier)))
+    value: (tuple
+      (integer)
+      (string
+        (quoted_content))))
+  (constant
+    name: (identifier)
+    type: (tuple_type)
+    value: (tuple))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier)
+      arguments: (type_arguments
+        (type_argument
+          (type
+            name: (type_identifier)))))
+    value: (list
+      (integer)
+      (integer)))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (type_identifier)
+      arguments: (type_arguments
+        (type_argument
+          (type_hole))))
+    value: (list))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option
+            (integer))))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option
+            (integer))
+          (bit_string_segment_option
+            (integer))))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (string
+          (quoted_content))
+        options: (bit_string_segment_options
+          (bit_string_segment_option)))))
+  (constant
+    name: (identifier)
+    value: (record
+      name: (constructor_name)))
+  (constant
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments)))
+  (constant
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments
+        (argument
+          value: (string
+            (quoted_content)))
+        (argument
+          value: (integer)))))
+  (constant
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments
+        (argument
+          label: (label)
+          value: (string
+            (quoted_content)))
+        (argument
+          label: (label)
+          value: (integer)))))
+  (constant
+    name: (identifier)
+    value: (record
+      name: (remote_constructor_name
+        module: (identifier)
+        name: (constructor_name))
+      arguments: (arguments
+        (argument
+          label: (label)
+          value: (string
+            (quoted_content))))))
+  (constant
+    name: (identifier)
+    type: (type
+      name: (remote_type_identifier
+        module: (identifier)
+        name: (type_identifier))
+      arguments: (type_arguments
+        (type_argument
+          (type
+            name: (type_identifier)))))
+    value: (record
+      name: (remote_constructor_name
+        module: (identifier)
+        name: (constructor_name))
+      arguments: (arguments
+        (argument
+          value: (string
+            (quoted_content)))))))
+
+================================================================================
+Public constants
+================================================================================
+
+pub const a = "hello"
+pub const a: Int = 1234
+pub const a: Float = -1_234.53__23
+pub const a: #(Int, String) = #(1, "Hello!")
+pub const a: #() = #()
+pub const a: List(Int) = [1, 2]
+pub const a: List(_) = []
+pub const a = <<3>>
+pub const a = <<0:4, 1:3, 1:1>>
+pub const a = <<3:size(8)>>
+pub const a = <<52:size(4)-unit(4)>>
+pub const a = <<"Hello Gleam 💫":utf8>>
+pub const a = Node
+pub const a = Node()
+pub const a = Cat("Ginny", 1950)
+pub const a = Person(name: "Billy", age: 52)
+pub const a = uri.Uri(host: "github.com")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (string
+      (quoted_content)))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (integer))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (type
+      name: (type_identifier))
+    value: (float))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (tuple_type
+      (type
+        name: (type_identifier))
+      (type
+        name: (type_identifier)))
+    value: (tuple
+      (integer)
+      (string
+        (quoted_content))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (tuple_type)
+    value: (tuple))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (type
+      name: (type_identifier)
+      arguments: (type_arguments
+        (type_argument
+          (type
+            name: (type_identifier)))))
+    value: (list
+      (integer)
+      (integer)))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    type: (type
+      name: (type_identifier)
+      arguments: (type_arguments
+        (type_argument
+          (type_hole))))
+    value: (list))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (integer)))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option
+            (integer))))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option
+            (integer))
+          (bit_string_segment_option
+            (integer))))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (string
+          (quoted_content))
+        options: (bit_string_segment_options
+          (bit_string_segment_option)))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (record
+      name: (constructor_name)))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments)))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments
+        (argument
+          value: (string
+            (quoted_content)))
+        (argument
+          value: (integer)))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (record
+      name: (constructor_name)
+      arguments: (arguments
+        (argument
+          label: (label)
+          value: (string
+            (quoted_content)))
+        (argument
+          label: (label)
+          value: (integer)))))
+  (constant
+    (visibility_modifier)
+    name: (identifier)
+    value: (record
+      name: (remote_constructor_name
+        module: (identifier)
+        name: (constructor_name))
+      arguments: (arguments
+        (argument
+          label: (label)
+          value: (string
+            (quoted_content)))))))

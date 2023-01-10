@@ -1,0 +1,185 @@
+========================
+decimal integer literals
+========================
+
+123;
+4;
+50;
+
+---
+
+(program
+  (expression_statement (decimal_integer_literal))
+  (expression_statement (decimal_integer_literal))
+  (expression_statement (decimal_integer_literal)))
+
+====================
+hex integer literals
+====================
+
+0xa_bcd_ef0;
+0Xa_bcd_ef0;
+0X8000;
+
+---
+
+(program
+  (expression_statement (hex_integer_literal))
+  (expression_statement (hex_integer_literal))
+  (expression_statement (hex_integer_literal)))
+
+===============================
+floating point literals
+===============================
+
+4.23e9;
+4.23e-9;
+4.23e+9;
+40.3e6;
+40.3e-6;
+1.234;
+0.123456;
+.12345;
+1e4;
+0.2e-2;
+0.0e-4;
+.2e-2;
+5.4;
+5.4e-10;
+
+---
+
+(program
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal))
+  (expression_statement (decimal_floating_point_literal)))
+
+================
+boolean literals
+================
+
+true;
+false;
+
+---
+
+(program
+  (expression_statement (true))
+  (expression_statement (false)))
+
+===============
+string literals
+===============
+
+"";
+"\"";
+"This is a string";
+"'";
+'\n';
+
+---
+
+(program
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence)))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal))
+  (expression_statement (string_literal (escape_sequence))))
+
+=============
+null literals
+=============
+
+null;
+
+---
+
+(program
+  (expression_statement (null_literal)))
+
+=============
+multiline string literals with single quotes of same type inside
+=============
+
+''' 
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+''';
+
+---
+
+(program (expression_statement (string_literal)))
+
+=============
+adjacent string concatentation
+=============
+
+final str = 'a string'
+            'another string';
+final mixedStr = r'''(["'])((?:\\{2})*|(?:.*?[^\\](?:\\{2})*))\2|''' // with quotes.
+        r'([^ ]+))';
+
+---
+
+(program 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (string_literal))) 
+  (final_builtin)
+  (static_final_declaration_list (static_final_declaration (identifier) (string_literal (comment)))))
+
+
+
+=============
+complex string interpolation
+=============
+
+'ERROR: $error${'\n$stackTrace' ?? ''}';
+
+---
+
+(program 
+  (expression_statement (string_literal 
+    (template_substitution (identifier_dollar_escaped)) 
+    (template_substitution 
+      (if_null_expression 
+        (string_literal (escape_sequence) (template_substitution (identifier_dollar_escaped))) 
+        (string_literal))))))
+
+
+=============
+raw strings single
+=============
+
+r'\';
+r'''\''';
+
+---
+(program
+    (expression_statement (string_literal))
+    (expression_statement (string_literal))
+)
+
+=============
+raw strings double
+=============
+
+r"\";
+r"""\""";
+
+---
+
+(program
+    (expression_statement (string_literal))
+    (expression_statement (string_literal))
+)
+

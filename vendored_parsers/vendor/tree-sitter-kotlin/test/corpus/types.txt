@@ -1,0 +1,176 @@
+==================
+Type references
+==================
+
+something as Int
+something as A
+
+---
+
+(source_file 
+  (as_expression
+    (simple_identifier)
+    (user_type (type_identifier)))
+  (as_expression
+    (simple_identifier)
+    (user_type (type_identifier))))
+
+==================
+Nested types
+==================
+
+// TODO the introduction of scanner.c changed the AST for nested types
+something as Some.NestedType
+
+---
+(source_file
+   (comment)
+   (navigation_expression
+      (as_expression (simple_identifier)
+          (user_type (type_identifier)))
+      (navigation_suffix (simple_identifier))))
+
+==================
+Deeply nested types
+==================
+
+// TODO the introduction of scanner.c changed the AST for nested types
+somethingElse as A.Deeply.Nested.Type
+
+---
+(source_file
+   (comment)
+   (navigation_expression
+      (navigation_expression
+         (navigation_expression
+	    (as_expression (simple_identifier) (user_type (type_identifier)))
+	    (navigation_suffix (simple_identifier)))
+	 (navigation_suffix (simple_identifier)))
+      (navigation_suffix (simple_identifier))))
+
+
+==================
+Generic wildcard types
+==================
+
+something as Generic<*>
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (user_type (type_identifier)
+      (type_arguments (type_projection)))))
+
+==================
+Generic parameterized types
+==================
+
+something as Generic<T>
+something as Generic<A, Type>
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (user_type (type_identifier)
+      (type_arguments
+        (type_projection
+          (user_type (type_identifier))))))
+  (as_expression
+    (simple_identifier)
+    (user_type (type_identifier)
+      (type_arguments
+        (type_projection
+          (user_type (type_identifier)))
+        (type_projection
+          (user_type (type_identifier)))))))
+
+==================
+Function types
+==================
+
+unitFunction as () -> Unit
+consumer as (Int) -> Unit
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (function_type_parameters)
+      (user_type (type_identifier))))
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (function_type_parameters (user_type (type_identifier)))
+      (user_type (type_identifier)))))
+
+==================
+Function types with multiple parameters
+==================
+
+a as (Int, Generic<*>, Boolean) -> Unit
+b as (Nested.Type, (Int)) -> Unit
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (function_type_parameters
+        (user_type (type_identifier))
+        (user_type (type_identifier)
+          (type_arguments
+            (type_projection)))
+        (user_type (type_identifier)))
+      (user_type (type_identifier))))
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (function_type_parameters
+        (user_type (type_identifier) (type_identifier))
+        (parenthesized_type (user_type (type_identifier))))
+      (user_type (type_identifier)))))
+
+==================
+Function types with named parameters
+==================
+
+a as (first: A, second: B) -> Unit
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (function_type_parameters
+        (parameter
+          (simple_identifier)
+          (user_type (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (user_type (type_identifier))))
+      (user_type (type_identifier)))))
+
+==================
+Function types with receiver
+==================
+
+a as T.() -> Unit
+
+---
+
+(source_file
+  (as_expression
+    (simple_identifier)
+    (function_type
+      (type_identifier)
+      (function_type_parameters)
+      (user_type (type_identifier)))))
+

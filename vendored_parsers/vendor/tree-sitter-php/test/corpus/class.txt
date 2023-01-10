@@ -1,0 +1,770 @@
+=========================================
+Abstract class
+=========================================
+
+<?php
+
+abstract class A {
+    public function a() {}
+    abstract public function b();
+}
+
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (abstract_modifier)
+    (name)
+    (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (abstract_modifier)
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+      )
+    )
+  )
+)
+
+=========================================
+Anonymous classes
+=========================================
+
+<?php
+
+new class {
+    public function test() {}
+};
+new class extends A implements B, C {};
+new class() {
+    public $foo;
+};
+new class($a, $b) extends A {
+    use T;
+};
+
+class A {
+    public function test() {
+        return new class($this) extends A {
+            const A = 'B';
+        };
+    }
+}
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (object_creation_expression
+      (declaration_list
+        (method_declaration
+          (visibility_modifier)
+          (name)
+          (formal_parameters)
+          (compound_statement)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (base_clause
+        (name)
+      )
+      (class_interface_clause
+        (name)
+        (name)
+      )
+      (declaration_list)
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (arguments)
+      (declaration_list
+        (property_declaration
+          (visibility_modifier)
+          (property_element
+            (variable_name (name))
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (arguments
+        (argument
+          (variable_name (name))
+        )
+        (argument
+          (variable_name (name))
+        )
+      )
+      (base_clause
+        (name)
+      )
+      (declaration_list
+        (use_declaration
+          (name)
+        )
+      )
+    )
+  )
+  (class_declaration
+    (name)
+    (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement
+          (return_statement
+            (object_creation_expression
+              (arguments (argument (variable_name (name))))
+              (base_clause (name))
+              (declaration_list
+                (const_declaration
+                  (const_element (name) (string (string_value)))
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+=========================================
+Conditional class definition
+=========================================
+
+<?php
+
+if (true) {
+    class A {}
+}
+
+---
+
+(program
+  (php_tag)
+  (if_statement
+    (parenthesized_expression (boolean))
+    (compound_statement
+      (class_declaration
+        (name)
+        (declaration_list)
+      )
+    )
+  )
+)
+
+=========================================
+Class constant modifiers
+=========================================
+
+<?php
+
+class Foo {
+    const A = 1;
+    public const B = 2;
+    protected const C = 3;
+    private const D = 4;
+    final const E = 5;
+}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (name)
+    (declaration_list
+      (const_declaration
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (final_modifier)
+        (const_element (name) (integer))
+      )
+    )
+  )
+)
+
+
+=========================================
+Final class
+=========================================
+
+<?php
+
+final class A {}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (final_modifier)
+    (name)
+    (declaration_list)
+  )
+)
+
+=========================================
+Implicitly public properties and methods
+=========================================
+
+<?php
+
+abstract class A {
+    var $a;
+    static $b;
+    abstract function c();
+    final function d() {}
+    static function e() {}
+    final static function f() {}
+    function g() {}
+}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    (abstract_modifier)
+    (name)
+    (declaration_list
+      (property_declaration
+        (var_modifier)
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (static_modifier)
+        (property_element (variable_name (name)))
+      )
+      (method_declaration
+        (abstract_modifier)
+        (name)
+        (formal_parameters)
+      )
+      (method_declaration
+        (final_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (static_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (final_modifier)
+        (static_modifier)
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+      (method_declaration
+        (name)
+        (formal_parameters)
+        (compound_statement)
+      )
+    )
+  )
+)
+
+=========================================
+Property Types
+=========================================
+
+<?php
+
+class A {
+    public string $a;
+    protected static D $b;
+    private ?float $c;
+    private $d;
+}
+
+---
+
+(program
+	(php_tag)
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (property_declaration
+        (visibility_modifier)
+        type: (union_type (primitive_type))
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        (static_modifier)
+        type: (union_type (named_type (name)))
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        type: (union_type (optional_type (primitive_type)))
+        (property_element (variable_name (name)))
+      )
+      (property_declaration
+        (visibility_modifier)
+        (property_element (variable_name (name)))
+      )
+    )
+  )
+)
+
+
+=========================================
+Constructor Property Promotion
+=========================================
+
+<?php
+
+class Point {
+    public function __construct(
+        public float $x = 0.0,
+        float $y = 0.0,
+        private float $z = 0.0
+    ) {}
+}
+
+---
+
+(program
+  (php_tag)
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            type: (union_type
+              (primitive_type)
+            )
+            name: (variable_name (name))
+            default_value: (float)
+          )
+          (simple_parameter
+            type: (union_type (primitive_type))
+            name: (variable_name (name))
+            default_value: (float)
+          )
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            type: (union_type (primitive_type))
+            name: (variable_name (name))
+            default_value: (float)
+          )
+        )
+        body: (compound_statement)
+      )
+    )
+  )
+)
+
+================================================================================
+Readonly properties
+================================================================================
+
+<?php
+class A {
+    private readonly int $pria;
+    private readonly float $prfa;
+    private readonly mixed $prma;
+    private readonly string $prsa;
+    private readonly object $proa;
+    readonly private int $rpia;
+    readonly private float $rpfa;
+    readonly private mixed $rpma;
+    readonly private string $rpsa;
+    readonly private object $rpoa;
+
+    protected readonly int $oria;
+    protected readonly float $orfa;
+    protected readonly mixed $orma;
+    protected readonly string $orsa;
+    protected readonly object $oroa;
+    readonly protected int $roia;
+    readonly protected float $rofa;
+    readonly protected mixed $roma;
+    readonly protected string $rosa;
+    readonly protected object $rooa;
+
+    public readonly int $uria;
+    public readonly float $urfa;
+    public readonly mixed $urma;
+    public readonly string $ursa;
+    public readonly object $uroa;
+    readonly public int $ruia;
+    readonly public float $rufa;
+    readonly public mixed $ruma;
+    readonly public string $rusa;
+    readonly public object $ruoa;
+
+    readonly int $ria;
+    readonly float $rfa;
+    readonly mixed $rma;
+    ReAdOnLy string $rsa;
+    READONLY object $roa;
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (php_tag)
+  (class_declaration
+    (name)
+    (declaration_list
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (visibility_modifier)
+        (readonly_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (visibility_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (union_type
+          (primitive_type))
+        (property_element
+          (variable_name
+            (name))))
+      (property_declaration
+        (readonly_modifier)
+        (union_type
+          (named_type
+            (name)))
+        (property_element
+          (variable_name
+            (name)))))))
+
+================================================================================
+Constructor property promotion with readonly modifier
+================================================================================
+
+<?php
+class Point {
+    public function __construct(
+        public $x,
+        protected readonly $y,
+        private readonly int $z,
+    ) {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (php_tag)
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (method_declaration
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            name: (variable_name (name)))
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            readonly: (readonly_modifier)
+            name: (variable_name (name)))
+          (property_promotion_parameter
+            visibility: (visibility_modifier)
+            readonly: (readonly_modifier)
+            type: (union_type (primitive_type))
+            name: (variable_name (name))))
+        body: (compound_statement)))))

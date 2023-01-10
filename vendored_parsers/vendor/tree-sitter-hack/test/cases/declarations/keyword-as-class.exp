@@ -1,0 +1,131 @@
+(script
+  (comment)
+  (comment)
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (class_declaration
+    name: (identifier)
+    body: (member_declarations))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (new_expression
+      (qualified_identifier
+        (identifier))
+      (arguments))))

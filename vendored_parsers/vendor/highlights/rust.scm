@@ -1,0 +1,1 @@
+../tree-sitter-rust/queries/highlights.scm

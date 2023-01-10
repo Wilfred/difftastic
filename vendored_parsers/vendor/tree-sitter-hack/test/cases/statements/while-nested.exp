@@ -1,0 +1,19 @@
+(script
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (while_statement
+      condition: (parenthesized_expression
+        (integer))
+      body: (expression_statement
+        (integer))))
+  (while_statement
+    condition: (parenthesized_expression
+      (integer))
+    body: (compound_statement
+      (while_statement
+        condition: (parenthesized_expression
+          (integer))
+        body: (compound_statement
+          (expression_statement
+            (integer)))))))

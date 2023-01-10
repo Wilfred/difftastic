@@ -1,0 +1,88 @@
+================================================================================
+Imports
+================================================================================
+
+import a
+import a/b
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    module: (module))
+  (import
+    module: (module)))
+
+================================================================================
+Unqualified imports
+================================================================================
+
+import a.{b}
+import a/b.{c, d}
+import a/b.{c as d, e}
+import a/b.{c, D as E}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (identifier))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (identifier))
+      (unqualified_import
+        name: (identifier))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (identifier)
+        alias: (identifier))
+      (unqualified_import
+        name: (identifier))))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (identifier))
+      (unqualified_import
+        name: (type_identifier)
+        alias: (type_identifier)))))
+
+================================================================================
+Aliased imports
+================================================================================
+
+import a/b.{c as d} as e
+import animal/cat as kitty
+import animal.{Cat as Kitty} as a
+import animal.{}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (identifier)
+        alias: (identifier)))
+    alias: (identifier))
+  (import
+    module: (module)
+    alias: (identifier))
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier)
+        alias: (type_identifier)))
+    alias: (identifier))
+  (import
+    module: (module)
+    imports: (unqualified_imports)))

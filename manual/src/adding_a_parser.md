@@ -11,12 +11,12 @@ parsers](https://tree-sitter.github.io/tree-sitter/#available-parsers).
 ## Add the source code
 
 Once you've found a parser, add it as a git subtree to
-`vendor/`. We'll use
+`vendored_parsers/`. We'll use
 [tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json) as
 an example.
 
 ```
-$ git subtree add --prefix=vendor/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
 ```
 
 ## Configure the build
@@ -35,7 +35,7 @@ You can now add the parser to build by including the directory in
 ```
 TreeSitterParser {
     name: "tree-sitter-json",
-    src_dir: "vendor/tree-sitter-json-src",
+    src_dir: "vendored_parsers/tree-sitter-json-src",
     extra_files: vec![],
 },
 ```
@@ -56,7 +56,7 @@ Json => {
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
         highlight_query: ts::Query::new(
             language,
-            include_str!("../vendor/highlights/json.scm"),
+            include_str!("../vendored_parsers/highlights/json.scm"),
         )
         .unwrap(),
     }
@@ -108,7 +108,7 @@ To add syntax highlighting for your language, you'll also need a symlink
 to the `queries/highlights.scm` file, if available.
 
 ```
-$ cd vendor/highlights
+$ cd vendored_parsers/highlights
 $ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
 ```
 

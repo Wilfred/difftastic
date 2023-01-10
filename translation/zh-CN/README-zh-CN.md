@@ -74,7 +74,7 @@ Difftastic会解析你的代码，会去理解什么是空格是具有意义的�
 
 Difftastic是一个基于MIT许可证的开源软件，更多信息详见LICENSE。
 
-这个资源库的`vendor/`目录下还包括在
-其他作者的树状分析器。这些都是基于MIT许可证和Apache许可证。更多细节见`vendor/*/LICENSE`。
+这个资源库的`vendored_parsers/`目录下还包括在
+其他作者的树状分析器。这些都是基于MIT许可证和Apache许可证。更多细节见`vendored_parsers/*/LICENSE`。
 
 `sample_files/`中的文件也采用MIT许可，除非在文件头中另有说明。

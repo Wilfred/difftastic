@@ -1,0 +1,207 @@
+================================================================================
+empty string
+================================================================================
+
+foo = ""
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (quoted_template_end)))))))
+
+================================================================================
+unescaped tab
+================================================================================
+
+foo = "foo	bar"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+escaped backslash at end
+================================================================================
+
+foo = "foo\\"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+string literal escaped template interpolation
+================================================================================
+
+foo = "$${foo.bar}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 1
+================================================================================
+
+foo = "$$$"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 2
+================================================================================
+
+foo = "100%"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 3
+================================================================================
+
+foo = "%\n\t"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 4
+================================================================================
+
+foo = "%%\n\t"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 5
+================================================================================
+
+foo = "$$"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template chars but no template 6
+================================================================================
+
+foo = "%%{\n\t"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+escaped template
+================================================================================
+
+foo = "$${ var.bar }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))

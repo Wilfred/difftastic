@@ -1,0 +1,34 @@
+{
+  "name": "tree-sitter-c-sharp",
+  "version": "0.19.1",
+  "description": "C# grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "tree-sitter",
+    "lexer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-c-sharp.git"
+  },
+  "author": "The Tree-Sitter C# Team",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.4"
+  },
+  "scripts": {
+    "test": "tree-sitter test && node test.js"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.cs",
+      "file-types": [
+        "cs"
+      ]
+    }
+  ]
+}

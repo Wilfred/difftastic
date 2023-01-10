@@ -1,0 +1,188 @@
+===
+Commands
+===
+
+nop a
+$nop~ a
+(put $nop~) a
+nop &o=0
+
+---
+(source_file
+  (command (identifier) (bareword))
+  (command (variable (identifier)) (bareword))
+  (command
+    (output_capture (chunk
+      (command (identifier) (variable (identifier)))))
+    (bareword))
+  (command (identifier)
+    (option (identifier) (number))))
+
+
+===
+Pipeline
+===
+
+put a | put b | nop
+
+---
+(source_file
+  (pipeline
+    (command (identifier) (bareword))
+    (command (identifier) (bareword))
+    (command (identifier))))
+
+
+===
+Redirection
+===
+
+echo haha > log
+foo >&2
+bad 2> error
+bad stderr> error
+bad 2>&1
+
+
+---
+(source_file
+  (command (identifier) (bareword)
+    (redirection (file)))
+  (command (identifier)
+    (redirection (io_port)))
+  (command (identifier)
+    (redirection (io_port) (file)))
+  (command (identifier)
+    (redirection (io_port) (file)))
+  (command (identifier)
+    (redirection (io_port) (io_port))))
+
+
+===
+Conditional
+===
+
+if $false {
+  nop
+} elif $true {
+  nop
+} else {
+  nop
+}
+
+---
+(source_file
+  (if (variable (identifier)) (chunk (command (identifier)))
+    (elif (variable (identifier)) (chunk (command (identifier))))
+    (else (chunk (command (identifier))))))
+
+
+===
+While loop
+===
+
+while $true {
+  nop
+} else {
+  nop
+}
+
+---
+(source_file
+  (while (variable (identifier)) (chunk (command (identifier)))
+    (else (chunk (command (identifier))))))
+
+
+===
+For loop
+===
+
+for e [a b] {
+  nop
+} else {
+  nop
+}
+
+---
+(source_file 
+  (for (identifier) (list (bareword) (bareword))
+    (chunk (command (identifier)))
+    (else (chunk (command (identifier))))))
+
+
+===
+Exception control
+===
+
+try {
+  nop
+} catch ident {
+  nop
+} else {
+  nop
+} finally {
+  nop
+}
+
+---
+(source_file
+  (try (chunk (command (identifier)))
+    (catch (identifier) (chunk (command (identifier))))
+    (else (chunk (command (identifier))))
+    (finally (chunk (command (identifier))))))
+
+
+===
+Imports
+===
+
+use path
+use a/b/c
+use a/b/c foo
+
+---
+(source_file
+  (import (bareword))
+  (import (bareword))
+  (import (bareword) (bareword)))
+
+
+===
+Function definition
+===
+
+fn f { nop }
+
+---
+(source_file
+  (function_definition (identifier)
+    (lambda (chunk (command (identifier))))))
+
+
+===
+Variable delcaration/assigment
+===
+
+var a
+var a b = foo bar
+set x = foo
+set list[1] = x
+tmp y = bar
+del x
+
+---
+(source_file
+  (variable_declaration (lhs (identifier)))
+  (variable_declaration
+    (lhs (identifier) (identifier))
+    (rhs (bareword) (bareword)))
+  (variable_assignment
+    (lhs (identifier)) (rhs (bareword)))
+  (variable_assignment 
+    (lhs
+      (identifier)
+      (indices (number)))
+    (rhs (bareword)))
+  (temporary_assignment
+    (lhs (identifier)) (rhs (bareword)))
+  (variable_deletion (identifier)))

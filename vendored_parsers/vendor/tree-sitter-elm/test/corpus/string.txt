@@ -1,0 +1,201 @@
+================================================================================
+Multiline string used in func
+================================================================================
+
+toStringCase enumValue =
+    interpolate
+        """        {0} ->
+                "{1}"
+"""
+        [ enumValue.name |> ClassCaseName.normalized
+        , enumValue.name |> ClassCaseName.raw
+        ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote))
+      (list_expr
+        (bin_op_expr
+          (field_access_expr
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (dot)
+            (lower_case_identifier))
+          (operator
+            (operator_identifier))
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier))))
+        (bin_op_expr
+          (field_access_expr
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (dot)
+            (lower_case_identifier))
+          (operator
+            (operator_identifier))
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier))))))))
+
+================================================================================
+Strings multiline
+================================================================================
+
+string1 =
+        """
+        multiline
+
+        """
+
+string2 =
+        """"""
+
+string3 =
+        """
+        "
+
+        """
+
+string4 =
+        """
+        --comment
+
+        """
+
+string5 =
+        """
+        {- block comment -}
+
+        """
+
+json =
+        """
+            { "description": null
+            , "slug": \"""" ++ str ++ """"
+            , "title": ""
+            , "tagList": []
+            , "createdAt": "2012-04-23T18:25:43.511Z"
+            , "updatedAt": "2012-04-23T18:25:43.511Z"
+            , "favorited": false
+            , "favoritesCount": 1
+            , "author":
+                 { "username": ""
+                 , "bio": null
+                 , "image": null
+                 , "following": false
+                 }
+            }
+        """
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (string_constant_expr
+      (open_quote)
+      (regular_string_part)
+      (close_quote)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (bin_op_expr
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (string_escape)
+        (close_quote))
+      (operator
+        (operator_identifier))
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (operator
+        (operator_identifier))
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote)))))
+
+================================================================================
+Multiline string as parameter
+================================================================================
+
+result =
+    interpolate """module {0} exposing (..)
+placeholder : String
+placeholder =
+    ""
+"""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote)))))

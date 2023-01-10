@@ -1,0 +1,3 @@
+examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/Serialization/SerializationErrorHandlingTests.cs
+examples/Newtonsoft.Json/Src/Newtonsoft.Json.Tests/TestFixtureBase.cs
+examples/Newtonsoft.Json/Src/Newtonsoft.Json/JsonReader.cs

@@ -1,0 +1,4 @@
+(script
+  (namespace_declaration
+    name: (qualified_identifier
+      (identifier))))

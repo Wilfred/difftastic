@@ -1,0 +1,10 @@
+node_modules
+queries
+package-lock.json
+build
+target
+Cargo.lock
+npm-debug.log
+log.html
+.env
+.DS_Store

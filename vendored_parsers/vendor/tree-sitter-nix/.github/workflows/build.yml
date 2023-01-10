@@ -1,0 +1,33 @@
+name: build
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16'
+
+      - name: Display Node versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check generated parser is checked in
+        run: npm run generate && git diff --exit-code src
+
+      - name: Test corpus
+        run: npm test

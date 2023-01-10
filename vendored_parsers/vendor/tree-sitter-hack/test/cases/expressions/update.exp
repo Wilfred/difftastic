@@ -1,0 +1,13 @@
+(script
+  (expression_statement
+    (prefix_unary_expression
+      operand: (variable)))
+  (expression_statement
+    (prefix_unary_expression
+      operand: (variable)))
+  (expression_statement
+    (postfix_unary_expression
+      (variable)))
+  (expression_statement
+    (postfix_unary_expression
+      (variable))))

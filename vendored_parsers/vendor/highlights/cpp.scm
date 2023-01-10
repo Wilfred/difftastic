@@ -1,0 +1,1 @@
+../tree-sitter-cpp/queries/highlights.scm

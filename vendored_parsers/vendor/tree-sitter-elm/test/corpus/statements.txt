@@ -1,0 +1,130 @@
+================================================================================
+Function statement with function call and inline record
+================================================================================
+
+main =
+    Browser.sandbox 
+    { init = 0
+    , update = update
+    , view = view }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (record_expr
+        (field
+          (lower_case_identifier)
+          (eq)
+          (number_constant_expr
+            (number_literal)))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+Function statement with list
+================================================================================
+
+view model =
+    div []
+        [ button [ onClick Decrement ] [ text "-" ]
+        , div [] [ text (String.fromInt model) ]
+        , button [ onClick Increment ] [ text "+" ]
+        ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr)
+      (list_expr
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))))
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr)
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (parenthesized_expr
+                (function_call_expr
+                  (value_expr
+                    (value_qid
+                      (upper_case_identifier)
+                      (dot)
+                      (lower_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))))))
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))))))))

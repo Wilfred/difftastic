@@ -1,0 +1,36 @@
+(script
+  (class_declaration
+    (abstract_modifier)
+    name: (identifier)
+    body: (member_declarations
+      (method_declaration
+        (static_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        (visibility_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement))
+      (method_declaration
+        (abstract_modifier)
+        (visibility_modifier)
+        (static_modifier)
+        name: (identifier)
+        (parameters))
+      (method_declaration
+        (final_modifier)
+        (visibility_modifier)
+        (static_modifier)
+        name: (identifier)
+        (parameters)
+        return_type: (type_specifier)
+        body: (compound_statement)))))

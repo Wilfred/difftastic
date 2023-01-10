@@ -1,0 +1,266 @@
+=====================================
+empty
+=====================================
+
+""
+
+---
+
+(source
+  (string))
+
+=====================================
+single line
+=====================================
+
+"Hello, 123!"
+
+---
+
+(source
+  (string
+    (quoted_content)))
+
+=====================================
+multiple lines
+=====================================
+
+"line 1
+line 2"
+
+---
+
+(source
+  (string
+    (quoted_content)))
+
+=====================================
+interpolation
+=====================================
+
+"hey #{name}!"
+"hey #{
+  name
+}!"
+"##{name}#"
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content))
+  (string
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content))
+  (string
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content)))
+
+=====================================
+nested interpolation
+=====================================
+
+"this is #{"number #{1}"}!"
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (interpolation
+      (string
+        (quoted_content)
+        (interpolation
+          (integer))))
+    (quoted_content)))
+
+=====================================
+escape sequence
+=====================================
+
+"_\"_\n_\t_\r_\e_\\_\1_\x3f_\u0065\u0301_"
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)
+    (escape_sequence)
+    (escape_sequence)
+    (quoted_content)))
+
+=====================================
+escaped interpolation
+=====================================
+
+"\#{1}"
+
+---
+
+(source
+  (string
+    (escape_sequence)
+    (quoted_content)))
+
+=====================================
+heredoc / string
+=====================================
+
+"""
+text
+with "quotes"
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)))
+
+=====================================
+heredoc / interpolation
+=====================================
+
+"""
+hey #{name}!
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (interpolation
+      (identifier))
+    (quoted_content)))
+
+=====================================
+heredoc / nested interpolation
+=====================================
+
+"""
+this is #{
+  """
+  number #{1}
+  """
+}!
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (interpolation
+      (string
+        (quoted_content)
+        (interpolation
+          (integer))
+        (quoted_content)))
+    (quoted_content)))
+
+=====================================
+heredoc / delimiter in the middle
+=====================================
+
+"""
+hey """
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)))
+
+=====================================
+heredoc / escaped newline (ignored)
+=====================================
+
+"""
+hey \
+"""
+
+  """
+  hey \
+  """
+
+"""
+hey \
+there
+"""
+
+---
+
+(source
+  (string
+    (quoted_content))
+  (string
+    (quoted_content))
+  (string
+    (quoted_content)))
+
+=====================================
+heredoc / escaped delimiter
+=====================================
+
+"""
+\"""
+"""
+
+"""
+\"\"\"
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content))
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (escape_sequence)
+    (escape_sequence)
+    (quoted_content)))
+
+=====================================
+heredoc / escaped interpolation
+=====================================
+
+"""
+\#{1}
+"""
+
+---
+
+(source
+  (string
+    (quoted_content)
+    (escape_sequence)
+    (quoted_content)))

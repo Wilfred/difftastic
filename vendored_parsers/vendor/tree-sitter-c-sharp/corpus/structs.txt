@@ -1,0 +1,121 @@
+=====================================
+Struct with a type parameter struct constraint
+=====================================
+
+public struct F<T> where T:struct {}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier) (type_parameter_constraint))
+    (declaration_list)))
+
+=====================================
+Struct with a type parameter class constraint
+=====================================
+
+public struct F<T> where T:class {}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier) (type_parameter_constraint))
+    (declaration_list)))
+
+=====================================
+Struct with type parameter new constraint
+=====================================
+
+public struct F<T> where T: new() {}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (constructor_constraint)))
+    (declaration_list)))
+
+=====================================
+Struct with interface
+=====================================
+
+public struct A : ISomething { }
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (base_list (identifier))
+    (declaration_list)))
+
+=====================================
+Struct with multiple type parameter constraints
+=====================================
+
+private struct F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+     (type_parameter_list
+      (type_parameter (identifier))
+      (type_parameter (identifier)))
+     (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (type_constraint (identifier)))
+      (type_parameter_constraint (type_constraint (identifier)))
+      (type_parameter_constraint (constructor_constraint)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (type_constraint (identifier))))
+    (declaration_list)))
+
+=====================================
+Struct with readonly modifier
+=====================================
+
+readonly struct Test {
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))
+
+=====================================
+Struct with ref modifier
+=====================================
+
+ref struct Test {
+}
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))

@@ -1,0 +1,2343 @@
+[
+  {
+    "type": "RECIPEPREFIX_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ".RECIPEPREFIX",
+            "named": false
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "VPATH_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "VPATH",
+            "named": false
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "paths",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "archive",
+    "named": true,
+    "fields": {
+      "archive": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "members": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "arguments",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "automatic_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditional",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "else_directive",
+          "named": true
+        },
+        {
+          "type": "elsif_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "define_directive",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "raw_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "else_directive",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elsif_directive",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "export_directive",
+    "named": true,
+    "fields": {
+      "variables": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_call",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "abspath",
+            "named": false
+          },
+          {
+            "type": "addprefix",
+            "named": false
+          },
+          {
+            "type": "addsuffix",
+            "named": false
+          },
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "basename",
+            "named": false
+          },
+          {
+            "type": "call",
+            "named": false
+          },
+          {
+            "type": "dir",
+            "named": false
+          },
+          {
+            "type": "error",
+            "named": false
+          },
+          {
+            "type": "eval",
+            "named": false
+          },
+          {
+            "type": "file",
+            "named": false
+          },
+          {
+            "type": "filter",
+            "named": false
+          },
+          {
+            "type": "filter-out",
+            "named": false
+          },
+          {
+            "type": "findstring",
+            "named": false
+          },
+          {
+            "type": "firstword",
+            "named": false
+          },
+          {
+            "type": "flavor",
+            "named": false
+          },
+          {
+            "type": "foreach",
+            "named": false
+          },
+          {
+            "type": "if",
+            "named": false
+          },
+          {
+            "type": "info",
+            "named": false
+          },
+          {
+            "type": "join",
+            "named": false
+          },
+          {
+            "type": "lastword",
+            "named": false
+          },
+          {
+            "type": "notdir",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "origin",
+            "named": false
+          },
+          {
+            "type": "patsubst",
+            "named": false
+          },
+          {
+            "type": "realpath",
+            "named": false
+          },
+          {
+            "type": "sort",
+            "named": false
+          },
+          {
+            "type": "strip",
+            "named": false
+          },
+          {
+            "type": "subst",
+            "named": false
+          },
+          {
+            "type": "suffix",
+            "named": false
+          },
+          {
+            "type": "value",
+            "named": false
+          },
+          {
+            "type": "warning",
+            "named": false
+          },
+          {
+            "type": "wildcard",
+            "named": false
+          },
+          {
+            "type": "word",
+            "named": false
+          },
+          {
+            "type": "wordlist",
+            "named": false
+          },
+          {
+            "type": "words",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ifdef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifeq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifndef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifneq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "include_directive",
+    "named": true,
+    "fields": {
+      "filenames": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "makefile",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "RECIPEPREFIX_assignment",
+          "named": true
+        },
+        {
+          "type": "VPATH_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "export_directive",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "include_directive",
+          "named": true
+        },
+        {
+          "type": "override_directive",
+          "named": true
+        },
+        {
+          "type": "private_directive",
+          "named": true
+        },
+        {
+          "type": "rule",
+          "named": true
+        },
+        {
+          "type": "shell_assignment",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "unexport_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
+          "named": true
+        },
+        {
+          "type": "vpath_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "override_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paths",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prerequisites",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "private_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_text",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "recipe",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "recipe_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "recipe_line",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "shell_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rule",
+    "named": true,
+    "fields": {
+      "normal": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prerequisites",
+            "named": true
+          }
+        ]
+      },
+      "order_only": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prerequisites",
+            "named": true
+          }
+        ]
+      },
+      "prerequisite": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern_list",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern_list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "recipe",
+          "named": true
+        },
+        {
+          "type": "targets",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "shell_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shell_command",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "shell_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "escape",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "shell_function",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shell",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "shell_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "shell_text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "escape",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {
+      "string": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "substitution_reference",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "replacement": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "escape",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "undefine_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "unexport_directive",
+    "named": true,
+    "fields": {
+      "variables": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "variable_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "target_or_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "variable_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "vpath_directive",
+    "named": true,
+    "fields": {
+      "directories": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "paths",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "$$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "&:",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-include",
+    "named": false
+  },
+  {
+    "type": ".RECIPEPREFIX",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "::=",
+    "named": false
+  },
+  {
+    "type": ":=",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "?=",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "D",
+    "named": false
+  },
+  {
+    "type": "F",
+    "named": false
+  },
+  {
+    "type": "VPATH",
+    "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "abspath",
+    "named": false
+  },
+  {
+    "type": "addprefix",
+    "named": false
+  },
+  {
+    "type": "addsuffix",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "basename",
+    "named": false
+  },
+  {
+    "type": "call",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "define",
+    "named": false
+  },
+  {
+    "type": "dir",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "endef",
+    "named": false
+  },
+  {
+    "type": "endif",
+    "named": false
+  },
+  {
+    "type": "error",
+    "named": false
+  },
+  {
+    "type": "escape",
+    "named": true
+  },
+  {
+    "type": "eval",
+    "named": false
+  },
+  {
+    "type": "export",
+    "named": false
+  },
+  {
+    "type": "file",
+    "named": false
+  },
+  {
+    "type": "filter",
+    "named": false
+  },
+  {
+    "type": "filter-out",
+    "named": false
+  },
+  {
+    "type": "findstring",
+    "named": false
+  },
+  {
+    "type": "firstword",
+    "named": false
+  },
+  {
+    "type": "flavor",
+    "named": false
+  },
+  {
+    "type": "foreach",
+    "named": false
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "ifdef",
+    "named": false
+  },
+  {
+    "type": "ifeq",
+    "named": false
+  },
+  {
+    "type": "ifndef",
+    "named": false
+  },
+  {
+    "type": "ifneq",
+    "named": false
+  },
+  {
+    "type": "include",
+    "named": false
+  },
+  {
+    "type": "info",
+    "named": false
+  },
+  {
+    "type": "join",
+    "named": false
+  },
+  {
+    "type": "lastword",
+    "named": false
+  },
+  {
+    "type": "notdir",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "origin",
+    "named": false
+  },
+  {
+    "type": "override",
+    "named": false
+  },
+  {
+    "type": "patsubst",
+    "named": false
+  },
+  {
+    "type": "private",
+    "named": false
+  },
+  {
+    "type": "realpath",
+    "named": false
+  },
+  {
+    "type": "shell",
+    "named": false
+  },
+  {
+    "type": "sinclude",
+    "named": false
+  },
+  {
+    "type": "sort",
+    "named": false
+  },
+  {
+    "type": "strip",
+    "named": false
+  },
+  {
+    "type": "subst",
+    "named": false
+  },
+  {
+    "type": "suffix",
+    "named": false
+  },
+  {
+    "type": "undefine",
+    "named": false
+  },
+  {
+    "type": "unexport",
+    "named": false
+  },
+  {
+    "type": "value",
+    "named": false
+  },
+  {
+    "type": "vpath",
+    "named": false
+  },
+  {
+    "type": "warning",
+    "named": false
+  },
+  {
+    "type": "wildcard",
+    "named": false
+  },
+  {
+    "type": "word",
+    "named": false
+  },
+  {
+    "type": "word",
+    "named": true
+  },
+  {
+    "type": "wordlist",
+    "named": false
+  },
+  {
+    "type": "words",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

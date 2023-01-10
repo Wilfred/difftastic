@@ -1,0 +1,58 @@
+=======================================
+global enum with one option
+=======================================
+
+enum A { One }
+
+---
+
+(compilation_unit
+  (enum_declaration
+    name: (identifier)
+    body: (enum_member_declaration_list
+      (enum_member_declaration
+        name: (identifier)))))
+
+=======================================
+enum with integer values
+=======================================
+
+enum B { Ten = 10, Twenty = 20 }
+
+---
+
+(compilation_unit
+  (enum_declaration
+    name: (identifier)
+    body: (enum_member_declaration_list
+      (enum_member_declaration
+        name: (identifier)
+        value: (integer_literal))
+      (enum_member_declaration
+        name: (identifier)
+        value: (integer_literal)))))
+
+=======================================
+enum with byte base
+=======================================
+
+namespace A {
+  enum B : byte { Five = 0x05, Fifteen = 0x0F }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    name: (identifier)
+    body: (declaration_list
+      (enum_declaration
+        name: (identifier)
+        bases: (base_list (predefined_type))
+        body: (enum_member_declaration_list
+          (enum_member_declaration
+            name: (identifier)
+            value: (integer_literal))
+          (enum_member_declaration
+            name: (identifier)
+            value: (integer_literal)))))))

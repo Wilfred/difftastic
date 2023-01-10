@@ -1,0 +1,16 @@
+name: acceptance
+on: [pull_request]
+
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nixbuild/nix-quick-install-action@v5
+    - run: nix-shell --run 'tree-sitter test'
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nixbuild/nix-quick-install-action@v5
+    - run: nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*/*'

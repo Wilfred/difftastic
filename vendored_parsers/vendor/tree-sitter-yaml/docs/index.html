@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="assets/tree-sitter-playground-0.19.3/style.css" media="screen" type="text/css">
+  <title>Tree-sitter YAML Playground</title>
+</head>
+
+<body>
+  <div id="container">
+    <main id="main-content">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css">
+<style>
+.version {
+  font-size: 0.5em;
+}
+.credit {
+  font-style: italic;
+  margin-top: 20px;
+  text-align: center;
+}
+</style>
+
+<h1><a href="https://github.com/ikatyang/tree-sitter-yaml">Tree-sitter YAML</a> <span class="version">v0.5.0</span></h1>
+
+<div id="playground-container" style="visibility: hidden;">
+
+<h4>Code</h4>
+<select id="language-select">
+  <option value="yaml" selected="selected">YAML</option>
+</select>
+
+<input id="logging-checkbox" type="checkbox"></input>
+<label for="logging-checkbox">Log</label>
+
+<input id="query-checkbox" type="checkbox"></input>
+<label for="query-checkbox">Query</label>
+
+<textarea id="code-input">
+</textarea>
+
+<div id="query-container" style="visibility: hidden; position: absolute;">
+  <h4>Query</h4>
+  <textarea id="query-input"></textarea>
+</div>
+
+<h4>Tree</h4>
+<span id="update-time"></span>
+<div id="output-container-scroll">
+  <pre id="output-container" class="highlight"></pre>
+</div>
+
+</div>
+
+<div class="credit">
+  This playground was modified from <a href="https://tree-sitter.github.io/tree-sitter/playground">the official Tree-sitter Playground</a>.
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
+
+<script>LANGUAGE_BASE_URL = "assets/tree-sitter-yaml-0.5.0";</script>
+<script src="assets/web-tree-sitter-0.19.3/tree-sitter.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
+<script src="assets/tree-sitter-playground-0.19.3/playground.js"></script>
+
+<script>
+((codeExample, queryExample) => {
+  const handle = setInterval(() => {
+    const $codeEditor = document.querySelector('.CodeMirror');
+    const $queryEditor = document.querySelector('#query-container .CodeMirror');
+    const $queryCheckbox = document.querySelector('#query-checkbox');
+    if ($codeEditor && $queryEditor) {
+      $codeEditor.CodeMirror.setValue(codeExample);
+      if (queryExample) {
+        $queryEditor.CodeMirror.setValue(queryExample);
+        if (!$queryCheckbox.checked) $queryCheckbox.click();
+      }
+      clearInterval(handle);
+    }
+  }, 500);
+})(`---
+invoice: 34843
+date   : 2001-01-23
+bill-to: &id001
+    given  : Chris
+    family : Dumars
+    address:
+        lines: |
+            458 Walkman Dr.
+            Suite #292
+        city    : Royal Oak
+        state   : MI
+        postal  : 48046
+ship-to: *id001
+product:
+    - sku         : BL394D
+      quantity    : 4
+      description : Basketball
+      price       : 450.00
+    - sku         : BL4438H
+      quantity    : 1
+      description : Super Hoop
+      price       : 2392.00
+tax  : 251.42
+total: 4443.52
+comments: >
+    Late afternoon is best.
+    Backup contact is Nancy
+    Billsmer @ 338-4338.`, ``);
+</script>
+
+    </main>
+  </div>
+</body>
+</html>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  crossorigin="anonymous">
+</script>

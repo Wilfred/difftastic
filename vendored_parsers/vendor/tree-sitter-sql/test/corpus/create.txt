@@ -1,0 +1,1054 @@
+================================================================================
+CREATE statement
+================================================================================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  `id` int(11) NOT NULL auto_increment,
+  `recid` int(11) NOT NULL default '0',
+  `cvfilename` varchar(250)  NOT NULL default '',
+  `cvpagenumber`  int(11) NULL,
+  `cilineno` int(11)  NULL,
+  `batchname`  varchar(100) NOT NULL default '',
+  `type` varchar(20) NOT NULL default '',
+  `data` varchar(100) NOT NULL default '',
+   PRIMARY KEY  (`id`)
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (auto_increment_constraint))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (primary_key
+        (identifier)))))
+
+================================================================================
+CREATE TABLE
+================================================================================
+
+CREATE TABLE IF NOT EXISTS tblsample
+(
+  id int(11) NOT NULL auto_increment,
+  recid int(11) NOT NULL default '0',
+  cvfilename varchar(250)  NOT NULL default '',
+  cvpagenumber  int(11) NULL,
+  cilineno int(11)  NULL,
+  `batchname`  varchar(100) NOT NULL default '',
+  `type` varchar(20) NOT NULL default '',
+  `data` varchar(100) NOT NULL default '',
+   PRIMARY KEY  (`id`)
+)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (auto_increment_constraint))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number))
+        (null_constraint
+          (NULL))
+        (default_clause
+          (string
+            (content))))
+      (primary_key
+        (identifier)))))
+
+================================================================================
+CREATE statement with array type
+================================================================================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  col1 INTEGER[],
+  col2 INTEGER[3],
+  col3 INTEGER[][],
+  col4 INTEGER[3][3]
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))
+          (number)))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))))
+      (table_column
+        (identifier)
+        (array_type
+          (type
+            (identifier))
+          (number)
+          (number))))))
+
+================================================================================
+CREATE statement with VARYING, PRECISION, WITH/WITHOUT TIME ZONE types
+================================================================================
+
+CREATE TABLE IF NOT EXISTS `tblsample` (
+  col1 CHARACTER VARYING,
+  col2 CHARACTER VARYING(10),
+  col3 DOUBLE PRECISION,
+  col4 TIMESTAMP WITH TIME ZONE,
+  col5 TIMESTAMP WITHOUT TIME ZONE
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (identifier)
+    (table_parameters
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)
+          (number)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier)))
+      (table_column
+        (identifier)
+        (type
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION with return statement
+================================================================================
+
+CREATE FUNCTION add(a INTEGER, b INTEGER) RETURNS INTEGER
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT
+    RETURN a + b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier)))
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (language)
+    (optimizer_hint)
+    (null_hint)
+    (function_body
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION with single statement
+================================================================================
+
+CREATE FUNCTION foo()
+  RETURNS INT
+  DETERMINISTIC
+SELECT 0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters)
+    (type
+      (identifier))
+    (deterministic_hint)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE FUNCTION with compound statement
+================================================================================
+
+CREATE OR REPLACE FUNCTION foo(n int)
+  RETURNS SETOF text
+  LANGUAGE SQL
+  IMMUTABLE STRICT PARALLEL SAFE
+BEGIN ATOMIC
+SELECT repeat('*');
+END;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (setof
+      (type
+        (identifier)))
+    (language)
+    (optimizer_hint)
+    (null_hint)
+    (parallel_hint)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (function_call
+              (identifier)
+              (string
+                (content)))))))))
+
+================================================================================
+CREATE FUNCTION with declare variable
+================================================================================
+
+CREATE FUNCTION foo(IN  a INT)
+RETURNS VARCHAR(20)
+BEGIN
+  DECLARE x DEC(10,2) DEFAULT 0;
+  SELECT c INTO x FROM table1 WHERE col1 = a;
+  RETURN func(x);
+END
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier)
+      (number))
+    (function_body
+      (declare_statement
+        (identifier)
+        (type
+          (identifier)
+          (number)
+          (number))
+        (default_clause
+          (number)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)
+            (identifier)))
+        (from_clause
+          (identifier))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (identifier))))
+      (return_statement
+        (function_call
+          (identifier)
+          (identifier))))))
+
+================================================================================
+CREATE FUNCTION without return type
+================================================================================
+
+CREATE PROCEDURE foo(OUT b VARCHAR(20))
+BEGIN
+  SET b = func(1);
+END
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier)
+          (number))))
+    (function_body
+      (set_statement
+        (identifier)
+        (function_call
+          (identifier)
+          (number))))))
+
+================================================================================
+CREATE PROCEDURE
+================================================================================
+
+CREATE PROCEDURE foo()
+ RETURN SELECT 0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters)
+    (function_body
+      (return_statement
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number))))))))
+
+================================================================================
+CREATE TRIGGER call function
+================================================================================
+
+CREATE TRIGGER trigger1
+    INSTEAD OF INSERT ON table1
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER execute procedure
+================================================================================
+
+CREATE TRIGGER trigger1
+    INSTEAD OF INSERT ON table1
+    FOR EACH ROW
+    EXECUTE PROCEDURE proc();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with preferencing
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    REFERENCING NEW TABLE AS newtab OLD TABLE AS oldtab
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_preferencing
+      (identifier)
+      (identifier))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with condition
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FOR EACH ROW
+    WHEN (OLD.* = NEW.*)
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_condition
+      (binary_expression
+        (asterisk_expression
+          (identifier))
+        (asterisk_expression
+          (identifier))))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with order
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FOR EACH ROW
+    FOLLOWS trigger2
+    UPDATE table1 SET col1 = 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_order
+      (identifier))
+    (trigger_body
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (number))))))))
+
+================================================================================
+CREATE TRIGGER with reference
+================================================================================
+
+CREATE TRIGGER trigger1
+    BEFORE DELETE ON table1
+    FROM table2
+    FOR EACH ROW
+    EXECUTE FUNCTION func();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_reference
+      (identifier))
+    (trigger_body
+      (identifier))))
+
+================================================================================
+CREATE TRIGGER with single statement
+================================================================================
+
+CREATE TRIGGER testref BEFORE INSERT ON test1
+  FOR EACH ROW
+  UPDATE test4 SET b4 = b4 + 1 WHERE a4 = NEW.a1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (number)))))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+CREATE TRIGGER with compound statement
+================================================================================
+
+CREATE TRIGGER testref BEFORE INSERT ON test1
+  FOR EACH ROW
+  BEGIN
+    INSERT INTO test2 SET a2 = NEW.a1, a1 = NEW.a2;
+    DELETE FROM test3 WHERE a3 = NEW.a1;
+    UPDATE test4 SET b4 = b4 + 1 WHERE a4 = NEW.a1;
+  END;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_trigger_statement
+    (identifier)
+    (trigger_time)
+    (trigger_event)
+    (identifier)
+    (trigger_body
+      (insert_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (dotted_name
+                (identifier)
+                (identifier)))
+            (assigment_expression
+              (identifier)
+              (dotted_name
+                (identifier)
+                (identifier))))))
+      (delete_statement
+        (from_clause
+          (identifier))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier)))))
+      (update_statement
+        (identifier)
+        (set_clause
+          (set_clause_body
+            (assigment_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (number)))))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (dotted_name
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+CREATE VIEW
+================================================================================
+
+CREATE VIEW foo AS SELECT 1;
+CREATE VIEW foo AS (SELECT 1);
+CREATE OR REPLACE VIEW foo AS SELECT 1;
+CREATE TEMPORARY VIEW foo AS SELECT 1;
+CREATE TEMP VIEW foo AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_subexpression
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number)))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE VIEW with columns
+================================================================================
+
+CREATE VIEW foo(a, b) AS SELECT 1 a, 2 b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))))
+
+================================================================================
+CREATE VIEW by value clause
+================================================================================
+
+CREATE VIEW foo AS VALUES (1, 2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (values_clause
+        (values_clause_item
+          (number)
+          (number))))))
+
+================================================================================
+CREATE VIEW with options
+================================================================================
+
+CREATE VIEW foo WITH(security_barrier) AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_options
+      (view_option
+        (identifier)))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE VIEW with check option
+================================================================================
+
+CREATE VIEW foo AS SELECT 1 WITH CHECK OPTION;
+CREATE VIEW foo AS SELECT 1 WITH LOCAL CHECK OPTION;
+CREATE VIEW foo AS SELECT 1 WITH CASCADED CHECK OPTION;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option))
+  (create_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (view_check_option)))
+
+================================================================================
+CREATE MATERIALIZED VIEW
+================================================================================
+
+CREATE MATERIALIZED VIEW foo AS SELECT 1;
+CREATE MATERIALIZED VIEW IF NOT EXISTS foo AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number))))))
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with columns
+================================================================================
+
+CREATE MATERIALIZED VIEW foo(a, b) AS SELECT 1 a, 2 b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with using clause
+================================================================================
+
+CREATE MATERIALIZED VIEW foo USING method1 AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (using_clause
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with options
+================================================================================
+
+CREATE MATERIALIZED VIEW foo WITH (
+  toast.log_autovacuum_min_duration=1,
+  user_catalog_table,
+  autovacuum_vacuum_scale_factor=1.5
+) AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_options
+      (view_option
+        (assigment_expression
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)))
+      (view_option
+        (identifier))
+      (view_option
+        (assigment_expression
+          (identifier)
+          (number))))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with tablespace
+================================================================================
+
+CREATE MATERIALIZED VIEW foo TABLESPACE tbsp AS SELECT 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (tablespace_hint
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))))
+
+================================================================================
+CREATE MATERIALIZED VIEW with data hint
+================================================================================
+
+CREATE MATERIALIZED VIEW foo AS SELECT 1 WITH DATA;
+CREATE MATERIALIZED VIEW foo AS SELECT 1 WITH NO DATA;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (data_hint))
+  (create_materialized_view_statement
+    (identifier)
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (data_hint)))
+
+================================================================================
+CREATE MATERIALIZED VIEW complex
+================================================================================
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
+  USING method1
+  WITH (
+    toast.log_autovacuum_min_duration=1,
+    user_catalog_table,
+    autovacuum_vacuum_scale_factor=1.5
+  )
+  TABLESPACE tbsp
+  AS SELECT 1 a, 2 b
+  WITH NO DATA;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_materialized_view_statement
+    (identifier)
+    (view_columns
+      (identifier)
+      (identifier))
+    (using_clause
+      (identifier))
+    (view_options
+      (view_option
+        (assigment_expression
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number)))
+      (view_option
+        (identifier))
+      (view_option
+        (assigment_expression
+          (identifier)
+          (number))))
+    (tablespace_hint
+      (identifier))
+    (view_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (alias
+              (number)
+              (identifier))
+            (alias
+              (number)
+              (identifier))))))
+    (data_hint)))

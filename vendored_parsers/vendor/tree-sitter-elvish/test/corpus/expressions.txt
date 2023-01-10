@@ -1,0 +1,117 @@
+===
+Variable
+===
+
+nop $foo $edit:location:start $E:PATH
+
+---
+(source_file
+  (command (identifier)
+    (variable (identifier))
+    (variable (identifier))
+    (variable (identifier))))
+
+
+===
+Output Capture
+===
+
+nop (nop)
+
+---
+(source_file
+  (command (identifier)
+    (output_capture
+      (chunk (command (identifier))))))
+
+
+===
+Exception Capture
+===
+
+nop ?(nop)
+
+---
+(source_file
+  (command (identifier)
+    (exception_capture
+      (chunk (command (identifier))))))
+
+
+===
+Braced list
+===
+
+nop {a b} {}
+
+---
+(source_file
+  (command (identifier)
+    (braced_list (bareword) (bareword))
+    (braced_list)))
+
+
+===
+Indexing
+===
+
+nop [a b][0 1] [&a=lorem &b=ipsum][a b] $list[(put 1)] $list[$indices] $list[0][0]
+
+---
+(source_file
+  (command (identifier)
+    (indexing
+      (list (bareword) (bareword))
+      (indices (number) (number)))
+    (indexing
+      (map
+        (pair (identifier) (bareword))
+        (pair (identifier) (bareword)))
+      (indices (bareword) (bareword)))
+    (indexing
+      (variable (identifier))
+      (indices (output_capture
+        (chunk (command (identifier) (number))))))
+    (indexing
+      (variable (identifier))
+      (indices (variable (identifier))))
+    (indexing
+      (variable (identifier))
+      (indices (number))
+      (indices (number)))))
+
+
+===
+Lambdas
+===
+
+nop { nop} {|a| nop} {|a|nop} {|&o=0|nop}
+
+---
+(source_file
+  (command (identifier)
+    (lambda (chunk (command (identifier))))
+    (lambda (parameter_list (identifier))
+      (chunk (command (identifier))))
+    (lambda (parameter_list (identifier))
+      (chunk (command (identifier))))
+    (lambda
+      (parameter_list
+        (option (identifier) (number)))
+      (chunk (command (identifier))))))
+
+
+===
+Wildcard
+===
+
+nop * ** ? *[set:aeoiu] *[set:abc][range:0-9]
+
+---
+(source_file
+  (command (identifier)
+    (wildcard)
+    (wildcard)
+    (wildcard)
+    (wildcard (modifier))
+    (wildcard (modifier) (modifier))))

@@ -1,0 +1,29 @@
+[package]
+name = "tree-sitter-rust"
+description = "Rust grammar for the tree-sitter parsing library"
+version = "0.20.1"
+authors = ["Max Brunsfeld <maxbrunsfeld@gmail.com>"]
+license = "MIT"
+readme = "bindings/rust/README.md"
+keywords = ["incremental", "parsing", "rust"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-rust"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+autoexamples = false
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.20"
+
+[build-dependencies]
+cc = "1.0"

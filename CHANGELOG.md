@@ -4,6 +4,11 @@
 
 Improved CSS parsing and HTML sublanguage parsing.
 
+### Build
+
+Renamed the vendored parser directory to vendored_parsers/, as `cargo
+vendor` would clobber the `vendor/` directory.
+
 ## 0.41 (released 8th January 2023)
 
 ### Parsing

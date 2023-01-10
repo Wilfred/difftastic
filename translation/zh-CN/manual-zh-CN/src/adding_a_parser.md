@@ -8,10 +8,10 @@ Difftastic的新解析器必须完整且合理地维护。
 
 ## 添加源码
 
-一旦你找到一个解析器，需要将其作为git的subtree添加到`vendor/`中。我们会使用[tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)作为例子。
+一旦你找到一个解析器，需要将其作为git的subtree添加到`vendored_parsers/`中。我们会使用[tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)作为例子。
 
 ```
-$ git subtree add --prefix=vendor/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
 ```
 
 ## 配置编译过程
@@ -28,7 +28,7 @@ $ ln -s tree-sitter-json/src tree-sitter-json-src
 ```
 TreeSitterParser {
     name: "tree-sitter-json",
-    src_dir: "vendor/tree-sitter-json-src",
+    src_dir: "vendored_parsers/tree-sitter-json-src",
     extra_files: vec![],
 },
 ```
@@ -49,7 +49,7 @@ Json => {
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
         highlight_query: ts::Query::new(
             language,
-            include_str!("../vendor/highlights/json.scm"),
+            include_str!("../vendored_parsers/highlights/json.scm"),
         )
         .unwrap(),
     }
@@ -87,7 +87,7 @@ Json => {
 要为你的语言添加语法高亮，如果有的话，你还需要在`queries/highlights.scm`文件一个符号链接。
 
 ```
-$ cd vendor/highlights
+$ cd vendored_parsers/highlights
 $ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
 ```
 

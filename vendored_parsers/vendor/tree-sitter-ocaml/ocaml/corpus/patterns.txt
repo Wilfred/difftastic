@@ -1,0 +1,235 @@
+============================
+Values
+============================
+
+function x -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case (value_pattern) (unit)))))
+
+============================
+Constant patterns
+============================
+
+function 1 | +1.0 | 'x' | "x" | {|x|} | true | () -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (or_pattern
+          (or_pattern
+            (or_pattern
+              (or_pattern
+                (or_pattern
+                  (or_pattern
+                    (number)
+                    (signed_number))
+                  (character (character_content)))
+                (string (string_content)))
+              (quoted_string (quoted_string_content)))
+            (boolean))
+          (unit))
+        (unit)))))
+
+============================
+Typed patterns
+============================
+
+function (x : t) -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (typed_pattern
+          (value_pattern)
+          (type_constructor_path (type_constructor)))
+        (unit)))))
+
+============================
+Constructors and tags
+============================
+
+function A x | A | `A | `A x -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (or_pattern
+          (or_pattern
+            (or_pattern
+              (constructor_pattern
+                (constructor_path (constructor_name))
+                (value_pattern))
+              (constructor_path (constructor_name)))
+            (tag))
+          (tag_pattern (tag) (value_pattern)))
+        (unit)))))
+
+============================
+Polymorphic variant patterns
+============================
+
+function #t -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (polymorphic_variant_pattern
+          (type_constructor_path (type_constructor)))
+        (unit)))))
+
+============================
+Records, lists and arrays
+============================
+
+function {x} | [x] | [|x|] | [|x;y;|] | x :: xs -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (or_pattern
+          (or_pattern
+            (or_pattern
+              (or_pattern
+                (record_pattern
+                  (field_pattern (field_path (field_name))))
+                (list_pattern (value_pattern)))
+              (array_pattern (value_pattern)))
+            (array_pattern (value_pattern) (value_pattern)))
+          (cons_pattern (value_pattern) (value_pattern)))
+        (unit)))))
+
+============================
+Local open patterns
+============================
+
+function M.(A x) | M.[x] -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (or_pattern
+          (local_open_pattern
+            (module_path (module_name))
+            (constructor_pattern
+              (constructor_path (constructor_name))
+              (value_pattern)))
+          (local_open_pattern
+            (module_path (module_name))
+            (list_pattern (value_pattern))))
+        (unit)))))
+
+============================
+Package patterns
+============================
+
+function (module M) -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (package_pattern (module_name))
+      (unit)))))
+
+============================
+Alias patterns
+============================
+
+function x as t -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (alias_pattern (value_pattern) (value_pattern))
+        (unit)))))
+
+============================
+Tuple patterns
+============================
+
+function x, x, x -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (tuple_pattern
+          (tuple_pattern
+            (value_pattern)
+            (value_pattern))
+          (value_pattern))
+        (unit)))))
+
+============================
+Range patterns
+============================
+
+function 'a' .. 'z' -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (range_pattern (character (character_content)) (character (character_content)))
+        (unit)))))
+
+============================
+Lazy patterns
+============================
+
+function lazy x -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case (lazy_pattern (value_pattern))
+      (unit)))))
+
+============================
+Parenthesized patterns
+============================
+
+function (x) -> ()
+
+---
+
+(compilation_unit
+  (expression_item
+    (function_expression
+      (match_case
+        (parenthesized_pattern (value_pattern))
+        (unit)))))

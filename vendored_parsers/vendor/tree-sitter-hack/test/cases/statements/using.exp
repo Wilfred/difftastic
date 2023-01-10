@@ -1,0 +1,8 @@
+(script
+  (using_statement
+    (integer)
+    (compound_statement))
+  (using_statement
+    (await_modifier)
+    (integer)
+    (compound_statement)))

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+function checkout_at() {
+  path="examples/$1"
+  url=$2
+  sha=$3
+
+  if [ ! -d "$path" ]; then
+    git clone "https://github.com/$url" "$path"
+  fi
+
+  pushd "$path"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+checkout_at "laravel" "laravel/laravel" "9d0862b3340c8243ee072afc181e315ffa35e110"
+checkout_at "phabricator" "phacility/phabricator" "d0b01a41f2498fb2a6487c2d6704dc7acfd4675f"
+checkout_at "phpunit" "sebastianbergmann/phpunit" "5e523bdc7dd4d90fed9fb29d1df05347b3e7eaba"
+checkout_at "WordPress" "WordPress/WordPress" "45286c5bb3f6fe5005567903ec858d87077eae2c"
+
+known_failures="$(cat script/known-failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.php' \
+  $(for file in $known_failures; do echo "!${file}"; done)
+
+example_count=$(find examples -name '*.php' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent

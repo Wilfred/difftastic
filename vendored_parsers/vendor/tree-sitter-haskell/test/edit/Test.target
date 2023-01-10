@@ -1,0 +1,17 @@
+(haskell [0, 0] - [6, 0]
+  module: (module [0, 7] - [0, 8])
+  (where [0, 9] - [0, 14])
+  (adt [2, 0] - [5, 17]
+    name: (type [2, 5] - [2, 8])
+    (type_variable [2, 9] - [2, 10])
+    (constructors [3, 2] - [3, 5]
+      (data_constructor [3, 2] - [3, 5]
+        (constructor [3, 2] - [3, 5])))
+    (deriving [4, 2] - [4, 15]
+      class: (constraint [4, 12] - [4, 14]
+        class: (class_name [4, 12] - [4, 14]
+          (type [4, 12] - [4, 14]))))
+    (deriving [5, 2] - [5, 17]
+      class: (constraint [5, 12] - [5, 16]
+        class: (class_name [5, 12] - [5, 16]
+          (type [5, 12] - [5, 16]))))))

@@ -1,0 +1,122 @@
+=======================================
+basic indentifiers
+=======================================
+
+int x = y;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (identifier)))))))
+
+=======================================
+indentifiers with keyword names
+=======================================
+
+int @var = @const;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (identifier)))))))
+
+=======================================
+identifiers with contextual keyword names
+=======================================
+
+int nint = 0;
+int nuint = 0;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal)))))))
+
+=======================================
+unicode identifiers 
+=======================================
+
+var under_score = 0;
+var with1number = 0;
+var varæble = 0;
+var Переменная = 0;
+var first‿letter = 0;
+var ග්‍රහලෝකය = 0;
+var _كوكبxxx = 0;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal))))))                        
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (integer_literal)))))))

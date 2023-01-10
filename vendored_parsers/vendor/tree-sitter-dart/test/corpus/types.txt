@@ -1,0 +1,104 @@
+===============
+integral types
+===============
+
+class Beyonce {
+  int formation() {
+    int x;
+    byte x;
+    short x;
+    long x;
+    char x;
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature
+        (function_signature
+        (type_identifier)
+        (identifier)
+
+                (formal_parameter_list)
+        )
+        )
+          (function_body
+            (block
+              (local_variable_declaration
+              (initialized_variable_definition
+              (type_identifier)
+                  (identifier)))
+              (local_variable_declaration
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
+              (local_variable_declaration
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
+              (local_variable_declaration
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
+              (local_variable_declaration
+              (initialized_variable_definition
+
+                (type_identifier)
+                  (identifier)
+                  ))
+              )
+           )
+
+      )
+    )
+  )
+
+=====================
+floating point types
+=====================
+
+class Beyonce {
+  int formation() {
+    float x;
+    double x;
+  }
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (class_body
+      (method_signature
+        (function_signature
+        (type_identifier)
+        (identifier)
+                        (formal_parameter_list)
+        )
+        )
+        (function_body
+        (block
+          (local_variable_declaration
+          (initialized_variable_definition
+
+            (type_identifier)
+            (identifier)
+          ))
+          (local_variable_declaration
+          (initialized_variable_definition
+
+            (type_identifier)
+            (identifier)
+          ))))
+            )))

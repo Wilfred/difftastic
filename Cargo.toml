@@ -13,10 +13,10 @@ rust-version = "1.57.0"
 include = [
         "/build.rs",
         "/src/",
-        "/vendor/highlights/*.scm",
-        "/vendor/*-src/**/*.c",
-        "/vendor/*-src/**/*.h",
-        "/vendor/*-src/**/*.cc",
+        "/vendored_parsers/highlights/*.scm",
+        "/vendored_parsers/*-src/**/*.c",
+        "/vendored_parsers/*-src/**/*.h",
+        "/vendored_parsers/*-src/**/*.cc",
         "/LICENSE",
         "/README.md",
 ]

@@ -1,0 +1,4887 @@
+[
+  {
+    "type": "accumulation_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accumulation_verb",
+          "named": true
+        },
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "accumulation_verb",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "array_dimension",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "auto_res_mark",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "char_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "complex_num_lit",
+    "named": true,
+    "fields": {
+      "imaginary": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num_lit",
+            "named": true
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#C",
+            "named": false
+          },
+          {
+            "type": "#c",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "real": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "condition_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defun",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun_header",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defun_header",
+    "named": true,
+    "fields": {
+      "function_name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "keyword": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "defun_keyword",
+            "named": true
+          }
+        ]
+      },
+      "lambda_list": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "specifier": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defun_keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "dis_expr",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#_",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "do_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "variable": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "for_clause_word",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_clause_word",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "format_directive_type",
+    "named": true,
+    "fields": {
+      "numberOfArgs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          }
+        ]
+      },
+      "repetitions": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "format_modifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "format_prefix_parameters",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "format_specifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "format_directive_type",
+          "named": true
+        },
+        {
+          "type": "format_modifiers",
+          "named": true
+        },
+        {
+          "type": "format_prefix_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "include_reader_macro",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#+",
+            "named": false
+          },
+          {
+            "type": "#-",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "kwd_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "kwd_symbol",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "kwd_symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "loop_macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "loop_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "accumulation_clause",
+          "named": true
+        },
+        {
+          "type": "condition_clause",
+          "named": true
+        },
+        {
+          "type": "do_clause",
+          "named": true
+        },
+        {
+          "type": "for_clause",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "repeat_clause",
+          "named": true
+        },
+        {
+          "type": "termination_clause",
+          "named": true
+        },
+        {
+          "type": "while_clause",
+          "named": true
+        },
+        {
+          "type": "with_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "loop_macro",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "loop_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "meta_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "^",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "map_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "num_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "old_meta_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#^",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "map_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_lit",
+    "named": true,
+    "fields": {
+      "package": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "cl",
+            "named": false
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      },
+      "symbol": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "path_lit",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#P",
+            "named": false
+          },
+          {
+            "type": "#p",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "str_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoting_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "'",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "read_cond_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#?",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "loop_macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "repeat_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "set_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "splicing_read_cond_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#?@",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "loop_macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "str_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "format_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sym_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "syn_quoting_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "`",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "termination_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquote_splicing_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ",@",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquoting_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "var_quoting_lit",
+    "named": true,
+    "fields": {
+      "marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#'",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "vec_lit",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "old_meta": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "old_meta_lit",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": "#0A",
+            "named": false
+          },
+          {
+            "type": "#0a",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_dimension",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "defun",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "loop_macro",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_clause",
+    "named": true,
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "path_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": "\r",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "##",
+    "named": false
+  },
+  {
+    "type": "#'",
+    "named": false
+  },
+  {
+    "type": "#+",
+    "named": false
+  },
+  {
+    "type": "#-",
+    "named": false
+  },
+  {
+    "type": "#0A",
+    "named": false
+  },
+  {
+    "type": "#0a",
+    "named": false
+  },
+  {
+    "type": "#=",
+    "named": false
+  },
+  {
+    "type": "#?",
+    "named": false
+  },
+  {
+    "type": "#?@",
+    "named": false
+  },
+  {
+    "type": "#C",
+    "named": false
+  },
+  {
+    "type": "#P",
+    "named": false
+  },
+  {
+    "type": "#^",
+    "named": false
+  },
+  {
+    "type": "#_",
+    "named": false
+  },
+  {
+    "type": "#c",
+    "named": false
+  },
+  {
+    "type": "#p",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ",@",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": ":@",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "@:",
+    "named": false
+  },
+  {
+    "type": "Newline",
+    "named": false
+  },
+  {
+    "type": "V",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "_",
+    "named": false
+  },
+  {
+    "type": "`",
+    "named": false
+  },
+  {
+    "type": "above",
+    "named": false
+  },
+  {
+    "type": "across",
+    "named": false
+  },
+  {
+    "type": "always",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "being",
+    "named": false
+  },
+  {
+    "type": "below",
+    "named": false
+  },
+  {
+    "type": "block_comment",
+    "named": true
+  },
+  {
+    "type": "by",
+    "named": false
+  },
+  {
+    "type": "cl",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "defgeneric",
+    "named": false
+  },
+  {
+    "type": "defmacro",
+    "named": false
+  },
+  {
+    "type": "defmethod",
+    "named": false
+  },
+  {
+    "type": "defun",
+    "named": false
+  },
+  {
+    "type": "do",
+    "named": false
+  },
+  {
+    "type": "downfrom",
+    "named": false
+  },
+  {
+    "type": "downto",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "fancy_literal",
+    "named": true
+  },
+  {
+    "type": "finally",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "from",
+    "named": false
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "initially",
+    "named": false
+  },
+  {
+    "type": "into",
+    "named": false
+  },
+  {
+    "type": "loop",
+    "named": false
+  },
+  {
+    "type": "never",
+    "named": false
+  },
+  {
+    "type": "nil_lit",
+    "named": true
+  },
+  {
+    "type": "on",
+    "named": false
+  },
+  {
+    "type": "repeat",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "self_referential_reader_macro",
+    "named": true
+  },
+  {
+    "type": "then",
+    "named": false
+  },
+  {
+    "type": "thereis",
+    "named": false
+  },
+  {
+    "type": "to",
+    "named": false
+  },
+  {
+    "type": "unless",
+    "named": false
+  },
+  {
+    "type": "until",
+    "named": false
+  },
+  {
+    "type": "upfrom",
+    "named": false
+  },
+  {
+    "type": "upto",
+    "named": false
+  },
+  {
+    "type": "using",
+    "named": false
+  },
+  {
+    "type": "v",
+    "named": false
+  },
+  {
+    "type": "when",
+    "named": false
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "with",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  }
+]

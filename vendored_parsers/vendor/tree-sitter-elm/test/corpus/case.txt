@@ -1,0 +1,1318 @@
+================================================================================
+Case with one branch
+================================================================================
+
+update msg =
+    case msg of
+        Nothing ->
+            Nothing
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier)))))))
+
+================================================================================
+Case with one branch and comment
+================================================================================
+
+update msg value =
+  case value of
+    S ->
+      value -- Debug
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (line_comment))))
+
+================================================================================
+Case with one branch and comment on next line
+================================================================================
+
+update msg value =
+  case value of
+    S ->
+      value
+
+-- Debug
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))))
+  (line_comment))
+
+================================================================================
+Case with two branches
+================================================================================
+
+update msg model =
+    case msg of
+        Increment ->
+            model + 1
+
+        Decrement ->
+            model - 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal)))))))
+
+================================================================================
+Case with anonymous function
+================================================================================
+
+enum =
+    \stringList ->
+        case stringList of
+            [ str ] ->
+                get str dict
+
+            _ ->
+                Nothing
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (anonymous_function_expr
+      (backslash)
+      (pattern
+        (lower_pattern
+          (lower_case_identifier)))
+      (arrow)
+      (case_of_expr
+        (case)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (of)
+        (case_of_branch
+          (pattern
+            (list_pattern
+              (pattern
+                (lower_pattern
+                  (lower_case_identifier)))))
+          (arrow)
+          (function_call_expr
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))))
+        (case_of_branch
+          (pattern
+            (anything_pattern
+              (underscore)))
+          (arrow)
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier))))))))
+
+================================================================================
+Case with three branches
+================================================================================
+
+src : Avatar -> Attribute msg
+src (Avatar maybeUrl)=
+    case maybeUrl of
+        Nothing ->
+            Asset.src Asset.defaultAvatar
+
+        Just "" ->
+            Asset.src Asset.defaultAvatar
+
+        Just url ->
+            Html.Attributes.src url
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_variable
+          (lower_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (pattern
+        (union_pattern
+          (upper_case_qid
+            (upper_case_identifier))
+          (lower_pattern
+            (lower_case_identifier)))))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (string_constant_expr
+              (open_quote)
+              (close_quote))))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))))))
+
+================================================================================
+Function statement with nested case
+================================================================================
+
+map3 func ma mb mc =
+    case ma of
+        Nothing ->
+            Nothing
+
+        Just a ->
+            case mb of
+                Nothing ->
+                    Nothing
+
+                Just b ->
+                    b
+
+
+map4 func ma mb mc md =
+    case ma of
+        Nothing ->
+            Nothing
+
+        Just a ->
+            a
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (value_expr
+              (upper_case_qid
+                (upper_case_identifier))))
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))
+                (lower_pattern
+                  (lower_case_identifier))))
+            (arrow)
+            (value_expr
+              (value_qid
+                (lower_case_identifier))))))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (upper_case_qid
+            (upper_case_identifier))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))))))
+
+================================================================================
+Case int result
+================================================================================
+
+toIntResult s =
+    case String.toInt s of
+        Just i ->
+            Ok i
+        Nothing ->
+            Err <| "could not convert string '" ++ s ++ "' to an Int"
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (upper_case_identifier)
+            (dot)
+            (lower_case_identifier)))
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (arrow)
+        (function_call_expr
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (upper_case_qid
+              (upper_case_identifier)))
+          (operator
+            (operator_identifier))
+          (string_constant_expr
+            (open_quote)
+            (regular_string_part)
+            (close_quote))
+          (operator
+            (operator_identifier))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (string_constant_expr
+            (open_quote)
+            (regular_string_part)
+            (close_quote)))))))
+
+================================================================================
+Case with list
+================================================================================
+enum key dict =
+  custom key <| \stringList ->
+    case stringList of
+      [str] ->
+        Dict.get str dict
+
+      _ ->
+        Nothing
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (bin_op_expr
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))
+      (operator
+        (operator_identifier))
+      (anonymous_function_expr
+        (backslash)
+        (pattern
+          (lower_pattern
+            (lower_case_identifier)))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (list_pattern
+                (pattern
+                  (lower_pattern
+                    (lower_case_identifier)))))
+            (arrow)
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (upper_case_identifier)
+                  (dot)
+                  (lower_case_identifier)))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))))
+          (case_of_branch
+            (pattern
+              (anything_pattern
+                (underscore)))
+            (arrow)
+            (value_expr
+              (upper_case_qid
+                (upper_case_identifier)))))))))
+
+================================================================================
+Nested case
+================================================================================
+
+func a b =
+    case a of
+        Nothing ->
+            case b of
+                1 ->
+                    ""
+                2 ->
+                    ""
+                3 ->
+                    ""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (string_constant_expr
+              (open_quote)
+              (close_quote)))
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (string_constant_expr
+              (open_quote)
+              (close_quote)))
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (string_constant_expr
+              (open_quote)
+              (close_quote))))))))
+
+================================================================================
+Nested case are all closed?
+================================================================================
+
+func a b =
+    case a of
+        Nothing ->
+            case b of
+                1 ->
+                    ""
+                2 ->
+                    ""
+                3 ->
+                    case b of
+                        1 ->
+                            ""
+                        2 ->
+                            ""
+                        3 ->
+                            case b of
+                                1 ->
+                                    ""
+                                2 ->
+                                    ""
+                                3 ->
+                                    ""
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (string_constant_expr
+              (open_quote)
+              (close_quote)))
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (string_constant_expr
+              (open_quote)
+              (close_quote)))
+          (case_of_branch
+            (pattern
+              (number_constant_expr
+                (number_literal)))
+            (arrow)
+            (case_of_expr
+              (case)
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (of)
+              (case_of_branch
+                (pattern
+                  (number_constant_expr
+                    (number_literal)))
+                (arrow)
+                (string_constant_expr
+                  (open_quote)
+                  (close_quote)))
+              (case_of_branch
+                (pattern
+                  (number_constant_expr
+                    (number_literal)))
+                (arrow)
+                (string_constant_expr
+                  (open_quote)
+                  (close_quote)))
+              (case_of_branch
+                (pattern
+                  (number_constant_expr
+                    (number_literal)))
+                (arrow)
+                (case_of_expr
+                  (case)
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (of)
+                  (case_of_branch
+                    (pattern
+                      (number_constant_expr
+                        (number_literal)))
+                    (arrow)
+                    (string_constant_expr
+                      (open_quote)
+                      (close_quote)))
+                  (case_of_branch
+                    (pattern
+                      (number_constant_expr
+                        (number_literal)))
+                    (arrow)
+                    (string_constant_expr
+                      (open_quote)
+                      (close_quote)))
+                  (case_of_branch
+                    (pattern
+                      (number_constant_expr
+                        (number_literal)))
+                    (arrow)
+                    (string_constant_expr
+                      (open_quote)
+                      (close_quote))))))))))))
+
+================================================================================
+Complex case
+================================================================================
+
+makeEdit cursor desc =
+    case desc of
+        OneOf details ->
+            case cursor.makeEdit cursor.indentation (foundStart details.child) desc of
+                NoIdFound ->
+                    -- dive further
+                    case makeFoundEdit (increaseIndent cursor) details.child of
+                        EditMade maybeSeed maybePush newFound ->
+                            EditMade maybeSeed
+                                maybePush
+                                (OneOf
+                                    { details
+                                        | child = expandFound maybePush newFound
+                                    }
+                                )
+
+                        NoIdFound ->
+                            NoIdFound
+
+                        ErrorMakingEdit err ->
+                            ErrorMakingEdit err
+
+                otherwise ->
+                    otherwise
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (lower_pattern
+              (lower_case_identifier))))
+        (arrow)
+        (case_of_expr
+          (case)
+          (function_call_expr
+            (field_access_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (dot)
+              (lower_case_identifier))
+            (field_access_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (dot)
+              (lower_case_identifier))
+            (parenthesized_expr
+              (function_call_expr
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier)))
+                (field_access_expr
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (dot)
+                  (lower_case_identifier))))
+            (value_expr
+              (value_qid
+                (lower_case_identifier))))
+          (of)
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (line_comment)
+            (case_of_expr
+              (case)
+              (function_call_expr
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier)))
+                (parenthesized_expr
+                  (function_call_expr
+                    (value_expr
+                      (value_qid
+                        (lower_case_identifier)))
+                    (value_expr
+                      (value_qid
+                        (lower_case_identifier)))))
+                (field_access_expr
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (dot)
+                  (lower_case_identifier)))
+              (of)
+              (case_of_branch
+                (pattern
+                  (union_pattern
+                    (upper_case_qid
+                      (upper_case_identifier))
+                    (lower_pattern
+                      (lower_case_identifier))
+                    (lower_pattern
+                      (lower_case_identifier))
+                    (lower_pattern
+                      (lower_case_identifier))))
+                (arrow)
+                (function_call_expr
+                  (value_expr
+                    (upper_case_qid
+                      (upper_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (parenthesized_expr
+                    (function_call_expr
+                      (value_expr
+                        (upper_case_qid
+                          (upper_case_identifier)))
+                      (record_expr
+                        (record_base_identifier
+                          (lower_case_identifier))
+                        (field
+                          (lower_case_identifier)
+                          (eq)
+                          (function_call_expr
+                            (value_expr
+                              (value_qid
+                                (lower_case_identifier)))
+                            (value_expr
+                              (value_qid
+                                (lower_case_identifier)))
+                            (value_expr
+                              (value_qid
+                                (lower_case_identifier))))))))))
+              (case_of_branch
+                (pattern
+                  (union_pattern
+                    (upper_case_qid
+                      (upper_case_identifier))))
+                (arrow)
+                (value_expr
+                  (upper_case_qid
+                    (upper_case_identifier))))
+              (case_of_branch
+                (pattern
+                  (union_pattern
+                    (upper_case_qid
+                      (upper_case_identifier))
+                    (lower_pattern
+                      (lower_case_identifier))))
+                (arrow)
+                (function_call_expr
+                  (value_expr
+                    (upper_case_qid
+                      (upper_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))))))
+          (case_of_branch
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (arrow)
+            (value_expr
+              (value_qid
+                (lower_case_identifier)))))))))
+
+================================================================================
+Case with one line let
+================================================================================
+
+all = describe "parsering"
+  [ describe "builtin"
+    [ it "does handle suffixed int" <|
+      case (Parser.run parserInt "11h22m33s") of
+        Err err -> let _ = Debug.log "err" err in isTrue False
+        Ok i -> eql 11 i
+    ]
+  ]
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (string_constant_expr
+        (open_quote)
+        (regular_string_part)
+        (close_quote))
+      (list_expr
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (string_constant_expr
+            (open_quote)
+            (regular_string_part)
+            (close_quote))
+          (list_expr
+            (bin_op_expr
+              (function_call_expr
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier)))
+                (string_constant_expr
+                  (open_quote)
+                  (regular_string_part)
+                  (close_quote)))
+              (operator
+                (operator_identifier))
+              (case_of_expr
+                (case)
+                (parenthesized_expr
+                  (function_call_expr
+                    (value_expr
+                      (value_qid
+                        (upper_case_identifier)
+                        (dot)
+                        (lower_case_identifier)))
+                    (value_expr
+                      (value_qid
+                        (lower_case_identifier)))
+                    (string_constant_expr
+                      (open_quote)
+                      (regular_string_part)
+                      (close_quote))))
+                (of)
+                (case_of_branch
+                  (pattern
+                    (union_pattern
+                      (upper_case_qid
+                        (upper_case_identifier))
+                      (lower_pattern
+                        (lower_case_identifier))))
+                  (arrow)
+                  (let_in_expr
+                    (value_declaration
+                      (pattern
+                        (anything_pattern
+                          (underscore)))
+                      (eq)
+                      (function_call_expr
+                        (value_expr
+                          (value_qid
+                            (upper_case_identifier)
+                            (dot)
+                            (lower_case_identifier)))
+                        (string_constant_expr
+                          (open_quote)
+                          (regular_string_part)
+                          (close_quote))
+                        (value_expr
+                          (value_qid
+                            (lower_case_identifier)))))
+                    (function_call_expr
+                      (value_expr
+                        (value_qid
+                          (lower_case_identifier)))
+                      (value_expr
+                        (upper_case_qid
+                          (upper_case_identifier))))))
+                (case_of_branch
+                  (pattern
+                    (union_pattern
+                      (upper_case_qid
+                        (upper_case_identifier))
+                      (lower_pattern
+                        (lower_case_identifier))))
+                  (arrow)
+                  (function_call_expr
+                    (value_expr
+                      (value_qid
+                        (lower_case_identifier)))
+                    (number_constant_expr
+                      (number_literal))
+                    (value_expr
+                      (value_qid
+                        (lower_case_identifier)))))))))))))
+
+================================================================================
+Case wrapped in parenthesis
+================================================================================
+
+flipBy how (Plane (width, height) _ as plane) =
+    plane |>
+        transform
+            (case how of
+                Horizontal -> \(x, y) -> (width - 1 - x, y)
+                Vertical -> \(x, y) -> (x, height - 1 - y))
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (pattern
+        (union_pattern
+          (upper_case_qid
+            (upper_case_identifier))
+          (tuple_pattern
+            (pattern
+              (lower_pattern
+                (lower_case_identifier)))
+            (pattern
+              (lower_pattern
+                (lower_case_identifier))))
+          (anything_pattern
+            (underscore)))
+        (as)
+        (lower_pattern
+          (lower_case_identifier))))
+    (eq)
+    (bin_op_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (operator
+        (operator_identifier))
+      (function_call_expr
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))
+        (case_of_expr
+          (case)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (of)
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (anonymous_function_expr
+              (backslash)
+              (pattern
+                (tuple_pattern
+                  (pattern
+                    (lower_pattern
+                      (lower_case_identifier)))
+                  (pattern
+                    (lower_pattern
+                      (lower_case_identifier)))))
+              (arrow)
+              (tuple_expr
+                (bin_op_expr
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (operator
+                    (operator_identifier))
+                  (number_constant_expr
+                    (number_literal))
+                  (operator
+                    (operator_identifier))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier))))))
+          (case_of_branch
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))))
+            (arrow)
+            (anonymous_function_expr
+              (backslash)
+              (pattern
+                (tuple_pattern
+                  (pattern
+                    (lower_pattern
+                      (lower_case_identifier)))
+                  (pattern
+                    (lower_pattern
+                      (lower_case_identifier)))))
+              (arrow)
+              (tuple_expr
+                (value_expr
+                  (value_qid
+                    (lower_case_identifier)))
+                (bin_op_expr
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier)))
+                  (operator
+                    (operator_identifier))
+                  (number_constant_expr
+                    (number_literal))
+                  (operator
+                    (operator_identifier))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))))))))))
+
+================================================================================
+Case with of followed by comment
+================================================================================
+
+module Test exposing (..)
+type Maybe a = Just a | Nothing
+func result =
+    case result of
+    --^
+        Nothing ->
+            ""
+        Just (Just a) ->
+            a
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (double_dot)))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (lower_type_name
+      (lower_case_identifier))
+    (eq)
+    (union_variant
+      (upper_case_identifier)
+      (type_variable
+        (lower_case_identifier)))
+    (union_variant
+      (upper_case_identifier)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (line_comment)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (string_constant_expr
+          (open_quote)
+          (close_quote)))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))
+            (pattern
+              (union_pattern
+                (upper_case_qid
+                  (upper_case_identifier))
+                (lower_pattern
+                  (lower_case_identifier))))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier)))))))

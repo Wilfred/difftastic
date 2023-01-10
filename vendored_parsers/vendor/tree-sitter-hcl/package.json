@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-hcl",
+  "version": "0.2.0-snapshot",
+  "description": "",
+  "main": "bindings/node",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.14.2",
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.hcl",
+      "file-types": [
+        "hcl",
+        "tf",
+        "tfvars"
+      ]
+    }
+  ]
+}

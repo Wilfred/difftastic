@@ -1,0 +1,1 @@
+../tree-sitter-python/queries/highlights.scm

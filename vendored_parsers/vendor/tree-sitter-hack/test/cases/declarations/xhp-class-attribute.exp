@@ -1,0 +1,106 @@
+(script
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (type_specifier)
+          name: (xhp_identifier)))
+      (comment)
+      (xhp_attribute_declaration
+        (xhp_class_attribute
+          type: (type_specifier
+            (xhp_class_identifier))))))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_category_declaration
+        (xhp_category_identifier))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_category_declaration
+        (xhp_category_identifier)
+        (xhp_category_identifier))))
+  (comment)
+  (comment)
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_class_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (xhp_identifier))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))
+          (postfix_unary_expression
+            (xhp_class_identifier))
+          (xhp_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (postfix_unary_expression
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_class_identifier)
+          (xhp_class_identifier)))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (xhp_class_identifier)
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (xhp_class_identifier)
+            (parenthesized_expression
+              (postfix_unary_expression
+                (xhp_class_identifier))))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (binary_expression
+            (binary_expression
+              (xhp_class_identifier)
+              (xhp_class_identifier))
+            (xhp_class_identifier))))))
+  (class_declaration
+    name: (xhp_class_identifier)
+    body: (member_declarations
+      (xhp_children_declaration
+        (parenthesized_expression
+          (xhp_category_identifier))))))

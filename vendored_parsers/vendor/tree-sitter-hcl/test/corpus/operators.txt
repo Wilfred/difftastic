@@ -1,0 +1,83 @@
+================================================================================
+unary operator -
+================================================================================
+
+foo = -3
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (unary_operation
+            (literal_value
+              (numeric_lit))))))))
+
+================================================================================
+unary operator !
+================================================================================
+
+foo = !true
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (unary_operation
+            (literal_value
+              (bool_lit))))))))
+
+================================================================================
+binary operators +
+================================================================================
+
+foo = 1+2
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (binary_operation
+            (literal_value
+              (numeric_lit))
+            (literal_value
+              (numeric_lit))))))))
+
+================================================================================
+precedence in binary operators
+================================================================================
+
+foo = a != b && c == d
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (binary_operation
+            (operation
+              (binary_operation
+                (variable_expr
+                  (identifier))
+                (variable_expr
+                  (identifier))))
+            (operation
+              (binary_operation
+                (variable_expr
+                  (identifier))
+                (variable_expr
+                  (identifier))))))))))

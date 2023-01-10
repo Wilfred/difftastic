@@ -1,0 +1,46 @@
+{
+  "name": "tree-sitter-make",
+  "version": "0.0.1",
+  "description": "make grammar for tree-sitter",
+  "author": "Alexandre Muller",
+  "license": "MIT",
+  "main": "bindings/node",
+  "homepage": "https://github.com/alemuller/tree-sitter-make#readme",
+
+  "bugs": {
+    "url": "https://github.com/alemuller/tree-sitter-make/issues"
+  },
+  "homepage": "https://github.com/alemuller/tree-sitter-make#readme",
+
+  "keywords": [
+    "parsing",
+    "incremental",
+    "tree-sitter",
+    "make",
+    "makefile",
+    "GNUMAKEFILE"
+  ],
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.4"
+  },
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.mk",
+      "file-types": [
+        "makefile",
+        "Makefile",
+        "MAKEFILE",
+        "GNUmakefile",
+        "mk",
+        "mak",
+        "dsp"
+      ]
+    }
+  ]
+}

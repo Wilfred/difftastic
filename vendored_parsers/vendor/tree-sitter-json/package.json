@@ -1,0 +1,30 @@
+{
+  "name": "tree-sitter-json",
+  "version": "0.20.0",
+  "description": "JSON grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "json"
+  ],
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.1"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.json",
+      "file-types": [
+        "json"
+      ]
+    }
+  ]
+}

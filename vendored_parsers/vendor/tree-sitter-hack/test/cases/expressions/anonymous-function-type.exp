@@ -1,0 +1,19 @@
+(script
+  (expression_statement
+    (anonymous_function_expression
+      (parameters
+        (parameter
+          type: (function_type_specifier
+            (type_specifier)
+            (variadic_modifier)
+            return_type: (type_specifier))
+          name: (variable)))
+      return_type: (tuple_type_specifier
+        (function_type_specifier
+          (type_specifier)
+          return_type: (type_specifier))
+        (function_type_specifier
+          return_type: (type_specifier)))
+      (use_clause
+        (variable))
+      body: (compound_statement))))

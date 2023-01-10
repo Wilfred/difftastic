@@ -1,0 +1,11 @@
+variable "project" {}
+variable "region" {}
+variable "node_count" {}
+variable "credentials_file" {}
+variable "namespace" {}
+variable "tfe_license_name" {}
+variable "tfe_license_path" {}
+variable "fqdn" {}
+variable "network" {}
+variable "subnetwork" {}
+variable "dns_zone_name" {}

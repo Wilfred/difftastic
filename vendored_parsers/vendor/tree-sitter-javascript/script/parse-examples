@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -eu
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
+
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" > /dev/null
+  actual_sha=$(git rev-parse HEAD)
+  if [ "$actual_sha" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
+
+clone_repo npm npm ee147fbbca6f2707d3b16f4fa78f4c4606b2d9b1
+
+known_failures="$(cat script/known_failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.js' \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.js' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent

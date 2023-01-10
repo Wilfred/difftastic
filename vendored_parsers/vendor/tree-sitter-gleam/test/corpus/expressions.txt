@@ -1,0 +1,42 @@
+================================================================================
+Bit-string expression
+================================================================================
+
+<<code:int-size(8)-unit(2), reason:utf8>>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (bit_string
+    (bit_string_segment
+      (identifier)
+      (bit_string_segment_options
+        (bit_string_segment_option)
+        (bit_string_segment_option
+          (integer))
+        (bit_string_segment_option
+          (integer))))
+    (bit_string_segment
+      (identifier)
+      (bit_string_segment_options
+        (bit_string_segment_option)))))
+
+================================================================================
+Negation
+================================================================================
+
+!False
+True && !False
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (negation
+    (record
+      (constructor_name)))
+  (binary_expression
+    (record
+      (constructor_name))
+    (negation
+      (record
+        (constructor_name)))))

@@ -1,0 +1,1 @@
+../tree-sitter-haskell/queries/highlights.scm

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+function checkout_at() {
+  repo=$1; url=$2; sha=$3
+  if [ ! -d "$repo" ]; then
+    git clone "https://github.com/$url" "$repo"
+  fi
+
+  pushd "$repo"
+  git fetch && git reset --hard "$sha"
+  popd
+}
+
+checkout_at "examples/go" "golang/go" "870e12d7bfaea70fb0d743842f5864eb059cb939"
+checkout_at "examples/moby" "moby/moby" "f57f260b49b6142366e6bc1274204ee0a1205945"
+
+known_failures="$(cat script/known-failures.txt | egrep -v '^#')"
+
+time tree-sitter parse -q \
+  'examples/**/*.go'  \
+  '!**/testdata/**/*' \
+  '!**/go/test/**/*'  \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.go' | egrep -v 'go/test|testdata' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent

@@ -1,0 +1,56 @@
+================================================================================
+Symbols
+================================================================================
+
+foo-bar
+foo/bar
+foo?
+=
+~
+$
+>
+λ
+:foo
+foo!
+foo|bar
+foo.bar
+foo@bar
+foo{bar}
+%
+&optional
+&&
+_
+##
+.foo
+foo-★
+1+
+\1
+nil
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))

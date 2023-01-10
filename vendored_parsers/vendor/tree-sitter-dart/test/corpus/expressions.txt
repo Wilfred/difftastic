@@ -1,0 +1,617 @@
+==================================
+standalone assignment expression
+==================================
+
+x = 3;
+
+---
+
+(program
+   (expression_statement
+        (assignment_expression (assignable_expression (identifier)) (decimal_integer_literal))
+   )
+)
+
+==================================
+standalone binary expression
+==================================
+
+a > b;
+a < b;
+a == b;
+a >= b;
+a <= b;
+a != b;
+a && b;
+a || b;
+a & b;
+a | b;
+a ^ b;
+a % b;
+a << b;
+a >> b;
+a >>> b;
+3 + 2;
+3 - 2;
+3 * 2;
+9 / 3;
+
+---
+
+(program 
+(expression_statement (relational_expression  (identifier) (relational_operator) (identifier))) 
+(expression_statement (relational_expression  (identifier) (relational_operator) (identifier))) 
+(expression_statement (equality_expression  (identifier) (equality_operator) (identifier))) 
+(expression_statement (relational_expression  (identifier) (relational_operator) (identifier))) 
+(expression_statement (relational_expression  (identifier) (relational_operator) (identifier))) 
+(expression_statement (equality_expression  (identifier) (equality_operator) (identifier))) 
+(expression_statement (logical_and_expression  (identifier) (identifier))) 
+(expression_statement (logical_or_expression  (identifier) (identifier))) 
+(expression_statement (bitwise_and_expression  (identifier) (identifier)))
+(expression_statement  (bitwise_or_expression (identifier) (identifier)))
+(expression_statement  (bitwise_xor_expression (identifier) (identifier)))
+(expression_statement (multiplicative_expression  (identifier) (multiplicative_operator) (identifier))) 
+(expression_statement (shift_expression  (identifier) (shift_operator) (identifier))) 
+(expression_statement (shift_expression  (identifier) (shift_operator) (identifier))) 
+(expression_statement (shift_expression  (identifier) (shift_operator) (identifier))) 
+(expression_statement (additive_expression  (decimal_integer_literal) (additive_operator) (decimal_integer_literal))) 
+(expression_statement (additive_expression  (decimal_integer_literal) (additive_operator) (decimal_integer_literal))) 
+(expression_statement (multiplicative_expression  (decimal_integer_literal) (multiplicative_operator) (decimal_integer_literal))) 
+(expression_statement (multiplicative_expression  (decimal_integer_literal) (multiplicative_operator) (decimal_integer_literal)))
+) 
+
+==================================
+instanceof expressions
+==================================
+
+a is C.D;
+a is List<B>;
+c is C;
+
+---
+ (program
+    (expression_statement
+        (type_test_expression
+            (identifier)
+            (type_test (is_operator) (type_identifier) (type_identifier))
+        )
+    )
+    (expression_statement
+        (type_test_expression
+            (identifier)
+            (type_test (is_operator) (type_identifier)
+                (type_arguments (type_identifier))
+            )
+        )
+    )
+    (expression_statement
+        (type_test_expression
+            (identifier)
+            (type_test (is_operator) (type_identifier))
+        )
+    )
+)
+===========================================================
+if statements
+===========================================================
+
+if (x)
+  y;
+
+---
+
+(program
+  (if_statement
+    condition: (parenthesized_expression (identifier))
+    consequence: (expression_statement (identifier))))
+
+===========================================================
+if statements with braces
+===========================================================
+
+if (x) {
+  y;
+}
+
+---
+
+(program
+  (if_statement
+    condition: (parenthesized_expression (identifier))
+    consequence: (block (expression_statement (identifier)))))
+
+===========================================================
+if statements with assignment without braces
+===========================================================
+
+if (x != 3)
+  y = 2;
+
+---
+
+(program
+  (if_statement
+    condition: (parenthesized_expression
+      (equality_expression (identifier) (equality_operator)
+        (decimal_integer_literal)))
+    consequence: (expression_statement
+      (assignment_expression
+        left: (assignable_expression (identifier))
+        right: (decimal_integer_literal)))))
+
+==================================
+if then else statement
+==================================
+
+if (x == 3) {
+  y = 9;
+} else {
+  y = 0;
+}
+
+---
+
+(program
+  (if_statement
+    condition: (parenthesized_expression
+      (equality_expression (identifier) (equality_operator)
+        (decimal_integer_literal)))
+    consequence: (block
+      (expression_statement (assignment_expression
+        left: (assignable_expression (identifier))
+        right: (decimal_integer_literal))))
+    alternative: (block
+      (expression_statement (assignment_expression
+        left: (assignable_expression (identifier))
+        right: (decimal_integer_literal))))))
+
+==================================
+nested if then else statements
+==================================
+
+if (a)
+  if (b)
+    c();
+  else
+    d();
+
+---
+
+(program
+  (if_statement
+    (parenthesized_expression (identifier))
+    (if_statement
+      (parenthesized_expression (identifier))
+      (expression_statement
+        (identifier)
+         (selector (argument_part (arguments)))
+      )
+      (expression_statement
+        (identifier)
+         (selector (argument_part (arguments)))
+      ))))
+
+==================================
+ternary expressions
+==================================
+
+max = (a > b) ? a : b;
+
+---
+
+(program
+  (expression_statement (assignment_expression
+    left: (assignable_expression (identifier))
+    right: (conditional_expression
+      (relational_expression (identifier) (relational_operator) (identifier))
+      consequence: (identifier)
+      alternative: (identifier)))))
+
+==================================
+for statement
+==================================
+
+for(int i = 1; i < 11; i++) {
+  System.out.println("Count is: " + i);
+}
+
+for (j.init(i); j.check(); j.update()) {
+  System.out.println(j);
+}
+
+---
+
+(program
+  (for_statement
+    init: (local_variable_declaration (initialized_variable_definition
+        (type_identifier)
+        name: (identifier)
+        value: (decimal_integer_literal)))
+    condition: (relational_expression
+      (identifier)
+      (relational_operator)
+      (decimal_integer_literal))
+    update: (postfix_expression (assignable_expression (identifier)) (postfix_operator (increment_operator)))
+    body: (block
+      (expression_statement
+        (identifier)
+        (selector
+          (unconditional_assignable_selector (identifier))
+         )
+        (selector
+          (unconditional_assignable_selector (identifier))
+        )
+        (selector
+            (argument_part
+                (arguments
+                  (argument
+                    (additive_expression
+                        (string_literal)
+                        (additive_operator)
+                        (identifier)
+                    )
+                  )
+                )
+            )
+        )
+      )
+    )
+  )
+  (for_statement
+     init: (identifier)
+     init: (selector (unconditional_assignable_selector (identifier)))
+     init: (selector (argument_part (arguments (argument (identifier)))))
+    condition: (identifier)
+    condition: (selector (unconditional_assignable_selector (identifier)))
+    condition: (selector (argument_part (arguments)))
+    update: (identifier)
+    update: (selector (unconditional_assignable_selector (identifier)))
+    update: (selector (argument_part (arguments)))
+    body: (block
+      (expression_statement
+        (identifier)
+        (selector    
+          (unconditional_assignable_selector (identifier))
+        )
+        (selector
+          (unconditional_assignable_selector (identifier))
+        )
+        (selector
+            (argument_part
+                (arguments
+                  (argument
+                    (identifier))
+                )
+            )
+        )
+      )
+    )
+  )
+)
+
+================================
+enhanced for statements
+================================
+
+for (A b in c) {
+  d(b);
+}
+
+---
+
+(program
+  (for_statement
+    (type_identifier)
+    (identifier)
+    (identifier)
+    (block
+      (expression_statement (identifier) (selector (argument_part (arguments (argument (identifier)))))))))
+
+
+================================
+await expressions
+================================
+
+void main() async {
+  final id = await Future.delayed(const Duration(seconds: 100));
+}
+
+---
+
+(program (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block 
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (unary_expression 
+      (await_expression (identifier) (selector (unconditional_assignable_selector (identifier))) 
+        (selector (argument_part (arguments (argument
+          (const_object_expression (const_builtin) (type_identifier) 
+            (arguments (named_argument (label (identifier)) (decimal_integer_literal)))))))))))))))
+
+================================
+unary negation expression
+================================
+
+void main() {
+  final remote = false;
+  if (!remote) {
+    server = localUrl;
+  }
+}
+
+---
+
+(program (function_signature (void_type) (identifier) (formal_parameter_list)) 
+  (function_body (block 
+    (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (false))) 
+    (if_statement (parenthesized_expression (unary_expression (prefix_operator (negation_operator)) (identifier))) 
+      (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
+
+================================
+assert statement
+================================
+
+assert(x != null);
+
+---
+(program 
+  (assert_statement (assertion (equality_expression (identifier) (equality_operator) (null_literal))))) 
+
+
+===========================
+Type cast in if statement
+===========================
+
+if (data['frame_count'] as int < 5) {
+
+}
+
+---
+
+(program
+    (if_statement
+        (parenthesized_expression
+            (relational_expression
+                (type_cast_expression
+                    (identifier) (selector
+                                    (unconditional_assignable_selector (string_literal))
+                                 )
+                                 (type_cast (as_operator) (type_identifier))
+                )
+                    (relational_operator)
+                    (decimal_integer_literal)
+            )
+        )
+        (block)
+    )
+)
+
+
+
+===========================
+Type cast in if statement parenthesized
+===========================
+
+if ((data['frame_count'] as int) < 5) {
+
+}
+
+---
+
+(program
+    (if_statement
+        (parenthesized_expression
+            (relational_expression
+                (type_cast_expression
+                    (identifier) (selector
+                                    (unconditional_assignable_selector (string_literal))
+                                 )
+                                 (type_cast (as_operator) (type_identifier))
+                )
+                    (relational_operator)
+                    (decimal_integer_literal)
+            )
+        )
+        (block)
+    )
+)
+
+
+==========================
+Simple non-null assertion
+==========================
+
+my!.size = 1;
+
+---
+(program
+    (expression_statement
+        (assignment_expression
+            (assignable_expression (identifier)
+              (selector)
+              (unconditional_assignable_selector (identifier))
+            )
+            (decimal_integer_literal)
+        )
+    )
+)
+
+==========================
+Simple non-null assertion alternative-test
+==========================
+
+my!.size += 1;
+
+---
+(program
+    (expression_statement
+        (assignment_expression
+          (assignable_expression (identifier)  
+            (selector)
+            (unconditional_assignable_selector (identifier))
+          )
+          (decimal_integer_literal)
+        )
+    )
+)
+
+
+==========================
+Additional non-null assertion
+==========================
+
+my.size!.run();
+
+---
+
+(program
+    (expression_statement (identifier)
+        (selector
+            (unconditional_assignable_selector (identifier))) (selector)
+        (selector (unconditional_assignable_selector (identifier)))
+        (selector (argument_part (arguments))))
+    )
+
+
+============================
+Simple assertion w/o nonnull
+============================
+
+my.size.whatever = 1;
+
+---
+(program
+    (expression_statement
+        (assignment_expression
+            (assignable_expression (identifier)
+              (selector
+                (unconditional_assignable_selector (identifier)))
+              (unconditional_assignable_selector  (identifier))
+            )
+            (decimal_integer_literal)
+        )
+    )
+)
+
+
+============================
+Complex type cast in function call
+============================
+
+printStream(args['json'] as bool ? '' : 'hi');
+
+---
+
+
+(program
+    (expression_statement
+        (identifier)
+        (selector
+            (argument_part
+                (arguments
+                  (argument
+                    (conditional_expression
+                        (type_cast_expression (identifier)
+                            (selector (unconditional_assignable_selector (string_literal)))
+                            (type_cast (as_operator) (type_identifier))
+                        )
+                        (string_literal)
+                        (string_literal)
+                    )
+                  )
+                )
+            )
+        )
+    )
+)
+
+============================
+Complex (parenthesized) type cast in function call
+============================
+
+printStream((args['json'] as bool) ? '' : 'hi');
+
+---
+
+(program
+    (expression_statement
+        (identifier)
+        (selector
+            (argument_part
+                (arguments
+                  (argument
+                    (conditional_expression
+                        (type_cast_expression (identifier)
+                            (selector (unconditional_assignable_selector (string_literal)))
+                            (type_cast (as_operator) (type_identifier))
+                        )
+                        (string_literal)
+                        (string_literal)
+                    )
+                  )
+                )
+            )
+        )
+    )
+)
+==================================
+typecast in expression
+==================================
+
+a['json'] as BigB > b;
+a < b['json'] as BigB;
+a == b as BigB;
+a as BigB >= b;
+a <= b;
+a as BigB != b;
+a && b as BigB;
+a as BigB || b as BigB;
+if (a['json'] as BigB < b as BigB) {
+}
+a as BigB | b as BigB;
+
+---
+
+(program
+    (expression_statement
+        (relational_expression
+            (type_cast_expression (identifier)
+                (selector (unconditional_assignable_selector (string_literal)))
+                (type_cast (as_operator) (type_identifier)))
+            (relational_operator)
+            (identifier)))
+    (expression_statement
+        (relational_expression (identifier) (relational_operator)
+            (type_cast_expression (identifier)
+                (selector (unconditional_assignable_selector (string_literal)))
+                    (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (equality_expression (identifier) (equality_operator) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (relational_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier)))
+    (expression_statement (relational_expression (identifier) (relational_operator) (identifier)))
+    (expression_statement (equality_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (equality_operator) (identifier)))
+    (expression_statement (logical_and_expression (identifier) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (expression_statement (logical_or_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
+    (if_statement
+        (parenthesized_expression
+            (relational_expression
+                (type_cast_expression (identifier)
+                        (selector (unconditional_assignable_selector (string_literal)))
+                        (type_cast (as_operator) (type_identifier)))
+                (relational_operator)
+                (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))))) (block))
+    (expression_statement
+        (bitwise_or_expression
+            (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))
+            (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))))))
+
+
+
+=============================
+Non-null assignable selector
+=============================
+
+parameters?["charset"];
+
+---
+
+(program 
+  (expression_statement (identifier) 
+    (selector (unconditional_assignable_selector (string_literal)))))

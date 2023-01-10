@@ -1,0 +1,287 @@
+================================================================================
+Complete function example
+================================================================================
+
+{-| An animation frame triggers about 60 times per second. Get the POSIX time
+on each frame. (See [`elm/time`](/packages/elm/time/latest) for more info on
+POSIX times.)
+
+**Note:** Browsers have their own render loop, repainting things as fast as
+possible. If you want smooth animations in your application, it is helpful to
+sync up with the browsers natural refresh rate. This hooks into JavaScript's
+`requestAnimationFrame` function.
+-}
+onAnimationFrame : (Time.Posix -> msg) -> Sub msg
+onAnimationFrame =
+  AM.onAnimationFrame
+--------------------------------------------------------------------------------
+
+(file
+  (block_comment)
+  (type_annotation
+    (lower_case_identifier)
+    (colon)
+    (type_expression
+      (type_expression
+        (type_ref
+          (upper_case_qid
+            (upper_case_identifier)
+            (dot)
+            (upper_case_identifier)))
+        (arrow)
+        (type_variable
+          (lower_case_identifier)))
+      (arrow)
+      (type_ref
+        (upper_case_qid
+          (upper_case_identifier))
+        (type_variable
+          (lower_case_identifier)))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (value_expr
+      (value_qid
+        (upper_case_identifier)
+        (dot)
+        (lower_case_identifier)))))
+
+================================================================================
+Complete counter example
+================================================================================
+
+module Main exposing (Msg(..), main, update, view)
+
+import Browser
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+
+
+main =
+    Browser.sandbox { init = 0, update = update, view = view }
+
+
+type Msg
+    = Increment
+    | Decrement
+
+
+update msg model =
+    case msg of
+        Increment ->
+            model + 1
+
+        Decrement ->
+            model - 1
+
+{- Test comment -}
+view model =
+    div []
+        [ button [ onClick Decrement ] [ text "-" ]
+        , div [] [ text (String.fromInt model) ]
+        , button [ onClick Increment ] [ text "+" ]
+        ]
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (module_declaration
+    (module)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier)
+        (exposed_union_constructors
+          (double_dot)))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_type
+        (upper_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))
+      (exposed_value
+        (lower_case_identifier))))
+  (import_clause
+    (import)
+    (upper_case_qid
+      (upper_case_identifier)
+      (dot)
+      (upper_case_identifier))
+    (exposing_list
+      (exposing)
+      (exposed_value
+        (lower_case_identifier))))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (upper_case_identifier)
+          (dot)
+          (lower_case_identifier)))
+      (record_expr
+        (field
+          (lower_case_identifier)
+          (eq)
+          (number_constant_expr
+            (number_literal)))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier))))
+        (field
+          (lower_case_identifier)
+          (eq)
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))))
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier)))
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (bin_op_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (operator
+            (operator_identifier))
+          (number_constant_expr
+            (number_literal))))))
+  (block_comment)
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (function_call_expr
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (list_expr)
+      (list_expr
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))))
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr)
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (parenthesized_expr
+                (function_call_expr
+                  (value_expr
+                    (value_qid
+                      (upper_case_identifier)
+                      (dot)
+                      (lower_case_identifier)))
+                  (value_expr
+                    (value_qid
+                      (lower_case_identifier))))))))
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (value_expr
+                (upper_case_qid
+                  (upper_case_identifier)))))
+          (list_expr
+            (function_call_expr
+              (value_expr
+                (value_qid
+                  (lower_case_identifier)))
+              (string_constant_expr
+                (open_quote)
+                (regular_string_part)
+                (close_quote)))))))))

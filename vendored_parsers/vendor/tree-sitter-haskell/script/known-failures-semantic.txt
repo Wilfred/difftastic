@@ -1,0 +1,6 @@
+examples/semantic/semantic/test/fixtures/haskell/corpus/function-declarations.A.hs
+examples/semantic/semantic/test/fixtures/haskell/corpus/function-declarations.B.hs
+examples/semantic/semantic/test/fixtures/haskell/corpus/type-synonyms.A.hs
+examples/semantic/semantic/test/fixtures/haskell/corpus/type-synonyms.B.hs
+examples/semantic/semantic/test/fixtures/haskell/corpus/tempate-haskell.A.hs
+examples/semantic/semantic/test/fixtures/haskell/corpus/template-haskell.B.hs

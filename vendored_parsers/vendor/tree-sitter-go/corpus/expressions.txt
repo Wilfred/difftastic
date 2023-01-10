@@ -1,0 +1,261 @@
+============================================
+Call expressions
+============================================
+
+package main
+
+func main() {
+  a(b, c...)
+
+  a(
+    b,
+    c,
+  )
+
+  a(
+    b,
+    c...,
+  )
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression
+      (identifier)
+      (argument_list
+        (identifier)
+        (variadic_argument (identifier))))
+    (call_expression
+      (identifier)
+      (argument_list (identifier) (identifier)))
+    (call_expression
+      (identifier)
+      (argument_list (identifier) (variadic_argument (identifier)))))))
+
+============================================
+Nested call expressions
+============================================
+
+package main
+
+func main() {
+  a(b(c(d)))
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression (identifier) (argument_list
+      (call_expression (identifier) (argument_list
+        (call_expression (identifier) (argument_list
+          (identifier))))))))))
+
+============================================
+Generic call expressions
+============================================
+
+package main
+
+func main() {
+  a[b](c)
+  a[b, c](d)
+  a[b[c], d](e[f])
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression
+      (identifier)
+      (type_arguments (type_identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (identifier)
+      (type_arguments (type_identifier) (type_identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (identifier)
+      (type_arguments 
+        (generic_type (type_identifier) (type_arguments (type_identifier)))
+        (type_identifier))
+      (argument_list (index_expression (identifier) (identifier)))))))
+
+============================================
+Calls to 'make' and 'new'
+============================================
+
+package main
+
+func main() {
+  make(chan<- int)
+
+  // `new` and `make` can also be used as variable names
+  make(chan<- int, (new - old), make.stuff)
+
+  make(chan<- int, 5, 10)
+  new(map[string]string)
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression
+      (identifier)
+      (argument_list (channel_type (type_identifier))))
+    (comment)
+    (call_expression
+      (identifier)
+      (argument_list
+        (channel_type (type_identifier))
+        (parenthesized_expression (binary_expression (identifier) (identifier)))
+        (selector_expression (identifier) (field_identifier))))
+    (call_expression
+      (identifier)
+      (argument_list
+        (channel_type (type_identifier))
+        (int_literal)
+        (int_literal)))
+    (call_expression
+      (identifier)
+      (argument_list
+        (map_type (type_identifier) (type_identifier)))))))
+
+============================================
+Selector expressions
+============================================
+
+package main
+
+func main() {
+  a.b.c()
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression
+      (selector_expression
+        (selector_expression (identifier) (field_identifier))
+        (field_identifier))
+      (argument_list)))))
+
+============================================
+Indexing expressions
+============================================
+
+package main
+
+func main() {
+  a[1]
+  b[:]
+  c[1:]
+  d[1:2]
+  e[:2:3]
+  f[1:2:3]
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (index_expression (identifier) (int_literal))
+    (slice_expression (identifier))
+    (slice_expression (identifier) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal))
+    (slice_expression (identifier) (int_literal) (int_literal) (int_literal)))))
+
+============================================
+Type assertion expressions
+============================================
+
+package main
+
+func main() {
+  a.(p.Person)
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (type_assertion_expression
+      (identifier)
+      (qualified_type (package_identifier) (type_identifier))))))
+
+============================================
+Type conversion expressions
+============================================
+
+package main
+
+func main() {
+  []a.b(c.d)
+  ([]a.b)(c.d)
+  <-chan int(c)
+  // These type conversions cannot be distinguished from call expressions
+  T(x)
+  (*Point)(p)
+  e.f(g)
+  (e.f)(g)
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (type_conversion_expression
+      (slice_type (qualified_type (package_identifier) (type_identifier)))
+      (selector_expression (identifier) (field_identifier)))
+    (type_conversion_expression
+      (parenthesized_type (slice_type (qualified_type (package_identifier) (type_identifier))))
+      (selector_expression (identifier) (field_identifier)))
+    (type_conversion_expression
+      (channel_type (type_identifier)) (identifier))
+    (comment)
+    (call_expression
+      (identifier) (argument_list (identifier)))
+    (call_expression
+      (parenthesized_expression
+        (unary_expression (identifier)))
+      (argument_list (identifier)))
+    (call_expression
+      (selector_expression (identifier) (field_identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (parenthesized_expression
+        (selector_expression (identifier) (field_identifier)))
+      (argument_list (identifier))))))
+
+============================================
+Unary expressions
+============================================
+
+package main
+
+func main() {
+  !<-a
+  *foo()
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (unary_expression (unary_expression (identifier)))
+    (unary_expression (call_expression (identifier) (argument_list))))))

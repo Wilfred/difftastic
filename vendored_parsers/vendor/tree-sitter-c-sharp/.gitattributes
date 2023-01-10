@@ -1,0 +1,4 @@
+/src/** linguist-vendored
+/scripts/** text eol=lf
+/src/parser.c -diff
+/src/grammar.json -diff

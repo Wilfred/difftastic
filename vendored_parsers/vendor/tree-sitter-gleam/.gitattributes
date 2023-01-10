@@ -1,0 +1,3 @@
+src/** linguist-generated
+src/scanner.c -linguist-generated
+test/** linguist-documentation

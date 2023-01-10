@@ -1,0 +1,9 @@
+examples/ruby_spec/command_line/fixtures/bad_syntax.rb
+examples/ruby_spec/command_line/fixtures/freeze_flag_required_diff_enc.rb
+examples/ruby_spec/core/enumerable/shared/inject.rb
+examples/ruby_spec/language/fixtures/freeze_magic_comment_required_diff_enc.rb
+examples/ruby_spec/language/string_spec.rb
+examples/ruby_spec/core/proc/ruby2_keywords_spec.rb
+examples/ruby_spec/language/fixtures/utf16-be-nobom.rb
+examples/ruby_spec/language/fixtures/utf16-le-nobom.rb
+examples/ruby_spec/language/lambda_spec.rb

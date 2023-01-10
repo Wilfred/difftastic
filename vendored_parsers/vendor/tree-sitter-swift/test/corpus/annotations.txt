@@ -1,0 +1,75 @@
+================================================================================
+Annotations
+================================================================================
+
+@Test
+class Empty { }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (modifiers
+      (attribute
+        (user_type
+          (type_identifier))))
+    (type_identifier)
+    (class_body)))
+
+================================================================================
+Multiple annotations on a variable
+================================================================================
+
+class X {
+ @A @B
+ override let s: String
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier)))
+          (attribute
+            (user_type
+              (type_identifier)))
+          (member_modifier))
+        (pattern
+          (simple_identifier))
+        (type_annotation
+          (user_type
+            (type_identifier)))))))
+
+================================================================================
+Multiple annotations on a function
+================================================================================
+
+class X {
+ @A @B
+ func s() -> String { }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier)))
+          (attribute
+            (user_type
+              (type_identifier))))
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body)))))
