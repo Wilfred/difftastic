@@ -51,3 +51,19 @@ object bla:
 //   ^ type.qualifier
   infix def hello = 25
 //  ^ keyword
+
+extension (s: String)
+//  ^keyword
+  def test = 25
+  def test2 = 25
+
+val extension = "hello"
+//     ^variable - to test "soft" keywords
+
+given Test with
+// ^keyword
+//     ^type
+//          ^keyword
+   def test = 1
+//  ^keyword.function
+   val a = "hello"

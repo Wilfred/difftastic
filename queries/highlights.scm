@@ -153,6 +153,8 @@
   "given"
   "end"
   "implicit"
+  "extension"
+  "with"
 ] @keyword
 
 [
