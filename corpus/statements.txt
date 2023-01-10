@@ -326,6 +326,26 @@ Declared tuple type with default
             (default_expression)))))))
 
 ================================================================================
+Declaration with generic type
+================================================================================
+
+A<B> a = null;
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (binary_expression
+          (binary_expression
+            (identifier)
+            (identifier))
+          (identifier))
+        (assignment_operator)
+        (null_literal)))))
+
+================================================================================
 Assignment and declaration in same deconstruction
 ================================================================================
 
@@ -1938,6 +1958,30 @@ b = obj ?? a == 0;
 
 ================================================================================
 Null literal arguments
+================================================================================
+
+person = new Person(null!, null!);
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (object_creation_expression
+          (identifier)
+          (argument_list
+            (argument
+              (postfix_unary_expression
+                (null_literal)))
+            (argument
+              (postfix_unary_expression
+                (null_literal)))))))))
+
+================================================================================
+Variable declaration
 ================================================================================
 
 person = new Person(null!, null!);
