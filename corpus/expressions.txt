@@ -781,6 +781,11 @@ def f(): Unit =
   yield
     g(x, y)
 
+  for
+    annot <- annotations
+    if shouldEmitAnnotation(annot)
+  do
+    ()
 ---
 
 (compilation_unit
@@ -797,7 +802,13 @@ def f(): Unit =
          (enumerator (identifier) (identifier))
          (enumerator (identifier) (identifier)))
        (indented_block
-         (call_expression (identifier) (arguments (identifier) (identifier))))))))
+         (call_expression (identifier) (arguments (identifier) (identifier)))))
+
+     (for_expression
+       (enumerators
+         (enumerator (identifier) (identifier))
+         (enumerator (guard (call_expression (identifier) (arguments (identifier))))))
+       (indented_block (unit))))))
 
 ===============================
 Chained expressions

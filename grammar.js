@@ -1266,11 +1266,20 @@ module.exports = grammar({
       ),
     ),
 
-    enumerator: $ => seq(
-      $._pattern,
-      choice('<-', '='),
-      $.expression,
-      optional($.guard)
+    /**
+     *   Enumerator        ::=  Generator
+     *                       |  Guard {Guard}
+     *                       |  Pattern1 '=' Expr
+     */
+    enumerator: $ => choice(
+      seq(
+        optional('case'),
+        $._pattern,
+        choice('<-', '='),
+        $.expression,
+        optional($.guard)
+      ),
+      repeat1($.guard),
     ),
 
     comment: $ => token(choice(
