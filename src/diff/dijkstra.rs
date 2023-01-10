@@ -111,7 +111,7 @@ fn shortest_path<'a, 'b>(
     size_hint: usize,
     graph_limit: usize,
 ) -> Result<Vec<(Edge, &'b Vertex<'a, 'b>)>, ExceededGraphLimit> {
-    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start.clone());
+    let start: &'b Vertex<'a, 'b> = vertex_arena.alloc(start);
     let vertex_path = shortest_vertex_path(start, vertex_arena, size_hint, graph_limit)?;
     Ok(shortest_path_with_edges(&vertex_path))
 }

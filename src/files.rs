@@ -114,7 +114,6 @@ fn u16_from_bytes(bytes: &[u8]) -> Vec<u16> {
     // https://stackoverflow.com/a/57172592
     bytes
         .chunks_exact(2)
-        .into_iter()
         .map(|a| {
             if is_big_endian {
                 u16::from_be_bytes([a[0], a[1]])
