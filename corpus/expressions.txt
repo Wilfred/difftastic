@@ -6,6 +6,7 @@ class C {
   def main() {
     a()
     a(123)
+    ::(123)
     a(b, c)
     a.map(x => x + 1)
     a { 123 }
@@ -27,6 +28,7 @@ class C {
         (block
           (call_expression (identifier) (arguments))
           (call_expression (identifier) (arguments (integer_literal)))
+          (call_expression (operator_identifier) (arguments (integer_literal)))
           (call_expression (identifier) (arguments (identifier) (identifier)))
           (call_expression (field_expression (identifier) (identifier)) (arguments
             (lambda_expression (identifier)
@@ -480,7 +482,6 @@ Prefix expressions
 class C {
   def main() {
     !a
-    !!a
     +a + b
   }
 }
@@ -496,7 +497,6 @@ class C {
         (parameters)
         (block
           (prefix_expression (identifier))
-          (prefix_expression (prefix_expression (identifier)))
           (infix_expression
             (prefix_expression (identifier))
             (operator_identifier)

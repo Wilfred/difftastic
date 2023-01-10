@@ -75,6 +75,9 @@
   function: (identifier) @function.call)
 
 (call_expression
+  function: (operator_identifier) @function.call)
+
+(call_expression
   function: (field_expression
     field: (identifier) @method.call))
 
@@ -221,6 +224,8 @@
 
 (case_block
   (case_clause ("case") @conditional))
+
+(operator_identifier) @operator
 
 ((identifier) @constant (#lua-match? @constant "^[A-Z]"))
 ((identifier) @variable.builtin

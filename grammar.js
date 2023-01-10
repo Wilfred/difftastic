@@ -800,6 +800,7 @@ module.exports = grammar({
       */
     _simple_expression: $ => choice(
       $.identifier,
+      $.operator_identifier,
       $.literal,
       $.interpolated_string_expression,
       $.unit,
@@ -890,11 +891,14 @@ module.exports = grammar({
 
     guard: $ => seq(
       'if',
-      field('condition', $.expression)
+      field('condition', $._postfix_expression_choice)
     ),
 
     assignment_expression: $ => prec.right(PREC.assign, seq(
-      field('left', $.expression),
+      field('left', choice(
+        $.prefix_expression,
+        $._simple_expression,
+      )),
       '=',
       field('right', $.expression)
     )),
@@ -924,12 +928,7 @@ module.exports = grammar({
      * PostfixExpr [Ascription]
      */
     ascription_expression: $ => prec.right(PREC.ascription, seq(
-        choice(
-          $.postfix_expression,
-          $.infix_expression,
-          $.prefix_expression,
-          $._simple_expression,
-        ),
+        $._postfix_expression_choice,
         ':',
         choice(
           $._param_type,
@@ -962,15 +961,19 @@ module.exports = grammar({
       $._identifier,
     )),
 
+    _postfix_expression_choice: $ => prec.left(PREC.postfix, choice(
+      $.postfix_expression,
+      $.infix_expression,
+      $.prefix_expression,
+      $._simple_expression,
+    )),
+
     /**
      * PrefixExpr        ::=  [PrefixOperator] SimpleExpr
      */
     prefix_expression: $ => prec(PREC.prefix, seq(
       choice('+', '-', '!', '~'),
-      choice(
-        $.prefix_expression, 
-        $._simple_expression,
-      ),
+      $._simple_expression,
     )),
 
     tuple_expression: $ => seq(
