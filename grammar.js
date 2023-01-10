@@ -179,16 +179,16 @@ module.exports = grammar({
       sep1(',', $._import_expression)
     )),
 
-    _import_expression: $ => seq(
-      field('path', choice($.stable_identifier, $.identifier)),
+    _import_expression: $ => prec.left(seq(
+      field('path', sep1('.', $.identifier)),
       optional(seq(
         '.',
         choice(
           $.import_wildcard,
-          $.import_selectors
-        )
-      ))
-    ),
+          $.import_selectors,
+        ),
+      )),
+    )),
 
     import_wildcard: $ => prec.left(1,
       choice('*', '_', 'given')

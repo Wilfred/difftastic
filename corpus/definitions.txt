@@ -178,12 +178,13 @@ import reflect.io.{Directory, File, Path}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier)))
+    (identifier) (identifier))
   (import_declaration
-    (stable_identifier (identifier) (identifier))
-    (stable_identifier (identifier) (identifier)))
+    (identifier)
+    (identifier)
+    (identifier) (identifier))
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (identifier) (identifier) (identifier))))
 
 ================================
@@ -196,7 +197,7 @@ import tools.nsc.classpath._
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_wildcard)))
 
 ================================
@@ -204,13 +205,18 @@ Imports: Wildcard (Scala 3 syntax)
 ================================
 
 import tools.nsc.classpath.*
+import a.b.*, b.c, c.*
 
 ---
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
-    (import_wildcard)))
+    (identifier) (identifier) (identifier) (import_wildcard))
+
+  (import_declaration
+    (identifier) (identifier) (import_wildcard)
+    (identifier) (identifier)
+    (identifier) (import_wildcard)))
 
 ================================
 Imports: Wildcard and wildcard givens (Scala 3 syntax)
@@ -223,7 +229,7 @@ import tools.given
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_selectors 
       (import_wildcard)
       (import_wildcard)))
@@ -241,7 +247,7 @@ import tools.nsc.classpath.{given Test, given Test2, Test3}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_selectors 
       (type_identifier)
       (type_identifier)
@@ -257,7 +263,7 @@ import lang.System.{lineSeparator as EOL}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (renamed_identifier (identifier) (identifier)))))
 
 ================================
@@ -270,7 +276,7 @@ import lang.System.{lineSeparator => EOL}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (renamed_identifier (identifier) (identifier)))))
 
 
