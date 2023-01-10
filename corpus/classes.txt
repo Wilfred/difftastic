@@ -1,10 +1,10 @@
-=====================================
+================================================================================
 Global empty class
-=====================================
+================================================================================
 
 public class F {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -12,28 +12,29 @@ public class F {}
     name: (identifier)
     body: (declaration_list)))
 
-=====================================
+================================================================================
 Class base is dynamic
-=====================================
+================================================================================
 
 public class F : dynamic { }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (modifier)
     name: (identifier)
-    bases: (base_list (identifier))
+    bases: (base_list
+      (identifier))
     body: (declaration_list)))
 
-=====================================
+================================================================================
 Class base is object with interfaces
-=====================================
+================================================================================
 
 public class F : object, IAlpha, IOmega { }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -45,228 +46,270 @@ public class F : object, IAlpha, IOmega { }
       (identifier))
     body: (declaration_list)))
 
-=====================================
+================================================================================
 Partial class
-=====================================
+================================================================================
 
 public partial class F {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
- (class_declaration
-   (modifier) (modifier)
-   (identifier)
-   (declaration_list)))
+  (class_declaration
+    (modifier)
+    (modifier)
+    (identifier)
+    (declaration_list)))
 
-=====================================
+================================================================================
 Class with a single type parameter
-=====================================
+================================================================================
 
 class F<T> {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
-     (type_parameter_list (type_parameter (identifier)))
-     (declaration_list)))
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (declaration_list)))
 
-=====================================
+================================================================================
 Class with multiple type parameters
-=====================================
+================================================================================
 
 internal class F<T1, T2> {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
- (class_declaration
-   (modifier)
-   (identifier)
+  (class_declaration
+    (modifier)
+    (identifier)
     (type_parameter_list
-      (type_parameter (identifier))
-      (type_parameter (identifier)))
+      (type_parameter
+        (identifier))
+      (type_parameter
+        (identifier)))
     (declaration_list)))
 
-=====================================
+================================================================================
 Class with co-variant and contra-variant type parameters
-=====================================
+================================================================================
 
 internal class F<in T1, out T2> {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
- (class_declaration
-   (modifier)
-   (identifier)
+  (class_declaration
+    (modifier)
+    (identifier)
     (type_parameter_list
-      (type_parameter (identifier))
-      (type_parameter (identifier)))
+      (type_parameter
+        (identifier))
+      (type_parameter
+        (identifier)))
     (declaration_list)))
 
-=====================================
+================================================================================
 Class with a type parameter struct constraint
-=====================================
+================================================================================
 
 public class F<T> where T:struct {}
 
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier) (type_parameter_constraint))
-    (declaration_list)))
-
-=====================================
-Class with a type parameter unmanaged constraint
-=====================================
-
-public class F<T> where T:unmanaged {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier) (type_parameter_constraint))
-    (declaration_list)))
-
-=====================================
-Class with a type parameter class constraint
-=====================================
-
-public class F<T> where T:class {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier) (type_parameter_constraint))
-    (declaration_list)))
-
-=====================================
-Class with a type parameter and nullable constraints
-=====================================
-
-public class F<T> where T:class?, notnull, Mine? {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause (identifier)
-      (type_parameter_constraint)
-      (type_parameter_constraint)
-      (type_parameter_constraint (type_constraint (nullable_type (identifier)))))
-    (declaration_list)))
-
-=====================================
-Class with type parameter new constraint
-=====================================
-
-public class F<T> where T: new() {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier)
-      (type_parameter_constraint (constructor_constraint)))
-    (declaration_list)))
-
-=====================================
-Class with type parameter identifier constraint
-=====================================
-
-public class F<T> where T: I {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier)
-      (type_parameter_constraint (type_constraint (identifier))))
-    (declaration_list)))
-
-=====================================
-Class with type parameter identifier and new constraints
-=====================================
-
-public class F<T> where T: I, new() {}
-
----
-
-(compilation_unit
-  (class_declaration
-    (modifier)
-    (identifier)
-    (type_parameter_list (type_parameter (identifier)))
-    (type_parameter_constraints_clause
-      (identifier)
-      (type_parameter_constraint
-        (type_constraint (identifier)))
-      (type_parameter_constraint (constructor_constraint)))
-    (declaration_list)))
-
-=====================================
-Class with multiple type parameter constraints
-=====================================
-
-private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
-
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (modifier)
     (identifier)
     (type_parameter_list
-      (type_parameter (identifier))
-      (type_parameter (identifier)))
+      (type_parameter
+        (identifier)))
     (type_parameter_constraints_clause
       (identifier)
-      (type_parameter_constraint (type_constraint (identifier)))
-      (type_parameter_constraint (type_constraint (identifier)))
-      (type_parameter_constraint (constructor_constraint)))
-    (type_parameter_constraints_clause
-      (identifier)
-      (type_parameter_constraint (type_constraint (identifier))))
+      (type_parameter_constraint))
     (declaration_list)))
 
-=====================================
+================================================================================
+Class with a type parameter unmanaged constraint
+================================================================================
+
+public class F<T> where T:unmanaged {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint))
+    (declaration_list)))
+
+================================================================================
+Class with a type parameter class constraint
+================================================================================
+
+public class F<T> where T:class {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint))
+    (declaration_list)))
+
+================================================================================
+Class with a type parameter and nullable constraints
+================================================================================
+
+public class F<T> where T:class?, notnull, Mine? {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint)
+      (type_parameter_constraint)
+      (type_parameter_constraint
+        (type_constraint
+          (nullable_type
+            (identifier)))))
+    (declaration_list)))
+
+================================================================================
+Class with type parameter new constraint
+================================================================================
+
+public class F<T> where T: new() {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint
+        (constructor_constraint)))
+    (declaration_list)))
+
+================================================================================
+Class with type parameter identifier constraint
+================================================================================
+
+public class F<T> where T: I {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint
+        (type_constraint
+          (identifier))))
+    (declaration_list)))
+
+================================================================================
+Class with type parameter identifier and new constraints
+================================================================================
+
+public class F<T> where T: I, new() {}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint
+        (type_constraint
+          (identifier)))
+      (type_parameter_constraint
+        (constructor_constraint)))
+    (declaration_list)))
+
+================================================================================
+Class with multiple type parameter constraints
+================================================================================
+
+private class F<T1,T2> where T1 : I1, I2, new() where T2 : I2 { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter
+        (identifier))
+      (type_parameter
+        (identifier)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint
+        (type_constraint
+          (identifier)))
+      (type_parameter_constraint
+        (type_constraint
+          (identifier)))
+      (type_parameter_constraint
+        (constructor_constraint)))
+    (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint
+        (type_constraint
+          (identifier))))
+    (declaration_list)))
+
+================================================================================
 Class with public constructor
-=====================================
+================================================================================
 
 class Foo {
   public Foo() {}
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -278,15 +321,15 @@ class Foo {
         (parameter_list)
         (block)))))
 
-=====================================
+================================================================================
 Class with expression bodied constructor
-=====================================
+================================================================================
 
 class Foo {
   public Foo(string name) => Name = name;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -295,13 +338,19 @@ class Foo {
       (constructor_declaration
         (modifier)
         (identifier)
-        (parameter_list (parameter (predefined_type) (identifier)))
+        (parameter_list
+          (parameter
+            (predefined_type)
+            (identifier)))
         (arrow_expression_clause
-          (assignment_expression (identifier) (assignment_operator) (identifier)))))))
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (identifier)))))))
 
-=====================================
+================================================================================
 Class with static constructor
-=====================================
+================================================================================
 
 class Foo {
   static Foo() {}
@@ -309,7 +358,7 @@ class Foo {
   extern static Foo() {}
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -321,25 +370,27 @@ class Foo {
         (parameter_list)
         (block))
       (constructor_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list)
         (block))
       (constructor_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list)
         (block)))))
 
-=====================================
+================================================================================
 Class with extern destructor
-=====================================
+================================================================================
 
 class Foo {
   extern ~Foo() {}
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -350,15 +401,15 @@ class Foo {
         (parameter_list)
         (block)))))
 
-=====================================
+================================================================================
 Class with expression bodied destructor
-=====================================
+================================================================================
 
 class Foo {
   ~Foo() => DoSomething();
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -372,23 +423,24 @@ class Foo {
             (identifier)
             (argument_list)))))))
 
-=====================================
+================================================================================
 Class with constants
-=====================================
+================================================================================
 
 class Foo {
   private const int a = 1;
   const string b = $"hello";
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (field_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (variable_declaration
           (predefined_type)
           (variable_declarator
@@ -405,9 +457,9 @@ class Foo {
               (interpolated_string_expression
                 (interpolated_string_text)))))))))
 
-=====================================
+================================================================================
 Class with indexer
-=====================================
+================================================================================
 
 class Foo {
   public bool this[int index] {
@@ -416,7 +468,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -425,22 +477,32 @@ class Foo {
       (indexer_declaration
         (modifier)
         (predefined_type)
-        (bracketed_parameter_list (parameter (predefined_type) (identifier)))
+        (bracketed_parameter_list
+          (parameter
+            (predefined_type)
+            (identifier)))
         (accessor_list
           (accessor_declaration
-            (block (return_statement (identifier))))
+            (block
+              (return_statement
+                (identifier))))
           (accessor_declaration
-            (block (expression_statement (assignment_expression (identifier) (assignment_operator) (identifier))))))))))
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
 
-=====================================
+================================================================================
 Class with expression bodied indexer
-=====================================
+================================================================================
 
 class Foo {
   public bool this[int index] => a[index];
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -449,14 +511,20 @@ class Foo {
       (indexer_declaration
         (modifier)
         (predefined_type)
-        (bracketed_parameter_list (parameter (predefined_type) (identifier)))
+        (bracketed_parameter_list
+          (parameter
+            (predefined_type)
+            (identifier)))
         (arrow_expression_clause
-          (element_access_expression (identifier)
-            (bracketed_argument_list (argument (identifier)))))))))
+          (element_access_expression
+            (identifier)
+            (bracketed_argument_list
+              (argument
+                (identifier)))))))))
 
-=====================================
+================================================================================
 Class with expression bodied indexer accessors
-=====================================
+================================================================================
 
 class Foo {
     public string this[int index]
@@ -466,7 +534,7 @@ class Foo {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -475,23 +543,32 @@ class Foo {
       (indexer_declaration
         (modifier)
         (predefined_type)
-        (bracketed_parameter_list (parameter (predefined_type) (identifier)))
+        (bracketed_parameter_list
+          (parameter
+            (predefined_type)
+            (identifier)))
         (accessor_list
           (accessor_declaration
             (arrow_expression_clause
-              (element_access_expression (identifier)
-                (bracketed_argument_list (argument (identifier))))))
+              (element_access_expression
+                (identifier)
+                (bracketed_argument_list
+                  (argument
+                    (identifier))))))
           (accessor_declaration
             (arrow_expression_clause
               (assignment_expression
-                (element_access_expression (identifier)
-                  (bracketed_argument_list (argument (identifier))))
-                  (assignment_operator) (identifier)))))))))
+                (element_access_expression
+                  (identifier)
+                  (bracketed_argument_list
+                    (argument
+                      (identifier))))
+                (assignment_operator)
+                (identifier)))))))))
 
-
-=====================================
+================================================================================
 Class with varargs indexer
-=====================================
+================================================================================
 
 class A {
     public int this[params string[] arguments] {
@@ -499,7 +576,7 @@ class A {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -508,16 +585,20 @@ class A {
       (indexer_declaration
         (modifier)
         (predefined_type)
-          (bracketed_parameter_list
-            (array_type (predefined_type) (array_rank_specifier)) (identifier))
-            (accessor_list
-              (accessor_declaration
-                (block
-                  (return_statement (integer_literal)))))))))
+        (bracketed_parameter_list
+          (array_type
+            (predefined_type)
+            (array_rank_specifier))
+          (identifier))
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement
+                (integer_literal)))))))))
 
-=================================
+================================================================================
 Method with qualified return type
-=================================
+================================================================================
 
 class A {
   B.C d() {
@@ -525,22 +606,25 @@ class A {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     name: (identifier)
     body: (declaration_list
       (method_declaration
-        type: (qualified_name (identifier) (identifier))
+        type: (qualified_name
+          (identifier)
+          (identifier))
         name: (identifier)
         parameters: (parameter_list)
         body: (block
-          (return_statement (null_literal)))))))
+          (return_statement
+            (null_literal)))))))
 
-=================================
+================================================================================
 Class and methods with Unicode identifiers
-=================================
+================================================================================
 
 class Ωµ {
   B.C d() {
@@ -548,30 +632,32 @@ class Ωµ {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     name: (identifier)
     body: (declaration_list
       (method_declaration
-        type: (qualified_name (identifier) (identifier))
+        type: (qualified_name
+          (identifier)
+          (identifier))
         name: (identifier)
         parameters: (parameter_list)
         body: (block
-          (return_statement (null_literal)))))))
+          (return_statement
+            (null_literal)))))))
 
-=================================
+================================================================================
 File scoped class
-=================================
+================================================================================
 
 file class A {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (modifier)
     name: (identifier)
     body: (declaration_list)))
-    

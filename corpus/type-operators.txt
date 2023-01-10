@@ -1,6 +1,6 @@
-=======================================
+================================================================================
 Operator declarations
-=======================================
+================================================================================
 
 class A
 {
@@ -12,35 +12,53 @@ class A
   int operator -(A a) { return 0; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (operator_declaration
-        (attribute_list (attribute (identifier)))
-        (modifier) (modifier)
+        (attribute_list
+          (attribute
+            (identifier)))
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (integer_literal))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (integer_literal))))
       (operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
-        (block (return_statement (integer_literal))))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (integer_literal))))
       (operator_declaration
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (integer_literal)))))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (integer_literal)))))))
 
-=======================================
+================================================================================
 boolean operator declarations
-=======================================
+================================================================================
 
 class A
 {
@@ -48,27 +66,36 @@ class A
   bool operator false(A a) { return false; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (boolean_literal))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (boolean_literal))))
       (operator_declaration
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (boolean_literal)))))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (boolean_literal)))))))
 
-=======================================
+================================================================================
 conversion operator declaration
-=======================================
+================================================================================
 
 class A
 {
@@ -76,46 +103,62 @@ class A
   explicit operator int (A a) { return 0; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (conversion_operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier) (identifier)))
-        (block (return_statement (integer_literal))))
+        (parameter_list
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (integer_literal))))
       (conversion_operator_declaration
         (predefined_type)
-        (parameter_list (parameter (identifier) (identifier)))
-        (block (return_statement (integer_literal)))))))
+        (parameter_list
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (integer_literal)))))))
 
-=======================================
+================================================================================
 conversion operator with expression body
-=======================================
+================================================================================
 
 class A
 {
   public static implicit operator int (A a) => 0;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (conversion_operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier) (identifier)))
-        (arrow_expression_clause (integer_literal))))))
+        (parameter_list
+          (parameter
+            (identifier)
+            (identifier)))
+        (arrow_expression_clause
+          (integer_literal))))))
 
-=======================================
+================================================================================
 extern operators
-=======================================
+================================================================================
 
 class A
 {
@@ -124,31 +167,45 @@ class A
   public static explicit operator int (A a);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (operator_declaration
-        (modifier) (modifier) (modifier)
+        (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier))))
+          (parameter
+            (identifier)
+            (identifier))))
       (operator_declaration
-        (modifier) (modifier) (modifier)
+        (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier))))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier))))
       (conversion_operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
-        (parameter_list (parameter (identifier) (identifier)))))))
+        (parameter_list
+          (parameter
+            (identifier)
+            (identifier)))))))
 
-=======================================
+================================================================================
 Class conversion operators with expression body
-=======================================
+================================================================================
 
 class A
 {
@@ -157,35 +214,51 @@ class A
   public static explicit operator int (A a) => 0;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
       (operator_declaration
-        (modifier) (modifier) (modifier)
+        (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (arrow_expression_clause (integer_literal)))
+          (parameter
+            (identifier)
+            (identifier)))
+        (arrow_expression_clause
+          (integer_literal)))
       (operator_declaration
-        (modifier) (modifier) (modifier)
+        (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
-        (arrow_expression_clause (boolean_literal)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
+        (arrow_expression_clause
+          (boolean_literal)))
       (conversion_operator_declaration
-        (modifier) (modifier)
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (arrow_expression_clause (integer_literal))))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (arrow_expression_clause
+          (integer_literal))))))
 
-=======================================
-Unary operator overloads 
-=======================================
+================================================================================
+Unary operator overloads
+================================================================================
 
 class A
 {
@@ -199,56 +272,104 @@ class A
   public static bool operator false(A a) { return true; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
-      (operator_declaration (modifier) (modifier)
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (identifier))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (identifier))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (boolean_literal))))
-      (operator_declaration (modifier) (modifier)
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (boolean_literal))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (predefined_type)
         (parameter_list
-          (parameter (identifier) (identifier)))
-        (block (return_statement (boolean_literal)))))))
+          (parameter
+            (identifier)
+            (identifier)))
+        (block
+          (return_statement
+            (boolean_literal)))))))
 
-=======================================
-Binary unpaired operator overloads 
-=======================================
+================================================================================
+Binary unpaired operator overloads
+================================================================================
 
 class A
 {
@@ -265,104 +386,192 @@ class A
   public static A operator >>>(A a, A b) { return a >= b; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
-      (operator_declaration (modifier) (modifier)
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier))))))))
+            (binary_expression
+              (identifier)
+              (identifier))))))))
 
-=======================================
-Binary paired operator overloads 
-=======================================
+================================================================================
+Binary paired operator overloads
+================================================================================
 
 class A
 {
@@ -374,57 +583,105 @@ class A
   public static A operator >=(A a, A b) { return a >= b; }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
     (identifier)
     (declaration_list
-      (operator_declaration (modifier) (modifier)
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier)))))
-      (operator_declaration (modifier) (modifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (operator_declaration
+        (modifier)
+        (modifier)
         (identifier)
         (parameter_list
-          (parameter (identifier) (identifier))
-          (parameter (identifier) (identifier)))
+          (parameter
+            (identifier)
+            (identifier))
+          (parameter
+            (identifier)
+            (identifier)))
         (block
           (return_statement
-            (binary_expression (identifier) (identifier))))))))
+            (binary_expression
+              (identifier)
+              (identifier))))))))

@@ -1,6 +1,6 @@
-=====================================
+================================================================================
 Assignment to Prefix Unary Expressions
-=====================================
+================================================================================
 
 a = +a;
 a = -a;
@@ -11,7 +11,7 @@ a = --a;
 a = a++;
 a = a--;
 a = a!;
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -55,32 +55,32 @@ a = a!;
         (identifier)
         (assignment_operator)
         (prefix_unary_expression
-            (identifier)))))
-      (global_statement
-        (expression_statement
-          (assignment_expression
-            (identifier)
-            (assignment_operator)
-            (postfix_unary_expression
-              (identifier)))))
-      (global_statement
-        (expression_statement
-          (assignment_expression
-            (identifier)
-            (assignment_operator)
-            (postfix_unary_expression
-              (identifier)))))
-      (global_statement
-        (expression_statement
-          (assignment_expression
-            (identifier)
-            (assignment_operator)
-            (postfix_unary_expression
-              (identifier))))))
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (postfix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (postfix_unary_expression
+          (identifier)))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (postfix_unary_expression
+          (identifier))))))
 
-=====================================
+================================================================================
 Assignment to Binary Expressions
-=====================================
+================================================================================
 
 a = a + a;
 a = a - a;
@@ -94,7 +94,7 @@ a = a >> a;
 a = a << a;
 a = a >>> a;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -186,9 +186,9 @@ a = a >>> a;
           (identifier)
           (identifier))))))
 
-=====================================
+================================================================================
 Assignment to Binary Equality Expressions
-=====================================
+================================================================================
 
 a = a == b;
 a = a != b;
@@ -197,7 +197,7 @@ a = a <= b;
 a = a > b;
 a = a >= b;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -249,9 +249,9 @@ a = a >= b;
           (identifier)
           (identifier))))))
 
-=====================================
+================================================================================
 Assignment Binary Expressions
-=====================================
+================================================================================
 
 a += a;
 a -= a;
@@ -264,7 +264,7 @@ a <<= a;
 a >>= a;
 a >>>= a;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -324,9 +324,9 @@ a >>>= a;
         (assignment_operator)
         (identifier)))))
 
-=====================================
+================================================================================
 Ternary Expression
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -334,7 +334,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -351,9 +351,9 @@ class Foo {
               consequence: (string_literal)
               alternative: (string_literal))))))))
 
-=====================================
+================================================================================
 Binary Expressions
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -362,7 +362,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -382,51 +382,60 @@ class Foo {
               left: (integer_literal)
               right: (integer_literal))))))))
 
-=====================================
+================================================================================
 Ternary expressions is type
-=====================================
+================================================================================
 
 var t = x is int
   ? a
   : b;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (local_declaration_statement
-      (variable_declaration (implicit_type)
-        (variable_declarator (identifier)
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
           (equals_value_clause
             (conditional_expression
-              (is_expression (identifier) (predefined_type))
+              (is_expression
+                (identifier)
+                (predefined_type))
               (identifier)
               (identifier))))))))
 
-=====================================
+================================================================================
 Ternary expressions is nullable type
-=====================================
+================================================================================
 
 var u = x is int?
   ? a
   : b;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (local_declaration_statement
-      (variable_declaration (implicit_type)
-        (variable_declarator (identifier)
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
           (equals_value_clause
             (conditional_expression
-              (is_expression (identifier) (nullable_type (predefined_type)))
+              (is_expression
+                (identifier)
+                (nullable_type
+                  (predefined_type)))
               (identifier)
               (identifier))))))))
 
-=====================================
+================================================================================
 Prefix-Unary Expressions
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -435,7 +444,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -446,22 +455,22 @@ class Foo {
         (identifier)
         (parameter_list)
         (block
-        (expression_statement
-          (prefix_unary_expression
-            (identifier)))
-        (expression_statement
-          (prefix_unary_expression
-            (identifier))))))))
+          (expression_statement
+            (prefix_unary_expression
+              (identifier)))
+          (expression_statement
+            (prefix_unary_expression
+              (identifier))))))))
 
-=====================================
+================================================================================
 Cast expressions
-=====================================
+================================================================================
 
 void Test() {
   a = (B)c + (C)d;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -470,39 +479,50 @@ void Test() {
       (identifier)
       (parameter_list)
       (block
-        (expression_statement (assignment_expression
-          (identifier)
-          (assignment_operator)
-          (binary_expression
-            (cast_expression (identifier) (identifier))
-            (cast_expression (identifier) (identifier)))))))))
+        (expression_statement
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (binary_expression
+              (cast_expression
+                (identifier)
+                (identifier))
+              (cast_expression
+                (identifier)
+                (identifier)))))))))
 
-=====================================
+================================================================================
 Cast expression of array access
-=====================================
+================================================================================
 
 b = (float)a[0];
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (expression_statement
-      (assignment_expression (identifier) (assignment_operator)
-        (cast_expression (predefined_type)
-          (element_access_expression (identifier)
-            (bracketed_argument_list (argument (integer_literal)))))))))
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (cast_expression
+          (predefined_type)
+          (element_access_expression
+            (identifier)
+            (bracketed_argument_list
+              (argument
+                (integer_literal)))))))))
 
-=====================================
+================================================================================
 Cast with parenthesized expression
-=====================================
+================================================================================
 
 (A.A)(a.a.a);
 (Int32)(1);
 (Int32)(1);
 (Int32)((1));
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -537,25 +557,30 @@ Cast with parenthesized expression
           (parenthesized_expression
             (integer_literal)))))))
 
-=====================================
+================================================================================
 Precedence of unary prefix operator and element access
-=====================================
+================================================================================
 
 b = +a[0];
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (expression_statement
-      (assignment_expression (identifier) (assignment_operator)
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
         (prefix_unary_expression
-          (element_access_expression (identifier)
-            (bracketed_argument_list (argument (integer_literal)))))))))
+          (element_access_expression
+            (identifier)
+            (bracketed_argument_list
+              (argument
+                (integer_literal)))))))))
 
-=====================================
+================================================================================
 Precedence of switch_expression and binary_expression
-=====================================
+================================================================================
 
 b = 2 * a switch
 {
@@ -563,27 +588,36 @@ b = 2 * a switch
     _ => 0,
 };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (expression_statement
-      (assignment_expression (identifier) (assignment_operator)
-        (binary_expression (integer_literal)
-          (switch_expression (identifier)
-            (switch_expression_arm (constant_pattern (integer_literal)) (integer_literal))
-            (switch_expression_arm (discard) (integer_literal))))))))
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (binary_expression
+          (integer_literal)
+          (switch_expression
+            (identifier)
+            (switch_expression_arm
+              (constant_pattern
+                (integer_literal))
+              (integer_literal))
+            (switch_expression_arm
+              (discard)
+              (integer_literal))))))))
 
-============================
+================================================================================
 Anonymous object creation with empty body
-============================
+================================================================================
 
 void b() {
   var x = new {
   };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -596,19 +630,19 @@ void b() {
           (variable_declaration
             (implicit_type)
             (variable_declarator
-            (identifier)
+              (identifier)
               (equals_value_clause
                 (anonymous_object_creation_expression)))))))))
 
-============================
+================================================================================
 Target-type object creation
-============================
+================================================================================
 
 void b() {
   Friend friend = new("hi");
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -621,14 +655,16 @@ void b() {
           (variable_declaration
             (identifier)
             (variable_declarator
-            (identifier)
+              (identifier)
               (equals_value_clause
                 (implicit_object_creation_expression
-                  (argument_list (argument (string_literal))))))))))))
+                  (argument_list
+                    (argument
+                      (string_literal))))))))))))
 
-============================
+================================================================================
 Anonymous object creation with single unnamed
-============================
+================================================================================
 
 void b() {
   var x = new {
@@ -636,7 +672,7 @@ void b() {
   };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -649,13 +685,14 @@ void b() {
           (variable_declaration
             (implicit_type)
             (variable_declarator
-            (identifier)
+              (identifier)
               (equals_value_clause
-                (anonymous_object_creation_expression (identifier))))))))))
+                (anonymous_object_creation_expression
+                  (identifier))))))))))
 
-============================
+================================================================================
 Anonymous object creation with single named
-============================
+================================================================================
 
 void b() {
   var x = new {
@@ -663,7 +700,7 @@ void b() {
   };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -676,22 +713,22 @@ void b() {
           (variable_declaration
             (implicit_type)
             (variable_declarator
-            (identifier)
+              (identifier)
               (equals_value_clause
                 (anonymous_object_creation_expression
                   (name_equals
                     (identifier))
                   (string_literal))))))))))
 
-============================
+================================================================================
 Checked expressions
-============================
+================================================================================
 
 void b() {
   var three = checked(1 + 2);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -711,9 +748,9 @@ void b() {
                     (integer_literal)
                     (integer_literal)))))))))))
 
-============================
+================================================================================
 Object creation expressions
-============================
+================================================================================
 
 void b() {
   new C.D(1, "hi");
@@ -727,7 +764,7 @@ void b() {
   c = new E(1) { };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -738,10 +775,14 @@ void b() {
       (block
         (expression_statement
           (object_creation_expression
-            (qualified_name (identifier) (identifier))
+            (qualified_name
+              (identifier)
+              (identifier))
             (argument_list
-              (argument (integer_literal))
-              (argument (string_literal)))))
+              (argument
+                (integer_literal))
+              (argument
+                (string_literal)))))
         (expression_statement
           (assignment_expression
             (identifier)
@@ -750,32 +791,38 @@ void b() {
               (identifier)
               (initializer_expression
                 (assignment_expression
-                  (identifier) (assignment_operator) (identifier))))))
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))
         (expression_statement
           (assignment_expression
             (identifier)
             (assignment_operator)
             (object_creation_expression
               (identifier)
-              (argument_list (argument (integer_literal))))))
+              (argument_list
+                (argument
+                  (integer_literal))))))
         (expression_statement
           (assignment_expression
             (identifier)
             (assignment_operator)
             (object_creation_expression
               (identifier)
-              (argument_list (argument (integer_literal)))
+              (argument_list
+                (argument
+                  (integer_literal)))
               (initializer_expression))))))))
 
-============================
+================================================================================
 Named parameters in constructors
-============================
+================================================================================
 
 void b() {
   var z = new C(a: 1, b: "hi");
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -785,23 +832,32 @@ void b() {
       (parameter_list)
       (block
         (local_declaration_statement
-          (variable_declaration (implicit_type)
-            (variable_declarator (identifier)
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
               (equals_value_clause
-                (object_creation_expression (identifier)
+                (object_creation_expression
+                  (identifier)
                   (argument_list
-                    (argument (name_colon (identifier)) (integer_literal))
-                    (argument (name_colon (identifier)) (string_literal))))))))))))
+                    (argument
+                      (name_colon
+                        (identifier))
+                      (integer_literal))
+                    (argument
+                      (name_colon
+                        (identifier))
+                      (string_literal))))))))))))
 
-============================
+================================================================================
 Named parameters in method calls
-============================
+================================================================================
 
 void b() {
   z = A.B(a: 1, b: "hi");
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -811,22 +867,32 @@ void b() {
       (parameter_list)
       (block
         (expression_statement
-          (assignment_expression (identifier) (assignment_operator)
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
             (invocation_expression
-              (member_access_expression (identifier) (identifier))
+              (member_access_expression
+                (identifier)
+                (identifier))
               (argument_list
-                (argument (name_colon (identifier)) (integer_literal))
-                (argument (name_colon (identifier)) (string_literal))))))))))
+                (argument
+                  (name_colon
+                    (identifier))
+                  (integer_literal))
+                (argument
+                  (name_colon
+                    (identifier))
+                  (string_literal))))))))))
 
-============================
+================================================================================
 Named parameters using contextually reserved words
-============================
+================================================================================
 
 void b() {
   resultNode  = B(from: 1, into: "hi");
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -836,15 +902,24 @@ void b() {
       (parameter_list)
       (block
         (expression_statement
-          (assignment_expression (identifier) (assignment_operator)
-            (invocation_expression (identifier)
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (invocation_expression
+              (identifier)
               (argument_list
-                (argument (name_colon (identifier)) (integer_literal))
-                (argument (name_colon (identifier)) (string_literal))))))))))
+                (argument
+                  (name_colon
+                    (identifier))
+                  (integer_literal))
+                (argument
+                  (name_colon
+                    (identifier))
+                  (string_literal))))))))))
 
-============================
+================================================================================
 Anonymous method expressions
-============================
+================================================================================
 
 void a() {
   delegate(int a) {
@@ -852,31 +927,7 @@ void a() {
   };
 }
 
----
-
-(compilation_unit
-  (global_statement
-    (local_function_statement
-      (predefined_type)
-      (identifier)
-      (parameter_list)
-      (block
-        (expression_statement
-          (anonymous_method_expression
-            (parameter_list (parameter (predefined_type) (identifier)))
-            (block (return_statement (identifier)))))))))
-
-============================
-Anonymous method expression with discard parameters
-============================
-
-void a() {
-  delegate(int _, int _) {
-    return a;
-  };
-}
-
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -888,13 +939,48 @@ void a() {
         (expression_statement
           (anonymous_method_expression
             (parameter_list
-              (parameter (predefined_type) (identifier))
-              (parameter (predefined_type) (identifier)))
-            (block (return_statement (identifier)))))))))
+              (parameter
+                (predefined_type)
+                (identifier)))
+            (block
+              (return_statement
+                (identifier)))))))))
 
-============================
+================================================================================
+Anonymous method expression with discard parameters
+================================================================================
+
+void a() {
+  delegate(int _, int _) {
+    return a;
+  };
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (expression_statement
+          (anonymous_method_expression
+            (parameter_list
+              (parameter
+                (predefined_type)
+                (identifier))
+              (parameter
+                (predefined_type)
+                (identifier)))
+            (block
+              (return_statement
+                (identifier)))))))))
+
+================================================================================
 Anonymous method expression with modifiers
-============================
+================================================================================
 
 void m() {
   var a = static delegate(int a) { return a; };
@@ -903,81 +989,81 @@ void m() {
   var d = static async delegate(int a) { return a; };
 }
 
----
+--------------------------------------------------------------------------------
 
-    (compilation_unit
-      (global_statement
-        (local_function_statement
-          (predefined_type)
-          (identifier)
-          (parameter_list)
-          (block
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                (variable_declarator
-                  (identifier)
-                  (equals_value_clause
-                    (anonymous_method_expression
-                      (modifier)
-                      (parameter_list
-                        (parameter
-                          (predefined_type)
-                          (identifier)))
-                      (block
-                        (return_statement
-                          (identifier))))))))
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                (variable_declarator
-                  (identifier)
-                  (equals_value_clause
-                    (anonymous_method_expression
-                      (modifier)
-                      (parameter_list
-                        (parameter
-                          (predefined_type)
-                          (identifier)))
-                      (block
-                        (return_statement
-                          (identifier))))))))
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                (variable_declarator
-                  (identifier)
-                  (equals_value_clause
-                    (anonymous_method_expression
-                      (modifier)
-                      (modifier)
-                      (parameter_list
-                        (parameter
-                          (predefined_type)
-                          (identifier)))
-                      (block
-                        (return_statement
-                          (identifier))))))))
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                (variable_declarator
-                  (identifier)
-                  (equals_value_clause
-                    (anonymous_method_expression
-                      (modifier)
-                      (modifier)
-                      (parameter_list
-                        (parameter
-                          (predefined_type)
-                          (identifier)))
-                      (block
-                        (return_statement
-                          (identifier))))))))))))
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (modifier)
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (modifier)
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (modifier)
+                  (modifier)
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (modifier)
+                  (modifier)
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))))))
 
-============================
+================================================================================
 Lambda expressions
-============================
+================================================================================
 
 void a() {
   x => x + 1;
@@ -985,61 +1071,84 @@ void a() {
   RetType (A a, B b) => { return 1; };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (expression_statement
           (lambda_expression
             (identifier)
-            (binary_expression (identifier) (integer_literal))))
+            (binary_expression
+              (identifier)
+              (integer_literal))))
         (expression_statement
           (lambda_expression
             (parameter_list
-              (parameter (identifier) (identifier))
-              (parameter (identifier) (identifier)))
-            (block (return_statement
-              (invocation_expression
-                (member_access_expression (identifier) (identifier))
-                (argument_list (argument (identifier))))))))
-            (expression_statement
-              (lambda_expression
+              (parameter
                 (identifier)
-                (parameter_list
-                  (parameter
+                (identifier))
+              (parameter
+                (identifier)
+                (identifier)))
+            (block
+              (return_statement
+                (invocation_expression
+                  (member_access_expression
                     (identifier)
                     (identifier))
-                  (parameter
-                    (identifier)
-                    (identifier)))
-                (block
-                  (return_statement
-                    (integer_literal)))))))))
+                  (argument_list
+                    (argument
+                      (identifier))))))))
+        (expression_statement
+          (lambda_expression
+            (identifier)
+            (parameter_list
+              (parameter
+                (identifier)
+                (identifier))
+              (parameter
+                (identifier)
+                (identifier)))
+            (block
+              (return_statement
+                (integer_literal)))))))))
 
-============================
+================================================================================
 Async Lambda
-============================
+================================================================================
 
 void a()
 {
     Do(async () => {});
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
-        (expression_statement (invocation_expression (identifier)
-        (argument_list
-          (argument (lambda_expression (modifier) (parameter_list) (initializer_expression))))))))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (lambda_expression
+                  (modifier)
+                  (parameter_list)
+                  (initializer_expression))))))))))
 
-============================
+================================================================================
 Lambda expression with modifiers
-============================
+================================================================================
 
 void a() {
   var lam = static x => x + 1;
@@ -1048,11 +1157,14 @@ void a() {
   var txt = static async x => x + 1;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1060,7 +1172,9 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression (modifier) (identifier)
+                (lambda_expression
+                  (modifier)
+                  (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))
@@ -1070,7 +1184,9 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression (modifier) (identifier)
+                (lambda_expression
+                  (modifier)
+                  (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))
@@ -1080,7 +1196,10 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression (modifier) (modifier) (identifier)
+                (lambda_expression
+                  (modifier)
+                  (modifier)
+                  (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))
@@ -1090,25 +1209,31 @@ void a() {
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (lambda_expression (modifier) (modifier) (identifier)
+                (lambda_expression
+                  (modifier)
+                  (modifier)
+                  (identifier)
                   (binary_expression
                     (identifier)
                     (integer_literal)))))))))))
 
-============================
+================================================================================
 Lambda expression with discard parameters
-============================
+================================================================================
 
 void a() {
   var lam = (_, _) => 0;
   var bda = (int _, int _) => 0;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1118,8 +1243,10 @@ void a() {
               (equals_value_clause
                 (lambda_expression
                   (parameter_list
-                    (parameter (identifier))
-                    (parameter (identifier)))
+                    (parameter
+                      (identifier))
+                    (parameter
+                      (identifier)))
                   (integer_literal))))))
         (local_declaration_statement
           (variable_declaration
@@ -1129,17 +1256,21 @@ void a() {
               (equals_value_clause
                 (lambda_expression
                   (parameter_list
-                    (parameter (predefined_type) (identifier))
-                    (parameter (predefined_type) (identifier)))
+                    (parameter
+                      (predefined_type)
+                      (identifier))
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
                   (integer_literal))))))))))
 
-============================
+================================================================================
 Lambda expression with ref modifier
-============================
+================================================================================
 
 MyIntDelegate a = (ref int i) => i + 1;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -1159,65 +1290,85 @@ MyIntDelegate a = (ref int i) => i + 1;
                 (identifier)
                 (integer_literal)))))))))
 
-============================
+================================================================================
 Invocation expressions
-============================
+================================================================================
 
 void a() {
   b(c, in d, out e, ref f, out var g);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (expression_statement
           (invocation_expression
             (identifier)
             (argument_list
-              (argument (identifier))
-              (argument (identifier))
-              (argument (identifier))
-              (argument (identifier))
-              (argument (declaration_expression (implicit_type) (identifier))))))))))
+              (argument
+                (identifier))
+              (argument
+                (identifier))
+              (argument
+                (identifier))
+              (argument
+                (identifier))
+              (argument
+                (declaration_expression
+                  (implicit_type)
+                  (identifier))))))))))
 
-============================
+================================================================================
 Tuple expressions
-============================
+================================================================================
 
 void a() {
   b = (c, d: "e");
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (expression_statement
-          (assignment_expression (identifier) (assignment_operator)
-          (tuple_expression
-            (argument (identifier))
-            (argument
-              (name_colon (identifier))
-              (string_literal)))))))))
+          (assignment_expression
+            (identifier)
+            (assignment_operator)
+            (tuple_expression
+              (argument
+                (identifier))
+              (argument
+                (name_colon
+                  (identifier))
+                (string_literal)))))))))
 
-============================
+================================================================================
 Implicit array creation
-============================
+================================================================================
 
 void b() {
   var z = new [] { 1, 2, 3 };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1231,19 +1382,22 @@ void b() {
                     (integer_literal)
                     (integer_literal)))))))))))
 
-============================
+================================================================================
 Implicit multi array creation
-============================
+================================================================================
 
 void b() {
   var z = new [,] { { 1, 1 }, { 2, 2 }, { 3, 3 } };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1263,19 +1417,22 @@ void b() {
                       (integer_literal)
                       (integer_literal))))))))))))
 
-============================
+================================================================================
 Stackalloc implicit array
-============================
+================================================================================
 
 void b() {
   var z = stackalloc [] { 1, 2, 3 };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1289,19 +1446,22 @@ void b() {
                     (integer_literal)
                     (integer_literal)))))))))))
 
-============================
+================================================================================
 Stackalloc explicit array
-============================
+================================================================================
 
 void b() {
   var z = stackalloc int[] { 1, 2, 3 };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1310,26 +1470,31 @@ void b() {
               (identifier)
               (equals_value_clause
                 (stack_alloc_array_creation_expression
-                  (array_type (predefined_type) (array_rank_specifier))
+                  (array_type
+                    (predefined_type)
+                    (array_rank_specifier))
                   (initializer_expression
                     (integer_literal)
                     (integer_literal)
                     (integer_literal)))))))))))
 
-============================
+================================================================================
 Explicit array creation
-============================
+================================================================================
 
 void b() {
   var z = new int[3] { 1, 2, 3 };
   var b = new byte[,] { { 1, 2 }, { 2, 3 } };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1340,42 +1505,46 @@ void b() {
                 (array_creation_expression
                   (array_type
                     (predefined_type)
-                    (array_rank_specifier (integer_literal)))
+                    (array_rank_specifier
+                      (integer_literal)))
                   (initializer_expression
                     (integer_literal)
                     (integer_literal)
                     (integer_literal)))))))
-          (local_declaration_statement
-            (variable_declaration
-              (implicit_type)
-              (variable_declarator
-                (identifier)
-                (equals_value_clause
-                  (array_creation_expression
-                    (array_type
-                      (predefined_type)
-                      (array_rank_specifier))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (array_creation_expression
+                  (array_type
+                    (predefined_type)
+                    (array_rank_specifier))
+                  (initializer_expression
                     (initializer_expression
-                      (initializer_expression
-                        (integer_literal)
-                        (integer_literal))
-                      (initializer_expression
-                        (integer_literal)
-                        (integer_literal))))))))))))
+                      (integer_literal)
+                      (integer_literal))
+                    (initializer_expression
+                      (integer_literal)
+                      (integer_literal))))))))))))
 
-============================
+================================================================================
 Explicit multi array creation
-============================
+================================================================================
 
 void b() {
   var z = new int[3,2] { { 1, 1 }, { 2, 2 }, { 3, 3 } };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1400,19 +1569,22 @@ void b() {
                       (integer_literal)
                       (integer_literal))))))))))))
 
-============================
+================================================================================
 Array of named tuple
-============================
+================================================================================
 
 void a() {
   var z = new (string b, string c)[3];
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1429,22 +1601,25 @@ void a() {
                       (tuple_element
                         (predefined_type)
                         (identifier)))
-                  (array_rank_specifier
-                    (integer_literal))))))))))))
+                    (array_rank_specifier
+                      (integer_literal))))))))))))
 
-============================
+================================================================================
 Makeref
-============================
+================================================================================
 
 void b() {
   var gp = __makeref(g);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1455,9 +1630,9 @@ void b() {
                 (make_ref_expression
                   (identifier))))))))))
 
-============================
+================================================================================
 Postfix unary
-============================
+================================================================================
 
 void b() {
   a--;
@@ -1465,14 +1640,21 @@ void b() {
   var b=a!;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
-        (expression_statement (postfix_unary_expression (identifier)))
-        (expression_statement (postfix_unary_expression (identifier)))
+        (expression_statement
+          (postfix_unary_expression
+            (identifier)))
+        (expression_statement
+          (postfix_unary_expression
+            (identifier)))
         (local_declaration_statement
           (variable_declaration
             (implicit_type)
@@ -1482,19 +1664,22 @@ void b() {
                 (postfix_unary_expression
                   (identifier))))))))))
 
-============================
+================================================================================
 __reftype
-============================
+================================================================================
 
 void b() {
   var z = __reftype(g);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1505,19 +1690,22 @@ void b() {
                 (ref_type_expression
                   (identifier))))))))))
 
-============================
+================================================================================
 __refvalue
-============================
+================================================================================
 
 void b() {
   var z = __refvalue(g, int);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1529,19 +1717,22 @@ void b() {
                   (identifier)
                   (predefined_type))))))))))
 
-============================
+================================================================================
 sizeof
-============================
+================================================================================
 
 void b() {
   var z = sizeof(int);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1552,38 +1743,49 @@ void b() {
                 (size_of_expression
                   (predefined_type))))))))))
 
-============================
+================================================================================
 typeof
-============================
+================================================================================
 
 void b() {
   var y = typeof(int);
   var z = typeof(List<string>.Enumerator);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
-          (variable_declaration (implicit_type)
-            (variable_declarator (identifier)
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
               (equals_value_clause
-                (type_of_expression (predefined_type))))))
-          (local_declaration_statement
-            (variable_declaration (implicit_type)
-              (variable_declarator (identifier)
-                (equals_value_clause
-                  (type_of_expression
-                    (qualified_name
-                      (generic_name (identifier) (type_argument_list (predefined_type)))
-                      (identifier)))))))))))
+                (type_of_expression
+                  (predefined_type))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (type_of_expression
+                  (qualified_name
+                    (generic_name
+                      (identifier)
+                      (type_argument_list
+                        (predefined_type)))
+                    (identifier)))))))))))
 
-============================
+================================================================================
 switch expression
-============================
+================================================================================
 
 void b() {
   var r = operation switch {
@@ -1593,11 +1795,14 @@ void b() {
   };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1608,18 +1813,20 @@ void b() {
                 (switch_expression
                   (identifier)
                   (switch_expression_arm
-                    (constant_pattern (integer_literal))
+                    (constant_pattern
+                      (integer_literal))
                     (string_literal))
                   (switch_expression_arm
-                    (constant_pattern (integer_literal))
+                    (constant_pattern
+                      (integer_literal))
                     (string_literal))
                   (switch_expression_arm
                     (discard)
                     (string_literal)))))))))))
 
-============================
+================================================================================
 switch expression with trailing comma
-============================
+================================================================================
 
 void b() {
   var r = operation switch {
@@ -1629,11 +1836,14 @@ void b() {
   };
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list)
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
       (block
         (local_declaration_statement
           (variable_declaration
@@ -1644,18 +1854,20 @@ void b() {
                 (switch_expression
                   (identifier)
                   (switch_expression_arm
-                    (constant_pattern (integer_literal))
+                    (constant_pattern
+                      (integer_literal))
                     (string_literal))
                   (switch_expression_arm
-                    (constant_pattern (integer_literal))
+                    (constant_pattern
+                      (integer_literal))
                     (string_literal))
                   (switch_expression_arm
                     (discard)
                     (string_literal)))))))))))
 
-============================
+================================================================================
 switch expression return
-============================
+================================================================================
 
 string b(Object operation) =>
   operation switch {
@@ -1663,19 +1875,31 @@ string b(Object operation) =>
       _ => "more",
   };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list (parameter (identifier) (identifier)))
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
       (arrow_expression_clause
-        (switch_expression (identifier)
-          (switch_expression_arm (constant_pattern (integer_literal)) (string_literal))
-          (switch_expression_arm (discard) (string_literal)))))))
+        (switch_expression
+          (identifier)
+          (switch_expression_arm
+            (constant_pattern
+              (integer_literal))
+            (string_literal))
+          (switch_expression_arm
+            (discard)
+            (string_literal)))))))
 
-============================
+================================================================================
 switch expression with patterns
-============================
+================================================================================
 
 string b(Object operation) =>
   operation switch {
@@ -1687,22 +1911,49 @@ string b(Object operation) =>
       int => "type"
   };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier) (parameter_list (parameter (identifier) (identifier)))
-      (arrow_expression_clause (switch_expression (identifier)
-        (switch_expression_arm (declaration_pattern (identifier) (identifier)) (string_literal))
-        (switch_expression_arm (constant_pattern (identifier)) (string_literal))
-        (switch_expression_arm (recursive_pattern (property_pattern_clause)) (string_literal))
-        (switch_expression_arm (var_pattern (identifier)) (string_literal))
-        (switch_expression_arm (constant_pattern (null_literal)) (string_literal))
-        (switch_expression_arm (type_pattern (predefined_type)) (string_literal)))))))
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (arrow_expression_clause
+        (switch_expression
+          (identifier)
+          (switch_expression_arm
+            (declaration_pattern
+              (identifier)
+              (identifier))
+            (string_literal))
+          (switch_expression_arm
+            (constant_pattern
+              (identifier))
+            (string_literal))
+          (switch_expression_arm
+            (recursive_pattern
+              (property_pattern_clause))
+            (string_literal))
+          (switch_expression_arm
+            (var_pattern
+              (identifier))
+            (string_literal))
+          (switch_expression_arm
+            (constant_pattern
+              (null_literal))
+            (string_literal))
+          (switch_expression_arm
+            (type_pattern
+              (predefined_type))
+            (string_literal)))))))
 
-=====================================
+================================================================================
 await Expression
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -1710,7 +1961,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -1721,13 +1972,13 @@ class Foo {
         (identifier)
         (parameter_list)
         (block
-        (expression_statement
-          (await_expression
-            (identifier))))))))
+          (expression_statement
+            (await_expression
+              (identifier))))))))
 
-=====================================
+================================================================================
 throw expression
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -1735,7 +1986,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -1752,29 +2003,32 @@ class Foo {
               (assignment_operator)
               (binary_expression
                 (identifier)
-                (throw_expression (identifier))))))))))
+                (throw_expression
+                  (identifier))))))))))
 
-
-=====================================
+================================================================================
 Pecedence with OR and XOR
-=====================================
+================================================================================
 
 b = 4 | 5 ^ 6;
 
----
+--------------------------------------------------------------------------------
+
 (compilation_unit
   (global_statement
     (expression_statement
-      (assignment_expression (identifier) (assignment_operator)
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
         (binary_expression
           (integer_literal)
-            (binary_expression
-              (integer_literal)
-              (integer_literal)))))))
+          (binary_expression
+            (integer_literal)
+            (integer_literal)))))))
 
-=====================================
+================================================================================
 range expressions full
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -1783,7 +2037,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -1807,19 +2061,20 @@ class Foo {
                         (range_expression
                           (integer_literal)
                           (integer_literal)))))))))
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                  (variable_declarator
-                    (identifier)
-                    (equals_value_clause
-                      (range_expression
-                        (integer_literal)
-                        (prefix_unary_expression (integer_literal))))))))))))
+          (local_declaration_statement
+            (variable_declaration
+              (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (range_expression
+                    (integer_literal)
+                    (prefix_unary_expression
+                      (integer_literal))))))))))))
 
-=====================================
+================================================================================
 range expressions partial
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -1829,7 +2084,7 @@ class Foo {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -1852,27 +2107,30 @@ class Foo {
                       (argument
                         (range_expression
                           (integer_literal)))))))))
-            (local_declaration_statement
-              (variable_declaration
-                (implicit_type)
-                  (variable_declarator
+          (local_declaration_statement
+            (variable_declaration
+              (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (range_expression
+                    (prefix_unary_expression
+                      (integer_literal)))))))
+          (local_declaration_statement
+            (variable_declaration
+              (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (element_access_expression
                     (identifier)
-                    (equals_value_clause
-                      (range_expression
-                        (prefix_unary_expression (integer_literal)))))))
-              (local_declaration_statement
-                (variable_declaration
-                  (implicit_type)
-                  (variable_declarator
-                    (identifier)
-                    (equals_value_clause
-                      (element_access_expression
-                        (identifier)
-                        (bracketed_argument_list (argument (range_expression)))))))))))))
+                    (bracketed_argument_list
+                      (argument
+                        (range_expression)))))))))))))
 
-=====================================
+================================================================================
 cast expression
-=====================================
+================================================================================
 
 class Foo {
   void Test() {
@@ -1880,7 +2138,7 @@ class Foo {
       }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_declaration
@@ -1895,16 +2153,18 @@ class Foo {
             (assignment_expression
               (identifier)
               (assignment_operator)
-              (cast_expression (predefined_type) (identifier)))))))))
+              (cast_expression
+                (predefined_type)
+                (identifier)))))))))
 
-=====================================
+================================================================================
 Generic type name no type args
-=====================================
+================================================================================
 
 var d = typeof(Dictionary<,>);
 var t = typeof(Tuple<,,,>);
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -1918,26 +2178,27 @@ var t = typeof(Tuple<,,,>);
               (generic_name
                 (identifier)
                 (type_argument_list))))))))
-    (global_statement
-      (local_declaration_statement
-        (variable_declaration
-          (implicit_type)
-          (variable_declarator
-            (identifier)
-            (equals_value_clause
-              (type_of_expression
-                (generic_name
-                  (identifier)
-                  (type_argument_list)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (type_of_expression
+              (generic_name
+                (identifier)
+                (type_argument_list)))))))))
 
-=====================================
+================================================================================
 default expression
-=====================================
+================================================================================
 
 var a = default(int);
 int b = default;
 
----
+--------------------------------------------------------------------------------
+
 (compilation_unit
   (global_statement
     (local_declaration_statement
@@ -1957,14 +2218,14 @@ int b = default;
           (equals_value_clause
             (default_expression)))))))
 
-=====================================
+================================================================================
 Ref local declaration and ref expression
-=====================================
+================================================================================
 
 ref VeryLargeStruct reflocal = ref veryLargeStruct;
 ref var elementRef = ref arr[0];
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -1992,13 +2253,13 @@ ref var elementRef = ref arr[0];
                   (argument
                     (integer_literal)))))))))))
 
-=====================================
+================================================================================
 Element binding expression
-=====================================
+================================================================================
 
 var x = new Dictionary<string,int> { ["a"] = 65 };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2011,29 +2272,38 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
             (object_creation_expression
               (generic_name
                 (identifier)
-                (type_argument_list (predefined_type) (predefined_type)))
+                (type_argument_list
+                  (predefined_type)
+                  (predefined_type)))
               (initializer_expression
                 (assignment_expression
                   (element_binding_expression
-                    (bracketed_argument_list (argument (string_literal))))
+                    (bracketed_argument_list
+                      (argument
+                        (string_literal))))
                   (assignment_operator)
                   (integer_literal))))))))))
 
-=====================================
+================================================================================
 Member access expression (methods)
-=====================================
+================================================================================
 
 void Test(int value) {
   value.ToString();
   double.IsInfinity(value);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier)
-      (parameter_list (parameter (predefined_type) (identifier)))
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
       (block
         (expression_statement
           (invocation_expression
@@ -2050,42 +2320,56 @@ void Test(int value) {
               (argument
                 (identifier)))))))))
 
-=====================================
+================================================================================
 Member access expression (properties)
-=====================================
+================================================================================
 
 void Test(int value) {
   var x = string.Empty;
   var z = B<int>.Something;
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (local_function_statement (predefined_type) (identifier)
-      (parameter_list (parameter (predefined_type) (identifier)))
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
       (block
         (local_declaration_statement
-          (variable_declaration (implicit_type)
-            (variable_declarator (identifier)
-              (equals_value_clause
-                (member_access_expression (predefined_type) (identifier))))))
-        (local_declaration_statement
-          (variable_declaration (implicit_type)
-            (variable_declarator (identifier)
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
               (equals_value_clause
                 (member_access_expression
-                  (generic_name (identifier) (type_argument_list (predefined_type)))
+                  (predefined_type)
+                  (identifier))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (member_access_expression
+                  (generic_name
+                    (identifier)
+                    (type_argument_list
+                      (predefined_type)))
                   (identifier))))))))))
 
-=====================================
+================================================================================
 is expression
-=====================================
+================================================================================
 
 var b = s is string;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2099,9 +2383,9 @@ var b = s is string;
               (identifier)
               (predefined_type))))))))
 
-=====================================
+================================================================================
 is pattern
-=====================================
+================================================================================
 
 var b = s is string s2;
 var c = s is "test";
@@ -2109,7 +2393,7 @@ var a = 1 is int.MaxValue;
 var d = a is nameof(a);
 var e = a is (int)b;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2133,8 +2417,8 @@ var e = a is (int)b;
           (equals_value_clause
             (is_pattern_expression
               (identifier)
-                (constant_pattern
-                  (string_literal))))))))
+              (constant_pattern
+                (string_literal))))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -2161,7 +2445,8 @@ var e = a is (int)b;
                 (invocation_expression
                   (identifier)
                   (argument_list
-                    (argument (identifier)))))))))))
+                    (argument
+                      (identifier)))))))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -2176,13 +2461,13 @@ var e = a is (int)b;
                   (predefined_type)
                   (identifier))))))))))
 
-=====================================
+================================================================================
 Precedence between is operator and conditional_expression
-=====================================
+================================================================================
 
 int a = 1 is Object ? 1 : 2;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2200,15 +2485,15 @@ int a = 1 is Object ? 1 : 2;
               (integer_literal)
               (integer_literal))))))))
 
-=====================================
+================================================================================
 Precedence between is operator and as operator
-=====================================
+================================================================================
 
 //var a = new object() is null as Object == false; // this parses with wrong precedence
 var a = new object() is null as Object;
 var b = true == 1 as int? is int;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (comment)
@@ -2219,14 +2504,14 @@ var b = true == 1 as int? is int;
         (variable_declarator
           (identifier)
           (equals_value_clause
-              (as_expression
-                (is_pattern_expression
-                  (object_creation_expression
-                    (predefined_type)
-                    (argument_list))
-                  (constant_pattern
-                    (null_literal)))
-                (identifier)))))))
+            (as_expression
+              (is_pattern_expression
+                (object_creation_expression
+                  (predefined_type)
+                  (argument_list))
+                (constant_pattern
+                  (null_literal)))
+              (identifier)))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -2243,15 +2528,15 @@ var b = true == 1 as int? is int;
                     (predefined_type)))
                 (predefined_type)))))))))
 
-=====================================
+================================================================================
 Discard pattern
-=====================================
+================================================================================
 
 void Do() {
   DateTime.TryParse(dateString, out _);
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2259,19 +2544,25 @@ void Do() {
       (predefined_type)
       (identifier)
       (parameter_list)
-        (block
-          (expression_statement
-            (invocation_expression
-              (member_access_expression (identifier) (identifier))
-              (argument_list (argument (identifier)) (argument (identifier)))))))))
+      (block
+        (expression_statement
+          (invocation_expression
+            (member_access_expression
+              (identifier)
+              (identifier))
+            (argument_list
+              (argument
+                (identifier))
+              (argument
+                (identifier)))))))))
 
-=====================================
+================================================================================
 Null-forgiving operator
-=====================================
+================================================================================
 
 var x = name!.Length;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2281,16 +2572,18 @@ var x = name!.Length;
         (variable_declarator
           (identifier)
           (equals_value_clause
-            (member_access_expression (postfix_unary_expression (identifier))
-            (identifier))))))))
+            (member_access_expression
+              (postfix_unary_expression
+                (identifier))
+              (identifier))))))))
 
-=====================================
+================================================================================
 Negated pattern
-=====================================
+================================================================================
 
 var x = name is not null;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2303,15 +2596,16 @@ var x = name is not null;
             (is_pattern_expression
               (identifier)
               (negated_pattern
-                (constant_pattern (null_literal))))))))))
+                (constant_pattern
+                  (null_literal))))))))))
 
-=====================================
+================================================================================
 Parenthesized pattern
-=====================================
+================================================================================
 
 var x = name is (var a);
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2324,15 +2618,16 @@ var x = name is (var a);
             (is_pattern_expression
               (identifier)
               (parenthesized_pattern
-                (var_pattern (identifier))))))))))
+                (var_pattern
+                  (identifier))))))))))
 
-=====================================
+================================================================================
 Pattern Combinators and relational pattern
-=====================================
+================================================================================
 
 var x = c is < '0' or >= 'A' and <= 'Z';
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2345,18 +2640,21 @@ var x = c is < '0' or >= 'A' and <= 'Z';
             (is_pattern_expression
               (identifier)
               (or_pattern
-                (relational_pattern (character_literal))
+                (relational_pattern
+                  (character_literal))
                 (and_pattern
-                  (relational_pattern (character_literal))
-                  (relational_pattern (character_literal)))))))))))
+                  (relational_pattern
+                    (character_literal))
+                  (relational_pattern
+                    (character_literal)))))))))))
 
-=====================================
+================================================================================
 Precedence of prefix_unary_expression and invocation_expression
-=====================================
+================================================================================
 
 var x = !this.Call();
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2368,17 +2666,19 @@ var x = !this.Call();
           (equals_value_clause
             (prefix_unary_expression
               (invocation_expression
-                (member_access_expression (this_expression) (identifier))
+                (member_access_expression
+                  (this_expression)
+                  (identifier))
                 (argument_list)))))))))
 
-=====================================
+================================================================================
 Property patterns
-=====================================
+================================================================================
 
 var x = operand is ILiteralOperation { ConstantValue: { HasValue: true, Value: null } };
 var x = operand is ILiteralOperation { ConstantValue.HasValue: true, ConstantValue.Value: null};
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2394,15 +2694,20 @@ var x = operand is ILiteralOperation { ConstantValue.HasValue: true, ConstantVal
                 (identifier)
                 (property_pattern_clause
                   (subpattern
-                    (expression_colon (identifier))
+                    (expression_colon
+                      (identifier))
                     (recursive_pattern
                       (property_pattern_clause
                         (subpattern
-                          (expression_colon (identifier))
-                          (constant_pattern (boolean_literal)))
+                          (expression_colon
+                            (identifier))
+                          (constant_pattern
+                            (boolean_literal)))
                         (subpattern
-                          (expression_colon (identifier))
-                          (constant_pattern (null_literal))))))))))))))
+                          (expression_colon
+                            (identifier))
+                          (constant_pattern
+                            (null_literal))))))))))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -2417,21 +2722,27 @@ var x = operand is ILiteralOperation { ConstantValue.HasValue: true, ConstantVal
                 (property_pattern_clause
                   (subpattern
                     (expression_colon
-                      (member_access_expression (identifier) (identifier)))
-                    (constant_pattern (boolean_literal)))
+                      (member_access_expression
+                        (identifier)
+                        (identifier)))
+                    (constant_pattern
+                      (boolean_literal)))
                   (subpattern
                     (expression_colon
-                      (member_access_expression (identifier) (identifier)))
-                    (constant_pattern (null_literal))))))))))))
+                      (member_access_expression
+                        (identifier)
+                        (identifier)))
+                    (constant_pattern
+                      (null_literal))))))))))))
 
-=====================================
+================================================================================
 Positional patterns
-=====================================
+================================================================================
 
 var a = p is var (x, y);
 var c = p is (var x, var y) { x: 0 };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2459,22 +2770,26 @@ var c = p is (var x, var y) { x: 0 };
               (recursive_pattern
                 (positional_pattern_clause
                   (subpattern
-                    (var_pattern (identifier)))
+                    (var_pattern
+                      (identifier)))
                   (subpattern
-                    (var_pattern (identifier))))
+                    (var_pattern
+                      (identifier))))
                 (property_pattern_clause
                   (subpattern
-                    (expression_colon (identifier))
-                    (constant_pattern (integer_literal))))))))))))
+                    (expression_colon
+                      (identifier))
+                    (constant_pattern
+                      (integer_literal))))))))))))
 
-=====================================
+================================================================================
 Type patterns
-=====================================
+================================================================================
 
 var b = o is int or string; //is_pattern_expression with type_pattern
 var c = o is int; //is_expression with type
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2487,74 +2802,96 @@ var c = o is int; //is_expression with type
             (is_pattern_expression
               (identifier)
               (or_pattern
-                (type_pattern (predefined_type))
-                (type_pattern (predefined_type))))))))) (comment)
+                (type_pattern
+                  (predefined_type))
+                (type_pattern
+                  (predefined_type)))))))))
+  (comment)
   (global_statement
     (local_declaration_statement
       (variable_declaration
         (implicit_type)
-          (variable_declarator
-            (identifier)
-            (equals_value_clause
-              (is_expression
-                (identifier)
-                (predefined_type))))))) (comment))
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_expression
+              (identifier)
+              (predefined_type)))))))
+  (comment))
 
-=====================================
+================================================================================
 List patterns
-=====================================
+================================================================================
 
 var a = p is [1,2,x,] and [] or [2,..];
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (local_declaration_statement
-      (variable_declaration (implicit_type)
-        (variable_declarator (identifier)
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
           (equals_value_clause
-            (is_pattern_expression (identifier)
+            (is_pattern_expression
+              (identifier)
               (or_pattern
                 (and_pattern
                   (list_pattern
-                    (constant_pattern (integer_literal))
-                    (constant_pattern (integer_literal))
-                    (constant_pattern (identifier)))
+                    (constant_pattern
+                      (integer_literal))
+                    (constant_pattern
+                      (integer_literal))
+                    (constant_pattern
+                      (identifier)))
                   (list_pattern))
-                  (list_pattern
-                    (constant_pattern (integer_literal))
-                    (slice_pattern))))))))))
+                (list_pattern
+                  (constant_pattern
+                    (integer_literal))
+                  (slice_pattern))))))))))
 
-=====================================
+================================================================================
 Conditional expression with member accesses
-=====================================
+================================================================================
 
 var a = b ? c.A + d.A : e.A + f.A;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (local_declaration_statement
-      (variable_declaration (implicit_type)
-        (variable_declarator (identifier)
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
           (equals_value_clause
-            (conditional_expression (identifier)
+            (conditional_expression
+              (identifier)
               (binary_expression
-                (member_access_expression (identifier) (identifier))
-                (member_access_expression (identifier) (identifier)))
+                (member_access_expression
+                  (identifier)
+                  (identifier))
+                (member_access_expression
+                  (identifier)
+                  (identifier)))
               (binary_expression
-                (member_access_expression (identifier) (identifier))
-                (member_access_expression (identifier) (identifier))))))))))
+                (member_access_expression
+                  (identifier)
+                  (identifier))
+                (member_access_expression
+                  (identifier)
+                  (identifier))))))))))
 
-=====================================
+================================================================================
 Conditional access expression
-=====================================
+================================================================================
 
 var a = b?.Something;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2567,15 +2904,15 @@ var a = b?.Something;
             (conditional_access_expression
               (identifier)
               (member_binding_expression
-              (identifier)))))))))
+                (identifier)))))))))
 
-=====================================
+================================================================================
 Conditional access to element (should be implicit_element_access)
-=====================================
+================================================================================
 
 var x = dict?["a"];
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2587,54 +2924,65 @@ var x = dict?["a"];
           (equals_value_clause
             (conditional_access_expression
               (identifier)
-                (element_binding_expression
-                  (bracketed_argument_list (argument (string_literal)))))))))))
+              (element_binding_expression
+                (bracketed_argument_list
+                  (argument
+                    (string_literal)))))))))))
 
-=====================================
+================================================================================
 Conditional access expression with member binding
-=====================================
+================================================================================
 
 if (a?.B != 1) { }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (if_statement
       (binary_expression
-        (conditional_access_expression (identifier) (member_binding_expression (identifier)))
+        (conditional_access_expression
+          (identifier)
+          (member_binding_expression
+            (identifier)))
         (integer_literal))
       (block))))
 
-=====================================
+================================================================================
 Conditional access expression with simple member access
-=====================================
+================================================================================
 
 if ((p as Person[])?[0]._Age != 1) { }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
     (if_statement
       (binary_expression
-          (member_access_expression
-            (conditional_access_expression
-              (parenthesized_expression
-                (as_expression (identifier) (array_type (identifier) (array_rank_specifier))))
-              (element_binding_expression
-                (bracketed_argument_list (argument (integer_literal)))))
-            (identifier))
-          (integer_literal))
+        (member_access_expression
+          (conditional_access_expression
+            (parenthesized_expression
+              (as_expression
+                (identifier)
+                (array_type
+                  (identifier)
+                  (array_rank_specifier))))
+            (element_binding_expression
+              (bracketed_argument_list
+                (argument
+                  (integer_literal)))))
+          (identifier))
+        (integer_literal))
       (block))))
 
-=====================================
+================================================================================
 Null-coalescing operator is right-associative
-=====================================
+================================================================================
 
 var a = b ?? c ?? d;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2650,13 +2998,13 @@ var a = b ?? c ?? d;
                 (identifier)
                 (identifier)))))))))
 
-=====================================
+================================================================================
 Precedence between null-coalescing operator and conditional OR
-=====================================
+================================================================================
 
 var a = b ?? c || d ?? e;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2674,13 +3022,13 @@ var a = b ?? c || d ?? e;
                   (identifier))
                 (identifier)))))))))
 
-=====================================
+================================================================================
 Precedence between null-coalescing operator and conditional operator
-=====================================
+================================================================================
 
 var a = b ?? c ? d ?? e : f ?? g;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2701,16 +3049,16 @@ var a = b ?? c ? d ?? e : f ?? g;
                 (identifier)
                 (identifier)))))))))
 
-=====================================
+================================================================================
 Precedence between range and switch
-=====================================
+================================================================================
 
 var a = 3..4 switch
 {
     _ => true
 };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2728,16 +3076,16 @@ var a = 3..4 switch
                 (discard)
                 (boolean_literal)))))))))
 
-=====================================
+================================================================================
 Precedence between unary and switch
-=====================================
+================================================================================
 
 var a = -3 switch
 {
     _ => true
 };
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2754,13 +3102,13 @@ var a = -3 switch
                 (discard)
                 (boolean_literal)))))))))
 
-=====================================
+================================================================================
 Precedence between range and as operator
-=====================================
+================================================================================
 
 var a = 3..4 as Range;
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -2776,15 +3124,15 @@ var a = 3..4 as Range;
                 (integer_literal))
               (identifier))))))))
 
-=====================================
+================================================================================
 Precedence between is and comparison operators
-=====================================
+================================================================================
 
 var allowedValuesList = someObj is null
     ? default
     : new object();
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
