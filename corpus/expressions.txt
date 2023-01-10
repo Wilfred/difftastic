@@ -325,12 +325,114 @@ a >>>= a;
         (identifier)))))
 
 ================================================================================
+Assignment LValue types
+================================================================================
+
+a = 1;
+a.b = 1;
+a[b] = 1;
+(a, b) = (1, 2);
+(var a, b) = (1, 2);
+var x = new A
+{
+  a = 1,
+  [b] = 1
+};
+(a) = 1;
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (identifier)
+        (assignment_operator)
+        (integer_literal))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (member_access_expression
+          (identifier)
+          (identifier))
+        (assignment_operator)
+        (integer_literal))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (element_access_expression
+          (identifier)
+          (bracketed_argument_list
+            (argument
+              (identifier))))
+        (assignment_operator)
+        (integer_literal))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (tuple_expression
+          (argument
+            (identifier))
+          (argument
+            (identifier)))
+        (assignment_operator)
+        (tuple_expression
+          (argument
+            (integer_literal))
+          (argument
+            (integer_literal))))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (tuple_expression
+          (argument
+            (declaration_expression
+              (implicit_type)
+              (identifier)))
+          (argument
+            (identifier)))
+        (assignment_operator)
+        (tuple_expression
+          (argument
+            (integer_literal))
+          (argument
+            (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (object_creation_expression
+              (identifier)
+              (initializer_expression
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (integer_literal))
+                (assignment_expression
+                  (element_binding_expression
+                    (bracketed_argument_list
+                      (argument
+                        (identifier))))
+                  (assignment_operator)
+                  (integer_literal)))))))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (parenthesized_expression
+          (identifier))
+        (assignment_operator)
+        (integer_literal)))))
+
+================================================================================
 Ternary Expression
 ================================================================================
 
 class Foo {
   void Test() {
-    x ? "foo" : "bar";
+    var y = x ? "foo" : "bar";
   }
 }
 
@@ -345,11 +447,16 @@ class Foo {
         name: (identifier)
         parameters: (parameter_list)
         body: (block
-          (expression_statement
-            (conditional_expression
-              condition: (identifier)
-              consequence: (string_literal)
-              alternative: (string_literal))))))))
+          (local_declaration_statement
+            (variable_declaration
+              type: (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (conditional_expression
+                    condition: (identifier)
+                    consequence: (string_literal)
+                    alternative: (string_literal)))))))))))
 
 ================================================================================
 Binary Expressions
@@ -357,8 +464,8 @@ Binary Expressions
 
 class Foo {
   void Test() {
-    x == y;
-    1 + 2;
+    var b = x == y;
+    var i = 1 + 2;
   }
 }
 
@@ -373,14 +480,24 @@ class Foo {
         name: (identifier)
         parameters: (parameter_list)
         body: (block
-          (expression_statement
-            (binary_expression
-              left: (identifier)
-              right: (identifier)))
-          (expression_statement
-            (binary_expression
-              left: (integer_literal)
-              right: (integer_literal))))))))
+          (local_declaration_statement
+            (variable_declaration
+              type: (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (binary_expression
+                    left: (identifier)
+                    right: (identifier))))))
+          (local_declaration_statement
+            (variable_declaration
+              type: (implicit_type)
+              (variable_declarator
+                (identifier)
+                (equals_value_clause
+                  (binary_expression
+                    left: (integer_literal)
+                    right: (integer_literal)))))))))))
 
 ================================================================================
 Ternary expressions is type
@@ -517,45 +634,65 @@ b = (float)a[0];
 Cast with parenthesized expression
 ================================================================================
 
-(A.A)(a.a.a);
-(Int32)(1);
-(Int32)(1);
-(Int32)((1));
+var o = (A.A)(a.a.a);
+var o = (Int32)(1);
+var o = (Int32)(1);
+var o = (Int32)((1));
 
 --------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
-    (expression_statement
-      (cast_expression
-        (qualified_name
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
           (identifier)
-          (identifier))
-        (parenthesized_expression
-          (member_access_expression
-            (member_access_expression
+          (equals_value_clause
+            (cast_expression
+              (qualified_name
+                (identifier)
+                (identifier))
+              (parenthesized_expression
+                (member_access_expression
+                  (member_access_expression
+                    (identifier)
+                    (identifier))
+                  (identifier)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (cast_expression
               (identifier)
-              (identifier))
-            (identifier))))))
+              (parenthesized_expression
+                (integer_literal))))))))
   (global_statement
-    (expression_statement
-      (cast_expression
-        (identifier)
-        (parenthesized_expression
-          (integer_literal)))))
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (cast_expression
+              (identifier)
+              (parenthesized_expression
+                (integer_literal))))))))
   (global_statement
-    (expression_statement
-      (cast_expression
-        (identifier)
-        (parenthesized_expression
-          (integer_literal)))))
-  (global_statement
-    (expression_statement
-      (cast_expression
-        (identifier)
-        (parenthesized_expression
-          (parenthesized_expression
-            (integer_literal)))))))
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (cast_expression
+              (identifier)
+              (parenthesized_expression
+                (parenthesized_expression
+                  (integer_literal))))))))))
 
 ================================================================================
 Precedence of unary prefix operator and element access
@@ -922,7 +1059,7 @@ Anonymous method expressions
 ================================================================================
 
 void a() {
-  delegate(int a) {
+  var d = delegate(int a) {
     return a;
   };
 }
@@ -936,22 +1073,27 @@ void a() {
       (identifier)
       (parameter_list)
       (block
-        (expression_statement
-          (anonymous_method_expression
-            (parameter_list
-              (parameter
-                (predefined_type)
-                (identifier)))
-            (block
-              (return_statement
-                (identifier)))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))))))
 
 ================================================================================
 Anonymous method expression with discard parameters
 ================================================================================
 
 void a() {
-  delegate(int _, int _) {
+  var d = delegate(int _, int _) {
     return a;
   };
 }
@@ -965,18 +1107,23 @@ void a() {
       (identifier)
       (parameter_list)
       (block
-        (expression_statement
-          (anonymous_method_expression
-            (parameter_list
-              (parameter
-                (predefined_type)
-                (identifier))
-              (parameter
-                (predefined_type)
-                (identifier)))
-            (block
-              (return_statement
-                (identifier)))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (anonymous_method_expression
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier))
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (identifier))))))))))))
 
 ================================================================================
 Anonymous method expression with modifiers
@@ -1066,9 +1213,9 @@ Lambda expressions
 ================================================================================
 
 void a() {
-  x => x + 1;
-  (A a, B b) => { return a.c(b); };
-  RetType (A a, B b) => { return 1; };
+  var l = x => x + 1;
+  var l = (A a, B b) => { return a.c(b); };
+  var l = RetType (A a, B b) => { return 1; };
 }
 
 --------------------------------------------------------------------------------
@@ -1080,43 +1227,58 @@ void a() {
       (identifier)
       (parameter_list)
       (block
-        (expression_statement
-          (lambda_expression
-            (identifier)
-            (binary_expression
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
               (identifier)
-              (integer_literal))))
-        (expression_statement
-          (lambda_expression
-            (parameter_list
-              (parameter
-                (identifier)
-                (identifier))
-              (parameter
-                (identifier)
-                (identifier)))
-            (block
-              (return_statement
-                (invocation_expression
-                  (member_access_expression
+              (equals_value_clause
+                (lambda_expression
+                  (identifier)
+                  (binary_expression
                     (identifier)
-                    (identifier))
-                  (argument_list
-                    (argument
-                      (identifier))))))))
-        (expression_statement
-          (lambda_expression
-            (identifier)
-            (parameter_list
-              (parameter
-                (identifier)
-                (identifier))
-              (parameter
-                (identifier)
-                (identifier)))
-            (block
-              (return_statement
-                (integer_literal)))))))))
+                    (integer_literal)))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (identifier)
+                      (identifier))
+                    (parameter
+                      (identifier)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (invocation_expression
+                        (member_access_expression
+                          (identifier)
+                          (identifier))
+                        (argument_list
+                          (argument
+                            (identifier)))))))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (identifier)
+                  (parameter_list
+                    (parameter
+                      (identifier)
+                      (identifier))
+                    (parameter
+                      (identifier)
+                      (identifier)))
+                  (block
+                    (return_statement
+                      (integer_literal))))))))))))
 
 ================================================================================
 Async Lambda

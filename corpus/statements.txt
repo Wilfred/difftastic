@@ -335,15 +335,16 @@ A<B> a = null;
 
 (compilation_unit
   (global_statement
-    (expression_statement
-      (assignment_expression
-        (binary_expression
-          (binary_expression
-            (identifier)
-            (identifier))
-          (identifier))
-        (assignment_operator)
-        (null_literal)))))
+    (local_declaration_statement
+      (variable_declaration
+        (generic_name
+          (identifier)
+          (type_argument_list
+            (identifier)))
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (null_literal)))))))
 
 ================================================================================
 Assignment and declaration in same deconstruction

@@ -55,7 +55,7 @@ module.exports = grammar({
     [$.type_pattern, $.declaration_pattern, $.recursive_pattern],
     [$.type_pattern, $.tuple_element],
 
-    [$._name, $._expression],
+    [$._name, $._lvalue_expression],
     [$._simple_name, $.type_parameter],
     [$._simple_name, $.generic_name],
     [$._simple_name, $.constructor_declaration],
@@ -107,8 +107,11 @@ module.exports = grammar({
     [$.tuple_element, $.variable_declarator],
 
     [$.constant_pattern, $._name],
-    [$.constant_pattern, $._name, $._expression],
-    [$.constant_pattern, $._expression],
+    [$.constant_pattern, $._name, $._lvalue_expression],
+    [$.constant_pattern, $._non_lvalue_expression],
+    [$.constant_pattern, $._lvalue_expression],
+    [$.constant_pattern, $._expression_statement_expression],
+
   ],
 
   inline: $ => [
@@ -861,7 +864,7 @@ module.exports = grammar({
 
     empty_statement: $ => ';',
 
-    expression_statement: $ => seq($._expression, ';'),
+    expression_statement: $ => seq($._expression_statement_expression, ';'),
 
     fixed_statement: $ => seq('fixed', '(', $.variable_declaration, ')', $._statement),
 
@@ -1202,7 +1205,7 @@ module.exports = grammar({
     ),
 
     assignment_expression: $ => prec.right(seq(
-      field('left', $._expression),
+      field('left', $._lvalue_expression),
       $.assignment_operator,
       field('right', $._expression)
     )),
@@ -1378,7 +1381,9 @@ module.exports = grammar({
       $.tuple_type
     ),
 
-    parenthesized_expression: $ => seq('(', $._expression, ')'),
+    parenthesized_expression: $ => seq('(', $._non_lvalue_expression, ')'),
+
+    _parenthesized_lvalue_expression: $ => seq('(', $._lvalue_expression, ')'),
 
     postfix_unary_expression: $ => prec.left(PREC.POSTFIX, choice(
       seq($._expression, '++'),
@@ -1548,12 +1553,15 @@ module.exports = grammar({
     simple_assignment_expression: $ => seq($.identifier, '=', $._expression),
 
     _expression: $ => choice(
+      $._non_lvalue_expression,
+      $._lvalue_expression,
+    ),
+
+    _non_lvalue_expression: $ => choice(
       $.anonymous_method_expression,
       $.anonymous_object_creation_expression,
       $.array_creation_expression,
       $.as_expression,
-      $.assignment_expression,
-      $.await_expression,
       $.base_expression,
       $.binary_expression,
       $.cast_expression,
@@ -1561,24 +1569,16 @@ module.exports = grammar({
       $.conditional_access_expression,
       $.conditional_expression,
       $.default_expression,
-      $.element_access_expression,
-      $.element_binding_expression,
       $.implicit_array_creation_expression,
       $.implicit_object_creation_expression,
       $.implicit_stack_alloc_array_creation_expression,
       $.initializer_expression,
       $.interpolated_string_expression,
-      $.invocation_expression,
       $.is_expression,
       $.is_pattern_expression,
       $.lambda_expression,
       $.make_ref_expression,
-      $.member_access_expression,
       // $.member_binding_expression, // Not needed as handled directly in $.conditional_access_expression
-      $.object_creation_expression,
-      $.parenthesized_expression,
-      $.postfix_unary_expression,
-      $.prefix_unary_expression,
       $.query_expression,
       $.range_expression,
       $.ref_expression,
@@ -1587,14 +1587,34 @@ module.exports = grammar({
       $.size_of_expression,
       $.stack_alloc_array_creation_expression,
       $.switch_expression,
-      $.this_expression,
       $.throw_expression,
-      $.tuple_expression,
       $.type_of_expression,
       $.with_expression,
 
+      $._literal,
+      $._expression_statement_expression,
+    ),
+
+    // Covers error CS0131: The left-hand side of an assignment must be a variable, property or indexer
+    _lvalue_expression: $ => choice(
+      $.this_expression,
+      $.member_access_expression,
+      $.tuple_expression,
       $._simple_name,
-      $._literal
+      $.element_access_expression,
+      $.element_binding_expression,
+      alias($._parenthesized_lvalue_expression, $.parenthesized_expression),
+    ),
+
+    // Covers error CS0201: Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement
+    _expression_statement_expression: $ => choice(
+      $.assignment_expression,
+      $.invocation_expression,
+      $.postfix_unary_expression,
+      $.prefix_unary_expression,
+      $.await_expression,
+      $.object_creation_expression,
+      $.parenthesized_expression,
     ),
 
     binary_expression: $ => choice(
