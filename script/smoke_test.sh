@@ -2,9 +2,9 @@
 
 # This is an integration test to generally check the quality of parsing.
 
-SCALA_SCALA_LIBRARY_EXPECTED=98
-SCALA_SCALA_COMPILER_EXPECTED=63
-DOTTY_COMPILER_EXPECTED=71
+SCALA_SCALA_LIBRARY_EXPECTED=100
+SCALA_SCALA_COMPILER_EXPECTED=64
+DOTTY_COMPILER_EXPECTED=72
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
   echo "\$SCALA_SCALA_DIR must be set"
@@ -35,7 +35,7 @@ run_tree_sitter () {
 
   actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f1 | rev | sed 's/%//g' )
   echo $actual
-  if (( $(echo "$actual > $expected" |bc -l) )); then
+  if (( $(echo "$actual >= $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
     echo -e "::notice file=grammar.js,line=1::ok, ${source_dir}: ${actual}%"
   else
