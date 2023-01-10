@@ -89,6 +89,7 @@ module.exports = grammar({
       $.extension_definition,
       $.class_definition,
       $.import_declaration,
+      $.export_declaration,
       $.object_definition,
       $.enum_definition,
       $.trait_definition,
@@ -176,31 +177,37 @@ module.exports = grammar({
 
     import_declaration: $ => prec.left(seq(
       'import',
-      sep1(',', $._import_expression)
+      sep1(',', $._namespace_expression)
     )),
 
-    _import_expression: $ => prec.left(seq(
+    export_declaration: $ => prec.left(seq(
+      'export',
+      sep1(',', $._namespace_expression)
+    )),
+
+
+    _namespace_expression: $ => prec.left(seq(
       field('path', sep1('.', $.identifier)),
       optional(seq(
         '.',
         choice(
-          $.import_wildcard,
-          $.import_selectors,
+          $.namespace_wildcard,
+          $.namespace_selectors,
         ),
       )),
     )),
 
-    import_wildcard: $ => prec.left(1,
+    namespace_wildcard: $ => prec.left(1,
       choice('*', '_', 'given')
     ),
 
-    _import_given_by_type: $ => seq('given', $._type),
+    _namespace_given_by_type: $ => seq('given', $._type),
 
-    import_selectors: $ => seq(
+    namespace_selectors: $ => seq(
       '{',
         commaSep1(choice(
-          $._import_given_by_type,
-          $.import_wildcard,
+          $._namespace_given_by_type,
+          $.namespace_wildcard,
           $.identifier,
           $.renamed_identifier
         )),

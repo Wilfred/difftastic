@@ -185,7 +185,7 @@ import reflect.io.{Directory, File, Path}
     (identifier) (identifier))
   (import_declaration
     (identifier) (identifier)
-    (import_selectors (identifier) (identifier) (identifier))))
+    (namespace_selectors (identifier) (identifier) (identifier))))
 
 ================================
 Imports: Wildcard
@@ -198,7 +198,7 @@ import tools.nsc.classpath._
 (compilation_unit
   (import_declaration
     (identifier) (identifier) (identifier)
-    (import_wildcard)))
+    (namespace_wildcard)))
 
 ================================
 Imports: Wildcard (Scala 3 syntax)
@@ -211,12 +211,12 @@ import a.b.*, b.c, c.*
 
 (compilation_unit
   (import_declaration
-    (identifier) (identifier) (identifier) (import_wildcard))
+    (identifier) (identifier) (identifier) (namespace_wildcard))
 
   (import_declaration
-    (identifier) (identifier) (import_wildcard)
+    (identifier) (identifier) (namespace_wildcard)
     (identifier) (identifier)
-    (identifier) (import_wildcard)))
+    (identifier) (namespace_wildcard)))
 
 ================================
 Imports: Wildcard and wildcard givens (Scala 3 syntax)
@@ -230,12 +230,12 @@ import tools.given
 (compilation_unit
   (import_declaration
     (identifier) (identifier) (identifier)
-    (import_selectors 
-      (import_wildcard)
-      (import_wildcard)))
+    (namespace_selectors 
+      (namespace_wildcard)
+      (namespace_wildcard)))
   (import_declaration
     (identifier)
-    (import_wildcard))) 
+    (namespace_wildcard))) 
 
 ================================
 Imports: Givens by type (Scala 3 syntax)
@@ -248,7 +248,7 @@ import tools.nsc.classpath.{given Test, given Test2, Test3}
 (compilation_unit
   (import_declaration
     (identifier) (identifier) (identifier)
-    (import_selectors 
+    (namespace_selectors 
       (type_identifier)
       (type_identifier)
       (identifier))))
@@ -264,7 +264,7 @@ import lang.System.{lineSeparator as EOL}
 (compilation_unit
   (import_declaration
     (identifier) (identifier)
-    (import_selectors (renamed_identifier (identifier) (identifier)))))
+    (namespace_selectors (renamed_identifier (identifier) (identifier)))))
 
 ================================
 Imports: Rename
@@ -277,7 +277,7 @@ import lang.System.{lineSeparator => EOL}
 (compilation_unit
   (import_declaration
     (identifier) (identifier)
-    (import_selectors (renamed_identifier (identifier) (identifier)))))
+    (namespace_selectors (renamed_identifier (identifier) (identifier)))))
 
 
 =================================
@@ -1101,3 +1101,26 @@ transparent trait Kind:
       (function_definition
         (identifier)
         (integer_literal)))))
+
+
+
+================================
+Exports (Scala 3)
+================================
+
+export scanUnit.scan
+export printUnit.{status as _, *}
+
+---
+
+(compilation_unit
+  (export_declaration
+    (identifier)
+    (identifier))
+  (export_declaration
+    (identifier)
+    (namespace_selectors
+      (renamed_identifier
+        (identifier)
+        (wildcard))
+      (namespace_wildcard))))

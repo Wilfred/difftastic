@@ -67,3 +67,17 @@ given Test with
    def test = 1
 //  ^keyword.function
    val a = "hello"
+
+
+class Copier:
+  private val printUnit = new Printer { type PrinterType = InkJet }
+  private val scanUnit = new Scanner
+
+  export scanUnit.scan
+  // ^ include
+  //        ^namespace
+  export printUnit.{status as _, *}
+  // ^ include
+  //        ^namespace
+
+  def status: List[String] = printUnit.status ++ scanUnit.status

@@ -56,7 +56,7 @@
 (function_definition
       name: (identifier) @method)
 
-; imports
+; imports/exports
 
 (import_declaration
   path: (identifier) @namespace)
@@ -66,7 +66,15 @@
   path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
 ((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
 
-((import_selectors (identifier) @type) (#lua-match? @type "^[A-Z]"))
+(export_declaration
+  path: (identifier) @namespace)
+((stable_identifier (identifier) @namespace))
+
+((export_declaration
+  path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
+((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
+
+((namespace_selectors (identifier) @type) (#lua-match? @type "^[A-Z]"))
 
 ; method invocation
 
@@ -213,7 +221,7 @@
  "@"
 ] @operator
 
-"import" @include
+["import" "export"] @include
 
 [
   "try"

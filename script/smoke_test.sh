@@ -37,7 +37,7 @@ run_tree_sitter () {
   echo $actual
   if (( $(echo "$actual >= $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
-    echo -e "::notice file=grammar.js,line=1::ok, ${source_dir}: ${actual}%"
+    echo -e "::notice file=grammar.js,line=1::ok, ${source_dir}: ${actual}%, expected at least $expected%"
   else
     echo -e "::error file=grammar.js,line=1::${source_dir}: expected ${expected}, but got ${actual} instead"
     failed=$((failed + 1))
