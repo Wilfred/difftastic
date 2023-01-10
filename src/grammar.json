@@ -4310,7 +4310,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_expression_statement_expression"
         },
         {
           "type": "STRING",
@@ -6440,7 +6440,7 @@
             "name": "left",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "_lvalue_expression"
             }
           },
           {
@@ -7338,7 +7338,24 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "_non_lvalue_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_parenthesized_lvalue_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lvalue_expression"
         },
         {
           "type": "STRING",
@@ -8279,6 +8296,19 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_non_lvalue_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lvalue_expression"
+        }
+      ]
+    },
+    "_non_lvalue_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "anonymous_method_expression"
         },
         {
@@ -8292,14 +8322,6 @@
         {
           "type": "SYMBOL",
           "name": "as_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "await_expression"
         },
         {
           "type": "SYMBOL",
@@ -8331,14 +8353,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "element_access_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "element_binding_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "implicit_array_creation_expression"
         },
         {
@@ -8359,10 +8373,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "invocation_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "is_expression"
         },
         {
@@ -8376,26 +8386,6 @@
         {
           "type": "SYMBOL",
           "name": "make_ref_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "member_access_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "object_creation_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parenthesized_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "postfix_unary_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "prefix_unary_expression"
         },
         {
           "type": "SYMBOL",
@@ -8431,15 +8421,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "this_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "throw_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_expression"
         },
         {
           "type": "SYMBOL",
@@ -8451,11 +8433,82 @@
         },
         {
           "type": "SYMBOL",
+          "name": "_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression_statement_expression"
+        }
+      ]
+    },
+    "_lvalue_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "this_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "member_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_simple_name"
         },
         {
           "type": "SYMBOL",
-          "name": "_literal"
+          "name": "element_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "element_binding_expression"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_parenthesized_lvalue_expression"
+          },
+          "named": true,
+          "value": "parenthesized_expression"
+        }
+      ]
+    },
+    "_expression_statement_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assignment_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "invocation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "postfix_unary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "prefix_unary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "object_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
         }
       ]
     },
@@ -10620,7 +10673,7 @@
     ],
     [
       "_name",
-      "_expression"
+      "_lvalue_expression"
     ],
     [
       "_simple_name",
@@ -10786,11 +10839,19 @@
     [
       "constant_pattern",
       "_name",
-      "_expression"
+      "_lvalue_expression"
     ],
     [
       "constant_pattern",
-      "_expression"
+      "_non_lvalue_expression"
+    ],
+    [
+      "constant_pattern",
+      "_lvalue_expression"
+    ],
+    [
+      "constant_pattern",
+      "_expression_statement_expression"
     ]
   ],
   "precedences": [],
