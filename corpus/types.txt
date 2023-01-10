@@ -5,6 +5,7 @@ Stable type identifiers
 object Main {
   type A = B.C
   type D = E.F.G
+  type H = __root__.scala.Int
 }
 
 ---
@@ -14,6 +15,9 @@ object Main {
     (type_definition
       (type_identifier)
       (stable_type_identifier (identifier) (type_identifier)))
+    (type_definition
+      (type_identifier)
+      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier)))
     (type_definition
       (type_identifier)
       (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier))))))

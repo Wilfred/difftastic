@@ -1,3 +1,113 @@
+=======================================
+Identifiers
+=======================================
+
+  def m = ???
+  def unary_! = true
+  def a_-> = ???
+  def __symtem = ???
+  def empty_? = ???
+  def ひらがな = ???
+  def a_^ = ???
+
+---
+
+(compilation_unit
+  (function_definition (identifier) (operator_identifier))
+  (function_definition (identifier) (boolean_literal))
+  (function_definition (identifier) (operator_identifier))
+  (function_definition (identifier) (operator_identifier))
+  (function_definition (identifier) (operator_identifier))
+  (function_definition (identifier) (operator_identifier))
+  (function_definition (identifier) (operator_identifier)))
+
+=======================================
+$ in identifier names
+=======================================
+
+class $A$B$ {
+  val b$, c$ : Int
+  val d$ : String
+}
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (val_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (val_declaration
+        (identifier)
+        (type_identifier)))))
+
+===================================
+Operator identifiers
+===================================
+
+type ::[+Ab] = scala.collection.immutable.::[Ab]
+val :: = scala.collection.immutable.::
+
+val +: = scala.collection.+:
+val :+ = scala.collection.:+
+
+def → = ???
+
+val test = id.##
+
+---
+
+(compilation_unit
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (covariant_type_parameter
+        (identifier)))
+    (infix_type
+      (stable_type_identifier
+        (stable_identifier
+          (identifier)
+          (identifier))
+        (type_identifier))
+      (operator_identifier)
+      (generic_type
+        (type_identifier
+          (MISSING _alpha_identifier))
+        (type_arguments
+          (type_identifier)))))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (field_expression
+          (identifier)
+          (identifier))
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (val_definition
+    (operator_identifier)
+    (postfix_expression
+      (field_expression
+        (identifier)
+        (identifier))
+      (operator_identifier)))
+  (function_definition (operator_identifier) (operator_identifier))
+  (val_definition
+    (identifier)
+    (postfix_expression
+      (identifier)
+      (operator_identifier))))
+
 ================================
 Package
 ================================
@@ -68,12 +178,13 @@ import reflect.io.{Directory, File, Path}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier)))
+    (identifier) (identifier))
   (import_declaration
-    (stable_identifier (identifier) (identifier))
-    (stable_identifier (identifier) (identifier)))
+    (identifier)
+    (identifier)
+    (identifier) (identifier))
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (identifier) (identifier) (identifier))))
 
 ================================
@@ -86,7 +197,7 @@ import tools.nsc.classpath._
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_wildcard)))
 
 ================================
@@ -94,13 +205,18 @@ Imports: Wildcard (Scala 3 syntax)
 ================================
 
 import tools.nsc.classpath.*
+import a.b.*, b.c, c.*
 
 ---
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
-    (import_wildcard)))
+    (identifier) (identifier) (identifier) (import_wildcard))
+
+  (import_declaration
+    (identifier) (identifier) (import_wildcard)
+    (identifier) (identifier)
+    (identifier) (import_wildcard)))
 
 ================================
 Imports: Wildcard and wildcard givens (Scala 3 syntax)
@@ -113,7 +229,7 @@ import tools.given
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_selectors 
       (import_wildcard)
       (import_wildcard)))
@@ -131,7 +247,7 @@ import tools.nsc.classpath.{given Test, given Test2, Test3}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
+    (identifier) (identifier) (identifier)
     (import_selectors 
       (type_identifier)
       (type_identifier)
@@ -147,7 +263,7 @@ import lang.System.{lineSeparator as EOL}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (renamed_identifier (identifier) (identifier)))))
 
 ================================
@@ -160,7 +276,7 @@ import lang.System.{lineSeparator => EOL}
 
 (compilation_unit
   (import_declaration
-    (stable_identifier (identifier) (identifier))
+    (identifier) (identifier)
     (import_selectors (renamed_identifier (identifier) (identifier)))))
 
 
@@ -367,30 +483,6 @@ class A {
       (val_declaration
         (identifier)
         (type_identifier)))))
-
-=======================================
-$ in identifier names
-=======================================
-
-class $A$B$ {
-  val b$, c$ : Int
-  val d$ : String
-}
-
----
-
-(compilation_unit
-  (class_definition
-    (identifier)
-    (template_body
-      (val_declaration
-        (identifier)
-        (identifier)
-        (type_identifier))
-      (val_declaration
-        (identifier)
-        (type_identifier)))))
-
 
 =======================================
 Value declarations (Scala 3 syntax)
@@ -870,69 +962,6 @@ class B {
           (class_parameter
             (identifier)
             (type_identifier)))))))
-
-
-
-===================================
-Operator identifiers
-===================================
-
-type ::[+Ab] = scala.collection.immutable.::[Ab]
-val :: = scala.collection.immutable.::
-
-val +: = scala.collection.+:
-val :+ = scala.collection.:+
-
-val test = id.##
-
----
-
-(compilation_unit
-  (type_definition
-    (type_identifier)
-    (type_parameters
-      (covariant_type_parameter
-        (identifier)))
-    (infix_type
-      (stable_type_identifier
-        (stable_identifier
-          (identifier)
-          (identifier))
-        (type_identifier))
-      (operator_identifier)
-      (generic_type
-        (type_identifier
-          (MISSING _plainid))
-        (type_arguments
-          (type_identifier)))))
-  (val_definition
-    (operator_identifier)
-    (postfix_expression
-      (field_expression
-        (field_expression
-          (identifier)
-          (identifier))
-        (identifier))
-      (operator_identifier)))
-  (val_definition
-    (operator_identifier)
-    (postfix_expression
-      (field_expression
-        (identifier)
-        (identifier))
-      (operator_identifier)))
-  (val_definition
-    (operator_identifier)
-    (postfix_expression
-      (field_expression
-        (identifier)
-        (identifier))
-      (operator_identifier)))
-  (val_definition
-    (identifier)
-    (postfix_expression
-      (identifier)
-      (operator_identifier))))
 
 
 

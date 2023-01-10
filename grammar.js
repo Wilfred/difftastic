@@ -69,9 +69,10 @@ module.exports = grammar({
     [$._indentable_expression, $.do_while_expression],
     [$.if_expression],
     [$.match_expression],
+    [$._type_identifier, $.identifier],
   ],
 
-  word: $ => $._plainid,
+  word: $ => $._alpha_identifier,
 
   rules: {
     compilation_unit: $ => repeat($._top_level_definition),
@@ -143,9 +144,9 @@ module.exports = grammar({
       )
     ),
 
-    simple_enum_case: $ => seq(field('name', $.identifier), field('extend', optional($.extends_clause))),
+    simple_enum_case: $ => seq(field('name', $._identifier), field('extend', optional($.extends_clause))),
 
-    full_enum_case: $ => seq(field('name', $.identifier), $._full_enum_def),
+    full_enum_case: $ => seq(field('name', $._identifier), $._full_enum_def),
 
     _full_enum_def: $ => seq(
       field('type_parameters', optional($.type_parameters)),
@@ -164,7 +165,7 @@ module.exports = grammar({
     ),
 
     package_identifier: $ => prec.right(sep1(
-      '.', $.identifier
+      '.', $._identifier
     )),
 
     package_object: $ => seq(
@@ -178,18 +179,23 @@ module.exports = grammar({
       sep1(',', $._import_expression)
     )),
 
-    _import_expression: $ => seq(
-      field('path', choice($.stable_identifier, $.identifier)),
+    _import_expression: $ => prec.left(seq(
+      field('path', sep1('.', $.identifier)),
       optional(seq(
         '.',
         choice(
           $.import_wildcard,
-          $.import_selectors
-        )
-      ))
+          $.import_selectors,
+        ),
+      )),
+    )),
+
+    import_wildcard: $ => prec.left(1,
+      choice('*', '_', 'given')
     ),
-    import_wildcard: $ => choice('*', '_', 'given'),
+
     _import_given_by_type: $ => seq('given', $._type),
+
     import_selectors: $ => seq(
       '{',
         commaSep1(choice(
@@ -216,7 +222,7 @@ module.exports = grammar({
     ),
 
     _object_definition: $ => prec.left(seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       field('extend', optional($.extends_clause)),
       field('body', optional($.template_body)),
     )),
@@ -235,7 +241,7 @@ module.exports = grammar({
      * ClassConstr       ::=  [ClsTypeParamClause] [ConstrMods] ClsParamClauses
      */
     _class_constructor: $ => prec.right(seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       field('type_parameters', optional($.type_parameters)),
       optional($.access_modifier),
       field('class_parameters', repeat($.class_parameters)),
@@ -351,12 +357,12 @@ module.exports = grammar({
         'given',
         'extension',
         'val',
-        alias($.identifier, '_end_ident'),
+        alias($._identifier, '_end_ident'),
       ),
     )),
 
     self_type: $ => prec(4, seq(
-      $.identifier, optional($._self_type_ascription), '=>'
+      $._identifier, optional($._self_type_ascription), '=>'
     )),
 
     _self_type_ascription: $ => seq(':', $._type),
@@ -377,7 +383,7 @@ module.exports = grammar({
 
     val_declaration: $ => prec(PREC.binding_decl, seq(
       $._start_val,
-      commaSep1(field('name', $.identifier)),
+      commaSep1(field('name', $._identifier)),
       ':',
       field('type', $._type)
     )),
@@ -390,7 +396,7 @@ module.exports = grammar({
 
     var_declaration: $ => prec(PREC.binding_decl, seq(
       $._start_var,
-      commaSep1(field('name', $.identifier)),
+      commaSep1(field('name', $._identifier)),
       ':',
       field('type', $._type)
     )),
@@ -524,7 +530,7 @@ module.exports = grammar({
 
     access_qualifier: $ => seq(
       '[',
-      $.identifier,
+      $._identifier,
       ']',
     ),
 
@@ -562,7 +568,7 @@ module.exports = grammar({
       repeat($.annotation),
       optional($.modifiers),
       optional(choice('val', 'var')),
-      field('name', $.identifier),
+      field('name', $._identifier),
       optional(seq(':', field('type', $._type))),
       optional('*'),
       optional(seq('=', field('default_value', $.expression)))
@@ -571,7 +577,7 @@ module.exports = grammar({
     parameter: $ => seq(
       repeat($.annotation),
       optional($.inline_modifier),
-      field('name', $.identifier),
+      field('name', $._identifier),
       optional(seq(':', field('type', $._param_type))),
       optional(seq('=', field('default_value', $.expression)))
     ),
@@ -654,15 +660,15 @@ module.exports = grammar({
     ),
 
     stable_type_identifier: $ => prec.left(PREC.stable_type_id, seq(
-      choice($.identifier, $.stable_identifier),
+      choice($._identifier, $.stable_identifier),
       '.',
       $._type_identifier
     )),
 
     stable_identifier: $ => prec.left(PREC.stable_id, seq(
-      choice($.identifier, $.stable_identifier),
+      choice($._identifier, $.stable_identifier),
       '.',
-      $.identifier
+      $._identifier
     )),
 
     generic_type: $ => seq(
@@ -740,7 +746,7 @@ module.exports = grammar({
     )),
 
     capture_pattern: $ => prec(PREC.field, seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       '@',
       field('pattern', $._pattern)
     )),
@@ -826,7 +832,7 @@ module.exports = grammar({
     lambda_expression: $ => prec.right(PREC.lambda, seq(
       choice(
           $.bindings,
-          $.identifier,
+          $._identifier,
           $.wildcard,
       ),
       '=>',
@@ -872,7 +878,7 @@ module.exports = grammar({
     finally_clause: $ => prec.right(seq('finally', $._indentable_expression)),
 
     binding: $ => prec.dynamic(PREC.binding_decl, seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       optional(seq(':', field('type', $._param_type))),
     )),
 
@@ -922,7 +928,7 @@ module.exports = grammar({
     field_expression: $ => prec.left(PREC.field, seq(
       field('value', $._simple_expression),
       '.',
-      field('field', $.identifier)
+      field('field', $._identifier)
     )),
 
     instance_expression: $ => prec(PREC.new, seq(
@@ -1044,24 +1050,33 @@ module.exports = grammar({
 
     symbol_literal: $ => '__no_longer_used',
 
-    _plainid: $ => /[a-zA-Z_\\$][\w\\$]*/,
+    /**
+     * id               ::=  plainid
+     *                       |  ‘`’ { charNoBackQuoteOrNewline | UnicodeEscape | charEscapeSeq 
+     */
+    identifier: $ => prec.left(choice(
+      $._alpha_identifier,
+      $._backquoted_id,
+    )),
+
+    /**
+     * alphaid          ::=  upper idrest
+     *                       |  varid
+     * We approximate the above as:
+     * /[A-Za-z\$_][A-Z\$_a-z0-9]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~]+)?/,
+     *
+     * The following is more accurate, but the state count goes over the unsigned short int, and should be comparable.
+     * /([\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~]+)?|[\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F_][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9]*(_[\-!#%&*+/\\:<=>?@\u005e\u007c~]+)?|[\-!#%&*+\/\\:<=>?@\u005e\u007c~]+)|[\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F_][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~]+)?/,
+     */
+    _alpha_identifier: $ => /[\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F\$][\p{Lu}\p{Lt}\p{Nl}\p{Lo}\p{Lm}\$\p{Ll}_\u00AA\u00BB\u02B0-\u02B8\u02C0-\u02C1\u02E0-\u02E4\u037A\u1D78\u1D9B-\u1DBF\u2071\u207F\u2090-\u209C\u2C7C-\u2C7D\uA69C-\uA69D\uA770\uA7F8-\uA7F9\uAB5C-\uAB5F0-9\$_\p{Ll}]*(_[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]+)?/,
+
     _backquoted_id: $=> /`[^\n`]+`/,
 
     _identifier: $ => choice($.identifier, $.operator_identifier),
 
-    identifier: $ => choice(
-      $._plainid,
-      $._backquoted_id,
-      'unary_~',
-      'unary_+',
-      'unary_-',
-      'unary_!',
-      '???',
-    ),
-
     wildcard: $ => '_',
 
-    operator_identifier: $ => /[!#%&*+-\/:<=>?@'^\|‘~]+/,
+    operator_identifier: $ => /[!#%&*+-\/:<=>?@'^\|‘~\p{Sm}\p{So}]+/,
 
     _non_null_literal: $ => 
       choice(
