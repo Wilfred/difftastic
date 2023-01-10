@@ -719,8 +719,8 @@ mod tests {
         let arena = Arena::new();
         let config = from_language(guess_language::Language::EmacsLisp);
 
-        let lhs = parse(&arena, "A B", &config);
-        let rhs = parse(&arena, "A B X\n A B", &config);
+        let lhs = parse(&arena, "A B", &config, false);
+        let rhs = parse(&arena, "A B X\n A B", &config, false);
         init_all_info(&lhs, &rhs);
 
         let mut change_map = ChangeMap::default();

@@ -1094,6 +1094,7 @@ pub fn parse<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     config: &TreeSitterConfig,
+    ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     // Don't return anything on an empty input. Most parsers return a
     // zero-width top-level AST node on empty files, which is
@@ -1124,6 +1125,7 @@ pub fn parse<'a>(
         config,
         &highlights,
         &subtrees,
+        ignore_comments,
     )
 }
 
@@ -1194,12 +1196,20 @@ fn all_syntaxes_from_cursor<'a>(
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
     loop {
         result.extend(syntax_from_cursor(
-            arena, src, nl_pos, cursor, config, highlights, subtrees,
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            highlights,
+            subtrees,
+            ignore_comments,
         ));
 
         if !cursor.goto_next_sibling() {
@@ -1220,6 +1230,7 @@ fn syntax_from_cursor<'a>(
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
 
@@ -1234,6 +1245,7 @@ fn syntax_from_cursor<'a>(
             subconfig,
             subhighlights,
             &HashMap::new(),
+            ignore_comments,
         );
     }
 
@@ -1247,17 +1259,24 @@ fn syntax_from_cursor<'a>(
         );
 
         // Treat error nodes as atoms, even if they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights)
+        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     } else if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights)
+        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     } else if node.child_count() > 0 {
         Some(list_from_cursor(
-            arena, src, nl_pos, cursor, config, highlights, subtrees,
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            highlights,
+            subtrees,
+            ignore_comments,
         ))
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor, highlights)
+        atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     }
 }
 
@@ -1271,6 +1290,7 @@ fn list_from_cursor<'a>(
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
+    ignore_comments: bool,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 
@@ -1314,21 +1334,42 @@ fn list_from_cursor<'a>(
         let node = cursor.node();
         if node_i < i {
             before_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights, subtrees,
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                highlights,
+                subtrees,
+                ignore_comments,
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i < j {
             between_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights, subtrees,
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                highlights,
+                subtrees,
+                ignore_comments,
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i > j {
             after_delim.extend(syntax_from_cursor(
-                arena, src, nl_pos, cursor, config, highlights, subtrees,
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                highlights,
+                subtrees,
+                ignore_comments,
             ));
         }
 
@@ -1380,6 +1421,7 @@ fn atom_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
     highlights: &HighlightedNodeIds,
+    ignore_comments: bool,
 ) -> Option<&'a Syntax<'a>> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
@@ -1412,6 +1454,11 @@ fn atom_from_cursor<'a>(
         // 'comment' as their comment node name, but if they don't we
         // can still detect comments by looking at their syntax
         // highlighting.
+
+        if ignore_comments {
+            return None;
+        }
+
         AtomKind::Comment
     } else if highlights.keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
@@ -1437,14 +1484,14 @@ mod tests {
     fn test_parse() {
         let arena = Arena::new();
         let css_config = from_language(guess::Language::Css);
-        parse(&arena, ".foo {}", &css_config);
+        parse(&arena, ".foo {}", &css_config, false);
     }
 
     #[test]
     fn test_parse_empty_file() {
         let arena = Arena::new();
         let config = from_language(guess::Language::EmacsLisp);
-        let res = parse(&arena, "", &config);
+        let res = parse(&arena, "", &config, false);
 
         let expected: Vec<&Syntax> = vec![];
         assert_eq!(res, expected);
@@ -1456,7 +1503,7 @@ mod tests {
     fn test_subtrees() {
         let arena = Arena::new();
         let config = from_language(guess::Language::Html);
-        let res = parse(&arena, "<style>.a { color: red; }</style>", &config);
+        let res = parse(&arena, "<style>.a { color: red; }</style>", &config, false);
 
         match res[0] {
             Syntax::List {

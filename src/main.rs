@@ -126,7 +126,8 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    let ast = tsp::parse(&arena, &src, &ts_lang);
+                    // TODO: respect ignore_comments
+                    let ast = tsp::parse(&arena, &src, &ts_lang, false);
                     init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
@@ -360,8 +361,8 @@ fn diff_file_content(
         }
         Some(ts_lang) => {
             let arena = Arena::new();
-            let lhs = tsp::parse(&arena, &lhs_src, &ts_lang);
-            let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
+            let lhs = tsp::parse(&arena, &lhs_src, &ts_lang, diff_options.ignore_comments);
+            let rhs = tsp::parse(&arena, &rhs_src, &ts_lang, diff_options.ignore_comments);
 
             init_all_info(&lhs, &rhs);
 

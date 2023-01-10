@@ -60,6 +60,7 @@ pub struct DiffOptions {
     pub graph_limit: usize,
     pub byte_limit: usize,
     pub check_only: bool,
+    pub ignore_comments: bool,
 }
 
 impl Default for DiffOptions {
@@ -68,6 +69,7 @@ impl Default for DiffOptions {
             graph_limit: DEFAULT_GRAPH_LIMIT,
             byte_limit: DEFAULT_BYTE_LIMIT,
             check_only: false,
+            ignore_comments: false,
         }
     }
 }
@@ -178,6 +180,11 @@ fn app() -> clap::Command<'static> {
             Arg::new("check-only").long("check-only")
                 .env("DFT_CHECK_ONLY")
                 .help("Report whether there are any syntactic changes, but don't calculate them. Much faster.")
+        )
+        .arg(
+            Arg::new("ignore-comments").long("ignore-comments")
+                .env("DFT_IGNORE_COMMENTS")
+                .help("Don't consider comments when diffing.")
         )
         .arg(
             Arg::new("skip-unchanged").long("skip-unchanged")
@@ -489,6 +496,8 @@ pub fn parse_args() -> Mode {
 
     let check_only = matches.is_present("check-only");
 
+    let ignore_comments = matches.is_present("ignore-comments");
+
     let display_options = DisplayOptions {
         background_color,
         use_color,
@@ -505,6 +514,7 @@ pub fn parse_args() -> Mode {
         graph_limit,
         byte_limit,
         check_only,
+        ignore_comments,
     };
 
     Mode::Diff {
