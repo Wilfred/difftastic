@@ -44,3 +44,10 @@ object A:
 //^function.call
 //   ^number
 
+object bla:
+  open class Hello(A: Int)
+// ^ type.qualifier
+  transparent trait Hello
+//   ^ type.qualifier
+  infix def hello = 25
+//  ^ keyword

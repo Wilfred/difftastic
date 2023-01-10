@@ -512,6 +512,9 @@ module.exports = grammar({
       'override',
       $.access_modifier,
       $.inline_modifier,
+      $.infix_modifier,
+      $.open_modifier,
+      $.transparent_modifier
     )),
 
     access_modifier: $ => prec.left(seq(
@@ -526,6 +529,9 @@ module.exports = grammar({
     ),
 
     inline_modifier: $ => 'inline',
+    infix_modifier: $ => 'infix',
+    open_modifier: $ => 'open',
+    transparent_modifier: $ => 'transparent',
 
     extends_clause: $ => prec.left(seq(
       'extends',

@@ -1008,3 +1008,67 @@ inline given Test =
                 (operator_identifier)
                 (type_identifier))))))
       (integer_literal))))
+
+
+=======================================
+Infix methods (Scala 3)
+=======================================
+
+object Test:
+  infix private def hello = 25
+
+---
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (function_definition
+        (modifiers
+          (infix_modifier)
+          (access_modifier))
+        (identifier)
+        (integer_literal)))))
+
+=======================================
+Open classes (Scala 3)
+=======================================
+
+open class Test(a: Int):
+  def test = 25
+end Test
+
+---
+
+(compilation_unit
+  (class_definition
+    (modifiers
+      (open_modifier))
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (type_identifier)))
+    (template_body
+      (function_definition
+        (identifier)
+        (integer_literal)))))
+
+=======================================
+Transparent traits (Scala 3)
+=======================================
+
+transparent trait Kind:
+  def test = 1
+
+---
+
+(compilation_unit
+  (trait_definition
+    (modifiers
+      (transparent_modifier))
+    (identifier)
+    (template_body
+      (function_definition
+        (identifier)
+        (integer_literal)))))

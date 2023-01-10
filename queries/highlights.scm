@@ -129,6 +129,9 @@
 
 (opaque_modifier) @type.qualifier
 (inline_modifier) @keyword
+(infix_modifier) @keyword
+(transparent_modifier) @type.qualifier
+(open_modifier) @type.qualifier
 
 [
   "case"
