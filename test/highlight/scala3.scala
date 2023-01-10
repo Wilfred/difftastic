@@ -1,3 +1,29 @@
+// SIP-44
+class C:
+// ^keyword
+  fooooo.map: x =>
+  // ^type
+  //     ^method.call
+    x + 1
+
+  xs.map:
+    param1 =>
+      param1 + 1
+
+  foooo:
+  // ^function.call
+    println("")
+
+  foooo `++`:
+  //    ^operator
+    val x = 1
+    List(x)
+
+// Ascription expression
+class C:
+  foooo: Int
+  //     ^type
+
 enum Test(a: Int) derives Codec:
 // ^keyword   
 //            ^type
@@ -6,15 +32,15 @@ enum Test(a: Int) derives Codec:
 //    ^type.definition
 //        ^parameter
   case Test(b: String)
-// ^keyword     
-//               ^type
-//      ^type.definition
-//          ^parameter
+  // ^keyword     
+  //               ^type
+  //      ^type.definition
+  //        ^parameter
   case Hello, Bla
-//      ^type.definition
-//             ^type.definition
+  //      ^type.definition
+  //          ^type.definition
   case Bla extends Test(256)
-//          ^keyword
+  //          ^keyword
 
 opaque type Blow <: Int = 25
 // ^type.qualifier

@@ -42,6 +42,59 @@ class C {
             (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier)))))))))
 
 ===============================
+SIP-44 Fewer braces (Scala 3 syntax)
+===============================
+
+class C:
+  xs.map: x =>
+    x + 1
+
+  xs.map:
+    x =>
+      x + 1
+
+  xs:
+    println("")
+
+  xs `++`:
+    val x = 1
+    List(x)
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (call_expression
+        (field_expression (identifier) (identifier))
+        (colon_argument
+         (identifier)
+         (infix_expression (identifier) (operator_identifier) (integer_literal))))
+
+      (call_expression
+        (field_expression (identifier) (identifier))
+        (colon_argument
+         (lambda_expression (identifier) 
+           (infix_expression (identifier) (operator_identifier) (integer_literal)))))
+
+      (call_expression
+        (identifier)
+        (colon_argument
+          (call_expression
+            (identifier)
+            (arguments (string)))))
+
+      (infix_expression
+        (identifier)
+        (identifier)
+        (colon_argument
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (call_expression (identifier) (arguments (identifier))))))))
+
+===============================
 Generic functions
 ===============================
 
@@ -589,7 +642,7 @@ object O {
         (generic_type (type_identifier)
           (type_arguments (type_identifier))))
       (ascription_expression (integer_literal)
-        (repeated_parameter_type (type_identifier)))
+        (repeated_parameter_type (wildcard)))
       (ascription_expression (identifier)
         (annotation (type_identifier))))))
 

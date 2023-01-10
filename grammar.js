@@ -10,6 +10,7 @@ const PREC = {
   unit: 4,
   ascription: 4,
   postfix: 5,
+  colon_call: 5,
   infix: 6,
   constructor_app: 7,
   prefix: 7,
@@ -65,6 +66,7 @@ module.exports = grammar({
     [$.tuple_type, $.parameter_types],
     [$.binding, $._simple_expression],
     [$.binding, $.ascription_expression],
+    [$.binding, $._type_identifier],
     [$.if_expression, $.expression],
     [$.while_expression, $._simple_expression],
     [$.for_expression, $.infix_expression],
@@ -673,6 +675,7 @@ module.exports = grammar({
       $.tuple_type,
       $.stable_type_identifier,
       $._type_identifier,
+      $.wildcard,
     ),
 
     compound_type: $ => prec(PREC.compound, seq(
@@ -742,10 +745,10 @@ module.exports = grammar({
       field('type', $._type)
     ),
 
-    repeated_parameter_type: $ => seq(
+    repeated_parameter_type: $ => prec.left(PREC.postfix, seq(
       field('type', $._type),
       '*',
-    ),
+    )),
 
     _type_identifier: $ => alias($._identifier, $.type_identifier),
 
@@ -864,11 +867,11 @@ module.exports = grammar({
     ),
 
     lambda_expression: $ => prec.right(PREC.lambda, seq(
-      choice(
-          $.bindings,
-          $._identifier,
-          $.wildcard,
-      ),
+      field('parameters', choice(
+        $.bindings,
+        $._identifier,
+        $.wildcard,
+      )),
       '=>',
       $._block,
     )),
@@ -954,9 +957,38 @@ module.exports = grammar({
       field('type_arguments', $.type_arguments)
     )),
 
-    call_expression: $ => prec(PREC.call, seq(
-      field('function', $._simple_expression),
-      field('arguments', choice($.arguments, $.case_block, $.block)),
+    call_expression: $ => choice(
+      prec.left(PREC.call, seq(
+        field('function', $._simple_expression),
+        field('arguments', choice(
+          $.arguments,
+          $.case_block,
+          $.block,
+        )),
+      )),
+      prec.right(PREC.colon_call, seq(
+        field('function', $._postfix_expression_choice),
+        ':',
+        field('arguments', $.colon_argument),
+      )),
+    ),
+
+    colon_argument: $ => prec.left(PREC.colon_call, seq(
+      optional(field('lambda_start', seq(
+        choice(
+          $.bindings,
+          $._identifier,
+          $.wildcard,
+        ),
+        '=>',
+      ))),
+      $._colon_argument_block,
+    )),
+
+    _colon_argument_block: $ => prec.left(seq(
+      $._indent,
+      field('body', $._block),
+      $._outdent,
     )),
 
     field_expression: $ => prec.left(PREC.field, seq(
@@ -1009,6 +1041,10 @@ module.exports = grammar({
       field('right', choice(
         $.prefix_expression,
         $._simple_expression,
+        seq(
+          ':',
+          $.colon_argument,
+        ),
       )),
     )),
 
