@@ -112,6 +112,8 @@ module.exports = grammar({
     [$.constant_pattern, $._lvalue_expression],
     [$.constant_pattern, $._expression_statement_expression],
 
+    [$.assignment_expression, $._expression],
+
   ],
 
   inline: $ => [
@@ -1254,7 +1256,7 @@ module.exports = grammar({
       ))
     )),
 
-    element_access_expression: $ => prec.right(PREC.UNARY, seq(
+    element_access_expression: $ => prec.right(PREC.POSTFIX, seq(
       field('expression', $._expression),
       field('subscript', $.bracketed_argument_list)
     )),
@@ -1395,7 +1397,6 @@ module.exports = grammar({
       ...[
         '!',
         '&',
-        '*',
         '+',
         '++',
         '-',
@@ -1403,6 +1404,8 @@ module.exports = grammar({
         '^',
         '~'
       ].map(operator => seq(operator, $._expression)))),
+
+    _pointer_indirection_expression: $ => prec(PREC.UNARY, seq('*', $._expression)),
 
     query_expression: $ => seq($.from_clause, $._query_body),
 
@@ -1603,6 +1606,7 @@ module.exports = grammar({
       $._simple_name,
       $.element_access_expression,
       $.element_binding_expression,
+      alias($._pointer_indirection_expression, $.prefix_unary_expression),
       alias($._parenthesized_lvalue_expression, $.parenthesized_expression),
     ),
 

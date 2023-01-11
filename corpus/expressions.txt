@@ -339,6 +339,7 @@ var x = new A
   [b] = 1
 };
 (a) = 1;
+*p = 0;
 
 --------------------------------------------------------------------------------
 
@@ -422,6 +423,13 @@ var x = new A
     (expression_statement
       (assignment_expression
         (parenthesized_expression
+          (identifier))
+        (assignment_operator)
+        (integer_literal))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (prefix_unary_expression
           (identifier))
         (assignment_operator)
         (integer_literal)))))

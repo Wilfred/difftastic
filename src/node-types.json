@@ -942,6 +942,10 @@
             "named": true
           },
           {
+            "type": "prefix_unary_expression",
+            "named": true
+          },
+          {
             "type": "this_expression",
             "named": true
           },
