@@ -71,8 +71,8 @@ module.exports = grammar({
     [$._contextual_keywords, $.type_parameter_constraint],
     [$._contextual_keywords, $.modifier],
     [$._contextual_keywords, $.scoped_type],
-    [$._contextual_keywords, $.scoped_type, $.parameter],
-    [$._contextual_keywords, $.parameter],
+    [$._contextual_keywords, $.scoped_type, $._parameter_type_with_modifiers],
+    [$._contextual_keywords, $._parameter_type_with_modifiers],
 
     [$._type, $.attribute],
     [$._type, $._nullable_base_type],
@@ -97,14 +97,13 @@ module.exports = grammar({
     [$.array_creation_expression, $._nullable_base_type],
     [$.array_creation_expression, $._pointer_base_type],
 
-    [$.parameter, $.this_expression],
+    [$._parameter_type_with_modifiers, $.this_expression],
+    [$._parameter_type_with_modifiers, $.ref_type],
     [$.parameter, $._simple_name],
     [$.parameter, $.tuple_element],
     [$.parameter, $.tuple_pattern],
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $.declaration_expression],
-
-    [$.ref_type, $.parameter],
 
     [$.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
@@ -353,11 +352,15 @@ module.exports = grammar({
       $._parameter_array
     )),
 
-    parameter: $ => seq(
-      repeat($.attribute_list),
+    _parameter_type_with_modifiers: $ => seq(
       alias(optional('scoped'), $.parameter_modifier),
       optional(alias(choice('ref', 'out', 'this', 'in'), $.parameter_modifier)),
-      optional(field('type', $._ref_base_type)),
+      field('type', $._ref_base_type),
+    ),
+
+    parameter: $ => seq(
+      repeat($.attribute_list),
+      optional($._parameter_type_with_modifiers),
       field('name', $.identifier),
       optional($.equals_value_clause)
     ),

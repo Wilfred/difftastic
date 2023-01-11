@@ -179,7 +179,7 @@ class scoped { }
       (identifier)
       (parameter_list
         (parameter
-          (parameter_modifier)
+          (identifier)
           (identifier)))
       (block)))
   (global_statement
@@ -288,7 +288,7 @@ class scoped { }
                 (lambda_expression
                   (parameter_list
                     (parameter
-                      (parameter_modifier)
+                      (identifier)
                       (identifier)))
                   (null_literal))))))
         (local_declaration_statement

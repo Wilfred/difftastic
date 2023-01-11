@@ -1211,16 +1211,9 @@
         }
       ]
     },
-    "parameter": {
+    "_parameter_type_with_modifiers": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attribute_list"
-          }
-        },
         {
           "type": "ALIAS",
           "content": {
@@ -1273,15 +1266,31 @@
           ]
         },
         {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ref_base_type"
+          }
+        }
+      ]
+    },
+    "parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute_list"
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "FIELD",
-              "name": "type",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_ref_base_type"
-              }
+              "type": "SYMBOL",
+              "name": "_parameter_type_with_modifiers"
             },
             {
               "type": "BLANK"
@@ -10739,11 +10748,11 @@
     [
       "_contextual_keywords",
       "scoped_type",
-      "parameter"
+      "_parameter_type_with_modifiers"
     ],
     [
       "_contextual_keywords",
-      "parameter"
+      "_parameter_type_with_modifiers"
     ],
     [
       "_type",
@@ -10818,8 +10827,12 @@
       "_pointer_base_type"
     ],
     [
-      "parameter",
+      "_parameter_type_with_modifiers",
       "this_expression"
+    ],
+    [
+      "_parameter_type_with_modifiers",
+      "ref_type"
     ],
     [
       "parameter",
@@ -10841,10 +10854,6 @@
     [
       "parameter",
       "declaration_expression"
-    ],
-    [
-      "ref_type",
-      "parameter"
     ],
     [
       "tuple_element",
