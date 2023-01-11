@@ -9840,6 +9840,10 @@
         },
         {
           "type": "STRING",
+          "value": "scoped"
+        },
+        {
+          "type": "STRING",
           "value": "select"
         },
         {
@@ -10727,6 +10731,19 @@
     [
       "_contextual_keywords",
       "modifier"
+    ],
+    [
+      "_contextual_keywords",
+      "scoped_type"
+    ],
+    [
+      "_contextual_keywords",
+      "scoped_type",
+      "parameter"
+    ],
+    [
+      "_contextual_keywords",
+      "parameter"
     ],
     [
       "_type",

@@ -70,6 +70,9 @@ module.exports = grammar({
     [$._contextual_keywords, $.accessor_declaration],
     [$._contextual_keywords, $.type_parameter_constraint],
     [$._contextual_keywords, $.modifier],
+    [$._contextual_keywords, $.scoped_type],
+    [$._contextual_keywords, $.scoped_type, $.parameter],
+    [$._contextual_keywords, $.parameter],
 
     [$._type, $.attribute],
     [$._type, $._nullable_base_type],
@@ -1830,7 +1833,7 @@ module.exports = grammar({
       // 'record',
       'remove',
       // 'required',
-      // 'scoped',
+      'scoped',
       'select',
       'set',
       'unmanaged',

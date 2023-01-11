@@ -221,11 +221,9 @@ class scoped { }
       (block
         (local_declaration_statement
           (variable_declaration
-            (scoped_type
-              (identifier))
+            (identifier)
             (variable_declarator
-              (identifier
-                (MISSING _identifier_token))
+              (identifier)
               (equals_value_clause
                 (null_literal)))))
         (local_declaration_statement
@@ -253,22 +251,24 @@ class scoped { }
               (identifier)
               (equals_value_clause
                 (null_literal)))))
-        (ERROR
-          (parameter_list))
-        (empty_statement)
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
         (expression_statement
           (invocation_expression
             (identifier)
             (argument_list
-              (ERROR))))
+              (argument
+                (identifier)))))
         (local_declaration_statement
           (variable_declaration
             (implicit_type)
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (ERROR)
-                (prefix_unary_expression
+                (binary_expression
+                  (identifier)
                   (integer_literal))))))
         (local_declaration_statement
           (variable_declaration
@@ -276,8 +276,9 @@ class scoped { }
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (ERROR)
-                (null_literal)))))
+                (lambda_expression
+                  (identifier)
+                  (null_literal))))))
         (local_declaration_statement
           (variable_declaration
             (implicit_type)
@@ -299,8 +300,8 @@ class scoped { }
                 (lambda_expression
                   (parameter_list
                     (parameter
-                      (parameter_modifier)
-                      (ERROR)
+                      (identifier))
+                    (parameter
                       (identifier)))
                   (null_literal))))))
         (local_declaration_statement
@@ -309,8 +310,8 @@ class scoped { }
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (ERROR)
                 (lambda_expression
+                  (identifier)
                   (parameter_list
                     (parameter
                       (predefined_type)
