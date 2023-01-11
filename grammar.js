@@ -1789,42 +1789,34 @@ module.exports = grammar({
 
     // Contextual keywords - keywords that can also be identifiers...
     _contextual_keywords: $ => choice(
-      // LINQ comprehension syntax
+      'add',
+      'alias',
       'ascending',
+      // 'async',
+      // 'await',
       'by',
       'descending',
+      'dynamic',
       'equals',
+      'file',
       'from',
+      'get',
+      'global',
       'group',
       'into',
       'join',
       'let',
-      'on',
-      'orderby',
-      'select',
-      'where',
-
-      // Property/event handlers
-      'add',
-      'get',
-      'remove',
-      'set',
-
-      // Async - These need to be more contextual
-      // 'async',
-      // 'await',
-
-      // Misc
-      'global',
-      'alias',
-      'dynamic',
       'nameof',
       'notnull',
+      'on',
+      'orderby',
+      'remove',
+      'select',
+      'set',
       'unmanaged',
       'when',
+      'where',
       'yield',
-
-      'file'
     ),
 
     // Preprocessor
