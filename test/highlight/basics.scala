@@ -11,6 +11,10 @@ object Hello {
 //                                    ^string
 //                              ^conditional 
 
+  val y = new lower_case_intentionally
+//        ^keyword.operator
+//            ^type
+
   trait Test {
 // ^ keyword 
 //       ^ type.definition

@@ -11,13 +11,14 @@ const PREC = {
   ascription: 4,
   postfix: 5,
   infix: 6,
-  new: 7,
+  constructor_app: 7,
   prefix: 7,
   compound: 7,
   call: 8,
   field: 8,
   end_marker: 9,
   macro: 10,
+  binding: 10,
 }
 
 module.exports = grammar({
@@ -63,6 +64,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.tuple_type, $.parameter_types],
     [$.binding, $._simple_expression],
+    [$.binding, $.ascription_expression],
     [$.if_expression, $.expression],
     [$.while_expression, $._simple_expression],
     [$.for_expression, $.infix_expression],
@@ -70,6 +72,7 @@ module.exports = grammar({
     [$.if_expression],
     [$.match_expression],
     [$._type_identifier, $.identifier],
+    [$.instance_expression],
   ],
 
   word: $ => $._alpha_identifier,
@@ -323,12 +326,12 @@ module.exports = grammar({
         $._block,
         $._outdent,
       )),
-      seq(
+      prec.left(PREC.control, seq(
         '{',
         optional($.self_type),
         optional($._block),
         '}',
-      ),
+      )),
     ),
 
     /*
@@ -511,13 +514,34 @@ module.exports = grammar({
      * StructuralInstance ::=  ConstrApp {'with' ConstrApp} ['with' WithTemplateBody]
      */
     _structural_instance: $ => seq(
-      choice(
-        $._annotated_type,
-        $.compound_type,
-      ),
+      $._constructor_application,
       'with',
       field('body', $.with_template_body),
     ),
+
+    /**
+     * ConstrApp         ::=  SimpleType1 {Annotation} {ParArgumentExprs}
+     *
+     * Note: It would look more elegant if we could make seq(choice(), optional(arguments)),
+     * but that doesn't seem to work.
+     */
+    _constructor_application: $ => prec.left(PREC.constructor_app, choice(
+      $._annotated_type,
+      $.compound_type,
+      // This adds _simple_type, but not the above intentionall/y.
+      seq(
+        $._simple_type,
+        field('arguments', $.arguments),
+      ),
+      seq(
+        $._annotated_type,
+        field('arguments', $.arguments),
+      ),
+      seq(
+        $.compound_type,
+        field('arguments', $.arguments),
+      ),
+    )),
 
     modifiers: $ => repeat1(choice(
       'abstract',
@@ -887,7 +911,7 @@ module.exports = grammar({
 
     finally_clause: $ => prec.right(seq('finally', $._indentable_expression)),
 
-    binding: $ => prec.dynamic(PREC.binding_decl, seq(
+    binding: $ => prec.dynamic(PREC.binding, seq(
       field('name', $._identifier),
       optional(seq(':', field('type', $._param_type))),
     )),
@@ -941,15 +965,32 @@ module.exports = grammar({
       field('field', $._identifier)
     )),
 
-    instance_expression: $ => prec(PREC.new, seq(
-      'new',
-      $.expression
-    )),
+    /**
+     *   SimpleExpr        ::=  SimpleRef
+     *                      |  'new' ConstrApp {'with' ConstrApp} [TemplateBody]
+     *                      |  'new' TemplateBody
+     */
+    instance_expression: $ => choice(
+      // This is weakened so ascription wins for new Array: Array
+      prec.dynamic(0, seq(
+        'new',
+        $._constructor_application,
+        $.template_body,
+      )),
+      seq(
+        'new',
+        $.template_body,
+      ),
+      seq(
+        'new',
+        $._constructor_application,
+      ),
+    ),
 
     /**
      * PostfixExpr [Ascription]
      */
-    ascription_expression: $ => prec.right(PREC.ascription, seq(
+    ascription_expression: $ => prec.dynamic(PREC.ascription, seq(
         $._postfix_expression_choice,
         ':',
         choice(
