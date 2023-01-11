@@ -339,6 +339,7 @@ var x = new A
   [b] = 1
 };
 (a) = 1;
+*p = 0;
 
 --------------------------------------------------------------------------------
 
@@ -424,7 +425,14 @@ var x = new A
         (parenthesized_expression
           (identifier))
         (assignment_operator)
-        (integer_literal)))))
+        (integer_literal))))
+  (global_statement
+    (expression_statement
+      (prefix_unary_expression
+        (assignment_expression
+          (identifier)
+          (assignment_operator)
+          (integer_literal))))))
 
 ================================================================================
 Ternary Expression
