@@ -214,6 +214,9 @@ module.exports = grammar({
       '}'
     ),
 
+    // deprecated: Remove when highlight query is updated for Neovim
+    _import_selectors: $ => alias($.namespace_selectors, $.import_selectors),
+
     renamed_identifier: $ => seq(
       field('name', $.identifier),
       choice('=>', 'as'),
@@ -1055,7 +1058,7 @@ module.exports = grammar({
       ),
     )),
 
-    symbol_literal: $ => '__no_longer_used',
+    symbol_literal: $ => '__no_longer_used_symbol_literal_',
 
     /**
      * id               ::=  plainid
