@@ -44,3 +44,94 @@ file.Method(1, 2);
             (integer_literal))
           (argument
             (integer_literal)))))))
+
+================================================================================
+File contextual keyword
+================================================================================
+
+void file() { }
+void m(file p) { }
+void m(int file) { }
+void m()
+{
+    file v = null;
+    int file = file;
+
+    file();
+    m(file);
+
+    var x = file + 1;
+}
+
+file class file { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))
