@@ -320,3 +320,61 @@ opaque type B <: Test >: Help = String
     (lower_bound (type_identifier))
     (type_identifier))
 )
+
+==================================
+Structural type
+==================================
+
+type A = { def fly(): Unit }
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (structural_type
+      (function_declaration 
+        (identifier)
+        (parameters)
+        (type_identifier)
+      )
+    )
+  )
+)
+
+=========================================
+Anonymous structural type with projection
+=========================================
+
+type A = B[({ type f[x] = M[S, x] })#f]
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (projected_type
+          (tuple_type
+            (structural_type
+              (type_definition
+                (type_identifier)
+                (type_parameters
+                  (identifier)
+                )
+                (generic_type
+                  (type_identifier)
+                    (type_arguments
+                      (type_identifier)
+                      (type_identifier)
+                    )
+                )
+              )
+            )
+          )
+          (type_identifier)
+        )
+      )
+    )
+  )
+)
