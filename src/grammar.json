@@ -6756,7 +6756,7 @@
     },
     "element_access_expression": {
       "type": "PREC_RIGHT",
-      "value": 17,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7448,19 +7448,6 @@
             "members": [
               {
                 "type": "STRING",
-                "value": "*"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_expression"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
                 "value": "+"
               },
               {
@@ -7533,6 +7520,23 @@
                 "name": "_expression"
               }
             ]
+          }
+        ]
+      }
+    },
+    "_pointer_indirection_expression": {
+      "type": "PREC",
+      "value": 17,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "*"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         ]
       }
@@ -8467,6 +8471,15 @@
         {
           "type": "SYMBOL",
           "name": "element_binding_expression"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_pointer_indirection_expression"
+          },
+          "named": true,
+          "value": "prefix_unary_expression"
         },
         {
           "type": "ALIAS",
@@ -10852,6 +10865,10 @@
     [
       "constant_pattern",
       "_expression_statement_expression"
+    ],
+    [
+      "assignment_expression",
+      "_expression"
     ]
   ],
   "precedences": [],
