@@ -135,3 +135,190 @@ file class file { }
     (modifier)
     (identifier)
     (declaration_list)))
+
+================================================================================
+Scoped contextual keyword
+================================================================================
+
+void scoped() { }
+void m(scoped p) { }
+void m(scoped ref int p) { }
+void m(scoped ref scoped p) { }
+void m(int scoped) { }
+void m()
+{
+    scoped v = null;
+    scoped ref int v = null;
+    scoped ref scoped v = null;
+    int scoped = null;
+
+    scoped();
+    m(scoped);
+
+    var x = scoped + 1;
+    var l = scoped => null;
+    var l = (scoped i) => null;
+    var l = (scoped, i) => null;
+    var l = scoped (int i, int j) => null;
+}
+
+class scoped { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (parameter_modifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (parameter_modifier)
+          (parameter_modifier)
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (parameter_modifier)
+          (parameter_modifier)
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (scoped_type
+              (identifier))
+            (variable_declarator
+              (identifier
+                (MISSING _identifier_token))
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (scoped_type
+              (ref_type
+                (predefined_type)))
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (scoped_type
+              (ref_type
+                (identifier)))
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (ERROR
+          (parameter_list))
+        (empty_statement)
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (ERROR))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (ERROR)
+                (prefix_unary_expression
+                  (integer_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (ERROR)
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (parameter_modifier)
+                      (identifier)))
+                  (null_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (parameter_modifier)
+                      (ERROR)
+                      (identifier)))
+                  (null_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (ERROR)
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier))
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (null_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))
