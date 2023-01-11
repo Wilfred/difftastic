@@ -1788,43 +1788,53 @@ module.exports = grammar({
     // Custom non-Roslyn additions beyond this point that will not sync up with grammar.txt
 
     // Contextual keywords - keywords that can also be identifiers...
+    // The below list contains all contextual keywords listed in https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/#contextual-keywords
+    // Tree-sitter performs context-aware lexing, so some of these are not going to be needed and can be commented out. The list should be kept for completeness.
+    // Currently keywords are commented out based on whether they were in the grammar already or not.
     _contextual_keywords: $ => choice(
-      // LINQ comprehension syntax
+      'add',
+      'alias',
+      // 'and',
+      // 'args',
       'ascending',
+      // 'async',
+      // 'await',
       'by',
       'descending',
+      'dynamic',
       'equals',
+      'file',
       'from',
+      'get',
+      'global',
       'group',
+      // 'init',
       'into',
       'join',
       'let',
-      'on',
-      'orderby',
-      'select',
-      'where',
-
-      // Property/event handlers
-      'add',
-      'get',
-      'remove',
-      'set',
-
-      // Async - These need to be more contextual
-      // 'async',
-      // 'await',
-
-      // Misc
-      'global',
-      'alias',
-      'dynamic',
+      // 'managed',
       'nameof',
+      // 'nint',
+      // 'not',
       'notnull',
+      // 'nuint',
+      'on',
+      // 'or',
+      'orderby',
+      // 'partial',
+      // 'record',
+      'remove',
+      // 'required',
+      // 'scoped',
+      'select',
+      'set',
       'unmanaged',
+      // 'value',
+      // 'var',
       'when',
+      'where',
+      // 'with',
       'yield',
-
-      'file'
     ),
 
     // Preprocessor

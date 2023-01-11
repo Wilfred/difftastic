@@ -9755,6 +9755,14 @@
       "members": [
         {
           "type": "STRING",
+          "value": "add"
+        },
+        {
+          "type": "STRING",
+          "value": "alias"
+        },
+        {
+          "type": "STRING",
           "value": "ascending"
         },
         {
@@ -9767,11 +9775,27 @@
         },
         {
           "type": "STRING",
+          "value": "dynamic"
+        },
+        {
+          "type": "STRING",
           "value": "equals"
         },
         {
           "type": "STRING",
+          "value": "file"
+        },
+        {
+          "type": "STRING",
           "value": "from"
+        },
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "global"
         },
         {
           "type": "STRING",
@@ -9791,6 +9815,14 @@
         },
         {
           "type": "STRING",
+          "value": "nameof"
+        },
+        {
+          "type": "STRING",
+          "value": "notnull"
+        },
+        {
+          "type": "STRING",
           "value": "on"
         },
         {
@@ -9799,47 +9831,15 @@
         },
         {
           "type": "STRING",
-          "value": "select"
-        },
-        {
-          "type": "STRING",
-          "value": "where"
-        },
-        {
-          "type": "STRING",
-          "value": "add"
-        },
-        {
-          "type": "STRING",
-          "value": "get"
-        },
-        {
-          "type": "STRING",
           "value": "remove"
         },
         {
           "type": "STRING",
+          "value": "select"
+        },
+        {
+          "type": "STRING",
           "value": "set"
-        },
-        {
-          "type": "STRING",
-          "value": "global"
-        },
-        {
-          "type": "STRING",
-          "value": "alias"
-        },
-        {
-          "type": "STRING",
-          "value": "dynamic"
-        },
-        {
-          "type": "STRING",
-          "value": "nameof"
-        },
-        {
-          "type": "STRING",
-          "value": "notnull"
         },
         {
           "type": "STRING",
@@ -9851,11 +9851,11 @@
         },
         {
           "type": "STRING",
-          "value": "yield"
+          "value": "where"
         },
         {
           "type": "STRING",
-          "value": "file"
+          "value": "yield"
         }
       ]
     },
