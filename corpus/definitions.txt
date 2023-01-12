@@ -1015,8 +1015,7 @@ Inline given (Scala 3)
 =======================================
 
 inline given Test = 
-  new Test:
-    def apply(i: Int) = 2
+  new Test
 
 ---
 
@@ -1024,19 +1023,7 @@ inline given Test =
   (given_definition
     (modifiers (inline_modifier))
     (type_identifier)
-    (assignment_expression
-      (instance_expression
-        (ascription_expression
-          (identifier)
-          (infix_type
-            (type_identifier)
-            (identifier)
-            (tuple_type
-              (infix_type
-                (type_identifier)
-                (operator_identifier)
-                (type_identifier))))))
-      (integer_literal))))
+      (instance_expression (type_identifier))))
 
 
 =======================================

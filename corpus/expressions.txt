@@ -250,7 +250,7 @@ def main() {
               (case_class_pattern
                 (type_identifier)
                 (identifier))
-              (throw_expression (instance_expression (call_expression (identifier) (arguments (identifier))))
+              (throw_expression (instance_expression (type_identifier) (arguments (identifier)))
               )
             )
           )
@@ -314,7 +314,7 @@ def main(): Unit =
               (case_class_pattern
                 (type_identifier)
                 (identifier))
-              (throw_expression (instance_expression (call_expression (identifier) (arguments (identifier))))
+              (throw_expression (instance_expression (type_identifier) (arguments (identifier)))
               )
             )
           )
@@ -428,8 +428,17 @@ Instance expressions
 
 class C {
   def main() {
-    a = new B
-    c = new D(e, f)
+    val a = new B
+    val c = new D(e, f)
+    val e = new E:
+      def app = 1
+    val f = new:
+      def app = 1
+    val g = new G {}
+    val i = new {
+      "ok"
+    }
+    new Array: Array
   }
 }
 
@@ -443,8 +452,29 @@ class C {
         (identifier)
         (parameters)
         (block
-          (assignment_expression (identifier) (instance_expression (identifier)))
-          (assignment_expression (identifier) (instance_expression (call_expression (identifier) (arguments (identifier) (identifier))))))))))
+          (val_definition
+             (identifier)
+             (instance_expression (type_identifier)))
+          (val_definition
+             (identifier)
+             (instance_expression (type_identifier) (arguments (identifier) (identifier))))
+          (val_definition
+             (identifier)
+             (instance_expression (type_identifier) (template_body
+               (function_definition (identifier) (integer_literal)))))
+          (val_definition
+             (identifier)
+             (instance_expression (template_body
+               (function_definition (identifier) (integer_literal)))))
+          (val_definition
+             (identifier)
+             (instance_expression (type_identifier) (template_body)))
+          (val_definition
+             (identifier)
+             (instance_expression (template_body (string))))
+          (ascription_expression
+             (instance_expression (type_identifier))
+             (type_identifier)))))))
 
 ===============================
 Infix expressions
