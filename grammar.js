@@ -973,6 +973,10 @@ module.exports = grammar({
       )),
     ),
 
+    /**
+     *   ColonArgument     ::=  colon [LambdaStart]
+     *                          (CaseClauses | Block)
+     */
     colon_argument: $ => prec.left(PREC.colon_call, seq(
       optional(field('lambda_start', seq(
         choice(
@@ -982,13 +986,10 @@ module.exports = grammar({
         ),
         '=>',
       ))),
-      $._colon_argument_block,
-    )),
-
-    _colon_argument_block: $ => prec.left(seq(
-      $._indent,
-      field('body', $._block),
-      $._outdent,
+      choice(
+        $.indented_block,
+        $.indented_cases,
+      ),
     )),
 
     field_expression: $ => prec.left(PREC.field, seq(

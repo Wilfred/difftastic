@@ -60,6 +60,9 @@ class C:
     val x = 1
     List(x)
 
+  xs.map:
+    case x => x
+
   // This is ascription
   xs: Int
   // This is call_expression
@@ -76,35 +79,42 @@ class C:
         (field_expression (identifier) (identifier))
         (colon_argument
          (identifier)
-         (infix_expression (identifier) (operator_identifier) (integer_literal))))
+         (indented_block (infix_expression (identifier) (operator_identifier) (integer_literal)))))
 
       (call_expression
         (field_expression (identifier) (identifier))
         (colon_argument
-         (lambda_expression (identifier) 
-           (infix_expression (identifier) (operator_identifier) (integer_literal)))))
+         (indented_block (lambda_expression (identifier)
+           (infix_expression (identifier) (operator_identifier) (integer_literal))))))
 
       (call_expression
         (identifier)
         (colon_argument
-          (call_expression
+          (indented_block (call_expression
             (identifier)
-            (arguments (string)))))
+            (arguments (string))))))
 
       (infix_expression
         (identifier)
         (identifier)
-        (colon_argument
+        (colon_argument (indented_block
           (val_definition
             (identifier)
             (integer_literal))
-          (call_expression (identifier) (arguments (identifier)))))
+          (call_expression (identifier) (arguments (identifier))))))
+
+      (call_expression
+        (field_expression (identifier) (identifier))
+        (colon_argument
+          (indented_cases (case_clause
+            (identifier)
+            (identifier)))))
 
       (comment)
       (ascription_expression (identifier) (type_identifier))
 
       (comment)
-      (call_expression (identifier) (colon_argument (identifier))))))
+      (call_expression (identifier) (colon_argument (indented_block (identifier)))))))
 
 ===============================
 Generic functions
