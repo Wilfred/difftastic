@@ -355,7 +355,7 @@ void A() {
       (block
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -388,7 +388,7 @@ void A() {
       (block
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -420,7 +420,7 @@ var x = (Point) p1 with {X = 3};
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -445,7 +445,7 @@ var x = p1 with {X = 3} switch { _ => 3 };
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -472,7 +472,7 @@ var x = p1 with {X = 3} == p1 with {X = 4};
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -502,7 +502,7 @@ var x = p1 with {X = 3} with {X = 4} with {X = 5};
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause

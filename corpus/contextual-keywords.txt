@@ -10,7 +10,7 @@ var a = Assert.Range(from, to);
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -124,7 +124,7 @@ file class file { }
                 (identifier)))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -263,7 +263,7 @@ class scoped { }
                 (identifier)))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -272,7 +272,7 @@ class scoped { }
                   (integer_literal))))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -281,7 +281,7 @@ class scoped { }
                   (null_literal))))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -293,7 +293,7 @@ class scoped { }
                   (null_literal))))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -306,7 +306,7 @@ class scoped { }
                   (null_literal))))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -403,7 +403,7 @@ class set { }
                 (identifier)))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -450,7 +450,7 @@ class var { }
       (identifier)
       (parameter_list
         (parameter
-          (implicit_type)
+          (identifier)
           (identifier)))
       (block)))
   (global_statement
@@ -470,7 +470,7 @@ class var { }
       (block
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -479,32 +479,34 @@ class var { }
           (variable_declaration
             (predefined_type)
             (variable_declarator
-              (identifier)))
-          (ERROR
-            (implicit_type)))
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
                 (integer_literal)))))
-        (local_function_statement
-          (implicit_type)
-          (ERROR
-            (parameter_list))
-          (identifier)
-          (parameter_list
-            (ERROR
-              (implicit_type))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
         (local_declaration_statement
           (variable_declaration
-            (implicit_type)
+            (identifier)
             (variable_declarator
               (identifier)
               (equals_value_clause
-                (ERROR)
-                (prefix_unary_expression
+                (binary_expression
+                  (identifier)
                   (integer_literal)))))))))
   (class_declaration
     (identifier)

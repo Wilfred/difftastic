@@ -9829,6 +9829,10 @@
         },
         {
           "type": "STRING",
+          "value": "var"
+        },
+        {
+          "type": "STRING",
           "value": "when"
         },
         {
@@ -10713,6 +10717,10 @@
     [
       "_contextual_keywords",
       "_parameter_type_with_modifiers"
+    ],
+    [
+      "_contextual_keywords",
+      "implicit_type"
     ],
     [
       "_type",

@@ -462,7 +462,7 @@ var greeting = [Hello] () => Console.WriteLine("hello");
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (implicit_type)
+        (identifier)
         (variable_declarator
           (identifier)
           (equals_value_clause

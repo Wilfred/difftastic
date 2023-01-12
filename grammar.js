@@ -72,6 +72,7 @@ module.exports = grammar({
     [$._contextual_keywords, $.scoped_type],
     [$._contextual_keywords, $.scoped_type, $._parameter_type_with_modifiers],
     [$._contextual_keywords, $._parameter_type_with_modifiers],
+    [$._contextual_keywords, $.implicit_type],
 
     [$._type, $.attribute],
     [$._type, $._nullable_base_type],
@@ -1833,7 +1834,7 @@ module.exports = grammar({
       // 'set',
       'unmanaged',
       // 'value',
-      // 'var',
+      'var',
       'when',
       'where',
       // 'with',
