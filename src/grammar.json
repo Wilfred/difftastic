@@ -9788,10 +9788,6 @@
         },
         {
           "type": "STRING",
-          "value": "dynamic"
-        },
-        {
-          "type": "STRING",
           "value": "equals"
         },
         {
@@ -9825,10 +9821,6 @@
         {
           "type": "STRING",
           "value": "let"
-        },
-        {
-          "type": "STRING",
-          "value": "nameof"
         },
         {
           "type": "STRING",

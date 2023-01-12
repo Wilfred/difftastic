@@ -7200,10 +7200,6 @@
     "named": false
   },
   {
-    "type": "dynamic",
-    "named": false
-  },
-  {
     "type": "elif",
     "named": false
   },
@@ -7369,10 +7365,6 @@
   },
   {
     "type": "module",
-    "named": false
-  },
-  {
-    "type": "nameof",
     "named": false
   },
   {
