@@ -658,7 +658,8 @@ module.exports = grammar({
       $.compound_type,
       $.infix_type,
       $._annotated_type,
-      $.literal_type
+      $.literal_type,
+      alias($.template_body, $.structural_type)
     ),
 
     // TODO: Make this a visible type, so that _type can be a supertype.
