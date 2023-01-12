@@ -23,15 +23,15 @@ opaque type Blow <: Int = 25
 //            ^type.definition
 
 inline given Test = new Test {
-// ^ keyword
+// ^ storageclass
   inline def hello(inline x: Boolean) = 
-// ^ keyword
-//                   ^ keyword
+// ^ storageclass
+//                   ^ storageclass
     inline if x then "hi" else "bye" 
-    // ^keyword
+    // ^storageclass
     //            ^conditional
     inline x match 
-    // ^keyword
+    // ^storageclass
       case true => 25 
       case false => 26 
 }

@@ -136,7 +136,6 @@
 ;; keywords
 
 (opaque_modifier) @type.qualifier
-(inline_modifier) @keyword
 (infix_modifier) @keyword
 (transparent_modifier) @type.qualifier
 (open_modifier) @type.qualifier
@@ -170,10 +169,16 @@
   "final"
   "using"
   "lazy"
-  "private"
-  "protected"
   "sealed"
 ] @type.qualifier
+
+(inline_modifier) @storageclass
+
+[
+  "private"
+  "protected"
+] @storageclass
+
 
 (null_literal) @constant.builtin
 
