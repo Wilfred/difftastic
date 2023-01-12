@@ -27,7 +27,7 @@ object Hello {
   }
 
   protected abstract class Bla(test: String)
-//    ^type.qualifier  
+//    ^storageclass
 //                    ^keyword
 //            ^type.qualifier 
 //                              ^parameter
