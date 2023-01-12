@@ -41,5 +41,14 @@ object Hello {
 //  ^constant
 //        ^type
   }
+
+  type A = { def fly(): Unit }
+//            ^keyword.function
+//                ^method
+//                       ^type
+
+  type A = B[({ type f[x] = M[S, x] })#f]
+//               ^keyword
+//                   ^type.definition
 }
 
