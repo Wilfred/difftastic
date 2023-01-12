@@ -413,3 +413,99 @@ class set { }
   (class_declaration
     (identifier)
     (declaration_list)))
+
+================================================================================
+Var contextual keyword
+================================================================================
+
+void var() { }
+void m(var p) { }
+void m(int var) { }
+void m()
+{
+    var v = null;
+    int var = var;
+    var var = 1;
+
+    var();
+    m(var);
+
+    var x = var + 1;
+}
+
+class var { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (implicit_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)))
+          (ERROR
+            (implicit_type)))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (integer_literal)))))
+        (local_function_statement
+          (implicit_type)
+          (ERROR
+            (parameter_list))
+          (identifier)
+          (parameter_list
+            (ERROR
+              (implicit_type))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (ERROR)
+                (prefix_unary_expression
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))
