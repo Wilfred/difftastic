@@ -60,6 +60,12 @@ class C:
     val x = 1
     List(x)
 
+  // This is ascription
+  xs: Int
+  // This is call_expression
+  xs:
+    Int
+
 ---
 
 (compilation_unit
@@ -92,7 +98,13 @@ class C:
           (val_definition
             (identifier)
             (integer_literal))
-          (call_expression (identifier) (arguments (identifier))))))))
+          (call_expression (identifier) (arguments (identifier)))))
+
+      (comment)
+      (ascription_expression (identifier) (type_identifier))
+
+      (comment)
+      (call_expression (identifier) (colon_argument (identifier))))))
 
 ===============================
 Generic functions

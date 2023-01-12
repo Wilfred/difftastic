@@ -19,6 +19,15 @@ class C:
     val x = 1
     List(x)
 
+  // This is an ascription
+  val y = x: Int
+  //         ^type
+
+  // This is SIP-44
+  val y = x:
+    Int
+    //^constant
+
 // Ascription expression
 class C:
   foooo: Int
