@@ -1025,7 +1025,6 @@ inline given Test =
     (type_identifier)
       (instance_expression (type_identifier))))
 
-
 =======================================
 Infix methods (Scala 3)
 =======================================
