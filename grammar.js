@@ -1397,6 +1397,7 @@ module.exports = grammar({
       ...[
         '!',
         '&',
+        // '*', Handled separately in _pointer_indirection_expression
         '+',
         '++',
         '-',
@@ -1405,7 +1406,7 @@ module.exports = grammar({
         '~'
       ].map(operator => seq(operator, $._expression)))),
 
-    _pointer_indirection_expression: $ => prec(PREC.UNARY, seq('*', $._expression)),
+    _pointer_indirection_expression: $ => prec.right(PREC.UNARY, seq('*', $._expression)),
 
     query_expression: $ => seq($.from_clause, $._query_body),
 

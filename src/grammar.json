@@ -7525,7 +7525,7 @@
       }
     },
     "_pointer_indirection_expression": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 17,
       "content": {
         "type": "SEQ",
