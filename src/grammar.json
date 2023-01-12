@@ -9757,10 +9757,6 @@
       "members": [
         {
           "type": "STRING",
-          "value": "add"
-        },
-        {
-          "type": "STRING",
           "value": "alias"
         },
         {
@@ -9786,10 +9782,6 @@
         {
           "type": "STRING",
           "value": "from"
-        },
-        {
-          "type": "STRING",
-          "value": "get"
         },
         {
           "type": "STRING",
@@ -9825,19 +9817,11 @@
         },
         {
           "type": "STRING",
-          "value": "remove"
-        },
-        {
-          "type": "STRING",
           "value": "scoped"
         },
         {
           "type": "STRING",
           "value": "select"
-        },
-        {
-          "type": "STRING",
-          "value": "set"
         },
         {
           "type": "STRING",
@@ -10708,10 +10692,6 @@
     [
       "_contextual_keywords",
       "global"
-    ],
-    [
-      "_contextual_keywords",
-      "accessor_declaration"
     ],
     [
       "_contextual_keywords",
