@@ -229,7 +229,7 @@ module.exports = grammar({
     ),
 
     attribute: $ => seq(
-      field('name', $._name),
+      field('name', $._type_name),
       optional($.attribute_argument_list)
     ),
 
@@ -682,7 +682,7 @@ module.exports = grammar({
     _type: $ => choice(
       $.implicit_type,
       $.array_type,
-      $._name,
+      $._type_name,
       $.nullable_type,
       $.pointer_type,
       $.function_pointer_type,
@@ -692,7 +692,12 @@ module.exports = grammar({
       $.scoped_type,
     ),
 
-    implicit_type: $ => 'var',
+    _type_name: $ => prec.dynamic(0, // `var` could be `_type_name`, but we prefer `implicit_type`
+      $._name
+    ),
+
+    implicit_type: $ => prec.dynamic(1, // Higher precedence than `_type_name`
+      'var'),
 
     array_type: $ => seq(
       field('type', $._array_base_type),
@@ -701,7 +706,7 @@ module.exports = grammar({
 
     _array_base_type: $ => choice(
       $.array_type,
-      $._name,
+      $._type_name,
       $.nullable_type,
       $.pointer_type,
       $.function_pointer_type,
@@ -717,7 +722,7 @@ module.exports = grammar({
 
     _nullable_base_type: $ => choice(
       $.array_type,
-      $._name,
+      $._type_name,
       $.predefined_type,
       $.tuple_type
     ),
@@ -725,7 +730,7 @@ module.exports = grammar({
     pointer_type: $ => seq($._pointer_base_type, '*'),
 
     _pointer_base_type: $ => choice(
-      $._name,
+      $._type_name,
       $.nullable_type,
       $.pointer_type,
       $.function_pointer_type,
@@ -800,7 +805,7 @@ module.exports = grammar({
     _ref_base_type: $ => choice(
       $.implicit_type,
       $.array_type,
-      $._name,
+      $._type_name,
       $.nullable_type,
       $.pointer_type,
       $.function_pointer_type,
@@ -814,7 +819,7 @@ module.exports = grammar({
     ),
 
     _scoped_base_type: $ => choice(
-      $._name,
+      $._type_name,
       $.ref_type,
     ),
 
@@ -1377,7 +1382,7 @@ module.exports = grammar({
     )),
 
     _object_creation_type: $ => choice(
-      $._name,
+      $._type_name,
       $.nullable_type,
       $.predefined_type,
     ),

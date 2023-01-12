@@ -451,7 +451,7 @@ var result = list.Select(c => (c.f1, c.f2)).Where(t => t.f2 == 1);
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -935,7 +935,7 @@ class A {
         (block
           (local_declaration_statement
             (variable_declaration
-              (identifier)
+              (implicit_type)
               (variable_declarator
                 (identifier)
                 (equals_value_clause
@@ -1201,7 +1201,7 @@ class A {
           (local_declaration_statement
             (variable_declaration
               (ref_type
-                (identifier))
+                (implicit_type))
               (variable_declarator
                 (identifier)
                 (equals_value_clause
@@ -1224,7 +1224,7 @@ var g = args[0].Length;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -1261,7 +1261,7 @@ class A {
         (block
           (using_statement
             (variable_declaration
-              (identifier)
+              (implicit_type)
               (variable_declarator
                 (identifier)
                 (equals_value_clause
@@ -1339,7 +1339,7 @@ class A {
         (block
           (local_declaration_statement
             (variable_declaration
-              (identifier)
+              (implicit_type)
               (variable_declarator
                 (identifier)
                 (equals_value_clause
@@ -1494,13 +1494,10 @@ class A {
         (parameter_list)
         (block
           (for_each_statement
-            (invocation_expression
+            (implicit_type)
+            (tuple_pattern
               (identifier)
-              (argument_list
-                (argument
-                  (identifier))
-                (argument
-                  (identifier))))
+              (identifier))
             (identifier)
             (expression_statement
               (assignment_expression
@@ -1665,11 +1662,11 @@ class A {
               (tuple_expression
                 (argument
                   (declaration_expression
-                    (identifier)
+                    (implicit_type)
                     (identifier)))
                 (argument
                   (declaration_expression
-                    (identifier)
+                    (implicit_type)
                     (identifier))))
               (assignment_operator)
               (identifier)))
@@ -1772,7 +1769,7 @@ async void Sample() {
       (block
         (local_declaration_statement
           (variable_declaration
-            (identifier)
+            (implicit_type)
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -1855,7 +1852,7 @@ ref T Choice(bool condition, ref T a, ref T b)
         (local_declaration_statement
           (variable_declaration
             (ref_type
-              (identifier))
+              (implicit_type))
             (variable_declarator
               (identifier)
               (equals_value_clause
@@ -1907,7 +1904,7 @@ var a = global => global.Single();
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause

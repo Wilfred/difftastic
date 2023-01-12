@@ -10,7 +10,7 @@ var x = from a in source select a.B;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -35,7 +35,7 @@ var x = from a in source select a * 2;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -60,7 +60,7 @@ var x = from a in source select a.B();
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -87,7 +87,7 @@ var x = from a in source select a ? 0 : 1;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -113,7 +113,7 @@ var x = from a in source select somevar = a;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -139,7 +139,7 @@ var x = from a in source select new { Name = a.B };
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -169,7 +169,7 @@ var x = from a in source
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -200,7 +200,7 @@ var x = from a in source
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -244,7 +244,7 @@ var x = from a in source
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -279,7 +279,7 @@ var x = from a in source
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -313,7 +313,7 @@ var x = from a in sourceA
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -354,7 +354,7 @@ var x = from a in sourceA
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -396,7 +396,7 @@ var x = from a in sourceA
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause

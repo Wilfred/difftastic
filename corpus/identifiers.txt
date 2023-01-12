@@ -79,7 +79,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -87,7 +87,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -95,7 +95,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -103,7 +103,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -111,7 +111,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -119,7 +119,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
@@ -127,7 +127,7 @@ var _كوكبxxx = 0;
   (global_statement
     (local_declaration_statement
       (variable_declaration
-        (identifier)
+        (implicit_type)
         (variable_declarator
           (identifier)
           (equals_value_clause
