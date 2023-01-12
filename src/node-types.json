@@ -12,6 +12,10 @@
         "named": true
       },
       {
+        "type": "export_declaration",
+        "named": true
+      },
+      {
         "type": "extension_definition",
         "named": true
       },
@@ -1712,6 +1716,40 @@
     }
   },
   {
+    "type": "export_declaration",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "namespace_selectors",
+          "named": true
+        },
+        {
+          "type": "namespace_wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "extends_clause",
     "named": true,
     "fields": {
@@ -2458,6 +2496,16 @@
     "type": "given_definition",
     "named": true,
     "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
       "body": {
         "multiple": false,
         "required": true,
@@ -2502,6 +2550,10 @@
         "types": [
           {
             "type": "annotation",
+            "named": true
+          },
+          {
+            "type": "arguments",
             "named": true
           },
           {
@@ -2787,11 +2839,11 @@
       "required": false,
       "types": [
         {
-          "type": "import_selectors",
+          "type": "namespace_selectors",
           "named": true
         },
         {
-          "type": "import_wildcard",
+          "type": "namespace_wildcard",
           "named": true
         }
       ]
@@ -2826,15 +2878,15 @@
           "named": true
         },
         {
-          "type": "import_wildcard",
-          "named": true
-        },
-        {
           "type": "infix_type",
           "named": true
         },
         {
           "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "namespace_wildcard",
           "named": true
         },
         {
@@ -2859,11 +2911,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "import_wildcard",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "indented_block",
@@ -3250,13 +3297,52 @@
   {
     "type": "instance_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
-          "type": "expression",
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "compound_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "projected_type",
+          "named": true
+        },
+        {
+          "type": "stable_type_identifier",
+          "named": true
+        },
+        {
+          "type": "template_body",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -3543,6 +3629,74 @@
         }
       ]
     }
+  },
+  {
+    "type": "namespace_selectors",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "compound_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_type",
+          "named": true
+        },
+        {
+          "type": "literal_type",
+          "named": true
+        },
+        {
+          "type": "namespace_wildcard",
+          "named": true
+        },
+        {
+          "type": "projected_type",
+          "named": true
+        },
+        {
+          "type": "renamed_identifier",
+          "named": true
+        },
+        {
+          "type": "stable_type_identifier",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace_wildcard",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "object_definition",
@@ -5668,6 +5822,10 @@
   },
   {
     "type": "enum",
+    "named": false
+  },
+  {
+    "type": "export",
     "named": false
   },
   {
