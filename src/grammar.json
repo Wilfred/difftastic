@@ -3629,10 +3629,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_pointer_type"
-        },
-        {
-          "type": "SYMBOL",
           "name": "predefined_type"
         },
         {
@@ -3657,10 +3653,6 @@
     "_pointer_base_type": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "array_type"
-        },
         {
           "type": "SYMBOL",
           "name": "_name"
@@ -10783,10 +10775,6 @@
       "stack_alloc_array_creation_expression"
     ],
     [
-      "_pointer_base_type",
-      "stack_alloc_array_creation_expression"
-    ],
-    [
       "_ref_base_type",
       "_array_base_type"
     ],
@@ -10821,10 +10809,6 @@
     [
       "array_creation_expression",
       "_nullable_base_type"
-    ],
-    [
-      "array_creation_expression",
-      "_pointer_base_type"
     ],
     [
       "_parameter_type_with_modifiers",

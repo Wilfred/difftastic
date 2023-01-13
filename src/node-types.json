@@ -4226,10 +4226,6 @@
           "named": true
         },
         {
-          "type": "function_pointer_type",
-          "named": true
-        },
-        {
           "type": "generic_name",
           "named": true
         },
@@ -5071,10 +5067,6 @@
       "types": [
         {
           "type": "alias_qualified_name",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
