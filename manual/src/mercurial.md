@@ -31,7 +31,7 @@ If you just want to view the diff of the most recent commit, you can
 use the following.
 
 ```
-GIT_PAGER_IN_USE=1 hg dft -r .^ -r . | less
+hg dft -r .^ -r .
 ```
 
 This is equivalent to `hg log -l 1 -p`, although it does not show the
