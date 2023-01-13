@@ -1,0 +1,3 @@
+#!/bin/bash
+
+wc -l -m src/*.* | awk '{printf("%-20s\t%0.1fMB\t%10s\n", $3, $2/1048576, $1)}' > script/file_sizes.txt
