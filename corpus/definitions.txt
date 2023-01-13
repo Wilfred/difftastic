@@ -335,6 +335,8 @@ object C {
 
 class D(c: String) extends E(c) with F
 
+class MyClass extends Potato() with Tomato
+
 ---
 
 (compilation_unit
@@ -368,6 +370,11 @@ class D(c: String) extends E(c) with F
       (class_parameter (identifier) (type_identifier)))
     (extends_clause
        (type_identifier) (arguments (identifier))
+       (type_identifier)))
+  (class_definition
+    (identifier)
+    (extends_clause
+       (type_identifier) (arguments)
        (type_identifier))))
 
 =======================================
