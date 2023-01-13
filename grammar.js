@@ -1379,10 +1379,7 @@ module.exports = grammar({
     _object_creation_type: $ => choice(
       $._name,
       $.nullable_type,
-      $.pointer_type,
-      $.function_pointer_type,
       $.predefined_type,
-      $.tuple_type
     ),
 
     parenthesized_expression: $ => seq('(', $._non_lvalue_expression, ')'),

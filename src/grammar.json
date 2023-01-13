@@ -7314,19 +7314,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pointer_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_pointer_type"
-        },
-        {
-          "type": "SYMBOL",
           "name": "predefined_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "tuple_type"
         }
       ]
     },
