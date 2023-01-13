@@ -82,7 +82,6 @@ module.exports = grammar({
 
     [$._nullable_base_type, $.stack_alloc_array_creation_expression],
     [$._array_base_type, $.stack_alloc_array_creation_expression],
-    [$._pointer_base_type, $.stack_alloc_array_creation_expression],
 
     [$._ref_base_type, $._array_base_type],
     [$._ref_base_type, $._nullable_base_type],
@@ -95,7 +94,6 @@ module.exports = grammar({
 
     [$.array_creation_expression, $._array_base_type],
     [$.array_creation_expression, $._nullable_base_type],
-    [$.array_creation_expression, $._pointer_base_type],
 
     [$._parameter_type_with_modifiers, $.this_expression],
     [$._parameter_type_with_modifiers, $.ref_type],
@@ -720,7 +718,6 @@ module.exports = grammar({
     _nullable_base_type: $ => choice(
       $.array_type,
       $._name,
-      $.function_pointer_type,
       $.predefined_type,
       $.tuple_type
     ),
@@ -728,7 +725,6 @@ module.exports = grammar({
     pointer_type: $ => seq($._pointer_base_type, '*'),
 
     _pointer_base_type: $ => choice(
-      $.array_type,
       $._name,
       $.nullable_type,
       $.pointer_type,
@@ -1383,10 +1379,7 @@ module.exports = grammar({
     _object_creation_type: $ => choice(
       $._name,
       $.nullable_type,
-      $.pointer_type,
-      $.function_pointer_type,
       $.predefined_type,
-      $.tuple_type
     ),
 
     parenthesized_expression: $ => seq('(', $._non_lvalue_expression, ')'),

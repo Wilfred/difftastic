@@ -4226,10 +4226,6 @@
           "named": true
         },
         {
-          "type": "function_pointer_type",
-          "named": true
-        },
-        {
           "type": "generic_name",
           "named": true
         },
@@ -4289,10 +4285,6 @@
             "named": true
           },
           {
-            "type": "function_pointer_type",
-            "named": true
-          },
-          {
             "type": "generic_name",
             "named": true
           },
@@ -4309,19 +4301,11 @@
             "named": true
           },
           {
-            "type": "pointer_type",
-            "named": true
-          },
-          {
             "type": "predefined_type",
             "named": true
           },
           {
             "type": "qualified_name",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
             "named": true
           }
         ]
@@ -5071,10 +5055,6 @@
       "types": [
         {
           "type": "alias_qualified_name",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
