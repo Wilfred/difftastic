@@ -413,3 +413,101 @@ class set { }
   (class_declaration
     (identifier)
     (declaration_list)))
+
+================================================================================
+Var contextual keyword
+================================================================================
+
+void var() { }
+void m(var p) { }
+void m(int var) { }
+void m()
+{
+    var v = null;
+    int var = var;
+    var var = 1;
+
+    var();
+    m(var);
+
+    var x = var + 1;
+}
+
+class var { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (implicit_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (integer_literal)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))

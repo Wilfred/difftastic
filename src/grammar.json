@@ -518,7 +518,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "_name"
+            "name": "_type_name"
           }
         },
         {
@@ -3451,7 +3451,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -3483,9 +3483,21 @@
         }
       ]
     },
+    "_type_name": {
+      "type": "PREC_DYNAMIC",
+      "value": 0,
+      "content": {
+        "type": "SYMBOL",
+        "name": "_name"
+      }
+    },
     "implicit_type": {
-      "type": "STRING",
-      "value": "var"
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "STRING",
+        "value": "var"
+      }
     },
     "array_type": {
       "type": "SEQ",
@@ -3517,7 +3529,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -3625,7 +3637,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -3655,7 +3667,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -3991,7 +4003,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -4033,7 +4045,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -7306,7 +7318,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_name"
+          "name": "_type_name"
         },
         {
           "type": "SYMBOL",
@@ -9829,6 +9841,10 @@
         },
         {
           "type": "STRING",
+          "value": "var"
+        },
+        {
+          "type": "STRING",
           "value": "when"
         },
         {
@@ -10713,6 +10729,10 @@
     [
       "_contextual_keywords",
       "_parameter_type_with_modifiers"
+    ],
+    [
+      "_contextual_keywords",
+      "implicit_type"
     ],
     [
       "_type",
