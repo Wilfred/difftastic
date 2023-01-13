@@ -1165,7 +1165,28 @@ module.exports = grammar({
 
     wildcard: $ => '_',
 
-    operator_identifier: $ => /[!#%&*+-\/:<=>?@'^\|‘~\p{Sm}\p{So}]+/,
+    /**
+     * Regex patterns created to avoid matching // comments.
+     * This could technically match illeagal tokens such as val ?// = 1
+     */
+    operator_identifier: $ => token(choice(
+      // single opchar
+      /[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+      seq(
+        // opchar minus slash
+        /[\-!#%&*+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+        // opchar*
+        repeat1(/[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/),
+      ),
+      seq(
+        // opchar
+        /[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+        // opchar minus slash
+        /[\-!#%&*+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+        // opchar*
+        repeat(/[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/),
+      ),
+    )),
 
     _non_null_literal: $ => 
       choice(

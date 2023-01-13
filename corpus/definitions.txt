@@ -58,6 +58,11 @@ def → = ???
 
 val test = id.##
 
+val x = y
+/////////
+// avoid matching slashes as operator
+/////////
+
 ---
 
 (compilation_unit
@@ -66,21 +71,13 @@ val test = id.##
     (type_parameters
       (covariant_type_parameter
         (identifier)))
-    (infix_type
-      (stable_type_identifier
-        (stable_identifier
-          (identifier)
-          (identifier))
+    (generic_type
+      (stable_type_identifier (stable_identifier (stable_identifier (identifier) (identifier)) (identifier))
         (type_identifier))
-      (operator_identifier)
-      (generic_type
-        (type_identifier
-          (MISSING _alpha_identifier))
-        (type_arguments
-          (type_identifier)))))
+      (type_arguments (type_identifier))))
   (val_definition
     (operator_identifier)
-    (postfix_expression
+    (field_expression
       (field_expression
         (field_expression
           (identifier)
@@ -89,14 +86,14 @@ val test = id.##
       (operator_identifier)))
   (val_definition
     (operator_identifier)
-    (postfix_expression
+    (field_expression
       (field_expression
         (identifier)
         (identifier))
       (operator_identifier)))
   (val_definition
     (operator_identifier)
-    (postfix_expression
+    (field_expression
       (field_expression
         (identifier)
         (identifier))
@@ -104,9 +101,13 @@ val test = id.##
   (function_definition (operator_identifier) (operator_identifier))
   (val_definition
     (identifier)
-    (postfix_expression
+    (field_expression
       (identifier)
-      (operator_identifier))))
+      (operator_identifier)))
+  (val_definition (identifier) (identifier))
+  (comment)
+  (comment)
+  (comment))
 
 ================================
 Package
