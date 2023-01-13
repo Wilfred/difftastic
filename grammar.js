@@ -515,11 +515,11 @@ module.exports = grammar({
     /**
      * StructuralInstance ::=  ConstrApp {'with' ConstrApp} ['with' WithTemplateBody]
      */
-    _structural_instance: $ => seq(
+    _structural_instance: $ => prec.left(PREC.compound, seq(
       $._constructor_application,
       'with',
       field('body', $.with_template_body),
-    ),
+    )),
 
     /**
      * ConstrApp         ::=  SimpleType1 {Annotation} {ParArgumentExprs}
@@ -543,6 +543,11 @@ module.exports = grammar({
         $.compound_type,
         field('arguments', $.arguments),
       ),
+    )),
+
+    _constructor_applications: $ => prec.left(choice(
+      commaSep1($._constructor_application),
+      sep1('with', $._constructor_application),
     )),
 
     modifiers: $ => repeat1(choice(
@@ -575,9 +580,12 @@ module.exports = grammar({
     open_modifier: $ => 'open',
     transparent_modifier: $ => 'transparent',
 
+    /**
+     * InheritClauses    ::=  ['extends' ConstrApps] ['derives' QualId {',' QualId}]
+     */
     extends_clause: $ => prec.left(seq(
       'extends',
-      field('type', $._type),
+      field('type', $._constructor_applications),
       optional($.arguments)
     )),
 

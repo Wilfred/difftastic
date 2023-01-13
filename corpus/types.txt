@@ -114,7 +114,7 @@ class F extends Cloneable with Resetable with Serializable {}
     (type_identifier) (block))
   (class_definition (identifier)
     (extends_clause
-      (compound_type (type_identifier) (type_identifier) (type_identifier)))
+      (type_identifier) (type_identifier) (type_identifier))
     (template_body)))
 
 ==================================
