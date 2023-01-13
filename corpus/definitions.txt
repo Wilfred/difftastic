@@ -333,6 +333,8 @@ object C {
         with C[T]
 }
 
+class D(c: String) extends E(c) with F
+
 ---
 
 (compilation_unit
@@ -358,9 +360,31 @@ object C {
     (identifier)
     (template_body
         (class_definition (identifier) (extends_clause
-          (compound_type
-            (generic_type (type_identifier) (type_arguments (type_identifier)))
-            (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
+          (generic_type (type_identifier) (type_arguments (type_identifier)))
+          (generic_type (type_identifier) (type_arguments (type_identifier)))))))
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter (identifier) (type_identifier)))
+    (extends_clause
+       (type_identifier) (arguments (identifier))
+       (type_identifier))))
+
+=======================================
+Subclass definitions (Scala 3 syntax)
+=======================================
+
+class A extends B, C:
+ 1
+end A
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (extends_clause (type_identifier) (type_identifier))
+    (template_body (integer_literal))))
 
 =======================================
 Class definitions with parameters
@@ -449,7 +473,7 @@ trait T[U] extends V.W[U] {
     (extends_clause (type_identifier)))
   (trait_definition
     (identifier)
-    (extends_clause (compound_type (type_identifier) (type_identifier))))
+    (extends_clause (type_identifier) (type_identifier)))
   (trait_definition
     (identifier)
     (type_parameters (identifier))
