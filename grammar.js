@@ -67,7 +67,6 @@ module.exports = grammar({
 
     [$._contextual_keywords, $.from_clause],
     [$._contextual_keywords, $.global],
-    [$._contextual_keywords, $.accessor_declaration],
     [$._contextual_keywords, $.type_parameter_constraint],
     [$._contextual_keywords, $.modifier],
     [$._contextual_keywords, $.scoped_type],
@@ -1796,7 +1795,7 @@ module.exports = grammar({
     // Tree-sitter performs context-aware lexing, so some of these are not going to be needed and can be commented out. The list should be kept for completeness.
     // Currently keywords are commented out based on whether they were in the grammar already or not.
     _contextual_keywords: $ => choice(
-      'add',
+      // 'add',
       'alias',
       // 'and',
       // 'args',
@@ -1809,7 +1808,7 @@ module.exports = grammar({
       'equals',
       'file',
       'from',
-      'get',
+      // 'get',
       'global',
       'group',
       // 'init',
@@ -1827,11 +1826,11 @@ module.exports = grammar({
       'orderby',
       // 'partial',
       // 'record',
-      'remove',
+      // 'remove',
       // 'required',
       'scoped',
       'select',
-      'set',
+      // 'set',
       'unmanaged',
       // 'value',
       // 'var',
