@@ -1,3 +1,28 @@
+// Optional braces syntax
+class C:
+// ^keyword
+//    ^type.definition
+
+  def test(aaaa: A): Int =
+  //^keyword.function
+  //  ^method
+    // no curly braces, but this is still in test method
+    val bbb = 1
+    //^keyword
+    //  ^variable
+    val ccc = 2
+    //^keyword
+    //  ^variable
+    1
+
+object O1:
+//^keyword
+//     ^type.definition
+
+  def test: Unit = ()
+  //^keyword.function
+  //  ^method
+
 // SIP-44
 class C:
 // ^keyword
