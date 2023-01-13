@@ -362,6 +362,7 @@ fn diff_file_content(
         }
         Some(ts_lang) => {
             let arena = Arena::new();
+            // ignore here.
             let lhs = tsp::parse(&arena, &lhs_src, &ts_lang, diff_options.ignore_comments);
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang, diff_options.ignore_comments);
 
@@ -430,8 +431,19 @@ fn diff_file_content(
                 fix_all_sliders(language, &lhs, &mut change_map);
                 fix_all_sliders(language, &rhs, &mut change_map);
 
-                let lhs_positions = syntax::change_positions(&lhs, &change_map);
-                let rhs_positions = syntax::change_positions(&rhs, &change_map);
+                let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
+                let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
+
+                if diff_options.ignore_comments {
+                    let lhs_comments = tsp::comment_positions(&lhs_src, &ts_lang);
+                    lhs_positions.extend(lhs_comments);
+
+                    let rhs_comments = tsp::comment_positions(&rhs_src, &ts_lang);
+                    rhs_positions.extend(rhs_comments);
+
+                    // TODO: sort positions.
+                }
+
                 (
                     Some(language_name(language).into()),
                     lhs_positions,

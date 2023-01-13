@@ -341,6 +341,30 @@ impl<'a> Syntax<'a> {
     }
 }
 
+pub fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
+    fn walk_comment_positions(node: &Syntax<'_>, positions: &mut Vec<SingleLineSpan>) {
+        match node {
+            List { children, .. } => {
+                for child in children {
+                    walk_comment_positions(child, positions);
+                }
+            }
+            Atom { position, kind, .. } => {
+                if matches!(kind, AtomKind::Comment) {
+                    positions.extend(position);
+                }
+            }
+        }
+    }
+
+    let mut res = vec![];
+    for node in nodes {
+        walk_comment_positions(node, &mut res);
+    }
+
+    res
+}
+
 /// Initialise all the fields in `SyntaxInfo`.
 pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     init_info(lhs_roots, rhs_roots);
@@ -612,13 +636,18 @@ pub enum MatchKind {
     NovelWord {
         highlight: TokenKind,
     },
+    Ignored {
+        highlight: TokenKind,
+    },
 }
 
 impl MatchKind {
     pub fn is_novel(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
+            MatchKind::Novel { .. }
+                | MatchKind::NovelWord { .. }
+                | MatchKind::NovelLinePart { .. }
         )
     }
 }

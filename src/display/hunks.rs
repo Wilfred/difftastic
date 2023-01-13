@@ -14,7 +14,7 @@ use crate::{
     display::context::{add_context, opposite_positions},
     display::side_by_side::lines_with_novel,
     lines::LineNumber,
-    parse::syntax::{zip_pad_shorter, MatchedPos},
+    parse::syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
 
 /// A hunk represents a series of modified lines that are displayed
@@ -459,6 +459,32 @@ fn sorted_novel_positions(
     let mut rhs_iter = rhs_mps.iter().peekable();
     loop {
         match (lhs_iter.peek(), rhs_iter.peek()) {
+            (
+                Some(MatchedPos {
+                    kind: MatchKind::Ignored { .. },
+                    ..
+                }),
+                _,
+            ) => {
+                // Ignored nodes shouldn't be treated as novel,
+                // because we don't want to create hunks if we see
+                // them. However, they don't have corresponding
+                // positions on the other side, so just skip.
+                lhs_iter.next();
+            }
+            (
+                _,
+                Some(MatchedPos {
+                    kind: MatchKind::Ignored { .. },
+                    ..
+                }),
+            ) => {
+                // Ignored nodes shouldn't be treated as novel,
+                // because we don't want to create hunks if we see
+                // them. However, they don't have corresponding
+                // positions on the other side, so just skip.
+                rhs_iter.next();
+            }
             (Some(lhs_mp), Some(rhs_mp)) if !lhs_mp.kind.is_novel() && !rhs_mp.kind.is_novel() => {
                 res.append(&mut novel_section_in_order(
                     &lhs_novel_section,

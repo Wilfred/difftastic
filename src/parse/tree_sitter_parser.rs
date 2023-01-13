@@ -12,6 +12,9 @@ use crate::{
     parse::syntax::{AtomKind, Syntax},
 };
 
+use super::syntax;
+use super::syntax::MatchedPos;
+
 /// A language may contain certain nodes that are in other languages
 /// and should be parsed as such (e.g. HTML <script> nodes containing
 /// JavaScript). This contains how to identify such nodes, and what
@@ -1087,6 +1090,24 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
             break;
         }
     }
+}
+
+pub fn comment_positions(src: &str, config: &TreeSitterConfig) -> Vec<MatchedPos> {
+    let arena = Arena::new();
+    let ignore_comments = false;
+    let nodes = parse(&arena, src, config, ignore_comments);
+
+    let positions = syntax::comment_positions(&nodes);
+
+    positions
+        .into_iter()
+        .map(|pos| MatchedPos {
+            kind: syntax::MatchKind::Ignored {
+                highlight: syntax::TokenKind::Atom(AtomKind::Comment),
+            },
+            pos,
+        })
+        .collect()
 }
 
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.

@@ -6,6 +6,8 @@ Improved CSS parsing and HTML sublanguage parsing.
 
 ### Diffing
 
+Added an `--ignore-comments` option.
+
 Improved textual diffing performance, particularly when the two files
 have few lines in common.
 

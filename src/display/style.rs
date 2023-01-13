@@ -334,7 +334,7 @@ pub fn color_positions(
     for pos in positions {
         let mut style = Style::new();
         match pos.kind {
-            MatchKind::UnchangedToken { highlight, .. } => {
+            MatchKind::UnchangedToken { highlight, .. } | MatchKind::Ignored { highlight } => {
                 if syntax_highlight {
                     if let TokenKind::Atom(atom_kind) = highlight {
                         match atom_kind {

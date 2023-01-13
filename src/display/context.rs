@@ -152,7 +152,9 @@ fn matched_lines_from_unchanged(
                     opposite_pos.first().map(|p| p.line)
                 }
             }
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } => None,
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::Ignored { .. } => {
+                None
+            }
         };
 
         let should_insert = match highest_line {
@@ -349,7 +351,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> FxHashMap<LineNumber, HashSet<L
                     opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } => {}
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::Ignored { .. } => {}
         }
     }
 
