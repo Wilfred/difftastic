@@ -730,7 +730,7 @@ module.exports = grammar({
 
     function_type: $ => prec.right(seq(
       field('parameter_types', $.parameter_types),
-      '=>',
+      choice('=>', '?=>'),
       field('return_type', $._type)
     )),
 
