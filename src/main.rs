@@ -520,7 +520,10 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
 
-            let display_language = summary.display_language.clone().unwrap_or_else(|| "Text".into());
+            let display_language = summary
+                .display_language
+                .clone()
+                .unwrap_or_else(|| "Text".into());
             if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
                     println!(
