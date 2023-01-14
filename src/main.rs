@@ -296,7 +296,7 @@ fn diff_file_content(
             return DiffResult {
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
-                language: None,
+                display_language: None,
                 detected_language: None,
                 lhs_src: FileContent::Binary,
                 rhs_src: FileContent::Binary,
@@ -335,7 +335,7 @@ fn diff_file_content(
         return DiffResult {
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
-            language: language.map(|l| language_name(l).into()),
+            display_language: language.map(|l| language_name(l).into()),
             detected_language: language,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -373,7 +373,7 @@ fn diff_file_content(
                 return DiffResult {
                     lhs_display_path: lhs_display_path.into(),
                     rhs_display_path: rhs_display_path.into(),
-                    language: lang_name,
+                    display_language: lang_name,
                     detected_language: language,
                     lhs_src: FileContent::Text(lhs_src),
                     rhs_src: FileContent::Text(rhs_src),
@@ -461,7 +461,7 @@ fn diff_file_content(
     DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
-        language: lang_name,
+        display_language: lang_name,
         detected_language: language,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
@@ -518,7 +518,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
 
-            let lang_name = summary.language.clone().unwrap_or_else(|| "Text".into());
+            let display_language = summary.display_language.clone().unwrap_or_else(|| "Text".into());
             if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
                     println!(
@@ -528,12 +528,12 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             &summary.rhs_display_path,
                             1,
                             1,
-                            &lang_name,
+                            &display_language,
                             display_options
                         )
                     );
-                    if lang_name == "Text" || summary.lhs_src == summary.rhs_src {
-                        // TODO: there are other Text names now, so
+                    if display_language == "Text" || summary.lhs_src == summary.rhs_src {
+                        // TODO: there are other strings used for text now, so
                         // they will hit the second case incorrectly.
                         println!("No changes.\n");
                     } else {
@@ -551,11 +551,11 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_display_path,
                         1,
                         1,
-                        &lang_name,
+                        &display_language,
                         display_options
                     )
                 );
-                if lang_name == "Text" {
+                if display_language == "Text" {
                     // TODO: there are other Text names now, so
                     // they will hit the second case incorrectly.
                     println!("Has changes.\n");
@@ -577,7 +577,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         hunks,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
-                        &lang_name,
+                        &display_language,
                         summary.detected_language,
                     );
                 }
@@ -587,7 +587,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
-                        &lang_name,
+                        &display_language,
                         summary.detected_language,
                         lhs_src,
                         rhs_src,
