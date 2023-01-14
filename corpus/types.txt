@@ -96,6 +96,20 @@ object Main {
         (parameter_types (type_identifier))
         (tuple_type (type_identifier) (type_identifier)))))))
 
+===================================
+Context function types (Scala 3 syntax)
+===================================
+
+type Executable[A] = ExecutionContext ?=> A
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier) (type_parameters (identifier))
+    (function_type
+      (parameter_types (type_identifier))
+      (type_identifier))))
+
 ==================================
 Compound types
 ==================================
