@@ -4,6 +4,11 @@
 
 Improved CSS parsing and HTML sublanguage parsing.
 
+### Display
+
+Fixed an issue with unwanted underlines with textual diffing when
+DFT_BYTE_LIMIT is reached.
+
 ### Build
 
 Renamed the vendored parser directory to vendored_parsers/, as `cargo

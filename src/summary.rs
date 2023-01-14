@@ -13,7 +13,7 @@ pub struct DiffResult {
     pub lhs_display_path: String,
     pub rhs_display_path: String,
     pub display_language: Option<String>,
-    pub detected_language: Option<crate::parse::guess_language::Language>,
+    pub language_used: Option<crate::parse::guess_language::Language>,
     pub lhs_src: FileContent,
     pub rhs_src: FileContent,
     pub hunks: Vec<Hunk>,

@@ -297,7 +297,7 @@ fn diff_file_content(
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
                 display_language: None,
-                detected_language: None,
+                language_used: None,
                 lhs_src: FileContent::Binary,
                 rhs_src: FileContent::Binary,
                 lhs_positions: vec![],
@@ -326,7 +326,7 @@ fn diff_file_content(
         FileArgument::DevNull => (&lhs_src, Path::new(&lhs_display_path)),
     };
 
-    let mut language = language_override.or_else(|| guess(guess_path, guess_src));
+    let language = language_override.or_else(|| guess(guess_path, guess_src));
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
@@ -336,7 +336,7 @@ fn diff_file_content(
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
             display_language: language.map(|l| language_name(l).into()),
-            detected_language: language,
+            language_used: language,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
@@ -347,6 +347,7 @@ fn diff_file_content(
         };
     }
 
+    let mut language_used = None;
     let (lang_name, lhs_positions, rhs_positions) = match lang_config {
         _ if lhs_bytes.len() > diff_options.byte_limit
             || rhs_bytes.len() > diff_options.byte_limit =>
@@ -370,11 +371,12 @@ fn diff_file_content(
                 let lang_name = language.map(|l| language_name(l).into());
                 let has_syntactic_changes = lhs != rhs;
 
+                language_used = language;
                 return DiffResult {
                     lhs_display_path: lhs_display_path.into(),
                     rhs_display_path: rhs_display_path.into(),
                     display_language: lang_name,
-                    detected_language: language,
+                    language_used,
                     lhs_src: FileContent::Text(lhs_src),
                     rhs_src: FileContent::Text(rhs_src),
                     lhs_positions: vec![],
@@ -415,13 +417,13 @@ fn diff_file_content(
             if exceeded_graph_limit {
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                language = None;
                 (
                     Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
                     lhs_positions,
                     rhs_positions,
                 )
             } else {
+                language_used = language;
                 // TODO: Make this .expect() unnecessary.
                 let language =
                     language.expect("If we had a ts_lang, we must have guessed the language");
@@ -462,7 +464,7 @@ fn diff_file_content(
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         display_language: lang_name,
-        detected_language: language,
+        language_used,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
@@ -578,7 +580,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &display_language,
-                        summary.detected_language,
+                        summary.language_used,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
@@ -588,7 +590,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &display_language,
-                        summary.detected_language,
+                        summary.language_used,
                         lhs_src,
                         rhs_src,
                         &summary.lhs_positions,
