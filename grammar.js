@@ -682,6 +682,7 @@ module.exports = grammar({
       $.generic_type,
       $.projected_type,
       $.tuple_type,
+      $.singleton_type,
       $.stable_type_identifier,
       $._type_identifier,
       $.wildcard,
@@ -704,6 +705,12 @@ module.exports = grammar({
       commaSep1($._type),
       ')',
     ),
+
+    singleton_type: $ => prec.left(PREC.stable_type_id, seq(
+      choice($._identifier, $.stable_identifier),
+      '.',
+      'type',
+    )),
 
     stable_type_identifier: $ => prec.left(PREC.stable_type_id, seq(
       choice($._identifier, $.stable_identifier),

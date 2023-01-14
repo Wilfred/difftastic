@@ -294,6 +294,23 @@ class Test(d: "hello", b: 25)
           (integer_literal))))))
 
 ==================================
+Singleton Types
+==================================
+
+class A:
+  def foobar: this.type = this
+  type X = A.B.type
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition (identifier) (singleton_type (identifier)) (identifier))
+      (type_definition (type_identifier) (singleton_type (stable_identifier (identifier) (identifier)))))))
+
+==================================
 Opaque type aliases (Scala 3)
 ==================================
 
