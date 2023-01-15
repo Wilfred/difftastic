@@ -449,13 +449,11 @@ fn diff_file_content(
                 let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
 
                 if diff_options.ignore_comments {
-                    let lhs_comments = tsp::comment_positions(&lhs_src, &ts_lang);
+                    let lhs_comments = tsp::comment_positions(&lhs_tree, &lhs_src, &ts_lang);
                     lhs_positions.extend(lhs_comments);
 
-                    let rhs_comments = tsp::comment_positions(&rhs_src, &ts_lang);
+                    let rhs_comments = tsp::comment_positions(&rhs_tree, &rhs_src, &ts_lang);
                     rhs_positions.extend(rhs_comments);
-
-                    // TODO: sort positions.
                 }
 
                 (

@@ -1092,13 +1092,15 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
     }
 }
 
-pub fn comment_positions(src: &str, config: &TreeSitterConfig) -> Vec<MatchedPos> {
+pub fn comment_positions(
+    tree: &tree_sitter::Tree,
+    src: &str,
+    config: &TreeSitterConfig,
+) -> Vec<MatchedPos> {
     let arena = Arena::new();
     let ignore_comments = false;
 
-    let tree = to_tree(src, config);
     let nodes = to_syntax(&tree, src, &arena, config, ignore_comments);
-
     let positions = syntax::comment_positions(&nodes);
 
     positions
