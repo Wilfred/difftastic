@@ -141,8 +141,10 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                for diff_res in myers_diff::slice_unique_by_hash(&split_words(&lhs_part), &split_words(&rhs_part))
-                {
+                for diff_res in myers_diff::slice_unique_by_hash(
+                    &split_words(&lhs_part),
+                    &split_words(&rhs_part),
+                ) {
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {
                             if *lhs_word != "\n" {
