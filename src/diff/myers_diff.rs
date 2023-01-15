@@ -1,6 +1,6 @@
 //! A fast diff for linear content, using Myer's diff algorithm.
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum DiffResult<T> {
     Left(T),
     Both(T, T),
@@ -20,4 +20,32 @@ pub fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffRe
             wu_diff::DiffResult::Added(a) => DiffResult::Right(&rhs[a.new_index.unwrap()]),
         })
         .collect::<Vec<_>>()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_slice_same_items() {
+        let diff_items = slice(&["a", "b"], &["a", "b"]);
+        assert_eq!(
+            diff_items,
+            vec![DiffResult::Both(&"a", &"a"), DiffResult::Both(&"b", &"b")]
+        );
+    }
+
+    #[test]
+    fn test_slice_different_items() {
+        let diff_items = slice(&["a", "b"], &["c", "d"]);
+        assert_eq!(
+            diff_items,
+            vec![
+                DiffResult::Left(&"a"),
+                DiffResult::Left(&"b"),
+                DiffResult::Right(&"c"),
+                DiffResult::Right(&"d"),
+            ]
+        );
+    }
 }
