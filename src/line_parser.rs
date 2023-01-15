@@ -1,10 +1,7 @@
 //! A fallback "parser" for plain text.
 
-use std::hash::Hash;
-
 use lazy_static::lazy_static;
 use regex::Regex;
-use rustc_hash::FxHashMap;
 
 use crate::{
     diff::myers_diff,
@@ -73,63 +70,6 @@ fn merge_novel<'a>(
     res
 }
 
-/// Compute a unique numeric value for each item, use that for
-/// diffing, then return diff results in terms of the original type.
-///
-/// This is the decorate-sort-undecorate pattern, or Schwartzian
-/// transform, for diffing.
-fn diff_slice_by_hash<'a, T: Eq + Hash>(
-    lhs: &'a [T],
-    rhs: &'a [T],
-) -> Vec<myers_diff::DiffResult<&'a T>> {
-    let mut value_ids: FxHashMap<&T, u32> = FxHashMap::default();
-    let mut id_values: FxHashMap<u32, &T> = FxHashMap::default();
-
-    let mut lhs_ids = Vec::with_capacity(lhs.len());
-    for value in lhs {
-        let id: u32 = match value_ids.get(value) {
-            Some(id) => *id,
-            None => {
-                let new_id = value_ids.len() as u32;
-                value_ids.insert(value, new_id);
-                id_values.insert(new_id, value);
-                new_id
-            }
-        };
-        lhs_ids.push(id);
-    }
-
-    let mut rhs_ids = Vec::with_capacity(rhs.len());
-    for value in rhs {
-        let id = match value_ids.get(value) {
-            Some(id) => *id,
-            None => {
-                let new_id = value_ids.len() as u32;
-                value_ids.insert(value, new_id);
-                id_values.insert(new_id, value);
-                new_id
-            }
-        };
-        rhs_ids.push(id);
-    }
-
-    myers_diff::slice(&lhs_ids[..], &rhs_ids[..])
-        .into_iter()
-        .map(|result| match result {
-            myers_diff::DiffResult::Left(id) => {
-                myers_diff::DiffResult::Left(*id_values.get(id).unwrap())
-            }
-            myers_diff::DiffResult::Both(lhs_id, rhs_id) => myers_diff::DiffResult::Both(
-                *id_values.get(lhs_id).unwrap(),
-                *id_values.get(rhs_id).unwrap(),
-            ),
-            myers_diff::DiffResult::Right(id) => {
-                myers_diff::DiffResult::Right(*id_values.get(id).unwrap())
-            }
-        })
-        .collect::<Vec<_>>()
-}
-
 fn changed_parts<'a>(
     src: &'a str,
     opposite_src: &'a str,
@@ -138,7 +78,7 @@ fn changed_parts<'a>(
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
-    for diff_res in diff_slice_by_hash(&src_lines, &opposite_src_lines) {
+    for diff_res in myers_diff::slice_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
             myers_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
