@@ -645,9 +645,7 @@ impl MatchKind {
     pub fn is_novel(&self) -> bool {
         matches!(
             self,
-            MatchKind::Novel { .. }
-                | MatchKind::NovelWord { .. }
-                | MatchKind::NovelLinePart { .. }
+            MatchKind::Novel { .. } | MatchKind::NovelWord { .. } | MatchKind::NovelLinePart { .. }
         )
     }
 }
