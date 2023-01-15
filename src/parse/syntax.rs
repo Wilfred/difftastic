@@ -674,7 +674,7 @@ fn split_comment_words(
     let mut opposite_offset = 0;
 
     let mut res = vec![];
-    for diff_res in myers_diff::slice(&content_parts, &other_parts) {
+    for diff_res in myers_diff::slice_by_hash(&content_parts, &other_parts) {
         match diff_res {
             myers_diff::DiffResult::Left(word) => {
                 // This word is novel to this side.

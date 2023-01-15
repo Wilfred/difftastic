@@ -78,7 +78,7 @@ fn changed_parts<'a>(
     let opposite_src_lines = split_lines_keep_newline(opposite_src);
 
     let mut res: Vec<(TextChangeKind, Vec<&'a str>, Vec<&'a str>)> = vec![];
-    for diff_res in myers_diff::slice_by_hash(&src_lines, &opposite_src_lines) {
+    for diff_res in myers_diff::slice_unique_by_hash(&src_lines, &opposite_src_lines) {
         match diff_res {
             myers_diff::DiffResult::Left(line) => {
                 res.push((TextChangeKind::Novel, vec![line], vec![]));
@@ -141,7 +141,7 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 let lhs_part = lhs_lines.join("");
                 let rhs_part = rhs_lines.join("");
 
-                for diff_res in myers_diff::slice(&split_words(&lhs_part), &split_words(&rhs_part))
+                for diff_res in myers_diff::slice_unique_by_hash(&split_words(&lhs_part), &split_words(&rhs_part))
                 {
                     match diff_res {
                         myers_diff::DiffResult::Left(lhs_word) => {

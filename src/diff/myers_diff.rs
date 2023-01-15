@@ -1,6 +1,6 @@
 //! A fast diff for linear content, using Myer's diff algorithm.
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::hash::Hash;
 
 #[derive(Debug, PartialEq)]
@@ -10,6 +10,8 @@ pub enum DiffResult<T> {
     Right(T),
 }
 
+/// Compute a linear diff between `lhs` and `rhs`. This is the
+/// traditional Myer's diff algorithm.
 pub fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffResult<&'a T>> {
     wu_diff::diff(lhs, rhs)
         .into_iter()
@@ -25,12 +27,18 @@ pub fn slice<'a, T: PartialEq + Clone>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffRe
         .collect::<Vec<_>>()
 }
 
-/// Compute a unique numeric value for each item, use that for
-/// diffing, then return diff results in terms of the original type.
+/// Compute a linear diff between `lhs` and `rhs`, but use hashed
+/// values internally.
 ///
-/// This is the decorate-sort-undecorate pattern, or Schwartzian
-/// transform, for diffing.
+/// This is faster when equality checks on `T` are expensive, such as
+/// large strings.
 pub fn slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffResult<&'a T>> {
+    // Compute a unique numeric value for each item, use that for
+    // diffing, then return diff results in terms of the original
+    // type.
+    //
+    // This is the decorate-sort-undecorate pattern, or Schwartzian
+    // transform, for diffing.
     let mut value_ids: FxHashMap<&T, u32> = FxHashMap::default();
     let mut id_values: FxHashMap<u32, &T> = FxHashMap::default();
 
@@ -75,6 +83,101 @@ pub fn slice_by_hash<'a, T: Eq + Hash>(lhs: &'a [T], rhs: &'a [T]) -> Vec<DiffRe
         .collect::<Vec<_>>()
 }
 
+/// Compute the linear diff between `lhs` and `rhs`. If there are
+/// items that only occur on a single side, mark them as novel without
+/// processing them with Myer's diff.
+///
+/// This is substantially faster than `slice`, when `lhs` and `rhs`
+/// have few items in common.
+///
+/// (This heuristic is used in traditional diff tools too, such as GNU
+/// diff.)
+pub fn slice_unique_by_hash<'a, T: Eq + Clone + Hash>(
+    lhs: &'a [T],
+    rhs: &'a [T],
+) -> Vec<DiffResult<&'a T>> {
+    let mut lhs_set = FxHashSet::default();
+    for item in lhs {
+        lhs_set.insert(item);
+    }
+    let mut rhs_set = FxHashSet::default();
+    for item in rhs {
+        rhs_set.insert(item);
+    }
+
+    let lhs_without_unique: Vec<&'a T> = lhs.iter().filter(|n| rhs_set.contains(n)).collect();
+    let rhs_without_unique: Vec<&'a T> = rhs.iter().filter(|n| lhs_set.contains(n)).collect();
+
+    let mut res: Vec<DiffResult<&'a T>> = Vec::with_capacity(lhs.len());
+    let mut lhs_i = 0;
+    let mut rhs_i = 0;
+
+    for item in slice_by_hash(&lhs_without_unique, &rhs_without_unique) {
+        match item {
+            DiffResult::Left(lhs_item) => {
+                while lhs_i < lhs.len() {
+                    if &lhs[lhs_i] != *lhs_item {
+                        res.push(DiffResult::Left(&lhs[lhs_i]));
+                        lhs_i += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                res.push(DiffResult::Left(*lhs_item));
+                lhs_i += 1;
+            }
+            DiffResult::Both(lhs_item, rhs_item) => {
+                while lhs_i < lhs.len() {
+                    if &lhs[lhs_i] != *lhs_item {
+                        res.push(DiffResult::Left(&lhs[lhs_i]));
+                        lhs_i += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                while rhs_i < rhs.len() {
+                    if &rhs[rhs_i] != *rhs_item {
+                        res.push(DiffResult::Right(&rhs[rhs_i]));
+                        rhs_i += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                res.push(DiffResult::Both(*lhs_item, *rhs_item));
+                lhs_i += 1;
+                rhs_i += 1;
+            }
+            DiffResult::Right(rhs_item) => {
+                while rhs_i < rhs.len() {
+                    if &rhs[rhs_i] != *rhs_item {
+                        res.push(DiffResult::Right(&rhs[rhs_i]));
+                        rhs_i += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                res.push(DiffResult::Right(*rhs_item));
+                rhs_i += 1;
+            }
+        }
+    }
+
+    while lhs_i < lhs.len() {
+        res.push(DiffResult::Left(&lhs[lhs_i]));
+        lhs_i += 1;
+    }
+    while rhs_i < rhs.len() {
+        res.push(DiffResult::Right(&rhs[rhs_i]));
+        rhs_i += 1;
+    }
+
+    res
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -114,6 +217,29 @@ mod tests {
     #[test]
     fn test_slice_by_hash_different_items() {
         let diff_items = slice_by_hash(&["a", "b"], &["c", "d"]);
+        assert_eq!(
+            diff_items,
+            vec![
+                DiffResult::Left(&"a"),
+                DiffResult::Left(&"b"),
+                DiffResult::Right(&"c"),
+                DiffResult::Right(&"d"),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_slice_unique_same_items() {
+        let diff_items = slice_unique_by_hash(&["a", "b"], &["a", "b"]);
+        assert_eq!(
+            diff_items,
+            vec![DiffResult::Both(&"a", &"a"), DiffResult::Both(&"b", &"b")]
+        );
+    }
+
+    #[test]
+    fn test_slice_unique_different_items() {
+        let diff_items = slice_unique_by_hash(&["a", "b"], &["c", "d"]);
         assert_eq!(
             diff_items,
             vec![

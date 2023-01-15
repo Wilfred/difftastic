@@ -4,6 +4,11 @@
 
 Improved CSS parsing and HTML sublanguage parsing.
 
+### Diffing
+
+Improved textual diffing performance, particularly when the two files
+have few lines in common.
+
 ### Display
 
 Fixed an issue with unwanted underlines with textual diffing when
