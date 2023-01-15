@@ -1,6 +1,6 @@
 object Hello {
 // ^ keyword 
-//       ^ type.definition
+//       ^ type
   val x = if (true) (25 * 1.0) else "hello"  
 // ^keyword
 //    ^variable
@@ -17,7 +17,7 @@ object Hello {
 
   trait Test {
 // ^ keyword 
-//       ^ type.definition
+//       ^ type
      def meth(i: Int)(implicit x: Boolean) = ???
 //    ^keyword.function  
 //                       ^keyword    
@@ -27,7 +27,7 @@ object Hello {
   }
 
   protected abstract class Bla(test: String)
-//    ^storageclass
+//    ^type.qualifier
 //                    ^keyword
 //            ^type.qualifier 
 //                              ^parameter
@@ -40,7 +40,7 @@ object Hello {
 
   class A {
 // ^ keyword
-//      ^ type.definition
+//      ^ type
     self: X =>
 //  ^constant
 //        ^type

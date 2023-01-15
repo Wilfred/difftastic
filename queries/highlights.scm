@@ -1,22 +1,22 @@
 ; CREDITS @stumash (stuart.mashaal@gmail.com)
 
 (class_definition
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 (enum_definition
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 (object_definition
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 (trait_definition
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 (full_enum_case
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 (simple_enum_case
-  name: (identifier) @type.definition)
+  name: (identifier) @type)
 
 ;; variables
 
@@ -96,8 +96,6 @@
 (generic_function
   function: (identifier) @function.call)
 
-;; I think this is broken
-
 ; function definitions
 
 (function_definition
@@ -110,7 +108,6 @@
   name: (identifier) @parameter)
 
 ; expressions
-
 
 (field_expression field: (identifier) @property)
 (field_expression value: (identifier) @type
@@ -161,6 +158,7 @@
   "var"
   "with"
   "given"
+  "using"
   "end"
   "implicit"
   "extension"
@@ -170,18 +168,13 @@
 [
   "abstract"
   "final"
-  "using"
   "lazy"
   "sealed"
+  "private"
+  "protected"
 ] @type.qualifier
 
 (inline_modifier) @storageclass
-
-[
-  "private"
-  "protected"
-] @storageclass
-
 
 (null_literal) @constant.builtin
 

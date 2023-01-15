@@ -1,7 +1,7 @@
 // Optional braces syntax
 class C:
 // ^keyword
-//    ^type.definition
+//    ^type
 
   def test(aaaa: A): Int =
   //^keyword.function
@@ -17,7 +17,7 @@ class C:
 
 object O1:
 //^keyword
-//     ^type.definition
+//     ^type
 
   def test: Unit = ()
   //^keyword.function
@@ -63,16 +63,16 @@ enum Test(a: Int) derives Codec:
 //            ^type
 //                   ^keyword
 //                          ^type
-//    ^type.definition
+//    ^type
 //        ^parameter
   case Test(b: String)
   // ^keyword     
   //               ^type
-  //      ^type.definition
+  //      ^type
   //        ^parameter
   case Hello, Bla
-  //      ^type.definition
-  //          ^type.definition
+  //      ^type
+  //          ^type
   case Bla extends Test(256)
   //          ^keyword
 
@@ -98,7 +98,7 @@ inline given Test = new Test {
 
 object A:
 // ^ keyword
-//     ^type.definition
+//     ^type
 
   ::(123)
 //^function.call
