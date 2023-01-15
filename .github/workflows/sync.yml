@@ -32,7 +32,7 @@ jobs:
             src/tree_sitter/parser.h
 
       - name: Commit changes if necessary
-        if: steps.check-for-changes.outputs.files_changed == 'true'
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
           git config user.name "GitHub"
           git config user.email "noreply@github.com"
@@ -42,7 +42,7 @@ jobs:
           git clean -xf
 
       - name: Create Pull Request
-        if: steps.check-for-changes.outputs.files_changed == 'true'
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: peter-evans/create-pull-request@v4
         with:
           title: "chore: generate and sync latest changes"
@@ -50,5 +50,5 @@ jobs:
           base: ${{ github.head_ref }}
 
       - name: No changes detected
-        if: steps.check-for-changes.outputs.files_changed == 'false'
+        if: steps.verify-changed-files.outputs.files_changed == 'false'
         run: echo "No changes detected"
