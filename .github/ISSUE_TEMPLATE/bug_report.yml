@@ -1,0 +1,66 @@
+name: Bug Report
+description: Create an issue in tree-sitter-scala
+body:
+  - type: input
+    id: commit
+    attributes:
+      label: Commit of tree-sitter-scala you tested this on
+      description: |
+        Make sure you're validating you're on the latest commit of
+        tree-sitter-scala. Note that depending on where you're experiencing the
+        issue there is a chance you're on an old commit.
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: A code sample showing the error
+      description: Try to minimize the code sample as much as possible
+      placeholder: |
+        ```scala
+          val y = x match {
+            case A(_) if a => 1
+          }
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Show the error node
+      description: Show us the output and where the ERROR node is appearing
+      placeholder: |
+        Check out [Obtaining an Error Reproduction](../../CONTRIBUTING.md#obtaining-an-error-reproduction)
+        in the CONTRIBUTING docs if you're unsure how to get this.
+
+        ```
+        (compilation_unit [0, 0] - [4, 0]
+          (val_definition [0, 0] - [2, 1]
+            pattern: (identifier [0, 4] - [0, 5])
+            value: (match_expression [0, 8] - [2, 1]
+              value: (identifier [0, 8] - [0, 9])
+              body: (case_block [0, 16] - [2, 1]
+                (ERROR [1, 2] - [2, 0]
+                  (case_class_pattern [1, 7] - [1, 11]
+                    type: (type_identifier [1, 7] - [1, 8])
+                    pattern: (wildcard [1, 9] - [1, 10]))
+                  (lambda_expression [1, 15] - [2, 0]
+                    (identifier [1, 15] - [1, 16])
+                    (integer_literal [1, 20] - [1, 21])))))))
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What do you expect the tree to look like
+      description: Show us what you expect the tree to look like
+
+  - type: input
+    id: where
+    attributes:
+      label: Where are you experiencing this error?
+      description: Let us know where you're seeing this error (nvim-treesitter etc)
