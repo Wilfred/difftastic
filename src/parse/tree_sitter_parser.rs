@@ -922,7 +922,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
 }
 
 /// Parse `src` with tree-sitter.
-pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
+pub fn to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
     let mut parser = ts::Parser::new();
     parser
         .set_language(config.language)
@@ -1095,7 +1095,9 @@ fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
 pub fn comment_positions(src: &str, config: &TreeSitterConfig) -> Vec<MatchedPos> {
     let arena = Arena::new();
     let ignore_comments = false;
-    let nodes = parse(&arena, src, config, ignore_comments);
+
+    let tree = to_tree(src, config);
+    let nodes = to_syntax(&tree, src, &arena, config, ignore_comments);
 
     let positions = syntax::comment_positions(&nodes);
 
@@ -1110,10 +1112,10 @@ pub fn comment_positions(src: &str, config: &TreeSitterConfig) -> Vec<MatchedPos
         .collect()
 }
 
-/// Parse `src` with tree-sitter and convert to difftastic Syntax.
-pub fn parse<'a>(
-    arena: &'a Arena<Syntax<'a>>,
+pub fn to_syntax<'a>(
+    tree: &tree_sitter::Tree,
     src: &str,
+    arena: &'a Arena<Syntax<'a>>,
     config: &TreeSitterConfig,
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
@@ -1124,7 +1126,6 @@ pub fn parse<'a>(
         return vec![];
     }
 
-    let tree = parse_to_tree(src, config);
     let highlights = tree_highlights(&tree, src, config);
 
     // Parse sub-languages, if any, which will be used both for
@@ -1148,6 +1149,17 @@ pub fn parse<'a>(
         &subtrees,
         ignore_comments,
     )
+}
+
+/// Parse `src` with tree-sitter and convert to difftastic Syntax.
+pub fn parse<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    config: &TreeSitterConfig,
+    ignore_comments: bool,
+) -> Vec<&'a Syntax<'a>> {
+    let tree = to_tree(src, config);
+    to_syntax(&tree, src, arena, config, ignore_comments)
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {

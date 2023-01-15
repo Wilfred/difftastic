@@ -105,7 +105,7 @@ fn main() {
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let tree = tsp::parse_to_tree(&src, &ts_lang);
+                    let tree = tsp::to_tree(&src, &ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
