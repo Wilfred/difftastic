@@ -254,10 +254,12 @@ module.exports = grammar({
 
     /**
      * ClassConstr       ::=  [ClsTypeParamClause] [ConstrMods] ClsParamClauses
+     * ConstrMods        ::=  {Annotation} [AccessModifier]
      */
     _class_constructor: $ => prec.right(seq(
       field('name', $._identifier),
       field('type_parameters', optional($.type_parameters)),
+      optional($.annotation),
       optional($.access_modifier),
       field('class_parameters', repeat($.class_parameters)),
     )),
