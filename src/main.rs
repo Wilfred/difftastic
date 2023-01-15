@@ -361,10 +361,24 @@ fn diff_file_content(
             )
         }
         Some(ts_lang) => {
+            let lhs_tree = tsp::to_tree(&lhs_src, &ts_lang);
+            let rhs_tree = tsp::to_tree(&rhs_src, &ts_lang);
+
             let arena = Arena::new();
-            // ignore here.
-            let lhs = tsp::parse(&arena, &lhs_src, &ts_lang, diff_options.ignore_comments);
-            let rhs = tsp::parse(&arena, &rhs_src, &ts_lang, diff_options.ignore_comments);
+            let lhs = tsp::to_syntax(
+                &lhs_tree,
+                &lhs_src,
+                &arena,
+                &ts_lang,
+                diff_options.ignore_comments,
+            );
+            let rhs = tsp::to_syntax(
+                &rhs_tree,
+                &rhs_src,
+                &arena,
+                &ts_lang,
+                diff_options.ignore_comments,
+            );
 
             init_all_info(&lhs, &rhs);
 
