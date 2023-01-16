@@ -1040,5 +1040,4 @@ mod tests {
         let res = pad_after(2.into(), 1.into(), 5);
         assert_eq!(res, vec![]);
     }
-
 }
