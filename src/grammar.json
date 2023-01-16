@@ -6059,15 +6059,47 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_special_form"
+          "name": "vector"
         },
         {
           "type": "SYMBOL",
-          "name": "_abbrev"
+          "name": "byte_vector"
         },
         {
           "type": "SYMBOL",
           "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote_splicing"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "syntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasisyntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unsyntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unsyntax_splicing"
         }
       ]
     },
@@ -6133,43 +6165,6 @@
               "value": "}"
             }
           ]
-        }
-      ]
-    },
-    "_abbrev": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "quote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quasiquote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unquote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unquote_splicing"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "syntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quasisyntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unsyntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unsyntax_splicing"
         }
       ]
     },
@@ -6330,19 +6325,6 @@
         {
           "type": "SYMBOL",
           "name": "_datum"
-        }
-      ]
-    },
-    "_special_form": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "vector"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "byte_vector"
         }
       ]
     },

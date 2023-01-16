@@ -118,14 +118,10 @@ module.exports = grammar({
 
     _compound_datum: $ =>
       choice(
-        $._special_form,
-        $._abbrev,
-        $.list),
+        $.vector,
+        $.byte_vector,
+        $.list,
 
-    list: $ => paren(repeat($._token)),
-
-    _abbrev: $ =>
-      choice(
         $.quote,
         $.quasiquote,
         $.unquote,
@@ -134,6 +130,8 @@ module.exports = grammar({
         $.quasisyntax,
         $.unsyntax,
         $.unsyntax_splicing),
+
+    list: $ => paren(repeat($._token)),
 
     quote: $ =>
       seq(
@@ -182,11 +180,6 @@ module.exports = grammar({
         "#,@",
         repeat($._skip),
         $._datum),
-
-    _special_form: $ =>
-      choice(
-        $.vector,
-        $.byte_vector),
 
     vector: $ => seq("#(", repeat($._token), ")"),
 
