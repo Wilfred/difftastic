@@ -440,7 +440,7 @@ fn pad_after(ln: LineNumber, max_line: LineNumber, num_context_lines: usize) -> 
     // Use one more line than num_context_lines so we merge
     // immediately adjacent hunks.
     for _ in 0..num_context_lines + 1 {
-        if current == max_line {
+        if current >= max_line {
             break;
         }
 
@@ -1034,4 +1034,11 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    fn test_pad_after_when_line_exceeds_max() {
+        let res = pad_after(2.into(), 1.into(), 5);
+        assert_eq!(res, vec![]);
+    }
+
 }

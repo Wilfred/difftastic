@@ -16,6 +16,8 @@ have few lines in common.
 Fixed an issue with unwanted underlines with textual diffing when
 DFT_BYTE_LIMIT is reached.
 
+Fixed a crash in inline display when the file ends with whitespace.
+
 ### Build
 
 Renamed the vendored parser directory to vendored_parsers/, as `cargo
