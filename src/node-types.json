@@ -1797,11 +1797,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "annotation",
           "named": true
         }
       ]
