@@ -28,7 +28,7 @@ current status:
 
 See [nodes.md](./nodes.md) for all visible nodes.
 
-This parser works like `read` function in Scheme.
+This parser don't parse language constructs. Instead, it parse code as lists.
 
 If you want language constructs support, use custom queries (see [#5](https://github.com/6cdh/tree-sitter-scheme/issues/5)), also see [thchha/tree-sitter-scheme](https://gitlab.com/thchha/tree-sitter-scheme).
 
