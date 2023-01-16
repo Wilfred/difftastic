@@ -13,15 +13,14 @@ This page contains all visible nodes in yaml format.
 - number
 - symbol # identifier
 - list # things surrounded by () or [] or {}
-- abbreviation # will be deprecated
-  - quote # '
-  - quasiquote # `
-  - syntax # #'
-  - quasisyntax #`
-  - unquote # ,
-  - unquote_splicing # ,@
-  - unsyntax # #,
-  - unsyntax_splicing # #,@
+- quote # '
+- quasiquote # `
+- syntax # #'
+- quasisyntax #`
+- unquote # ,
+- unquote_splicing # ,@
+- unsyntax # #,
+- unsyntax_splicing # #,@
 - vector
 - byte_vector
 ```

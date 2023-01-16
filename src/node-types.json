@@ -1,48 +1,5 @@
 [
   {
-    "type": "abbreviation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "quasiquote",
-          "named": true
-        },
-        {
-          "type": "quasisyntax",
-          "named": true
-        },
-        {
-          "type": "quote",
-          "named": true
-        },
-        {
-          "type": "syntax",
-          "named": true
-        },
-        {
-          "type": "unquote",
-          "named": true
-        },
-        {
-          "type": "unquote_splicing",
-          "named": true
-        },
-        {
-          "type": "unsyntax",
-          "named": true
-        },
-        {
-          "type": "unsyntax_splicing",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "block_comment",
     "named": true,
     "fields": {},
@@ -65,10 +22,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "abbreviation",
-          "named": true
-        },
         {
           "type": "block_comment",
           "named": true
@@ -102,11 +55,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -124,10 +109,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "abbreviation",
-          "named": true
-        },
         {
           "type": "block_comment",
           "named": true
@@ -157,11 +138,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -203,10 +216,6 @@
       "required": false,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -239,11 +248,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -262,10 +303,6 @@
       "required": false,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -298,11 +335,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -321,10 +390,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -353,11 +418,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -376,10 +473,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -408,11 +501,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -431,10 +556,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -463,11 +584,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -506,10 +659,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -538,11 +687,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -561,10 +742,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -593,11 +770,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -616,10 +825,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -648,11 +853,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -671,10 +908,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -703,11 +936,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -726,10 +991,6 @@
       "required": true,
       "types": [
         {
-          "type": "abbreviation",
-          "named": true
-        },
-        {
           "type": "block_comment",
           "named": true
         },
@@ -758,11 +1019,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {
@@ -780,10 +1073,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "abbreviation",
-          "named": true
-        },
         {
           "type": "block_comment",
           "named": true
@@ -817,11 +1106,43 @@
           "named": true
         },
         {
+          "type": "quasiquote",
+          "named": true
+        },
+        {
+          "type": "quasisyntax",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "syntax",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing",
+          "named": true
+        },
+        {
+          "type": "unsyntax",
+          "named": true
+        },
+        {
+          "type": "unsyntax_splicing",
           "named": true
         },
         {

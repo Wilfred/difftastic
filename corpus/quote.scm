@@ -9,10 +9,10 @@ quote
 
 ---
 (program
-  (abbreviation (quote (symbol)))
-  (abbreviation (quasiquote (symbol)))
-  (abbreviation (syntax (symbol)))
-  (abbreviation (quasisyntax (symbol))))
+  (quote (symbol))
+  (quasiquote (symbol))
+  (syntax (symbol))
+  (quasisyntax (symbol)))
 
 ===
 unquote
@@ -25,7 +25,7 @@ unquote
 
 ---
 (program
-  (abbreviation (unquote (symbol)))
-  (abbreviation (unquote_splicing (symbol)))
-  (abbreviation (unsyntax (symbol)))
-  (abbreviation (unsyntax_splicing (symbol))))
+  (unquote (symbol))
+  (unquote_splicing (symbol))
+  (unsyntax (symbol))
+  (unsyntax_splicing (symbol)))

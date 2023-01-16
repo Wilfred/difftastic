@@ -119,12 +119,12 @@ module.exports = grammar({
     _compound_datum: $ =>
       choice(
         $._special_form,
-        $.abbreviation,
+        $._abbrev,
         $.list),
 
     list: $ => paren(repeat($._token)),
 
-    abbreviation: $ =>
+    _abbrev: $ =>
       choice(
         $.quote,
         $.quasiquote,

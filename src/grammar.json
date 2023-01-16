@@ -6063,7 +6063,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "abbreviation"
+          "name": "_abbrev"
         },
         {
           "type": "SYMBOL",
@@ -6136,7 +6136,7 @@
         }
       ]
     },
-    "abbreviation": {
+    "_abbrev": {
       "type": "CHOICE",
       "members": [
         {
