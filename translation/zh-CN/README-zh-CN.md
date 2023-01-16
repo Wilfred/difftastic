@@ -64,7 +64,7 @@ Difftastic 会解析你的代码，会去理解什么是空格、什么具有意
 
 可以！Difftastic 说明书 [包含 git 的使用说明方法](https://difftastic.wilfred.me.uk/git.html)。你也可以 [使用 mercurial](https://difftastic.wilfred.me.uk/mercurial.html)。
 
-如果你使用 magit，请查看 [这个博客](https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html)，它展示了使用 Difftastic 和 magit 的一种方法。
+如果你使用 magit，请查看 [这篇博客](https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html)，它展示了使用 Difftastic 和 magit 的一种方法。
 
 ### Difftastic 能否与我最喜欢的工具整合？
 
