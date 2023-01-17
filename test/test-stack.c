@@ -26,19 +26,19 @@ int main() {
   assert(peekStack(stack) == -1);
   assert(isEmptyStack(stack));
 
-  char *buf = malloc(2048);
+  char *buf = malloc(1024);
 
-  for (int i = 0; i < 250; i++) {
+  for (int i = 0; i < 100; i++) {
     pushStack(stack, i);
   }
 
-  assert(serialiseStack(stack, buf) == sizeof(int) * 253);
+  assert(serialiseStack(stack, buf) == sizeof(int) * 103);
 
   ScannerStack *newStack = createStack();
 
-  deserialiseStack(newStack, buf, sizeof(int) * 253);
-  assert(newStack -> top == 250);
-  assert(popStack(newStack) == 249);
+  deserialiseStack(newStack, buf, sizeof(int) * 103);
+  assert(newStack -> top == 100);
+  assert(popStack(newStack) == 99);
 
   resetStack(newStack);
 

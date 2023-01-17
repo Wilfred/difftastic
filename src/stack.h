@@ -10,10 +10,11 @@
 #define LOG(...)
 #endif
 
-#define STACK_SIZE 1024
+// Total payload size is 1024 bytes max
+#define STACK_SIZE 100
 
 typedef struct ScannerStack {
-  unsigned int stack[STACK_SIZE];
+  int stack[STACK_SIZE];
   int top;
   int last_indentation_size;
   int last_newline_count;
@@ -63,7 +64,10 @@ void printStack(ScannerStack *stack, char *msg) {
 }
 
 unsigned serialiseStack(ScannerStack *stack, char *buf) {
-  unsigned elements = isEmptyStack(stack) ? 0 : stack->top;
+  int elements = isEmptyStack(stack) ? 0 : stack->top;
+  if (elements < 0) {
+    elements = 0;
+  }
   unsigned result_length = (elements + 3) * sizeof(int);
   int *placement = (int *)buf;
   memcpy(placement, stack->stack, elements * sizeof(int));
