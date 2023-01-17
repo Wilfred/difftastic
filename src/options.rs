@@ -2,9 +2,9 @@
 
 use std::{borrow::Borrow, env, ffi::OsStr, path::Path, path::PathBuf};
 
-use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
+use crossterm::tty::IsTty;
 
 use crate::{
     display::style::BackgroundColor, exit_codes::EXIT_BAD_ARGUMENTS, parse::guess_language,
@@ -533,19 +533,8 @@ pub fn parse_args() -> Mode {
 /// Choose the display width: try to autodetect, or fall back to a
 /// sensible default.
 fn detect_display_width() -> usize {
-    // terminal_size is actively maintained, but only considers
-    // stdout. This is a problem inside git, where stderr is a TTY
-    // with a size but stdout is piped to less.
-    //
-    // https://github.com/eminence/terminal-size/issues/23
-    if let Some(width) = terminal_size::terminal_size().map(|(w, _)| w.0 as usize) {
-        return width;
-    }
-
-    // term_size is no longer maintained, but it checks all of stdin,
-    // stdout and stderr, so gives better results in may cases.
-    if let Some(width) = term_size::dimensions().map(|(w, _)| w) {
-        return width;
+    if let Ok((columns, _rows)) = crossterm::terminal::size() {
+        return columns.into();
     }
 
     80
@@ -558,7 +547,7 @@ pub fn should_use_color(color_output: ColorOutput) -> bool {
             // Always enable colour if stdout is a TTY or if the git pager is active.
             // TODO: consider following the env parsing logic in git_config_bool
             // in config.c.
-            atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok()
+            std::io::stdout().is_tty() || env::var("GIT_PAGER_IN_USE").is_ok()
         }
         ColorOutput::Never => false,
     }
