@@ -58,8 +58,14 @@ class C:
   foooo: Int
   //     ^type
 
+enum Simple:
+//^keyword
+//   ^type
+  case A, B, C
+//     ^type
 enum Test(a: Int) derives Codec:
 // ^keyword   
+//    ^type
 //            ^type
 //                   ^keyword
 //                          ^type
