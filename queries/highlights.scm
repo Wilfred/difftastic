@@ -23,7 +23,6 @@
 (class_parameter 
   name: (identifier) @parameter)
 
-
 (interpolation) @none
 
 ;; types
@@ -32,7 +31,6 @@
   name: (type_identifier) @type.definition)
 
 (type_identifier) @type
-
 
 ;; val/var definitions/declarations
 
@@ -78,7 +76,6 @@
 
 ; method invocation
 
-
 (call_expression
   function: (identifier) @function.call)
 
@@ -95,6 +92,9 @@
 
 (generic_function
   function: (identifier) @function.call)
+
+(interpolated_string_expression
+  interpolator: (identifier) @function.call)
 
 ; function definitions
 

@@ -54,5 +54,9 @@ object Hello {
   type A = B[({ type f[x] = M[S, x] })#f]
 //               ^keyword
 //                   ^type.definition
+
+  val hello = c"some $stuff"
+//            ^function.call
+//                   ^punctuation.special
 }
 
