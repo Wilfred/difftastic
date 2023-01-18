@@ -144,13 +144,18 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
     lexer->result_symbol = OUTDENT;
     stack->last_indentation_size = indentation_size;
     stack->last_newline_count = newline_count;
-    stack->last_column = lexer->get_column(lexer);
+    if (lexer->eof(lexer)) {
+      stack->last_column = -1;
+    } else {
+      stack->last_column = lexer->get_column(lexer);
+    }
     return true;
   }
 
   // Recover newline_count from the outdent reset
   if (stack->last_newline_count > 0 &&
-    lexer->get_column(lexer) == stack->last_column) {
+    ((lexer->eof(lexer) && stack->last_column == -1)
+      || lexer->get_column(lexer) == stack->last_column)) {
     newline_count += stack->last_newline_count;
   }
   stack->last_newline_count = 0;
