@@ -15,6 +15,10 @@ object Hello {
 //        ^keyword.operator
 //            ^type
 
+  var mutation = "mutant"
+//  ^keyword
+//    ^variable
+
   trait Test {
 // ^ keyword 
 //       ^ type
@@ -24,6 +28,13 @@ object Hello {
 //                                  ^type    
 //        ^method
 //                             ^parameter 
+  
+  val anonFun: Int => Int = (a: Int) => a
+//      ^variable
+//             ^type
+//                 ^operator
+//                    ^type
+//                           ^parameter
   }
 
   protected abstract class Bla(test: String)
