@@ -3618,15 +3618,22 @@
   {
     "type": "interpolated_string_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "interpolator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "interpolated_string",
           "named": true
