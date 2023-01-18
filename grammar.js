@@ -1281,7 +1281,7 @@ module.exports = grammar({
     )),
 
     interpolated_string_expression: $ => seq(
-      $.identifier,
+      field('interpolator', $.identifier),
       $.interpolated_string
     ),
 
