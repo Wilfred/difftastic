@@ -10,22 +10,28 @@ const PREC = {
   NEW_EXPR: 5,
   LET_EXPR: 6,
   LET_DECL: 7,
+  DO_EXPR: 8,
   FUN_EXPR: 8,
-  MATCH_EXPR: 9,
-  MATCH_DECL: 10,
-  DO_DECL: 11,
-  IF_EXPR: 12,
-  ELSE_EXPR: 13,
-  INTERFACE: 14,
-  LARROW: 15,
+  MATCH_EXPR: 8,
+  MATCH_DECL: 9,
+  DO_DECL: 10,
+  IF_EXPR: 11,
+  ELSE_EXPR: 12,
+  INTERFACE: 13,
+  LARROW: 14,
+  TUPLE_EXPR: 15,
   COMMA: 16,
   DOTDOT: 17,
   SPECIAL_INFIX: 18,
+  EXPR_APP: 19,
+  CE_EXPR: 19,
   PREFIX_EXPR: 19,
-  DOT: 20,
-  INDEX_EXPR: 21,
-  PAREN_EXPR: 22,
-  TYPED_EXPR: 23,
+  NEW_OBJ: 20,
+  DOT: 21,
+  INDEX_EXPR: 22,
+  PAREN_APP: 23,
+  TYPED_EXPR: 24,
+  PAREN_EXPR: 23,
 }
 
 module.exports = grammar({
@@ -46,13 +52,14 @@ module.exports = grammar({
   conflicts: $ => [
     [$.long_identifier, $._identifier_or_op],
     [$.type_argument, $.static_type_argument],
+    [$.symbolic_op, $.infix_op],
   ],
 
   words: $ => $.identifier,
 
   inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right ],
 
-  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._comp_expression ],
+  supertypes: $ => [ $._module_elem, $._pattern, $._expression, $._comp_expression ],
 
   rules: {
     //
@@ -136,7 +143,7 @@ module.exports = grammar({
         prec(PREC.DO_DECL, $.do)
       ),
 
-    do: $ => prec.left(seq("do", $._expression)),
+    do: $ => prec(PREC.DO_EXPR, seq("do", $._expression)),
 
     _function_or_value_defns : $ =>
       seq($._function_or_value_defn_body, repeat1(seq("and", $._function_or_value_defn_body))),
@@ -274,15 +281,8 @@ module.exports = grammar({
     //
     // Expressions (BEGIN)
     //
-    _expression: $ =>
-      prec.right(
-        seq(
-          $._expression_inner,
-          repeat(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
-        )
-      ),
 
-    _expression_inner: $ =>
+    _expression: $ =>
       choice(
         $.const,
         $.paren_expression,
@@ -313,16 +313,45 @@ module.exports = grammar({
         $.match_expression,
         $.try_expression,
         $.literal_expression,
-        // $.sequence_expression,
+        $.sequence_expression,
+        $.call_expression,
+        $.tuple_expression,
+        $.application_expression,
         // (static-typars : (member-sig) expr)
       ),
 
-    // sequence_expression: $ =>
-    //     prec(PREC.SEQ_EXPR,
-    //     seq(
-    //       $._expression,
-    //       repeat1(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
-    //     )),
+    application_expression: $ =>
+      prec.left(PREC.EXPR_APP,
+        seq(
+          $._expression,
+          $._expression
+        )
+      ),
+
+    sequence_expression: $ =>
+        prec.right(PREC.SEQ_EXPR,
+        seq(
+          $._expression,
+          repeat1(prec.right(PREC.SEQ_EXPR, seq(choice(";", $._newline), $._expression)))
+        )),
+
+    call_expression: $ =>
+      prec(PREC.PAREN_APP,
+        seq(
+          $._expression,
+          imm("("),
+          $._expression,
+          ")",
+        )
+      ),
+
+    tuple_expression: $ =>
+      prec.left(
+      seq(
+        $._expression,
+        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expression))),
+      )
+      ),
 
     brace_expression: $ =>
       prec(PREC.PAREN_EXPR,
@@ -361,14 +390,14 @@ module.exports = grammar({
       ),
 
     prefixed_expression: $ =>
-      prec(PREC.PREFIX_EXPR,
+      prec.left(PREC.PREFIX_EXPR,
       seq(
-        choice("lazy", "assert", "upcast", "downcast", "%", "%%"),
+        choice("lazy", "assert", "upcast", "downcast", "%", "%%", $.prefix_op),
         $._expression,
       )),
 
     ce_expression: $ =>
-      prec(PREC.THEN_EXPR,
+      prec(PREC.CE_EXPR,
       seq(
         $._expression,
         "{",
@@ -377,7 +406,7 @@ module.exports = grammar({
       )),
 
     infix_expression: $ =>
-      prec.right(PREC.INFIX_OP,
+      prec.left(PREC.SPECIAL_INFIX,
       seq(
         $._expression,
         $.infix_op,
@@ -452,12 +481,13 @@ module.exports = grammar({
       )),
 
     elif_expression: $ =>
+      prec(PREC.ELSE_EXPR,
       seq(
         "elif",
         field("guard", $._expression),
         "then",
         field("then", $._expression),
-      ),
+      )),
 
     fun_expression: $ =>
       prec.right(PREC.FUN_EXPR,
@@ -496,13 +526,11 @@ module.exports = grammar({
       )),
 
     object_instantiation_expression: $ =>
-      prec(PREC.NEW_EXPR,
+      prec(PREC.NEW_OBJ,
       seq(
         "new",
         $.type,
-        "(",
-        optional($._expression),
-        ")",
+        $._expression,
       )),
 
     mutate_expression: $ =>
@@ -535,7 +563,7 @@ module.exports = grammar({
       prec(PREC.PAREN_EXPR,
       seq(
         $._expression,
-        "<",
+        imm("<"),
         optional($.types),
         ">",
       )),
@@ -1256,13 +1284,13 @@ module.exports = grammar({
 
     as_defn: $ => seq("as", $.identifier),
 
-    field_initializer: $ => seq($.long_identifier, "=", $._expression),
+    field_initializer: $ => prec.right(seq($.long_identifier, "=", $._expression)),
 
     field_initializers: $ =>
       prec.left(
       seq(
         $.field_initializer,
-        repeat(seq(optional(";"), $.field_initializer))
+        repeat(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $.field_initializer)))
       )),
 
     //
@@ -1397,14 +1425,15 @@ module.exports = grammar({
       ),
 
     prefix_op: $ =>
+      prec.left(PREC.PREFIX_EXPR,
       choice(
         $._infix_or_prefix_op,
-        repeat("~"),
+        prec.right(repeat1("~")),
         $.symbolic_op,
-      ),
+      )),
 
     infix_op: $ =>
-      prec.left(2,
+      prec(PREC.INFIX_OP,
       choice(
         $._infix_or_prefix_op,
         $.symbolic_op,
@@ -1426,7 +1455,7 @@ module.exports = grammar({
     symbolic_op: $ => choice(
       "?",
       "?<-",
-      seq($._first_op_char, repeat($._op_char)),
+      prec.right(seq($._first_op_char, repeat($._op_char))),
       $._quote_op_left,
       $._quote_op_right),
 
