@@ -825,9 +825,7 @@ module.exports = grammar({
 
     tuple_type: $ => seq(
       '(',
-      $.tuple_element,
-      ',',
-      commaSep1($.tuple_element),
+      commaSep2($.tuple_element),
       ')'
     ),
 
@@ -1090,7 +1088,7 @@ module.exports = grammar({
 
     positional_pattern_clause: $ => prec(1, seq(
       '(',
-      optional(seq($.subpattern, ',', commaSep1($.subpattern))),// we really should allow single sub patterns, but that causes conficts, and will rarely be used
+      optional(commaSep2($.subpattern)),// we really should allow single sub patterns, but that causes conficts, and will rarely be used
       ')',
     )),
 
@@ -1543,11 +1541,7 @@ module.exports = grammar({
 
     tuple_expression: $ => seq(
       '(',
-      $.argument,
-      repeat1(seq(
-        ',',
-        $.argument,
-      )),
+      commaSep2($.argument),
       ')'
     ),
 
@@ -1972,5 +1966,13 @@ function commaSep1(rule) {
       ',',
       rule
     ))
+  )
+}
+
+function commaSep2(rule) {
+  return seq(
+    rule,
+    ',',
+    commaSep1(rule)
   )
 }
