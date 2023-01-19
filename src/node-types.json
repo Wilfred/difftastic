@@ -450,7 +450,15 @@
       "required": false,
       "types": [
         {
+          "type": "_comp_expression",
+          "named": true
+        },
+        {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "short_comp_expression",
           "named": true
         }
       ]
@@ -1629,7 +1637,7 @@
     "fields": {
       "index": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "_expression",
@@ -1639,11 +1647,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "slice_ranges",
           "named": true
         }
       ]
@@ -1834,7 +1846,15 @@
       "required": false,
       "types": [
         {
+          "type": "_comp_expression",
+          "named": true
+        },
+        {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "short_comp_expression",
           "named": true
         }
       ]
@@ -2571,6 +2591,36 @@
         },
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "slice_range",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "slice_ranges",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "slice_range",
           "named": true
         }
       ]

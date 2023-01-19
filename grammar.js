@@ -32,6 +32,7 @@ const PREC = {
   PAREN_APP: 23,
   TYPED_EXPR: 24,
   PAREN_EXPR: 23,
+  DOTDOT_SLICE: 24,
 }
 
 module.exports = grammar({
@@ -298,7 +299,6 @@ module.exports = grammar({
         $.typed_expression,
         $.infix_expression,
         $.index_expression,
-        // expr.[slice_ranges]
         $.mutate_expression,
         $.object_instantiation_expression,
         $.list_expression,
@@ -529,7 +529,7 @@ module.exports = grammar({
         $._virtual_end_section,
         choice(
           seq("with", $.rules),
-          seq("finally", $._expression),
+          seq("finally", $._virtual_open_section, $._expression, $._virtual_end_section),
         ),
       )),
 
@@ -554,7 +554,9 @@ module.exports = grammar({
       seq(
         "new",
         $.type,
+        imm("("),
         $._expression,
+        ")"
       )),
 
     mutate_expression: $ =>
@@ -573,7 +575,10 @@ module.exports = grammar({
         $._expression,
         optional(imm(".")),
         imm("["),
-        field("index", $._expression),
+        choice(
+          field("index", $._expression),
+          $.slice_ranges,
+        ),
         "]",
       )),
 
@@ -606,17 +611,31 @@ module.exports = grammar({
         $._virtual_end_section,
       )),
 
+    _list_elements: $ =>
+      prec.right(PREC.COMMA,
+        seq(
+          $._expression,
+          repeat(prec.right(PREC.COMMA, seq(choice(";", $._newline), $._expression))),
+        )
+      ),
+
     list_expression: $ =>
       seq(
         "[",
-        repeat(prec.right(seq($._expression, optional(";")))),
+        choice(
+          optional($._list_elements),
+          $._comp_or_range_expression,
+        ),
         "]",
       ),
 
     array_expression: $ =>
       seq(
         "[|",
-        repeat(prec.right(seq($._expression, optional(";")))),
+        choice(
+          optional($._list_elements),
+          $._comp_or_range_expression,
+        ),
         "|]",
       ),
 
@@ -819,6 +838,26 @@ module.exports = grammar({
         optional("|"),
         $.comp_rule,
         repeat(seq("|", $.comp_rule)),
+      )),
+
+    slice_ranges: $ => prec.left(PREC.COMMA,
+      seq($.slice_range, repeat(seq(",", $.slice_range)))),
+
+    _slice_range_special: $ =>
+      prec.left(PREC.DOTDOT_SLICE,
+        choice(
+          seq($._expression, ".."),
+          seq("..", $._expression),
+          seq($._expression, "..", $._expression),
+        )
+      ),
+
+    slice_range: $ =>
+      prec(PREC.DOTDOT_SLICE,
+      choice(
+        $._slice_range_special,
+        $._expression,
+        "*",
       )),
 
     //
