@@ -511,3 +511,102 @@ class var { }
   (class_declaration
     (identifier)
     (declaration_list)))
+
+================================================================================
+Nameof contextual keyword
+================================================================================
+
+void nameof() { }
+void m(nameof p) { }
+void m(int nameof) { }
+void m()
+{
+    nameof v = null;
+    int nameof = nameof;
+
+    nameof();
+    nameof(a, b);
+    m(nameof);
+
+    var x = nameof + 1;
+}
+
+class nameof { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier))
+              (argument
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))

@@ -3321,3 +3321,57 @@ var allowedValuesList = someObj is null
               (object_creation_expression
                 (predefined_type)
                 (argument_list)))))))))
+
+================================================================================
+Nameof expressions
+================================================================================
+
+var x = nameof(A);
+var x = nameof(A<B>);
+var x = nameof(A.B);
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (invocation_expression
+              (identifier)
+              (argument_list
+                (argument
+                  (identifier)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (invocation_expression
+              (identifier)
+              (argument_list
+                (argument
+                  (generic_name
+                    (identifier)
+                    (type_argument_list
+                      (identifier)))))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (invocation_expression
+              (identifier)
+              (argument_list
+                (argument
+                  (member_access_expression
+                    (identifier)
+                    (identifier)))))))))))
+
