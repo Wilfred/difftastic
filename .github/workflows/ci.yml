@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 10
 
       - name: checkout scala/scala
-        if: ${{ runner.os != 'Windows' }}
+        if: ${{ runner.os == 'Linux' }}
         uses: actions/checkout@v3
         with:
           repository: scala/scala
@@ -50,6 +50,13 @@ jobs:
           repository: lampepfl/dotty
           ref: 3.2.1
           path: dotty
+
+      - name: checkout nvim-treesitter/nvim-treesitter
+        if: ${{ runner.os == 'Linux' }}
+        uses: actions/checkout@v3
+        with:
+          repository: nvim-treesitter/nvim-treesitter
+          path: nvim_treesitter
 
       - uses: actions/setup-node@v3
         with:
@@ -90,3 +97,23 @@ jobs:
           SCALA_SCALA_DIR: scala_scala
           DOTTY_DIR: dotty
         run: script/smoke_test.sh
+
+      - name: copy nvim-treesitter highlight queries
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: cp ./nvim_treesitter/queries/scala/highlights.scm ./queries/highlights.scm
+
+      - name: Check if highlight queries are out of sync with nvim-treesitter
+        if: ${{ runner.os == 'Linux' }}
+        uses: tj-actions/verify-changed-files@v13
+        id: verify-changed-files
+        with:
+          files: |
+            queries/highlights.scm
+
+      - name: Test quries if out of sync with nvim-treesitter
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+            echo "::warning file=queries/highlights.scm::Queries in this repo are out of sync with nvim-treesitter"
+            git diff queries/highlights.scm
+            npm run test
