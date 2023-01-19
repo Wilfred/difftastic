@@ -27,7 +27,10 @@ Generic types
 ===================================
 
 object Main {
-  type A = B[C, D]
+  type A = B[
+    C,
+    D,
+  ]
   type E = F.G[H]
 }
 
@@ -52,12 +55,21 @@ Tuple types
 
 object Main {
   type A = (B, C)
+  type A = (
+    B,
+    C,
+  )
 }
 
 ---
 
 (compilation_unit
   (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (tuple_type
+        (type_identifier)
+        (type_identifier)))
     (type_definition
       (type_identifier)
       (tuple_type

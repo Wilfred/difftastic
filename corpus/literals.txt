@@ -159,3 +159,19 @@ lazy val nullObject: String = null
 
 ---
 (compilation_unit (val_definition (modifiers) (identifier) (type_identifier) (null_literal)))
+
+==========================
+Tuple literals
+==========================
+
+val x = (
+  1,
+  2,
+  3,
+)
+
+---
+
+(compilation_unit
+  (val_definition (identifier)
+  (tuple_expression (integer_literal) (integer_literal) (integer_literal))))

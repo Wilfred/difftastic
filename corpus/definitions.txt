@@ -174,7 +174,9 @@ Imports
 import PartialFunction.condOpt
 import a.b, c.e
 import reflect.io.{Directory, File, Path}
-
+import a.{
+  b,
+}
 ---
 
 (compilation_unit
@@ -186,7 +188,9 @@ import reflect.io.{Directory, File, Path}
     (identifier) (identifier))
   (import_declaration
     (identifier) (identifier)
-    (namespace_selectors (identifier) (identifier) (identifier))))
+    (namespace_selectors (identifier) (identifier) (identifier)))
+  (import_declaration (identifier)
+    (namespace_selectors (identifier))))
 
 ================================
 Imports: Wildcard
@@ -307,7 +311,10 @@ object O3 extends A {
 Class definitions
 =======================================
 
-class C[T, U] {
+class C[
+  T,
+  U,
+] {
 }
 ---
 
@@ -397,7 +404,10 @@ end A
 Class definitions with parameters
 =======================================
 
-class Point(val x: Int, val y: Int)(implicit coord: Coord)
+class Point(
+  val x: Int,
+  val y: Int,
+)(implicit coord: Coord)
 
 // TODO: The last argument should become class_parameters
 class A @Inject()(x: Int, y: Int)
@@ -734,7 +744,10 @@ Function definitions
 =======================================
 
 class A {
-  def b(c: D, e: F) = 1
+  def b(
+    c: D,
+    e: F,
+  ) = 1
   def g[H](i) {
     j
   }
