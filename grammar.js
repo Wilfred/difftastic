@@ -6,6 +6,7 @@ const PREC = {
   while: 2,
   binding_def: 3,
   assign: 3,
+  case: 3,
   stable_id: 4,
   unit: 4,
   ascription: 4,
@@ -948,18 +949,23 @@ module.exports = grammar({
       seq('{', repeat1($.case_clause), '}'),
     ),
 
-    case_clause: $ => prec.left(seq(
+    case_clause: $ => prec.left(PREC.control, seq(
       'case',
-      field('pattern', $._pattern),
-      optional($.guard),
-      '=>',
+      $._case_pattern,
       field('body', optional($._block)),
     )),
 
-    guard: $ => seq(
+    // This is created to capture guard from the right
+    _case_pattern: $ => prec.right(10, seq(
+      field('pattern', $._pattern),
+      optional($.guard),
+      '=>',
+    )),
+
+    guard: $ => prec.left(PREC.control, seq(
       'if',
       field('condition', $._postfix_expression_choice)
-    ),
+    )),
 
     assignment_expression: $ => prec.right(PREC.assign, seq(
       field('left', choice(
