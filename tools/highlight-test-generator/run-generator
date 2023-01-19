@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ROOT="$(git rev-parse --show-toplevel)"
+echo $ROOT/tools/highlight-test-generator/Generator.csproj
+dotnet run --project $ROOT/tools/highlight-test-generator/Generator.csproj $1
