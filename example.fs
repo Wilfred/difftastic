@@ -2,4 +2,5 @@
 module Test
 
 do
-  x[1]
+  f x y z
+  1
