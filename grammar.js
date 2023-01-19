@@ -52,7 +52,7 @@ module.exports = grammar({
 
   inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right ],
 
-  supertypes: $ => [ $._module_elem, $._pattern, $._expression, $._comp_expression ],
+  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._comp_expression ],
 
   rules: {
     //
@@ -274,9 +274,15 @@ module.exports = grammar({
     //
     // Expressions (BEGIN)
     //
-    // _expression: $ => prec.RIGHT(PREC.SEQ_EXPR, repeat1($._expression_inner)),
-
     _expression: $ =>
+      prec.right(
+        seq(
+          $._expression_inner,
+          repeat(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
+        )
+      ),
+
+    _expression_inner: $ =>
       choice(
         $.const,
         $.paren_expression,
@@ -307,16 +313,16 @@ module.exports = grammar({
         $.match_expression,
         $.try_expression,
         $.literal_expression,
-        $.sequence_expression,
+        // $.sequence_expression,
         // (static-typars : (member-sig) expr)
       ),
 
-    sequence_expression: $ =>
-        prec(PREC.SEQ_EXPR,
-        seq(
-          $._expression,
-          repeat1(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
-        )),
+    // sequence_expression: $ =>
+    //     prec(PREC.SEQ_EXPR,
+    //     seq(
+    //       $._expression,
+    //       repeat1(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
+    //     )),
 
     brace_expression: $ =>
       prec(PREC.PAREN_EXPR,

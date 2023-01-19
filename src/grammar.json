@@ -1040,6 +1040,47 @@
       }
     },
     "_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression_inner"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PREC_RIGHT",
+              "value": 1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ";"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "_expression_inner": {
       "type": "CHOICE",
       "members": [
         {
@@ -1145,53 +1186,8 @@
         {
           "type": "SYMBOL",
           "name": "literal_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "sequence_expression"
         }
       ]
-    },
-    "sequence_expression": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_expression"
-          },
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "PREC_RIGHT",
-              "value": 1,
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ";"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_expression"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      }
     },
     "brace_expression": {
       "type": "PREC",
@@ -7124,7 +7120,7 @@
   "supertypes": [
     "_module_elem",
     "_pattern",
-    "_expression",
+    "_expression_inner",
     "_comp_expression"
   ]
 }
