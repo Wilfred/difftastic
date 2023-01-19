@@ -2,6 +2,32 @@ function imm(x) {
   return token.immediate(x);
 }
 
+const PREC = {
+  SEQ_EXPR: 1,
+  THEN_EXPR: 2,
+  RARROW: 3,
+  INFIX_OP: 4,
+  NEW_EXPR: 5,
+  LET_EXPR: 6,
+  LET_DECL: 7,
+  FUN_EXPR: 8,
+  MATCH_EXPR: 9,
+  MATCH_DECL: 10,
+  DO_DECL: 11,
+  IF_EXPR: 12,
+  ELSE_EXPR: 13,
+  INTERFACE: 14,
+  LARROW: 15,
+  COMMA: 16,
+  DOTDOT: 17,
+  SPECIAL_INFIX: 18,
+  PREFIX_EXPR: 19,
+  DOT: 20,
+  INDEX_EXPR: 21,
+  PAREN_EXPR: 22,
+  TYPED_EXPR: 23,
+}
+
 module.exports = grammar({
   name: 'fsharp',
 
@@ -24,7 +50,7 @@ module.exports = grammar({
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier ],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right ],
 
   supertypes: $ => [ $._module_elem, $._pattern, $._expression, $._comp_expression ],
 
@@ -106,11 +132,11 @@ module.exports = grammar({
 
     value_declaration: $ =>
       choice(
-        $.function_or_value_defn,
-        $.do
+        prec(PREC.LET_DECL, $.function_or_value_defn),
+        prec(PREC.DO_DECL, $.do)
       ),
 
-    do: $ => seq("do", $._expression),
+    do: $ => prec.left(seq("do", $._expression)),
 
     _function_or_value_defns : $ =>
       seq($._function_or_value_defn_body, repeat1(seq("and", $._function_or_value_defn_body))),
@@ -132,7 +158,7 @@ module.exports = grammar({
         ),
         "=",
         $._virtual_open_section,
-        alias($._expression, $.defn_body),
+        field("body", $._expression),
         $._virtual_end_section,
       ),
 
@@ -189,10 +215,10 @@ module.exports = grammar({
     paren_pattern: $ => seq("(", $._pattern, ")"),
 
     repeat_pattern: $ =>
-      prec.left(2,
-        seq(
-          $._pattern,
-          repeat1(seq(",", $._pattern)),
+      prec.left(PREC.COMMA,
+      seq(
+        $._pattern,
+        repeat1(prec.left(PREC.COMMA, seq(",", $._pattern))),
       )),
 
     identifier_pattern: $ =>
@@ -248,8 +274,9 @@ module.exports = grammar({
     //
     // Expressions (BEGIN)
     //
+    // _expression: $ => prec.RIGHT(PREC.SEQ_EXPR, repeat1($._expression_inner)),
+
     _expression: $ =>
-      prec.left(4,
       choice(
         $.const,
         $.paren_expression,
@@ -261,7 +288,6 @@ module.exports = grammar({
         $.index_expression,
         // expr.[slice_ranges]
         $.mutate_expression,
-        $.sequential_expression,
         $.object_instantiation_expression,
         $.list_expression,
         $.array_expression,
@@ -281,10 +307,19 @@ module.exports = grammar({
         $.match_expression,
         $.try_expression,
         $.literal_expression,
+        $.sequence_expression,
         // (static-typars : (member-sig) expr)
-      )),
+      ),
+
+    sequence_expression: $ =>
+        prec(PREC.SEQ_EXPR,
+        seq(
+          $._expression,
+          repeat1(prec.right(PREC.SEQ_EXPR, seq(optional(";"), $._expression)))
+        )),
 
     brace_expression: $ =>
+      prec(PREC.PAREN_EXPR,
       seq(
         "{",
          choice(
@@ -293,7 +328,7 @@ module.exports = grammar({
           $.object_expression,
         ),
         "}",
-      ),
+      )),
 
     with_field_expression: $ =>
       seq(
@@ -305,12 +340,13 @@ module.exports = grammar({
     field_expression: $ => $.field_initializers,
 
     object_expression: $ =>
+      prec(PREC.NEW_EXPR,
       seq(
         "new",
         $._base_call,
         $.object_members,
         $.interface_implementations,
-      ),
+      )),
 
     _base_call: $ =>
       choice(
@@ -319,14 +355,14 @@ module.exports = grammar({
       ),
 
     prefixed_expression: $ =>
-      prec.left(
+      prec(PREC.PREFIX_EXPR,
       seq(
         choice("lazy", "assert", "upcast", "downcast", "%", "%%"),
         $._expression,
       )),
 
     ce_expression: $ =>
-      prec.left(5,
+      prec(PREC.THEN_EXPR,
       seq(
         $._expression,
         "{",
@@ -335,7 +371,7 @@ module.exports = grammar({
       )),
 
     infix_expression: $ =>
-      prec.left(2,
+      prec.right(PREC.INFIX_OP,
       seq(
         $._expression,
         $.infix_op,
@@ -343,14 +379,14 @@ module.exports = grammar({
       )),
 
     literal_expression: $ =>
-      prec.left(2,
+      prec(PREC.PAREN_EXPR,
       choice(
         seq("<@", $._expression, "@>"),
         seq("<@@", $._expression, "@@>"),
       )),
 
     typecast_expression: $ =>
-      prec.left(2,
+      prec(PREC.SPECIAL_INFIX,
       seq(
         $._expression,
         choice(
@@ -362,14 +398,11 @@ module.exports = grammar({
         $.type
       )),
 
-    sequential_expression: $ => prec.left(2,seq($._expression, repeat1($._expression))),
+    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq("begin", $._expression, "end")),
 
-    begin_end_expression: $ => seq("begin", $._expression, "end"),
-
-    paren_expression: $ => seq("(", $._expression, ")"),
+    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._expression, ")")),
 
     for_expression: $ =>
-      prec.left(2,
       seq(
         "for",
         choice(
@@ -377,29 +410,39 @@ module.exports = grammar({
             seq($.identifier, "=", $._expression, "to", $._expression),
         ),
         "do",
+          $._virtual_open_section,
           $._expression,
+          $._virtual_end_section,
         optional("done"),
-      )),
+      ),
 
     while_expression: $ =>
-      prec.left(2,
       seq(
         "while",
-        $._expression,
+          $._expression,
         "do",
-        $._expression,
+          $._virtual_open_section,
+          $._expression,
+          $._virtual_end_section,
         optional("done"),
+      ),
+
+    _else_expression: $ =>
+      prec(PREC.ELSE_EXPR,
+      seq(
+        "else",
+        field("else_branch", $._expression),
       )),
 
     if_expression: $ =>
-      prec.left(2,
+      prec.left(PREC.IF_EXPR,
       seq(
         "if",
         field("guard", $._expression),
         "then",
         field("then", $._expression),
         repeat($.elif_expression),
-        optional(seq("else", field("else", $._expression))),
+        optional($._else_expression),
       )),
 
     elif_expression: $ =>
@@ -411,15 +454,16 @@ module.exports = grammar({
       ),
 
     fun_expression: $ =>
+      prec.right(PREC.FUN_EXPR,
       seq(
         "fun",
         $.argument_patterns,
         "->",
         $._expression,
-      ),
+      )),
 
     try_expression: $ =>
-      prec.left(2,
+      prec(PREC.MATCH_EXPR,
       seq(
         "try",
         $._expression,
@@ -430,28 +474,33 @@ module.exports = grammar({
       )),
 
     match_expression: $ =>
+      prec(PREC.MATCH_EXPR,
       seq(
         "match",
         $._expression,
         "with",
         $.rules,
-      ),
+      )),
 
     function_expression: $ =>
+      prec(PREC.MATCH_EXPR,
       seq(
         "function",
         $.rules,
-      ),
+      )),
 
     object_instantiation_expression: $ =>
+      prec(PREC.NEW_EXPR,
       seq(
         "new",
         $.type,
-        $._expression,
-      ),
+        "(",
+        optional($._expression),
+        ")",
+      )),
 
     mutate_expression: $ =>
-      prec.left(2,
+      prec.right(PREC.LARROW,
       seq(
         field("assignee", $._expression),
         "<-",
@@ -459,25 +508,25 @@ module.exports = grammar({
       )),
 
     index_expression: $ =>
-      prec.left(2,
+      prec(PREC.INDEX_EXPR,
       seq(
         $._expression,
-        optional("."),
-        "[",
+        optional(imm(".")),
+        imm("["),
         $._expression,
         "]",
       )),
 
     dot_expression: $ =>
-      prec.left(4,
+      prec.left(PREC.DOT,
       seq(
         field("base", $._expression),
-        ".",
+        imm("."),
         field("field", $.long_identifier_or_op),
       )),
 
     typed_expression: $ =>
-      prec.left(2,
+      prec(PREC.PAREN_EXPR,
       seq(
         $._expression,
         "<",
@@ -486,7 +535,7 @@ module.exports = grammar({
       )),
 
     declaration_expression: $ =>
-      prec.right(4,
+      prec(PREC.LET_EXPR,
       seq(
         choice(
             seq("use", $.identifier, "=", $._expression),
@@ -501,7 +550,7 @@ module.exports = grammar({
       seq(
         "[",
         optional($._virtual_open_section),
-        repeat(seq($._expression, optional(";"))),
+        repeat(prec.right(seq($._expression, optional(";")))),
         optional($._virtual_end_section),
         "]",
       ),
@@ -510,12 +559,13 @@ module.exports = grammar({
       seq(
         "[|",
         optional($._virtual_open_section),
-        repeat(seq($._expression, optional(";"))),
+        repeat(prec.right(seq($._expression, optional(";")))),
         optional($._virtual_end_section),
         "|]",
       ),
 
     range_expression: $ =>
+      prec.left(PREC.DOTDOT,
       seq(
         $._expression,
         "..",
@@ -523,7 +573,7 @@ module.exports = grammar({
         optional(seq(
           "..",
           $._expression,
-        ))),
+        )))),
 
     _expression_or_range: $ =>
       choice(
@@ -532,7 +582,7 @@ module.exports = grammar({
       ),
 
     rule: $ =>
-      prec.left(2,
+      prec.right(
       seq(
         $._pattern,
         "->",
@@ -540,7 +590,7 @@ module.exports = grammar({
       )),
 
     rules: $ =>
-      prec.left(2,
+      prec.right(PREC.MATCH_EXPR,
       seq(
         optional("|"),
         $.rule,
@@ -764,7 +814,7 @@ module.exports = grammar({
           seq($.type, "->", $.type),
           seq($.type, repeat1(seq("*", $.type))),
           seq($.type, $.long_identifier),
-          seq($.type, "[", repeat(","), "]"),
+          seq($.type, "[", repeat(","), "]"), // TODO: FIXME
           seq($.type, $.type_argument_defn),
           $.type_argument,
           seq($.type_argument, ":>", $.type),
@@ -775,7 +825,7 @@ module.exports = grammar({
     types: $ =>
       seq(
         $.type,
-        repeat(seq(",", $.type)),
+        repeat1(prec.left(PREC.COMMA, seq(",", $.type))),
       ),
 
     type_attribute: $ =>
@@ -784,7 +834,7 @@ module.exports = grammar({
         // measure
         // static-parameter
       ),
-    type_attributes: $ => seq($.type_attribute, repeat(seq(",", $.type_attribute))),
+    type_attributes: $ => seq($.type_attribute, repeat(prec.left(PREC.COMMA, seq(",", $.type_attribute)))),
 
     atomic_type: $ =>
       choice(
@@ -840,7 +890,7 @@ module.exports = grammar({
       seq(
         "<",
         $.type_argument_defn,
-        repeat(seq(",", $.type_argument_defn)),
+        repeat(prec.left(PREC.COMMA, seq(",", $.type_argument_defn))),
         optional($.type_argument_constraints),
         ">"
       ),
@@ -1085,7 +1135,7 @@ module.exports = grammar({
         "(",
         optional(seq(
             $.simple_pattern,
-            repeat(seq(",", $.simple_pattern)))),
+            repeat(prec.left(PREC.COMMA, seq(",", $.simple_pattern))))),
         ")"
       ),
 

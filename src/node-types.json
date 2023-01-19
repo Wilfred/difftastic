@@ -110,7 +110,7 @@
         "named": true
       },
       {
-        "type": "sequential_expression",
+        "type": "sequence_expression",
         "named": true
       },
       {
@@ -264,7 +264,18 @@
   {
     "type": "additional_constr_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -279,10 +290,6 @@
         },
         {
           "type": "additional_constr_init_expr",
-          "named": true
-        },
-        {
-          "type": "defn_body",
           "named": true
         },
         {
@@ -1428,15 +1435,22 @@
   {
     "type": "function_or_value_defn",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "defn_body",
-          "named": true
-        },
         {
           "type": "function_declaration_left",
           "named": true
@@ -1510,7 +1524,7 @@
     "type": "if_expression",
     "named": true,
     "fields": {
-      "else": {
+      "else_branch": {
         "multiple": false,
         "required": false,
         "types": [
@@ -1932,17 +1946,24 @@
   {
     "type": "method_or_prop_defn",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "defn_body",
           "named": true
         },
         {
@@ -2423,7 +2444,7 @@
     }
   },
   {
-    "type": "sequential_expression",
+    "type": "sequence_expression",
     "named": true,
     "fields": {},
     "children": {
