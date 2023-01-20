@@ -1,2 +1,2 @@
-sample_files/* linguist-vendored
-vendored_parsers/* linguist-vendored
+sample_files/** linguist-vendored
+vendored_parsers/** linguist-vendored
