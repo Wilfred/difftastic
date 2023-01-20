@@ -4,6 +4,7 @@
   "description": "Tree Sitter grammar for Erlang",
   "scripts": {
     "test": "tree-sitter test",
+    "test-highlight": "tree-sitter test -f does-not-exist",
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse"
   },
@@ -14,5 +15,18 @@
     "prettier": "^2.2.1",
     "tree-sitter-cli": "^0.20.7"
   },
-  "main": "bindings/node"
+  "main": "bindings/node",
+  "tree-sitter": [
+    {
+      "scope": "source.erlang",
+      "file-types": [
+          "erl",
+          "hrl",
+          "app.src",
+          "app",
+          "escript",
+          "rebar.config"
+      ]
+    }
+  ]
 }

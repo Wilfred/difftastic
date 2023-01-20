@@ -10,6 +10,12 @@ fmt:
 test: gen
 	$(TREE_SITTER) test
 
+.PHONY: test-highlight
+test-highlight:
+	# Note: test-highlight uses a filter for non-existent corpus
+	# tests, so only highlights run. And does not gen.
+	$(TREE_SITTER) test-highlight
+
 .PHONY: update
 update: gen
 	$(TREE_SITTER) test -- --update
