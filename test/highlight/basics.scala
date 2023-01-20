@@ -1,3 +1,7 @@
+import java.time.Instant
+//^include
+//     ^namespace
+//               ^type
 object Hello {
 // ^ keyword 
 //       ^ type
@@ -53,7 +57,7 @@ object Hello {
 // ^ keyword
 //      ^ type
     self: X =>
-//  ^constant
+//  ^type
 //        ^type
   }
 

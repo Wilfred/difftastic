@@ -51,7 +51,7 @@ class C:
   // This is SIP-44
   val y = x:
     Int
-    //^constant
+    //^type
 
 // Ascription expression
 class C:
