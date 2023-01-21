@@ -241,7 +241,7 @@
 
 (operator_identifier) @operator
 
-((identifier) @constant (#lua-match? @constant "^[A-Z]"))
+((identifier) @type (#lua-match? @type "^[A-Z]"))
 ((identifier) @variable.builtin
  (#lua-match? @variable.builtin "^this$"))
 
