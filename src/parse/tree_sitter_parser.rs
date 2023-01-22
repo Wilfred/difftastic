@@ -14,6 +14,7 @@ use crate::{
 
 use super::syntax;
 use super::syntax::MatchedPos;
+use super::syntax::merge_adjacent_comments;
 
 /// A language may contain certain nodes that are in other languages
 /// and should be parsed as such (e.g. HTML <script> nodes containing
@@ -1252,7 +1253,7 @@ fn all_syntaxes_from_cursor<'a>(
         }
     }
 
-    result
+    merge_adjacent_comments(arena, &result)
 }
 
 /// Convert the tree-sitter node at `cursor` to a difftastic syntax

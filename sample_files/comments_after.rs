@@ -21,3 +21,8 @@ f3();
  *
  * This line has changed.
  */
+f4();
+
+// A big comment composed of multiple single-line comments.
+//
+// Foo bar.

@@ -184,6 +184,88 @@ impl<'a> fmt::Debug for Syntax<'a> {
     }
 }
 
+pub fn merge_adjacent_comments<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    nodes: &[&'a Syntax<'a>],
+) -> Vec<&'a Syntax<'a>> {
+    let mut res: Vec<&'a Syntax<'a>> = vec![];
+    let mut prev: Option<(Vec<SingleLineSpan>, String)> = None;
+
+    for node in nodes {
+        let current_comment = match node {
+            Atom {
+                kind: AtomKind::Comment,
+                position,
+                content,
+                ..
+            } => Some((position, content)),
+            _ => None,
+        };
+
+        match (prev.take(), current_comment) {
+            (Some((prev_position, prev_content)), Some((current_position, current_content))) => {
+                let is_adjacent = match (prev_position.last(), current_position.first()) {
+                    (Some(prev_position), Some(current_position)) => {
+                        prev_position.line.0 + 1 == current_position.line.0
+                    }
+                    _ => false,
+                };
+
+                if is_adjacent {
+                    let mut merged_pos = prev_position.clone();
+                    merged_pos.extend(current_position);
+
+                    let mut merged_content = prev_content.clone();
+
+                    merged_content.push('\n');
+                    merged_content.push_str(current_content);
+
+                    prev = Some((merged_pos, merged_content));
+                } else {
+                    let prev_node = arena.alloc(Atom {
+                        info: SyntaxInfo::default(),
+                        position: prev_position,
+                        content: prev_content,
+                        kind: AtomKind::Comment,
+                    });
+                    res.push(prev_node);
+
+                    prev = Some((current_position.to_vec(), current_content.to_string()));
+                }
+            }
+            (None, Some((current_position, current_content))) => {
+                prev = Some((current_position.to_vec(), current_content.to_string()));
+            }
+            (Some((prev_position, prev_content)), None) => {
+                let prev_node = arena.alloc(Atom {
+                    info: SyntaxInfo::default(),
+                    position: prev_position,
+                    content: prev_content,
+                    kind: AtomKind::Comment,
+                });
+                res.push(prev_node);
+
+                res.push(node);
+            }
+            _ => {
+                res.push(node);
+            }
+        };
+    }
+
+    if let Some((prev_position, prev_content)) = prev.take() {
+        let prev_node = arena.alloc(Atom {
+            info: SyntaxInfo::default(),
+            position: prev_position,
+            content: prev_content,
+            kind: AtomKind::Comment,
+        });
+        res.push(prev_node);
+    }
+
+    res
+}
+
 impl<'a> Syntax<'a> {
     pub fn new_list(
         arena: &'a Arena<Syntax<'a>>,
@@ -203,6 +285,8 @@ impl<'a> Syntax<'a> {
                 Atom { content, .. } => !content.is_empty(),
             })
             .collect::<Vec<_>>();
+
+        let children = merge_adjacent_comments(arena, &children);
 
         // Don't bother creating a list if we have no open/close and
         // there's only one child. This occurs in small files with

@@ -17,7 +17,7 @@ sample_files/comma_before.js sample_files/comma_after.js
 e615c73ff860651f7749dc13cb3f110f  -
 
 sample_files/comments_before.rs sample_files/comments_after.rs
-9af41b8c280d4ce94a19023f652e46fb  -
+e086806ae17058027bbfe2c0d6d66dff  -
 
 sample_files/context_before.rs sample_files/context_after.rs
 eac81f7ca15eff973498a4d8b050ec34  -
@@ -32,7 +32,7 @@ sample_files/dart_before.dart sample_files/dart_after.dart
 cb051f6adc4238724f4ec06398713a12  -
 
 sample_files/elisp_before.el sample_files/elisp_after.el
-d8a819fd38eab07b4b0bb2895258d7b1  -
+addbc1611fe04f3fed7e53f1a2da385f  -
 
 sample_files/elisp_contiguous_before.el sample_files/elisp_contiguous_after.el
 6deea81ba2f97c09ae773777c53af05e  -
@@ -44,7 +44,7 @@ sample_files/elvish_before.elv sample_files/elvish_after.elv
 dd6575e62ddbb4604de8e5dae7991815  -
 
 sample_files/erlang_before.erl sample_files/erlang_after.erl
-e5c989cce93d63604e4e71b83c39c5d4  -
+5dcc41971fb0e47b87239628292601b8  -
 
 sample_files/hack_before.php sample_files/hack_after.php
 83d4a92c596b5d465ff024aa1b30be92  -
@@ -56,7 +56,7 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 5a2c0c5d4a04f79e2f8f32299e6cd364  -
 
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
-24c6205befd0fd1b44f21dd039cafb48  -
+4426ac39f72f805c0dd18d42975995bf  -
 
 sample_files/helpful_before.el sample_files/helpful_after.el
 65ad6cb40353750f05d183f9276930b6  -
@@ -80,7 +80,7 @@ sample_files/if_before.py sample_files/if_after.py
 0a2d19c153f43bb7e683e3b531325533  -
 
 sample_files/janet_before.janet sample_files/janet_after.janet
-70d4add9e053b8a4355e470de52654e9  -
+d6f11790641da1c3efcf0185a4ed70a3  -
 
 sample_files/java_before.java sample_files/java_after.java
 96fabae990d201558531d24b777ca8f5  -

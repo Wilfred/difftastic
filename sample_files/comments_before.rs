@@ -21,3 +21,8 @@ if true {
  *
  * This line will change.
  */
+f4();
+
+// A changed big comment composed of multiple single-line comments.
+//
+// Foo bar baz.
