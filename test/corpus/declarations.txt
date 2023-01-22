@@ -86,6 +86,8 @@ using enum Foo;
 template <typename T>
 using a = typename b<T>::c;
 
+using foobar [[deprecated]] = int;
+
 ---
 
 (translation_unit
@@ -113,7 +115,11 @@ using a = typename b<T>::c;
         (dependent_type
           (qualified_identifier
             (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
-            (type_identifier)))))))
+            (type_identifier))))))
+  (alias_declaration
+    (type_identifier)
+    (attribute_declaration (attribute (identifier)))
+    (type_descriptor (primitive_type))))
 
 =========================================
 Reference declarations
