@@ -420,6 +420,8 @@ def matchTest(x: Int): String = x match {
   case A if a == 1 =>
   case A if a == 2 => 2
   case ((i, _)) => i
+  case s"$l1 -- $l2" => 
+    l1 + l2
   case _ =>
     val x = "many"
     "more"
@@ -440,6 +442,18 @@ def matchTest(x: Int): String = x match {
       (case_clause (identifier) (guard (infix_expression (identifier) (operator_identifier) (integer_literal))))
       (case_clause (identifier) (guard (infix_expression (identifier) (operator_identifier) (integer_literal))) (integer_literal))
       (case_clause (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier))
+      (case_clause
+        (interpolated_string_expression
+          (identifier)
+          (interpolated_string
+            (interpolation
+              (identifier))
+            (interpolation
+              (identifier))))
+        (infix_expression
+          (identifier)
+          (operator_identifier)
+          (identifier)))
       (case_clause (wildcard) (val_definition (identifier) (string)) (string))))))
 
 ===============================

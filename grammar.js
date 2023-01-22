@@ -777,6 +777,7 @@ module.exports = grammar({
     _pattern: $ => choice(
       $._identifier,
       $.stable_identifier,
+      $.interpolated_string_expression,
       $.capture_pattern,
       $.tuple_pattern,
       $.case_class_pattern,
@@ -1317,7 +1318,7 @@ module.exports = grammar({
       )
     ),
 
-    string :$ =>
+    string: $ =>
       choice(
         $._simple_string,
         $._simple_multiline_string
