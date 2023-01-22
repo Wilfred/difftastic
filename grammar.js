@@ -664,6 +664,7 @@ module.exports = grammar(C, {
     alias_declaration: $ => seq(
       'using',
       field('name', $._type_identifier),
+      optional($.attribute_declaration),
       '=',
       field('type', $.type_descriptor),
       ';'
