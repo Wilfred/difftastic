@@ -1100,7 +1100,7 @@ pub fn comment_positions(
     let arena = Arena::new();
     let ignore_comments = false;
 
-    let nodes = to_syntax(&tree, src, &arena, config, ignore_comments);
+    let nodes = to_syntax(tree, src, &arena, config, ignore_comments);
     let positions = syntax::comment_positions(&nodes);
 
     positions
@@ -1128,11 +1128,11 @@ pub fn to_syntax<'a>(
         return vec![];
     }
 
-    let highlights = tree_highlights(&tree, src, config);
+    let highlights = tree_highlights(tree, src, config);
 
     // Parse sub-languages, if any, which will be used both for
     // highlighting and for more precise Syntax nodes where applicable.
-    let subtrees = parse_subtrees(src, config, &tree);
+    let subtrees = parse_subtrees(src, config, tree);
 
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
