@@ -3908,6 +3908,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "interpolated_string_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "capture_pattern"
         },
         {

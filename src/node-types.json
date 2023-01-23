@@ -106,6 +106,10 @@
         "named": true
       },
       {
+        "type": "interpolated_string_expression",
+        "named": true
+      },
+      {
         "type": "null_literal",
         "named": true
       },
