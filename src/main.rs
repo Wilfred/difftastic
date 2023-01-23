@@ -18,6 +18,10 @@
 // Purely stylistic, and ignores whether there are explanatory
 // comments in the if/else.
 #![allow(clippy::bool_to_int_with_if)]
+// Good practice in general, but a necessary evil for Syntax. Its Hash
+// implementation does not consider the mutable fields, so it is still
+// correct.
+#![allow(clippy::mutable_key_type)]
 
 mod constants;
 mod diff;
