@@ -25,9 +25,9 @@
 //! C D
 //! ```
 //!
-//! This module fixes these sliders by sliding novel region regions
-//! forwards or backwards when the before and after nodes are the same
-//! (B in this example).
+//! This module fixes these cases. It identifies situations where we
+//! can change which item is marked as novel (e.g. either `B` in the
+//! example above) whilst still showing a valid, minimal diff.
 
 use crate::{
     diff::changes::{insert_deep_novel, insert_deep_unchanged, ChangeKind::*, ChangeMap},
@@ -307,6 +307,9 @@ fn push_unchanged_to_ancestor<'a>(
     }
 }
 
+/// For every sequence of novel nodes, if it's a potential slider,
+/// change which nodes are marked as novel if it produces a sequence
+/// of nodes that are closer together.
 fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
     for (region_start, region_end) in novel_regions_after_unchanged(nodes, change_map) {
         slide_to_prev_node(nodes, change_map, region_start, region_end);
@@ -316,6 +319,8 @@ fn fix_sliders<'a>(nodes: &[&'a Syntax<'a>], change_map: &mut ChangeMap<'a>) {
     }
 }
 
+/// Return the start and end indexes of sequences of novel nodes that
+/// occur after unchanged nodes.
 fn novel_regions_after_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
@@ -364,6 +369,8 @@ fn novel_regions_after_unchanged<'a>(
         .collect()
 }
 
+/// Return the start and end indexes of sequences of novel nodes that
+/// occur before unchanged nodes.
 fn novel_regions_before_unchanged<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &ChangeMap<'a>,
