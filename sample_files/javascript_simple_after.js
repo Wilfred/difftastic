@@ -1,9 +1,11 @@
 // hello
 if (true) {
   foo();
-  bar(1);
+  bar(2);
   baz();
 }
 
-var people = ["john", "harry", "dick", "yvonne",
-              "archibald", "jenny", "alexandra"];
+var people = [
+  "john", "harry", "dick", "yvonne",
+  "eric", "jenny", "alexandra",
+];

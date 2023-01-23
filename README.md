@@ -25,7 +25,8 @@ In this JavaScript example, we can see:
 whitespace.
 
 (2) Difftastic understands which lines should be aligned. It's aligned
-`bar()` on the left with `bar(1)` on the right, despite their changes.
+`bar(1)` on the left with `bar(2)` on the right, even though the
+textual content isn't identical.
 
 (3) Difftastic understands that line-wrapping isn't
 meaningful. `"eric"` is now on a new line, but it hasn't changed.

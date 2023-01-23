@@ -1,7 +1,9 @@
 // hello
 foo();
-bar();
+bar(1);
 baz();
 
-var people = ["john", "harry", "dick", "archibald",
-              "jenny", "alexandra"];
+var people = [
+  "john", "harry", "dick", "eric",
+  "jenny", "alexandra",
+];
