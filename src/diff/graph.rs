@@ -802,6 +802,22 @@ pub fn populate_change_map<'a, 'b>(
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
 
+                let lhs_content = match lhs {
+                    Syntax::List { .. } => todo!(),
+                    Syntax::Atom { content, .. } => content,
+                };
+                let rhs_content = match rhs {
+                    Syntax::List { .. } => todo!(),
+                    Syntax::Atom { content, .. } => content,
+                };
+
+                for (lhs_line, rhs_line) in lhs_content.lines().zip(rhs_content.lines()) {
+                    if lhs_line == rhs_line {
+                    } else {
+                        break;
+                    }
+                }
+
                 if *levenshtein_pct > 40 {
                     change_map.insert(lhs, ChangeKind::ReplacedComment(lhs, rhs));
                     change_map.insert(rhs, ChangeKind::ReplacedComment(rhs, lhs));

@@ -13,8 +13,8 @@ use crate::{
 };
 
 use super::syntax;
-use super::syntax::MatchedPos;
 use super::syntax::merge_adjacent_comments;
+use super::syntax::MatchedPos;
 
 /// A language may contain certain nodes that are in other languages
 /// and should be parsed as such (e.g. HTML <script> nodes containing

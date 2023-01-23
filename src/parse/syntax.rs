@@ -709,6 +709,11 @@ pub enum MatchKind {
         self_pos: Vec<SingleLineSpan>,
         opposite_pos: Vec<SingleLineSpan>,
     },
+    UnchangedSyntaxLine {
+        highlight: TokenKind,
+        self_pos: SingleLineSpan,
+        opposite_pos: SingleLineSpan,
+    },
     Novel {
         highlight: TokenKind,
     },
@@ -853,6 +858,23 @@ impl MatchedPos {
                         content, position, ..
                     } => (content, position),
                 };
+
+                let mut res = vec![];
+                for (lhs_line, rhs_line) in this_content.lines().zip(opposite_content.lines()) {
+                    if lhs_line == rhs_line {
+                        let kind = MatchKind::UnchangedSyntaxLine {
+                            highlight,
+                            self_pos: pos.to_vec(),
+                            opposite_pos,
+                        };
+                    } else {
+                        break;
+                    }
+                }
+
+                if res.len() > 0 {
+                    return res;
+                }
 
                 split_comment_words(
                     this_content,

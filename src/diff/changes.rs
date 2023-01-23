@@ -4,7 +4,7 @@ use std::num::NonZeroU32;
 
 use rustc_hash::FxHashMap;
 
-use crate::parse::syntax::Syntax;
+use crate::{parse::syntax::Syntax};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
