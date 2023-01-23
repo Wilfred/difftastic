@@ -60,9 +60,10 @@ fn prefer_outer_delimiter(language: guess_language::Language) -> bool {
         // JSON and TOML are like Lisp: the outer delimiter in an array object
         // is the most relevant.
         Json | Toml | Hcl => true,
-        // It's probably the case that outer delimiters are used more
-        // frequently than inner delimiters in SQl. (foo = 1 OR bar = 2)
-        // is more likely than foo(1).
+        // It's probably the case that outer delimiters
+        // (e.g. grouping) are used more frequently than inner
+        // delimiters in SQL. `(foo = 1 OR bar = 2)` is more likely
+        // than `foo(1)`.
         Sql => true,
         // For everything else, prefer the inner delimiter. These
         // languages have syntax like `foo(bar)` or `foo[bar]` where
