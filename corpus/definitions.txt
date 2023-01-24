@@ -263,26 +263,56 @@ Imports: Rename (Scala 3 Syntax)
 ================================
 
 import lang.System.{lineSeparator as EOL}
+import lang.System.lineSeparator as EOL
+import lang.System.lineSeparator as _
 
 ---
 
 (compilation_unit
   (import_declaration
-    (identifier) (identifier)
-    (namespace_selectors (renamed_identifier (identifier) (identifier)))))
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (as_renamed_identifier
+        (identifier)
+        (identifier))))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (identifier)))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (as_renamed_identifier
+      (identifier)
+      (wildcard))))
 
 ================================
 Imports: Rename
 ================================
 
 import lang.System.{lineSeparator => EOL}
+import lang.System.{lineSeparator => _}
 
 ---
 
 (compilation_unit
   (import_declaration
-    (identifier) (identifier)
-    (namespace_selectors (renamed_identifier (identifier) (identifier)))))
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (arrow_renamed_identifier
+        (identifier)
+        (identifier))))
+  (import_declaration
+    (identifier)
+    (identifier)
+    (namespace_selectors
+      (arrow_renamed_identifier
+        (identifier)
+        (wildcard)))))
 
 
 =================================
@@ -1190,6 +1220,8 @@ Exports (Scala 3)
 
 export scanUnit.scan
 export printUnit.{status as _, *}
+export printUnit.Test as Hello
+export printUnit.Test as _
 
 ---
 
@@ -1200,7 +1232,18 @@ export printUnit.{status as _, *}
   (export_declaration
     (identifier)
     (namespace_selectors
-      (renamed_identifier
+      (as_renamed_identifier
         (identifier)
         (wildcard))
-      (namespace_wildcard))))
+      (namespace_wildcard)))
+  (export_declaration
+    (identifier)
+      (as_renamed_identifier
+        (identifier)
+        (identifier)))
+  (export_declaration
+    (identifier)
+      (as_renamed_identifier
+        (identifier)
+        (wildcard)))
+)

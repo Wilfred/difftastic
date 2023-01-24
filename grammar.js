@@ -199,6 +199,10 @@ module.exports = grammar({
         choice(
           $.namespace_wildcard,
           $.namespace_selectors,
+          // Only allowed in Scala 3 
+          // ImportExpr        ::= 
+          //    SimpleRef {‘.’ id} ‘.’ ImportSpec |  SimpleRef ‘as’ id
+          $.as_renamed_identifier
         ),
       )),
     )),
@@ -215,7 +219,8 @@ module.exports = grammar({
           $._namespace_given_by_type,
           $.namespace_wildcard,
           $.identifier,
-          $.renamed_identifier
+          $.arrow_renamed_identifier,
+          $.as_renamed_identifier
         )),
       '}'
     ),
@@ -223,9 +228,15 @@ module.exports = grammar({
     // deprecated: Remove when highlight query is updated for Neovim
     _import_selectors: $ => alias($.namespace_selectors, $.import_selectors),
 
-    renamed_identifier: $ => seq(
+    arrow_renamed_identifier: $ => seq(
       field('name', $.identifier),
-      choice('=>', 'as'),
+      '=>',
+      field('alias', choice($.identifier, $.wildcard))
+    ),
+
+    as_renamed_identifier: $ => seq(
+      field('name', $.identifier),
+      'as',
       field('alias', choice($.identifier, $.wildcard))
     ),
 
