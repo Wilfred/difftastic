@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-typescript",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "Typescript grammar for tree-sitter",
   "keywords": [
     "parser",
