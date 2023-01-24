@@ -86,3 +86,14 @@
 
 (new_expression
   constructor: (_) @name) @reference.class
+
+(export_statement value: (assignment_expression left: (identifier) @name right: ([
+ (number)
+ (string)
+ (identifier)
+ (undefined)
+ (null)
+ (new_expression)
+ (binary_expression)
+ (call_expression)
+]))) @definition.constant
