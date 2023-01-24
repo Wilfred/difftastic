@@ -24,7 +24,8 @@
       "scope": "source.scala",
       "file-types": [
         "scala"
-      ]
+      ],
+      "highlights": "queries/scala/highlights.scm"
     }
   ]
 }
