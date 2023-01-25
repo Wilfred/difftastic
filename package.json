@@ -13,6 +13,8 @@
     "nan": "^2.15.0"
   },
   "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-google": "^0.14.0",
     "prettier": "2.5.1",
     "tree-sitter-cli": "^0.20.1"
   },
