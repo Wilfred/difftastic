@@ -622,6 +622,10 @@
                       {
                         "type": "SYMBOL",
                         "name": "namespace_selectors"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "as_renamed_identifier"
                       }
                     ]
                   }
@@ -699,7 +703,11 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "renamed_identifier"
+                      "name": "arrow_renamed_identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "as_renamed_identifier"
                     }
                   ]
                 },
@@ -729,7 +737,11 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "renamed_identifier"
+                            "name": "arrow_renamed_identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "as_renamed_identifier"
                           }
                         ]
                       }
@@ -767,7 +779,7 @@
       "named": true,
       "value": "import_selectors"
     },
-    "renamed_identifier": {
+    "arrow_renamed_identifier": {
       "type": "SEQ",
       "members": [
         {
@@ -779,17 +791,42 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "=>"
-            },
-            {
-              "type": "STRING",
-              "value": "as"
-            }
-          ]
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "FIELD",
+          "name": "alias",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "wildcard"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "as_renamed_identifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "as"
         },
         {
           "type": "FIELD",
