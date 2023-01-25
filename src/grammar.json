@@ -706,6 +706,14 @@
         },
         {
           "type": "STRING",
+          "value": "const-method-handle"
+        },
+        {
+          "type": "STRING",
+          "value": "const-method-type"
+        },
+        {
+          "type": "STRING",
           "value": "monitor-enter"
         },
         {
@@ -1006,11 +1014,7 @@
         },
         {
           "type": "STRING",
-          "value": "invoke-virtual"
-        },
-        {
-          "type": "STRING",
-          "value": "invoke-super"
+          "value": "invoke-custom"
         },
         {
           "type": "STRING",
@@ -1018,19 +1022,23 @@
         },
         {
           "type": "STRING",
-          "value": "invoke-static"
-        },
-        {
-          "type": "STRING",
           "value": "invoke-interface"
         },
         {
           "type": "STRING",
-          "value": "invoke-virtual/range"
+          "value": "invoke-static"
         },
         {
           "type": "STRING",
-          "value": "invoke-super/range"
+          "value": "invoke-super"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-custom/range"
         },
         {
           "type": "STRING",
@@ -1038,11 +1046,19 @@
         },
         {
           "type": "STRING",
+          "value": "invoke-interface/range"
+        },
+        {
+          "type": "STRING",
           "value": "invoke-static/range"
         },
         {
           "type": "STRING",
-          "value": "invoke-interface/range"
+          "value": "invoke-super/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual/range"
         },
         {
           "type": "STRING",
@@ -1455,6 +1471,10 @@
         {
           "type": "STRING",
           "value": "shr-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "static-put"
         },
         {
           "type": "STRING",
@@ -2342,7 +2362,7 @@
     },
     "string_literal": {
       "type": "PATTERN",
-      "value": "\".*\""
+      "value": "\"[^\"]*\""
     },
     "boolean_literal": {
       "type": "CHOICE",

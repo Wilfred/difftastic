@@ -6,17 +6,19 @@ const modifiers = [
   'final',
   'synchronized',
   'volatile',
+  'bridge',
   'transient',
+  'varargs',
   'native',
   'interface',
   'abstract',
-  'bridge',
+  'strictfp',
   'synthetic',
+  'annotation',
   'enum',
   'constructor',
-  'varargs',
   'declared-synchronized',
-  'annotation',
+];
 ];
 
 const primitives = ['V', 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D'];
@@ -49,8 +51,10 @@ const opcodes = [
   'const-wide',
   'const-wide/high16',
   'const-string',
-  'const-string-jumbo',
+  'const-string/jumbo',
   'const-class',
+  'const-method-handle',
+  'const-method-type',
   'monitor-enter',
   'monitor-exit',
   'check-cast',
@@ -62,6 +66,7 @@ const opcodes = [
   'filled-new-array/range',
   'fill-array-data',
   'throw',
+  'throw-verification-error',
   'goto',
   'goto/16',
   'goto/32',
@@ -105,6 +110,9 @@ const opcodes = [
   'iget-byte',
   'iget-char',
   'iget-short',
+  'iget-volatile',
+  'iget-wide-volatile',
+  'iget-object-volatile',
   'iput',
   'iput-wide',
   'iput-object',
@@ -112,6 +120,9 @@ const opcodes = [
   'iput-byte',
   'iput-char',
   'iput-short',
+  'iput-volatile',
+  'iput-wide-volatile',
+  'iput-object-volatile',
   'sget',
   'sget-wide',
   'sget-object',
@@ -119,6 +130,9 @@ const opcodes = [
   'sget-byte',
   'sget-char',
   'sget-short',
+  'sget-volatile',
+  'sget-wide-volatile',
+  'sget-object-volatile',
   'sput',
   'sput-wide',
   'sput-object',
@@ -126,16 +140,27 @@ const opcodes = [
   'sput-byte',
   'sput-char',
   'sput-short',
-  'invoke-virtual',
-  'invoke-super',
+  'sput-volatile',
+  'sput-wide-volatile',
+  'sput-object-volatile',
+  'invoke-constructor',
+  'invoke-custom',
   'invoke-direct',
-  'invoke-static',
+  'invoke-direct-empty',
+  'invoke-instance',
   'invoke-interface',
-  'invoke-virtual/range',
-  'invoke-super/range',
+  'invoke-polymorphic',
+  'invoke-static',
+  'invoke-super',
+  'invoke-virtual',
+  'invoke-custom/range',
   'invoke-direct/range',
-  'invoke-static/range',
   'invoke-interface/range',
+  'invoke-object-init/range',
+  'invoke-polymorphic/range',
+  'invoke-static/range',
+  'invoke-super/range',
+  'invoke-virtual/range',
   'neg-int',
   'not-int',
   'neg-long',
@@ -240,14 +265,22 @@ const opcodes = [
   'shl-int/lit8',
   'shr-int/lit8',
   'ushr-int/lit8',
+  'static-get',
+  'static-put',
+  'instance-get',
+  'instance-put',
   'execute-inline',
-  'invoke-direct-empty',
+  'execute-inline/range',
   'iget-quick',
   'iget-wide-quick',
   'iget-object-quick',
   'iput-quick',
   'iput-wide-quick',
   'iput-object-quick',
+  'iput-boolean-quick',
+  'iput-byte-quick',
+  'iput-char-quick',
+  'iput-short-quick',
   'invoke-virtual-quick',
   'invoke-virtual-quick/range',
   'invoke-super-quick',
@@ -256,10 +289,32 @@ const opcodes = [
   'rsub-int/lit8',
 ];
 
-function commaSep(rule) {
+/**
+ * Returns an optional tree-sitter rule that matches rule at least once, with a repeat of `,` + `rule`
+ * @param {_} rule - tree-sitter rule
+ *
+ * @return {_}
+ */
+const commaSep = (rule) => {
   const sep1 = seq(rule, repeat(seq(',', rule)));
   return optional(sep1);
-}
+};
+
+/**
+* Creates a rule to match one or more of the rules separated by the separator
+* and optionally adds a trailing separator (default is false).
+*
+* @param {_} rule
+* @param {string} separator - The separator to use.
+* @param {string?} trailingSeparator - The trailing separator to use.
+*
+* @return {_}
+*
+*/
+const listSeq = (rule, separator, trailingSeparator = false) =>
+  trailingSeparator ?
+    seq(rule, repeat(seq(separator, rule)), optional(separator)) :
+    seq(rule, repeat(seq(separator, rule)));
 
 module.exports = grammar({
   name: 'smali',
@@ -303,7 +358,7 @@ module.exports = grammar({
         field('identifier', $.field_identifier),
         optional(seq('=', $._literal)),
       ),
-    end_field: (_) => '.end field',
+    end_field: () => '.end field',
 
     // method related
     method_definition: ($) =>
@@ -318,7 +373,7 @@ module.exports = grammar({
         optional(field('modifiers', $.access_modifiers)),
         field('identifier', $.method_identifier),
       ),
-    end_method: (_) => '.end method',
+    end_method: () => '.end method',
 
     // annotation related
     annotation_directive: ($) =>
@@ -329,14 +384,14 @@ module.exports = grammar({
         field('visibility', $.annotation_visibility),
         field('identifier', $.class_identifier),
       ),
-    annotation_visibility: (_) => choice('system', 'build', 'runtime'),
+    annotation_visibility: () => choice('system', 'build', 'runtime'),
     annotation_property: ($) =>
       seq(
         field('key', $.annotation_key),
         '=',
         field('value', $.annotation_value),
       ),
-    annotation_key: (_) => /\w+/,
+    annotation_key: () => /\w+/,
     annotation_value: ($) =>
       choice(
         $._literal,
@@ -345,7 +400,7 @@ module.exports = grammar({
         $.enum_reference,
         $.subannotation_definition,
       ),
-    end_annotation: (_) => '.end annotation',
+    end_annotation: () => '.end annotation',
 
     subannotation_definition: ($) =>
       seq(
@@ -355,7 +410,7 @@ module.exports = grammar({
       ),
     subannotation_declaration: ($) =>
       seq('.subannotation', field('identifier', $.class_identifier)),
-    end_subannotation: (_) => '.end subannotation',
+    end_subannotation: () => '.end subannotation',
 
     param_directive: ($) =>
       prec.right(
@@ -365,7 +420,7 @@ module.exports = grammar({
         ),
       ),
     start_param: ($) => seq('.param', field('parameter', $.parameter)),
-    end_param: (_) => '.end param',
+    end_param: () => '.end param',
 
     // code lines
     _code_line: ($) =>
@@ -452,7 +507,7 @@ module.exports = grammar({
         $.method_identifier,
         $.full_method_identifier,
       ),
-    class_identifier: (_) => /L[^;]+;/,
+    class_identifier: () => /L[^;]+;/,
     field_identifier: ($) => seq(/[\w\d\$]+:/, $._type),
     method_identifier: ($) =>
       seq(
@@ -469,10 +524,10 @@ module.exports = grammar({
     // types
     _type: ($) => choice($.primitive_type, $.class_identifier, $.array_type),
     array_type: ($) => seq('[', field('element_type', $._type)),
-    primitive_type: (_) => choice(...primitives),
+    primitive_type: () => choice(...primitives),
 
-    access_modifiers: (_) => repeat1(choice(...modifiers)),
-    comment: (_) => token(seq('#', /.*/)),
+    access_modifiers: () => repeat1(choice(...modifiers)),
+    comment: () => token(seq('#', /.*/)),
     enum_reference: ($) =>
       seq(
         '.enum',
@@ -480,8 +535,8 @@ module.exports = grammar({
       ),
 
     // special symbols
-    variable: (_) => /v\d+/,
-    parameter: (_) => /p\d+/,
+    variable: () => /v\d+/,
+    parameter: () => /p\d+/,
 
     // lists
     list: ($) =>
@@ -517,11 +572,11 @@ module.exports = grammar({
         $.character_literal,
         $.null_literal,
       ),
-    number_literal: (_) =>
+    number_literal: () =>
       choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+(\.\d+)?(f)?/),
-    string_literal: (_) => /".*"/,
-    boolean_literal: (_) => choice('true', 'false'),
-    character_literal: (_) => /'(.|\\[bt0nr"'\\]|\\u[0-9a-fA-f]{4})'/,
-    null_literal: (_) => 'null',
+    string_literal: () => /"[^"]*"/,
+    boolean_literal: () => choice('true', 'false'),
+    character_literal: () => /'(.|\\[bt0nr"'\\]|\\u[0-9a-fA-f]{4})'/,
+    null_literal: () => 'null',
   },
 });

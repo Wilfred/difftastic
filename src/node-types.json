@@ -1401,6 +1401,14 @@
     "named": false
   },
   {
+    "type": "const-method-handle",
+    "named": false
+  },
+  {
+    "type": "const-method-type",
+    "named": false
+  },
+  {
     "type": "const-string",
     "named": false
   },
@@ -1686,6 +1694,14 @@
   },
   {
     "type": "interface",
+    "named": false
+  },
+  {
+    "type": "invoke-custom",
+    "named": false
+  },
+  {
+    "type": "invoke-custom/range",
     "named": false
   },
   {
@@ -2162,6 +2178,10 @@
   },
   {
     "type": "static",
+    "named": false
+  },
+  {
+    "type": "static-put",
     "named": false
   },
   {
