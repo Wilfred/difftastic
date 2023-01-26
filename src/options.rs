@@ -154,6 +154,7 @@ fn app() -> clap::Command<'static> {
             Arg::new("color").long("color")
                 .possible_values(["always", "auto", "never"])
                 .default_value("auto")
+                .env("DFT_COLOR")
                 .value_name("WHEN")
                 .help("When to use color output.")
         )

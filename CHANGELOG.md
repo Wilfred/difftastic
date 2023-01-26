@@ -5,6 +5,9 @@
 `--help` now shows the default value for all arguments (it was
 previously missing `--color` and `--display`).
 
+`--color` can now be configured with the environment variable
+`DFT_COLOR`.
+
 ## 0.42 (released 15th January 2022)
 
 ### Parsing
