@@ -1,0 +1,186 @@
+============================================
+Identifiers
+============================================
+
+foo
+foo2
+foo.bar
+.foo.bar
+foo_bar
+`a "literal"`
+`another
+literal \` foo`
+_foo
+
+
+----
+
+(program
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier)
+ (identifier (escape_sequence))
+ (ERROR (placeholder)) (identifier))
+
+============================================
+Unicode Identifiers
+============================================
+
+你好
+.你.好.
+.你_好.
+
+----
+
+(program
+  (identifier)
+  (identifier)
+  (identifier))
+
+============================================
+Strings
+============================================
+
+"foo"
+"foo\"bar"
+'foo'
+'foo\'bar'
+"#"
+'#'
+
+----
+
+(program
+ (string)
+ (string (escape_sequence))
+ (string)
+ (string (escape_sequence))
+ (string)
+ (string))
+
+============================================
+Raw Strings
+============================================
+r"(raw string)"
+R"{another raw string}"
+R"--[yet another ]- raw string]--"
+r"not a raw string"
+r"-(an unclosed raw string"
+
+----
+
+(program
+  (string)
+  (string)
+  (string)
+  (identifier) (string)
+  (identifier) (string))
+
+============================================
+Comments
+============================================
+
+# a comment' 
+
+'# not a comment'
+
+
+'
+# still not a comment'
+
+---
+
+(program
+ (comment)
+ (string)
+ (string))
+
+========
+Constants
+========
+
+TRUE
+FALSE
+NULL
+Inf
+NaN
+NA
+NA_real_
+NA_character_
+NA_complex_
+
+---
+
+(program
+  (true)
+  (false)
+  (null)
+  (inf)
+  (nan)
+  (na)
+  (na)
+  (na)
+  (na))
+
+========
+Integers
+========
+
+12332L
+0L
+12L
+0xDEADL
+
+---
+
+(program
+  (integer)
+  (integer)
+  (integer)
+  (integer))
+
+======
+Floats
+======
+
+.66
+.11
+123.4123
+.1234
+0xDEAD
+x <- -.66
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
+
+(left_assignment (identifier) (unary (float))))
+
+=====================================
+Scientific Notation Floats
+=====================================
+
+1e322
+1e-3
+1e+3
+1.8e10
+1.e10
+1e10
+
+---
+
+(program
+  (float)
+  (float)
+  (float)
+  (float)
+  (float)
+  (float))

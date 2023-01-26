@@ -1,0 +1,32 @@
+{
+  "name": "tree-sitter-r",
+  "version": "0.0.1",
+  "description": "R grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Max Brunsfeld",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.2"
+  },
+  "devDependencies": {
+    "tree-sitter": "^0.20.0",
+    "tree-sitter-cli": "^0.20.3"
+  },
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.R",
+      "file-types": [
+        "R",
+        "r"
+      ],
+      "first-line-regex": "#!.*\\bRscript$"
+    }
+  ]
+}

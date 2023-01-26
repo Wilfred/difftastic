@@ -1,0 +1,29 @@
+[package]
+name = "tree-sitter-r"
+description = "R grammar for the tree-sitter parsing library"
+version = "0.19.5"
+authors = [
+    "Jim Hester <jim.hester@rstudio.com>"
+]
+license = "MIT"
+keywords = ["incremental", "parsing", "R"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/r-lib/tree-sitter-r"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = ">= 0.20, < 0.21"
+
+[build-dependencies]
+cc = "1.0"

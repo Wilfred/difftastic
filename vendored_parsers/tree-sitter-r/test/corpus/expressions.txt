@@ -1,0 +1,970 @@
+============================================
+Functions
+============================================
+function() 1
+function() {}
+function(arg1, arg2) {
+  arg2
+}
+
+function(x, y) return(y)
+
+function(x, ...) f(...)
+
+function(arg1, arg2 = 2) {}
+
+----
+
+(program
+  (function_definition (formal_parameters) (float))
+  (function_definition (formal_parameters) (brace_list))
+  (function_definition
+    (formal_parameters (identifier) (identifier))
+    (brace_list (identifier)))
+  (function_definition
+    (formal_parameters (identifier) (identifier))
+    (call
+     function: (identifier)
+     arguments: (arguments (identifier))))
+  (function_definition
+    (formal_parameters (identifier) (dots))
+    (call 
+      function: (identifier)
+      arguments: (arguments
+        (dots))))
+  (function_definition
+    (formal_parameters
+      (identifier)
+      (default_parameter
+        name: (identifier)
+        value: (float)))
+    (brace_list)))
+
+=======================
+Lambda Function
+=======================
+
+a <- \(arg) arg
+b <- \(arg1, arg2) paste0(arg1, arg2)
+c <- \(fun, ...) fun(...)
+1:3 |> {\(x, y = 1) x + y}() |> {\(x) sum(x)}()
+{\(a = 1) a + 1}()
+\() 1 + 2
+---
+(program
+
+  (left_assignment
+    name: (identifier)
+    value: (lambda_function
+      (formal_parameters (identifier))
+      (identifier)))
+
+  (left_assignment
+    name: (identifier)
+    value: (lambda_function
+      (formal_parameters
+        (identifier)
+        (identifier))
+      (call
+        function: (identifier)
+        arguments: (arguments
+          (identifier)
+          (identifier)))))
+
+  (left_assignment
+   name: (identifier)
+   value: (lambda_function
+     (formal_parameters
+       (identifier)
+       (dots))
+     (call
+       function: (identifier)
+       arguments: (arguments (dots)))))
+
+  (pipe
+    left: (pipe
+      left: (binary
+        left: (float)
+        right: (float))
+      right: (call
+        function: (brace_list
+          (lambda_function
+            (formal_parameters
+              (identifier)
+              (default_parameter
+                name: (identifier)
+                value: (float)))
+            (binary
+             left: (identifier)
+             right: (identifier))))))
+    right: (call
+      function: (brace_list
+        (lambda_function
+         (formal_parameters
+          (identifier))
+         (call
+           function: (identifier)
+           arguments: (arguments
+             (identifier)))))))
+
+    (call
+      function: (brace_list
+        (lambda_function
+         (formal_parameters
+          (default_parameter
+            name: (identifier)
+            value: (float)))
+         (binary
+          left: (identifier)
+          right: (float)))))
+
+    (lambda_function
+     (formal_parameters)
+     (binary
+      left: (float)
+      right: (float))))
+
+==========
+Relational
+==========
+
+a == b
+
+---
+(program
+  (binary
+    left: (identifier) right: (identifier)))
+
+========
+Additive
+========
+
+a + b
+
+---
+
+(program
+  (binary
+    left: (identifier) right: (identifier)))
+
+========
+Multiplicative
+========
+
+a * b
+
+---
+
+(program
+  (binary
+    left: (identifier) right: (identifier)))
+
+==============
+Binary operations
+==============
+
+2+2*2
+
+---
+
+(program
+  (binary
+    left: (float)
+    right: (binary
+      left: (float)
+      right: (float))))
+
+===========
+Unary minus
+===========
+
+-a
+foo(-a, bar)
+
+---
+
+(program
+  (unary operand: (identifier))
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (unary operand: (identifier))
+      (identifier))))
+
+===========
+Binary minus
+===========
+
+foo-a
+
+---
+
+(program
+  (binary left: (identifier) right: (identifier)))
+
+
+===================
+Operator precedence
+===================
+
+a <= b && c >= d
+a[1] <- foo || bar
+a && b(c) && d
+val <- foo %>% bar(1) %>% baz()
+
+---
+
+(program
+
+  (binary
+    left: (binary left: (identifier) right: (identifier))
+    right: (binary left: (identifier) right: (identifier)))
+
+  (left_assignment
+    name: (subset (identifier) (arguments (float)))
+    value: (binary left: (identifier) right: (identifier)))
+
+  (binary
+    left: (binary
+      left: (identifier)
+      right: (call
+        function: (identifier)
+        arguments: (arguments
+          (identifier))))
+    right: (identifier))
+
+  (left_assignment
+    name: (identifier)
+    value: (binary
+      left: (binary
+        left: (identifier)
+        operator: (special)
+        right: (call
+          function: (identifier)
+          arguments: (arguments
+            (float))))
+      operator: (special)
+      right: (call
+        function: (identifier)))))
+
+========
+Specials
+========
+
+x %% y
+
+x %+% y
+
+x %>% y
+
+x %some text% y
+
+x %some \% escaped text% y
+
+---
+
+(program
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special) right: (identifier))
+  (binary left: (identifier) operator: (special (escape_sequence)) right: (identifier)))
+
+========
+Pipe
+========
+
+x |> print()
+
+x |> foo() |> bar() + baz()
+
+x |> {function(x) x}()
+
+---
+
+(program
+
+  (pipe
+    left: (identifier)
+    right: (call
+      function: (identifier)))
+
+  (binary
+    left: (pipe
+      left: (pipe
+        left: (identifier)
+        right: (call
+          function: (identifier)))
+      right: (call
+        function: (identifier)))
+    right: (call
+      function: (identifier)))
+
+  (pipe
+    left: (identifier)
+    right: (call
+      function: (brace_list
+        (function_definition
+          (formal_parameters
+           (identifier))
+          (identifier))))))
+
+===========
+Pipe Placeholder
+===========
+
+foo |> bar(x, y = _)
+foo |> bar() |> baz(data = _)
+
+---
+
+(program
+  (pipe
+    left: (identifier)
+    right: (call
+      function: (identifier)
+      arguments: (arguments
+        (identifier)
+        (default_argument
+          name: (identifier)
+          value: (placeholder)))))
+  (pipe
+    left: (pipe
+      left: (identifier)
+      right: (call
+        function: (identifier)))
+    right: (call
+      function: (identifier)
+      arguments: (arguments
+        (default_argument
+          name: (identifier)
+          value: (placeholder))))))
+
+===========
+Subset
+===========
+
+foo[bar]
+foo[1, 2]
+foo[1, ]
+foo[]
+
+---
+
+(program
+  (subset
+    (identifier)
+    (arguments
+     (identifier)))
+  (subset
+    (identifier)
+    (arguments
+      (float)
+      (float)))
+  (subset
+    (identifier)
+    (arguments
+      (float)))
+  (subset
+    (identifier)))
+
+===========
+Subset2
+===========
+
+foo[[x]]
+foo[[x, y]]
+foo[[]]
+
+---
+
+(program
+  (subset2 (identifier)
+  (arguments (identifier)))
+
+  (subset2 (identifier)
+  (arguments (identifier) (identifier)))
+
+  (subset2
+    (identifier)))
+
+============================================
+If
+============================================
+
+if (x)
+  log(y)
+
+if (a.b) {
+  log(c)
+  d
+}
+
+---
+
+(program
+  (if
+    condition: (identifier)
+    consequence: (call function: (identifier) arguments: (arguments (identifier))))
+  (if
+    condition: (identifier)
+    consequence: (brace_list
+      (call
+       function: (identifier)
+       arguments: (arguments (identifier)))
+      (identifier))))
+
+============================================
+If-else
+============================================
+
+if (x)
+  y else if (a)
+  b
+
+if (a) {
+  c
+  d
+} else {
+  e
+}
+
+---
+
+(program
+  (if
+   condition: (identifier)
+   consequence: (identifier)
+   alternative: (if
+     condition: (identifier)
+     consequence: (identifier)))
+
+  (if
+   condition: (identifier)
+   consequence: (brace_list (identifier) (identifier))
+   alternative: (brace_list (identifier))))
+
+
+===
+for
+===
+
+for (x in y)
+  f
+
+---
+
+(program
+  (for
+    name: (identifier)
+    vector: (identifier)
+    body: (identifier)))
+
+=====
+While
+=====
+while(TRUE)
+  bar
+
+while(x > 0)
+  x <- x - 1
+
+while(TRUE)
+  break
+
+while(TRUE)
+  next
+
+---
+
+(program
+  (while
+    condition: (true)
+    body: (identifier))
+
+  (while
+    condition: (binary
+      left: (identifier)
+      right: (float))
+    body: (left_assignment
+      name: (identifier)
+      value: (binary
+        left: (identifier)
+        right: (float))))
+
+  (while
+    condition: (true)
+    body: (break))
+
+  (while
+    condition: (true)
+    body: (next)))
+
+=====
+Repeat
+=====
+
+repeat 1
+
+---
+
+(program
+  (repeat
+    body: (float)))
+
+======
+Switch
+======
+
+switch(foo,
+  x = 1,
+  "y" = 2,
+  z = ,
+  3
+)
+
+---
+
+(program
+  (switch
+   value: (identifier)
+   body: (arguments
+    (default_argument
+      name: (identifier)
+      value: (float))
+    (default_argument
+      name: (string)
+      value: (float))
+    (default_argument
+      name: (identifier))
+    (float))))
+
+======
+Dollar
+======
+
+foo$bar
+
+foo$"bar"
+
+---
+
+(program
+  (dollar
+    (identifier) (identifier))
+  (dollar
+    (identifier) (string)))
+
+======
+Slot
+======
+
+foo@bar
+
+---
+
+(program
+  (slot
+    (identifier) (identifier)))
+
+============================================
+Namespace get
+============================================
+
+foo::bar
+foo::bar(1)
+
+---
+
+(program
+  (namespace_get
+    namespace: (identifier)
+    function: (identifier))
+  (call
+    function: (namespace_get
+     namespace: (identifier)
+     function: (identifier))
+    arguments: (arguments (float))))
+
+============================================
+Namespace get internal
+============================================
+
+foo:::bar
+foo:::bar(1)
+
+---
+
+(program
+  (namespace_get_internal
+    namespace: (identifier)
+    function: (identifier))
+  (call
+    function: (namespace_get_internal
+     namespace: (identifier)
+     function: (identifier))
+    arguments: (arguments (float))))
+
+==========
+Assignment
+==========
+
+x <- 1
+x = 1
+x := 1
+x <<- 1
+1 ->> x
+1 -> x
+x <- y(1)
+y(1) -> x
+
+---
+
+(program
+  (left_assignment
+    name: (identifier)
+    value: (float))
+
+  (equals_assignment
+    name: (identifier)
+    value: (float))
+
+  (left_assignment2
+    name: (identifier)
+    value: (float))
+
+  (super_assignment
+   name: (identifier)
+   value: (float))
+
+  (super_right_assignment
+   value: (float)
+   name: (identifier))
+
+  (right_assignment
+   value: (float)
+   name: (identifier))
+
+  (left_assignment
+   name: (identifier)
+   value: (call function: (identifier) arguments: (arguments (float))))
+
+  (right_assignment
+   value: (call function: (identifier) arguments: (arguments (float)))
+   name: (identifier)))
+
+=====
+Calls
+=====
+
+f()
+f(x)
+f(1+1)
+f(1 ~ 1)
+f(x, )
+f(x, y)
+f(x, y = 2)
+f(x = 1 + 1)
+f(x, y =)
+f(f2(x, y))
+f(,)
+f(x,)
+f(,y)
+f(x=,)
+f("x"=,)
+f(... = ,)
+f(,y=)
+
+---
+
+(program
+
+  (call function: (identifier))
+
+  (call
+    function: (identifier)
+    arguments: (arguments (identifier)))
+
+  (call
+   function: (identifier)
+   arguments: (arguments
+     (binary
+       left: (float)
+       right: (float))))
+
+  (call
+   function: (identifier)
+   arguments: (arguments
+     (binary
+       left: (float)
+       right: (float))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments (identifier) (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments 
+      (identifier)
+      (default_argument
+        name: (identifier)
+        value: (float))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (default_argument
+        name: (identifier)
+        value: (binary left: (float) right: (float)))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments 
+      (identifier)
+      (default_argument
+        name: (identifier))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (call
+       function: (identifier)
+       arguments: (arguments (identifier) (identifier)))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments))
+
+  (call
+    function: (identifier)
+    arguments: (arguments (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments (identifier)))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (default_argument
+        name: (identifier))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (default_argument
+        name: (string))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (default_argument
+        name: (dots))))
+
+  (call
+    function: (identifier)
+    arguments: (arguments
+      (default_argument
+        name: (identifier)))))
+
+======
+Braces
+======
+
+{}
+
+{1}
+
+{1; 2}
+
+{1;
+2}
+
+{1
+2
+}
+
+{
+1
+2
+}
+
+---
+
+(program
+  (brace_list)
+  (brace_list (float))
+  (brace_list (float) (float))
+  (brace_list (float) (float))
+  (brace_list (float) (float))
+  (brace_list (float) (float)))
+
+=====
+Colon
+=====
+
+1:2
+(1 + 1):-5
+
+---
+
+(program
+  (binary left: (float) right: (float))
+
+  (binary
+    left: (paren_list
+      (binary
+        left: (float)
+        right: (float)))
+    right: (unary
+      operand: (float))))
+
+=====
+Formulas
+=====
+
+~x
+y~x
+
+---
+
+(program
+
+  (unary operand: (identifier))
+
+  (binary left: (identifier) right: (identifier)))
+
+============================================
+Help Operator
+============================================
+a ? b
+a ? b <- 1
+
+---
+
+(program
+  (help
+    (identifier)
+    (identifier))
+  (help
+    (identifier)
+    (left_assignment
+      (identifier)
+      (float))))
+
+============================================
+Complex Expressions
+============================================
+repeat if (1) TRUE else repeat 42
+if (TRUE) if (FALSE) 2 else NULL
+a::b$c[[d]] <- e
+TRUE ~ FALSE ~ NULL ? NA ? NaN
+if (TRUE) FALSE
+else NA
+(if (TRUE) FALSE
+else NA)
+a = TRUE ? FALSE
+TRUE <- FALSE = NA
+TRUE <- FALSE ? NA
+TRUE = FALSE ? NA
+TRUE ? FALSE = NA
+
+---
+
+(program
+  (repeat
+    (if
+      (float)
+      (true)
+      (repeat
+        (float))))
+  (if
+    (true)
+    (if
+      (false)
+      (float)
+      (null)))
+  (left_assignment
+    (subset2
+      (dollar
+        (namespace_get
+          (identifier)
+          (identifier))
+       (identifier))
+       (arguments
+        (identifier)))
+    (identifier))
+  (help
+    (help
+      (binary
+        (binary
+          (true)
+          (false))
+        (null))
+      (na))
+    (nan))
+  (if
+    (true)
+    (false))
+  (identifier)
+  (na)
+  (paren_list
+    (if
+      (true)
+      (false)
+      (na)))
+  (help
+    (equals_assignment
+      (identifier)
+      (true))
+    (false))
+  (equals_assignment
+    (left_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (left_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (equals_assignment
+      (true)
+      (false))
+    (na))
+  (help
+    (true)
+    (equals_assignment
+      (false)
+      (na))))
+
+============================================
+Precedence Tests
+============================================
+A$"B"^NA
+a::b$c
+a$b?c
+
+----
+(program
+  (binary
+    (dollar
+      (identifier)
+      (string))
+    (na))
+  (dollar
+    (namespace_get
+      (identifier)
+      (identifier))
+    (identifier))
+  (help
+    (dollar
+      (identifier)
+      (identifier))
+    (identifier)))
