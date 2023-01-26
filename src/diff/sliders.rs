@@ -430,24 +430,6 @@ fn is_novel_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
     }
 }
 
-fn is_unchanged_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool {
-    match node {
-        List { children, .. } => {
-            if !matches!(change_map.get(node), Some(Unchanged(_))) {
-                return false;
-            }
-            for child in children {
-                if !is_unchanged_deep(child, change_map) {
-                    return false;
-                }
-            }
-
-            true
-        }
-        Atom { .. } => matches!(change_map.get(node), Some(Unchanged(_))),
-    }
-}
-
 /// If the previous node is unchanged, matches the end of the region,
 /// and has a smaller text distance, mark it as novel.
 ///
@@ -492,23 +474,26 @@ fn slide_to_prev_node<'a>(
     let distance_to_last = distance_between(before_last_node, last_node);
 
     if distance_to_before_start <= distance_to_last {
-        // Deep checks walk the whole tree, so do these last.
-        if !is_unchanged_deep(before_start_node, change_map) {
-            return;
-        }
+        let opposite = match change_map
+            .get(before_start_node)
+            .expect("Node changes should be set")
+        {
+            Unchanged(n) => {
+                if before_start_node.content_id() != n.content_id() {
+                    return;
+                }
+                n
+            }
+            _ => {
+                return;
+            }
+        };
+
         for node in &nodes[start_idx..=end_idx] {
             if !is_novel_deep(node, change_map) {
                 return;
             }
         }
-
-        let opposite = match change_map
-            .get(before_start_node)
-            .expect("Node changes should be set")
-        {
-            Unchanged(n) => n,
-            _ => unreachable!(),
-        };
 
         insert_deep_novel(before_start_node, change_map);
         insert_deep_unchanged(last_node, opposite, change_map);
@@ -560,23 +545,25 @@ fn slide_to_next_node<'a>(
     let distance_to_after_last = distance_between(last_node, after_last_node);
 
     if distance_to_after_last < distance_to_start {
-        // Deep checks walk the whole tree, so do these last.
-        if !is_unchanged_deep(after_last_node, change_map) {
-            return;
-        }
+        let opposite = match change_map
+            .get(after_last_node)
+            .expect("Node changes should be set")
+        {
+            Unchanged(n) => {
+                if after_last_node.content_id() != n.content_id() {
+                    return;
+                }
+                n
+            }
+            _ => {
+                return;
+            }
+        };
         for node in &nodes[start_idx..=end_idx] {
             if !is_novel_deep(node, change_map) {
                 return;
             }
         }
-
-        let opposite = match change_map
-            .get(after_last_node)
-            .expect("Node changes should be set")
-        {
-            Unchanged(n) => n,
-            _ => unreachable!(),
-        };
 
         insert_deep_unchanged(start_node, opposite, change_map);
         insert_deep_unchanged(opposite, start_node, change_map);
@@ -758,6 +745,7 @@ mod tests {
         assert_eq!(change_map.get(lhs[1]), Some(Novel));
         assert_eq!(change_map.get(lhs[2]), Some(Novel));
     }
+
     #[test]
     fn test_slider_two_steps() {
         let arena = Arena::new();
@@ -779,5 +767,47 @@ mod tests {
         assert_eq!(change_map.get(rhs[1]), Some(Novel));
         assert_eq!(change_map.get(rhs[2]), Some(Novel));
         assert_eq!(change_map.get(rhs[3]), Some(Unchanged(rhs[0])));
+    }
+
+    /// If a list is partially unchanged but contains some novel
+    /// children, we should not slide it.
+    #[test]
+    fn test_slider_partially_unchanged() {
+        let arena = Arena::new();
+        let config = from_language(guess_language::Language::EmacsLisp);
+
+        let lhs = parse(&arena, "(A B) X \n (A B)", &config, false);
+        let rhs = parse(&arena, "((novel) A B)", &config, false);
+        init_all_info(&lhs, &rhs);
+
+        let lhs_first_list_children = match lhs[0] {
+            List { children, .. } => children,
+            Atom { .. } => unreachable!(),
+        };
+        let rhs_first_list_children = match rhs[0] {
+            List { children, .. } => children,
+            Atom { .. } => unreachable!(),
+        };
+
+        let mut change_map = ChangeMap::default();
+        change_map.insert(lhs[0], Unchanged(rhs[0]));
+        change_map.insert(lhs[1], Novel);
+        insert_deep_novel(lhs[2], &mut change_map);
+
+        change_map.insert(
+            lhs_first_list_children[0],
+            Unchanged(rhs_first_list_children[1]),
+        );
+        change_map.insert(
+            lhs_first_list_children[1],
+            Unchanged(rhs_first_list_children[2]),
+        );
+
+        fix_all_sliders(guess_language::Language::EmacsLisp, &lhs, &mut change_map);
+        assert_eq!(
+            change_map.get(lhs[2]),
+            Some(Novel),
+            "The novel node at the end should be unaffected"
+        );
     }
 }

@@ -1,5 +1,10 @@
 ## 0.43 (unreleased)
 
+### Diffing
+
+Fixed a rare crash when one file had repeated lists that partially
+matched the other side.
+
 ### Display
 
 Fixed an issue with single-column display when colour is disabled,
