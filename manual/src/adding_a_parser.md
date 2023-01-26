@@ -84,10 +84,6 @@ You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
 
-## Configure sliders
-
-Add an entry to `sliders.rs` for your language.
-
 ## Configure language detection
 
 Update `from_extension` in `guess_language.rs` to detect your new
@@ -111,6 +107,13 @@ to the `queries/highlights.scm` file, if available.
 $ cd vendored_parsers/highlights
 $ ln -s ../tree-sitter-json/queries/highlights.scm json.scm
 ```
+
+## Test It
+
+Search GitHub for a popular repository in your target language
+([example
+search](https://github.com/search?l=&o=desc&q=stars%3A%3E100+language%3AJSON&s=stars&type=repositories))
+and confirm that git history looks sensible with difftastic.
 
 ## Add a regression test
 
