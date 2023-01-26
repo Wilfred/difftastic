@@ -448,6 +448,24 @@ fn is_unchanged_deep<'a>(node: &Syntax<'a>, change_map: &ChangeMap<'a>) -> bool 
     }
 }
 
+/// If the previous node is unchanged, matches the end of the region,
+/// and has a smaller text distance, mark it as novel.
+///
+/// ```text
+/// x UNCHANGED
+/// y NOVEL <- start_idx
+///
+/// x NOVEL <- end_idx
+/// ```
+///
+/// After this function:
+///
+/// ```text
+/// x NOVEL
+/// y NOVEL
+///
+/// x UNCHANGED
+/// ```
 fn slide_to_prev_node<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,
@@ -498,6 +516,24 @@ fn slide_to_prev_node<'a>(
     }
 }
 
+/// If the next node is unchanged, matches the beginning of the region,
+/// and has a smaller text distance, mark it as novel.
+///
+/// ```text
+/// x NOVEL <- start_idx
+///
+/// y NOVEL <- end_idx
+/// x UNCHANGED
+/// ```
+///
+/// After this function:
+///
+/// ```text
+/// x UNCHANGED
+///
+/// y NOVEL
+/// x NOVEL
+/// ```
 fn slide_to_next_node<'a>(
     nodes: &[&'a Syntax<'a>],
     change_map: &mut ChangeMap<'a>,
