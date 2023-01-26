@@ -1,0 +1,1 @@
+../tree-sitter-r/queries/highlights.scm

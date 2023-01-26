@@ -1,5 +1,9 @@
 ## 0.43 (unreleased)
 
+### Parsing
+
+Added support for R.
+
 ### Diffing
 
 Fixed a rare crash when one file had repeated lists that partially

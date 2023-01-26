@@ -154,6 +154,9 @@ sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 sample_files/qml_before.qml sample_files/qml_after.qml
 622951bb34dbae3e35acd72d712bf127  -
 
+sample_files/r_before.R sample_files/r_after.R
+7a9bc4e3ba87b6f2139a6cdadcc7ee5f  -
+
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 db81701f87486b18f99d326d028d9929  -
 

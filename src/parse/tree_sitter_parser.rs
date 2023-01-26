@@ -99,6 +99,7 @@ extern "C" {
     fn tree_sitter_perl() -> ts::Language;
     fn tree_sitter_python() -> ts::Language;
     fn tree_sitter_qmljs() -> ts::Language;
+    fn tree_sitter_r() -> ts::Language;
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
@@ -744,6 +745,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                         include_str!("../../vendored_parsers/highlights/typescript.scm"),
                         include_str!("../../vendored_parsers/highlights/qmljs.scm"),
                     ),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        R => {
+            let language = unsafe { tree_sitter_r() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/r.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],
