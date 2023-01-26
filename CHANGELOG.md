@@ -1,5 +1,10 @@
 ## 0.43 (unreleased)
 
+### Command Line Interface
+
+`--help` now shows the default value for all arguments (it was
+previously missing `--color` and `--display`).
+
 ## 0.42 (released 15th January 2022)
 
 ### Parsing

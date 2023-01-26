@@ -1,6 +1,6 @@
 //! CLI option parsing.
 
-use std::{borrow::Borrow, env, ffi::OsStr, path::Path, path::PathBuf};
+use std::{env, ffi::OsStr, path::Path, path::PathBuf};
 
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
@@ -144,7 +144,8 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline", ])
+                .possible_values(["side-by-side", "side-by-side-show-both", "inline"])
+                .default_value("side-by-side")
                 .value_name("MODE")
                 .env("DFT_DISPLAY")
                 .help("Display mode for showing results.")
@@ -152,6 +153,7 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("color").long("color")
                 .possible_values(["always", "auto", "never"])
+                .default_value("auto")
                 .value_name("WHEN")
                 .help("When to use color output.")
         )
@@ -347,18 +349,14 @@ pub fn parse_args() -> Mode {
         None => None,
     };
 
-    let color_output = if let Some(color_when) = matches.value_of("color") {
-        if color_when == "always" {
-            ColorOutput::Always
-        } else if color_when == "never" {
-            ColorOutput::Never
-        } else {
-            ColorOutput::Auto
+    let color_output = match matches.value_of("color").expect("color has a default") {
+        "always" => ColorOutput::Always,
+        "never" => ColorOutput::Never,
+        "auto" => ColorOutput::Auto,
+        _ => {
+            unreachable!("clap has already validated color")
         }
-    } else {
-        ColorOutput::Auto
     };
-
     let use_color = should_use_color(color_output);
 
     let ignore_comments = matches.is_present("ignore-comments");
@@ -442,17 +440,13 @@ pub fn parse_args() -> Mode {
         detect_display_width()
     };
 
-    let display_mode = if let Some(display_mode_str) = matches.value_of("display") {
-        match display_mode_str.borrow() {
-            "side-by-side" => DisplayMode::SideBySide,
-            "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
-            "inline" => DisplayMode::Inline,
-            _ => {
-                unreachable!("clap has already validated display")
-            }
+    let display_mode = match matches.value_of("display").expect("display has a default") {
+        "side-by-side" => DisplayMode::SideBySide,
+        "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
+        "inline" => DisplayMode::Inline,
+        _ => {
+            unreachable!("clap has already validated display")
         }
-    } else {
-        DisplayMode::SideBySide
     };
 
     let background_color = match matches
