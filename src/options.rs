@@ -324,6 +324,7 @@ pub enum Mode {
     DumpSyntax {
         path: String,
         language_override: Option<guess_language::Language>,
+        ignore_comments: bool,
     },
 }
 
@@ -360,6 +361,8 @@ pub fn parse_args() -> Mode {
 
     let use_color = should_use_color(color_output);
 
+    let ignore_comments = matches.is_present("ignore-comments");
+
     if matches.is_present("list-languages") {
         return Mode::ListLanguages { use_color };
     }
@@ -368,6 +371,7 @@ pub fn parse_args() -> Mode {
         return Mode::DumpSyntax {
             path: path.to_string(),
             language_override,
+            ignore_comments,
         };
     }
 
@@ -495,8 +499,6 @@ pub fn parse_args() -> Mode {
     let set_exit_code = matches.is_present("exit-code");
 
     let check_only = matches.is_present("check-only");
-
-    let ignore_comments = matches.is_present("ignore-comments");
 
     let display_options = DisplayOptions {
         background_color,

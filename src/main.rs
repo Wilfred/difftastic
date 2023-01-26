@@ -120,6 +120,7 @@ fn main() {
         Mode::DumpSyntax {
             path,
             language_override,
+            ignore_comments,
         } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
@@ -130,8 +131,7 @@ fn main() {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
-                    // TODO: respect ignore_comments
-                    let ast = tsp::parse(&arena, &src, &ts_lang, false);
+                    let ast = tsp::parse(&arena, &src, &ts_lang, ignore_comments);
                     init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
