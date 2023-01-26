@@ -25,7 +25,7 @@ Cargo does not allow packages to include subdirectories that contain a
 `Cargo.toml`. Add a symlink to the `src/` parser subdirectory.
 
 ```
-$ cd vendor
+$ cd vendored_parsers
 $ ln -s tree-sitter-json/src tree-sitter-json-src
 ```
 
