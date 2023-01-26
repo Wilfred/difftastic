@@ -340,11 +340,11 @@ pub fn print(
         (
             split_on_newlines(lhs_src)
                 .iter()
-                .map(|s| (*s).to_owned())
+                .map(|s| format!("{}\n", s))
                 .collect(),
             split_on_newlines(rhs_src)
                 .iter()
-                .map(|s| (*s).to_owned())
+                .map(|s| format!("{}\n", s))
                 .collect(),
         )
     };

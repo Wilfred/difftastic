@@ -289,7 +289,8 @@ fn group_by_line(
     ranges_by_line
 }
 
-/// Apply the `Style`s to the spans specified.
+/// Apply the `Style`s to the spans specified. Return a vec of the
+/// styled strings, including trailing newlines.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
 fn style_lines(lines: &[&str], styles: &[(SingleLineSpan, Style)]) -> Vec<String> {

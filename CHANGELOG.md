@@ -1,5 +1,10 @@
 ## 0.43 (unreleased)
 
+### Display
+
+Fixed an issue with single-column display when colour is disabled,
+where newlines were missing from the output.
+
 ### Command Line Interface
 
 `--help` now shows the default value for all arguments (it was
