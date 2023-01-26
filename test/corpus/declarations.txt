@@ -222,7 +222,9 @@ struct B : A {
   int bar() const override { return 4; }
   int baz() const final { return 5; }
   int bag() const final override { return 6; }
-  int bah() const override final { return 7; }
+  int bah() const override final;
+  auto bai() const -> int override { return 7; }
+  auto baj() const -> int override;
 };
 
 ---
@@ -249,10 +251,17 @@ struct B : A {
       (primitive_type)
       (function_declarator (field_identifier) (parameter_list) (type_qualifier) (virtual_specifier) (virtual_specifier))
       (compound_statement (return_statement (number_literal))))
-    (function_definition
+    (field_declaration
       (primitive_type)
-      (function_declarator (field_identifier) (parameter_list) (type_qualifier) (virtual_specifier) (virtual_specifier))
-      (compound_statement (return_statement (number_literal)))))))
+      (function_declarator (field_identifier) (parameter_list) (type_qualifier) (virtual_specifier) (virtual_specifier)))
+    (function_definition
+      (placeholder_type_specifier (auto))
+      (function_declarator (field_identifier) (parameter_list) (type_qualifier) (trailing_return_type (type_descriptor (primitive_type))) (virtual_specifier))
+      (compound_statement (return_statement (number_literal))))
+    (field_declaration
+      (placeholder_type_specifier (auto))
+      (function_declarator (field_identifier) (parameter_list) (type_qualifier) (trailing_return_type (type_descriptor (primitive_type))) (virtual_specifier))))))
+
 
 =====================================
 Virtual method declarations

@@ -537,35 +537,39 @@ module.exports = grammar(C, {
 
     function_declarator: ($, original) => prec.dynamic(1, seq(
       original,
-      repeat(choice(
-        $.type_qualifier,
-        $.ref_qualifier,
-        $.virtual_specifier,
+      repeat($.type_qualifier),
+      optional($.ref_qualifier),
+      optional(choice(
         $.noexcept,
         $.throw_specifier,
       )),
       optional($.trailing_return_type),
-      optional($.requires_clause)
+      optional(choice(
+        repeat($.virtual_specifier),
+        $.requires_clause
+      ))
     )),
 
     function_field_declarator: ($, original) => prec.dynamic(1, seq(
       original,
-      repeat(choice(
-        $.type_qualifier,
-        $.ref_qualifier,
-        $.virtual_specifier,
+      repeat($.type_qualifier),
+      optional($.ref_qualifier),
+      optional(choice(
         $.noexcept,
         $.throw_specifier,
       )),
       optional($.trailing_return_type),
-      optional($.requires_clause)
+      optional(choice(
+        repeat($.virtual_specifier),
+        $.requires_clause
+      ))
     )),
 
     abstract_function_declarator: ($, original) => prec.right(seq(
       original,
-      repeat(choice(
-        $.type_qualifier,
-        $.ref_qualifier,
+      repeat($.type_qualifier),
+      optional($.ref_qualifier),
+      optional(choice(
         $.noexcept,
         $.throw_specifier,
       )),
