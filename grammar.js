@@ -124,7 +124,7 @@ module.exports = grammar(C, {
     // with an associativity.
     _class_declaration: $ => prec.right(seq(
       optional($.ms_declspec_modifier),
-      optional($.attribute_declaration),
+      repeat($.attribute_declaration),
       choice(
         field('name', $._class_name),
         seq(
@@ -191,6 +191,7 @@ module.exports = grammar(C, {
     base_class_clause: $ => seq(
       ':',
       commaSep1(seq(
+        repeat($.attribute_declaration),
         optional(choice('public', 'private', 'protected')),
         $._class_name,
         optional('...')
@@ -519,14 +520,16 @@ module.exports = grammar(C, {
 
     ref_qualifier: $ => choice('&', '&&'),
 
-    function_declarator: ($, original) => prec.dynamic(1, seq(
-      original,
+    _function_declarator_seq: $ => prec.right(seq(
+      field('parameters', $.parameter_list),
+      repeat($.attribute_specifier),
       repeat($.type_qualifier),
       optional($.ref_qualifier),
       optional(choice(
         $.noexcept,
         $.throw_specifier,
       )),
+      repeat($.attribute_declaration),
       optional($.trailing_return_type),
       optional(choice(
         repeat($.virtual_specifier),
@@ -534,32 +537,20 @@ module.exports = grammar(C, {
       ))
     )),
 
-    function_field_declarator: ($, original) => prec.dynamic(1, seq(
-      original,
-      repeat($.type_qualifier),
-      optional($.ref_qualifier),
-      optional(choice(
-        $.noexcept,
-        $.throw_specifier,
-      )),
-      optional($.trailing_return_type),
-      optional(choice(
-        repeat($.virtual_specifier),
-        $.requires_clause
-      ))
+    function_declarator: $ => prec.dynamic(1, seq(
+      field('declarator', $._declarator),
+      $._function_declarator_seq,
     )),
 
-    abstract_function_declarator: ($, original) => prec.right(seq(
-      original,
-      repeat($.type_qualifier),
-      optional($.ref_qualifier),
-      optional(choice(
-        $.noexcept,
-        $.throw_specifier,
-      )),
-      optional($.trailing_return_type),
-      optional($.requires_clause)
+    function_field_declarator: $ => prec.dynamic(1, seq(
+      field('declarator', $._field_declarator),
+      $._function_declarator_seq,
     )),
+
+    abstract_function_declarator: $ => seq(
+      field('declarator', optional($._abstract_declarator)),
+      $._function_declarator_seq,
+    ),
 
     trailing_return_type: $ => seq('->', $.type_descriptor),
 
@@ -652,7 +643,7 @@ module.exports = grammar(C, {
     alias_declaration: $ => seq(
       'using',
       field('name', $._type_identifier),
-      optional($.attribute_declaration),
+      repeat($.attribute_declaration),
       '=',
       field('type', $.type_descriptor),
       ';'

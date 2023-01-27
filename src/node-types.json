@@ -503,6 +503,14 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
+          "type": "attribute_specifier",
+          "named": true
+        },
+        {
           "type": "noexcept",
           "named": true
         },
@@ -524,6 +532,10 @@
         },
         {
           "type": "type_qualifier",
+          "named": true
+        },
+        {
+          "type": "virtual_specifier",
           "named": true
         }
       ]
@@ -616,7 +628,7 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -929,6 +941,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
         {
           "type": "qualified_identifier",
           "named": true
@@ -2960,6 +2976,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true

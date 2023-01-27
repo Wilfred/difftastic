@@ -87,6 +87,7 @@ template <typename T>
 using a = typename b<T>::c;
 
 using foobar [[deprecated]] = int;
+using foobar [[deprecated]] [[maybe_unused]] = int;
 
 ---
 
@@ -118,6 +119,11 @@ using foobar [[deprecated]] = int;
             (type_identifier))))))
   (alias_declaration
     (type_identifier)
+    (attribute_declaration (attribute (identifier)))
+    (type_descriptor (primitive_type)))
+  (alias_declaration
+    (type_identifier)
+    (attribute_declaration (attribute (identifier)))
     (attribute_declaration (attribute (identifier)))
     (type_descriptor (primitive_type))))
 
@@ -369,6 +375,9 @@ class A : public B {
 class C : C::D, public E {
 };
 
+class F : [[deprecated]] public G {
+};
+
 ---
 
 (translation_unit
@@ -380,6 +389,12 @@ class C : C::D, public E {
     (type_identifier)
     (base_class_clause
       (qualified_identifier (namespace_identifier) (type_identifier))
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
+      (attribute_declaration (attribute (identifier)))
       (type_identifier))
     (field_declaration_list)))
 
@@ -513,6 +528,9 @@ class [[gnu::visibility("default")]] A {};
 struct [[gnu::visibility("default")]] A {};
 union [[gnu::visibility("default")]] A {};
 
+class [[gnu::visibility("default")]] [[deprecated]] A {};
+class A final : [[deprecated]] public B {};
+
 ---
 
 (translation_unit
@@ -550,7 +568,19 @@ union [[gnu::visibility("default")]] A {};
   (union_specifier
     (attribute_declaration (attribute (identifier) (identifier) (argument_list (string_literal))))
     (type_identifier)
-    (field_declaration_list)))
+    (field_declaration_list))
+  (class_specifier
+    (attribute_declaration (attribute (identifier) (identifier) (argument_list (string_literal))))
+    (attribute_declaration (attribute (identifier)))
+    (type_identifier)
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (virtual_specifier)
+    (base_class_clause
+      (attribute_declaration (attribute (identifier)))
+      (type_identifier))
+      (field_declaration_list)))
 
 =========================================
 Operator overload declarations
