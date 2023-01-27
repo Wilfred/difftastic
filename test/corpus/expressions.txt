@@ -767,6 +767,7 @@ void f(T...) {}
   (class_specifier
     name: (type_identifier)
     (base_class_clause
+      (access_specifier)
       (type_identifier))
     body: (field_declaration_list
       (access_specifier)

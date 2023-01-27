@@ -942,6 +942,10 @@
       "required": true,
       "types": [
         {
+          "type": "access_specifier",
+          "named": true
+        },
+        {
           "type": "attribute_declaration",
           "named": true
         },
@@ -955,6 +959,10 @@
         },
         {
           "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "virtual",
           "named": true
         }
       ]
@@ -1983,7 +1991,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -2398,7 +2406,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -2840,7 +2848,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -3111,7 +3119,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -3714,7 +3722,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -3795,7 +3803,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -3881,7 +3889,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -5421,7 +5429,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -6092,7 +6100,7 @@
           "named": true
         },
         {
-          "type": "virtual_function_specifier",
+          "type": "virtual",
           "named": true
         }
       ]
@@ -6114,7 +6122,7 @@
     }
   },
   {
-    "type": "virtual_function_specifier",
+    "type": "virtual",
     "named": true,
     "fields": {}
   },

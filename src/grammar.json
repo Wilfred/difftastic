@@ -1899,7 +1899,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "virtual_function_specifier"
+          "name": "virtual"
         }
       ]
     },
@@ -3762,8 +3762,17 @@
           "name": "friend_declaration"
         },
         {
-          "type": "SYMBOL",
-          "name": "access_specifier"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "access_specifier"
+            },
+            {
+              "type": "STRING",
+              "value": ":"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -7716,7 +7725,7 @@
         }
       ]
     },
-    "virtual_function_specifier": {
+    "virtual": {
       "type": "CHOICE",
       "members": [
         {
@@ -7786,16 +7795,34 @@
                       "type": "CHOICE",
                       "members": [
                         {
-                          "type": "STRING",
-                          "value": "public"
+                          "type": "SYMBOL",
+                          "name": "access_specifier"
                         },
                         {
-                          "type": "STRING",
-                          "value": "private"
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "access_specifier"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "virtual"
+                            }
+                          ]
                         },
                         {
-                          "type": "STRING",
-                          "value": "protected"
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "virtual"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "access_specifier"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -7848,16 +7875,34 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "STRING",
-                                "value": "public"
+                                "type": "SYMBOL",
+                                "name": "access_specifier"
                               },
                               {
-                                "type": "STRING",
-                                "value": "private"
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "access_specifier"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "virtual"
+                                  }
+                                ]
                               },
                               {
-                                "type": "STRING",
-                                "value": "protected"
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "virtual"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "access_specifier"
+                                  }
+                                ]
                               }
                             ]
                           },
@@ -8972,28 +9017,19 @@
       ]
     },
     "access_specifier": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "public"
-            },
-            {
-              "type": "STRING",
-              "value": "private"
-            },
-            {
-              "type": "STRING",
-              "value": "protected"
-            }
-          ]
+          "type": "STRING",
+          "value": "public"
         },
         {
           "type": "STRING",
-          "value": ":"
+          "value": "private"
+        },
+        {
+          "type": "STRING",
+          "value": "protected"
         }
       ]
     },

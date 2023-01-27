@@ -169,13 +169,11 @@ module.exports = grammar(C, {
       'override' // legal for functions in addition to final, plus permutations.
     ),
 
-    virtual_function_specifier: $ => choice(
-      'virtual'
-    ),
+    virtual: $ => choice('virtual'),
 
     _declaration_modifiers: ($, original) => choice(
       original,
-      $.virtual_function_specifier,
+      $.virtual,
     ),
 
     explicit_function_specifier: $ => choice(
@@ -192,7 +190,11 @@ module.exports = grammar(C, {
       ':',
       commaSep1(seq(
         repeat($.attribute_declaration),
-        optional(choice('public', 'private', 'protected')),
+        optional(choice(
+          $.access_specifier,
+          seq($.access_specifier, $.virtual),
+          seq($.virtual, $.access_specifier)
+        )),
         $._class_name,
         optional('...')
       ))
@@ -381,7 +383,7 @@ module.exports = grammar(C, {
       alias($.operator_cast_definition, $.function_definition),
       alias($.operator_cast_declaration, $.declaration),
       $.friend_declaration,
-      $.access_specifier,
+      seq($.access_specifier, ':'),
       $.alias_declaration,
       $.using_declaration,
       $.type_definition,
@@ -479,13 +481,10 @@ module.exports = grammar(C, {
       )
     ),
 
-    access_specifier: $ => seq(
-      choice(
-        'public',
-        'private',
-        'protected'
-      ),
-      ':'
+    access_specifier: $ => choice(
+     'public',
+     'private',
+     'protected'
     ),
 
     _declarator: ($, original) => choice(

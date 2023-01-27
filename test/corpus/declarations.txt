@@ -289,31 +289,31 @@ class A {
     (type_identifier)
     (field_declaration_list
       (declaration
-        (virtual_function_specifier)
+        (virtual)
         (function_declarator (destructor_name (identifier)) (parameter_list)))
       (field_declaration
         (primitive_type)
         (function_declarator (field_identifier) (parameter_list)))
       (function_definition
-        (virtual_function_specifier)
+        (virtual)
         (primitive_type)
         (function_declarator
           (field_identifier)
           (parameter_list))
         (compound_statement))
       (field_declaration
-        (virtual_function_specifier)
+        (virtual)
         (primitive_type)
         (function_declarator
           (field_identifier)
           (parameter_list)))
       (field_declaration
         (storage_class_specifier)
-        (virtual_function_specifier)
+        (virtual)
         (primitive_type)
         (function_declarator (field_identifier) (parameter_list) (virtual_specifier)))
       (field_declaration
-        (virtual_function_specifier)
+        (virtual)
         (storage_class_specifier)
         (primitive_type)
         (function_declarator (field_identifier) (parameter_list) (virtual_specifier))))))
@@ -357,7 +357,7 @@ class C {
       (field_initializer_list
         (field_initializer
           (qualified_identifier
-            (namespace_identifier) 
+            (namespace_identifier)
             (template_method
               (field_identifier)
               (template_argument_list (type_descriptor (type_identifier)))))
@@ -369,32 +369,45 @@ class C {
 Classes with inheritance
 =========================================
 
-class A : public B {
-};
-
-class C : C::D, public E {
-};
-
-class F : [[deprecated]] public G {
-};
+class A : public B {};
+class C : C::D, public E {};
+class F : [[deprecated]] public G {};
+class H : public virtual I {};
+class J : virtual protected I {};
 
 ---
 
 (translation_unit
   (class_specifier
     (type_identifier)
-    (base_class_clause (type_identifier))
+    (base_class_clause (access_specifier) (type_identifier))
     (field_declaration_list))
   (class_specifier
     (type_identifier)
     (base_class_clause
       (qualified_identifier (namespace_identifier) (type_identifier))
+      (access_specifier)
       (type_identifier))
     (field_declaration_list))
   (class_specifier
     (type_identifier)
     (base_class_clause
       (attribute_declaration (attribute (identifier)))
+      (access_specifier)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
+      (access_specifier)
+      (virtual)
+      (type_identifier))
+    (field_declaration_list))
+  (class_specifier
+    (type_identifier)
+    (base_class_clause
+      (virtual)
+      (access_specifier)
       (type_identifier))
     (field_declaration_list)))
 
@@ -415,7 +428,9 @@ struct D final {};
   (class_specifier
     (type_identifier)
     (virtual_specifier)
-    (base_class_clause (type_identifier))
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
     (field_declaration_list))
   (class_specifier
     (type_identifier)
@@ -444,7 +459,14 @@ class A {
   (class_specifier (type_identifier) (field_declaration_list
     (access_specifier)
     (field_declaration
-      (class_specifier (type_identifier) (base_class_clause (type_identifier) (type_identifier)) (field_declaration_list)))
+      (class_specifier
+        (type_identifier)
+        (base_class_clause
+          (access_specifier)
+          (type_identifier)
+          (access_specifier)
+          (type_identifier))
+        (field_declaration_list)))
     (field_declaration
       (type_identifier) (field_identifier) (field_identifier)))))
 
@@ -579,6 +601,7 @@ class A final : [[deprecated]] public B {};
     (virtual_specifier)
     (base_class_clause
       (attribute_declaration (attribute (identifier)))
+      (access_specifier)
       (type_identifier))
       (field_declaration_list)))
 
@@ -1266,7 +1289,7 @@ operator T*();
       (placeholder_type_specifier (auto))
       (abstract_function_declarator (parameter_list) (type_qualifier))))
   (declaration
-    (virtual_function_specifier)
+    (virtual)
     (operator_cast (type_identifier) (abstract_function_declarator (parameter_list))) (number_literal))
   (declaration
     (qualified_identifier
@@ -1328,7 +1351,7 @@ class A {
         (placeholder_type_specifier (auto))
         (abstract_function_declarator (parameter_list) (type_qualifier))))
     (declaration
-      (virtual_function_specifier)
+      (virtual)
       (operator_cast (type_identifier) (abstract_function_declarator (parameter_list))) (number_literal))
     (declaration
       (qualified_identifier
