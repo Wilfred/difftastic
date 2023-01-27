@@ -59,6 +59,7 @@ impl Default for DisplayOptions {
 pub struct DiffOptions {
     pub graph_limit: usize,
     pub byte_limit: usize,
+    pub error_limit: usize,
     pub check_only: bool,
     pub ignore_comments: bool,
 }
@@ -68,6 +69,7 @@ impl Default for DiffOptions {
         Self {
             graph_limit: DEFAULT_GRAPH_LIMIT,
             byte_limit: DEFAULT_BYTE_LIMIT,
+            error_limit: 0,
             check_only: false,
             ignore_comments: false,
         }
@@ -225,6 +227,16 @@ fn app() -> clap::Command<'static> {
                 .help(concat!("Use a text diff if the structural graph exceed this number of nodes in memory."))
                 .default_value(formatcp!("{}", DEFAULT_GRAPH_LIMIT))
                 .env("DFT_GRAPH_LIMIT")
+                .validator(|s| s.parse::<usize>())
+                .required(false),
+        )
+        .arg(
+            Arg::new("error-limit").long("error-limit")
+                .takes_value(true)
+                .value_name("LIMIT")
+                .help(concat!("Use a text diff if the number of parse errors exceeds this number."))
+                .default_value("0")
+                .env("DFT_ERROR_LIMIT")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
@@ -473,6 +485,12 @@ pub fn parse_args() -> Mode {
         .parse::<usize>()
         .expect("Value already validated by clap");
 
+    let error_limit = matches
+        .value_of("error-limit")
+        .expect("Always present as we've given clap a default")
+        .parse::<usize>()
+        .expect("Value already validated by clap");
+
     let tab_width = matches
         .value_of("tab-width")
         .expect("Always present as we've given clap a default")
@@ -510,6 +528,7 @@ pub fn parse_args() -> Mode {
     let diff_options = DiffOptions {
         graph_limit,
         byte_limit,
+        error_limit,
         check_only,
         ignore_comments,
     };
