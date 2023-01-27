@@ -122,50 +122,34 @@ module.exports = grammar(C, {
     // When used in a trailing return type, these specifiers can now occur immediately before
     // a compound statement. This introduces a shift/reduce conflict that needs to be resolved
     // with an associativity.
-    class_specifier: $ => prec.right(seq(
+    _class_declaration: $ => prec.right(seq(
+      optional($.ms_declspec_modifier),
+      optional($.attribute_declaration),
+      choice(
+        field('name', $._class_name),
+        seq(
+          optional(field('name', $._class_name)),
+          optional($.virtual_specifier),
+          optional($.base_class_clause),
+          field('body', $.field_declaration_list)
+        )
+      )
+    )),
+
+    class_specifier: $ => seq(
       'class',
-      optional($.ms_declspec_modifier),
-      optional($.attribute_declaration),
-      choice(
-        field('name', $._class_name),
-        seq(
-          optional(field('name', $._class_name)),
-          optional($.virtual_specifier),
-          optional($.base_class_clause),
-          field('body', $.field_declaration_list)
-        )
-      )
-    )),
+      $._class_declaration
+    ),
 
-    union_specifier: $ => prec.right(seq(
+    union_specifier: $ => seq(
       'union',
-      optional($.ms_declspec_modifier),
-      optional($.attribute_declaration),
-      choice(
-        field('name', $._class_name),
-        seq(
-          optional(field('name', $._class_name)),
-          optional($.virtual_specifier),
-          optional($.base_class_clause),
-          field('body', $.field_declaration_list)
-        )
-      )
-    )),
+      $._class_declaration
+    ),
 
-    struct_specifier: $ => prec.right(seq(
+    struct_specifier: $ => seq(
       'struct',
-      optional($.ms_declspec_modifier),
-      optional($.attribute_declaration),
-      choice(
-        field('name', $._class_name),
-        seq(
-          optional(field('name', $._class_name)),
-          optional($.virtual_specifier),
-          optional($.base_class_clause),
-          field('body', $.field_declaration_list)
-        )
-      )
-    )),
+      $._class_declaration
+    ),
 
     _class_name: $ => prec.right(choice(
       $._type_identifier,
