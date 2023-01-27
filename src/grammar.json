@@ -1104,48 +1104,27 @@
     "text_block": {
       "type": "TOKEN",
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "PATTERN",
+            "value": "\"\"\"\\s*\\n"
+          },
+          {
+            "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "\"\"\""
-              },
-              {
                 "type": "PATTERN",
-                "value": "\\s*\\n"
+                "value": "([^\"]|(\"[^\"])|(\"\"[^\"]))+"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "PATTERN",
-                          "value": "[^\\\\\"]"
-                        },
-                        {
-                          "type": "PATTERN",
-                          "value": "\\\\(.)"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "STRING",
-                "value": "\"\"\""
+                "type": "BLANK"
               }
             ]
+          },
+          {
+            "type": "STRING",
+            "value": "\"\"\""
           }
         ]
       }

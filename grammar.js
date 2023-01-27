@@ -159,9 +159,13 @@ module.exports = grammar({
       // seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"', '+', /\n/, '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)))
     )),
 
-    text_block: $ => token(choice(
-      seq('"""', /\s*\n/, optional(repeat(choice(/[^\\"]/, /\\(.)/))), '"""'),
-    )),
+    text_block: $ => token(
+      seq(
+        /"""\s*\n/,
+        optional(/([^"]|("[^"])|(""[^"]))+/),
+        '"""'
+      )
+    ),
 
     null_literal: $ => 'null',
 
