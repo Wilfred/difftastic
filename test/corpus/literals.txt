@@ -169,9 +169,29 @@ Closing token
 at new line
 """;
 
+"""
+{
+  "foo": 4
+}
+""";
+"""
+"this is single double quotes"
+""this is double quotes""
+"" """;
+"""
+"
+""";
+"""
+\\
+""";
+
 ---
 
 (program
+  (expression_statement (text_block))
+  (expression_statement (text_block))
+  (expression_statement (text_block))
+  (expression_statement (text_block))
   (expression_statement (text_block))
   (expression_statement (text_block))
   (expression_statement (text_block))
