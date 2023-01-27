@@ -93,7 +93,7 @@ jobs:
       - name: Smoke test
         if: ${{ runner.os == 'Linux' }}
         shell: bash
-        env: 
+        env:
           SCALA_SCALA_DIR: scala_scala
           DOTTY_DIR: dotty
         run: script/smoke_test.sh
@@ -101,7 +101,7 @@ jobs:
       - name: copy nvim-treesitter highlight queries
         if: ${{ runner.os == 'Linux' }}
         shell: bash
-        run: cp ./nvim_treesitter/queries/scala/highlights.scm ./queries/highlights.scm
+        run: cp ./nvim_treesitter/queries/scala/highlights.scm ./queries/scala/highlights.scm
 
       - name: Check if highlight queries are out of sync with nvim-treesitter
         if: ${{ runner.os == 'Linux' }}
@@ -109,11 +109,11 @@ jobs:
         id: verify-changed-files
         with:
           files: |
-            queries/highlights.scm
+            queries/scala/highlights.scm
 
       - name: Test quries if out of sync with nvim-treesitter
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
-            echo "::warning file=queries/highlights.scm::Queries in this repo are out of sync with nvim-treesitter"
-            git diff queries/highlights.scm
-            npm run test
+          echo "::warning file=queries/scala/highlights.scm::Queries in this repo are out of sync with nvim-treesitter"
+          git diff queries/scala/highlights.scm
+          npm run test
