@@ -127,6 +127,17 @@ package c {
       (object_definition (identifier)))))
 
 ================================
+Package with comma
+================================
+
+package a.b;
+
+---
+
+(compilation_unit
+  (package_clause (package_identifier (identifier) (identifier))))
+
+================================
 Package (Scala 3 syntax)
 ================================
 

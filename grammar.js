@@ -164,6 +164,7 @@ module.exports = grammar({
     package_clause: $ => seq(
       'package',
       field('name', $.package_identifier),
+      optional($._semicolon),
       // This is slightly more permissive than the EBNF in that it allows any
       // kind of delcaration inside of the package blocks. As we're more
       // concerned with the structure rather than the validity of the program
