@@ -3,7 +3,7 @@
 # This is an integration test to generally check the quality of parsing.
 
 SCALA_SCALA_LIBRARY_EXPECTED=100
-SCALA_SCALA_COMPILER_EXPECTED=67
+SCALA_SCALA_COMPILER_EXPECTED=68
 DOTTY_COMPILER_EXPECTED=65
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then

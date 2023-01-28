@@ -451,8 +451,11 @@ module.exports = grammar({
       optional($.opaque_modifier),
       'type',
       $._type_constructor,
-      '=',
-      field('type', $._type)
+      optional(
+        seq(
+        '=',
+        field('type', $._type))
+      )
     )),
 
     // Created for memory-usage optimization during codegen.

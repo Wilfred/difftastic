@@ -739,6 +739,8 @@ Type definitions
 class A {
   type B = C
   type D[E] = F
+  type Abs
+  type Beta[B]
 }
 
 ---
@@ -753,7 +755,13 @@ class A {
       (type_definition
         (type_identifier)
         (type_parameters (identifier))
-        (type_identifier)))))
+          (type_identifier))
+      (type_definition
+        (type_identifier))
+      (type_definition
+        (type_identifier)
+        (type_parameters
+          (identifier))))))
 
 =======================================
 Function declarations
