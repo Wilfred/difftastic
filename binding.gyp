@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "openssl_fips": ""
+  },
   "targets": [
     {
       "target_name": "tree_sitter_gdscript_binding",
