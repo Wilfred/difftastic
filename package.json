@@ -11,17 +11,16 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.2",
-    "prebuild-install": "^6.0.0"
+    "node-gyp-build": "^4.6.0"
   },
   "devDependencies": {
-    "prebuild": "^10.0.1",
+    "prebuildify": "^5.0.1",
     "prettier": "^2.8.1",
-    "tree-sitter-cli": "^0.20.0"
+    "tree-sitter-cli": "^0.20.7"
   },
   "scripts": {
-    "install": "prebuild-install || node-gyp rebuild",
-    "prebuild": "prebuild -r electron --strip --verbose -t 9.3.5 -t 9.4.1 -t 9.4.4 -t 11.4.7 -t 11.4.12",
-    "prebuild:upload": "prebuild --upload-all",
+    "install": "node-gyp-build",
+    "prebuild": "prebuildify --strip -t electron@12.2.3 -t 18.13.0 -t 19.5.0",
     "test": "tree-sitter --version && tree-sitter test",
     "generate": "tree-sitter --version && tree-sitter generate",
     "genTest": "tree-sitter --version && tree-sitter generate && tree-sitter test",
