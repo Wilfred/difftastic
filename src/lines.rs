@@ -1,5 +1,11 @@
 //! Manipulate lines of text and groups of lines.
 
+// The `from_offset*` methods on NewlinePositions are sensible names,
+// and the docs clippy cites:
+// https://rust-lang.github.io/api-guidelines/naming.html#ad-hoc-conversions-follow-as_-to_-into_-conventions-c-conv
+// don't actually have an opinion on `from_foo` names.
+#![allow(clippy::wrong_self_convention)]
+
 use crate::positions::SingleLineSpan;
 use std::ops::Sub;
 use std::{cmp::Ordering, fmt};
