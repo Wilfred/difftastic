@@ -100,9 +100,9 @@ module com.foo { }
       (identifier)
       (annotation_argument_list
         (element_value_pair (identifier) (decimal_integer_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))))
+        (element_value_pair (identifier) (string_literal (string_fragment)))
+        (element_value_pair (identifier) (string_literal (string_fragment)))
+        (element_value_pair (identifier) (string_literal (string_fragment)))))
     (scoped_identifier (identifier) (identifier))
     (module_body)))
 
@@ -138,7 +138,7 @@ module com.foo {}
   (module_declaration
     (annotation
       (identifier)
-      (annotation_argument_list (string_literal)))
+      (annotation_argument_list (string_literal (string_fragment))))
     (scoped_identifier
       (identifier)
       (identifier))
@@ -760,8 +760,8 @@ record Person(int age) {
               (object_creation_expression
                 (type_identifier)
                 (argument_list
-                  (string_literal))))))))))
-
+                  (string_literal
+                        (string_fragment)))))))))))
 
 ============================================
 record declaration that implements interface
