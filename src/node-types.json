@@ -44,10 +44,6 @@
         "named": true
       },
       {
-        "type": "text_block",
-        "named": true
-      },
-      {
         "type": "true",
         "named": true
       }
@@ -2709,6 +2705,11 @@
     }
   },
   {
+    "type": "multiline_string_fragment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "object_creation_expression",
     "named": true,
     "fields": {
@@ -3232,6 +3233,29 @@
       "types": [
         {
           "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "multiline_string_fragment",
+          "named": true
+        },
+        {
+          "type": "string_fragment",
           "named": true
         }
       ]
@@ -3816,6 +3840,14 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
@@ -4068,6 +4100,10 @@
     "named": false
   },
   {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
     "type": "exports",
     "named": false
   },
@@ -4224,7 +4260,7 @@
     "named": false
   },
   {
-    "type": "string_literal",
+    "type": "string_fragment",
     "named": true
   },
   {
@@ -4238,10 +4274,6 @@
   {
     "type": "synchronized",
     "named": false
-  },
-  {
-    "type": "text_block",
-    "named": true
   },
   {
     "type": "this",
