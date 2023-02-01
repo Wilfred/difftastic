@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+shopt -s globstar
 
 known_failures="$(cat script/known-failures.txt)"
 
 tree-sitter parse -q -t \
-  examples/**/*.bash \
-  examples/**/*.sh   \
+  examples/bash-it/**/*.bash \
+  examples/bash-it/**/*.sh \
+  examples/bash/tests/*.tests \
+  examples/*.sh   \
   $(for failure in $known_failures; do echo "!${failure}"; done)
