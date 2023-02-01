@@ -20,7 +20,7 @@ Difftastic 是一个根据文件语法进行比较的结构化比较工具。
 (1) Difftastic 理解嵌套。它强调了匹配的 `{`  和
 `}` 符号；同时尽管 `foo()` 之前增加了空格，Difftastic 知道它并没有改变。
 
-(2) Difftastic 理解哪些行应该被对齐，尽管改变了，但是 Difftastic 依旧可以将左边的 `bar()` 和右边的 `bar(1)` 对齐。
+(2) Difftastic 理解哪些行应该被对齐。尽管内容改变了，但是 Difftastic 依旧将左边的 `bar(1)` 与右边的 `bar(2)` 对齐。
 
 (3) Difftastic 理解换行并不改变文件意义。例如 `"eric"` 现在在新的一行中，但 Difftastic 知道它并没改变。
 
