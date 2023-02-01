@@ -145,11 +145,15 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     }
 
     let mime = tree_magic_mini::from_u8(magic_bytes);
+    info!("MIME type detected: {}", mime);
+
     // This is a dirty hack to handle cases where files are obviously
     // binary but can be still converted to UTF16 string.
     // See test_gzip_is_binary
-    if mime == "application/octet-stream" {
-        return ProbableFileKind::Binary;
+    match mime {
+        "application/octet-stream" => return ProbableFileKind::Binary,
+        "application/gzip" => return ProbableFileKind::Binary,
+        _ => {}
     }
 
     // If the bytes are is entirely valid UTF-16, treat them as a
@@ -162,8 +166,6 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // Use MIME type detection to guess whether a file is binary. This
     // has false positives and false negatives, so only check the MIME
     // type after allowing perfect text files (see issue #433).
-    let mime = tree_magic_mini::from_u8(magic_bytes);
-    info!("MIME type detected: {}", mime);
     match mime {
         // Treat pdf as binary.
         "application/pdf" => return ProbableFileKind::Binary,
