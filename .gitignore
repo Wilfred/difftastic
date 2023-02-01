@@ -1,3 +1,7 @@
 node_modules
 build
 prebuilds
+parser.exp
+parser.lib
+parser.obj
+scanner.obj
