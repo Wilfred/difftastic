@@ -64,26 +64,11 @@ struct Scanner {
     started_heredoc = false;
     heredoc_delimiter.clear();
 
-    if (lexer->lookahead == '\\') {
-      advance(lexer);
-    }
+    string delimiter;
+    bool found_delimiter = advance_word(lexer, delimiter);
+    if (found_delimiter) heredoc_delimiter.assign(delimiter);
 
-    int32_t quote = 0;
-    if (heredoc_is_raw || lexer->lookahead == '"') {
-      quote = lexer->lookahead;
-      advance(lexer);
-    }
-
-    while (iswalpha(lexer->lookahead) || (quote != 0 && iswspace(lexer->lookahead))) {
-      heredoc_delimiter += lexer->lookahead;
-      advance(lexer);
-    }
-
-    if (lexer->lookahead == quote) {
-      advance(lexer);
-    }
-
-    return !heredoc_delimiter.empty();
+    return found_delimiter;
   }
 
   bool scan_heredoc_end_identifier(TSLexer *lexer) {
@@ -367,6 +352,40 @@ struct Scanner {
     }
 
     return false;
+  }
+
+  /**
+   * Consume a "word" in POSIX parlance, and returns it unquoted.
+   *
+   * This is an approximate implementation that doesn't deal with any
+   * POSIX-mandated substitution, and assumes the default value for
+   * IFS.
+   */
+  bool advance_word(TSLexer *lexer, string& unquoted_word) {
+    bool empty = true;
+
+    int32_t quote = 0;
+    if (lexer->lookahead == '\'' || lexer->lookahead == '"') {
+      quote = lexer->lookahead;
+      advance(lexer);
+    }
+
+    while (lexer->lookahead && ! (quote ? lexer->lookahead == quote :
+                                  iswspace(lexer->lookahead))) {
+      if (lexer->lookahead == '\\') {
+        advance(lexer);
+        if (! lexer->lookahead) return false;
+      }
+      empty = false;
+      unquoted_word += lexer->lookahead;
+      advance(lexer);
+    }
+
+    if (quote && lexer->lookahead == quote) {
+      advance(lexer);
+    }
+
+    return ! empty;
   }
 
   string heredoc_delimiter;
