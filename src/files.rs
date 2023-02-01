@@ -137,18 +137,26 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         return ProbableFileKind::Text(valid_utf8_string.to_string());
     }
 
-    // If the bytes are is entirely valid UTF-16, treat them as a
-    // string.
-    let u16_values = u16_from_bytes(bytes);
-    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
-        return ProbableFileKind::Text(valid_utf16_string);
-    }
-
     // Only consider the first 1,000 bytes, as tree_magic_mini
     // considers the entire file, which is very slow on large files.
     let mut magic_bytes = bytes;
     if magic_bytes.len() > 1000 {
         magic_bytes = &magic_bytes[..1000];
+    }
+
+    let mime = tree_magic_mini::from_u8(magic_bytes);
+    // This is a dirty hack to handle cases where files are obviously
+    // binary but can be still converted to UTF16 string.
+    // See test_gzip_is_binary
+    if mime == "application/octet-stream" {
+        return ProbableFileKind::Binary;
+    }
+
+    // If the bytes are is entirely valid UTF-16, treat them as a
+    // string.
+    let u16_values = u16_from_bytes(bytes);
+    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
+        return ProbableFileKind::Text(valid_utf16_string);
     }
 
     // Use MIME type detection to guess whether a file is binary. This
@@ -278,6 +286,20 @@ mod tests {
             ProbableFileKind::Text(_)
         ));
     }
+
+
+    #[test]
+    fn test_gzip_is_binary() {
+        // Bytes for "echo "[]" | gzip -c | hexdump -C"
+        let bytes = vec![
+            0x1f, 0x8b, 0x08, 0x00, 0x3a, 0xb0, 0x91, 0x63, 0x00, 0x03, 0x8b, 0x8e, 0xe5,
+            0x02, 0x00, 0x44, 0xd2, 0x68, 0x70, 0x03, 0x00, 0x00, 0x00
+        ];
+
+
+        assert_eq!(guess_content(&bytes), ProbableFileKind::Binary);
+    }
+
 
     #[test]
     fn test_png_bytes_are_binary() {
