@@ -231,6 +231,30 @@ at new line
         (string_literal
           (multiline_string_fragment))))
 
+===============
+escape sequences
+===============
+
+"\n\a\b\fhi im a piece of text\t\v and im some more text \\\'\"\?";
+
+---
+
+(program
+      (expression_statement
+        (string_literal
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (string_fragment)
+          (escape_sequence)
+          (escape_sequence)
+          (string_fragment)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence))))
+
 =============
 null literals
 =============
