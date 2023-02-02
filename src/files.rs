@@ -151,7 +151,6 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     // binary but can be still converted to UTF16 string.
     // See test_gzip_is_binary
     match mime {
-        "application/octet-stream" => return ProbableFileKind::Binary,
         "application/gzip" => return ProbableFileKind::Binary,
         _ => {}
     }
