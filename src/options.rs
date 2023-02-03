@@ -230,16 +230,16 @@ fn app() -> clap::Command<'static> {
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
-        .arg(
-            Arg::new("error-limit").long("error-limit")
-                .takes_value(true)
-                .value_name("LIMIT")
-                .help(concat!("Use a text diff if the number of parse errors exceeds this number."))
-                .default_value("0")
-                .env("DFT_ERROR_LIMIT")
-                .validator(|s| s.parse::<usize>())
-                .required(false),
-        )
+        // .arg(
+        //     Arg::new("error-limit").long("error-limit")
+        //         .takes_value(true)
+        //         .value_name("LIMIT")
+        //         .help(concat!("Use a text diff if the number of parse errors exceeds this number."))
+        //         .default_value("0")
+        //         .env("DFT_ERROR_LIMIT")
+        //         .validator(|s| s.parse::<usize>())
+        //         .required(false),
+        // )
         .arg(
             Arg::new("paths")
                 .value_name("PATHS")
