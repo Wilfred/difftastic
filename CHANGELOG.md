@@ -22,6 +22,9 @@ previously missing `--color` and `--display`).
 `--color` can now be configured with the environment variable
 `DFT_COLOR`.
 
+Fixed an issue where git on Windows would fail with an error about
+`/dev/null`.
+
 ## 0.42 (released 15th January 2022)
 
 ### Parsing
