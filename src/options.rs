@@ -59,7 +59,7 @@ impl Default for DisplayOptions {
 pub struct DiffOptions {
     pub graph_limit: usize,
     pub byte_limit: usize,
-    pub error_limit: usize,
+    // pub error_limit: usize,
     pub check_only: bool,
     pub ignore_comments: bool,
 }
@@ -69,7 +69,7 @@ impl Default for DiffOptions {
         Self {
             graph_limit: DEFAULT_GRAPH_LIMIT,
             byte_limit: DEFAULT_BYTE_LIMIT,
-            error_limit: 0,
+            // error_limit: 0,
             check_only: false,
             ignore_comments: false,
         }
@@ -490,11 +490,11 @@ pub fn parse_args() -> Mode {
         .parse::<usize>()
         .expect("Value already validated by clap");
 
-    let error_limit = matches
-        .value_of("error-limit")
-        .expect("Always present as we've given clap a default")
-        .parse::<usize>()
-        .expect("Value already validated by clap");
+    // let error_limit = matches
+    //     .value_of("error-limit")
+    //     .expect("Always present as we've given clap a default")
+    //     .parse::<usize>()
+    //     .expect("Value already validated by clap");
 
     let tab_width = matches
         .value_of("tab-width")
@@ -533,7 +533,7 @@ pub fn parse_args() -> Mode {
     let diff_options = DiffOptions {
         graph_limit,
         byte_limit,
-        error_limit,
+        // error_limit,
         check_only,
         ignore_comments,
     };
