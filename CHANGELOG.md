@@ -4,6 +4,9 @@
 
 Added support for R.
 
+Difftastic now considers gzipped files to be binary, even if they
+happen to be valid UTF-16.
+
 ### Diffing
 
 Fixed a rare crash when one file had repeated lists that partially
