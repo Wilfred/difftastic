@@ -295,9 +295,14 @@ impl FileArgument {
     }
 
     /// Return a `FileArgument` that always represents a path that
-    /// exists.
+    /// exists, with the exception of `/dev/null`, which is turned into [FileArgument::DevNull].
     pub fn from_path_argument(arg: &OsStr) -> Self {
-        FileArgument::NamedPath(PathBuf::from(arg))
+        // For new and deleted files, Git passes `/dev/null` as the reference file.
+        if arg == "/dev/null" {
+            FileArgument::DevNull
+        } else {
+            FileArgument::NamedPath(PathBuf::from(arg))
+        }
     }
 
     pub fn display(&self) -> String {
