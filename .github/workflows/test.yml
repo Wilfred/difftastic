@@ -3,30 +3,22 @@ name: Test
 on:
   push:
     branches: [ master ]
-    
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
-    
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
-
-      - name: Version Information
-        run: |
+          node-version: 18
+          cache: npm
+      - run: |
           node --version
           npm --version
-
-      - name: Install
-        run: npm install
-      
-      - name: Test
-        run: npm test
+          npm ci
+      - run: npm test

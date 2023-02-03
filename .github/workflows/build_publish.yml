@@ -1,9 +1,10 @@
 # This workflow will
-# - build, test, and publish the nodejs package
-# - create a github release
-# - upload native binaries
+# - test tree sitter grammar
+# - upload build native binaries as an artifact for each major platform
+# - download artifacts for each major platform and bundle them to be published
+#   to npm
 # when a new version tag is pushed to the master branch.
-name: Build Release Publish
+name: Test Build Publish
 
 on:
   push:
@@ -11,77 +12,45 @@ on:
 
 jobs:
 
-  publish_npm:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup NodeJs
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Version Information
-        run: |
-          node --version
-          npm --version
-
-      - name: Install
-        run: npm install
-
-      - name: Test
-        run: npm test
-
-      - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish
-
-  create_release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ github.token }}
-
-  upload_builds:
-
-    needs: create_release
-
+  build_native_binaries:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-
     runs-on: ${{ matrix.os }}
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup NodeJs
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
-      - name: Version Information
-        run: |
+          node-version: 18
+      - run: |
           node --version
           npm --version
+          npm ci
+      - run: npm test
+      - run: npm run prebuild
+      - uses: actions/upload-artifact@v3
+        with:
+          path: prebuilds
+          retention-days: 5
 
-      - name: Install
-        run: npm install
-      - name: Test
-        run: npm test
 
-      - name: Build for ${{ matrix.os }}
-        run: npm run prebuild
-
-      - name: Upload builds for ${{ matrix.os }}
+  publish_npm:
+    needs: build_native_binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: |
+          node --version
+          npm --version
+          npm ci
+      - run: npm test
+      - uses: actions/download-artifact@v3
+      - run: |
+          mv artifact prebuilds
+          ls prebuilds
+      - run: npm publish
         env:
-          PREBUILD_TOKEN: ${{ github.token }}
-        shell: bash
-        run: npm run prebuild:upload "$PREBUILD_TOKEN"
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
