@@ -18,7 +18,7 @@ Math Expressions
       (binary_operator (identifier) (float))))))
 
 =====================================
-Boolean Operators
+Operators Boolean
 =====================================
 
 x and (x && true)
@@ -49,7 +49,7 @@ not x and (!x)
         (unary_operator (identifier))))))
 
 =====================================
-Is Operator
+Operators Is
 =====================================
 
 x is y
@@ -67,7 +67,7 @@ x is int()
     (identifier))))
 
 =====================================
-As Operator
+Operators As
 =====================================
 
 x as Y
@@ -210,7 +210,7 @@ var x: Type = "hello"
   (variable_statement (name) (type) (string)))
 
 =====================================
-Variable Assign Expressions
+Variables Assign Expressions
 =====================================
 
 var x = 1 + x + 1
@@ -222,7 +222,7 @@ var x = 1 + x + 1
       (binary_operator (binary_operator (integer) (identifier)) (integer))))
 
 =====================================
-Remote Variables
+Variables Remote
 =====================================
 
 remote var hello
@@ -243,7 +243,7 @@ puppetsync var hello
   (variable_statement (remote_keyword) (name)))
 
 =====================================
-Export Variables
+Variables Export
 =====================================
 
 export var a
@@ -275,7 +275,7 @@ export(,) var a
   (export_variable_statement (export_argument_list (ERROR)) (name)))
 
 =====================================
-SetGet Variables
+Variables SetGet
 =====================================
 
 var x setget setter,getter
@@ -291,7 +291,7 @@ var x setget ,getter
 )
 
 =====================================
-Onready Variables
+Variables Onready
 =====================================
 
 onready var hello
@@ -304,7 +304,7 @@ onready var hello: World
   (onready_variable_statement (name) (type)))
 
 =====================================
-Const Variables
+Variables Const
 =====================================
 
 const CONST = 1
@@ -320,7 +320,7 @@ const CONST : int = 1
 
 
 =====================================
-Invalid Variables
+Variables Invalid
 =====================================
 
 var x = var y
@@ -334,7 +334,7 @@ var x :=
   (ERROR (name)  (inferred_type)))
 
 =====================================
-Function Definitions
+Functions
 =====================================
 
 func hello():
@@ -392,7 +392,7 @@ func hello(typed_default_param: Type="string") -> Type:
     (body (pass_statement))))
 
 =====================================
-Remote Function Definitions
+Functions Remote
 =====================================
 
 remote func hello(): pass
@@ -419,7 +419,7 @@ puppetsync func hello(): pass
     (body (pass_statement))))
 
 =====================================
-Static Function Definitions
+Functions Static
 =====================================
 
 static func hello(): pass
