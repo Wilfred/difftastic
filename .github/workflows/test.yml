@@ -9,10 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.57.0
+      - run: cargo test
       # This also runs tests that rely on the MIME database being
       # present.
-      - name: Run all tests, including ignored tests
-        run: cargo test -- --ignored
+      - run: cargo test -- --ignored
 
   test_linux_latest_stable:
     name: Test Linux (latest stable Rust)
