@@ -6,10 +6,21 @@ on:
       - master
 
 jobs:
-  deploy:
+  pre_deploy:
     runs-on: ubuntu-20.04
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: always
+
+  deploy:
+    needs: pre_deploy
+    if: needs.pre_job.outputs.should_skip != 'true'
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
