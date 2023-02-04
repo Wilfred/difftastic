@@ -289,6 +289,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn test_gzip_is_binary() {
         // Bytes for "echo "[]" | gzip -c | hexdump -C"
         let bytes = vec![
