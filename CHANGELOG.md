@@ -1,4 +1,4 @@
-## 0.43 (unreleased)
+## 0.43 (released 3rd February 2023)
 
 ### Parsing
 
@@ -28,7 +28,7 @@ previously missing `--color` and `--display`).
 Fixed an issue where git on Windows would fail with an error about
 `/dev/null`.
 
-## 0.42 (released 15th January 2022)
+## 0.42 (released 15th January 2023)
 
 ### Parsing
 
