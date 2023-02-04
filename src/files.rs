@@ -289,6 +289,8 @@ mod tests {
     }
 
     #[test]
+    // This test only works if the MIME database is present, so make
+    // it opt-in.
     #[ignore]
     fn test_gzip_is_binary() {
         // Bytes for "echo "[]" | gzip -c | hexdump -C"
