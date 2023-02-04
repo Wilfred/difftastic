@@ -1,3 +1,9 @@
+## 0.43.1 (released 3rd February 2023)
+
+This release has no logic changes from 0.43.
+
+The only difference is that the `test_gzip_is_binary` test is ignored by default, as it depends on MIME database availability. This database isn't always installed in packaging environments, so packagers saw this test failing.
+
 ## 0.43 (released 3rd February 2023)
 
 ### Parsing
