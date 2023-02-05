@@ -369,20 +369,21 @@ fn diff_file_content(
             let rhs_tree = tsp::to_tree(&rhs_src, &ts_lang);
 
             let arena = Arena::new();
-            let lhs = tsp::to_syntax(
+            let (lhs, _lhs_err_count) = tsp::to_syntax(
                 &lhs_tree,
                 &lhs_src,
                 &arena,
                 &ts_lang,
                 diff_options.ignore_comments,
             );
-            let rhs = tsp::to_syntax(
+            let (rhs, _rhs_err_count) = tsp::to_syntax(
                 &rhs_tree,
                 &rhs_src,
                 &arena,
                 &ts_lang,
                 diff_options.ignore_comments,
             );
+            dbg!(_lhs_err_count, _rhs_err_count);
 
             init_all_info(&lhs, &rhs);
 

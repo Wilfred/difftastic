@@ -1115,7 +1115,7 @@ pub fn comment_positions(
     let arena = Arena::new();
     let ignore_comments = false;
 
-    let nodes = to_syntax(tree, src, &arena, config, ignore_comments);
+    let (nodes, _err_count) = to_syntax(tree, src, &arena, config, ignore_comments);
     let positions = syntax::comment_positions(&nodes);
 
     positions
@@ -1135,12 +1135,12 @@ pub fn to_syntax<'a>(
     arena: &'a Arena<Syntax<'a>>,
     config: &TreeSitterConfig,
     ignore_comments: bool,
-) -> Vec<&'a Syntax<'a>> {
+) -> (Vec<&'a Syntax<'a>>, usize) {
     // Don't return anything on an empty input. Most parsers return a
     // zero-width top-level AST node on empty files, which is
     // confusing and not useful for diffing.
     if src.trim().is_empty() {
-        return vec![];
+        return (vec![], 0);
     }
 
     let highlights = tree_highlights(tree, src, config);
@@ -1156,16 +1156,19 @@ pub fn to_syntax<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    all_syntaxes_from_cursor(
+    let mut error_count: usize = 0;
+    let nodes = all_syntaxes_from_cursor(
         arena,
         src,
         &nl_pos,
         &mut cursor,
+        &mut error_count,
         config,
         &highlights,
         &subtrees,
         ignore_comments,
-    )
+    );
+    (nodes, error_count)
 }
 
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.
@@ -1176,7 +1179,8 @@ pub fn parse<'a>(
     ignore_comments: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let tree = to_tree(src, config);
-    to_syntax(&tree, src, arena, config, ignore_comments)
+    let (nodes, _err_count) = to_syntax(&tree, src, arena, config, ignore_comments);
+    nodes
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
@@ -1243,6 +1247,7 @@ fn all_syntaxes_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
+    error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
@@ -1256,6 +1261,7 @@ fn all_syntaxes_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
+            error_count,
             config,
             highlights,
             subtrees,
@@ -1277,6 +1283,7 @@ fn syntax_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
+    error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
@@ -1292,6 +1299,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             &mut sub_cursor,
+            error_count,
             subconfig,
             subhighlights,
             &HashMap::new(),
@@ -1300,6 +1308,8 @@ fn syntax_from_cursor<'a>(
     }
 
     if node.is_error() {
+        *error_count += 1;
+
         let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         let content = &src[node.start_byte()..node.end_byte()];
         debug!(
@@ -1320,6 +1330,7 @@ fn syntax_from_cursor<'a>(
             src,
             nl_pos,
             cursor,
+            error_count,
             config,
             highlights,
             subtrees,
@@ -1337,6 +1348,7 @@ fn list_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
+    error_count: &mut usize,
     config: &TreeSitterConfig,
     highlights: &HighlightedNodeIds,
     subtrees: &HashMap<usize, (tree_sitter::Tree, TreeSitterConfig, HighlightedNodeIds)>,
@@ -1388,6 +1400,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
+                error_count,
                 config,
                 highlights,
                 subtrees,
@@ -1402,6 +1415,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
+                error_count,
                 config,
                 highlights,
                 subtrees,
@@ -1416,6 +1430,7 @@ fn list_from_cursor<'a>(
                 src,
                 nl_pos,
                 cursor,
+                error_count,
                 config,
                 highlights,
                 subtrees,
