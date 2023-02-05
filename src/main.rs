@@ -369,26 +369,26 @@ fn diff_file_content(
             let rhs_tree = tsp::to_tree(&rhs_src, &ts_lang);
 
             let arena = Arena::new();
-            let (lhs, _lhs_err_count) = tsp::to_syntax(
+            let (lhs, lhs_err_count) = tsp::to_syntax(
                 &lhs_tree,
                 &lhs_src,
                 &arena,
                 &ts_lang,
                 diff_options.ignore_comments,
             );
-            let (rhs, _rhs_err_count) = tsp::to_syntax(
+            let (rhs, rhs_err_count) = tsp::to_syntax(
                 &rhs_tree,
                 &rhs_src,
                 &arena,
                 &ts_lang,
                 diff_options.ignore_comments,
             );
-            dbg!(_lhs_err_count, _rhs_err_count);
 
             init_all_info(&lhs, &rhs);
 
             if diff_options.check_only {
                 let lang_name = language.map(|l| language_name(l).into());
+                // TODO: respect syntax limit.
                 let has_syntactic_changes = lhs != rhs;
 
                 language_used = language;
@@ -439,6 +439,23 @@ fn diff_file_content(
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
                 (
                     Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
+                    lhs_positions,
+                    rhs_positions,
+                )
+            } else if lhs_err_count + rhs_err_count > diff_options.syntax_error_limit {
+                // TODO: doing a syntactic diff here is wasteful.
+                let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
+                let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+                (
+                    Some(format!(
+                        "Text ({} error{}, exceeded DFT_ERROR_LIMIT)",
+                        (lhs_err_count + rhs_err_count),
+                        if (lhs_err_count + rhs_err_count) == 1 {
+                            ""
+                        } else {
+                            "s"
+                        }
+                    )),
                     lhs_positions,
                     rhs_positions,
                 )
