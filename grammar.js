@@ -654,7 +654,7 @@ module.exports = grammar({
         token.immediate('"')
       ),
     escape_sequence: ($) => token.immediate(/\\[efnrt\"\\]/),
-    float: ($) => /-?[0-9_]+\.[0-9_]*/,
+    float: ($) => /-?[0-9_]+\.[0-9_]*(e-?[0-9_]+)?/,
     integer: ($) =>
       seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),
     _hex: ($) => /0[xX][0-9a-fA-F_]+/,

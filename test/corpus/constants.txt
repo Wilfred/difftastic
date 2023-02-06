@@ -423,3 +423,24 @@ pub const a = uri.Uri(host: "github.com")
           label: (label)
           value: (string
             (quoted_content)))))))
+
+================================================================================
+Scientific notation
+================================================================================
+
+const a = 0.0e0
+const a = 1.0e123_456
+const a = -100.001e-1_230
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (constant
+    (identifier)
+    (float))
+  (constant
+    (identifier)
+    (float))
+  (constant
+    (identifier)
+    (float)))
