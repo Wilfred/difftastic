@@ -259,6 +259,21 @@ fn main() {
     };
 }
 
+fn format_num_bytes(num_bytes: usize) -> String {
+    if num_bytes >= 1024 * 1024 * 1024 {
+        let g = num_bytes as f64 / (1024.0 * 1024.0 * 1024.0);
+        return format!("{}GiB", g.round());
+    } else if num_bytes >= 1024 * 1024 {
+        let m = num_bytes as f64 / (1024.0 * 1024.0);
+        return format!("{}MiB", m.round());
+    } else if num_bytes >= 1024 {
+        let k = num_bytes as f64 / 1024.0;
+        return format!("{}KiB", k.round());
+    }
+
+    format!("{}B", num_bytes)
+}
+
 /// Print a diff between two files.
 fn diff_file(
     lhs_display_path: &str,
@@ -356,10 +371,15 @@ fn diff_file_content(
         _ if lhs_bytes.len() > diff_options.byte_limit
             || rhs_bytes.len() > diff_options.byte_limit =>
         {
+            let num_bytes = std::cmp::max(lhs_bytes.len(), rhs_bytes.len());
+
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
             (
-                Some("Text (exceeded DFT_BYTE_LIMIT)".into()),
+                Some(format!(
+                    "Text ({} exceeded DFT_BYTE_LIMIT)",
+                    &format_num_bytes(num_bytes),
+                )),
                 lhs_positions,
                 rhs_positions,
             )
@@ -710,5 +730,20 @@ mod tests {
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
+    }
+
+    #[test]
+    fn test_num_bytes_small() {
+        assert_eq!(&format_num_bytes(200), "200B");
+    }
+
+    #[test]
+    fn test_num_bytes_kb() {
+        assert_eq!(&format_num_bytes(10_000), "10KiB");
+    }
+
+    #[test]
+    fn test_num_bytes_mb() {
+        assert_eq!(&format_num_bytes(3_000_000), "3MiB");
     }
 }
