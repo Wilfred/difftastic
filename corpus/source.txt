@@ -151,7 +151,7 @@ var x = @"NodePath"
 (source
   (expression_statement (node_path))
   (expression_statement (node_path))
-  (ERROR (UNEXPECTED ' ')) (expression_statement (string))
+  (ERROR) (expression_statement (string))
   (variable_statement (name) (node_path)))
 
 =====================================
@@ -273,6 +273,41 @@ export(,) var a
   (export_variable_statement (export_argument_list (identifier) (string)) (name) (string))
   (export_variable_statement (export_argument_list (identifier)) (name))
   (export_variable_statement (export_argument_list (ERROR)) (name)))
+
+=====================================
+Variables Annotations
+=====================================
+
+@onready var a
+@export(FILE, "") @onready var a := 0
+
+@export(FILE, 0) @hello
+@onready
+var a := 0
+
+---
+
+(source
+  (variable_statement
+    (annotations
+      (annotation (identifier)))
+    (name))
+  (variable_statement
+    (annotations
+      (annotation (identifier)
+        (argument_list (identifier) (string)))
+      (annotation (identifier)))
+    (name)
+    (inferred_type)
+    (integer))
+  (annotation (identifier)
+    (argument_list (identifier) (integer)))
+  (annotation (identifier))
+  (annotation (identifier))
+  (variable_statement
+    (name)
+    (inferred_type)
+    (integer)))
 
 =====================================
 Variables SetGet
@@ -429,6 +464,54 @@ static func hello(): pass
 (source
   (function_definition (static_keyword) (name) (parameters)
     (body (pass_statement))))
+
+=====================================
+Functions Annotations
+=====================================
+
+@rpc func hello(): pass
+@script_level
+@rpc("remote") func hello():
+	pass
+
+func test():
+	return
+	@warning_ignore("unreachable_code")
+	print("unreachable")
+
+---
+
+(source
+  (function_definition
+    (annotations
+      (annotation (identifier)))
+    (name)
+    (parameters)
+    (body
+      (pass_statement)))
+  (annotation (identifier))
+  (function_definition
+    (annotations
+      (annotation
+        (identifier)
+        (argument_list
+          (string))))
+    (name)
+    (parameters)
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (return_statement)
+      (annotation
+        (identifier)
+        (argument_list
+          (string)))
+      (expression_statement
+        (call (identifier)
+          (argument_list (string)))))))
 
 =====================================
 Constructor Definitions

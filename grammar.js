@@ -160,6 +160,7 @@ module.exports = grammar({
 
     _simple_statement: ($) =>
       choice(
+        repeat1($.annotation),
         $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
@@ -179,6 +180,14 @@ module.exports = grammar({
 
     expression_statement: ($) =>
       choice($._expression, $.assignment, $.augmented_assignment),
+
+    // -- Annotation
+
+    annotation: ($) => seq("@", $.identifier, optional($.argument_list)),
+
+    // The syntax tree looks better when annotations are grouped in a container
+    // node in contexts like variable_statement and function_definition.
+    annotations: ($) => repeat1($.annotation),
 
     // -- Variables
 
@@ -202,6 +211,7 @@ module.exports = grammar({
 
     _variable_statement: ($) =>
       seq(
+        optional($.annotations),
         "var",
         $.name,
         optional(
@@ -596,6 +606,7 @@ module.exports = grammar({
     function_definition: ($) =>
       seq(
         optional(choice($.static_keyword, $.remote_keyword)),
+        optional($.annotations),
         "func",
         $.name,
         $.parameters,
