@@ -326,6 +326,64 @@ var x setget ,getter
 )
 
 =====================================
+Variables SetGet V2
+=====================================
+
+var x: int:
+    get:
+        pass
+    set(value):
+        pass
+
+var x: int = 0:
+    get: pass
+    set(value): pass
+
+var x = 0:
+    get: pass
+    set(value): pass
+
+var my_prop:
+    get = get_my_prop, set = set_my_prop
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (type)
+    (setget
+      (get_body
+        (pass_statement))
+      (set_body
+        (parameters (identifier))
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (type)
+    (integer)
+    (setget
+      (get_body
+        (pass_statement))
+      (set_body
+        (parameters (identifier))
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (integer)
+    (setget
+      (get_body
+        (pass_statement))
+      (set_body
+        (parameters (identifier))
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (setget
+      (getter)
+      (setter))))
+
+=====================================
 Variables Onready
 =====================================
 

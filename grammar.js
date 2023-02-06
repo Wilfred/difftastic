@@ -201,12 +201,38 @@ module.exports = grammar({
     _variable_typed_definition: ($) =>
       choice(seq(":", $.type), $._variable_typed_assignment),
 
+    // -- SetGet
+
+    set_body: ($) => seq("set", $.parameters, ":", alias($.body, "body")),
+    get_body: ($) => seq("get", ":", alias($.body, "body")),
+
+    _set_assign: ($) => seq("set", "=", $.setter),
+    _get_assign: ($) => seq("get", "=", $.getter),
+
+    _setget_body: ($) =>
+      seq(
+        ":",
+        seq(
+          $._indent,
+          choice(
+            seq($.set_body, $.get_body),
+            seq($.get_body, $.set_body),
+            seq($._set_assign, ",", $._get_assign),
+            seq($._get_assign, ",", $._set_assign)
+          ),
+          $._dedent
+        )
+      ),
+
     setter: ($) => $._identifier,
     getter: ($) => $._identifier,
     setget: ($) =>
-      seq(
-        "setget",
-        choice($.setter, seq($.setter, ",", $.getter), seq(",", $.getter))
+      choice(
+        $._setget_body,
+        seq(
+          "setget",
+          choice($.setter, seq($.setter, ",", $.getter), seq(",", $.getter))
+        )
       ),
 
     _variable_statement: ($) =>
