@@ -690,7 +690,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2020,6 +2020,11 @@
     }
   },
   {
+    "type": "get_body",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "getter",
     "named": true,
     "fields": {}
@@ -2896,6 +2901,21 @@
     }
   },
   {
+    "type": "set_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "setget",
     "named": true,
     "fields": {},
@@ -2904,7 +2924,15 @@
       "required": true,
       "types": [
         {
+          "type": "get_body",
+          "named": true
+        },
+        {
           "type": "getter",
+          "named": true
+        },
+        {
+          "type": "set_body",
           "named": true
         },
         {
@@ -3811,6 +3839,10 @@
     "named": false
   },
   {
+    "type": "get",
+    "named": false
+  },
+  {
     "type": "get_node",
     "named": true
   },
@@ -3888,6 +3920,10 @@
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "set",
     "named": false
   },
   {
