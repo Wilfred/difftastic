@@ -1310,14 +1310,6 @@ fn syntax_from_cursor<'a>(
     if node.is_error() {
         *error_count += 1;
 
-        let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
-        let content = &src[node.start_byte()..node.end_byte()];
-        debug!(
-            "Tree-sitter syntax error at {:?}: {}",
-            position.get(0),
-            content
-        );
-
         // Treat error nodes as atoms, even if they have children.
         atom_from_cursor(arena, src, nl_pos, cursor, highlights, ignore_comments)
     } else if config.atom_nodes.contains(node.kind()) {
