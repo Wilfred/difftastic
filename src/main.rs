@@ -468,7 +468,7 @@ fn diff_file_content(
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
                 (
                     Some(format!(
-                        "Text ({} error{}, exceeded DFT_ERROR_LIMIT)",
+                        "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
                         (lhs_err_count + rhs_err_count),
                         if (lhs_err_count + rhs_err_count) == 1 {
                             ""
