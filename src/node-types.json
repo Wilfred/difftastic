@@ -1,5 +1,39 @@
 [
   {
+    "type": "annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotations",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument_list",
     "named": true,
     "fields": {},
@@ -662,6 +696,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
         {
           "type": "break_statement",
           "named": true
@@ -1619,6 +1657,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotations",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -1947,6 +1989,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotations",
+          "named": true
+        },
+        {
           "type": "body",
           "named": true
         },
@@ -2214,6 +2260,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -2916,6 +2966,10 @@
       "required": false,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "break_statement",
           "named": true
         },
@@ -3323,6 +3377,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotations",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -3650,6 +3708,10 @@
   },
   {
     "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {
