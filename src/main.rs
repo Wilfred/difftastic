@@ -462,7 +462,7 @@ fn diff_file_content(
                     lhs_positions,
                     rhs_positions,
                 )
-            } else if lhs_err_count + rhs_err_count > diff_options.syntax_error_limit {
+            } else if lhs_err_count + rhs_err_count > diff_options.parse_error_limit {
                 // TODO: doing a syntactic diff here is wasteful.
                 let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                 let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
