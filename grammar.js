@@ -24,7 +24,7 @@ module.exports = grammar({
     name: "jsonnet",
     extras: ($) => [/\s/, $.comment],
     externals: ($) => [$._string_start, $._string_content, $._string_end],
-    word: $ => $.id,
+    word: $ => $._ident,
     inline: ($) => [$.h, $.objinside],
     conflicts: () => [],
 
@@ -242,8 +242,12 @@ module.exports = grammar({
                 )
             ),
         named_argument: ($) => seq($.id, "=", $.expr),
-
-        id: () => /[_a-zA-Z][_a-zA-Z0-9]*/,
+        id: ($) => $._ident,
+	// This use of an intermediate rule for identifiers is to
+	// overcome some limitations in ocaml-tree-sitter-semgrep.
+	// Indeed, ocaml-tree-sitter-semgrep can't override terminals (here was id)
+	// that are also mentioned in the 'word:' directive.
+        _ident: () => /[_a-zA-Z][_a-zA-Z0-9]*/,
 
         // COPIED FROM: tree-sitter-json
         number: () => {
