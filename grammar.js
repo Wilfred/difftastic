@@ -193,10 +193,10 @@ module.exports = grammar({
 
     inferred_type: ($) => choice(":=", seq(":", "=")),
 
-    _variable_assignment: ($) => seq("=", $._expression),
+    _variable_assignment: ($) => seq("=", $._rhs_expression),
     _variable_inferred_type_assignment: ($) =>
-      seq($.inferred_type, $._expression),
-    _variable_typed_assignment: ($) => seq(":", $.type, "=", $._expression),
+      seq($.inferred_type, $._rhs_expression),
+    _variable_typed_assignment: ($) => seq(":", $.type, "=", $._rhs_expression),
 
     _variable_typed_definition: ($) =>
       choice(seq(":", $.type), $._variable_typed_assignment),
@@ -436,6 +436,14 @@ module.exports = grammar({
         $.parenthesized_expression
       ),
 
+    _rhs_expression: ($) =>
+      choice(
+        $.comparison_operator,
+        $.conditional_expression,
+        $._primary_expression,
+        $.function_definition
+      ),
+
     // This makes an attribute's ast linear
     // When attribute is used inside $.attribute it becomes recursive spaghetti
     _attribute_expression: ($) =>
@@ -571,19 +579,19 @@ module.exports = grammar({
       ),
 
     parenthesized_expression: ($) =>
-      prec(PREC.parenthesized_expression, seq("(", $._expression, ")")),
+      prec(PREC.parenthesized_expression, seq("(", $._rhs_expression, ")")),
 
     // -----------------------------------------------------------------------------
     // -                                  Assignment                               -
     // -----------------------------------------------------------------------------
 
-    assignment: ($) => seq($._expression, "=", $._expression),
+    assignment: ($) => seq($._expression, "=", $._rhs_expression),
 
     augmented_assignment: ($) =>
       seq(
         $._expression,
         choice("+=", "-=", "*=", "/=", "%=", ">>=", "<<=", "&=", "^=", "|="),
-        $._expression
+        $._rhs_expression
       ),
 
     // -----------------------------------------------------------------------------
@@ -593,12 +601,12 @@ module.exports = grammar({
     pair: ($) =>
       seq(
         choice(seq($._expression, ":"), seq($.identifier, "=")),
-        $._expression
+        $._rhs_expression
       ),
 
     dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), "}"),
 
-    array: ($) => seq("[", optional(trailCommaSep1($._expression)), "]"),
+    array: ($) => seq("[", optional(trailCommaSep1($._rhs_expression)), "]"),
 
     // -----------------------------------------------------------------------------
     // -                              Function Definition                          -
@@ -607,12 +615,12 @@ module.exports = grammar({
     typed_parameter: ($) =>
       prec(PREC.typed_parameter, seq($.identifier, ":", $.type)),
 
-    default_parameter: ($) => seq($.identifier, "=", $._expression),
+    default_parameter: ($) => seq($.identifier, "=", $._rhs_expression),
 
     typed_default_parameter: ($) =>
       prec(
         PREC.typed_parameter,
-        seq($.identifier, ":", $.type, "=", $._expression)
+        seq($.identifier, ":", $.type, "=", $._rhs_expression)
       ),
 
     _parameters: ($) =>
@@ -634,7 +642,7 @@ module.exports = grammar({
         optional(choice($.static_keyword, $.remote_keyword)),
         optional($.annotations),
         "func",
-        $.name,
+        optional($.name),
         $.parameters,
         optional($.return_type),
         ":",
@@ -656,7 +664,7 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    argument_list: ($) => seq("(", optional(commaSep1($._expression)), ")"),
+    argument_list: ($) => seq("(", optional(commaSep1($._rhs_expression)), ")"),
 
     base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.argument_list)),
 

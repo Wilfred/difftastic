@@ -572,6 +572,76 @@ func test():
           (argument_list (string)))))))
 
 =====================================
+Functions Anonymous
+=====================================
+
+var x = func hello():
+  pass
+
+var x = func():
+  pass
+
+var x = func hello(): pass
+
+func hello(p = func(): pass):
+  pass
+
+hello(func(): pass)
+hello(func():
+  pass
+)
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (function_definition
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement)))))
+    (body
+      (pass_statement)))
+  (expression_statement
+    (call
+      (identifier)
+      (argument_list
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement))))))
+  (expression_statement
+    (call
+      (identifier)
+      (argument_list
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement)))))))
+=====================================
 Constructor Definitions
 =====================================
 
