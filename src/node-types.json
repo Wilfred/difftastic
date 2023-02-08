@@ -82,6 +82,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -173,6 +177,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -261,6 +269,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -544,6 +556,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -690,7 +706,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1163,6 +1179,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -1295,6 +1315,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -1702,6 +1726,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -2310,6 +2338,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -2414,6 +2446,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -2532,6 +2568,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -3248,6 +3288,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "get_node",
           "named": true
         },
@@ -3446,6 +3490,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -3696,6 +3744,10 @@
   },
   {
     "type": ":=",
+    "named": false
+  },
+  {
+    "type": ";",
     "named": false
   },
   {
