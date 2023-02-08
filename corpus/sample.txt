@@ -32,22 +32,22 @@ func _ready():
       (variable_statement (name) (type))
       (function_definition (name) (parameters) (return_type (type))
         (body
-          (if_statement (attribute (identifier) (attribute_call (identifier) (argument_list)))
+          (if_statement (attribute (identifier) (attribute_call (identifier) (arguments)))
             (body
               (variable_statement (name)
-                (attribute (identifier) (attribute_call (identifier) (argument_list (identifier)))))
+                (attribute (identifier) (attribute_call (identifier) (arguments (identifier)))))
               (return_statement (identifier))))
           (return_statement (null))))))
   (function_definition (name) (parameters)
     (body
-      (for_statement (identifier) (call (identifier) (argument_list (integer)))
+      (for_statement (identifier) (call (identifier) (arguments (integer)))
         (body
           (variable_statement (name)
-            (attribute (identifier) (attribute_call (identifier) (argument_list))))
+            (attribute (identifier) (attribute_call (identifier) (arguments))))
           (expression_statement
             (assignment
               (attribute (identifier) (identifier))
-              (call (identifier) (argument_list (string) (identifier)))))
+              (call (identifier) (arguments (string) (identifier)))))
           (expression_statement
-            (call (identifier) (argument_list (identifier)))))))))
+            (call (identifier) (arguments (identifier)))))))))
 

@@ -201,7 +201,7 @@ module.exports = grammar({
 
     // -- Annotation
 
-    annotation: ($) => seq("@", $.identifier, optional($.argument_list)),
+    annotation: ($) => seq("@", $.identifier, optional($.arguments)),
 
     // The syntax tree looks better when annotations are grouped in a container
     // node in contexts like variable_statement and function_definition.
@@ -271,13 +271,13 @@ module.exports = grammar({
     variable_statement: ($) =>
       seq(optional($.remote_keyword), $._variable_statement),
 
-    export_argument_list: ($) =>
+    export_arguments: ($) =>
       seq("(", optional(trailCommaSep1($._expression)), ")"),
 
     export_variable_statement: ($) =>
       seq(
         "export",
-        optional($.export_argument_list),
+        optional($.export_arguments),
         optional($.remote_keyword),
         $._variable_statement
       ),
@@ -567,7 +567,7 @@ module.exports = grammar({
     subscript: ($) => seq($._primary_expression, "[", $._expression, "]"),
 
     attribute_call: ($) =>
-      prec(PREC.attribute, seq($.identifier, $.argument_list)),
+      prec(PREC.attribute, seq($.identifier, $.arguments)),
     attribute_subscript: ($) =>
       prec(PREC.attribute, seq($.identifier, "[", $._primary_expression, "]")),
     attribute: ($) =>
@@ -666,7 +666,7 @@ module.exports = grammar({
         "func",
         "_init",
         $.parameters,
-        optional(seq(".", $.argument_list)),
+        optional(seq(".", $.arguments)),
         optional($.return_type),
         ":",
         $.body
@@ -676,11 +676,11 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    argument_list: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
+    arguments: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
-    base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.argument_list)),
+    base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.arguments)),
 
-    call: ($) => prec(PREC.call, seq($._primary_expression, $.argument_list)),
+    call: ($) => prec(PREC.call, seq($._primary_expression, $.arguments)),
   }, // end rules
 });
 

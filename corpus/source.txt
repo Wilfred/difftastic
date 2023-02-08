@@ -60,7 +60,7 @@ x is int()
 
 (source
   (expression_statement (binary_operator (identifier) (identifier)))
-  (expression_statement (binary_operator (identifier) (call (identifier) (argument_list))))
+  (expression_statement (binary_operator (identifier) (call (identifier) (arguments))))
   (expression_statement (binary_operator
     (parenthesized_expression
       (binary_operator (integer) (integer)))
@@ -77,7 +77,7 @@ x() as Y
 
 (source
   (expression_statement (binary_operator (identifier) (identifier)))
-  (expression_statement (binary_operator (call (identifier) (argument_list)) (identifier))))
+  (expression_statement (binary_operator (call (identifier) (arguments)) (identifier))))
 
 =====================================
 Array
@@ -188,7 +188,7 @@ breakpoint; hi()
 (source
   (breakpoint_statement)
   (breakpoint_statement)
-  (expression_statement (call (identifier) (argument_list))))
+  (expression_statement (call (identifier) (arguments))))
 
 =====================================
 Variables
@@ -266,13 +266,13 @@ export(,) var a
   (export_variable_statement (name))
   (export_variable_statement (name) (string))
   (export_variable_statement (remote_keyword) (name))
-  (export_variable_statement (export_argument_list (identifier)) (name))
-  (export_variable_statement (export_argument_list (identifier)) (name) (string))
-  (export_variable_statement (export_argument_list (identifier)) (remote_keyword) (name))
-  (export_variable_statement (export_argument_list (identifier) (identifier)) (name))
-  (export_variable_statement (export_argument_list (identifier) (string)) (name) (string))
-  (export_variable_statement (export_argument_list (identifier)) (name))
-  (export_variable_statement (export_argument_list (ERROR)) (name)))
+  (export_variable_statement (export_arguments (identifier)) (name))
+  (export_variable_statement (export_arguments (identifier)) (name) (string))
+  (export_variable_statement (export_arguments (identifier)) (remote_keyword) (name))
+  (export_variable_statement (export_arguments (identifier) (identifier)) (name))
+  (export_variable_statement (export_arguments (identifier) (string)) (name) (string))
+  (export_variable_statement (export_arguments (identifier)) (name))
+  (export_variable_statement (export_arguments (ERROR)) (name)))
 
 =====================================
 Variables Annotations
@@ -295,13 +295,13 @@ var a := 0
   (variable_statement
     (annotations
       (annotation (identifier)
-        (argument_list (identifier) (string)))
+        (arguments (identifier) (string)))
       (annotation (identifier)))
     (name)
     (inferred_type)
     (integer))
   (annotation (identifier)
-    (argument_list (identifier) (integer)))
+    (arguments (identifier) (integer)))
   (annotation (identifier))
   (annotation (identifier))
   (variable_statement
@@ -552,7 +552,7 @@ func test():
     (annotations
       (annotation
         (identifier)
-        (argument_list
+        (arguments
           (string))))
     (name)
     (parameters)
@@ -565,11 +565,11 @@ func test():
       (return_statement)
       (annotation
         (identifier)
-        (argument_list
+        (arguments
           (string)))
       (expression_statement
         (call (identifier)
-          (argument_list (string)))))))
+          (arguments (string)))))))
 
 =====================================
 Functions Anonymous
@@ -664,12 +664,12 @@ hello(func():
 (source
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (parameters)
           (body (pass_statement))))))
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (parameters)
           (body (pass_statement)))))))
 
@@ -687,7 +687,7 @@ hello(func():
 (source
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (parameters)
           (body
             (variable_statement
@@ -700,7 +700,7 @@ hello(func():
         (string))))
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (parameters)
           (body
             (return_statement (true))))
@@ -776,7 +776,7 @@ take(func name():
 (source
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (name) (parameters) (return_type (type))
           (body
             (expression_statement
@@ -785,7 +785,7 @@ take(func name():
         (string))))
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (name) (parameters)
           (body
             (expression_statement
@@ -794,7 +794,7 @@ take(func name():
         (string))))
   (expression_statement
     (call (identifier)
-      (argument_list
+      (arguments
         (function_definition (name) (parameters)
           (body
             (expression_statement
@@ -819,11 +819,11 @@ func _init(a, b).(a,b): pass
     (body (pass_statement)))
   (constructor_definition
     (parameters)
-    (argument_list)
+    (arguments)
     (body (pass_statement)))
   (constructor_definition
     (parameters (identifier) (identifier))
-    (argument_list (identifier) (identifier))
+    (arguments (identifier) (identifier))
     (body (pass_statement))))
 
 =====================================
@@ -837,11 +837,11 @@ var x = hello(.hello())
 ---
 
 (source
-  (expression_statement (base_call (identifier) (argument_list)))
-  (variable_statement (name) (base_call (identifier) (argument_list)))
+  (expression_statement (base_call (identifier) (arguments)))
+  (variable_statement (name) (base_call (identifier) (arguments)))
   (variable_statement
     (name)
-    (call (identifier) (argument_list (base_call (identifier) (argument_list))))))
+    (call (identifier) (arguments (base_call (identifier) (arguments))))))
 
 =====================================
 Function Calls
@@ -857,12 +857,12 @@ hello(hello("world"))
 ---
 
 (source
-  (expression_statement (call (identifier) (argument_list)))
-  (expression_statement (call (identifier) (argument_list (identifier))))
-  (expression_statement (call (identifier) (argument_list (string))))
-  (expression_statement (call (identifier) (argument_list (binary_operator (integer) (integer)) (string))))
-  (expression_statement (call (identifier) (argument_list (call (identifier) (argument_list)))))
-  (expression_statement (call (identifier) (argument_list (call (identifier) (argument_list (string))))))
+  (expression_statement (call (identifier) (arguments)))
+  (expression_statement (call (identifier) (arguments (identifier))))
+  (expression_statement (call (identifier) (arguments (string))))
+  (expression_statement (call (identifier) (arguments (binary_operator (integer) (integer)) (string))))
+  (expression_statement (call (identifier) (arguments (call (identifier) (arguments)))))
+  (expression_statement (call (identifier) (arguments (call (identifier) (arguments (string))))))
 )
 
 =====================================
@@ -885,9 +885,9 @@ x['s'].y.z[0]
 (source
   (expression_statement (attribute (identifier) (identifier)))
   (expression_statement (attribute (identifier) (identifier) (identifier)))
-  (expression_statement (attribute (identifier) (identifier) (attribute_call (identifier) (argument_list))))
-  (expression_statement (attribute (identifier) (attribute_call (identifier) (argument_list)) (identifier)))
-  (expression_statement (attribute (call (identifier) (argument_list)) (identifier)))
+  (expression_statement (attribute (identifier) (identifier) (attribute_call (identifier) (arguments))))
+  (expression_statement (attribute (identifier) (attribute_call (identifier) (arguments)) (identifier)))
+  (expression_statement (attribute (call (identifier) (arguments)) (identifier)))
 
   (expression_statement (attribute (identifier) (attribute_subscript (identifier) (integer))))
   (expression_statement (attribute (subscript (identifier) (integer)) (identifier)))
@@ -1018,25 +1018,25 @@ signal x(a, b: Type)
 
 (source
   (signal_statement (name))
-  (signal_statement (name) (signal_argument_list))
-  (signal_statement (name) (signal_argument_list (identifier) (identifier)))
-  (signal_statement (name) (signal_argument_list (identifier)))
-  (signal_statement (name) (signal_argument_list (ERROR)))
+  (signal_statement (name) (parameters))
+  (signal_statement (name) (parameters (identifier) (identifier)))
+  (signal_statement (name) (parameters (identifier)))
+  (signal_statement (name) (parameters (ERROR)))
   (signal_statement
    (name)
-   (signal_argument_list
+   (parameters
     (typed_parameter
      (identifier)
      (type))))
   (signal_statement
    (name)
-   (signal_argument_list
+   (parameters
     (typed_parameter
      (identifier)
      (type)))) 
   (signal_statement
    (name)
-   (signal_argument_list
+   (parameters
     (identifier)
     (typed_parameter
      (identifier)
@@ -1163,6 +1163,6 @@ enum {
       (enumerator (identifier) (binary_operator (integer) (integer)))
       (enumerator (identifier) (attribute (identifier) (identifier)))
       (enumerator (identifier) (parenthesized_expression (binary_operator (attribute (identifier) (identifier)) (integer))))
-      (enumerator (identifier) (call (identifier) (argument_list (true))))
+      (enumerator (identifier) (call (identifier) (arguments (true))))
       (enumerator (identifier) (subscript (identifier) (integer)))
       (enumerator (identifier)) (ERROR (dictionary (pair (identifier) (integer)))))))
