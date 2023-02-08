@@ -1,11 +1,12 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "GDScript grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "lexer"
+    "lexer",
+    "gdscript"
   ],
   "author": "Preston Knopp",
   "license": "MIT",
