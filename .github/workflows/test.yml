@@ -2,7 +2,9 @@ name: Test
 
 on:
   push:
-    branches: [ master ]
+    paths:
+      - 'grammar.js'
+      - 'corpus/**'
   workflow_dispatch:
 
 jobs:
