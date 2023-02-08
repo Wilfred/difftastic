@@ -1,23 +1,5 @@
 [
   {
-    "type": "_comp_expression",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "do_ce_expression",
-        "named": true
-      },
-      {
-        "type": "let_ce_expression",
-        "named": true
-      },
-      {
-        "type": "use_ce_expression",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "_expression",
     "named": true,
     "subtypes": [
@@ -51,6 +33,10 @@
       },
       {
         "type": "declaration_expression",
+        "named": true
+      },
+      {
+        "type": "do_expression",
         "named": true
       },
       {
@@ -118,6 +104,10 @@
         "named": true
       },
       {
+        "type": "return_expression",
+        "named": true
+      },
+      {
         "type": "sequence_expression",
         "named": true
       },
@@ -139,6 +129,10 @@
       },
       {
         "type": "while_expression",
+        "named": true
+      },
+      {
+        "type": "yield_expression",
         "named": true
       }
     ]
@@ -450,10 +444,6 @@
       "required": false,
       "types": [
         {
-          "type": "_comp_expression",
-          "named": true
-        },
-        {
           "type": "_expression",
           "named": true
         },
@@ -697,10 +687,6 @@
       "required": true,
       "types": [
         {
-          "type": "_comp_expression",
-          "named": true
-        },
-        {
           "type": "_expression",
           "named": true
         },
@@ -799,40 +785,6 @@
         },
         {
           "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "comp_rule",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_comp_expression",
-          "named": true
-        },
-        {
-          "type": "_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "comp_rules",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comp_rule",
           "named": true
         }
       ]
@@ -1176,17 +1128,13 @@
     }
   },
   {
-    "type": "do_ce_expression",
+    "type": "do_expression",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "_comp_expression",
-          "named": true
-        },
         {
           "type": "_expression",
           "named": true
@@ -1815,29 +1763,6 @@
     }
   },
   {
-    "type": "let_ce_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_comp_expression",
-          "named": true
-        },
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list_expression",
     "named": true,
     "fields": {},
@@ -1845,10 +1770,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "_comp_expression",
-          "named": true
-        },
         {
           "type": "_expression",
           "named": true
@@ -2477,6 +2398,21 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -3194,29 +3130,6 @@
     }
   },
   {
-    "type": "use_ce_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_comp_expression",
-          "named": true
-        },
-        {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "value_declaration",
     "named": true,
     "fields": {},
@@ -3306,6 +3219,21 @@
     "type": "xint",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "yield_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "",
@@ -3717,6 +3645,10 @@
   },
   {
     "type": "match",
+    "named": false
+  },
+  {
+    "type": "match!",
     "named": false
   },
   {
