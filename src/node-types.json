@@ -23,7 +23,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "arguments",
           "named": true
         },
         {
@@ -49,7 +49,7 @@
     }
   },
   {
-    "type": "argument_list",
+    "type": "arguments",
     "named": true,
     "fields": {},
     "children": {
@@ -429,7 +429,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "arguments",
           "named": true
         },
         {
@@ -626,7 +626,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "arguments",
           "named": true
         },
         {
@@ -721,7 +721,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -832,7 +832,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "arguments",
           "named": true
         },
         {
@@ -1257,7 +1257,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument_list",
+          "type": "arguments",
           "named": true
         },
         {
@@ -1593,97 +1593,6 @@
     }
   },
   {
-    "type": "export_argument_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "base_call",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "get_node",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "node_path",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "export_variable_statement",
     "named": true,
     "fields": {},
@@ -1696,6 +1605,10 @@
           "named": true
         },
         {
+          "type": "arguments",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -1725,10 +1638,6 @@
         },
         {
           "type": "dictionary",
-          "named": true
-        },
-        {
-          "type": "export_argument_list",
           "named": true
         },
         {
@@ -2999,25 +2908,6 @@
     "fields": {}
   },
   {
-    "type": "signal_argument_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "typed_parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "signal_statement",
     "named": true,
     "fields": {},
@@ -3030,7 +2920,7 @@
           "named": true
         },
         {
-          "type": "signal_argument_list",
+          "type": "parameters",
           "named": true
         }
       ]
