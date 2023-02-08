@@ -35,6 +35,14 @@ module.exports = grammar({
     $._string_start,
     $._string_content,
     $._string_end,
+
+    // Body end rule looks ahead for a boundary token that marks the end of a
+    // body's scope. See scanner.cc for the exact boundary tokens.
+    $._body_end,
+    // Body end dedent is complementary to the indent rule and extends the body
+    // end rule. A body may contain indentation but can end without dedenting
+    // (i.e. body end). This is used to fix that imbalance.
+    $._body_end_dedent,
   ],
 
   inline: ($) => [
@@ -59,7 +67,6 @@ module.exports = grammar({
     // symbol that only represents a type
     type: ($) => $._identifier,
     comment: ($) => token(seq("#", /.*/)),
-    _semicolon: ($) => ";",
     true: ($) => "true",
     false: ($) => "false",
     null: ($) => "null",
@@ -140,23 +147,37 @@ module.exports = grammar({
     // -                                  Statements                               -
     // -----------------------------------------------------------------------------
 
-    _statement: ($) => choice($._simple_statements, $._compound_statement),
+    _statement: ($) => choice(
+      $._compound_statement,
+      seq(
+        trailSep1($._simple_statement, ";"),
+        $._newline,
+      ),
+    ),
+
+    _body_statements: ($) =>
+      trailSep1(
+        choice(
+          $._simple_statement,
+          $._compound_statement
+        ),
+        ";",
+      ),
 
     body: ($) =>
       choice(
-        $._simple_statements,
-        seq($._indent, repeat($._statement), $._dedent)
+        seq(
+          $._body_statements,
+          choice($._body_end, $._newline),
+        ),
+        seq(
+          $._indent,
+          trailSep1( $._body_statements, $._newline),
+          choice($._body_end_dedent, $._dedent),
+        )
       ),
 
     // Simple statements
-
-    _simple_statements: ($) =>
-      seq(
-        $._simple_statement,
-        optional(repeat(seq($._semicolon, $._simple_statement))),
-        optional($._semicolon),
-        $._newline
-      ),
 
     _simple_statement: ($) =>
       choice(
@@ -676,10 +697,14 @@ function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
+function trailSep1(rule, sep) {
+  return seq(sep1(rule, sep), optional(sep));
+}
+
 function commaSep1(rule) {
   return sep1(rule, ",");
 }
 
 function trailCommaSep1(rule) {
-  return seq(sep1(rule, ","), optional(","));
+  return trailSep1(rule, ",");
 }

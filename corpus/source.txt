@@ -583,14 +583,6 @@ var x = func():
 
 var x = func hello(): pass
 
-func hello(p = func(): pass):
-  pass
-
-hello(func(): pass)
-hello(func():
-  pass
-)
-
 ---
 
 (source
@@ -613,34 +605,204 @@ hello(func():
       (name)
       (parameters)
       (body
-        (pass_statement))))
-  (function_definition
-    (name)
+        (pass_statement)))))
+
+=====================================
+Functions Anonymous as a Parameter
+=====================================
+
+func hello(
+    p = func(): pass,
+    p = func name(a, b): a + b):
+  pass
+
+func hello(a, p = func(a: int, b: int) -> int: a + b):
+  pass
+
+---
+(source
+  (function_definition (name)
     (parameters
       (default_parameter
         (identifier)
-        (function_definition
-          (parameters)
+        (function_definition (parameters)
+          (body (pass_statement))))
+      (default_parameter
+        (identifier)
+        (function_definition (name)
+          (parameters (identifier) (identifier))
           (body
-            (pass_statement)))))
+            (expression_statement
+              (binary_operator (identifier) (identifier)))))))
+    (body (pass_statement)))
+  (function_definition (name)
+    (parameters
+      (identifier)
+      (default_parameter
+        (identifier)
+        (function_definition
+          (parameters
+            (typed_parameter (identifier) (type))
+            (typed_parameter (identifier) (type)))
+          (return_type (type))
+          (body
+            (expression_statement
+              (binary_operator (identifier) (identifier)))))))
+    (body (pass_statement))))
+
+=====================================
+Functions Anonymous as only Arg
+=====================================
+
+hello(func(): pass)
+hello(func():
+  pass
+)
+
+---
+
+(source
+  (expression_statement
+    (call (identifier)
+      (argument_list
+        (function_definition (parameters)
+          (body (pass_statement))))))
+  (expression_statement
+    (call (identifier)
+      (argument_list
+        (function_definition (parameters)
+          (body (pass_statement)))))))
+
+=====================================
+Functions Anonymous as Arg
+=====================================
+
+hello(func(): var x = 1; x + 1, "")
+hello(func():
+    return true,
+  "")
+
+---
+
+(source
+  (expression_statement
+    (call (identifier)
+      (argument_list
+        (function_definition (parameters)
+          (body
+            (variable_statement
+              (name)
+              (integer))
+            (expression_statement
+              (binary_operator
+                (identifier)
+                (integer)))))
+        (string))))
+  (expression_statement
+    (call (identifier)
+      (argument_list
+        (function_definition (parameters)
+          (body
+            (return_statement (true))))
+        (string)))))
+
+
+=====================================
+Functions Body
+=====================================
+
+func hello(): return
+func hello(): return null
+func hello(): x += 1; return x
+func hello(): var x: int = 0; x += 1; return x;
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
     (body
-      (pass_statement)))
+      (return_statement)))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (return_statement (null))))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (expression_statement
+        (augmented_assignment
+          (identifier)
+          (integer)))
+      (return_statement (identifier))))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (variable_statement
+        (name)
+        (type)
+        (integer))
+      (expression_statement
+        (augmented_assignment
+          (identifier)
+          (integer)))
+      (return_statement (identifier)))))
+
+=====================================
+Functions Body Indent
+=====================================
+
+take(func name() -> T:
+	1 + 1; pass
+, "")
+
+take(func name():
+  1 + 1; pass, "")
+
+take(func name():
+	1 + 1
+	return 1
+	pass
+  ,
+	""
+)
+
+---
+
+(source
   (expression_statement
-    (call
-      (identifier)
+    (call (identifier)
       (argument_list
-        (function_definition
-          (parameters)
+        (function_definition (name) (parameters) (return_type (type))
           (body
-            (pass_statement))))))
+            (expression_statement
+              (binary_operator (integer) (integer)))
+            (pass_statement)))
+        (string))))
   (expression_statement
-    (call
-      (identifier)
+    (call (identifier)
       (argument_list
-        (function_definition
-          (parameters)
+        (function_definition (name) (parameters)
           (body
-            (pass_statement)))))))
+            (expression_statement
+              (binary_operator (integer) (integer)))
+            (pass_statement)))
+        (string))))
+  (expression_statement
+    (call (identifier)
+      (argument_list
+        (function_definition (name) (parameters)
+          (body
+            (expression_statement
+              (binary_operator (integer) (integer)))
+            (return_statement (integer))
+            (pass_statement)))
+        (string)))))
+
 =====================================
 Constructor Definitions
 =====================================
@@ -732,6 +894,47 @@ x['s'].y.z[0]
   (expression_statement (attribute (identifier) (identifier) (attribute_subscript (identifier) (integer))))
   (expression_statement (attribute (subscript (identifier) (string)) (identifier) (attribute_subscript (identifier) (integer))))
 )
+
+=====================================
+If Statements
+=====================================
+
+if (func lambda(): pass):
+  pass; pass
+  return true
+elif true: var x = 1; x + 1; x += 2; return (func(): x)
+else: pass; pass
+
+---
+
+(source
+  (if_statement
+    (parenthesized_expression
+      (function_definition (name) (parameters)
+        (body
+          (pass_statement))))
+    (body
+      (pass_statement)
+      (pass_statement)
+      (return_statement (true)))
+    (elif_clause
+      (true)
+      (body
+        (variable_statement (name) (integer))
+        (expression_statement
+          (binary_operator (identifier) (integer)))
+        (expression_statement
+          (augmented_assignment (identifier) (integer)))
+        (return_statement
+          (parenthesized_expression
+            (function_definition (parameters)
+              (body
+                (expression_statement
+                  (identifier))))))))
+    (else_clause
+      (body
+        (pass_statement)
+        (pass_statement)))))
 
 =====================================
 Match Statements
