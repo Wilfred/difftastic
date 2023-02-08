@@ -1,5 +1,20 @@
 [
   {
+    "type": "",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "annotation",
     "named": true,
     "fields": {},
@@ -712,10 +727,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
         {
           "type": "break_statement",
           "named": true
@@ -3033,10 +3044,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
         {
           "type": "break_statement",
           "named": true

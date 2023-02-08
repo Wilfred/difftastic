@@ -728,11 +728,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "REPEAT1",
+          "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "annotation"
-          }
+            "name": "annotations"
+          },
+          "named": false,
+          "value": ""
         },
         {
           "type": "SYMBOL",
