@@ -973,8 +973,7 @@ module.exports = grammar({
       prec.left(4,
         choice(
           $.long_identifier,
-          seq($.long_identifier, "<", $.type_attributes, ">"),
-          seq($.long_identifier, "<", ">"),
+          seq($.long_identifier, "<", optional($.type_attributes), ">"),
           seq("(", $.type, ")"),
           seq($.type, "->", $.type),
           seq($.type, repeat1(seq("*", $.type))),
@@ -983,7 +982,7 @@ module.exports = grammar({
           seq($.type, $.type_argument_defn),
           $.type_argument,
           seq($.type_argument, ":>", $.type),
-          seq("#", $.type),
+          seq(imm("#"), $.type),
         )
       ),
 
@@ -1125,6 +1124,7 @@ module.exports = grammar({
           $.struct_type_defn,
           $.interface_type_defn,
           $.enum_type_defn,
+          $.type_abbrev_defn,
           $.type_extension,
         )
       ),
@@ -1152,12 +1152,18 @@ module.exports = grammar({
 
     delegate_signature: $ =>
       seq(
-        $._virtual_open_section,
         "delegate",
         "of",
         $.type,
-        $._virtual_end_section,
       ),
+
+    type_abbrev_defn: $ =>
+      prec(3,
+      seq(
+        $.type_name,
+        "=",
+        $.type,
+      )),
 
     class_type_defn: $ =>
       seq(
@@ -1203,12 +1209,18 @@ module.exports = grammar({
         $._virtual_end_section,
       ),
 
+    _record_type_defn_inner: $ =>
+      seq(
+        $.record_field,
+        repeat(seq(choice(";", $._newline), $.record_field)),
+      ),
+
     record_type_defn: $ =>
       seq(
         $.type_name,
         "=",
         "{",
-        $.record_fields,
+        $._record_type_defn_inner,
         "}",
         optional($.type_extension_elements)
       ),
@@ -1216,7 +1228,7 @@ module.exports = grammar({
     record_fields: $ =>
       seq(
         $.record_field,
-        repeat(seq(";",$.record_field))
+        repeat(seq(choice(";", $._newline), $.record_field)),
       ),
 
     record_field: $ =>
@@ -1233,9 +1245,7 @@ module.exports = grammar({
       seq(
         $.type_name,
         "=",
-        $._virtual_open_section,
         $.enum_type_cases,
-        $._virtual_end_section,
       ),
 
     enum_type_cases: $ =>
@@ -1256,10 +1266,8 @@ module.exports = grammar({
       seq(
         $.type_name,
         "=",
-        $._virtual_open_section,
         $.union_type_cases,
         optional($.type_extension_elements),
-        $._virtual_end_section,
       ),
 
     union_type_cases: $ =>
@@ -1270,14 +1278,15 @@ module.exports = grammar({
       ),
 
     union_type_case: $ =>
+      prec(1,
       seq(
         optional($.attributes),
-        choice(
-          $.identifier,
-          seq($.identifier, "of", $.union_type_field),
-          seq($.identifier, ":", $.type),
-        )
-      ),
+        $.identifier,
+        optional(
+          choice(
+            seq($.identifier, "of", $.union_type_field),
+            seq($.identifier, ":", $.type),
+      )))),
 
     union_type_field: $ =>
       choice(
