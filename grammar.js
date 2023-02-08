@@ -48,7 +48,6 @@ module.exports = grammar({
   inline: ($) => [
     $._simple_statement,
     $._compound_statement,
-    $.keyword_identifier,
   ],
 
   rules: {
