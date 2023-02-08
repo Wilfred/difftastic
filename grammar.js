@@ -126,18 +126,16 @@ module.exports = grammar({
         )
       ),
 
-    // FIXME: node_path will need custom parsing as Godot supports all forms of
-    // strings following '@'
     node_path: ($) =>
-      token(seq("@", choice("'", '"'), /[0-9a-zA-Z_/\- ]*/, choice("'", '"'))),
+      token(seq("@", nodePathString())),
 
     get_node: ($) =>
       token(
         seq(
           choice("$", "%"),
           choice(
-            seq(choice("'", '"'), /[0-9a-zA-Z_/\- ]*/, choice("'", '"')),
-            /[a-zA-Z_][a-zA-Z_/0-9]*/
+            nodePathString(),
+            /[a-zA-Z_][a-zA-Z_/0-9]*/,
           )
         )
       ),
@@ -706,4 +704,14 @@ function commaSep1(rule) {
 
 function trailCommaSep1(rule) {
   return trailSep1(rule, ",");
+}
+
+// This is a function instead of a rule since it's is used more than once and
+// token body must be made of terminals. This can be defined as a rule and
+// specify it as inlined, but this is fine.
+function nodePathString() {
+  return choice(
+    seq('"', /[0-9a-zA-Z_/\- ]*/, '"'),
+    seq("'", /[0-9a-zA-Z_/\- ]*/, "'"),
+  );
 }
