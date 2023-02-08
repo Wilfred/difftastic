@@ -45,10 +45,7 @@ module.exports = grammar({
     $._body_end_dedent,
   ],
 
-  inline: ($) => [
-    $._simple_statement,
-    $._compound_statement,
-  ],
+  inline: ($) => [$._simple_statement, $._compound_statement],
 
   rules: {
     source: ($) => repeat($._statement),
@@ -126,17 +123,13 @@ module.exports = grammar({
         )
       ),
 
-    node_path: ($) =>
-      token(seq("@", nodePathString())),
+    node_path: ($) => token(seq("@", nodePathString())),
 
     get_node: ($) =>
       token(
         seq(
           choice("$", "%"),
-          choice(
-            nodePathString(),
-            /[a-zA-Z_][a-zA-Z_/0-9]*/,
-          )
+          choice(nodePathString(), /[a-zA-Z_][a-zA-Z_/0-9]*/)
         )
       ),
 
@@ -144,33 +137,22 @@ module.exports = grammar({
     // -                                  Statements                               -
     // -----------------------------------------------------------------------------
 
-    _statement: ($) => choice(
-      $._compound_statement,
-      seq(
-        trailSep1($._simple_statement, ";"),
-        $._newline,
+    _statement: ($) =>
+      choice(
+        $._compound_statement,
+        seq(trailSep1($._simple_statement, ";"), $._newline)
       ),
-    ),
 
     _body_statements: ($) =>
-      trailSep1(
-        choice(
-          $._simple_statement,
-          $._compound_statement
-        ),
-        ";",
-      ),
+      trailSep1(choice($._simple_statement, $._compound_statement), ";"),
 
     body: ($) =>
       choice(
-        seq(
-          $._body_statements,
-          choice($._body_end, $._newline),
-        ),
+        seq($._body_statements, choice($._body_end, $._newline)),
         seq(
           $._indent,
-          trailSep1( $._body_statements, $._newline),
-          choice($._body_end_dedent, $._dedent),
+          trailSep1($._body_statements, $._newline),
+          choice($._body_end_dedent, $._dedent)
         )
       ),
 
@@ -178,7 +160,7 @@ module.exports = grammar({
 
     _simple_statement: ($) =>
       choice(
-        alias($.annotations, ''), // See $.annotations.
+        alias($.annotations, ""), // See $.annotations.
         $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
@@ -300,8 +282,7 @@ module.exports = grammar({
     continue_statement: ($) => prec.left("continue"),
     tool_statement: ($) => "tool",
 
-    signal_statement: ($) =>
-      seq("signal", $.name, optional($.parameters)),
+    signal_statement: ($) => seq("signal", $.name, optional($.parameters)),
 
     class_name_icon_path: ($) => $.string,
     class_name_statement: ($) =>
@@ -563,8 +544,7 @@ module.exports = grammar({
     // -- Accessors
     subscript: ($) => seq($._primary_expression, "[", $._expression, "]"),
 
-    attribute_call: ($) =>
-      prec(PREC.attribute, seq($.identifier, $.arguments)),
+    attribute_call: ($) => prec(PREC.attribute, seq($.identifier, $.arguments)),
     attribute_subscript: ($) =>
       prec(PREC.attribute, seq($.identifier, "[", $._primary_expression, "]")),
     attribute: ($) =>
@@ -673,7 +653,8 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    arguments: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
+    arguments: ($) =>
+      seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
     base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.arguments)),
 
@@ -703,6 +684,6 @@ function trailCommaSep1(rule) {
 function nodePathString() {
   return choice(
     seq('"', /[0-9a-zA-Z_/\- ]*/, '"'),
-    seq("'", /[0-9a-zA-Z_/\- ]*/, "'"),
+    seq("'", /[0-9a-zA-Z_/\- ]*/, "'")
   );
 }
