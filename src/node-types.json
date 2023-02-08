@@ -3312,14 +3312,6 @@
     "named": false
   },
   {
-    "type": "\n",
-    "named": false
-  },
-  {
-    "type": "\r\n",
-    "named": false
-  },
-  {
     "type": "!=",
     "named": false
   },

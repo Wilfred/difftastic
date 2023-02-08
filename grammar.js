@@ -58,7 +58,7 @@ module.exports = grammar({
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right ],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expression, ],
 
   supertypes: $ => [ $._module_elem, $._pattern, $._expression, $._comp_expression ],
 
@@ -335,10 +335,10 @@ module.exports = grammar({
       ),
 
     sequence_expression: $ =>
-        prec.right(PREC.SEQ_EXPR,
+        prec.left(PREC.SEQ_EXPR,
         seq(
           $._expression,
-          repeat1(prec.right(PREC.SEQ_EXPR, seq(choice(";", $._newline), $._expression)))
+          repeat1(prec.right(PREC.SEQ_EXPR, seq(choice(";", $._newline), $._expression))),
         )),
 
     call_expression: $ =>
@@ -363,11 +363,13 @@ module.exports = grammar({
       prec(PREC.PAREN_EXPR,
       seq(
         "{",
-         choice(
-          $.with_field_expression,
-          $.field_expression,
-          $.object_expression,
-        ),
+          $._virtual_open_section,
+          choice(
+            $.with_field_expression,
+            $.field_expression,
+            $.object_expression,
+          ),
+          $._virtual_end_section,
         "}",
       )),
 
@@ -425,11 +427,18 @@ module.exports = grammar({
         $._expression,
       )),
 
+    _inner_literal_expression: $ =>
+      seq(
+        $._virtual_open_section,
+        $._expression,
+        $._virtual_end_section,
+      ),
+
     literal_expression: $ =>
       prec(PREC.PAREN_EXPR,
       choice(
-        seq("<@", $._expression, "@>"),
-        seq("<@@", $._expression, "@@>"),
+        seq("<@", $._inner_literal_expression, "@>"),
+        seq("<@@", $._inner_literal_expression, "@@>"),
       )),
 
     typecast_expression: $ =>
@@ -595,7 +604,9 @@ module.exports = grammar({
       seq(
         $._expression,
         imm("<"),
+        $._virtual_open_section,
         optional($.types),
+        $._virtual_end_section,
         ">",
       )),
 
@@ -611,13 +622,24 @@ module.exports = grammar({
         $._virtual_end_section,
       )),
 
-    _list_elements: $ =>
+    _list_elements_env: $ =>
       prec.right(PREC.COMMA,
         seq(
           $._expression,
-          repeat(prec.right(PREC.COMMA, seq(choice(";", $._newline), $._expression))),
+          repeat(prec.right(PREC.COMMA, seq(optional(";"), $._expression))),
+        ),
+      ),
+
+    _list_elements_basic: $ =>
+      prec.right(PREC.COMMA,
+        seq(
+          $._expression,
+          repeat(prec.right(PREC.COMMA, seq(";", $._expression))),
         )
       ),
+
+    _list_elements: $ =>
+      choice($._list_elements_env, $._list_elements_env),
 
     list_expression: $ =>
       seq(
@@ -632,11 +654,13 @@ module.exports = grammar({
     array_expression: $ =>
       seq(
         "[|",
+        $._virtual_open_section,
         choice(
           optional($._list_elements),
           $._comp_or_range_expression,
         ),
         "|]",
+        $._virtual_end_section,
       ),
 
     range_expression: $ =>
@@ -1418,7 +1442,6 @@ module.exports = grammar({
       $._newline
     ),
 
-    _newline: $ => choice('\n', '\r\n'),
     _string_elem: $ => choice(
       $._string_char,
       seq('\\', $._newline, $._string_elem)
@@ -1438,6 +1461,7 @@ module.exports = grammar({
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
     _simple_or_escape_char: $ => choice($._escape_char, imm(/[^'\\]/)),
     triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
+    _newline: $ => /[\r\n]+/,
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,
