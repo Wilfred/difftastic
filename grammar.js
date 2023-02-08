@@ -303,14 +303,8 @@ module.exports = grammar({
     continue_statement: ($) => prec.left("continue"),
     tool_statement: ($) => "tool",
 
-    signal_argument_list: ($) =>
-      seq(
-        "(",
-        optional(trailCommaSep1(choice($.identifier, $.typed_parameter), ",")),
-        ")"
-      ),
     signal_statement: ($) =>
-      seq("signal", $.name, optional($.signal_argument_list)),
+      seq("signal", $.name, optional($.parameters)),
 
     class_name_icon_path: ($) => $.string,
     class_name_statement: ($) =>
