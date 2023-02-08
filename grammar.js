@@ -642,7 +642,7 @@ module.exports = grammar({
       ),
 
     _parameters: ($) =>
-      commaSep1(
+      trailCommaSep1(
         choice(
           $.identifier,
           $.typed_parameter,
@@ -682,7 +682,7 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    argument_list: ($) => seq("(", optional(commaSep1($._rhs_expression)), ")"),
+    argument_list: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
     base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.argument_list)),
 
