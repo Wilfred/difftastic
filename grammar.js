@@ -181,7 +181,7 @@ module.exports = grammar({
 
     _simple_statement: ($) =>
       choice(
-        repeat1($.annotation),
+        alias($.annotations, ''), // See $.annotations.
         $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
