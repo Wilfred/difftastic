@@ -266,13 +266,13 @@ export(,) var a
   (export_variable_statement (name))
   (export_variable_statement (name) (string))
   (export_variable_statement (remote_keyword) (name))
-  (export_variable_statement (export_arguments (identifier)) (name))
-  (export_variable_statement (export_arguments (identifier)) (name) (string))
-  (export_variable_statement (export_arguments (identifier)) (remote_keyword) (name))
-  (export_variable_statement (export_arguments (identifier) (identifier)) (name))
-  (export_variable_statement (export_arguments (identifier) (string)) (name) (string))
-  (export_variable_statement (export_arguments (identifier)) (name))
-  (export_variable_statement (export_arguments (ERROR)) (name)))
+  (export_variable_statement (arguments (identifier)) (name))
+  (export_variable_statement (arguments (identifier)) (name) (string))
+  (export_variable_statement (arguments (identifier)) (remote_keyword) (name))
+  (export_variable_statement (arguments (identifier) (identifier)) (name))
+  (export_variable_statement (arguments (identifier) (string)) (name) (string))
+  (export_variable_statement (arguments (identifier)) (name))
+  (export_variable_statement (arguments (ERROR)) (name)))
 
 =====================================
 Variables Annotations

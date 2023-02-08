@@ -271,13 +271,10 @@ module.exports = grammar({
     variable_statement: ($) =>
       seq(optional($.remote_keyword), $._variable_statement),
 
-    export_arguments: ($) =>
-      seq("(", optional(trailCommaSep1($._expression)), ")"),
-
     export_variable_statement: ($) =>
       seq(
         "export",
-        optional($.export_arguments),
+        optional($.arguments),
         optional($.remote_keyword),
         $._variable_statement
       ),
