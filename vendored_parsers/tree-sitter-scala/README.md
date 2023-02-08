@@ -1,28 +1,21 @@
-tree-sitter-scala
-=================
+# tree-sitter-scala
 
 [![Test the grammar](https://github.com/tree-sitter/tree-sitter-scala/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-scala/actions/workflows/ci.yml)
 
-Scala grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+Scala grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter)
+covering both Scala 2 and 3.
 
-References
+## References
 
-* [The Scala Language Specification](https://www.scala-lang.org/files/archive/spec/2.13/)
-* [Scala Syntax Summary](https://www.scala-lang.org/files/archive/spec/2.13/13-syntax-summary.html)
+_Scala 2_
+- [The Scala 2 Language Specification](https://www.scala-lang.org/files/archive/spec/2.13/)
+- [Scala 2 Syntax Summary](https://www.scala-lang.org/files/archive/spec/2.13/13-syntax-summary.html)
 
-Development
------------
+_Scala 3_
 
-First, install the project's dependencies:
+- [Scala 3 Syntax Summary](https://docs.scala-lang.org/scala3/reference/syntax.html)
 
-```sh
-npm install
-```
+## Development and Contributing
 
-Add a test case to `./corpus`, make the required changes to `grammar.js`,
-regenerate and recompile the parser, and run the tests:
-
-```sh
-npm run build
-npm test
-```
+Please refer to the [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on
+getting set up.

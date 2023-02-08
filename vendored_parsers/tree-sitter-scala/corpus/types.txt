@@ -5,6 +5,7 @@ Stable type identifiers
 object Main {
   type A = B.C
   type D = E.F.G
+  type H = __root__.scala.Int
 }
 
 ---
@@ -16,6 +17,9 @@ object Main {
       (stable_type_identifier (identifier) (type_identifier)))
     (type_definition
       (type_identifier)
+      (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier)))
+    (type_definition
+      (type_identifier)
       (stable_type_identifier (stable_identifier (identifier) (identifier)) (type_identifier))))))
 
 ===================================
@@ -23,7 +27,10 @@ Generic types
 ===================================
 
 object Main {
-  type A = B[C, D]
+  type A = B[
+    C,
+    D,
+  ]
   type E = F.G[H]
 }
 
@@ -48,12 +55,21 @@ Tuple types
 
 object Main {
   type A = (B, C)
+  type A = (
+    B,
+    C,
+  )
 }
 
 ---
 
 (compilation_unit
   (object_definition (identifier) (template_body
+    (type_definition
+      (type_identifier)
+      (tuple_type
+        (type_identifier)
+        (type_identifier)))
     (type_definition
       (type_identifier)
       (tuple_type
@@ -92,6 +108,20 @@ object Main {
         (parameter_types (type_identifier))
         (tuple_type (type_identifier) (type_identifier)))))))
 
+===================================
+Context function types (Scala 3 syntax)
+===================================
+
+type Executable[A] = ExecutionContext ?=> A
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier) (type_parameters (identifier))
+    (function_type
+      (parameter_types (type_identifier))
+      (type_identifier))))
+
 ==================================
 Compound types
 ==================================
@@ -110,7 +140,7 @@ class F extends Cloneable with Resetable with Serializable {}
     (type_identifier) (block))
   (class_definition (identifier)
     (extends_clause
-      (compound_type (type_identifier) (type_identifier) (type_identifier)))
+      (type_identifier) (type_identifier) (type_identifier))
     (template_body)))
 
 ==================================
@@ -250,3 +280,144 @@ type A = B with B1 with B2 ! C with C1
       (compound_type (type_identifier) (type_identifier) (type_identifier))
       (operator_identifier)
       (compound_type (type_identifier) (type_identifier)))))
+
+==================================
+Literal type aliases (Scala 2.13+)
+==================================
+
+type A = "hello"
+type B = 25
+type C = false
+type D = 0.5f
+
+class Test(d: "hello", b: 25)
+
+---
+
+(compilation_unit
+  (type_definition 
+    (type_identifier) (literal_type (string)))
+
+  (type_definition 
+    (type_identifier) (literal_type (integer_literal)))
+
+  (type_definition 
+    (type_identifier) (literal_type (boolean_literal)))
+
+  (type_definition 
+    (type_identifier) (literal_type (floating_point_literal)))
+
+  (class_definition
+    (identifier)
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (literal_type
+          (string)))
+      (class_parameter
+        (identifier)
+        (literal_type
+          (integer_literal))))))
+
+==================================
+Singleton Types
+==================================
+
+class A:
+  def foobar: this.type = this
+  type X = A.B.type
+
+---
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (function_definition (identifier) (singleton_type (identifier)) (identifier))
+      (type_definition (type_identifier) (singleton_type (stable_identifier (identifier) (identifier)))))))
+
+==================================
+Opaque type aliases (Scala 3)
+==================================
+
+opaque type A = Int
+private opaque type B = String
+opaque type B <: Test >: Help = String
+
+---
+
+(compilation_unit
+  (type_definition 
+    (opaque_modifier) (type_identifier) (type_identifier))
+
+  (type_definition 
+    (modifiers (access_modifier))
+    (opaque_modifier) 
+    (type_identifier) 
+    (type_identifier))
+
+  (type_definition 
+    (opaque_modifier) 
+    (type_identifier) 
+    (upper_bound (type_identifier))
+    (lower_bound (type_identifier))
+    (type_identifier))
+)
+
+==================================
+Structural type
+==================================
+
+type A = { def fly(): Unit }
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (structural_type
+      (function_declaration 
+        (identifier)
+        (parameters)
+        (type_identifier)
+      )
+    )
+  )
+)
+
+=========================================
+Anonymous structural type with projection
+=========================================
+
+type A = B[({ type f[x] = M[S, x] })#f]
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (projected_type
+          (tuple_type
+            (structural_type
+              (type_definition
+                (type_identifier)
+                (type_parameters
+                  (identifier)
+                )
+                (generic_type
+                  (type_identifier)
+                    (type_arguments
+                      (type_identifier)
+                      (type_identifier)
+                    )
+                )
+              )
+            )
+          )
+          (type_identifier)
+        )
+      )
+    )
+  )
+)

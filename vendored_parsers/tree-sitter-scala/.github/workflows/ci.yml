@@ -5,16 +5,115 @@ on:
     branches:
       - master
 jobs:
+  changedfiles:
+    runs-on: ubuntu-20.04
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
+      c: ${{ steps.changes.outputs.c }}
+    steps:
+      - name: checkout tree-sitter-scala
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Get changed files
+        id: changes
+        run: |
+          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
+          echo "c=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '\.\(c\|h\)$' | xargs)" >> $GITHUB_OUTPUT
+
   test:
     runs-on: ${{ matrix.os }}
+    needs: changedfiles
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-20.04, macos-latest, windows-2019]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: checkout tree-sitter-scala
+        uses: actions/checkout@v3
         with:
-          node-version: 14
-      - run: npm install
-      - run: npm test
+          fetch-depth: 10
+
+      - name: checkout scala/scala
+        if: ${{ runner.os == 'Linux' }}
+        uses: actions/checkout@v3
+        with:
+          repository: scala/scala
+          ref: v2.13.10
+          path: scala_scala
+
+      - name: checkout lampepfl/dotty
+        if: ${{ runner.os == 'Linux' }}
+        uses: actions/checkout@v3
+        with:
+          repository: lampepfl/dotty
+          ref: 3.2.1
+          path: dotty
+
+      - name: checkout nvim-treesitter/nvim-treesitter
+        if: ${{ runner.os == 'Linux' }}
+        uses: actions/checkout@v3
+        with:
+          repository: nvim-treesitter/nvim-treesitter
+          path: nvim_treesitter
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Test C stack code
+        run: gcc test/test-stack.c -o a.out && ./a.out
+
+      - name: Generate parser from scratch and test it
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: |
+          npm install
+          npm run build
+          npm test
+
+      - name: Check parser
+        if: ${{ runner.os != 'Linux' && needs.changedfiles.outputs.c }}
+        shell: bash
+        run: |
+          # `git diff --quiet` doesn't seem to work on Github Actions
+          changes=$(git diff --name-only --diff-filter=ACMRT | xargs)
+          if [ ! -z "$changes" ]; then
+            echo "::error file=grammar.js::Generated $changes differs from the checked in version"
+            git diff --exit-code
+            exit 1
+          fi
+
+      - name: Parser tests
+        if: ${{ needs.changedfiles.outputs.c }}
+        shell: bash
+        run: npm install && npm test
+
+      - name: Smoke test
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        env:
+          SCALA_SCALA_DIR: scala_scala
+          DOTTY_DIR: dotty
+        run: script/smoke_test.sh
+
+      - name: copy nvim-treesitter highlight queries
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: cp ./nvim_treesitter/queries/scala/highlights.scm ./queries/scala/highlights.scm
+
+      - name: Check if highlight queries are out of sync with nvim-treesitter
+        if: ${{ runner.os == 'Linux' }}
+        uses: tj-actions/verify-changed-files@v13
+        id: verify-changed-files
+        with:
+          files: |
+            queries/scala/highlights.scm
+
+      - name: Test quries if out of sync with nvim-treesitter
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "::warning file=queries/scala/highlights.scm::Queries in this repo are out of sync with nvim-treesitter"
+          git diff queries/scala/highlights.scm
+          npm run test
