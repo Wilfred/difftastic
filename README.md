@@ -1,6 +1,6 @@
 # tree-sitter-sfapex
 
-Salesforce grammars for [tree-sitter](https://github.com/tree-sitter/tree-sitter), including Apex, SOSL, and SOSL languages.
+Salesforce grammars for [tree-sitter](https://github.com/tree-sitter/tree-sitter), including Apex, SOQL, and SOSL languages.
 
 Try it out using our [playground](https://aheber.github.io/tree-sitter-sfapex/playground/)
 
