@@ -50,7 +50,7 @@ sample_files/hack_before.php sample_files/hack_after.php
 83d4a92c596b5d465ff024aa1b30be92  -
 
 sample_files/hare_before.ha sample_files/hare_after.ha
-eb25ef369343f49ded00cb0d149b2e54  -
+2b3a9433cd692d9ffab872477312e3b8  -
 
 sample_files/haskell_before.hs sample_files/haskell_after.hs
 5a2c0c5d4a04f79e2f8f32299e6cd364  -
@@ -107,7 +107,7 @@ sample_files/lua_before.lua sample_files/lua_after.lua
 9886d61f459cdf566be9c42f7fa61a12  -
 
 sample_files/makefile_before.mk sample_files/makefile_after.mk
-3ee27ed4ee27354222e065185131f99c  -
+82ed37f60448e7402c62d5319f30fd3c  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
 e8e76c97731accc5572708664bb61910  -
@@ -188,13 +188,13 @@ sample_files/swift_before.swift sample_files/swift_after.swift
 4285db52158468d58d54115b6cb8f29b  -
 
 sample_files/syntax_error_before.js sample_files/syntax_error_after.js
-aad79ca060f77fb066eea0deb6aed1d2  -
+0e71145527541a4a76b8140f0659223c  -
 
 sample_files/tab_before.c sample_files/tab_after.c
 b652d15f3a05b82a7d871cfeca2f453f  -
 
 sample_files/tailwind_before.css sample_files/tailwind_after.css
-b79bce6e053fd1d57217ad6b2f8067a9  -
+cee5ee7415b1bd50bdc2dacd11e7303a  -
 
 sample_files/text_before.txt sample_files/text_after.txt
 5fbdac2d1156ed8bb6b098e87f30d319  -
