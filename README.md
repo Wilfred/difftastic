@@ -12,6 +12,7 @@ The precedens rules for the different grammar nodes (and particularly expression
 ### Missing
 - [ ] Computational expressions
 - [ ] Type annotations
+- [ ] Annotations
 - [ ] Offside tokens inside indentation scope
 - [ ] Testing
 - [ ] Set propery precedens rules
