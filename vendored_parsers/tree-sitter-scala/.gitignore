@@ -7,3 +7,8 @@ package-lock.json
 Cargo.lock
 .scalafmt.conf
 *worksheet.sc
+*.out
+.direnv
+
+./scala 
+./dotty

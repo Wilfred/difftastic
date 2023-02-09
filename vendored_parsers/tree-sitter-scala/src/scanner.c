@@ -1,14 +1,19 @@
-#include <tree_sitter/parser.h>
+#include "stack.h"
+#include "tree_sitter/parser.h"
+#include <stdio.h>
+#include <string.h>
 #include <wctype.h>
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
-  SIMPLE_STRING,
-  SIMPLE_MULTILINE_STRING,
+  INDENT,
   INTERPOLATED_STRING_MIDDLE,
   INTERPOLATED_STRING_END,
   INTERPOLATED_MULTILINE_STRING_MIDDLE,
   INTERPOLATED_MULTILINE_STRING_END,
+  OUTDENT,
+  SIMPLE_MULTILINE_STRING,
+  SIMPLE_STRING,
   ELSE,
   CATCH,
   FINALLY,
@@ -16,11 +21,26 @@ enum TokenType {
   WITH,
 };
 
-void *tree_sitter_scala_external_scanner_create() { return NULL; }
-void tree_sitter_scala_external_scanner_destroy(void *p) {}
-void tree_sitter_scala_external_scanner_reset(void *p) {}
-unsigned tree_sitter_scala_external_scanner_serialize(void *p, char *buffer) { return 0; }
-void tree_sitter_scala_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+void *tree_sitter_scala_external_scanner_create() {
+  return createStack();
+}
+
+void tree_sitter_scala_external_scanner_destroy(void *p) {
+  free(p);
+}
+
+void tree_sitter_scala_external_scanner_reset(void *p) {
+  resetStack(p);
+}
+
+unsigned tree_sitter_scala_external_scanner_serialize(void *p, char *buffer) {
+  return serialiseStack(p, buffer);
+}
+
+void tree_sitter_scala_external_scanner_deserialize(void *p, const char *b,
+                                                    unsigned n) {
+  deserialiseStack(p, b, n);
+}
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
@@ -70,11 +90,80 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
 
 bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
                                              const bool *valid_symbols) {
-  unsigned newline_count = 0;
+  ScannerStack *stack = (ScannerStack *)payload;
+  int prev = peekStack(stack);
+  int newline_count = 0;
+  int indentation_size = 0;
+  LOG("scanner was called at column: %d\n", lexer->get_column(lexer));
+
+  // Before advancing the lexer, check if we can double outdent
+  if (valid_symbols[OUTDENT] &&
+      (lexer->lookahead == 0 || (
+        stack->last_indentation_size != -1 &&
+        prev != -1 &&
+        stack->last_indentation_size < prev))) {
+    popStack(stack);
+    LOG("    pop\n");
+    LOG("    OUTDENT\n");
+    lexer->result_symbol = OUTDENT;
+    return true;
+  }
+  stack->last_indentation_size = -1;
+
   while (iswspace(lexer->lookahead)) {
-    if (lexer->lookahead == '\n') newline_count++;
+    if (lexer->lookahead == '\n') {
+      newline_count++;
+      indentation_size = 0;
+    }
+    else
+      indentation_size++;
     lexer->advance(lexer, true);
   }
+  printStack(stack, "    before");
+
+  if (valid_symbols[INDENT] &&
+      newline_count > 0 &&
+      (isEmptyStack(stack) ||
+        indentation_size > peekStack(stack))) {
+    pushStack(stack, indentation_size);
+    lexer->result_symbol = INDENT;
+    LOG("    INDENT\n");
+    return true;
+  }
+
+  // This saves the indentation_size and newline_count so it can be used
+  // in subsequent calls for multiple outdent or autosemicolon.
+  if (valid_symbols[OUTDENT] &&
+      (lexer->lookahead == 0 || (
+        newline_count > 0 &&
+        prev != -1 &&
+        indentation_size < prev))) {
+    popStack(stack);
+    LOG("    pop\n");
+    LOG("    OUTDENT\n");
+    lexer->result_symbol = OUTDENT;
+    stack->last_indentation_size = indentation_size;
+    stack->last_newline_count = newline_count;
+    if (lexer->eof(lexer)) {
+      stack->last_column = -1;
+    } else {
+      stack->last_column = lexer->get_column(lexer);
+    }
+    return true;
+  }
+
+  // Recover newline_count from the outdent reset
+  if (stack->last_newline_count > 0 &&
+    ((lexer->eof(lexer) && stack->last_column == -1)
+      || lexer->get_column(lexer) == stack->last_column)) {
+    newline_count += stack->last_newline_count;
+  }
+  stack->last_newline_count = 0;
+
+  printStack(stack, "    after");
+
+  LOG("    indentation_size: %d, newline_count: %d, column: %d, indent_is_valid: %d, dedent_is_valid: %d\n", indentation_size,
+      newline_count, lexer->get_column(lexer), valid_symbols[INDENT], valid_symbols[OUTDENT]);
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
     // NOTE: When there's a dot after a new line it could be a multi-line field

@@ -1,0 +1,54 @@
+name: "Check changes and sync"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 5 * * *
+
+jobs:
+  check-and-sync:
+    runs-on: ubuntu-20.04
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
+      c: ${{ steps.changes.outputs.c }}
+    steps:
+      - name: checkout tree-sitter-scala
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Generate parser from scratch
+        run: |
+          npm install
+          npm run build
+
+      - name: Check for changes
+        uses: tj-actions/verify-changed-files@v13
+        id: verify-changed-files
+        with:
+          files: |
+            src/grammar.json
+            src/node-types.json
+            src/parser.c
+            src/tree_sitter/parser.h
+
+      - name: Commit changes if necessary
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git config user.name "GitHub"
+          git config user.email "noreply@github.com"
+          git add .
+          LAST_COMMIT=$(git log --format="%H" -n 1)
+          git commit -m "chore: generate and sync from $LAST_COMMIT"
+          git clean -xf
+
+      - name: Create Pull Request
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "chore: generate and sync latest changes"
+          branch: generation
+          base: ${{ github.head_ref }}
+
+      - name: No changes detected
+        if: steps.verify-changed-files.outputs.files_changed == 'false'
+        run: echo "No changes detected"

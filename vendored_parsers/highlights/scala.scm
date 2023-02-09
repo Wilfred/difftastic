@@ -1,1 +1,1 @@
-../tree-sitter-scala/queries/highlights.scm
+../tree-sitter-scala/queries/scala/highlights.scm

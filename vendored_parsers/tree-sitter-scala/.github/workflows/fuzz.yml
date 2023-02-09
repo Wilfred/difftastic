@@ -1,0 +1,25 @@
+name: Fuzz parser
+
+# Run this workflow on changes to the external scanner
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - src/scanner.c
+    - src/stack.h
+  pull_request:
+    paths:
+    - src/scanner.c
+    - src/stack.h
+
+jobs:
+  test:
+    name: Parser fuzzing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: vigoux/tree-sitter-fuzz-action@v1
+        with:
+          language: scala
+          external-scanner: src/scanner.c
+          time: 60
