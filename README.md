@@ -1,6 +1,30 @@
 # tree-sitter-fsharp
 tree-sitter grammar for F# (still WIP)
 
+## Getting started
+
+First, run `npm install` to install the `tree-sitter cli`.
+Next, the grammar can be build using `npm run build`, or used to parse a file with `npm run parse $file`
+
+### Project strcture
+The parser consists of two parts:
+- `src/scanner.cc` is responsible for parsing newlines and comments and keeps track of indentation to open and close scopes.
+- `grammar.js` the main tree-sitter grammar. The indent tokens from the external scanner is access though the `$.virtual_open_section` and `virtual_end_section` tokens.
+
+The grammar starts with the `file` node at the begging of the rules.
+
+### Adding to neovim
+```lua
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.fsharp = {
+  install_info = {
+    url = "path/to/tree-sitter-fsharp",
+    files = {"src/scannar.cc", "src/parser.c" }
+  },
+  filetype = "fsharp",
+}
+```
+
 ## Status
 The grammar currently has support for most language features, but might have rough edges.
 Some parts, like the type annotations are still very bare-bones.
@@ -16,3 +40,22 @@ The precedens rules for the different grammar nodes (and particularly expression
 - [ ] Offside tokens inside indentation scope
 - [ ] Testing
 - [ ] Set propery precedens rules
+
+## Testing
+### Testing corpus
+To run all tests stores in `corpus/` run
+
+```sh
+$ tree-sitter test
+```
+
+### Test parsing a specific file
+```
+$ tree-sitter parse $file
+```
+
+## How to contribute
+Clone the repo and start playing around with it.
+If you find a code example which fails to parse, please reduce it to a minimal example, such that it can be added to the corpus as a test case.
+
+PRs fleshing out the grammar or fixing bugs are very welcome!
