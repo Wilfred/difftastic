@@ -333,7 +333,6 @@ fn main() {
     ];
 
     // Only rerun if relevant files in the vendored_parsers/ directory change.
-    println!("cargo:rerun-if-changed=vendored_parsers/highlights");
     for parser in &parsers {
         println!("cargo:rerun-if-changed={}", parser.src_dir);
     }
