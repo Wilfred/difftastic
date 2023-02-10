@@ -686,7 +686,7 @@ function trailCommaSep1(rule) {
 // specify it as inlined, but this is fine.
 function nodePathString() {
   return choice(
-    seq('"', /[0-9a-zA-Z_/\- ]*/, '"'),
-    seq("'", /[0-9a-zA-Z_/\- ]*/, "'")
+    seq('"', /[0-9a-zA-Z_/\- .]*/, '"'),
+    seq("'", /[0-9a-zA-Z_/\- .]*/, "'")
   );
 }

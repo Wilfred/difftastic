@@ -53,3 +53,21 @@ export(NodePath) onready var path = get_node(path)
       (identifier)
       (arguments
         (identifier)))))
+
+============================================
+Literals bugs with [get_node]
+============================================
+
+$"../inspectorHeader/inspectorHeaderHBoxContainer/CurrentBlock"
+$"../../CommandsSettings"
+$'../../Node'
+
+---
+
+(source
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node))
+  (expression_statement
+    (get_node)))
