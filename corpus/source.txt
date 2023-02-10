@@ -343,6 +343,20 @@ var x = 0:
     get: pass
     set(value): pass
 
+var x:
+  get:
+    pass
+
+var x:
+  get: pass
+
+var x:
+  get: pass; pass
+
+var x: int:
+  set(val):
+    pass
+
 var my_prop:
     get = get_my_prop, set = set_my_prop
 
@@ -376,6 +390,30 @@ var my_prop:
         (pass_statement))
       (set_body
         (parameters (identifier))
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (pass_statement)
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (type)
+    (setget
+      (set_body
+        (parameters
+          (identifier))
         (pass_statement))))
   (variable_statement
     (name)

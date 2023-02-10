@@ -215,8 +215,8 @@ module.exports = grammar({
         seq(
           $._indent,
           choice(
-            seq($.set_body, $.get_body),
-            seq($.get_body, $.set_body),
+            seq($.set_body, optional($.get_body)),
+            seq($.get_body, optional($.set_body)),
             seq($._set_assign, ",", $._get_assign),
             seq($._get_assign, ",", $._set_assign)
           ),

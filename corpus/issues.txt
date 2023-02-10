@@ -1,0 +1,37 @@
+============================================
+Highlight incorrect when just setting get
+============================================
+
+var selection:
+  get:
+    return interface.get_selection()
+
+var children:
+  get:
+    return selected[0].get_children()
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (return_statement
+          (attribute
+            (identifier)
+            (attribute_call
+              (identifier)
+              (arguments)))))))
+  (variable_statement
+    (name)
+    (setget
+      (get_body
+        (return_statement
+          (attribute
+            (subscript
+              (identifier)
+              (integer))
+            (attribute_call
+              (identifier)
+              (arguments))))))))
