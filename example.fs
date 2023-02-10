@@ -1,1 +1,0 @@
-type Test = byte seq
