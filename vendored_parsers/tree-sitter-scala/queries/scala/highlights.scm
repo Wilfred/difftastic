@@ -60,9 +60,9 @@
   path: (identifier) @namespace)
 ((stable_identifier (identifier) @namespace))
 
-((import_declaration
-  path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
-((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
+;; ((import_declaration
+;;   path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
+;; ((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
 
 (export_declaration
   path: (identifier) @namespace)
@@ -70,9 +70,9 @@
 
 ((export_declaration
   path: (identifier) @type) (#lua-match? @type "^[A-Z]"))
-((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
+;; ((stable_identifier (identifier) @type) (#lua-match? @type "^[A-Z]"))
 
-((namespace_selectors (identifier) @type) (#lua-match? @type "^[A-Z]"))
+;; ((namespace_selectors (identifier) @type) (#lua-match? @type "^[A-Z]"))
 
 ; method invocation
 
@@ -86,9 +86,9 @@
   function: (field_expression
     field: (identifier) @method.call))
 
-((call_expression
-   function: (identifier) @constructor)
- (#lua-match? @constructor "^[A-Z]"))
+;; ((call_expression
+;;    function: (identifier) @constructor)
+;;  (#lua-match? @constructor "^[A-Z]"))
 
 (generic_function
   function: (identifier) @function.call)
@@ -110,8 +110,8 @@
 ; expressions
 
 (field_expression field: (identifier) @property)
-(field_expression value: (identifier) @type
- (#lua-match? @type "^[A-Z]"))
+;; (field_expression value: (identifier) @type
+;;  (#lua-match? @type "^[A-Z]"))
 
 (infix_expression operator: (identifier) @operator)
 (infix_expression operator: (operator_identifier) @operator)
@@ -241,11 +241,11 @@
 
 (operator_identifier) @operator
 
-((identifier) @type (#lua-match? @type "^[A-Z]"))
-((identifier) @variable.builtin
- (#lua-match? @variable.builtin "^this$"))
+;; ((identifier) @type (#lua-match? @type "^[A-Z]"))
+;; ((identifier) @variable.builtin
+;;  (#lua-match? @variable.builtin "^this$"))
 
-(
-  (identifier) @function.builtin
-  (#lua-match? @function.builtin "^super$")
-)
+;; (
+;;   (identifier) @function.builtin
+;;   (#lua-match? @function.builtin "^super$")
+;; )
