@@ -257,7 +257,10 @@ module.exports = grammar({
       seq(
         "export",
         optional($.arguments),
-        optional($.remote_keyword),
+        optional(choice(
+          "onready",
+          $.remote_keyword,
+        )),
         $._variable_statement
       ),
 

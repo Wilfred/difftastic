@@ -35,3 +35,21 @@ var children:
             (attribute_call
               (identifier)
               (arguments))))))))
+
+============================================
+Export Var Stmt can be onready
+============================================
+
+export(NodePath) onready var path = get_node(path)
+
+---
+
+(source
+  (export_variable_statement
+    (arguments
+      (identifier))
+    (name)
+    (call
+      (identifier)
+      (arguments
+        (identifier)))))
