@@ -55,6 +55,7 @@ module.exports = grammar({
     [$.long_identifier, $._identifier_or_op],
     [$.type_argument, $.static_type_argument],
     [$.symbolic_op, $.infix_op],
+    [$.union_type_case, $.long_identifier],
     // [$._comp_expression, $._expression],
   ],
 
@@ -970,21 +971,19 @@ module.exports = grammar({
     // Type rules (BEGIN)
     //
     type: $ =>
-      prec.left(4,
-        choice(
-          $.long_identifier,
-          seq($.long_identifier, "<", optional($.type_attributes), ">"),
-          seq("(", $.type, ")"),
-          seq($.type, "->", $.type),
-          seq($.type, repeat1(seq("*", $.type))),
-          seq($.type, $.long_identifier),
-          seq($.type, "[", repeat(","), "]"), // TODO: FIXME
-          seq($.type, $.type_argument_defn),
-          $.type_argument,
-          seq($.type_argument, ":>", $.type),
-          seq(imm("#"), $.type),
-        )
-      ),
+      prec(4, choice(
+        $.long_identifier,
+        prec.right(seq($.long_identifier, "<", optional($.type_attributes), ">")),
+        seq("(", $.type, ")"),
+        prec.right(seq($.type, "->", $.type)),
+        prec.right(seq($.type, repeat1(prec.right(seq("*", $.type))))),
+        prec.left(4, seq($.type, $.long_identifier)),
+        seq($.type, "[", repeat(","), "]"), // TODO: FIXME
+        seq($.type, $.type_argument_defn),
+        $.type_argument,
+        prec.right(seq($.type_argument, ":>", $.type)),
+        prec.right(seq(imm("#"), $.type)),
+      )),
 
     types: $ =>
       seq(
@@ -1158,12 +1157,11 @@ module.exports = grammar({
       ),
 
     type_abbrev_defn: $ =>
-      prec(3,
       seq(
         $.type_name,
         "=",
         $.type,
-      )),
+      ),
 
     class_type_defn: $ =>
       seq(
@@ -1278,15 +1276,14 @@ module.exports = grammar({
       ),
 
     union_type_case: $ =>
-      prec(1,
+      prec(8,
       seq(
         optional($.attributes),
-        $.identifier,
-        optional(
-          choice(
-            seq($.identifier, "of", $.union_type_field),
-            seq($.identifier, ":", $.type),
-      )))),
+        choice(
+          $.identifier,
+          seq($.identifier, "of", $.union_type_field),
+          seq($.identifier, ":", $.type),
+        ))),
 
     union_type_field: $ =>
       choice(
