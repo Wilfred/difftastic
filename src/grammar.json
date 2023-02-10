@@ -1307,8 +1307,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "remote_keyword"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "onready"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "remote_keyword"
+                }
+              ]
             },
             {
               "type": "BLANK"
