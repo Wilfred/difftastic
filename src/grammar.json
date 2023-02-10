@@ -1058,8 +1058,16 @@
                       "name": "set_body"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "get_body"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "get_body"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1071,8 +1079,16 @@
                       "name": "get_body"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "set_body"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "set_body"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     }
                   ]
                 },

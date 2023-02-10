@@ -721,7 +721,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
