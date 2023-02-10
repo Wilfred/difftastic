@@ -1447,7 +1447,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "function_declaration_left",
@@ -2100,11 +2100,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -2802,11 +2806,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "anon_type_defn",
+          "named": true
+        },
+        {
+          "type": "attributes",
           "named": true
         },
         {
@@ -3404,15 +3412,15 @@
     "named": false
   },
   {
-    "type": "<]",
-    "named": false
-  },
-  {
     "type": "=",
     "named": false
   },
   {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": ">]",
     "named": false
   },
   {

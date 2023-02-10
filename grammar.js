@@ -141,6 +141,44 @@ module.exports = grammar({
         $.long_identifier,
       ),
 
+    //
+    // Attributes (BEGIN)
+    //
+    attributes: $ => prec.left(repeat1($.attribute_set)),
+    attribute_set: $ =>
+      seq(
+        "[<",
+        $.attribute,
+        repeat(seq(";", $.attribute)),
+        ">]"
+      ),
+    attribute: $ => seq(
+      optional(seq($.attribute_target, ":")),
+      $.object_construction
+    ),
+    attribute_target: $ => choice(
+      "assembly",
+      "module",
+      "return",
+      "field",
+      "property",
+      "param",
+      "type",
+      "constructor",
+      "event"
+    ),
+
+    object_construction: $ =>
+      seq(
+        $.type,
+        optional($._expression),
+      ),
+
+    //
+    // Attributes (END)
+    //
+
+
     value_declaration: $ =>
       choice(
         prec(PREC.LET_DECL, $.function_or_value_defn),
@@ -934,40 +972,6 @@ module.exports = grammar({
     //
 
     //
-    // Attributes (BEGIN)
-    //
-    attributes: $ => prec.left(2, repeat1($.attribute_set)),
-    attribute_set: $ => seq(
-      "[<",
-      $.attribute,
-      repeat(seq(";", $.attribute)),
-      "<]"
-    ),
-    attribute: $ => seq(
-      optional(seq($.attribute_target, ":")),
-      $.object_construction
-    ),
-    attribute_target: $ => choice(
-      "assembly",
-      "module",
-      "return",
-      "field",
-      "property",
-      "param",
-      "type",
-      "constructor",
-      "event"
-    ),
-
-    object_construction: $ => choice(
-      //TODO:
-      $.identifier
-    ),
-    //
-    // Attributes (END)
-    //
-
-    //
     // Type rules (BEGIN)
     //
     type: $ =>
@@ -1113,6 +1117,7 @@ module.exports = grammar({
 
     type_definition: $ =>
       seq(
+        optional($.attributes),
         "type",
         choice(
           $.delegate_type_defn,
