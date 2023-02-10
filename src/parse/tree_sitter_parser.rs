@@ -1020,6 +1020,8 @@ fn tree_highlights(
             || name == "repeat"
             || name == "conditional"
             || name == "boolean"
+            || name == "exception"
+            || name == "include"
         {
             keyword_ish_capture_ids.push(idx as u32);
         }

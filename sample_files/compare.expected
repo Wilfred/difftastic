@@ -41,7 +41,7 @@ sample_files/elm_before.elm sample_files/elm_after.elm
 5cb3ab8c2e0a3ed534f0aa06a54568b4  -
 
 sample_files/elvish_before.elv sample_files/elvish_after.elv
-dd6575e62ddbb4604de8e5dae7991815  -
+1efd973752dcbec973578fc1420f0686  -
 
 sample_files/erlang_before.erl sample_files/erlang_after.erl
 e5c989cce93d63604e4e71b83c39c5d4  -
@@ -143,7 +143,7 @@ sample_files/pascal_before.pascal sample_files/pascal_after.pascal
 dfea5599b7f5e180d0fafab326f612cc  -
 
 sample_files/perl_before.pl sample_files/perl_after.pl
-4217d530a95049f6732aa84070792e0b  -
+a4ce0c52073b162c3935b75b4070889d  -
 
 sample_files/prefer_outer_before.el sample_files/prefer_outer_after.el
 de31a80dc8a06987aeff4aaa04ce3b87  -
@@ -161,7 +161,7 @@ sample_files/ruby_before.rb sample_files/ruby_after.rb
 db81701f87486b18f99d326d028d9929  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
-6a52e19b2c791be4b2351757b91b97a9  -
+4cb631c1114a51399381aff144300019  -
 
 sample_files/Session_before.kt sample_files/Session_after.kt
 9def134da4bbc423a1fde93001618776  -
@@ -221,5 +221,5 @@ sample_files/yaml_before.yaml sample_files/yaml_after.yaml
 a40489d7b2f061419d2b193b7e1b3da2  -
 
 sample_files/zig_before.zig sample_files/zig_after.zig
-0905e014fc9157d90059ae207a202001  -
+f34eea5e9ac5288551eeb7148e9954cf  -
 
