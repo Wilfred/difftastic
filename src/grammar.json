@@ -427,7 +427,7 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "[0-9a-zA-Z_/\\- ]*"
+                    "value": "[0-9a-zA-Z_/\\- .]*"
                   },
                   {
                     "type": "STRING",
@@ -444,7 +444,7 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "[0-9a-zA-Z_/\\- ]*"
+                    "value": "[0-9a-zA-Z_/\\- .]*"
                   },
                   {
                     "type": "STRING",
@@ -490,7 +490,7 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[0-9a-zA-Z_/\\- ]*"
+                        "value": "[0-9a-zA-Z_/\\- .]*"
                       },
                       {
                         "type": "STRING",
@@ -507,7 +507,7 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[0-9a-zA-Z_/\\- ]*"
+                        "value": "[0-9a-zA-Z_/\\- .]*"
                       },
                       {
                         "type": "STRING",
