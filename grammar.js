@@ -48,7 +48,7 @@ module.exports = grammar({
   extras: $ => [
     $.block_comment,
     $.line_comment,
-    /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/,
+    /[ \s\f\uFEFF\u2060\u200B]|\\\r?\n/,
   ],
 
   conflicts: $ => [
@@ -125,8 +125,7 @@ module.exports = grammar({
           $._virtual_open_section,
           repeat1($._module_elem),
           $._virtual_end_section,
-          )
-      ),
+       )),
 
     compiler_directive_decl: $ =>
       seq(
@@ -1212,18 +1211,12 @@ module.exports = grammar({
         $._virtual_end_section,
       ),
 
-    _record_type_defn_inner: $ =>
-      seq(
-        $.record_field,
-        repeat(seq(choice(";", $._newline), $.record_field)),
-      ),
-
     record_type_defn: $ =>
       seq(
         $.type_name,
         "=",
         "{",
-        $._record_type_defn_inner,
+        $.record_fields,
         "}",
         optional($.type_extension_elements)
       ),
@@ -1232,6 +1225,7 @@ module.exports = grammar({
       seq(
         $.record_field,
         repeat(seq(choice(";", $._newline), $.record_field)),
+        optional(";"),
       ),
 
     record_field: $ =>
@@ -1494,19 +1488,17 @@ module.exports = grammar({
       $._trigraph,
       $._unicodegraph_short,
       $._unicodegraph_long,
-      $._newline
     ),
 
     _string_elem: $ => choice(
       $._string_char,
-      seq('\\', $._newline, $._string_elem)
+      seq('\\', $._string_elem)
     ),
     char: $ => seq("'", $._char_char, imm("'")),
     string: $ => seq('"', repeat($._string_char), imm('"')),
     _verbatim_string_char: $ => choice(
       $._simple_string_char,
       $._non_escape_char,
-      $._newline,
       '\\',
       ''
     ),
@@ -1516,7 +1508,7 @@ module.exports = grammar({
     verbatim_bytearray: $ => seq('@"', repeat($._verbatim_string_char), imm('"B')),
     _simple_or_escape_char: $ => choice($._escape_char, imm(/[^'\\]/)),
     triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
-    _newline: $ => /[\r\n]+/,
+    _newline: $ => /\r?\n/,
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,

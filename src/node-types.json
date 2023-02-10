@@ -2340,6 +2340,21 @@
     }
   },
   {
+    "type": "record_fields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "record_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "record_pattern",
     "named": true,
     "fields": {},
@@ -2363,7 +2378,7 @@
       "required": true,
       "types": [
         {
-          "type": "record_field",
+          "type": "record_fields",
           "named": true
         },
         {
