@@ -2,6 +2,8 @@
 
 ### Display
 
+Improved syntax highlighting for keywords.
+
 If a file exceeds DFT_BYTE_LIMIT, difftastic now displays its size in
 the header.
 
