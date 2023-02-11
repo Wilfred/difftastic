@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-gleam"
-version = "0.25.3"
+version = "0.26.0"
 dependencies = [
  "cc",
  "tree-sitter",
