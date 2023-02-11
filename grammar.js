@@ -1768,13 +1768,9 @@ module.exports = grammar({
     )),
 
     raw_string_literal: $ => token(seq(
-      '"""',
-      repeat(choice(
-        /[^"]/,
-        '"',
-        '""',
-      )),
-      choice('"""', '"""U8', '"""u8')
+      /""["]+/,
+      optional(/([^"]|("[^"])|(""[^"]))+/),
+      choice(/""["]+/, /""["]+u8/, /""["]+U8/)
     )),
 
     // Comments

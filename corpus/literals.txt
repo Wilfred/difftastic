@@ -1179,3 +1179,68 @@ var x = $"""The point
                           (identifier)
                           (identifier)))))))
               (interpolated_raw_string_text))))))))
+
+================================================================================
+multiple raw string literals should not be combined
+================================================================================
+
+using System;
+
+public class RawStringLiterals {
+  public static void Main(string[] args) {
+    string tb1, tb2, tb3;
+    tb1 = """text block 1""";
+    tb2 = """
+    text block 2
+    """;
+    tb3 = """"
+    text block 3
+    """";
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (using_directive
+    (identifier))
+  (class_declaration
+    (modifier)
+    name: (identifier)
+    body: (declaration_list
+      (method_declaration
+        (modifier)
+        (modifier)
+        type: (predefined_type)
+        name: (identifier)
+        parameters: (parameter_list
+          (parameter
+            type: (array_type
+              type: (predefined_type)
+              rank: (array_rank_specifier))
+            name: (identifier)))
+        body: (block
+          (local_declaration_statement
+            (variable_declaration
+              type: (predefined_type)
+              (variable_declarator
+                (identifier))
+              (variable_declarator
+                (identifier))
+              (variable_declarator
+                (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              (assignment_operator)
+              right: (raw_string_literal)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              (assignment_operator)
+              right: (raw_string_literal)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              (assignment_operator)
+              right: (raw_string_literal))))))))
