@@ -3375,3 +3375,23 @@ var x = nameof(A.B);
                     (identifier)
                     (identifier)))))))))))
 
+================================================================================
+Dereference versus logical and
+================================================================================
+
+bool c = (a) && b;
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        type: (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              left: (parenthesized_expression
+                (identifier))
+              right: (identifier))))))))
