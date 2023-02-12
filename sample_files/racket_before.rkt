@@ -14,4 +14,3 @@
 #<<END
 abc
 END
-
