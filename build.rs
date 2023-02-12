@@ -281,6 +281,11 @@ fn main() {
             extra_files: vec!["scanner.cc"],
         },
         TreeSitterParser {
+            name: "tree-sitter-racket",
+            src_dir: "vendored_parsers/tree-sitter-racket-src",
+            extra_files: vec!["scanner.cc"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-ruby",
             src_dir: "vendored_parsers/tree-sitter-ruby-src",
             extra_files: vec!["scanner.cc"],
