@@ -6,3 +6,4 @@ Cargo.lock
 test.rkt
 compile_commands.json
 .cache/
+.vscode/
