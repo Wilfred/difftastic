@@ -151,7 +151,7 @@ module.exports = grammar({
           seq("\\u", /[0-9a-fA-F]{1,4}/),
           seq("\\u", /[0-9a-fA-F]{4,4}/),
           seq("\\U", /[0-9a-fA-F]{1,8}/),
-          seq("\\", LEAF.newline))),
+          seq("\\", /[\r\n]|(\r\n)/))),
 
     // string }}}
 

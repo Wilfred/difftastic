@@ -17,63 +17,76 @@ class optional_str {
    public:
     optional_str() : valid(true) {}
 
-    static optional_str empty() {
+    static optional_str none() {
         optional_str emp;
         emp.valid = false;
         return emp;
     }
 
-    bool has_value() const { return valid; }
-
-    bool operator==(const optional_str &rhs) const {
-        if (!this->valid) {
-            return !rhs.valid;
-        } else {
-            return rhs.valid && this->str == rhs.str;
-        }
-    }
-
-    u32string *operator->() { return &this->str; }
+    bool is_none() const { return !this->valid; }
+    const u32string &content() const { return this->str; }
+    u32string &content() { return this->str; }
 };
 
+// NOTE: only "\n" is allowed as newline here,
+// It implies that "\r" can also be terminator.
 inline bool isnewline(int32_t c) {
-    return c == '\n' || c == '\r' || c == 0x85 || c == 0x2028 || c == 0x2029;
+    return c == '\n';
 }
 
-inline optional_str readline(TSLexer *lexer) {
+inline optional_str read_terminator(TSLexer *lexer) {
     optional_str line;
 
-    while (!isnewline(lexer->lookahead)) {
-        if (lexer->eof(lexer)) {
-            return optional_str::empty();
+    while (true) {
+        if (isnewline(lexer->lookahead)) {
+            return line;
+        } else if (lexer->eof(lexer)) {
+            return optional_str::none();
+        } else {
+            line.content().push_back(lexer->lookahead);
+            lexer->advance(lexer, false);
         }
-        line->push_back(lexer->lookahead);
+    }
+}
+
+// `read_line` read strings until a newline or EOF
+inline u32string read_line(TSLexer *lexer) {
+    u32string line;
+
+    while (!isnewline(lexer->lookahead) && !lexer->eof(lexer)) {
+        line.push_back(lexer->lookahead);
         lexer->advance(lexer, false);
     }
-    lexer->advance(lexer, false);
     return line;
 }
 
+// Suppose terminator is `T`, newline (\n) is `$`,
+// It should accept "#<<T$T" or "#<<T$...$T", where `...`
+// is the string content.
 bool scan(TSLexer *lexer, const bool *valid_symbols) {
     if (!valid_symbols[HERE_STRING_BODY]) {
         return false;
     }
 
-    const optional_str terminator = readline(lexer);
+    const optional_str terminator = read_terminator(lexer);
 
-    if (!terminator.has_value()) {
+    if (terminator.is_none()) {
         return false;
     }
 
+    // skip `\n`
+    lexer->advance(lexer, false);
     while (true) {
-        const optional_str line = readline(lexer);
-        if (!line.has_value()) {
-            return false;
-        }
-        if (line == terminator) {
+        const u32string line = read_line(lexer);
+        if (line == terminator.content()) {
             lexer->result_symbol = HERE_STRING_BODY;
             return true;
         }
+        if (lexer->eof(lexer)) {
+            return false;
+        }
+        // skip `\n`
+        lexer->advance(lexer, false);
     }
 }
 
