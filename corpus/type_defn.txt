@@ -1,10 +1,10 @@
-===
+================================================================================
 Enum type definition
-===
+================================================================================
 
 type Test = Red = 1
 
----
+--------------------------------------------------------------------------------
 
 (file
   (type_definition
@@ -14,27 +14,73 @@ type Test = Red = 1
       (enum_type_cases
         (enum_type_case
           (identifier)
-          (int))))))
+          (const
+            (int)))))))
 
-===
+================================================================================
 Enum type definition - multi line
-===
+================================================================================
 
 type Test =
   | Red = "red"
   | Blue = "blue"
 
----
+--------------------------------------------------------------------------------
 
 (file
   (type_definition
     (enum_type_defn
       (type_name
-        (identifier
+        (identifier))
       (enum_type_cases
         (enum_type_case
           (identifier)
-          (string))
+          (const
+            (string)))
         (enum_type_case
           (identifier)
-          (string))))))
+          (const
+            (string)))))))
+
+================================================================================
+Recursive type definition
+================================================================================
+
+type Maybe<'T> = | Just B<'T> | Nothing
+and 'T maybe = Maybe<'T>
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (type_abbrev_defn
+      (type_name
+        (identifier)
+        (type_arguments
+          (type_argument_defn
+            (type_argument
+              (identifier)))))
+      (ERROR
+        (ERROR
+          (union_type_cases
+            (union_type_case
+              (identifier))
+            (ERROR
+              (UNEXPECTED 'B')
+              (UNEXPECTED 'T'))
+            (union_type_case
+              (identifier))))
+        (type
+          (type
+            (type_argument
+              (identifier)))
+          (long_identifier
+            (identifier))))
+      (type
+        (long_identifier
+          (identifier))
+        (type_attributes
+          (type_attribute
+            (type
+              (type_argument
+                (identifier)))))))))

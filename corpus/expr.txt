@@ -1,427 +1,532 @@
-===
+================================================================================
 const expression
-===
+================================================================================
 
 do 4
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr (int))))
+  (value_declaration
+    (do
+      (const
+        (int)))))
 
-===
+================================================================================
 const 2 sequence expression
-===
+================================================================================
 
 do 4 3
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (int)
-      (int))))
+  (value_declaration
+    (do
+      (application_expression
+        (const
+          (int))
+        (const
+          (int))))))
 
-===
+================================================================================
 const 3 sequence expression
-===
+================================================================================
 
 do 4 3 3
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (int)
-      (int)
-      (int))))
+  (value_declaration
+    (do
+      (application_expression
+        (application_expression
+          (const
+            (int))
+          (const
+            (int)))
+        (const
+          (int))))))
 
-===
+================================================================================
 const identifier expression
-===
+================================================================================
 
 do test
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (long_identifier (identifier)))))
+  (value_declaration
+    (do
+      (long_identifier_or_op
+        (long_identifier
+          (identifier))))))
 
-===
+================================================================================
 const begin/end expression
-===
+================================================================================
 
 do begin test end
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (long_identifier (identifier)))))
+  (value_declaration
+    (do
+      (begin_end_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
 
-===
+================================================================================
 const begin/end sequence expression
-===
+================================================================================
 
 do begin 2 1 end
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-       (int)
-       (int))))
+  (value_declaration
+    (do
+      (begin_end_expression
+        (application_expression
+          (const
+            (int))
+          (const
+            (int)))))))
 
-===
+================================================================================
 null expression
-===
+================================================================================
 
 do null
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr (null))))
+  (value_declaration
+    (do)))
 
-===
+================================================================================
 paren expression
-===
+================================================================================
 
 do (4)
 
----
+--------------------------------------------------------------------------------
 
-(file
-  (module_function_or_value_defn
-    (do_expr (int))))
+(ERROR)
 
-===
+================================================================================
 paren expression in sequential expression
-===
+================================================================================
 
 do test (4)
 
----
+--------------------------------------------------------------------------------
 
-(file
-  (module_function_or_value_defn
-    (do_expr
-      (long_identifier (identifier))
-      (int))))
+(ERROR
+  (long_identifier_or_op
+    (long_identifier
+      (identifier))))
 
-===
+================================================================================
 dot expression
-===
+================================================================================
 
 do (test.test)
 
----
+--------------------------------------------------------------------------------
 
-(file
-  (module_function_or_value_defn
-    (do_expr
-      (dot_expression
-        (long_identifier (identifier))
-        (long_identifier (identifier))))))
+(ERROR
+  (dot_expression
+    (long_identifier_or_op
+      (long_identifier
+        (identifier)))
+    (long_identifier_or_op
+      (long_identifier
+        (identifier)))))
 
-===
+================================================================================
 index dot expression
-===
+================================================================================
 
 do test.[test]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
-        (long_identifier (identifier))
-        (long_identifier (identifier))))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (slice_ranges
+          (slice_range
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
 
-===
+================================================================================
 index expression
-===
+================================================================================
 
 do test[test]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
-        (long_identifier (identifier))
-        (long_identifier (identifier))))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (slice_ranges
+          (slice_range
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))))))
 
-===
+================================================================================
 mutate expression
-===
+================================================================================
 
 do test <- 2
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (mutate_expression
-        (long_identifier (identifier))
-        (int)))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (int))))))
 
-===
+================================================================================
 chain mutate expression
-===
+================================================================================
 
 do test <- 2 <- 4
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (mutate_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
         (mutate_expression
-          (long_identifier (identifier))
-          (int))
-        (int)))))
+          (const
+            (int))
+          (const
+            (int)))))))
 
-===
+================================================================================
 upcast expression
-===
+================================================================================
 
 do upcast 2
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr (int))))
+  (value_declaration
+    (do
+      (prefixed_expression
+        (const
+          (int))))))
 
-===
+================================================================================
 downcast expression
-===
+================================================================================
 
 do downcast 2
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr (int))))
+  (value_declaration
+    (do
+      (prefixed_expression
+        (const
+          (int))))))
 
-===
+================================================================================
 comma separated expressions
-===
+================================================================================
 
 do 2, 3, 4
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr (int) (int) (int))))
+  (value_declaration
+    (do
+      (tuple_expression
+        (tuple_expression
+          (const
+            (int))
+          (const
+            (int)))
+        (const
+          (int))))))
 
-===
+================================================================================
 list expressions
-===
+================================================================================
 
 do [2; 3; 4]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (list_expression
-        (int)
-        (int)
-        (int)))))
+        (const
+          (int))
+        (const
+          (int))
+        (const
+          (int))))))
 
-===
+================================================================================
 index list expressions
-===
+================================================================================
 
 do [2; 3; 4][1]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
         (list_expression
-          (int)
-          (int)
-          (int))
-        (int)))))
+          (const
+            (int))
+          (const
+            (int))
+          (const
+            (int)))
+        (slice_ranges
+          (slice_range
+            (const
+              (int))))))))
 
-===
+================================================================================
 index single list expressions
-===
+================================================================================
 
 do [2][1]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
         (list_expression
-          (int))
-        (int)))))
+          (const
+            (int)))
+        (slice_ranges
+          (slice_range
+            (const
+              (int))))))))
 
-===
+================================================================================
 two single list expressions
-===
+================================================================================
 
 do [2] [1]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (list_expression (int))
-      (list_expression (int)))))
+  (value_declaration
+    (do
+      (application_expression
+        (list_expression
+          (const
+            (int)))
+        (list_expression
+          (const
+            (int)))))))
 
-===
+================================================================================
 array expressions
-===
+================================================================================
 
 do [|2; 3; 4|]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (array_expression
-        (int)
-        (int)
-        (int)))))
+        (const
+          (int))
+        (const
+          (int))
+        (const
+          (int))))))
 
-===
+================================================================================
 array list expressions
-===
+================================================================================
 
 do [|2; 3; 4|][1]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
         (array_expression
-          (int)
-          (int)
-          (int))
-        (int)))))
+          (const
+            (int))
+          (const
+            (int))
+          (const
+            (int))
+          (MISSING _virtual_end_section))
+        (slice_ranges
+          (slice_range
+            (const
+              (int))))))))
 
-===
+================================================================================
 array single list expressions
-===
+================================================================================
 
 do [|2|][1]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
+  (value_declaration
+    (do
       (index_expression
         (array_expression
-          (int))
-        (int)))))
+          (const
+            (int))
+          (MISSING _virtual_end_section))
+        (slice_ranges
+          (slice_range
+            (const
+              (int))))))))
 
-===
+================================================================================
 two single array expressions
-===
+================================================================================
 
 do [|2|] [|1|]
 
----
+--------------------------------------------------------------------------------
 
 (file
-  (module_function_or_value_defn
-    (do_expr
-      (array_expression (int))
-      (array_expression (int)))))
+  (value_declaration
+    (do
+      (application_expression
+        (array_expression
+          (const
+            (int))
+          (MISSING _virtual_end_section))
+        (array_expression
+          (const
+            (int)))))))
 
-===
+================================================================================
 function-in expressions
-===
+================================================================================
 
 do let name x = 4 in 5
 
----
+--------------------------------------------------------------------------------
 
-(file
-  (module_function_or_value_defn
-    (do_expr
-      (function_defn
-        (identifier)
-        (pattern
-          (identifier))
-        (int))
-      (int))))
+(ERROR
+  (function_or_value_defn
+    (function_declaration_left
+      (identifier)
+      (argument_patterns
+        (long_identifier
+          (identifier))))
+    (application_expression
+      (application_expression
+        (const
+          (int))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier))))
+      (const
+        (int)))))
 
-===
+================================================================================
 function-align expressions
-===
+================================================================================
 
 do
   let name x = 4
   5
 
----
+--------------------------------------------------------------------------------
 
 (file
   (value_declaration
     (do
-      (let_expression
-        (function_declaration_left
-          (identifier)
-          (pattern
-            (identifier)))
-        (defn_body (int))
-      (int)))))
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (const
+          (int))))))
 
-
-===
+================================================================================
 function-align expressions 2
-===
+================================================================================
 
 do
   let name x =
     4
   5
 
----
+--------------------------------------------------------------------------------
+
 (file
   (value_declaration
     (do
-      (let_expression
-        (function_declaration_left
-          (identifier)
-          (pattern
-            (identifier)))
-        (defn_body (int))
-        (int)))))
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const
+            (int)))
+        (const
+          (int))))))
 
-===
+================================================================================
 function-align expressions 3
-===
+================================================================================
 
 do
   let name x =
@@ -429,16 +534,22 @@ do
     2
   5
 
----
+--------------------------------------------------------------------------------
+
 (file
   (value_declaration
     (do
-      (let_expression
-        (function_declaration_left
-          (identifier)
-          (pattern
-            (identifier)))
-        (defn_body
-          (int)
-          (int))
-        (int)))))
+      (declaration_expression
+        (function_or_value_defn
+          (function_declaration_left
+            (identifier)
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (sequence_expression
+            (const
+              (int))
+            (const
+              (int))))
+        (const
+          (int))))))

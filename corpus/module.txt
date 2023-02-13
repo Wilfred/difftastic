@@ -1,80 +1,103 @@
-===
+================================================================================
 basic module with indent
-===
+================================================================================
 
 module test =
  let x = 4
 
----
+--------------------------------------------------------------------------------
 
 (file
   (module_defn
     (identifier)
     (value_declaration
-      (value_declaration_left
-        (pattern (identifier)))
-      (defn_body (int)))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
 
-===
+================================================================================
 basic module with large indent
-===
+================================================================================
 
 module test =
                       let x = 4
 
----
+--------------------------------------------------------------------------------
 
 (file
   (module_defn
     (identifier)
     (value_declaration
-      (value_declaration_left
-        (pattern (identifier)))
-      (defn_body (int)))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
 
-===
+================================================================================
 basic module with multiple elements
-===
+================================================================================
 
 module test =
  let x = 4
  let y = 5
 
----
+--------------------------------------------------------------------------------
 
 (file
   (module_defn
     (identifier)
     (value_declaration
-      (value_declaration_left
-        (pattern (identifier)))
-      (defn_body (int)))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))
     (value_declaration
-      (value_declaration_left
-        (pattern (identifier)))
-      (defn_body (int)))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        (const
+          (int))))))
 
-===
+================================================================================
 top-level module with multiple elements
-===
+================================================================================
 
 module Test
 
 let x = 4
 let y = 5
 
----
+--------------------------------------------------------------------------------
+
 (file
   (named_module
     name: (long_identifier
       (identifier))
     (value_declaration
-      (value_declaration_left
-        (pattern
-          (identifier)))
-        (defn_body (int)))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        body: (const
+          (int))))
     (value_declaration
-      (value_declaration_left
-        (pattern
-          (identifier)))
-        (defn_body (int)))))
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier
+              (identifier))))
+        body: (const
+          (int))))))
