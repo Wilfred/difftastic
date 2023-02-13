@@ -14,17 +14,29 @@ The parser consists of two parts:
 The grammar starts with the `file` node at the begging of the rules.
 
 ### Adding to neovim
+#### From the local copy:
 ```lua
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.fsharp = {
   install_info = {
     url = "path/to/tree-sitter-fsharp",
-    files = {"src/scannar.cc", "src/parser.c" }
+    files = {"src/scanner.cc", "src/parser.c" }
   },
   filetype = "fsharp",
 }
 ```
-
+#### From GitHub repository:
+```lua
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.fsharp = {
+  install_info = {
+    url = "https://github.com/Nsidorenco/tree-sitter-fsharp",
+    branch = "develop"
+    files = {"src/scanner.cc", "src/parser.c" }
+  },
+  filetype = "fsharp",
+}
+```
 ## Status
 The grammar currently has support for most language features, but might have rough edges.
 Some parts, like the type annotations are still very bare-bones.
