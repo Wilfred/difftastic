@@ -89,6 +89,7 @@ module.exports = grammar({
     named_module: $ =>
       seq(
         "module",
+        optional($.access_modifier),
         field("name", $.long_identifier),
         repeat($._module_elem)
       ),
