@@ -71,3 +71,88 @@ $'../../Node'
     (get_node))
   (expression_statement
     (get_node)))
+
+============================================
+Fails to parse basic blocks
+============================================
+
+extends Node
+
+func _ready():
+	var x := 2
+	for i in range(x):
+		prints(i)
+
+	while x > 0:
+		print(x)
+
+	if x > 0:
+		print("if test")
+	elif x < 0:
+		print("if test")
+	else:
+		print("if test")
+
+---
+
+(source
+  (extends_statement
+    (dotted_type
+      (type)))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (variable_statement
+        (name)
+        (inferred_type)
+        (integer))
+      (for_statement
+        (identifier)
+        (call
+          (identifier)
+          (arguments
+            (identifier)))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier))))))
+      (while_statement
+        (comparison_operator
+          (identifier)
+          (integer))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier))))))
+      (if_statement
+        (comparison_operator
+          (identifier)
+          (integer))
+        (body
+          (expression_statement
+            (call
+              (identifier)
+              (arguments
+                (string)))))
+        (elif_clause
+          (comparison_operator
+            (identifier)
+            (integer))
+          (body
+            (expression_statement
+              (call
+                (identifier)
+                (arguments
+                  (string))))))
+        (else_clause
+          (body
+            (expression_statement
+              (call
+                (identifier)
+                (arguments
+                  (string))))))))))
