@@ -1698,9 +1698,11 @@ module.exports = grammar({
 
     character_literal: $ => seq(
       "'",
-      choice(token.immediate(/[^'\\]/), $.escape_sequence),
+      choice($.character_literal_unescaped, $.escape_sequence),
       "'"
     ),
+
+    character_literal_unescaped: $ => token.immediate(/[^'\\]/),
 
     escape_sequence: $ => token(choice(
       /\\x[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?/,

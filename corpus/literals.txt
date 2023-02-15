@@ -130,7 +130,8 @@ const char uni32 = '\UA0BFf9ca';
         (variable_declarator
           (identifier)
           (equals_value_clause
-            (character_literal))))))
+            (character_literal
+              (character_literal_unescaped)))))))
   (global_statement
     (local_declaration_statement
       (modifier)

@@ -2836,12 +2836,15 @@ var x = c is < '0' or >= 'A' and <= 'Z';
               (identifier)
               (or_pattern
                 (relational_pattern
-                  (character_literal))
+                  (character_literal
+                    (character_literal_unescaped)))
                 (and_pattern
                   (relational_pattern
-                    (character_literal))
+                    (character_literal
+                      (character_literal_unescaped)))
                   (relational_pattern
-                    (character_literal)))))))))))
+                    (character_literal
+                      (character_literal_unescaped))))))))))))
 
 ================================================================================
 Precedence of prefix_unary_expression and invocation_expression

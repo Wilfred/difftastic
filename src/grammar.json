@@ -9471,11 +9471,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^'\\\\]"
-              }
+              "type": "SYMBOL",
+              "name": "character_literal_unescaped"
             },
             {
               "type": "SYMBOL",
@@ -9488,6 +9485,13 @@
           "value": "'"
         }
       ]
+    },
+    "character_literal_unescaped": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^'\\\\]"
+      }
     },
     "escape_sequence": {
       "type": "TOKEN",
