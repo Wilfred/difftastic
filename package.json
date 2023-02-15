@@ -25,7 +25,7 @@
     "tree-sitter": [
         {
             "scope": "source.newick",
-            "file-types": ["nhx", "nwk"]
+            "file-types": ["nh", "nhx", "nwk"]
         }
     ]
 }
