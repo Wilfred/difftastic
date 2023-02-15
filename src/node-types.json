@@ -3,6 +3,16 @@
     "type": "attributes",
     "named": true,
     "fields": {
+      "data": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "data",
+            "named": true
+          }
+        ]
+      },
       "length": {
         "multiple": false,
         "required": false,
@@ -13,16 +23,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "nhx_entry",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -66,6 +66,22 @@
     }
   },
   {
+    "type": "data",
+    "named": true,
+    "fields": {
+      "entry": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "nhx_entry",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "leaf",
     "named": true,
     "fields": {
@@ -81,7 +97,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "name",

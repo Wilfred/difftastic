@@ -6,7 +6,7 @@ module.exports = grammar({
         tree: $ => seq($._node, ";"),
         _node: $ => choice(field("leaf", $.leaf), field("clade", $.clade)),
         leaf: $ => choice(
-            // field("attributes", $.attributes),
+            field("attributes", $.attributes),
             seq(field("name", $.name), optional(field("attributes", $.attributes))),
         ),
         clade: $ => seq(
@@ -17,14 +17,14 @@ module.exports = grammar({
         ),
         attributes: $ => choice(
             seq(":", field("length", $.length)),
-            seq(optional(seq(":", field("length", $.length))), $._nhx)
+            seq(optional(seq(":", field("length", $.length))), field("data", $.data))
         ),
-        _nhx: $ => seq("[&&NHX", repeat1($.nhx_entry), "]"),
+        data: $ => seq("[&&NHX", repeat1(field("entry", $.nhx_entry)), "]"),
         nhx_entry: $ => seq(":", field("key", $.nhx_val), "=", optional(field("value", $.nhx_val))),
         length: $ => $.float,
 
-        _nhx_safe: $ => /[^:,;()\[\]=\s]+/,
-        nhx_val: $ => repeat1($._nhx_safe),
+        _data_safe: $ => /[^:,;()\[\]=\s]+/,
+        nhx_val: $ => repeat1($._data_safe),
         float: $ => /\d(_?\d)*(\.\d)?(_?\d)*([eE][\+-]?\d(_?\d)*)?/,
         name: $ => /[^:,;()\[\]\s]+/,
     }
