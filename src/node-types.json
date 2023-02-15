@@ -5940,6 +5940,14 @@
         {
           "type": "escape_sequence",
           "named": true
+        },
+        {
+          "type": "string_literal_encoding",
+          "named": true
+        },
+        {
+          "type": "string_literal_fragment",
+          "named": true
         }
       ]
     }
@@ -6836,14 +6844,6 @@
     "named": false
   },
   {
-    "type": "\"U8",
-    "named": false
-  },
-  {
-    "type": "\"u8",
-    "named": false
-  },
-  {
     "type": "$\"",
     "named": false
   },
@@ -7518,6 +7518,14 @@
   {
     "type": "static",
     "named": false
+  },
+  {
+    "type": "string_literal_encoding",
+    "named": true
+  },
+  {
+    "type": "string_literal_fragment",
+    "named": true
   },
   {
     "type": "struct",

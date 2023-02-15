@@ -317,14 +317,8 @@ class A {
           (variable_declarator
             (identifier)
             (equals_value_clause
-              (string_literal)))))
-      (field_declaration
-        (variable_declaration
-          (predefined_type)
-          (variable_declarator
-            (identifier)
-            (equals_value_clause
-              (string_literal)))))
+              (string_literal
+                (string_literal_fragment))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
@@ -332,6 +326,15 @@ class A {
             (identifier)
             (equals_value_clause
               (string_literal
+                (string_literal_fragment))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (string_literal
+                (string_literal_fragment)
                 (escape_sequence)
                 (escape_sequence))))))
       (field_declaration
@@ -341,6 +344,18 @@ class A {
             (identifier)
             (equals_value_clause
               (string_literal
+                (string_literal_fragment)
+                (escape_sequence)
+                (string_literal_fragment))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (string_literal
+                (escape_sequence)
+                (string_literal_fragment)
                 (escape_sequence))))))
       (field_declaration
         (variable_declaration
@@ -350,7 +365,7 @@ class A {
             (equals_value_clause
               (string_literal
                 (escape_sequence)
-                (escape_sequence))))))
+                (string_literal_fragment))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
@@ -358,15 +373,8 @@ class A {
             (identifier)
             (equals_value_clause
               (string_literal
-                (escape_sequence))))))
-      (field_declaration
-        (variable_declaration
-          (predefined_type)
-          (variable_declarator
-            (identifier)
-            (equals_value_clause
-              (string_literal
-                (escape_sequence))))))
+                (escape_sequence)
+                (string_literal_fragment))))))
       (field_declaration
         (variable_declaration
           (predefined_type)
@@ -431,7 +439,9 @@ class A {
             (identifier)
             (equals_value_clause
               (string_literal
-                (escape_sequence)))))))))
+                (string_literal_fragment)
+                (escape_sequence)
+                (string_literal_fragment)))))))))
 
 ================================================================================
 utf-8 string literals
@@ -451,7 +461,9 @@ var d = @"upper"U8;
         (variable_declarator
           (identifier)
           (equals_value_clause
-            (string_literal))))))
+            (string_literal
+              (string_literal_fragment)
+              (string_literal_encoding)))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -459,7 +471,9 @@ var d = @"upper"U8;
         (variable_declarator
           (identifier)
           (equals_value_clause
-            (string_literal))))))
+            (string_literal
+              (string_literal_fragment)
+              (string_literal_encoding)))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -522,7 +536,9 @@ string s = "\u0065/* \u0065 */\u0065";
           (equals_value_clause
             (string_literal
               (escape_sequence)
+              (string_literal_fragment)
               (escape_sequence)
+              (string_literal_fragment)
               (escape_sequence))))))))
 
 ================================================================================

@@ -477,4 +477,5 @@ var greeting = [Hello] () => Console.WriteLine("hello");
                   (identifier))
                 (argument_list
                   (argument
-                    (string_literal)))))))))))
+                    (string_literal
+                      (string_literal_fragment))))))))))))

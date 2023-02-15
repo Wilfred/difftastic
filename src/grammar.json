@@ -9692,7 +9692,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_string_literal_fragment"
+                "name": "string_literal_fragment"
               },
               {
                 "type": "SYMBOL",
@@ -9702,25 +9702,24 @@
           }
         },
         {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "\""
+              "type": "SYMBOL",
+              "name": "string_literal_encoding"
             },
             {
-              "type": "STRING",
-              "value": "\"U8"
-            },
-            {
-              "type": "STRING",
-              "value": "\"u8"
+              "type": "BLANK"
             }
           ]
         }
       ]
     },
-    "_string_literal_fragment": {
+    "string_literal_fragment": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PREC",
@@ -9729,6 +9728,13 @@
           "type": "PATTERN",
           "value": "[^\"\\\\\\n]+"
         }
+      }
+    },
+    "string_literal_encoding": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "(u|U)8"
       }
     },
     "verbatim_string_literal": {
@@ -9757,19 +9763,18 @@
             }
           },
           {
+            "type": "STRING",
+            "value": "\""
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "\""
+                "type": "PATTERN",
+                "value": "(u|U)8"
               },
               {
-                "type": "STRING",
-                "value": "\"U8"
-              },
-              {
-                "type": "STRING",
-                "value": "\"u8"
+                "type": "BLANK"
               }
             ]
           }
@@ -9798,19 +9803,18 @@
             ]
           },
           {
+            "type": "PATTERN",
+            "value": "\"\"[\"]+"
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\"\"[\"]+"
+                "value": "(u|U)8"
               },
               {
-                "type": "PATTERN",
-                "value": "\"\"[\"]+u8"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\"\"[\"]+U8"
+                "type": "BLANK"
               }
             ]
           }

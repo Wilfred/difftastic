@@ -1304,7 +1304,8 @@ class A {
                       (identifier))
                     (argument_list
                       (argument
-                        (string_literal))))))
+                        (string_literal
+                          (string_literal_fragment)))))))
               (variable_declarator
                 (identifier)
                 (equals_value_clause

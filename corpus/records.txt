@@ -364,7 +364,8 @@ void A() {
                   (with_initializer_expression
                     (simple_assignment_expression
                       (identifier)
-                      (string_literal))))))))))))
+                      (string_literal
+                        (string_literal_fragment)))))))))))))
 
 ================================================================================
 With expression using expressions

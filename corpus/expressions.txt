@@ -463,8 +463,10 @@ class Foo {
                 (equals_value_clause
                   (conditional_expression
                     condition: (identifier)
-                    consequence: (string_literal)
-                    alternative: (string_literal)))))))))))
+                    consequence: (string_literal
+                      (string_literal_fragment))
+                    alternative: (string_literal
+                      (string_literal_fragment))))))))))))
 
 ================================================================================
 Binary Expressions
@@ -805,7 +807,8 @@ void b() {
                 (implicit_object_creation_expression
                   (argument_list
                     (argument
-                      (string_literal))))))))))))
+                      (string_literal
+                        (string_literal_fragment)))))))))))))
 
 ================================================================================
 Anonymous object creation with single unnamed
@@ -863,7 +866,8 @@ void b() {
                 (anonymous_object_creation_expression
                   (name_equals
                     (identifier))
-                  (string_literal))))))))))
+                  (string_literal
+                    (string_literal_fragment)))))))))))
 
 ================================================================================
 Checked expressions
@@ -927,7 +931,8 @@ void b() {
               (argument
                 (integer_literal))
               (argument
-                (string_literal)))))
+                (string_literal
+                  (string_literal_fragment))))))
         (expression_statement
           (assignment_expression
             (identifier)
@@ -992,7 +997,8 @@ void b() {
                     (argument
                       (name_colon
                         (identifier))
-                      (string_literal))))))))))))
+                      (string_literal
+                        (string_literal_fragment)))))))))))))
 
 ================================================================================
 Named parameters in method calls
@@ -1027,7 +1033,8 @@ void b() {
                 (argument
                   (name_colon
                     (identifier))
-                  (string_literal))))))))))
+                  (string_literal
+                    (string_literal_fragment)))))))))))
 
 ================================================================================
 Named parameters using contextually reserved words
@@ -1060,7 +1067,8 @@ void b() {
                 (argument
                   (name_colon
                     (identifier))
-                  (string_literal))))))))))
+                  (string_literal
+                    (string_literal_fragment)))))))))))
 
 ================================================================================
 Anonymous method expressions
@@ -1521,7 +1529,8 @@ void a() {
               (argument
                 (name_colon
                   (identifier))
-                (string_literal)))))))))
+                (string_literal
+                  (string_literal_fragment))))))))))
 
 ================================================================================
 Implicit array creation
@@ -1985,14 +1994,17 @@ void b() {
                   (switch_expression_arm
                     (constant_pattern
                       (integer_literal))
-                    (string_literal))
+                    (string_literal
+                      (string_literal_fragment)))
                   (switch_expression_arm
                     (constant_pattern
                       (integer_literal))
-                    (string_literal))
+                    (string_literal
+                      (string_literal_fragment)))
                   (switch_expression_arm
                     (discard)
-                    (string_literal)))))))))))
+                    (string_literal
+                      (string_literal_fragment))))))))))))
 
 ================================================================================
 switch expression with trailing comma
@@ -2026,14 +2038,17 @@ void b() {
                   (switch_expression_arm
                     (constant_pattern
                       (integer_literal))
-                    (string_literal))
+                    (string_literal
+                      (string_literal_fragment)))
                   (switch_expression_arm
                     (constant_pattern
                       (integer_literal))
-                    (string_literal))
+                    (string_literal
+                      (string_literal_fragment)))
                   (switch_expression_arm
                     (discard)
-                    (string_literal)))))))))))
+                    (string_literal
+                      (string_literal_fragment))))))))))))
 
 ================================================================================
 switch expression return
@@ -2062,10 +2077,12 @@ string b(Object operation) =>
           (switch_expression_arm
             (constant_pattern
               (integer_literal))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (discard)
-            (string_literal)))))))
+            (string_literal
+              (string_literal_fragment))))))))
 
 ================================================================================
 switch expression with patterns
@@ -2099,27 +2116,33 @@ string b(Object operation) =>
             (declaration_pattern
               (identifier)
               (identifier))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (constant_pattern
               (identifier))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (recursive_pattern
               (property_pattern_clause))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (var_pattern
               (identifier))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (constant_pattern
               (null_literal))
-            (string_literal))
+            (string_literal
+              (string_literal_fragment)))
           (switch_expression_arm
             (type_pattern
               (predefined_type))
-            (string_literal)))))))
+            (string_literal
+              (string_literal_fragment))))))))
 
 ================================================================================
 await Expression
@@ -2450,7 +2473,8 @@ var x = new Dictionary<string,int> { ["a"] = 65 };
                   (element_binding_expression
                     (bracketed_argument_list
                       (argument
-                        (string_literal))))
+                        (string_literal
+                          (string_literal_fragment)))))
                   (assignment_operator)
                   (integer_literal))))))))))
 
@@ -2588,7 +2612,8 @@ var e = a is (int)b;
             (is_pattern_expression
               (identifier)
               (constant_pattern
-                (string_literal))))))))
+                (string_literal
+                  (string_literal_fragment)))))))))
   (global_statement
     (local_declaration_statement
       (variable_declaration
@@ -3097,7 +3122,8 @@ var x = dict?["a"];
               (element_binding_expression
                 (bracketed_argument_list
                   (argument
-                    (string_literal)))))))))))
+                    (string_literal
+                      (string_literal_fragment))))))))))))
 
 ================================================================================
 Conditional access expression with member binding

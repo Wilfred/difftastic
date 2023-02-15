@@ -26,6 +26,8 @@ const PREC = {
 
 const decimalDigitSequence = /([0-9][0-9_]*[0-9]|[0-9])/;
 
+const stringEncoding = /(u|U)8/;
+
 module.exports = grammar({
   name: 'c_sharp',
 
@@ -1750,13 +1752,16 @@ module.exports = grammar({
     string_literal: $ => seq(
       '"',
       repeat(choice(
-        $._string_literal_fragment,
+        $.string_literal_fragment,
         $.escape_sequence
       )),
-      choice('"', '"U8', '"u8')
+      '"',
+      optional($.string_literal_encoding)
     ),
 
-    _string_literal_fragment: $ => token.immediate(prec(1, /[^"\\\n]+/)),
+    string_literal_fragment: $ => token.immediate(prec(1, /[^"\\\n]+/)),
+
+    string_literal_encoding: $ => token.immediate(stringEncoding),
 
     verbatim_string_literal: $ => token(seq(
       '@"',
@@ -1764,13 +1769,15 @@ module.exports = grammar({
         /[^"]/,
         '""',
       )),
-      choice('"', '"U8', '"u8')
+      '"',
+      optional(stringEncoding)
     )),
 
     raw_string_literal: $ => token(seq(
       /""["]+/,
       optional(/([^"]|("[^"])|(""[^"]))+/),
-      choice(/""["]+/, /""["]+u8/, /""["]+U8/)
+      /""["]+/,
+      optional(stringEncoding)
     )),
 
     // Comments

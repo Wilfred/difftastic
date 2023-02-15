@@ -182,7 +182,8 @@ var x = from a in source
                   (member_access_expression
                     (identifier)
                     (identifier))
-                  (string_literal)))
+                  (string_literal
+                    (string_literal_fragment))))
               (select_clause
                 (identifier)))))))))
 
@@ -214,12 +215,14 @@ var x = from a in source
                     (member_access_expression
                       (identifier)
                       (identifier))
-                    (string_literal))
+                    (string_literal
+                      (string_literal_fragment)))
                   (binary_expression
                     (member_access_expression
                       (identifier)
                       (identifier))
-                    (string_literal))))
+                    (string_literal
+                      (string_literal_fragment)))))
               (select_clause
                 (anonymous_object_creation_expression
                   (name_equals
