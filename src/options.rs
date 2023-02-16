@@ -249,6 +249,10 @@ fn app() -> clap::Command<'static> {
                 .hide(true)
                 .allow_invalid_utf8(true),
         )
+        .arg(
+            Arg::new("strip-trailing-cr").long("strip-trailing-cr")
+                .help("Strip carriage return on input (CRLF -> LF).")
+        )
         .arg_required_else_help(true)
 }
 
