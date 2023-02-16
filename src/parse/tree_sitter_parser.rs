@@ -91,6 +91,7 @@ extern "C" {
     fn tree_sitter_kotlin() -> ts::Language;
     fn tree_sitter_lua() -> ts::Language;
     fn tree_sitter_make() -> ts::Language;
+    fn tree_sitter_newick() -> ts::Language;
     fn tree_sitter_nix() -> ts::Language;
     fn tree_sitter_ocaml() -> ts::Language;
     fn tree_sitter_ocaml_interface() -> ts::Language;
@@ -617,6 +618,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                         .unwrap(),
                     parse_as: Bash,
                 }],
+            }
+        }
+        Newick => {
+            let language = unsafe { tree_sitter_newick() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec![].into_iter().collect(),
+                delimiter_tokens: vec![("(", ")")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/newick.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
             }
         }
         Nix => {
