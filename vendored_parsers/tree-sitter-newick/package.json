@@ -1,0 +1,31 @@
+{
+    "name": "tree-sitter-newick",
+    "version": "1.0.0",
+    "description": "A tree-sitter grammar for newick (extended) files",
+    "main": "grammar.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/delehef/tree-sitter-newick.git"
+    },
+    "author": "Franklin Delehelle",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/delehef/tree-sitter-newick/issues"
+    },
+    "homepage": "https://github.com/delehef/tree-sitter-newick#readme",
+    "dependencies": {
+        "nan": "^2.17.0"
+    },
+    "devDependencies": {
+        "tree-sitter-cli": "^0.20.7"
+    },
+    "tree-sitter": [
+        {
+            "scope": "source.newick",
+            "file-types": ["nh", "nhx", "nwk"]
+        }
+    ]
+}
