@@ -38,6 +38,13 @@ module.exports = grammar({
   ],
 
   inline: ($) => [$._simple_statement, $._compound_statement],
+  supertypes: ($) => [
+    $._compound_statement,
+    $._pattern,
+    $._expression,
+    $._primary_expression,
+    $._attribute_expression,
+  ],
 
   rules: {
     source: ($) => repeat($._statement),
