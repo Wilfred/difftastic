@@ -17,8 +17,6 @@ enum TokenType {
   STRING_START,
   STRING_CONTENT,
   STRING_END,
-  BODY_END,
-  BODY_END_DEDENT,
 };
 
 struct Delimiter {
@@ -138,29 +136,6 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-
-    if (valid_symbols[BODY_END] || valid_symbols[BODY_END_DEDENT]) {
-
-      while (lexer->lookahead == '\t' || lexer->lookahead == ' ') {
-        lexer->advance(lexer, true);
-      }
-      switch (lexer->lookahead) {
-        case ',':
-        case ')':
-        case ']':
-        case '}':
-          if (valid_symbols[BODY_END]) {
-            lexer->result_symbol = BODY_END;
-          } else {
-            lexer->result_symbol = BODY_END_DEDENT;
-            indent_length_stack.pop_back();
-          }
-          return true;
-        default:
-          break;
-      }
-    }
-
     if (valid_symbols[STRING_CONTENT] && !valid_symbols[INDENT] && !delimiter_stack.empty()) {
       Delimiter delimiter = delimiter_stack.back();
       int32_t end_character = delimiter.end_character();
