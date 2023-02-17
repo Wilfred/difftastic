@@ -144,7 +144,7 @@ module.exports = grammar({
 
     _simple_statement: ($) =>
       choice(
-        alias($.annotations, ""), // See $.annotations.
+        $._annotations,
         $.tool_statement,
         $.signal_statement,
         $.class_name_statement,
@@ -171,7 +171,8 @@ module.exports = grammar({
 
     // The syntax tree looks better when annotations are grouped in a container
     // node in contexts like variable_statement and function_definition.
-    annotations: ($) => repeat1($.annotation),
+    _annotations: ($) => repeat1($.annotation),
+    annotations: ($) => $._annotations,
 
     // -- Variables
 
