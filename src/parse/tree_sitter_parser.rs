@@ -773,7 +773,11 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     .into_iter()
                     .collect(),
                 delimiter_tokens: vec![("{", "}"), ("(", ")"), ("[", "]")],
-                highlight_query: ts::Query::new(language, "").unwrap(),
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/racket.scm"),
+                )
+                .unwrap(),
                 sub_languages: vec![],
             }
         }
