@@ -262,6 +262,7 @@
 (type (identifier) @_type (#match? @_type "^(size_t|ptrdiff_t|noreturn)$")) @identifier.type
 ; conventional naming
 (type (identifier) @_type (#match? @_type "^[A-Z]")) @identifier.type.class
+(enum_declaration (enum) . (identifier) @identifier.type.enum)
 (identifier) @identifier ; catch all
 (declarator . (identifier) @identifier.variable)
 (declarator "=" (void) @value.null)
