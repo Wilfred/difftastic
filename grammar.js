@@ -430,7 +430,7 @@ module.exports = grammar({
       ),
 
     pattern_pair: ($) =>
-      seq(field("left", $.string), ":", field("right", $._pattern)),
+      seq(field("left", $._expression), ":", field("right", $._pattern)),
 
     // -----------------------------------------------------------------------------
     // -                                  Expressions                              -
