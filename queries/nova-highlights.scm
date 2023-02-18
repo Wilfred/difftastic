@@ -265,6 +265,8 @@
 (type (identifier) @_type (#match? @_type "^[A-Z]")) @identifier.type.class
 (type (identifier) @_type (#not-match? @_type "^[A-Z]")) @identifier.type
 (enum_declaration (enum) . (identifier) @identifier.type.enum)
+(auto_declaration (storage_class (auto)) . (identifier) @identifier.variable)
+
 (identifier) @identifier ; catch all
 (declarator . (identifier) @identifier.variable)
 (declarator "=" (void) @value.null)
