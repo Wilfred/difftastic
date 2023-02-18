@@ -653,16 +653,14 @@ module.exports = grammar({
       ),
 
     _parameters: ($) =>
-      trailCommaSep1(
-        choice(
-          $.identifier,
-          $.typed_parameter,
-          $.default_parameter,
-          $.typed_default_parameter
-        )
+      choice(
+        $.identifier,
+        $.typed_parameter,
+        $.default_parameter,
+        $.typed_default_parameter
       ),
 
-    parameters: ($) => seq("(", optional($._parameters), ")"),
+    parameters: ($) => seq("(", optional(trailCommaSep1($._parameters)), ")"),
 
     function_definition: ($) =>
       seq(
