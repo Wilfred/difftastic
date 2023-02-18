@@ -430,7 +430,7 @@ module.exports = grammar({
       ),
 
     pattern_pair: ($) =>
-      seq(field("left", $._expression), ":", field("right", $._pattern)),
+      seq(field("key", $._expression), ":", field("value", $._pattern)),
 
     // -----------------------------------------------------------------------------
     // -                                  Expressions                              -
@@ -622,10 +622,10 @@ module.exports = grammar({
     pair: ($) =>
       seq(
         choice(
-          seq(field("left", $._expression), ":"),
-          seq(field("left", $.identifier), "=")
+          seq(field("key", $._expression), ":"),
+          seq(field("key", $.identifier), "=")
         ),
-        field("right", $._expression)
+        field("value", $._expression)
       ),
 
     dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), "}"),
