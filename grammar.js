@@ -664,8 +664,6 @@ module.exports = grammar({
 
     parameters: ($) => seq("(", optional($._parameters), ")"),
 
-    return_type: ($) => seq("->", $.type),
-
     function_definition: ($) =>
       seq(
         optional(choice($.static_keyword, $.remote_keyword)),
@@ -673,7 +671,7 @@ module.exports = grammar({
         "func",
         field("name", $.name),
         field("parameters", $.parameters),
-        optional(field("return_type", $.return_type)),
+        optional(seq("->", field("return_type", $.type))),
         ":",
         field("body", $.body)
       ),
@@ -684,7 +682,7 @@ module.exports = grammar({
         "_init",
         field("parameters", $.parameters),
         optional(seq(".", field("constructor_arguments", $.arguments))),
-        optional(field("return_type", $.return_type)),
+        optional(seq("->", field("return_type", $.type))),
         ":",
         field("body", $.body)
       ),
