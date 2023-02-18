@@ -263,5 +263,6 @@
 ; conventional naming
 (type (identifier) @_type (#match? @_type "^[A-Z]")) @identifier.type.class
 (identifier) @identifier ; catch all
+(declarator "=" (void) @value.null)
 
 ((enum_member  . (identifier) @identifier.property) (#set! role enum-member))
