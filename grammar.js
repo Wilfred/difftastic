@@ -277,12 +277,11 @@ module.exports = grammar({
 
     signal_statement: ($) => seq("signal", $.name, optional($.parameters)),
 
-    class_name_icon_path: ($) => $.string,
     class_name_statement: ($) =>
       seq(
         "class_name",
         $.name,
-        optional(seq(",", field("icon_path", $.class_name_icon_path)))
+        optional(seq(",", field("icon_path", $.string)))
       ),
 
     dotted_type: ($) => sep1($.type, "."),
