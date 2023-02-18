@@ -503,23 +503,23 @@ func hello(typed_default_param: Type="string") -> Type:
 (source
   (function_definition (name) (parameters)
     (body (pass_statement)))
-  (function_definition (name) (parameters) (return_type (type))
+  (function_definition (name) (parameters) (type)
     (body (pass_statement)))
   (function_definition (name) (parameters (identifier))
     (body (pass_statement)))
-  (function_definition (name) (parameters (identifier)) (return_type (type))
+  (function_definition (name) (parameters (identifier)) (type)
     (body (pass_statement)))
   (function_definition (name) (parameters (default_parameter (identifier) (string)))
     (body (pass_statement)))
-  (function_definition (name) (parameters (default_parameter (identifier) (string))) (return_type (type))
+  (function_definition (name) (parameters (default_parameter (identifier) (string))) (type)
     (body (pass_statement)))
   (function_definition (name) (parameters (typed_parameter (identifier) (type)))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_parameter (identifier) (type))) (return_type (type))
+  (function_definition (name) (parameters (typed_parameter (identifier) (type))) (type)
     (body (pass_statement)))
   (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string)))
     (body (pass_statement)))
-  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string))) (return_type (type))
+  (function_definition (name) (parameters (typed_default_parameter (identifier) (type) (string))) (type)
     (body (pass_statement))))
 
 =====================================
@@ -818,7 +818,7 @@ class_name Name, "icon"
 
 (source
   (class_name_statement (name))
-  (class_name_statement (name) (class_name_icon_path (string))))
+  (class_name_statement (name) (string)))
 
 =====================================
 Tool and Extend
