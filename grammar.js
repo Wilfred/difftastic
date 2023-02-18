@@ -187,11 +187,11 @@ module.exports = grammar({
 
     inferred_type: ($) => choice(":=", seq(":", "=")),
 
-    _variable_assignment: ($) => seq("=", field("value", $._expression)),
+    _variable_assignment: ($) => seq("=", field("value", $._rhs_expression)),
     _variable_inferred_type_assignment: ($) =>
-      seq(field("type", $.inferred_type), field("value", $._expression)),
+      seq(field("type", $.inferred_type), field("value", $._rhs_expression)),
     _variable_typed_assignment: ($) =>
-      seq(":", field("type", $.type), "=", field("value", $._expression)),
+      seq(":", field("type", $.type), "=", field("value", $._rhs_expression)),
 
     _variable_typed_definition: ($) =>
       choice(seq(":", field("type", $.type)), $._variable_typed_assignment),
@@ -465,6 +465,12 @@ module.exports = grammar({
         $.parenthesized_expression
       ),
 
+    _rhs_expression: ($) =>
+      choice(
+        $._expression,
+        $.function_definition
+      ),
+
     // This makes an attribute's ast linear
     // When attribute is used inside $.attribute it becomes recursive spaghetti
     _attribute_expression: ($) =>
@@ -599,20 +605,20 @@ module.exports = grammar({
       ),
 
     parenthesized_expression: ($) =>
-      prec(PREC.parenthesized_expression, seq("(", $._expression, ")")),
+      prec(PREC.parenthesized_expression, seq("(", $._rhs_expression, ")")),
 
     // -----------------------------------------------------------------------------
     // -                                  Assignment                               -
     // -----------------------------------------------------------------------------
 
     assignment: ($) =>
-      seq(field("left", $._expression), "=", field("right", $._expression)),
+      seq(field("left", $._expression), "=", field("right", $._rhs_expression)),
 
     augmented_assignment: ($) =>
       seq(
         field("left", $._expression),
         choice("+=", "-=", "*=", "/=", "%=", ">>=", "<<=", "&=", "^=", "|="),
-        field("right", $._expression)
+        field("right", $._rhs_expression)
       ),
 
     // -----------------------------------------------------------------------------
@@ -622,15 +628,15 @@ module.exports = grammar({
     pair: ($) =>
       seq(
         choice(
-          seq(field("key", $._expression), ":"),
+          seq(field("key", $._rhs_expression), ":"), // Lambdas are allowed here.
           seq(field("key", $.identifier), "=")
         ),
-        field("value", $._expression)
+        field("value", $._rhs_expression)
       ),
 
     dictionary: ($) => seq("{", optional(trailCommaSep1($.pair)), "}"),
 
-    array: ($) => seq("[", optional(trailCommaSep1($._expression)), "]"),
+    array: ($) => seq("[", optional(trailCommaSep1($._rhs_expression)), "]"),
 
     // -----------------------------------------------------------------------------
     // -                              Function Definition                          -
@@ -640,7 +646,7 @@ module.exports = grammar({
       prec(PREC.typed_parameter, seq($.identifier, ":", field("type", $.type))),
 
     default_parameter: ($) =>
-      seq($.identifier, "=", field("value", $._expression)),
+      seq($.identifier, "=", field("value", $._rhs_expression)),
 
     typed_default_parameter: ($) =>
       prec(
@@ -650,7 +656,7 @@ module.exports = grammar({
           ":",
           field("type", $.type),
           "=",
-          field("value", $._expression)
+          field("value", $._rhs_expression)
         )
       ),
 
@@ -669,7 +675,7 @@ module.exports = grammar({
         optional(choice($.static_keyword, $.remote_keyword)),
         optional($.annotations),
         "func",
-        field("name", $.name),
+        optional(field("name", $.name)),
         field("parameters", $.parameters),
         optional(seq("->", field("return_type", $.type))),
         ":",
@@ -691,7 +697,7 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    arguments: ($) => seq("(", optional(trailCommaSep1($._expression)), ")"),
+    arguments: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
     base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.arguments)),
 

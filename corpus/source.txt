@@ -610,6 +610,78 @@ func test():
           (arguments (string)))))))
 
 =====================================
+Functions Anonymous
+=====================================
+
+var x = func hello():
+  pass
+
+var x = func():
+  pass
+
+var x = func hello(): pass
+
+hello(func():
+  pass
+)
+
+func hello(p = func(): pass):
+  pass
+
+hello(func(): pass)
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (function_definition
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (function_definition
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (expression_statement
+    (call
+      (identifier)
+      (arguments
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement))))))
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement)))))
+    (body
+      (pass_statement)))
+  (expression_statement
+    (call
+      (identifier)
+      (arguments
+        (function_definition
+          (parameters)
+          (body
+            (pass_statement)))))))
+
+=====================================
 Constructor Definitions
 =====================================
 
@@ -763,6 +835,63 @@ match x:
       (integer)
       (integer)
       (body (pass_statement))))))
+
+
+=====================================
+If Statements
+=====================================
+
+if true:
+  pass
+  if true:
+    if true:
+      pass
+  elif true:
+    pass
+elif true:
+  for i in array:
+    if null:
+      pass
+    else:
+      pass
+else:
+  pass
+
+---
+
+(source
+  (if_statement
+    (true)
+    (body
+      (pass_statement)
+      (if_statement
+        (true)
+        (body
+          (if_statement
+            (true)
+            (body
+              (pass_statement))))
+        (elif_clause
+          (true)
+          (body
+            (pass_statement)))))
+    (elif_clause
+      (true)
+      (body
+        (for_statement
+          (identifier)
+          (identifier)
+          (body
+            (if_statement
+              (null)
+              (body
+                (pass_statement))
+              (else_clause
+                (body
+                  (pass_statement))))))))
+    (else_clause
+      (body
+        (pass_statement)))))
 
 =====================================
 Signal Statements
