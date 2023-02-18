@@ -2050,7 +2050,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_manifest_declarator"
+              "name": "manifest_declarator"
             },
             {
               "type": "REPEAT",
@@ -2063,7 +2063,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_manifest_declarator"
+                    "name": "manifest_declarator"
                   }
                 ]
               }
@@ -2076,7 +2076,7 @@
         }
       ]
     },
-    "_manifest_declarator": {
+    "manifest_declarator": {
       "type": "CHOICE",
       "members": [
         {

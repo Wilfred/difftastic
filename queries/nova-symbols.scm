@@ -8,7 +8,7 @@
 ((destructor (this) @name) @subtree (#set! role destructor))
 ((postblit (this) @name) @subtree (#set! role constructor))
 
-((manifest_constant (enum) . (identifier) @name) @subtree (#set! role constant))
+((manifest_declarator . (identifier) @name) @subtree (#set! role constant))
 
 ((function_declaration (identifier) @name) @subtree (#set! role function-or-method))
 

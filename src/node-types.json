@@ -7250,6 +7250,33 @@
       "required": true,
       "types": [
         {
+          "type": "enum",
+          "named": true
+        },
+        {
+          "type": "manifest_declarator",
+          "named": true
+        },
+        {
+          "type": "storage_class",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "manifest_declarator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "aggregate_initializer",
           "named": true
         },
@@ -7287,10 +7314,6 @@
         },
         {
           "type": "dollar",
-          "named": true
-        },
-        {
-          "type": "enum",
           "named": true
         },
         {
@@ -7354,10 +7377,6 @@
           "named": true
         },
         {
-          "type": "storage_class",
-          "named": true
-        },
-        {
           "type": "string_literal",
           "named": true
         },
@@ -7391,10 +7410,6 @@
         },
         {
           "type": "true",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         },
         {

@@ -503,11 +503,11 @@ module.exports = grammar({
         $.enum,
         repeat($.storage_class),
         optional($.type),
-        commaSep1($._manifest_declarator),
+        commaSep1($.manifest_declarator),
         ";"
       ),
 
-    _manifest_declarator: ($) =>
+    manifest_declarator: ($) =>
       choice(
         seq($.identifier, "=", $._initializer),
         seq($.identifier, $.template_parameters, "=", $._initializer)

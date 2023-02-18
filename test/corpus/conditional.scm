@@ -35,8 +35,9 @@ unittest
                   (int_literal))))))
         (manifest_constant
           (enum)
-          (identifier)
-          (int_literal))
+          (manifest_declarator
+            (identifier)
+            (int_literal)))
         (else)
         (conditional_declaration
           (condition
@@ -101,10 +102,12 @@ unittest
                         (int_literal))))))
               (manifest_constant
                 (enum)
-                (identifier)
-                (int_literal))
+                (manifest_declarator
+                  (identifier)
+                  (int_literal)))
               (else)
               (manifest_constant
                 (enum)
-                (identifier)
-                (int_literal)))))))))
+                (manifest_declarator
+                  (identifier)
+                  (int_literal))))))))))
