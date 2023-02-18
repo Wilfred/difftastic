@@ -211,6 +211,7 @@
     (ulong)
     (real)
     (double)
+    (float)
 ] @type
 
 [

@@ -145,6 +145,7 @@
 	(ulong)
 	(real)
 	(double)
+	(float)
 ] @keyword.construct
 
 [
