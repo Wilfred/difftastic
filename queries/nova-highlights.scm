@@ -148,7 +148,7 @@
 	(real)
 	(double)
 	(float)
-] @keyword.construct
+]  @value.entity @identifier.type.core ; remove value.entity when stylesheets know about core identifiers.
 
 [
 	(class)
@@ -259,14 +259,14 @@
 (interface_declaration (identifier) @identifier.type.protocol)
 (at_attribute) @identifier.property
 ; builtin type aliases
-(type (identifier) @_type (#match? @_type "^(d|w)?string$")) @identifier.type
-(type (identifier) @_type (#match? @_type "^(size_t|ptrdiff_t|noreturn)$")) @identifier.type
+; we are using value.entity because no stylesheets do anything useful with identifier.type.core.
+(type (identifier) @_type (#match? @_type "^(d|w)?string$")) @value.entity @identifier.type.core ; or keyword.type?
+(type (identifier) @_type (#match? @_type "^(size_t|ptrdiff_t|noreturn)$")) @value.entity @identifier.type.core
 ; conventional naming
 (type (identifier) @_type (#match? @_type "^[A-Z]")) @identifier.type.class
 (type (identifier) @_type (#not-match? @_type "^[A-Z]")) @identifier.type
 (enum_declaration (enum) . (identifier) @identifier.type.enum)
 (auto_declaration (storage_class (auto)) . (identifier) @identifier.variable)
-
 (identifier) @identifier ; catch all
 (declarator . (identifier) @identifier.variable)
 (declarator "=" (void) @value.null)
