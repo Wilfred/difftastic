@@ -33,6 +33,7 @@ with `difft --list-languages`.
 | Kotlin          | [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)                                                                                          |
 | Lua             | [nvim-treesitter/tree-sitter-lua](https://github.com/nvim-treesitter/tree-sitter-lua)                                                                          |
 | Make            | [alemuller/tree-sitter-make](https://github.com/alemuller/tree-sitter-make)                                                                                    |
+| Newick          | [delehef/tree-sitter-newick](https://github.com/delehef/tree-sitter-newick)                                                                                    |
 | Nix             | [cstrahan/tree-sitter-nix](https://github.com/cstrahan/tree-sitter-nix)                                                                                        |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                                                                              |
 | Perl            | [ganezdragon/tree-sitter-perl](https://github.com/ganezdragon/tree-sitter-perl)                                                                                |
