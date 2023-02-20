@@ -323,31 +323,35 @@ module.exports = grammar({
   name: 'smali',
 
   extras: ($) => [$.comment, /\s/],
+  extras: $ => [$.comment, /\s/],
+
+  word: $ => $.identifier,
+
 
   rules: {
-    class_definition: ($) =>
+    class_definition: $ =>
       seq(
         $.class_directive,
         $.super_directive,
         optional($.source_directive),
         repeat($.implements_directive),
-        repeat($.annotation_directive),
-        repeat($.field_definition),
-        repeat($.method_definition),
+        repeat(choice(
+          $.annotation_directive,
+          $.method_definition,
+          $.field_definition,
+        )),
       ),
 
     // class related
-    class_directive: ($) =>
+    class_directive: $ =>
       seq(
         '.class',
         optional(field('modifiers', $.access_modifiers)),
-        field('identifier', $.class_identifier),
+        $.class_identifier,
       ),
-    super_directive: ($) =>
-      seq('.super', field('identifier', $.class_identifier)),
-    source_directive: ($) => seq('.source', $.string_literal),
-    implements_directive: ($) =>
-      seq('.implements', field('identifier', $.class_identifier)),
+    super_directive: $ => seq('.super', $.class_identifier),
+    source_directive: $ => seq('.source', $.string),
+    implements_directive: $ => seq('.implements', $.class_identifier),
 
     field_definition: ($) =>
       seq(
