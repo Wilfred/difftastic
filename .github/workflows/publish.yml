@@ -11,11 +11,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      APKTOOL_VERSION: 2.7.0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Install dependencies
+        run: |
+          # Install Apktool.
+          sudo wget -q https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /usr/local/bin/apktool
+          sudo chmod a+x /usr/local/bin/apktool
+          sudo wget -q "https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_${APKTOOL_VERSION}.jar" -O /usr/local/bin/apktool.jar
+          sudo chmod a+x /usr/local/bin/apktool.jar
       - run: npm install
       - run: npm test
 

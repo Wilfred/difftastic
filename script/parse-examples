@@ -25,16 +25,6 @@ function clone_repo {
 	popd >/dev/null
 }
 
-function install_apktool {
-	if ! command -v apktool >/dev/null; then
-		echo "Installing apktool"
-		sudo wget -q https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /usr/local/bin/apktool
-		sudo chmod a+x /usr/local/bin/apktool
-		sudo wget -q "https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar" -O /usr/local/bin/apktool.jar
-		sudo chmod a+x /usr/local/bin/apktool.jar
-	fi
-}
-
 function download_and_decompile_apk {
 	url=$1
 	path=examples/$2.apk
