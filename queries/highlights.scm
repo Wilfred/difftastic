@@ -4,50 +4,106 @@
 
 (primitive_type) @type.builtin
 
-(array_type
-  "[" @punctuation.bracket)
+((class_identifier) @type.builtin
+  (#lua-match? @type.builtin "^Landroid/"))
+((class_identifier) @type.builtin
+  (#lua-match? @type.builtin "^Lcom/android/"))
+((class_identifier) @type.builtin
+  (#lua-match? @type.builtin "^Ldalvik/"))
+((class_identifier) @type.builtin
+  (#lua-match? @type.builtin "^Ljava/"))
 
 ; Methods
 
-(method_declaration
-  (method_identifier) @method)
+(method_definition
+  (method_signature (method_identifier) @method))
 
-(statement
+(expression
   (opcode) @_invoke
-  (full_method_identifier
-    (method_identifier) @method.call)
+  (value
+	(body
+	  (full_method_signature
+        (method_signature (method_identifier) @method.call))))
   (#lua-match? @_invoke "^invoke"))
 
-(method_identifier
-  "<init>(" @constructor)
+(method_handle
+  (full_method_signature
+	(method_signature (method_identifier) @method.call)))
 
-(method_identifier
-  "<clinit>(" @constructor)
+(call_site) @method.call
+
+(custom_invoke
+  (method_signature (method_identifier) @method.call))
+
+(annotation_value
+  (body
+    (method_signature (method_identifier) @method.call)))
+
+(annotation_value
+  (body
+    (full_method_signature
+      (method_signature (method_identifier) @method.call))))
+
+(field_definition
+  (value
+	(body
+		(method_signature (method_identifier) @method.call))))
+
+(field_definition
+  (value
+	(body
+	  (full_method_signature
+		(method_signature (method_identifier) @method.call)))))
+
+((method_signature
+  (method_identifier) @constructor)
+  (#any-of? @constructor "<init>" "<clinit>"))
 
 ; Fields
 
 (field_identifier) @field
 
-; Parameters
-
-(parameter) @parameter
+(annotation_key) @field
 
 ; Variables
 
 (variable) @variable.builtin
 
+(local_directive
+  (identifier) @variable)
+
+; Parameters
+
+(parameter) @parameter ; more like @parameter.builtin but that doesn't exist in nvim-treesitter
+(param_identifier) @parameter
+
 ; Labels
 
-(label) @label
+[
+  (label)
+  (jmp_label)
+] @label
 
 ; Operators
 
 (opcode) @keyword.operator
 
 ((opcode) @keyword.return
- (#lua-match? @keyword.return "^return"))
+  (#lua-match? @keyword.return "^return"))
 
-"=" @operator
+((opcode) @conditional
+  (#lua-match? @conditional "^if"))
+((opcode) @conditional
+  (#lua-match? @conditional "^cmp"))
+
+((opcode) @exception
+  (#lua-match? @exception "^throw"))
+
+[
+  "="
+  ".."
+  "@"
+] @operator
 
 ; Keywords
 
@@ -57,11 +113,20 @@
   ".source"
   ".implements"
   ".field"
+  ".end field"
   ".annotation"
+  ".end annotation"
   ".subannotation"
+  ".end subannotation"
   ".param"
+  ".end param"
+  ".parameter"
+  ".end parameter"
   ".line"
   ".locals"
+  ".local"
+  ".end local"
+  ".restart local"
   ".registers"
   ".catch"
   ".catchall"
@@ -75,38 +140,52 @@
 ] @keyword
 
 [
-  (end_field)
-  (end_annotation)
-  (end_subannotation)
-  (end_param)
+  (prologue_directive)
+  (epilogue_directive)
 ] @keyword
 
 [
   ".method"
-  (end_method)
+  ".end method"
 ] @keyword.function
 
 ; Literals
 
-(string_literal) @string
+(string) @string
+(escape_sequence) @string.escape
 
-(number_literal) @number
+(character) @character
 
-(boolean_literal) @boolean
+(number) @number
 
-(character_literal) @character
+[
+ (float)
+ (NaN)
+ (Infinity)
+] @float
 
-(null_literal) @constant.builtin
+(boolean) @boolean
+
+(null) @constant.builtin
 
 ; Misc
 
-(annotation_visibility) @attribute
+(annotation_visibility) @storageclass
 
 (access_modifiers) @type.qualifier
 
+(array_type
+  "[" @punctuation.special)
+
 ["{" "}"] @punctuation.bracket
 
-"->" @punctuation.delimiter
+["(" ")"] @punctuation.bracket
+
+[
+  "->"
+  ":"
+  ","
+] @punctuation.delimiter
 
 ; Comments
 
