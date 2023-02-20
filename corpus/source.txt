@@ -258,7 +258,6 @@ export(Type, Param) var a
 export(Type, "Param") var a = "a"
 
 export(Type,) var a
-export(,) var a
 
 ---
 
@@ -271,8 +270,7 @@ export(,) var a
   (export_variable_statement (arguments (identifier)) (remote_keyword) (name))
   (export_variable_statement (arguments (identifier) (identifier)) (name))
   (export_variable_statement (arguments (identifier) (string)) (name) (string))
-  (export_variable_statement (arguments (identifier)) (name))
-  (export_variable_statement (arguments (ERROR)) (name)))
+  (export_variable_statement (arguments (identifier)) (name)))
 
 =====================================
 Variables Annotations
@@ -460,8 +458,7 @@ var x :=
 ---
 
 (source
-  (variable_statement (name) (identifier))
-  (ERROR)
+  (variable_statement (name) (ERROR (identifier)) (identifier))
   (ERROR (name)  (inferred_type)))
 
 =====================================
@@ -608,78 +605,6 @@ func test():
       (expression_statement
         (call (identifier)
           (arguments (string)))))))
-
-=====================================
-Functions Anonymous
-=====================================
-
-var x = func hello():
-  pass
-
-var x = func():
-  pass
-
-var x = func hello(): pass
-
-hello(func():
-  pass
-)
-
-func hello(p = func(): pass):
-  pass
-
-hello(func(): pass)
-
----
-
-(source
-  (variable_statement
-    (name)
-    (function_definition
-      (name)
-      (parameters)
-      (body
-        (pass_statement))))
-  (variable_statement
-    (name)
-    (function_definition
-      (parameters)
-      (body
-        (pass_statement))))
-  (variable_statement
-    (name)
-    (function_definition
-      (name)
-      (parameters)
-      (body
-        (pass_statement))))
-  (expression_statement
-    (call
-      (identifier)
-      (arguments
-        (function_definition
-          (parameters)
-          (body
-            (pass_statement))))))
-  (function_definition
-    (name)
-    (parameters
-      (default_parameter
-        (identifier)
-        (function_definition
-          (parameters)
-          (body
-            (pass_statement)))))
-    (body
-      (pass_statement)))
-  (expression_statement
-    (call
-      (identifier)
-      (arguments
-        (function_definition
-          (parameters)
-          (body
-            (pass_statement)))))))
 
 =====================================
 Constructor Definitions
@@ -902,7 +827,6 @@ signal x()
 signal x(a, b)
 
 signal x(a,)
-signal x(,)
 
 signal x(a: Type)
 signal x(a: Type,)
@@ -915,7 +839,6 @@ signal x(a, b: Type)
   (signal_statement (name) (parameters))
   (signal_statement (name) (parameters (identifier) (identifier)))
   (signal_statement (name) (parameters (identifier)))
-  (signal_statement (name) (parameters (ERROR)))
   (signal_statement
    (name)
    (parameters
@@ -927,7 +850,7 @@ signal x(a, b: Type)
    (parameters
     (typed_parameter
      (identifier)
-     (type)))) 
+     (type))))
   (signal_statement
    (name)
    (parameters

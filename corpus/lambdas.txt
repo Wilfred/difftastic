@@ -1,0 +1,174 @@
+=====================================
+Lambdas Assignment
+=====================================
+
+var x = func hello():
+  pass
+
+var x = func():
+  pass
+
+var x = func hello(): pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (name)
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (pass_statement))))
+  (variable_statement
+    (name)
+    (lambda
+      (name)
+      (parameters)
+      (body
+        (pass_statement)))))
+
+=====================================
+Lambdas Nested
+=====================================
+
+var x = func(): (func hello(): pass) ; pass
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (expression_statement
+          (parenthesized_expression
+            (lambda
+              (name)
+              (parameters)
+              (body
+                (pass_statement)))))
+        (pass_statement)))))
+
+=====================================
+Lambdas as Params
+=====================================
+
+func hello(p = func(): pass):
+  pass
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)))))
+    (body
+      (pass_statement))))
+
+=====================================
+Lambdas as Args
+=====================================
+
+hello(func(): pass)
+
+---
+
+(source
+  (expression_statement
+    (call
+      (identifier)
+      (arguments
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)))))))
+
+
+=====================================
+Lambdas in Statements
+=====================================
+
+func x(p: int = 1) -> int:
+  if p == 1:
+    var v = func(p: int) -> int:
+        var result = v + p
+        return result
+    return x(p)
+  else:
+    return (func(v: int) -> int:
+        var result = v + p
+        return result)(p)
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters
+      (typed_default_parameter
+        (identifier)
+        (type)
+        (integer)))
+    (type)
+    (body
+      (if_statement
+        (comparison_operator
+          (identifier)
+          (integer))
+        (body
+          (variable_statement
+            (name)
+            (lambda
+              (parameters
+                (typed_parameter
+                  (identifier)
+                  (type)))
+              (type)
+              (body
+                (variable_statement
+                  (name)
+                  (binary_operator
+                    (identifier)
+                    (identifier)))
+                (return_statement
+                  (identifier)))))
+          (return_statement
+            (call
+              (identifier)
+              (arguments
+                (identifier)))))
+        (else_clause
+          (body
+            (return_statement
+              (call
+                (parenthesized_expression
+                  (lambda
+                    (parameters
+                      (typed_parameter
+                        (identifier)
+                        (type)))
+                    (type)
+                    (body
+                      (variable_statement
+                        (name)
+                        (binary_operator
+                          (identifier)
+                          (identifier)))
+                      (return_statement
+                        (identifier)))))
+                (arguments
+                  (identifier))))))))))

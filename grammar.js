@@ -48,6 +48,8 @@ module.exports = grammar({
     ']',
     ')',
     '}',
+
+    $._lambda_body_end,
   ],
 
   inline: ($) => [$._simple_statement, $._compound_statement],
@@ -482,7 +484,7 @@ module.exports = grammar({
     _rhs_expression: ($) =>
       choice(
         $._expression,
-        $.function_definition
+        $.lambda,
       ),
 
     // This makes an attribute's ast linear
@@ -684,6 +686,12 @@ module.exports = grammar({
 
     parameters: ($) => seq("(", optional(trailCommaSep1($._parameters)), ")"),
 
+    _return_type: ($) =>
+      seq(
+        "->",
+        field("return_type", $.type),
+      ),
+
     function_definition: ($) =>
       seq(
         optional(choice($.static_keyword, $.remote_keyword)),
@@ -691,9 +699,40 @@ module.exports = grammar({
         "func",
         optional(field("name", $.name)),
         field("parameters", $.parameters),
-        optional(seq("->", field("return_type", $.type))),
+        optional($._return_type),
         ":",
         field("body", $.body)
+      ),
+
+    _lambda_content: ($) =>
+      trailSep1($._simple_statement, ';'),
+
+    lambda_body: ($) =>
+      choice(
+        seq(
+          $._lambda_content,
+          $._lambda_body_end,
+        ),
+        seq(
+          $._lambda_content,
+          $._newline,
+        ),
+        seq(
+          $._indent,
+          trailSep1($._lambda_content, $._newline),
+          choice($._lambda_body_end, $._dedent),
+        ),
+        $._newline,
+      ),
+
+    lambda: ($) =>
+      seq(
+        "func",
+        optional($.name),
+        $.parameters,
+        optional($._return_type),
+        ":",
+        alias($.lambda_body, $.body),
       ),
 
     constructor_definition: ($) =>

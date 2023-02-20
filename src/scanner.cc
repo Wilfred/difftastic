@@ -21,6 +21,7 @@ enum TokenType {
   CLOSE_PAREN,
   CLOSE_BRACKET,
   CLOSE_BRACE,
+  BODY_END,
 };
 
 struct Delimiter {
@@ -282,6 +283,16 @@ struct Scanner {
         break;
       } else {
         break;
+      }
+    }
+
+    if (valid_symbols[BODY_END] && !found_end_of_line) {
+      if (lexer->lookahead == ',' || lexer->lookahead == ')') {
+        if (valid_symbols[DEDENT] && !indent_length_stack.empty()) {
+          indent_length_stack.pop_back();
+        }
+        lexer->result_symbol = BODY_END;
+        return true;
       }
     }
 
