@@ -1,4 +1,19 @@
 const modifiers = [
+/**
+ * @file Smali grammar for tree-sitter
+ * @author Amaan Qureshi <amaanq12@gmail.com>
+ * @author Yotam Nachum <me@yotam.net>
+ * @license MIT
+ * @see {@link https://github.com/JesusFreke/smali|official implementation}
+ * @see {@link https://source.android.com/docs/core/runtime/dalvik-bytecode|official dex bytecode reference}
+ */
+
+/* eslint-disable arrow-parens */
+/* eslint-disable camelcase */
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
   'public',
   'private',
   'protected',
@@ -291,30 +306,18 @@ const opcodes = [
 
 /**
  * Returns an optional tree-sitter rule that matches rule at least once, with a repeat of `,` + `rule`
- * @param {_} rule - tree-sitter rule
+ * @param {Rule} rule - tree-sitter rule
+ * @param {boolean?} trailing_separator - The trailing separator to use.
  *
- * @return {_}
+ * @return {ChoiceRule}
  */
-const commaSep = (rule) => {
-  const sep1 = seq(rule, repeat(seq(',', rule)));
-  return optional(sep1);
-};
+function commaSep(rule, trailing_separator = false) {
+  const sep1 = trailing_separator ?
+    seq(rule, repeat(seq(',', rule)), optional(',')) :
+    seq(rule, repeat(seq(',', rule)));
 
-/**
-* Creates a rule to match one or more of the rules separated by the separator
-* and optionally adds a trailing separator (default is false).
-*
-* @param {_} rule
-* @param {string} separator - The separator to use.
-* @param {string?} trailingSeparator - The trailing separator to use.
-*
-* @return {_}
-*
-*/
-const listSeq = (rule, separator, trailingSeparator = false) =>
-  trailingSeparator ?
-    seq(rule, repeat(seq(separator, rule)), optional(separator)) :
-    seq(rule, repeat(seq(separator, rule)));
+  return optional(sep1);
+}
 
 module.exports = grammar({
   name: 'smali',
