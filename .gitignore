@@ -1,4 +1,6 @@
-/node_modules/
 Cargo.lock
 package-lock.json
-.envrc
+/build
+/node_modules
+/examples/*/
+/target
