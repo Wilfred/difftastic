@@ -1,4 +1,3 @@
-const modifiers = [
 /**
  * @file Smali grammar for tree-sitter
  * @author Amaan Qureshi <amaanq12@gmail.com>
@@ -14,6 +13,7 @@ const modifiers = [
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const access_flags = [
   'public',
   'private',
   'protected',
@@ -34,6 +34,17 @@ const modifiers = [
   'constructor',
   'declared-synchronized',
 ];
+
+const restriction_flags = [
+  'whitelist',
+  'greylist',
+  'blacklist',
+  'greylist-max-o',
+  'greylist-max-p',
+  'greylist-max-q',
+  'greylist-max-r',
+  'core-platform-api',
+  'test-api',
 ];
 
 const primitives = ['V', 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D'];
@@ -322,11 +333,13 @@ function commaSep(rule, trailing_separator = false) {
 module.exports = grammar({
   name: 'smali',
 
-  extras: ($) => [$.comment, /\s/],
   extras: $ => [$.comment, /\s/],
 
   word: $ => $.identifier,
 
+  conflicts: $ => [
+    [$.field_definition],
+  ],
 
   rules: {
     class_definition: $ =>
@@ -353,237 +366,392 @@ module.exports = grammar({
     source_directive: $ => seq('.source', $.string),
     implements_directive: $ => seq('.implements', $.class_identifier),
 
-    field_definition: ($) =>
-      seq(
-        $.field_declaration,
-        optional(seq(repeat($.annotation_directive), $.end_field)),
-      ),
-    field_declaration: ($) =>
+    field_definition: $ =>
       seq(
         '.field',
         optional(field('modifiers', $.access_modifiers)),
-        field('identifier', $.field_identifier),
-        optional(seq('=', $._literal)),
+        $._field_body,
+        optional(seq('=', $.value)),
+        optional(seq(
+          repeat($.annotation_directive),
+          '.end field',
+        )),
       ),
-    end_field: () => '.end field',
 
-    // method related
-    method_definition: ($) =>
-      seq(
-        $.method_declaration,
-        alias(repeat($._code_line), $.code_block),
-        $.end_method,
-      ),
-    method_declaration: ($) =>
+    // method
+    method_definition: $ =>
       seq(
         '.method',
         optional(field('modifiers', $.access_modifiers)),
-        field('identifier', $.method_identifier),
+        $.method_signature,
+        repeat($.statement),
+        '.end method',
       ),
-    end_method: () => '.end method',
 
     // annotation related
-    annotation_directive: ($) =>
-      seq($.start_annotation, repeat($.annotation_property), $.end_annotation),
-    start_annotation: ($) =>
+    annotation_directive: $ =>
       seq(
         '.annotation',
-        field('visibility', $.annotation_visibility),
-        field('identifier', $.class_identifier),
+        $.annotation_visibility,
+        $.class_identifier,
+        repeat($.annotation_property),
+        '.end annotation',
       ),
-    annotation_visibility: () => choice('system', 'build', 'runtime'),
-    annotation_property: ($) =>
-      seq(
-        field('key', $.annotation_key),
-        '=',
-        field('value', $.annotation_value),
-      ),
-    annotation_key: () => /\w+/,
-    annotation_value: ($) =>
+    annotation_visibility: _ => choice('system', 'build', 'runtime'),
+    annotation_property: $ => seq($.annotation_key, '=', $.annotation_value),
+    annotation_key: _ => /\w+/,
+    annotation_value: $ =>
       choice(
         $._literal,
-        $._identifier,
+        $.body,
         $.list,
         $.enum_reference,
-        $.subannotation_definition,
+        $.subannotation_directive,
+        $.class_identifier,
       ),
-    end_annotation: () => '.end annotation',
 
-    subannotation_definition: ($) =>
+    subannotation_directive: $ =>
       seq(
-        $.subannotation_declaration,
+        '.subannotation', field('identifier', $.class_identifier),
         repeat($.annotation_property),
-        $.end_subannotation,
+        '.end subannotation',
       ),
-    subannotation_declaration: ($) =>
-      seq('.subannotation', field('identifier', $.class_identifier)),
-    end_subannotation: () => '.end subannotation',
 
-    param_directive: ($) =>
+    param_directive: $ =>
       prec.right(
         seq(
-          $.start_param,
-          optional(seq(repeat($.annotation_directive), $.end_param)),
+          '.param',
+          $.parameter,
+          optional(choice(
+            seq(repeat($.annotation_directive), '.end param'),
+            seq(optional(','), choice($._literal, alias($.identifier, $.param_identifier))),
+          )),
         ),
       ),
-    start_param: ($) => seq('.param', field('parameter', $.parameter)),
-    end_param: () => '.end param',
+
+    parameter_directive: $ =>
+      prec.right(
+        seq(
+          '.parameter',
+          optional($._literal),
+          optional(seq(
+            repeat($.annotation_directive),
+            '.end parameter',
+          )),
+        ),
+      ),
 
     // code lines
-    _code_line: ($) =>
-      choice($.label, $._directive, $.annotation_directive, $.statement),
-    label: (_) => /:[\w\d]+/,
+    statement: $ =>
+      choice(
+        $.label,
+        $.jmp_label,
+        $._directive,
+        $.annotation_directive,
+        $.expression,
+      ),
 
-    // statement
-    statement: ($) =>
+    // expression
+    expression: $ =>
       seq(
         field('opcode', $.opcode),
-        field('argument', commaSep($._statement_argument)),
+        commaSep(field('argument', $.value)),
         '\n',
       ),
     opcode: (_) => choice(...opcodes),
-    _statement_argument: ($) =>
+    value: $ =>
       choice(
+        $._type,
         $.list,
         $.label,
+        $.jmp_label,
         $.range,
-        $.variable,
-        $.parameter,
-        $.array_type,
-        $._identifier,
-        $.primitive_type,
+        $.register,
+        $.body,
         $._literal,
+        $.enum_reference,
+        $.subannotation_directive,
+        $.method_handle,
+        $.custom_invoke,
       ),
 
     // code declarations
-    _directive: ($) =>
+    _directive: $ =>
       choice(
         $.line_directive,
         $.locals_directive,
+        $.local_directive,
         $.registers_directive,
         $.param_directive,
+        $.parameter_directive,
         $.catch_directive,
         $.catchall_directive,
         $.packed_switch_directive,
         $.sparse_switch_directive,
         $.array_data_directive,
+        $.end_local_directive,
+        $.restart_local_directive,
+        $.prologue_directive,
+        $.epilogue_directive,
+        $.source_directive,
       ),
-    line_directive: ($) => seq('.line', $.number_literal),
-    locals_directive: ($) => seq('.locals', $.number_literal),
-    registers_directive: ($) => seq('.registers', $.number_literal),
-    catch_directive: ($) =>
+    line_directive: $ => seq('.line', $.number),
+    locals_directive: $ => seq('.locals', $.number),
+    local_directive: $ =>
+      seq(
+        '.local',
+        $.register,
+        optional(seq(
+          ',', choice($._literal, $.identifier),
+          ':', $._type,
+          optional(seq(',', $.string)),
+        )),
+      ),
+    end_local_directive: $ => seq('.end local', $.register),
+    restart_local_directive: $ => seq('.restart local', $.register),
+    registers_directive: $ => seq('.registers', $.number),
+    catch_directive: $ =>
       seq(
         '.catch',
         $.class_identifier,
-        '{',
-        $.label,
-        '..',
-        $.label,
-        '}',
-        $.label,
+        choice(
+          seq('{', $.label, '..', $.label, '}', $.label),
+          seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
+        ),
       ),
-    catchall_directive: ($) =>
-      seq('.catchall', '{', $.label, '..', $.label, '}', $.label),
-    packed_switch_directive: ($) =>
+    catchall_directive: $ =>
+      seq(
+        '.catchall',
+        choice(
+          seq('{', $.label, '..', $.label, '}', $.label),
+          seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
+        ),
+      ),
+    packed_switch_directive: $ =>
       seq(
         '.packed-switch',
-        $.number_literal,
-        repeat($.label),
+        $.number,
+        repeat(choice($.label, $.jmp_label)),
         '.end packed-switch',
       ),
-    sparse_switch_directive: ($) =>
+    sparse_switch_directive: $ =>
       seq(
         '.sparse-switch',
-        repeat(seq($.number_literal, '->', $.label)),
+        repeat(seq($.number, '->', $.label)),
         '.end sparse-switch',
       ),
-    array_data_directive: ($) =>
+    array_data_directive: $ =>
       seq(
         '.array-data',
-        field('element_width', $.number_literal),
-        field('value', repeat($.number_literal)),
+        field('element_width', $.number),
+        field('value', repeat($.number)),
         '.end array-data',
       ),
+    prologue_directive: _ => '.prologue',
+    epilogue_directive: _ => '.epilogue',
 
-    // identifiers
-    _identifier: ($) =>
+    identifier: _ => /<?[a-zA-Z_$][a-zA-Z0-9_\-$]*>?/,
+    class_identifier: _ => token(/L[^;]+;/),
+
+    // exclude :[SVIJFBZC]
+    label: _ => prec(-1, token(/:[^SVIJFBZC\s]([^:\sI][\w\d]*)?|:[^:\sI][\w\d]*/)),
+    jmp_label: _ => prec(-1, token(/\w+:/)),
+
+    // various "bodies"
+    body: $ =>
       choice(
-        $.class_identifier,
-        $.field_identifier,
-        $.full_field_identifier,
-        $.method_identifier,
-        $.full_method_identifier,
+        $._field_body,
+        $._full_field_body,
+        $.method_signature,
+        alias($._method_signature_body, $.method_signature),
+        $.full_method_signature,
       ),
-    class_identifier: () => /L[^;]+;/,
-    field_identifier: ($) => seq(/[\w\d\$]+:/, $._type),
-    method_identifier: ($) =>
+    _field_body: $ => choice(
       seq(
-        choice('<clinit>(', '<init>(', /[\w\d\$]+\(/),
-        field('parameters', alias(repeat($._type), $.parameters)),
+        alias(choice($.identifier, $.number), $.field_identifier),
+        ':',
+        alias($._type, $.field_type),
+      ),
+    ),
+    method_signature: $ =>
+      seq(
+        alias(choice(
+          '<clinit>',
+          '<init>',
+          seq(optional('-'), $.identifier), // method identifiers can start with a -
+          $.number,
+        ), $.method_identifier),
+        $._method_signature_body,
+      ),
+    _method_signature_body: $ =>
+      seq(
+        '(',
+        alias(repeat($._type), $.parameters),
         ')',
         field('return_type', $._type),
       ),
-    full_field_identifier: ($) =>
-      seq(choice($.class_identifier, $.array_type), '->', $.field_identifier),
-    full_method_identifier: ($) =>
-      seq(choice($.class_identifier, $.array_type), '->', $.method_identifier),
+    method_handle: $ =>
+      seq(
+        $.opcode,
+        '@',
+        choice($._full_field_body, $.full_method_signature),
+      ),
+    _full_field_body: $ =>
+      seq(choice($.class_identifier, $.array_type), '->', $._field_body),
+    full_method_signature: $ =>
+      seq(choice($.class_identifier, $.array_type), '->', $.method_signature),
+    custom_invoke: $ =>
+      seq(
+        alias($.identifier, $.call_site),
+        '(', commaSep(choice($.body, $.method_handle, $.string)), ')',
+        '@',
+        $.class_identifier,
+        '->',
+        $.method_signature,
+      ),
 
     // types
-    _type: ($) => choice($.primitive_type, $.class_identifier, $.array_type),
-    array_type: ($) => seq('[', field('element_type', $._type)),
-    primitive_type: () => choice(...primitives),
+    _type: $ => choice($.primitive_type, $.class_identifier, $.array_type),
+    array_type: $ => seq('[', $._type),
+    // primitives > identifiers
+    // I don't know why this works, but for primitives in a statement's value,
+    // the first choice is needed, and for primitives in a signature/return type,
+    // the second choice is needed.
+    // TODO: maybe figure out why?
+    primitive_type: _ => choice(
+      token(choice(...primitives)),
+      token(prec(1, choice(...primitives))),
+    ),
 
-    access_modifiers: () => repeat1(choice(...modifiers)),
-    comment: () => token(seq('#', /.*/)),
-    enum_reference: ($) =>
+    access_modifiers: _ => repeat1(
+      token(seq(
+        choice(...access_flags.concat(restriction_flags)),
+        /\s/,
+      )),
+    ),
+    enum_reference: $ =>
       seq(
         '.enum',
-        field('identifier', choice($.field_identifier, $.full_field_identifier)),
+        choice($._field_body, $._full_field_body),
       ),
 
-    // special symbols
-    variable: () => /v\d+/,
-    parameter: () => /p\d+/,
+    // special builtins
+    register: $ => choice($.variable, $.parameter),
+    variable: _ => token.immediate(/v\d+/),
+    parameter: _ => token.immediate(/p\d+/),
 
     // lists
-    list: ($) =>
+    list: $ =>
       seq(
         '{',
-        commaSep(
-          choice(
-            $._literal,
-            $._identifier,
-            $.variable,
-            $.parameter,
-            $.enum_reference,
-            $.subannotation_definition,
-          ),
-        ),
+        commaSep($.value),
         '}',
       ),
-    range: ($) =>
+    range: $ =>
       seq(
         '{',
-        field('start', choice($.variable, $.parameter, $.number_literal)),
-        '..',
-        field('end', choice($.variable, $.parameter, $.number_literal)),
+        choice(
+          seq(field('start', $.register), '..', field('end', $.register)),
+          seq(field('start', $.number), '..', field('end', $.number)),
+          seq(field('start', $.jmp_label), '..', field('end', $.jmp_label)),
+        ),
         '}',
       ),
 
     // literals
-    _literal: ($) =>
+    _literal: $ =>
       choice(
-        $.number_literal,
-        $.string_literal,
-        $.boolean_literal,
-        $.character_literal,
-        $.null_literal,
+        $.number,
+        $.float,
+        $.NaN,
+        $.Infinity,
+        $.string,
+        $.boolean,
+        $.character,
+        $.null,
       ),
-    number_literal: () =>
-      choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+(\.\d+)?(f)?/),
-    string_literal: () => /"[^"]*"/,
-    boolean_literal: () => choice('true', 'false'),
-    character_literal: () => /'(.|\\[bt0nr"'\\]|\\u[0-9a-fA-f]{4})'/,
-    null_literal: () => 'null',
+
+    number: $ => {
+      const hex_literal = seq(
+        optional(choice('-', '+')),
+        /0[xX]/,
+        /[\da-fA-F](_?[\da-fA-F])*/,
+      );
+
+      const decimal_digits = /\d(_?\d)*/;
+      const signed_integer = seq(optional(choice('-', '+')), decimal_digits);
+
+      const decimal_integer_literal = choice(
+        '0',
+        seq(optional('0'), /[1-9]/, optional(seq(optional('_'), decimal_digits))),
+      );
+
+      const decimal_literal = choice(
+        seq(optional('-'), decimal_integer_literal),
+        decimal_digits,
+        signed_integer,
+      );
+
+      return token(seq(
+        choice(hex_literal, decimal_literal),
+        alias(optional(/[LlSsTt]/), $.number_type),
+      ));
+    },
+
+    float: $ => token(seq(
+      /-?(\d+(\.\d+)?|\.\d+)([Ee][+-]?\d+)?/,
+      alias(optional('f'), $.float_type),
+    )),
+
+    // FIXME: adding an optional 'f' doesn't work, I don't know why,
+    // so this approach was used instead
+    NaN: _ => token(prec(1, choice('NaN', 'NaNf'))),
+
+    Infinity: _ => token(prec(1, choice('Infinity', '-Infinity'))),
+
+    // string: _ => /"[^"\\]*(?:\\.[^"\\]*)*"/,
+    string: $ => seq(
+      '"',
+      repeat(choice(
+        $.string_fragment,
+        $._escape_sequence,
+      )),
+      '"',
+    ),
+
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token_ constructs containing a regexp
+    // so as to obtain a node in the CST.
+    string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
+
+    _escape_sequence: $ =>
+      choice(
+        prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+        prec(1, $.escape_sequence),
+      ),
+    escape_sequence: _ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/,
+      ))),
+
+    boolean: _ => choice('true', 'false'),
+
+    character: $ => seq(
+      '\'',
+      optional(choice(
+        $._escape_sequence,
+        /[^\\']/,
+      )),
+      '\'',
+    ),
+
+    null: _ => 'null',
+
+    comment: _ => token(seq('#', /.*/)),
   },
 });
