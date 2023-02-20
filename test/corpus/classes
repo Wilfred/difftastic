@@ -11,16 +11,16 @@ Test an empty class
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal)))
+    (string)))
 
 
 
 ========================================================================
-Test a class with source file
+Test a class with a source file
 ========================================================================
 
 .class public LA/BC;
@@ -32,11 +32,12 @@ Test a class with source file
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal)))
+    (string
+      (string_fragment))))
 
 
 
@@ -55,13 +56,13 @@ Test a class that implements an interface
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal))
+    (string))
   (implements_directive
-    identifier: (class_identifier)))
+    (class_identifier)))
 
 
 
@@ -81,15 +82,15 @@ Test a class that implements multiple interfaces
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal))
+    (string))
   (implements_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (implements_directive
-    identifier: (class_identifier)))
+    (class_identifier)))
 
 
 
@@ -106,11 +107,11 @@ Test a class with a non valid Java character
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal)))
+    (string)))
 
 
 
@@ -126,8 +127,8 @@ Test a class without an access modifier
 
 (class_definition
   (class_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal)))
+    (string)))

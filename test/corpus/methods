@@ -13,18 +13,17 @@ Test an empty method
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (primitive_type))))
 
 
 
@@ -43,17 +42,16 @@ Test a method with no modifiers
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (end_method)))
+	(method_signature
+	  (method_identifier)
+	  (primitive_type))))
 
 
 
@@ -72,20 +70,19 @@ Test a method with one primitive parameter
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        parameters: (parameters
-          (primitive_type))
-        return_type: (primitive_type)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (parameters
+		(primitive_type))
+	  (primitive_type))))
 
 
 
@@ -104,22 +101,21 @@ Test a method with multiple primitive parameter
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        parameters: (parameters
-					(primitive_type)
-					(primitive_type)
-					(primitive_type))
-        return_type: (primitive_type)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (parameters
+		(primitive_type)
+		(primitive_type)
+		(primitive_type))
+	  (primitive_type))))
 
 
 
@@ -138,20 +134,19 @@ Test a method with an object parameter
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        parameters: (parameters
-          (class_identifier))
-        return_type: (primitive_type)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (parameters
+		(class_identifier))
+	  (primitive_type))))
 
 
 
@@ -170,18 +165,17 @@ Test a method with an array parameter
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        parameters: (parameters
-          (array_type
-            element_type: (class_identifier)))
-        return_type: (primitive_type)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (parameters
+		(array_type
+		  (class_identifier)))
+	  (primitive_type))))

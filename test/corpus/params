@@ -14,22 +14,20 @@ Test a simple param
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (code_block
-      (param_directive
-        (start_param
-          parameter: (parameter))))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (primitive_type))
+	(statement
+	  (param_directive
+		(parameter)))))
 
 
 
@@ -50,23 +48,20 @@ Test a simple param block
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (code_block
-      (param_directive
-        (start_param
-          parameter: (parameter))
-        (end_param)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (primitive_type))
+	(statement
+	  (param_directive
+		(parameter)))))
 
 
 
@@ -89,25 +84,20 @@ Test a param block with an empty annotation
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+	(access_modifiers)
+	(class_identifier))
   (super_directive
-    identifier: (class_identifier))
+	(class_identifier))
   (source_directive
-    (string_literal))
+	(string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (code_block
-      (param_directive
-        (start_param
-          parameter: (parameter))
-        (annotation_directive
-          (start_annotation
-            visibility: (annotation_visibility)
-            identifier: (class_identifier))
-          (end_annotation))
-        (end_param)))
-    (end_method)))
+	(access_modifiers)
+	(method_signature
+	  (method_identifier)
+	  (primitive_type))
+	(statement
+	  (param_directive
+		(parameter)
+		(annotation_directive
+		  (annotation_visibility)
+		  (class_identifier))))))

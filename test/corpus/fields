@@ -13,12 +13,12 @@ Test a field without an access modifier
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal))
+    (string))
   (field_definition
-    (field_declaration
-      identifier: (field_identifier
-        (class_identifier)))))
+    (field_identifier)
+      (field_type
+        (class_identifier))))

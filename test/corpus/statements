@@ -1,5 +1,5 @@
 ========================================================================
-Test empty statement
+Test an empty statement
 ========================================================================
 
 .class public interface abstract LA/BC;
@@ -15,20 +15,19 @@ Test empty statement
 (class_definition
   (class_directive
     modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal))
+    (string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        return_type: (primitive_type)))
-    (code_block
+    modifiers: (access_modifiers)
+      (method_signature
+        (method_identifier)
+        return_type: (primitive_type))
       (statement
-        opcode: (opcode)))
-    (end_method)))
+        (expression
+          opcode: (opcode)))))
 
 
 
@@ -49,26 +48,31 @@ Test statements with variable and number literal arguments
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
-    identifier: (class_identifier))
+    (access_modifiers)
+    (class_identifier))
   (super_directive
-    identifier: (class_identifier))
+    (class_identifier))
   (source_directive
-    (string_literal))
+    (string))
   (method_definition
-    (method_declaration
-      modifiers: (access_modifiers)
-      identifier: (method_identifier
-        parameters: (parameters
-        (array_type
-          element_type: (class_identifier)))
-        return_type: (primitive_type)))
-    (code_block
-      (statement
-        opcode: (opcode)
-        argument: (variable)
-        argument: (number_literal))
-      (statement
-        opcode: (opcode)
-        argument: (variable)))
-    (end_method)))
+    (access_modifiers)
+    (method_signature
+	  (method_identifier)
+	  (parameters
+	    (array_type
+		  (class_identifier)))
+	  (primitive_type))
+    (statement
+	  (expression
+	    (opcode)
+	    (value
+		  (register
+		    (variable)))
+	    (value
+		  (number))))
+    (statement
+	  (expression
+	    (opcode)
+	    (value
+		  (register
+			(variable)))))))
