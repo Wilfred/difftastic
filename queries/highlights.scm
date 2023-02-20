@@ -86,9 +86,7 @@
   (#lua-match? @keyword.return "^return"))
 
 ((opcode) @conditional
-  (#lua-match? @conditional "^if"))
-((opcode) @conditional
-  (#lua-match? @conditional "^cmp"))
+  (#vim-match? @conditional "^(if|cmp)"))
 
 ((opcode) @exception
   (#lua-match? @exception "^throw"))
