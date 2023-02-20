@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+	owner=$1
+	name=$2
+	sha=$3
+
+	path=examples/$name
+	if [ ! -d "$path" ]; then
+		echo "Cloning $owner/$name"
+		git clone "https://github.com/$owner/$name" "$path"
+	fi
+
+	pushd "$path" >/dev/null
+	actual_sha=$(git rev-parse HEAD)
+	if [ "$actual_sha" != "$sha" ]; then
+		echo "Updating $owner/$name to $sha"
+		git fetch
+		git reset --hard "$sha"
+	fi
+	popd >/dev/null
+}
+
+function install_apktool {
+	if ! command -v apktool >/dev/null; then
+		echo "Installing apktool"
+		sudo wget -q https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /usr/local/bin/apktool
+		sudo chmod a+x /usr/local/bin/apktool
+		sudo wget -q "https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar" -O /usr/local/bin/apktool.jar
+		sudo chmod a+x /usr/local/bin/apktool.jar
+	fi
+}
+
+function download_and_decompile_apk {
+	url=$1
+	path=examples/$2.apk
+	out=examples/$2
+
+	if [ ! -f "$path" ]; then
+		echo "Downloading $url"
+		wget -q "$url" -O "$path"
+	fi
+
+	if [ ! -d "$path" ]; then
+		echo "Decompiling $path"
+		apktool d "$path" -o "$out" -f
+	fi
+
+	rm -rf "$path"
+}
+
+clone_repo JesusFreke smali 2771eae0a11f07bd892732232e6ee4e32437230d
+
+download_and_decompile_apk "https://dw23.uptodown.com/dwn/hMDl3XIoYDJlOqc50-qjcy0_6Kkl78yFp7CAbD3SaEkIloJ3JSFL5habMhXuc5rspFSDEAm9EqOYAx6jGlucNbjNH9CuMQueV-z71-ELij9U7POeo3603pGiPJWX7fPQ/hLs97vmoBeOc7My3_jaD1CRtJhepHWNUTIqIUD6_5SjJ5inqlmKi7lmGUw0eSEJTSmGbMG-kNt-2r76vXVsTdje4GZdB17tnaAGVZ9imyj69vCO21OOAJnmKTxh7ru2i/8-YXksi00t0VrrqrM-MhqPuejAdRkp-lPAI4mhxMOSsQzH7FcZ-h8uliBWgQGKcPXTYK_3fQnAiNkdC8MdXP3NIIDOcafyRRJo1ihu8a7uQ=/clash-of-clans-15-83-27.apk" Clash-of-Clans
+download_and_decompile_apk "https://dw41.uptodown.com/dwn/Wm2_AaRzXFGY2xOlVHcu_gXusrzhCgCwFfuZbVrnsfjPileLHvLujTpMCUH9rRibAO1v8HxJFGOssZx-A4r44295dSGkkKq75PggTWhQNSpGRXBREVZnhrV_Sufda1s-/71vYNLpTTiCgwC4vnj4BIqQ3-YO5IrXuftSYGJdQ-L9Q4MQP6zbFEwdOVSJaO1rS9mlvBYk9ALFlK-UlsXuGFbKllBcmVMfCj-S4qROaIZj7J65xOqQgliUJdrUkwYwf/tcW63S18Rc7v2Vkq8Kf7eS2syBIQq8MuqvVCcBrGYLslrX4Hx3YHRkHiHirEKcIZZDGRqjSue47bwVVrhOwRKw==/instagram-270-2-0-24-82.apk" Instagram
+
+known_failures="$(cat script/known_failures.txt)"
+
+# shellcheck disable=2046
+tree-sitter parse -q \
+	"examples/**/*.smali" \
+	$(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name "*.smali" | wc -l)
+failure_count=$(wc -w <<<"$known_failures")
+success_count=$((example_count - failure_count))
+success_percent=$(bc -l <<<"100*${success_count}/${example_count}")
+
+printf \
+	"Successfully parsed %d of %d example files (%.1f%%)\n" \
+	"$success_count" "$example_count" "$success_percent"
