@@ -5,13 +5,7 @@
 (primitive_type) @type.builtin
 
 ((class_identifier) @type.builtin
-  (#lua-match? @type.builtin "^Landroid/"))
-((class_identifier) @type.builtin
-  (#lua-match? @type.builtin "^Lcom/android/"))
-((class_identifier) @type.builtin
-  (#lua-match? @type.builtin "^Ldalvik/"))
-((class_identifier) @type.builtin
-  (#lua-match? @type.builtin "^Ljava/"))
+  (#vim-match? @type.builtin "^L(android|com/android|dalvik|java)/"))
 
 ; Methods
 
@@ -74,7 +68,7 @@
 
 ; Parameters
 
-(parameter) @parameter ; more like @parameter.builtin but that doesn't exist in nvim-treesitter
+(parameter) @parameter.builtin
 (param_identifier) @parameter
 
 ; Labels
@@ -102,7 +96,6 @@
 [
   "="
   ".."
-  "@"
 ] @operator
 
 ; Keywords
@@ -185,6 +178,7 @@
   "->"
   ":"
   ","
+  "@"
 ] @punctuation.delimiter
 
 ; Comments
