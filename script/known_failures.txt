@@ -12,3 +12,4 @@ examples/smali/smali/src/test/resources/LexerTest/StringLiteralTest.smali
 examples/smali/smali/src/test/resources/LexerTest/SymbolTest.smali
 examples/smali/smali/src/test/resources/LexerTest/TypeAndIdentifierTest.smali
 examples/smali/smali/src/test/resources/LexerTest/TypeAndIdentifierTest_api29.smali
+examples/smali2java/test_data/fc.smali
