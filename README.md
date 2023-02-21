@@ -60,12 +60,12 @@ The precedence rules for the different grammar nodes (and particularly expressio
 To run all tests stores in `corpus/` run
 
 ```sh
-$ tree-sitter test
+$ npm test
 ```
 
 ### Test parsing a specific file
 ```
-$ tree-sitter parse $file
+$ npm run debug $file
 ```
 
 ## How to contribute
