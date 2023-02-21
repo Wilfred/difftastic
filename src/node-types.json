@@ -1043,7 +1043,18 @@
   {
     "type": "declaration_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "in": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,

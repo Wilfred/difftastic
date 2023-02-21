@@ -14,13 +14,17 @@ using std::string;
 
 enum TokenType {
   VIRTUAL_OPEN_SECTION,
+  VIRTUAL_OPEN_ALIGNED,
+  ALIGNED,
   VIRTUAL_END_SECTION,
   BLOCK_COMMENT_CONTENT,
+  SEPARATOR,
 };
 
 bool in_error_recovery(const bool *valid_symbols) {
   return
    (valid_symbols[VIRTUAL_OPEN_SECTION] &&
+    valid_symbols[VIRTUAL_OPEN_ALIGNED] &&
     valid_symbols[VIRTUAL_END_SECTION] &&
     valid_symbols[BLOCK_COMMENT_CONTENT]);
 }
@@ -190,6 +194,15 @@ struct Scanner {
       else if (lexer->lookahead == '\r') {
           skip(lexer);
       }
+      else if (lexer->lookahead == ';') {
+        if (valid_symbols[SEPARATOR]) {
+          advance(lexer);
+          lexer->mark_end(lexer);
+          lexer->result_symbol = SEPARATOR;
+          return true;
+        }
+        return false;
+      }
       else if (lexer->eof(lexer)) {
           if (valid_symbols[VIRTUAL_END_SECTION])
           {
@@ -203,10 +216,19 @@ struct Scanner {
       }
     }
 
+    if (valid_symbols[ALIGNED] && !indent_length_stack.empty() && indent_length_stack.back() == lexer->get_column(lexer)) {
+      lexer->result_symbol = ALIGNED;
+      return true;
+    }
     // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
-    if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
+    else if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer) && (indent_length_stack.empty() || indent_length_stack.back() < lexer->get_column(lexer))) {
       indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
+      return true;
+    }
+    else if (valid_symbols[VIRTUAL_OPEN_ALIGNED] && !lexer->eof(lexer) && (indent_length_stack.empty() || indent_length_stack.back() <= lexer->get_column(lexer))) {
+      indent_length_stack.push_back(lexer->get_column(lexer));
+      lexer->result_symbol = VIRTUAL_OPEN_ALIGNED;
       return true;
     }
     else if (valid_symbols[BLOCK_COMMENT_CONTENT]) {

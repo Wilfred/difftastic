@@ -118,20 +118,28 @@ do (4)
 
 --------------------------------------------------------------------------------
 
-(ERROR)
+(file
+  (value_declaration
+    (do
+      (paren_expression
+        (const (int))))))
 
 ================================================================================
-paren expression in sequential expression
+paren expression in application expression
 ================================================================================
 
 do test (4)
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (long_identifier_or_op
-    (long_identifier
-      (identifier))))
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (paren_expression
+          (const (int)))))))
 
 ================================================================================
 dot expression
@@ -141,14 +149,15 @@ do (test.test)
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (dot_expression
-    (long_identifier_or_op
-      (long_identifier
-        (identifier)))
-    (long_identifier_or_op
-      (long_identifier
-        (identifier)))))
+(file
+  (value_declaration
+    (do
+      (paren_expression
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))
 
 ================================================================================
 index dot expression
@@ -357,11 +366,9 @@ do [2] [1]
     (do
       (application_expression
         (list_expression
-          (const
-            (int)))
+          (const (int)))
         (list_expression
-          (const
-            (int)))))))
+          (const (int)))))))
 
 ================================================================================
 array expressions
@@ -375,12 +382,9 @@ do [|2; 3; 4|]
   (value_declaration
     (do
       (array_expression
-        (const
-          (int))
-        (const
-          (int))
-        (const
-          (int))))))
+        (const (int))
+        (const (int))
+        (const (int))))))
 
 ================================================================================
 array list expressions
@@ -400,8 +404,7 @@ do [|2; 3; 4|][1]
           (const
             (int))
           (const
-            (int))
-          (MISSING _virtual_end_section))
+            (int)))
         (slice_ranges
           (slice_range
             (const
@@ -421,8 +424,7 @@ do [|2|][1]
       (index_expression
         (array_expression
           (const
-            (int))
-          (MISSING _virtual_end_section))
+            (int)))
         (slice_ranges
           (slice_range
             (const
@@ -442,8 +444,7 @@ do [|2|] [|1|]
       (application_expression
         (array_expression
           (const
-            (int))
-          (MISSING _virtual_end_section))
+            (int)))
         (array_expression
           (const
             (int)))))))
@@ -543,13 +544,8 @@ do
         (function_or_value_defn
           (function_declaration_left
             (identifier)
-            (argument_patterns
-              (long_identifier
-                (identifier))))
+            (argument_patterns (long_identifier (identifier))))
           (sequence_expression
-            (const
-              (int))
-            (const
-              (int))))
-        (const
-          (int))))))
+            (const (int))
+            (const (int))))
+        (const (int))))))
