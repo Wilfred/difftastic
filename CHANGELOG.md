@@ -1,5 +1,9 @@
 ## 0.44 (unreleased)
 
+### Parsing
+
+Added support for Racket.
+
 ### Display
 
 Improved syntax highlighting for keywords.
