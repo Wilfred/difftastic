@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added support for Racket.
+Added support for Newick and Racket.
 
 ### Display
 
