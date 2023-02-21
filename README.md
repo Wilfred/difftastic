@@ -1,5 +1,7 @@
 # tree-sitter-fsharp
 tree-sitter grammar for F# (still WIP)
+Based on [the 4.1 F# language specification](https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf) (Mostly, Appendix A)
+and the [F# compiler parser](https://github.com/dotnet/fsharp/blob/main/src/Compiler/pars.fsy)
 
 ## Getting started
 
