@@ -549,3 +549,44 @@ do
             (const (int))
             (const (int))))
         (const (int))))))
+
+================================================================================
+Parenthesised expressions 1
+================================================================================
+
+module T
+let x a = (a)
+let y = Choice1Of2 ("hi")
+let z = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (named_module
+    (long_identifier
+      (identifier))
+    (value_declaration
+      (function_or_value_defn
+        (function_declaration_left
+          (identifier)
+          (argument_patterns
+            (long_identifier (identifier))))
+        (paren_expression
+          (long_identifier_or_op
+            (long_identifier (identifier))))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier (identifier))))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (paren_expression
+            (const (string))))))
+    (value_declaration
+      (function_or_value_defn
+        (value_declaration_left
+          (identifier_pattern
+            (long_identifier (identifier))))
+        (const)))))
