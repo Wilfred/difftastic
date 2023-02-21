@@ -39,7 +39,8 @@ with `difft --list-languages`.
 | PHP             | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php)                                                                                  |
 | Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)                                                                            |
 | QML             | [tree-sitter/tree-sitter-qmljs](https://github.com/yuja/tree-sitter-qmljs)                                                                                     |
-| R               | [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)                                                                                |
+| R               | [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)                                                                                                  |
+| Racket          | [6cdh/tree-sitter-racket](https://github.com/6cdh/tree-sitter-racket)                                                                                          |
 | Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)                                                                                |
 | Rust            | [tree-sitter/tree-sitter-rust](https://github.com/tree-sitter/tree-sitter-rust) ([forked](https://github.com/Wilfred/tree-sitter-rust/tree/non_special_token)) |
 | Scala           | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)                                                                              |
