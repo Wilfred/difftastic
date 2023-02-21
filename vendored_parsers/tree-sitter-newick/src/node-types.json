@@ -1,0 +1,237 @@
+[
+  {
+    "type": "attributes",
+    "named": true,
+    "fields": {
+      "data": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "data",
+            "named": true
+          }
+        ]
+      },
+      "length": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "length",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "clade",
+    "named": true,
+    "fields": {
+      "clade": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "clade",
+            "named": true
+          }
+        ]
+      },
+      "leaf": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "leaf",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "data",
+    "named": true,
+    "fields": {
+      "entry": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "nhx_entry",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "leaf",
+    "named": true,
+    "fields": {
+      "attributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attributes",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "length",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nhx_entry",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nhx_val",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nhx_val",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "nhx_val",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "tree",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tree",
+    "named": true,
+    "fields": {
+      "clade": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "clade",
+            "named": true
+          }
+        ]
+      },
+      "leaf": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "leaf",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "[&&NHX",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "name",
+    "named": true
+  }
+]

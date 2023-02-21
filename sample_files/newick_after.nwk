@@ -1,0 +1,903 @@
+(
+  (
+    (
+      Drosophila_melanogaster,
+      Caenorhabditis_elegans
+    )
+,
+    (
+      (
+        Ciona_intestinalis,
+        Ciona_savignyi
+      )
+,
+      (
+        (
+          Eptatretus_burgeri,
+          Petromyzon_marinus
+        )
+,
+        (
+          (
+            (
+              (
+                (
+                  (
+                    (
+                      (
+                        (
+                          (
+                            (
+                              Astyanax_mexicanus,
+                              Pygocentrus_nattereri
+                            )
+,
+                            Electrophorus_electricus
+                          )
+,
+                          Ictalurus_punctatus
+                        )
+,
+                        (
+                          (
+                            (
+                              Cyprinus_carpio_carpio,
+                              Sinocyclocheilus_grahami
+                            )
+,
+                            Carassius_auratus
+                          )
+,
+                          Danio_rerio
+                        )
+
+                      )
+,
+                      (
+                        Clupea_harengus,
+                        Denticeps_clupeoides
+                      )
+
+                    )
+,
+                    (
+                      (
+                        (
+                          (
+                            (
+                              (
+                                (
+                                  (
+                                    (
+                                      (
+                                        Kryptolebias_marmoratus,
+                                        Nothobranchius_furzeri
+                                      )
+,
+                                      (
+                                        (
+                                          Fundulus_heteroclitus,
+                                          Cyprinodon_variegatus
+                                        )
+,
+                                        (
+                                          (
+                                            (
+                                              Poecilia_latipinna,
+                                              Poecilia_formosa
+                                            )
+,
+                                            Poecilia_reticulata
+                                          )
+,
+                                          Xiphophorus_maculatus
+                                        )
+
+                                      )
+
+                                    )
+,
+                                    (
+                                      (
+                                        Oryzias_javanicus,
+                                        Oryzias_melastigma
+                                      )
+,
+                                      (
+                                        Oryzias_latipes,
+                                        Oryzias_sinensis
+                                      )
+
+                                    )
+
+                                  )
+,
+                                  (
+                                    (
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                Maylandia_zebra,
+                                                Astatotilapia_calliptera
+                                              )
+,
+                                              Pundamilia_nyererei
+                                            )
+,
+                                            Haplochromis_burtoni
+                                          )
+,
+                                          Neolamprologus_brichardi
+                                        )
+,
+                                        Oreochromis_niloticus
+                                      )
+,
+                                      Amphilophus_citrinellus
+                                    )
+,
+                                    (
+                                      (
+                                        (
+                                          Amphiprion_percula,
+                                          Amphiprion_ocellaris
+                                        )
+,
+                                        Acanthochromis_polyacanthus
+                                      )
+,
+                                      Stegastes_partitus
+                                    )
+
+                                  )
+
+                                )
+,
+                                (
+                                  (
+                                    (
+                                      Cynoglossus_semilaevis,
+                                      Scophthalmus_maximus
+                                    )
+,
+                                    (
+                                      (
+                                        Seriola_dumerili,
+                                        Seriola_lalandi_dorsalis
+                                      )
+,
+                                      Lates_calcarifer
+                                    )
+
+                                  )
+,
+                                  (
+                                    (
+                                      Anabas_testudineus,
+                                      Betta_splendens
+                                    )
+,
+                                    Mastacembelus_armatus
+                                  )
+
+                                )
+
+                              )
+,
+                              (
+                                (
+                                  (
+                                    (
+                                      (
+                                        Cyclopterus_lumpus,
+                                        Gasterosteus_aculeatus
+                                      )
+,
+                                      (
+                                        Cottoperca_gobio,
+                                        Sander_lucioperca
+                                      )
+
+                                    )
+,
+                                    (
+                                      (
+                                        Larimichthys_crocea,
+                                        Dicentrarchus_labrax
+                                      )
+,
+                                      Sparus_aurata
+                                    )
+
+                                  )
+,
+                                  Labrus_bergylta
+                                )
+,
+                                (
+                                  Tetraodon_nigroviridis,
+                                  Takifugu_rubripes
+                                )
+
+                              )
+
+                            )
+,
+                            Hippocampus_comes
+                          )
+,
+                          Myripristis_murdjan
+                        )
+,
+                        Gadus_morhua
+                      )
+,
+                      (
+                        (
+                          (
+                            (
+                              (
+                                Oncorhynchus_kisutch,
+                                Oncorhynchus_tshawytscha
+                              )
+,
+                              Oncorhynchus_mykiss
+                            )
+,
+                            (
+                              Salmo_salar,
+                              Salmo_trutta
+                            )
+
+                          )
+,
+                          Hucho_hucho
+                        )
+,
+                        Esox_lucius
+                      )
+
+                    )
+
+                  )
+,
+                  (
+                    Scleropages_formosus,
+                    Paramormyrops_kingsleyae
+                  )
+
+                )
+,
+                Lepisosteus_oculatus
+              )
+,
+              Erpetoichthys_calabaricus
+            )
+,
+            (
+              (
+                (
+                  Leptobrachium_leishanense,
+                  Xenopus_tropicalis
+                )
+,
+                (
+                  (
+                    (
+                      (
+                        (
+                          (
+                            (
+                              (
+                                Erinaceus_europaeus,
+                                Sorex_araneus
+                              )
+,
+                              (
+                                (
+                                  (
+                                    (
+                                      (
+                                        Rhinolophus_ferrumequinum,
+                                        Myotis_lucifugus
+                                      )
+,
+                                      Pteropus_vampyrus
+                                    )
+,
+                                    (
+                                      Equus_caballus,
+                                      Equus_asinus_asinus
+                                    )
+
+                                  )
+,
+                                  (
+                                    (
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                Ovis_aries_reference_breed,
+                                                Capra_hircus_reference_breed
+                                              )
+,
+                                              (
+                                                (
+                                                  (
+                                                    Bos_indicus_x_Bos_taurus,
+                                                    Bos_taurus
+                                                  )
+,
+                                                  (
+                                                    Bos_mutus,
+                                                    Bos_grunniens
+                                                  )
+
+                                                )
+,
+                                                Bison_bison_bison
+                                              )
+
+                                            )
+,
+                                            Moschus_moschiferus
+                                          )
+,
+                                          Cervus_hanglu_yarkandensis
+                                        )
+,
+                                        (
+                                          (
+                                            (
+                                              (
+                                                (
+                                                  Monodon_monoceros,
+                                                  Delphinapterus_leucas
+                                                )
+,
+                                                Phocoena_sinus
+                                              )
+,
+                                              Tursiops_truncatus
+                                            )
+,
+                                            Physeter_catodon
+                                          )
+,
+                                          Balaenoptera_musculus
+                                        )
+
+                                      )
+,
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                (
+                                                  (
+                                                    Sus_scrofa_breed_jinhua,
+                                                    Sus_scrofa_breed_meishan
+                                                  )
+,
+                                                  Sus_scrofa_breed_rongchang
+                                                )
+,
+                                                Sus_scrofa_breed_tibetan
+                                              )
+,
+                                              Sus_scrofa_breed_bamei
+                                            )
+,
+                                            Sus_scrofa_breed_wuzhishan
+                                          )
+,
+                                          (
+                                            (
+                                              Sus_scrofa_reference_breed,
+                                              Sus_scrofa_breed_usmarc
+                                            )
+,
+                                            (
+                                              (
+                                                (
+                                                  Sus_scrofa_breed_hampshire,
+                                                  Sus_scrofa_breed_berkshire
+                                                )
+,
+                                                Sus_scrofa_breed_landrace
+                                              )
+,
+                                              (
+                                                Sus_scrofa_breed_largewhite,
+                                                Sus_scrofa_breed_pietrain
+                                              )
+
+                                            )
+
+                                          )
+
+                                        )
+,
+                                        Catagonus_wagneri
+                                      )
+
+                                    )
+,
+                                    (
+                                      Camelus_dromedarius,
+                                      Vicugna_pacos
+                                    )
+
+                                  )
+
+                                )
+,
+                                (
+                                  (
+                                    (
+                                      (
+                                        (
+                                          Ursus_maritimus,
+                                          Ursus_americanus
+                                        )
+,
+                                        Ailuropoda_melanoleuca_reference_isolate
+                                      )
+,
+                                      (
+                                        Neogale_vison,
+                                        Mustela_putorius_furo
+                                      )
+
+                                    )
+,
+                                    (
+                                      (
+                                        Canis_lupus_familiaris_breed_Labrador_retriever,
+                                        Canis_lupus_dingo
+                                      )
+,
+                                      Vulpes_vulpes
+                                    )
+
+                                  )
+,
+                                  (
+                                    (
+                                      (
+                                        Panthera_leo,
+                                        Panthera_pardus
+                                      )
+,
+                                      Panthera_tigris_altaica
+                                    )
+,
+                                    Felis_catus
+                                  )
+
+                                )
+
+                              )
+
+                            )
+,
+                            (
+                              (
+                                (
+                                  (
+                                    (
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                (
+                                                  Cricetulus_griseus,
+                                                  Mesocricetus_auratus
+                                                )
+,
+                                                Peromyscus_maniculatus_bairdii
+                                              )
+,
+                                              Microtus_ochrogaster
+                                            )
+,
+                                            (
+                                              (
+                                                (
+                                                  (
+                                                    (
+                                                      Mus_spicilegus,
+                                                      Mus_spretus_strain_SPRET/EiJ
+                                                    )
+,
+                                                    (
+                                                      (
+                                                        (
+                                                          (
+                                                            (
+                                                              (
+                                                                (
+                                                                  Mus_musculus_reference_CL57BL6_strain,
+                                                                  Mus_musculus_strain_C57BL/6NJ
+                                                                )
+,
+                                                                Mus_musculus_strain_NZO/HlLtJ
+                                                              )
+,
+                                                              (
+                                                                (
+                                                                  (
+                                                                    (
+                                                                      Mus_musculus_strain_A/J,
+                                                                      Mus_musculus_strain_BALB/cJ
+                                                                    )
+,
+                                                                    (
+                                                                      (
+                                                                        Mus_musculus_strain_C3H/HeJ,
+                                                                        Mus_musculus_strain_CBA/J
+                                                                      )
+,
+                                                                      Mus_musculus_strain_DBA/2J
+                                                                    )
+
+                                                                  )
+,
+                                                                  Mus_musculus_strain_AKR/J
+                                                                )
+,
+                                                                (
+                                                                  Mus_musculus_strain_FVB/NJ,
+                                                                  Mus_musculus_strain_NOD/ShiLtJ
+                                                                )
+
+                                                              )
+
+                                                            )
+,
+                                                            (
+                                                              Mus_musculus_strain_129S1/SvImJ,
+                                                              Mus_musculus_strain_LP/J
+                                                            )
+
+                                                          )
+,
+                                                          Mus_musculus_domesticus_strain_WSB/EiJ
+                                                        )
+,
+                                                        Mus_musculus_musculus_strain_PWK/PhJ
+                                                      )
+,
+                                                      Mus_musculus_castaneus_strain_CAST/EiJ
+                                                    )
+
+                                                  )
+,
+                                                  Mus_caroli_strain_CAROLI_EIJ
+                                                )
+,
+                                                Mus_pahari_strain_PAHARI_EIJ
+                                              )
+,
+                                              Rattus_norvegicus_strain_BN/NHsdMcwi
+                                            )
+
+                                          )
+,
+                                          Nannospalax_galili
+                                        )
+,
+                                        Jaculus_jaculus
+                                      )
+,
+                                      Dipodomys_ordii
+                                    )
+,
+                                    (
+                                      (
+                                        (
+                                          (
+                                            Chinchilla_lanigera,
+                                            Cavia_porcellus
+                                          )
+,
+                                          Heterocephalus_glaber
+                                        )
+,
+                                        Octodon_degus
+                                      )
+,
+                                      (
+                                        (
+                                          (
+                                            Urocitellus_parryii,
+                                            Ictidomys_tridecemlineatus
+                                          )
+,
+                                          Marmota_marmota_marmota
+                                        )
+,
+                                        Sciurus_vulgaris
+                                      )
+
+                                    )
+
+                                  )
+,
+                                  (
+                                    Oryctolagus_cuniculus,
+                                    Ochotona_princeps
+                                  )
+
+                                )
+,
+                                Tupaia_belangeri
+                              )
+,
+                              (
+                                (
+                                  (
+                                    (
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                Pan_troglodytes,
+                                                Pan_paniscus
+                                              )
+,
+                                              Homo_sapiens
+                                            )
+,
+                                            Gorilla_gorilla_gorilla
+                                          )
+,
+                                          Pongo_abelii
+                                        )
+,
+                                        Nomascus_leucogenys
+                                      )
+,
+                                      (
+                                        (
+                                          (
+                                            (
+                                              (
+                                                Cercocebus_atys,
+                                                Mandrillus_leucophaeus
+                                              )
+,
+                                              Papio_anubis
+                                            )
+,
+                                            (
+                                              (
+                                                Macaca_mulatta,
+                                                Macaca_fascicularis
+                                              )
+,
+                                              Macaca_nemestrina
+                                            )
+
+                                          )
+,
+                                          Chlorocebus_sabaeus
+                                        )
+,
+                                        (
+                                          Rhinopithecus_roxellana,
+                                          Rhinopithecus_bieti
+                                        )
+
+                                      )
+
+                                    )
+,
+                                    (
+                                      (
+                                        (
+                                          Cebus_imitator,
+                                          Saimiri_boliviensis_boliviensis
+                                        )
+,
+                                        Callithrix_jacchus
+                                      )
+,
+                                      Aotus_nancymaae
+                                    )
+
+                                  )
+,
+                                  Carlito_syrichta
+                                )
+,
+                                (
+                                  (
+                                    (
+                                      Prolemur_simus,
+                                      Propithecus_coquereli
+                                    )
+,
+                                    Microcebus_murinus
+                                  )
+,
+                                  Otolemur_garnettii
+                                )
+
+                              )
+
+                            )
+
+                          )
+,
+                          (
+                            Dasypus_novemcinctus,
+                            Choloepus_hoffmanni
+                          )
+
+                        )
+,
+                        (
+                          (
+                            Loxodonta_africana,
+                            Procavia_capensis
+                          )
+,
+                          Echinops_telfairi
+                        )
+
+                      )
+,
+                      (
+                        (
+                          (
+                            (
+                              Vombatus_ursinus,
+                              Phascolarctos_cinereus
+                            )
+,
+                            Notamacropus_eugenii
+                          )
+,
+                          Sarcophilus_harrisii
+                        )
+,
+                        Monodelphis_domestica
+                      )
+
+                    )
+,
+                    Ornithorhynchus_anatinus
+                  )
+,
+                  (
+                    (
+                      (
+                        (
+                          (
+                            (
+                              (
+                                Notechis_scutatus,
+                                Pseudonaja_textilis
+                              )
+,
+                              Laticauda_laticaudata
+                            )
+,
+                            Naja_naja
+                          )
+,
+                          Anolis_carolinensis_reference_strain
+                        )
+,
+                        (
+                          Salvator_merianae,
+                          Podarcis_muralis
+                        )
+
+                      )
+,
+                      Sphenodon_punctatus
+                    )
+,
+                    (
+                      (
+                        (
+                          (
+                            (
+                              (
+                                (
+                                  Gallus_gallus_reference_breed,
+                                  Meleagris_gallopavo_reference_strain
+                                )
+,
+                                Coturnix_japonica
+                              )
+,
+                              (
+                                Anas_platyrhynchos_platyrhynchos,
+                                Anser_brachyrhynchus
+                              )
+
+                            )
+,
+                            (
+                              (
+                                Aquila_chrysaetos_chrysaetos,
+                                Strigops_habroptila
+                              )
+,
+                              (
+                                (
+                                  (
+                                    (
+                                      Serinus_canaria,
+                                      Taeniopygia_guttata
+                                    )
+,
+                                    Geospiza_fortis
+                                  )
+,
+                                  Parus_major
+                                )
+,
+                                Ficedula_albicollis
+                              )
+
+                            )
+
+                          )
+,
+                          Struthio_camelus_australis
+                        )
+,
+                        Crocodylus_porosus
+                      )
+,
+                      (
+                        (
+                          (
+                            Gopherus_evgoodei,
+                            Chelonoidis_abingdonii
+                          )
+,
+                          (
+                            Terrapene_carolina_triunguis,
+                            Chrysemys_picta_bellii
+                          )
+
+                        )
+,
+                        Pelodiscus_sinensis
+                      )
+
+                    )
+
+                  )
+
+                )
+
+              )
+,
+              Latimeria_chalumnae
+            )
+
+          )
+,
+          Callorhinchus_milii
+        )
+
+      )
+
+    )
+
+  )
+,
+  Saccharomyces_cerevisiae;

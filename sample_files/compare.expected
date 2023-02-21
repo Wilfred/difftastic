@@ -130,6 +130,9 @@ sample_files/nested_slider_before.rs sample_files/nested_slider_after.rs
 sample_files/nesting_before.el sample_files/nesting_after.el
 9fcf6b8adf148cdae47bc3a5f8068e41  -
 
+sample_files/newick_before.nwk sample_files/newick_after.nwk
+4778aef7b901b2cc7f9ad3601f87864d  -
+
 sample_files/nix_before.nix sample_files/nix_after.nix
 09a56752c1eb7f3f5c10d631a01973fc  -
 
