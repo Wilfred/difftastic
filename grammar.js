@@ -39,13 +39,15 @@ const PREC = {
 module.exports = grammar({
   name: 'fsharp',
 
+  // The external scanner (scanner.cc) allows us to inject "dummy" tokens into the grammar.
+  // These tokens are used to track the indentation-based scoping used in F#
   externals: $ => [
-    $._virtual_open_section,
-    $._virtual_open_aligned,
-    $._aligned,
-    $._virtual_end_section,
+    $._virtual_open_section, // Signal the external scanner that a new indentation scope should be opened. Add the indetation size to the stack.
+    $._virtual_open_aligned, // Signal the external scanner that a new indentation scope should be opened, which is allowed have to same indentation as the existing scope.
+    $._aligned, // Checks that the next non-whitespace character is indented at the same level as the current scope.
+    $._virtual_end_section, // end an indentation scope, popping the indentation off the stack.
     $._block_comment_content,
-    $._seperator,
+    $._seperator, // parse ";" tokens in the external scanner to prevent indentation scopes opening inside list expressions.
   ],
 
   extras: $ => [
