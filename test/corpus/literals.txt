@@ -147,10 +147,17 @@ string literals
 ---
 
 (program
-  (expression_statement (string_literal))
-  (expression_statement (string_literal))
-  (expression_statement (string_literal))
-  (expression_statement (string_literal)))
+      (expression_statement
+        (string_literal))
+      (expression_statement
+        (string_literal
+          (escape_sequence)))
+      (expression_statement
+        (string_literal
+          (string_fragment)))
+      (expression_statement
+        (string_literal
+          (string_fragment))))
 
 ===============
 text block
@@ -179,7 +186,7 @@ at new line
 ""this is double quotes""
 "" """;
 """
-"
+"hi
 """;
 """
 \\
@@ -188,14 +195,65 @@ at new line
 ---
 
 (program
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block))
-  (expression_statement (text_block)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment)
+          (multiline_string_fragment)))
+      (expression_statement
+        (string_literal
+          (multiline_string_fragment))))
+
+===============
+escape sequences
+===============
+
+"\n\a\b\fhi im a piece of text\t\v and im some more text \\\'\"\?";
+
+---
+
+(program
+      (expression_statement
+        (string_literal
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (string_fragment)
+          (escape_sequence)
+          (escape_sequence)
+          (string_fragment)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence)
+          (escape_sequence))))
 
 =============
 null literals

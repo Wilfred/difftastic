@@ -73,6 +73,7 @@
   (character_literal)
   (string_literal)
 ] @string
+(escape_sequence) @string.escape
 
 [
   (true)
