@@ -1164,3 +1164,53 @@ $cibleVisée2 = 2;
     (assignment_expression
       (identifier)
       (decimal_integer_literal))))
+
+================================================================================
+Local variable declaration with scoped type identifiers
+================================================================================
+
+util.List<Integer> x = null;
+java.util.List<Integer> x = null;
+java.util.List<java.lang.Integer> x = null;
+
+--------------------------------------------------------------------------------
+
+(program
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (type_identifier)
+        (type_identifier))
+      (type_arguments
+        (type_identifier)))
+    (variable_declarator
+      (identifier)
+      (null_literal)))
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (scoped_type_identifier
+          (type_identifier)
+          (type_identifier))
+        (type_identifier))
+      (type_arguments
+        (type_identifier)))
+    (variable_declarator
+      (identifier)
+      (null_literal)))
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (scoped_type_identifier
+          (type_identifier)
+          (type_identifier))
+        (type_identifier))
+      (type_arguments
+        (scoped_type_identifier
+          (scoped_type_identifier
+            (type_identifier)
+            (type_identifier))
+          (type_identifier))))
+    (variable_declarator
+      (identifier)
+      (null_literal))))
