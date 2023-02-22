@@ -3,11 +3,13 @@ name = "tree-sitter-smali"
 description = "Smali grammar for tree-sitter"
 version = "0.0.2"
 authors = ["Yotam Nachum <me@yotam.net>", "Amaan Qureshi <amaanq12@gmail.com>"]
+license = "MIT"
+readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "smali"]
 categories = ["parsing", "text-editors"]
 repository = "https://git.sr.ht/~yotam/tree-sitter-smali"
 edition = "2021"
-license = "MIT"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
