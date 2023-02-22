@@ -91,7 +91,6 @@ module.exports = grammar({
       $.false,
       $.character_literal,
       $.string_literal,
-      $.text_block,
       $.null_literal
     ),
 
