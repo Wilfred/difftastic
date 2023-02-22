@@ -55,8 +55,9 @@ unicode-width = "0.1.9"
 crossterm = { version = "0.25.0", features = [] }
 
 [dev-dependencies]
+# 2.0.5 is the last version that supports rustc 1.57.
+assert_cmd = "=2.0.5"
 pretty_assertions = "1.2.1"
-assert_cmd = "2.0.8"
 
 [build-dependencies]
 cc = "1.0.78"
