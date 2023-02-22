@@ -13,7 +13,8 @@ fn no_such_files() {
 fn has_changes_default_exit_code() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
-    cmd.arg("sample_files/simple_before.js").arg("sample_files/simple_after.js");
+    cmd.arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
     cmd.assert().success();
 }
 
@@ -21,6 +22,8 @@ fn has_changes_default_exit_code() {
 fn has_changes_requested_exit_code() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
-    cmd.arg("--exit-code").arg("sample_files/simple_before.js").arg("sample_files/simple_after.js");
+    cmd.arg("--exit-code")
+        .arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
     cmd.assert().failure().code(1);
 }
