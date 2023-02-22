@@ -1,4 +1,5 @@
-/src/** linguist-vendored
+/src/parser.c linguist-vendored
+/src/*.json linguist-vendored
 /examples/* linguist-vendored
 
 src/grammar.json -diff
