@@ -55,7 +55,11 @@ unicode-width = "0.1.9"
 crossterm = { version = "0.25.0", features = [] }
 
 [dev-dependencies]
-assert_cmd = "2.0.*"
+# This is the last version of assert_cmd that supports rustc 1.57.
+assert_cmd = "=2.0.8"
+# Predicates is a dependency of assert_cmd, but needs pinning to the
+# last version that supports rustc 1.57.
+predicates = "=2.1.1"
 pretty_assertions = "1.2.1"
 
 [build-dependencies]
