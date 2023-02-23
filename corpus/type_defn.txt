@@ -235,6 +235,24 @@ type A() =
                     (const (unit))))))))))))
 
 ================================================================================
+Mutual type definition
+================================================================================
+
+type A = | B
+and B = C
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (union_type_defn
+      (type_name (identifier))
+      (union_type_cases (union_type_case (identifier))))
+    (union_type_defn
+      (type_name (identifier))
+      (union_type_cases (union_type_case (identifier))))))
+
+================================================================================
 Recursive type definition
 ================================================================================
 

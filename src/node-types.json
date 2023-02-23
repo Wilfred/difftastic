@@ -230,6 +230,40 @@
     ]
   },
   {
+    "type": "_type_defn_body",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "anon_type_defn",
+        "named": true
+      },
+      {
+        "type": "delegate_type_defn",
+        "named": true
+      },
+      {
+        "type": "enum_type_defn",
+        "named": true
+      },
+      {
+        "type": "record_type_defn",
+        "named": true
+      },
+      {
+        "type": "type_abbrev_defn",
+        "named": true
+      },
+      {
+        "type": "type_extension",
+        "named": true
+      },
+      {
+        "type": "union_type_defn",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "active_pattern_op_name",
     "named": true,
     "fields": {},
@@ -2771,35 +2805,11 @@
       "required": true,
       "types": [
         {
-          "type": "anon_type_defn",
+          "type": "_type_defn_body",
           "named": true
         },
         {
           "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "delegate_type_defn",
-          "named": true
-        },
-        {
-          "type": "enum_type_defn",
-          "named": true
-        },
-        {
-          "type": "record_type_defn",
-          "named": true
-        },
-        {
-          "type": "type_abbrev_defn",
-          "named": true
-        },
-        {
-          "type": "type_extension",
-          "named": true
-        },
-        {
-          "type": "union_type_defn",
           "named": true
         }
       ]
@@ -3031,7 +3041,7 @@
           "named": true
         },
         {
-          "type": "union_type_field",
+          "type": "union_type_fields",
           "named": true
         }
       ]
@@ -3089,6 +3099,21 @@
         },
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "union_type_fields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "union_type_field",
           "named": true
         }
       ]

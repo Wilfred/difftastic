@@ -67,7 +67,7 @@ module.exports = grammar({
 
   inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expression],
 
-  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner ],
+  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._type_defn_body ],
 
   rules: {
     //
@@ -1090,21 +1090,28 @@ module.exports = grammar({
       ),
 
     type_definition: $ =>
-      seq(
+      prec.left(seq(
         optional($.attributes),
         "type",
-        choice(
-          $.delegate_type_defn,
-          $.record_type_defn,
-          $.union_type_defn,
-          $.anon_type_defn,
-          // $.class_type_defn,
-          // $.struct_type_defn,
-          // $.interface_type_defn,
-          $.enum_type_defn,
-          $.type_abbrev_defn,
-          $.type_extension,
-        )
+        $._type_defn_body,
+        repeat(seq(
+          optional($.attributes),
+          "and",
+          $._type_defn_body,
+        )))),
+
+    _type_defn_body: $ =>
+      choice(
+        $.delegate_type_defn,
+        $.record_type_defn,
+        $.union_type_defn,
+        $.anon_type_defn,
+        // $.class_type_defn,
+        // $.struct_type_defn,
+        // $.interface_type_defn,
+        $.enum_type_defn,
+        $.type_abbrev_defn,
+        $.type_extension,
       ),
 
     type_name: $ =>
@@ -1255,15 +1262,21 @@ module.exports = grammar({
         optional($.attributes),
         choice(
           $.identifier,
-          seq($.identifier, "of", $.union_type_field),
+          seq($.identifier, "of", $.union_type_fields),
           seq($.identifier, ":", $.type),
         ))),
 
+    union_type_fields: $ =>
+      seq(
+        $.union_type_field,
+        repeat(seq("*", $.union_type_field)),
+      ),
+
     union_type_field: $ =>
-      choice(
+      prec.left(choice(
         $.type,
         seq($.identifier, ":", $.type)
-      ),
+      )),
 
     anon_type_defn: $ =>
       seq(
