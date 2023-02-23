@@ -5228,7 +5228,7 @@ static inline bool sym_identifier_character_set_1(int32_t c) {
                   : c <= 67826)
                 : (c <= 67829 || (c < 67872
                   ? (c >= 67840 && c <= 67861)
-                  : c <= 67880)))))))))))))));
+                  : c <= 67883)))))))))))))));
 }
 
 static inline bool sym_identifier_character_set_2(int32_t c) {
@@ -5742,7 +5742,7 @@ static inline bool sym_identifier_character_set_2(int32_t c) {
                   : c <= 67826)
                 : (c <= 67829 || (c < 67872
                   ? (c >= 67840 && c <= 67861)
-                  : c <= 67880)))))))))))))));
+                  : c <= 67883)))))))))))))));
 }
 
 static inline bool sym_identifier_character_set_3(int32_t c) {
@@ -6256,7 +6256,7 @@ static inline bool sym_identifier_character_set_3(int32_t c) {
                   : c <= 67826)
                 : (c <= 67829 || (c < 67872
                   ? (c >= 67840 && c <= 67861)
-                  : c <= 67880)))))))))))))));
+                  : c <= 67883)))))))))))))));
 }
 
 static inline bool sym_identifier_character_set_4(int32_t c) {
@@ -6770,7 +6770,7 @@ static inline bool sym_identifier_character_set_4(int32_t c) {
                   : (c <= 67742 || (c >= 67808 && c <= 67826)))
                 : (c <= 67829 || (c < 67872
                   ? (c >= 67840 && c <= 67861)
-                  : c <= 67880)))))))))))))));
+                  : c <= 67883)))))))))))))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -66657,10 +66657,10 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [1255] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_annotation_type_body_repeat1, 2), SHIFT_REPEAT(687),
   [1258] = {.entry = {.count = 1, .reusable = true}}, SHIFT(261),
   [1260] = {.entry = {.count = 1, .reusable = true}}, SHIFT(219),
-  [1262] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 3, .dynamic_precedence = 16, .production_id = 31),
-  [1264] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 3, .dynamic_precedence = 16, .production_id = 31),
-  [1266] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 3, .dynamic_precedence = 16, .production_id = 32),
-  [1268] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 3, .dynamic_precedence = 16, .production_id = 32),
+  [1262] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 3, .production_id = 31),
+  [1264] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 3, .production_id = 31),
+  [1266] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 3, .production_id = 32),
+  [1268] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 3, .production_id = 32),
   [1270] = {.entry = {.count = 1, .reusable = false}}, SHIFT(1081),
   [1272] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_primary_expression, 1, .production_id = 1),
   [1274] = {.entry = {.count = 1, .reusable = false}}, SHIFT(167),
@@ -66668,10 +66668,10 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [1278] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_primary_expression, 1, .production_id = 1),
   [1280] = {.entry = {.count = 1, .reusable = true}}, SHIFT(107),
   [1282] = {.entry = {.count = 1, .reusable = false}}, SHIFT(1083),
-  [1284] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 5, .dynamic_precedence = 16, .production_id = 105),
-  [1286] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 5, .dynamic_precedence = 16, .production_id = 105),
-  [1288] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 5, .dynamic_precedence = 16, .production_id = 106),
-  [1290] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 5, .dynamic_precedence = 16, .production_id = 106),
+  [1284] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 5, .production_id = 105),
+  [1286] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 5, .production_id = 105),
+  [1288] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_access, 5, .production_id = 106),
+  [1290] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_field_access, 5, .production_id = 106),
   [1292] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_array_access, 4, .production_id = 72),
   [1294] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_array_access, 4, .production_id = 72),
   [1296] = {.entry = {.count = 1, .reusable = false}}, SHIFT(218),
