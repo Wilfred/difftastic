@@ -261,8 +261,7 @@ and 'T maybe = Maybe<'T>
               (UNEXPECTED 'B')
               (UNEXPECTED 'T'))
             (union_type_case
-              (identifier)))
-          (UNEXPECTED 'a'))
+              (identifier))))
         (type
           (type
             (type_argument

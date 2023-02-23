@@ -14,19 +14,19 @@ using std::string;
 
 enum TokenType {
   VIRTUAL_OPEN_SECTION,
-  VIRTUAL_OPEN_ALIGNED,
-  ALIGNED,
   VIRTUAL_END_SECTION,
-  BLOCK_COMMENT_CONTENT,
+  VIRTUAL_END_ALIGNED,
+  ALIGNED,
   SEPARATOR,
 };
 
 bool in_error_recovery(const bool *valid_symbols) {
   return
    (valid_symbols[VIRTUAL_OPEN_SECTION] &&
-    valid_symbols[VIRTUAL_OPEN_ALIGNED] &&
     valid_symbols[VIRTUAL_END_SECTION] &&
-    valid_symbols[BLOCK_COMMENT_CONTENT]);
+    valid_symbols[VIRTUAL_END_ALIGNED] &&
+    valid_symbols[ALIGNED] &&
+    valid_symbols[SEPARATOR]);
 }
 
 struct Scanner {
@@ -159,6 +159,12 @@ struct Scanner {
       return false;
 
     // First handle eventual runback tokens, we saved on a previous scan op
+    if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_ALIGNED])
+    {
+      runback.pop_back();
+      lexer->result_symbol = VIRTUAL_END_ALIGNED;
+      return true;
+    }
     if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
     {
       runback.pop_back();
@@ -209,49 +215,24 @@ struct Scanner {
             lexer->result_symbol = VIRTUAL_END_SECTION;
             return true;
           }
+          if (valid_symbols[VIRTUAL_END_ALIGNED])
+          {
+            lexer->result_symbol = VIRTUAL_END_ALIGNED;
+            return true;
+          }
           break;
         }
-      else {
-          break;
-      }
+      else { break; }
     }
 
-    if (valid_symbols[ALIGNED] && !indent_length_stack.empty() && indent_length_stack.back() == lexer->get_column(lexer)) {
+    if (valid_symbols[ALIGNED] && !lexer->eof(lexer) && (indent_length_stack.empty() || lexer->get_column(lexer) == indent_length_stack.back())) {
       lexer->result_symbol = ALIGNED;
       return true;
     }
     // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
-    else if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer) && (indent_length_stack.empty() || indent_length_stack.back() < lexer->get_column(lexer))) {
+    else if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
       indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
-      return true;
-    }
-    else if (valid_symbols[VIRTUAL_OPEN_ALIGNED] && !lexer->eof(lexer) && (indent_length_stack.empty() || indent_length_stack.back() <= lexer->get_column(lexer))) {
-      indent_length_stack.push_back(lexer->get_column(lexer));
-      lexer->result_symbol = VIRTUAL_OPEN_ALIGNED;
-      return true;
-    }
-    else if (valid_symbols[BLOCK_COMMENT_CONTENT]) {
-      if (!can_call_mark_end) {
-        return false;
-      }
-      lexer->mark_end(lexer);
-      while (true) {
-          if (lexer->lookahead == '\0') { break; }
-          if (lexer->lookahead != '(' && lexer->lookahead != '*') { advance(lexer); }
-          else if (lexer->lookahead == '*') {
-            lexer->mark_end(lexer);
-            advance(lexer);
-            if (lexer->lookahead == ')') { break; }
-          }
-          else if (scan_block_comment(lexer)) {
-            lexer->mark_end(lexer);
-            advance(lexer);
-            if (lexer->lookahead == '*') { break; }
-          }
-        }
-
-      lexer->result_symbol = BLOCK_COMMENT_CONTENT;
       return true;
     }
     else if (has_newline) {
@@ -282,6 +263,11 @@ struct Scanner {
       // Our list is the wrong way around, reverse it
       std::reverse(runback.begin(), runback.end());
       // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
+      if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_ALIGNED]) {
+        runback.pop_back();
+        lexer->result_symbol = VIRTUAL_END_ALIGNED;
+        return true;
+      }
       if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION]) {
         runback.pop_back();
         lexer->result_symbol = VIRTUAL_END_SECTION;

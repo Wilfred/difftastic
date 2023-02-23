@@ -43,10 +43,9 @@ module.exports = grammar({
   // These tokens are used to track the indentation-based scoping used in F#
   externals: $ => [
     $._virtual_open_section, // Signal the external scanner that a new indentation scope should be opened. Add the indetation size to the stack.
-    $._virtual_open_aligned, // Signal the external scanner that a new indentation scope should be opened, which is allowed have to same indentation as the existing scope.
-    $._aligned, // Checks that the next non-whitespace character is indented at the same level as the current scope.
     $._virtual_end_section, // end an indentation scope, popping the indentation off the stack.
-    $._block_comment_content,
+    $._virtual_end_aligned, // end an indentation scope with equal alignment, popping the indentation off the stack.
+    $._aligned,
     $._seperator, // parse ";" tokens in the external scanner to prevent indentation scopes opening inside list expressions.
   ],
 
@@ -66,9 +65,9 @@ module.exports = grammar({
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expression, ],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expression],
 
-  supertypes: $ => [ $._module_elem, $._pattern, $._expression ],
+  supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner ],
 
   rules: {
     //
@@ -174,10 +173,11 @@ module.exports = grammar({
     ),
 
     object_construction: $ =>
+      prec.left(
       seq(
         $.type,
-        optional($._expression),
-      ),
+        optional($._expressions),
+      )),
 
     //
     // Attributes (END)
@@ -194,7 +194,7 @@ module.exports = grammar({
       seq(
         "do",
         $._virtual_open_section,
-        $._expression,
+        $._expressions,
         $._virtual_end_section,
     )),
 
@@ -218,7 +218,7 @@ module.exports = grammar({
         ),
         "=",
         $._virtual_open_section,
-        field("body", $._expression),
+        field("body", $._expressions),
         $._virtual_end_section,
       ),
 
@@ -333,7 +333,14 @@ module.exports = grammar({
     // Expressions (BEGIN)
     //
 
-    _expression: $ =>
+    _expressions: $ =>
+      prec.right(PREC.SEQ_EXPR,
+        seq(
+          $._expression_inner,
+          repeat(seq(choice($._seperator, $._aligned), $._expression_inner)),
+        )),
+
+    _expression_inner: $ =>
       choice(
         $.const,
         $.paren_expression,
@@ -364,7 +371,6 @@ module.exports = grammar({
         $.match_expression,
         $.try_expression,
         $.literal_expression,
-        $.sequence_expression,
         $.call_expression,
         $.tuple_expression,
         $.application_expression,
@@ -376,33 +382,26 @@ module.exports = grammar({
     application_expression: $ =>
       prec.left(PREC.SEQ_EXPR,
         seq(
-          $._expression,
-          $._expression,
+          $._expression_inner,
+          $._expression_inner,
         )
       ),
-
-    sequence_expression: $ =>
-        prec.right(PREC.SPECIAL_INFIX + 1,
-        choice(
-          seq($._expression, $._seperator, $._expression),
-          seq($._expression, $._aligned, $._expression),
-        )),
 
     call_expression: $ =>
       prec.right(PREC.PAREN_APP+100,
         seq(
-          $._expression,
+          $._expression_inner,
           imm("("),
-          optional($._expression),
+          optional($._expression_inner),
           ")",
         )
       ),
 
     tuple_expression: $ =>
-      prec.left(
+      prec.left(PREC.TUPLE_EXPR,
       seq(
-        $._expression,
-        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expression))),
+        $._expression_inner,
+        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expression_inner))),
       )
       ),
 
@@ -420,7 +419,7 @@ module.exports = grammar({
 
     with_field_expression: $ =>
       seq(
-        $._expression,
+        $._expression_inner,
         "with",
         $._virtual_open_section,
         $.field_initializers,
@@ -449,28 +448,28 @@ module.exports = grammar({
     prefixed_expression: $ =>
       prec.left(PREC.PREFIX_EXPR,
       seq(
-        choice("return", "return!", "yield", "yield!", "lazy", "assert", "upcast", "downcast", "%", "%%", $.prefix_op),
-        $._expression,
+        choice("lazy", "assert", "upcast", "downcast", "%", "%%", $.prefix_op),
+        $._expression_inner,
       )),
 
     return_expression: $ =>
       prec.left(PREC.PREFIX_EXPR + 1,
       seq(
         choice("return", "return!"),
-        $._expression,
+        $._expression_inner,
       )),
 
     yield_expression: $ =>
       prec.left(PREC.PREFIX_EXPR + 1,
       seq(
         choice("yield", "yield!"),
-        $._expression,
+        $._expression_inner,
       )),
 
     ce_expression: $ =>
       prec(PREC.CE_EXPR,
       seq(
-        $._expression,
+        $._expression_inner,
         "{",
         $._comp_or_range_expression,
         "}",
@@ -479,22 +478,22 @@ module.exports = grammar({
     infix_expression: $ =>
       prec.left(PREC.SPECIAL_INFIX,
       seq(
-        $._expression,
+        $._expression_inner,
         $.infix_op,
-        $._expression,
+        $._expression_inner,
       )),
 
     literal_expression: $ =>
       prec(PREC.PAREN_EXPR,
       choice(
-        seq("<@", $._expression, "@>"),
-        seq("<@@", $._expression, "@@>"),
+        seq("<@", $._expressions, "@>"),
+        seq("<@@", $._expressions, "@@>"),
       )),
 
     typecast_expression: $ =>
       prec(PREC.SPECIAL_INFIX,
       seq(
-        $._expression,
+        $._expression_inner,
         choice(
           ":",
           ":>",
@@ -504,9 +503,9 @@ module.exports = grammar({
         $.type
       )),
 
-    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq("begin", $._expression, "end")),
+    begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq("begin", $._expressions, "end")),
 
-    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._expression, ")")),
+    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._expressions, ")")),
 
     for_expression: $ =>
       prec.left(
@@ -514,11 +513,11 @@ module.exports = grammar({
         "for",
         choice(
             seq($._pattern, "in", $._expression_or_range),
-            seq($.identifier, "=", $._expression, "to", $._expression),
+            seq($.identifier, "=", $._expressions, "to", $._expressions),
         ),
         "do",
           $._virtual_open_section,
-          $._expression,
+          $._expressions,
           $._virtual_end_section,
         optional("done"),
       )),
@@ -527,10 +526,10 @@ module.exports = grammar({
       prec.left(
       seq(
         "while",
-          $._expression,
+          $._expressions,
         "do",
           $._virtual_open_section,
-          $._expression,
+          $._expressions,
           $._virtual_end_section,
         optional("done"),
       )),
@@ -540,7 +539,7 @@ module.exports = grammar({
       seq(
         "else",
         $._virtual_open_section,
-        field("else_branch", $._expression),
+        field("else_branch", $._expressions),
         $._virtual_end_section,
       )),
 
@@ -549,11 +548,11 @@ module.exports = grammar({
       seq(
         "elif",
         $._virtual_open_section,
-        field("guard", $._expression),
+        field("guard", $._expressions),
         $._virtual_end_section,
         "then",
         $._virtual_open_section,
-        field("then", $._expression),
+        field("then", $._expressions),
         $._virtual_end_section,
       )),
 
@@ -562,10 +561,10 @@ module.exports = grammar({
       seq(
         "if",
         $._virtual_open_section,
-        field("guard", $._expression),
+        field("guard", $._expressions),
         $._virtual_end_section,
         "then",
-        field("then", $._expression),
+        field("then", $._expressions),
         repeat($.elif_expression),
         optional($._else_expression),
       )),
@@ -577,7 +576,7 @@ module.exports = grammar({
         $.argument_patterns,
         "->",
         $._virtual_open_section,
-        $._expression,
+        $._expressions,
         $._virtual_end_section,
       )),
 
@@ -586,11 +585,11 @@ module.exports = grammar({
       seq(
         "try",
         $._virtual_open_section,
-        $._expression,
+        $._expressions,
         $._virtual_end_section,
         choice(
           seq("with", $.rules),
-          seq("finally", $._virtual_open_section, $._expression, $._virtual_end_section),
+          seq("finally", $._virtual_open_section, $._expressions, $._virtual_end_section),
         ),
       )),
 
@@ -598,7 +597,7 @@ module.exports = grammar({
       prec(PREC.MATCH_EXPR,
       seq(
         choice("match", "match!"),
-        $._expression,
+        $._expression_inner,
         "with",
         $.rules,
       )),
@@ -616,26 +615,26 @@ module.exports = grammar({
         "new",
         $.type,
         imm("("),
-        $._expression,
+        $._expression_inner,
         ")"
       )),
 
     mutate_expression: $ =>
       prec.right(PREC.LARROW,
       seq(
-        field("assignee", $._expression),
+        field("assignee", $._expression_inner),
         "<-",
-        field("value", $._expression),
+        field("value", $._expressions),
       )),
 
     index_expression: $ =>
       prec(PREC.INDEX_EXPR,
       seq(
-        $._expression,
+        $._expression_inner,
         optional(imm(".")),
         imm("["),
         choice(
-          field("index", $._expression),
+          field("index", $._expression_inner),
           $.slice_ranges,
         ),
         "]",
@@ -644,7 +643,7 @@ module.exports = grammar({
     dot_expression: $ =>
       prec.left(PREC.DOT,
       seq(
-        field("base", $._expression),
+        field("base", $._expression_inner),
         imm("."),
         field("field", $.long_identifier_or_op),
       )),
@@ -652,7 +651,7 @@ module.exports = grammar({
     typed_expression: $ =>
       prec(PREC.PAREN_EXPR,
       seq(
-        $._expression,
+        $._expression_inner,
         imm("<"),
         optional($.types),
         ">",
@@ -662,11 +661,11 @@ module.exports = grammar({
       prec.right(PREC.LET_EXPR,
       seq(
         choice(
-          seq(choice("use", "use!"), $.identifier, "=", $._virtual_open_aligned, $._expression, $._virtual_end_section),
+          seq(choice("use", "use!"), $.identifier, "=", $._virtual_open_section, $._expressions, $._virtual_end_section),
           $.function_or_value_defn,
         ),
-        $._virtual_open_aligned,
-        field("in", $._expression),
+        $._virtual_open_section,
+        field("in", $._expressions),
         $._virtual_end_section,
       )),
 
@@ -675,15 +674,15 @@ module.exports = grammar({
       seq(
         choice("do", "do!"),
         $._virtual_open_section,
-        $._expression,
+        $._expressions,
         $._virtual_end_section,
       )),
 
     _list_elements: $ =>
       prec.right(PREC.COMMA+100,
         seq(
-          repeat(prec.right(PREC.COMMA+100, seq($._expression, $._seperator))),
-          $._expression,
+          repeat(prec.right(PREC.COMMA+100, seq($._expression_inner, $._seperator))),
+          $._expression_inner,
         ),
       ),
 
@@ -710,17 +709,17 @@ module.exports = grammar({
     range_expression: $ =>
       prec.left(PREC.DOTDOT,
       seq(
-        $._expression,
+        $._expression_inner,
         "..",
-        $._expression,
+        $._expression_inner,
         optional(seq(
           "..",
-          $._expression,
+          $._expression_inner,
         )))),
 
     _expression_or_range: $ =>
       choice(
-        $._expression,
+        $._expressions,
         $.range_expression,
       ),
 
@@ -730,14 +729,14 @@ module.exports = grammar({
         $._pattern,
         "->",
         $._virtual_open_section,
-        $._expression,
+        $._expressions,
         $._virtual_end_section,
       )),
 
     rules: $ =>
       prec.right(PREC.MATCH_EXPR,
       seq(
-      $._virtual_open_aligned,
+      $._virtual_open_section,
         optional("|"),
         $.rule,
         repeat(seq("|", $.rule)),
@@ -754,7 +753,7 @@ module.exports = grammar({
 
     _comp_or_range_expression: $ =>
       choice(
-        $._expression,
+        $._expressions,
         $.short_comp_expression,
         // $.range_expression, TODO
       ),
@@ -904,7 +903,7 @@ module.exports = grammar({
         "in",
         $._expression_or_range,
         "->",
-        $._expression,
+        $._expressions,
       ),
 
     // comp_rule: $ =>
@@ -928,9 +927,9 @@ module.exports = grammar({
     _slice_range_special: $ =>
       prec.left(PREC.DOTDOT_SLICE,
         choice(
-          seq($._expression, ".."),
-          seq("..", $._expression),
-          seq($._expression, "..", $._expression),
+          seq($._expression_inner, ".."),
+          seq("..", $._expression_inner),
+          seq($._expression_inner, "..", $._expression_inner),
         )
       ),
 
@@ -938,7 +937,7 @@ module.exports = grammar({
       prec(PREC.DOTDOT_SLICE,
       choice(
         $._slice_range_special,
-        $._expression,
+        $._expression_inner,
         "*",
       )),
 
@@ -1087,7 +1086,7 @@ module.exports = grammar({
     static_parameter_value: $ =>
       choice(
         $.const,
-        seq($.const, $._expression)
+        seq($.const, $._expressions)
       ),
 
     type_definition: $ =>
@@ -1297,7 +1296,7 @@ module.exports = grammar({
         optional("static"),
         choice(
           $.function_or_value_defn,
-          seq("do", $._expression),
+          seq("do", $._virtual_open_section, $._expressions, $._virtual_end_section),
         )
       ),
 
@@ -1356,14 +1355,14 @@ module.exports = grammar({
 
     _method_defn: $ =>
       choice(
-          seq($.property_or_ident, $._pattern, "=", $._virtual_open_section, $._expression, $._virtual_end_section),
+          seq($.property_or_ident, $._pattern, "=", $._virtual_open_section, $._expressions, $._virtual_end_section),
       ),
 
     _property_defn: $ =>
       seq(
         $.property_or_ident,
         "=",
-        $._expression,
+        $._expressions,
         optional(
           seq(
             "with",
@@ -1400,8 +1399,8 @@ module.exports = grammar({
     additional_constr_expr: $ =>
       choice(
         seq($.additional_constr_expr, $._seperator, $.additional_constr_expr),
-        seq($.additional_constr_expr, "then", $._expression),
-        seq("if", $._expression, "then", $.additional_constr_expr, "else", $.additional_constr_expr),
+        seq($.additional_constr_expr, "then", $._expressions),
+        seq("if", $._expressions, "then", $.additional_constr_expr, "else", $.additional_constr_expr),
         seq("let", $._function_or_value_defn_body, "in", $.additional_constr_expr), // TODO: "in" is optional?
         $.additional_constr_init_expr
       ),
@@ -1409,7 +1408,7 @@ module.exports = grammar({
     additional_constr_init_expr: $ =>
       choice(
         seq("{", $.class_inherits_decl, $.field_initializers, "}"),
-        seq("new", $.type, $._expression)
+        seq("new", $.type, $._expressions)
       ),
 
     class_inherits_decl: $ =>
@@ -1418,14 +1417,14 @@ module.exports = grammar({
           "inherit",
           $.type,
           $._virtual_open_section,
-          optional($._expression),
+          optional($._expression_inner),
           $._virtual_end_section,
         )
       ),
 
     as_defn: $ => seq("as", $.identifier),
 
-    field_initializer: $ => prec.right(seq($.long_identifier, "=", $._expression)),
+    field_initializer: $ => prec.right(seq($.long_identifier, "=", $._expressions)),
 
     field_initializers: $ =>
       prec.left(
@@ -1634,7 +1633,7 @@ module.exports = grammar({
     // Constants (END)
     //
 
-    block_comment: $ => seq("(*", $._block_comment_content, "*)"),
+    block_comment: $ => seq("(*", /.*/, "*)"),
     line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
   }
 

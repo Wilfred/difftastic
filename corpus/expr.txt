@@ -556,10 +556,11 @@ do
         (function_or_value_defn
           (function_declaration_left
             (identifier)
-            (argument_patterns (long_identifier (identifier))))
-          (sequence_expression
-            (const (int))
-            (const (int))))
+            (argument_patterns
+              (long_identifier
+                (identifier))))
+          (const (int))
+          (const (int)))
         (const (int))))))
 
 ================================================================================
