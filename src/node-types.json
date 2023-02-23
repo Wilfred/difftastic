@@ -768,29 +768,6 @@
     }
   },
   {
-    "type": "class_type_defn",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "class_type_body",
-          "named": true
-        },
-        {
-          "type": "primary_constr_args",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "compiler_directive_decl",
     "named": true,
     "fields": {},
@@ -1759,29 +1736,6 @@
     }
   },
   {
-    "type": "interface_type_defn",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "class_type_body",
-          "named": true
-        },
-        {
-          "type": "primary_constr_args",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list_expression",
     "named": true,
     "fields": {},
@@ -1977,6 +1931,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "_pattern",
           "named": true
         },
         {
@@ -2303,9 +2261,20 @@
   {
     "type": "property_or_ident",
     "named": true,
-    "fields": {},
+    "fields": {
+      "instance": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2621,29 +2590,6 @@
     "fields": {}
   },
   {
-    "type": "struct_type_defn",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "class_type_body",
-          "named": true
-        },
-        {
-          "type": "primary_constr_args",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "symbolic_op",
     "named": true,
     "fields": {}
@@ -2852,10 +2798,6 @@
           "named": true
         },
         {
-          "type": "class_type_defn",
-          "named": true
-        },
-        {
           "type": "delegate_type_defn",
           "named": true
         },
@@ -2864,15 +2806,7 @@
           "named": true
         },
         {
-          "type": "interface_type_defn",
-          "named": true
-        },
-        {
           "type": "record_type_defn",
-          "named": true
-        },
-        {
-          "type": "struct_type_defn",
           "named": true
         },
         {
@@ -3548,10 +3482,6 @@
   },
   {
     "type": "begin",
-    "named": false
-  },
-  {
-    "type": "class",
     "named": false
   },
   {

@@ -389,11 +389,11 @@ module.exports = grammar({
         )),
 
     call_expression: $ =>
-      prec(PREC.PAREN_APP,
+      prec.right(PREC.PAREN_APP+100,
         seq(
           $._expression,
           imm("("),
-          $._expression,
+          optional($._expression),
           ")",
         )
       ),
@@ -659,11 +659,11 @@ module.exports = grammar({
       )),
 
     declaration_expression: $ =>
-      prec(PREC.LET_EXPR,
+      prec.right(PREC.LET_EXPR,
       seq(
         choice(
-            seq(choice("use", "use!"), $.identifier, "=", $._virtual_open_aligned, $._expression, $._virtual_end_section),
-            $.function_or_value_defn,
+          seq(choice("use", "use!"), $.identifier, "=", $._virtual_open_aligned, $._expression, $._virtual_end_section),
+          $.function_or_value_defn,
         ),
         $._virtual_open_aligned,
         field("in", $._expression),
@@ -1099,9 +1099,9 @@ module.exports = grammar({
           $.record_type_defn,
           $.union_type_defn,
           $.anon_type_defn,
-          $.class_type_defn,
-          $.struct_type_defn,
-          $.interface_type_defn,
+          // $.class_type_defn,
+          // $.struct_type_defn,
+          // $.interface_type_defn,
           $.enum_type_defn,
           $.type_abbrev_defn,
           $.type_extension,
@@ -1143,35 +1143,35 @@ module.exports = grammar({
         $.type,
       ),
 
-    class_type_defn: $ =>
-      seq(
-        $.type_name,
-        optional($.primary_constr_args),
-        "=",
-        "class",
-        $.class_type_body,
-        "end",
-      ),
-
-    struct_type_defn: $ =>
-      seq(
-        $.type_name,
-        optional($.primary_constr_args),
-        "=",
-        "struct",
-        $.class_type_body,
-        "end",
-      ),
-
-    interface_type_defn: $ =>
-      seq(
-        $.type_name,
-        optional($.primary_constr_args),
-        "=",
-        "interface",
-        $.class_type_body,
-        "end",
-      ),
+    // class_type_defn: $ =>
+    //   seq(
+    //     $.type_name,
+    //     optional($.primary_constr_args),
+    //     "=",
+    //     "class",
+    //     $.class_type_body,
+    //     "end",
+    //   ),
+    //
+    // struct_type_defn: $ =>
+    //   seq(
+    //     $.type_name,
+    //     optional($.primary_constr_args),
+    //     "=",
+    //     "struct",
+    //     $.class_type_body,
+    //     "end",
+    //   ),
+    //
+    // interface_type_defn: $ =>
+    //   seq(
+    //     $.type_name,
+    //     optional($.primary_constr_args),
+    //     "=",
+    //     "interface",
+    //     $.class_type_body,
+    //     "end",
+    //   ),
 
     _class_type_body_inner: $ =>
       choice(
@@ -1353,7 +1353,7 @@ module.exports = grammar({
 
     property_or_ident: $ =>
       choice(
-        seq($.identifier, ".", $.identifier),
+        seq(field("instance", $.identifier), ".", $.identifier),
         $.identifier
       ),
 
@@ -1361,6 +1361,7 @@ module.exports = grammar({
       prec(3,
         choice(
           seq($.property_or_ident, "with", $._function_or_value_defns),
+          seq($.property_or_ident, $._pattern, "=", $._expression),
           seq($.property_or_ident, "=", $._expression),
           seq($.property_or_ident, "=", $._expression, "with", "get"),
           seq($.property_or_ident, "=", $._expression, "with", "set"),
@@ -1400,7 +1401,9 @@ module.exports = grammar({
         seq(
           "inherit",
           $.type,
+          $._virtual_open_section,
           optional($._expression),
+          $._virtual_end_section,
         )
       ),
 
