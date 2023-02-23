@@ -45,11 +45,14 @@ module.exports = grammar({
 
     // Allow the external scanner to check for the validity of closing brackets
     // so that it can avoid returning dedent tokens between brackets.
-    ']',
-    ')',
-    '}',
+    "]",
+    ")",
+    "}",
 
-    $._lambda_body_end,
+    // Allow the external scanner to check for valid comma tokens when scanning
+    // for a $._body_end token.
+    ",",
+    $._body_end,
   ],
 
   inline: ($) => [$._simple_statement, $._compound_statement],
@@ -158,14 +161,17 @@ module.exports = grammar({
     body: ($) =>
       choice(
         $._simple_statements,
-        seq($._indent, repeat($._statement), $._dedent),
-        $._newline,
+        seq(
+          $._indent,
+          seq(repeat($._statement), choice($._body_end, $._dedent))
+        ),
+        choice($._newline, $._body_end)
       ),
 
     // Simple statements
 
     _simple_statements: ($) =>
-      seq(trailSep1($._simple_statement, ";"), $._newline),
+      seq(trailSep1($._simple_statement, ";"), choice($._newline, $._body_end)),
 
     _simple_statement: ($) =>
       choice(
@@ -481,11 +487,7 @@ module.exports = grammar({
         $.parenthesized_expression
       ),
 
-    _rhs_expression: ($) =>
-      choice(
-        $._expression,
-        $.lambda,
-      ),
+    _rhs_expression: ($) => choice($._expression, $.lambda),
 
     // This makes an attribute's ast linear
     // When attribute is used inside $.attribute it becomes recursive spaghetti
@@ -686,11 +688,7 @@ module.exports = grammar({
 
     parameters: ($) => seq("(", optional(trailCommaSep1($._parameters)), ")"),
 
-    _return_type: ($) =>
-      seq(
-        "->",
-        field("return_type", $.type),
-      ),
+    _return_type: ($) => seq("->", field("return_type", $.type)),
 
     function_definition: ($) =>
       seq(
@@ -704,27 +702,6 @@ module.exports = grammar({
         field("body", $.body)
       ),
 
-    _lambda_content: ($) =>
-      trailSep1($._simple_statement, ';'),
-
-    lambda_body: ($) =>
-      choice(
-        seq(
-          $._lambda_content,
-          $._lambda_body_end,
-        ),
-        seq(
-          $._lambda_content,
-          $._newline,
-        ),
-        seq(
-          $._indent,
-          trailSep1($._lambda_content, $._newline),
-          choice($._lambda_body_end, $._dedent),
-        ),
-        $._newline,
-      ),
-
     lambda: ($) =>
       seq(
         "func",
@@ -732,7 +709,7 @@ module.exports = grammar({
         $.parameters,
         optional($._return_type),
         ":",
-        alias($.lambda_body, $.body),
+        $.body
       ),
 
     constructor_definition: ($) =>
@@ -750,7 +727,8 @@ module.exports = grammar({
     // -                                 Function Call                             -
     // -----------------------------------------------------------------------------
 
-    arguments: ($) => seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
+    arguments: ($) =>
+      seq("(", optional(trailCommaSep1($._rhs_expression)), ")"),
 
     base_call: ($) => prec(PREC.call, seq(".", $.identifier, $.arguments)),
 

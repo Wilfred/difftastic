@@ -21,6 +21,7 @@ enum TokenType {
   CLOSE_PAREN,
   CLOSE_BRACKET,
   CLOSE_BRACE,
+  COMMA,
   BODY_END,
 };
 
@@ -156,7 +157,7 @@ struct Scanner {
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
     bool error_recovery_mode = valid_symbols[STRING_CONTENT] && valid_symbols[INDENT];
     bool within_brackets = valid_symbols[CLOSE_BRACE] || valid_symbols[CLOSE_PAREN] || valid_symbols[CLOSE_BRACKET];
-    
+
     if (valid_symbols[STRING_CONTENT] && !delimiter_stack.empty() && !error_recovery_mode) {
       Delimiter delimiter = delimiter_stack.back();
       int32_t end_character = delimiter.end_character();
@@ -286,16 +287,6 @@ struct Scanner {
       }
     }
 
-    if (valid_symbols[BODY_END] && !found_end_of_line) {
-      if (lexer->lookahead == ',' || lexer->lookahead == ')') {
-        if (valid_symbols[DEDENT] && !indent_length_stack.empty()) {
-          indent_length_stack.pop_back();
-        }
-        lexer->result_symbol = BODY_END;
-        return true;
-      }
-    }
-
     if (found_end_of_line) {
       if (!indent_length_stack.empty()) {
         uint16_t current_indent_length = indent_length_stack.back();
@@ -328,6 +319,37 @@ struct Scanner {
         return true;
       }
     }
+
+
+    // This if statement can be placed before the above if statement that
+    // handles newlines. However, it feels safer to give indentation and
+    // newlines higher precedence.
+    if (
+      // Guard against BODY_END tokens overriding valid COMMA tokens.
+      !valid_symbols[COMMA] &&
+
+      // Body ends occur in error recovery mode since the grammar does not
+      // (cannot?) specify that a body can end with the below characters without
+      // consuming them itself.
+      (error_recovery_mode || valid_symbols[BODY_END])
+    ) {
+      if (
+				lexer->lookahead == ',' ||  // separator
+				lexer->lookahead == ')' ||  // args, params, paren expr
+        lexer->lookahead == '}' ||  // dictionary (may not be needed)
+        lexer->lookahead == ']'     // array
+        // lexer->lookahead == ':'  // key-value pairs (breaks var stmt, setget)
+			) {
+        // BODY_END tokens can take the place of a dedent. Therefore, we should
+        // pop the stack when DEDENT is valid.
+        if (valid_symbols[DEDENT] && !indent_length_stack.empty()) {
+          indent_length_stack.pop_back();
+        }
+        lexer->result_symbol = BODY_END;
+        return true;
+      }
+    }
+
 
     if (first_comment_indent_length == -1 && valid_symbols[STRING_START]) {
       Delimiter delimiter;

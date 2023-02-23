@@ -35,6 +35,105 @@ var x = func hello(): pass
         (pass_statement)))))
 
 =====================================
+Lambdas in Array
+=====================================
+
+[func x(): pass; pass]
+[func x(): pass; pass,]
+[func x():
+  pass
+  pass]
+[func x():
+  pass
+  pass,]
+[
+  func():
+    pass
+    pass,
+  func():
+    pass
+    pass,
+]
+
+func x():
+  if true:
+    var a = [func(): pass ; pass,]
+    var a = [func():
+                pass
+                pass,]
+
+---
+
+(source
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (name)
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (expression_statement
+    (array
+      (lambda
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))
+      (lambda
+        (parameters)
+        (body
+          (pass_statement)
+          (pass_statement)))))
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (if_statement
+        (true)
+        (body
+          (variable_statement
+            (name)
+            (array
+              (lambda
+                (parameters)
+                (body
+                  (pass_statement)
+                  (pass_statement)))))
+          (variable_statement
+            (name)
+            (array
+              (lambda
+                (parameters)
+                (body
+                  (pass_statement)
+                  (pass_statement))))))))))
+
+=====================================
 Lambdas Nested
 =====================================
 
@@ -61,9 +160,13 @@ var x = func(): (func hello(): pass) ; pass
 Lambdas as Params
 =====================================
 
-func hello(p = func(): pass):
+func hello(p = func(p: int) -> int: pass; pass, x: int):
   pass
 
+func hello(p = func(p: int) -> int:
+    pass
+    pass, x: int):
+  pass
 ---
 
 (source
@@ -73,9 +176,36 @@ func hello(p = func(): pass):
       (default_parameter
         (identifier)
         (lambda
-          (parameters)
+          (parameters
+            (typed_parameter
+              (identifier)
+              (type)))
+          (type)
           (body
-            (pass_statement)))))
+            (pass_statement)
+            (pass_statement))))
+      (typed_parameter
+        (identifier)
+        (type)))
+    (body
+      (pass_statement)))
+  (function_definition
+    (name)
+    (parameters
+      (default_parameter
+        (identifier)
+        (lambda
+          (parameters
+            (typed_parameter
+              (identifier)
+              (type)))
+          (type)
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (typed_parameter
+        (identifier)
+        (type)))
     (body
       (pass_statement))))
 
@@ -172,3 +302,61 @@ func x(p: int = 1) -> int:
                         (identifier)))))
                 (arguments
                   (identifier))))))))))
+
+=====================================
+Lambdas Nested Ifs
+=====================================
+
+func x():
+  x(func():
+    if true:
+      y(func():
+        if true:
+          pass
+        else:
+          var x = 1 + 1,
+        "END y")
+    else:
+      pass, "END x")
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (body
+      (expression_statement
+        (call
+          (identifier)
+          (arguments
+            (lambda
+              (parameters)
+              (body
+                (if_statement
+                  (true)
+                  (body
+                    (expression_statement
+                      (call
+                        (identifier)
+                        (arguments
+                          (lambda
+                            (parameters)
+                            (body
+                              (if_statement
+                                (true)
+                                (body
+                                  (pass_statement))
+                                (else_clause
+                                  (body
+                                    (variable_statement
+                                      (name)
+                                      (binary_operator
+                                        (integer)
+                                        (integer))))))))
+                          (string)))))
+                  (else_clause
+                    (body
+                      (pass_statement))))))
+            (string)))))))
+
