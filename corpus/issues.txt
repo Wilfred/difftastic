@@ -1,4 +1,76 @@
 ============================================
+Variable right after lambda
+============================================
+
+func _on_pressed_button() -> void:
+	var root = func() -> Node:
+		var node: Node
+		var node_type: String = lib.editor.root.get_class()
+
+		match node_type:
+			"Node3D":
+				node = Node3D.new()
+			"Node2D":
+				node = Node2D.new()
+
+		return node
+
+---
+
+(source
+  (function_definition
+    (name)
+    (parameters)
+    (type)
+    (body
+      (variable_statement
+        (name)
+        (lambda
+          (parameters)
+          (type)
+          (body
+            (variable_statement
+              (name)
+              (type))
+            (variable_statement
+              (name)
+              (type)
+              (attribute
+                (identifier)
+                (identifier)
+                (identifier)
+                (attribute_call
+                  (identifier)
+                  (arguments))))
+            (match_statement
+              (identifier)
+              (match_body
+                (pattern_section
+                  (string)
+                  (body
+                    (expression_statement
+                      (assignment
+                        (identifier)
+                        (attribute
+                          (identifier)
+                          (attribute_call
+                            (identifier)
+                            (arguments)))))))
+                (pattern_section
+                  (string)
+                  (body
+                    (expression_statement
+                      (assignment
+                        (identifier)
+                        (attribute
+                          (identifier)
+                          (attribute_call
+                            (identifier)
+                            (arguments)))))))))
+            (return_statement
+              (identifier))))))))
+
+============================================
 Highlight incorrect when just setting get
 ============================================
 
