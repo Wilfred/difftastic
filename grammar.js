@@ -1322,9 +1322,7 @@ module.exports = grammar({
       seq(
         "interface",
         $.type,
-        $._virtual_open_section,
         optional($.object_members),
-        $._virtual_end_section,
       )),
 
     object_members: $ =>
@@ -1333,7 +1331,6 @@ module.exports = grammar({
         $._virtual_open_section,
         $.member_defns,
         $._virtual_end_section,
-        optional("end")
       ),
 
     member_defns: $ => repeat1($.member_defn),
@@ -1357,16 +1354,35 @@ module.exports = grammar({
         $.identifier
       ),
 
+    _method_defn: $ =>
+      choice(
+          seq($.property_or_ident, $._pattern, "=", $._virtual_open_section, $._expression, $._virtual_end_section),
+      ),
+
+    _property_defn: $ =>
+      seq(
+        $.property_or_ident,
+        "=",
+        $._expression,
+        optional(
+          seq(
+            "with",
+            choice(
+              "get",
+              "set",
+              seq("get", ",", "set"),
+              seq("set", ",", "get"),
+            )
+          )
+        ),
+      ),
+
     method_or_prop_defn: $ =>
       prec(3,
         choice(
-          seq($.property_or_ident, "with", $._function_or_value_defns),
-          seq($.property_or_ident, $._pattern, "=", $._expression),
-          seq($.property_or_ident, "=", $._expression),
-          seq($.property_or_ident, "=", $._expression, "with", "get"),
-          seq($.property_or_ident, "=", $._expression, "with", "set"),
-          seq($.property_or_ident, "=", $._expression, "with", "get", ",", "set"),
-          seq($.property_or_ident, "=", $._expression, "with", "set", ",", "get"),
+          seq($.property_or_ident, "with", $._virtual_open_section, $._function_or_value_defns, $._virtual_end_section),
+          $._method_defn,
+          $._property_defn,
         )
       ),
 
