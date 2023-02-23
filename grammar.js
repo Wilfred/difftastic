@@ -291,7 +291,7 @@ module.exports = grammar({
         )
       ),
 
-    return_statement: ($) => seq("return", optional($._expression)),
+    return_statement: ($) => seq("return", optional($._rhs_expression)),
 
     pass_statement: ($) => prec.left("pass"),
     break_statement: ($) => prec.left("break"),

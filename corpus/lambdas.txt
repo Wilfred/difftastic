@@ -304,6 +304,38 @@ func x(p: int = 1) -> int:
                   (identifier))))))))))
 
 =====================================
+Lambdas Return Stmt
+=====================================
+
+var x = func():
+	pass
+	return func x(t: T) -> T:
+		pass
+		return t
+
+---
+
+(source
+  (variable_statement
+    (name)
+    (lambda
+      (parameters)
+      (body
+        (pass_statement)
+        (return_statement
+          (lambda
+            (name)
+            (parameters
+              (typed_parameter
+                (identifier)
+                (type)))
+            (type)
+            (body
+              (pass_statement)
+              (return_statement
+                (identifier)))))))))
+
+=====================================
 Lambdas Nested Ifs
 =====================================
 
