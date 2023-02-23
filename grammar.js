@@ -1486,11 +1486,13 @@ module.exports = grammar({
     triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
     _newline: $ => /\r?\n/,
 
+    unit: $ => seq("(", ")"),
+
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,
       $.uint64, $.ieee32, $.ieee64, $.bignum, $.char, $.string,
       $.verbatim_string, $.triple_quoted_string, $.bytearray,
-      $.verbatim_bytearray, $.bytechar, "false", "true", seq("(", ")")),
+      $.verbatim_bytearray, $.bytechar, "false", "true", $.unit),
 
     // Identifiers:
     long_identifier_or_op: $ => prec.right(

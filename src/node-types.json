@@ -916,6 +916,10 @@
           "named": true
         },
         {
+          "type": "unit",
+          "named": true
+        },
+        {
           "type": "verbatim_bytearray",
           "named": true
         },
@@ -1000,6 +1004,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "unit",
           "named": true
         },
         {
@@ -3170,6 +3178,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "unit",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "value_declaration",
