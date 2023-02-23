@@ -320,6 +320,10 @@
         {
           "type": "_expression",
           "named": true
+        },
+        {
+          "type": "lambda",
+          "named": true
         }
       ]
     }
@@ -334,6 +338,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         }
       ]
@@ -359,6 +367,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           }
         ]
@@ -443,6 +455,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       }
@@ -484,7 +500,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -712,6 +728,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       }
@@ -778,6 +798,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           }
         ]
@@ -1016,6 +1040,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       }
@@ -1129,7 +1157,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "name",
@@ -1238,6 +1266,40 @@
     "fields": {}
   },
   {
+    "type": "lambda",
+    "named": true,
+    "fields": {
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "match_body",
     "named": true,
     "fields": {},
@@ -1328,6 +1390,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       }
@@ -1358,6 +1424,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       },
@@ -1367,6 +1437,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           }
         ]
@@ -1398,6 +1472,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         }
       ]
@@ -1528,6 +1606,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         }
       ]
@@ -1755,6 +1837,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
           }
         ]
       }
@@ -1855,6 +1941,10 @@
         "types": [
           {
             "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           }
         ]
