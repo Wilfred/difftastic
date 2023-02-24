@@ -3,6 +3,7 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
 
+use crate::options::DiffOptions;
 use crate::parse::guess_language as guess;
 use tree_sitter as ts;
 use typed_arena::Arena;
@@ -978,6 +979,23 @@ pub fn to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
     parser.parse(src, None).unwrap()
 }
 
+#[derive(Debug)]
+pub struct ExceededByteLimit(pub usize);
+
+pub fn to_tree_with_limit(
+    diff_options: &DiffOptions,
+    config: &TreeSitterConfig,
+    lhs_src: &str,
+    rhs_src: &str,
+) -> Result<(tree_sitter::Tree, tree_sitter::Tree), ExceededByteLimit> {
+    if lhs_src.len() > diff_options.byte_limit || rhs_src.len() > diff_options.byte_limit {
+        let num_bytes = std::cmp::max(lhs_src.len(), rhs_src.len());
+        return Err(ExceededByteLimit(num_bytes));
+    }
+
+    Ok((to_tree(lhs_src, config), to_tree(rhs_src, config)))
+}
+
 /// Find any nodes that can be parsed as other languages (e.g. JavaScript embedded in HTML),
 /// and return a map of their node IDs mapped to parsed trees. Every time we see such a node,
 /// we will ignore it and recurse into the root node of the given tree instead.
@@ -1161,6 +1179,42 @@ pub fn comment_positions(
             pos,
         })
         .collect()
+}
+
+#[derive(Debug)]
+pub struct ExceededParseErrorLimit(pub usize);
+
+pub fn to_syntax_with_limit<'a>(
+    lhs_src: &str,
+    rhs_src: &str,
+    lhs_tree: &tree_sitter::Tree,
+    rhs_tree: &tree_sitter::Tree,
+    arena: &'a Arena<Syntax<'a>>,
+    config: &TreeSitterConfig,
+    diff_options: &DiffOptions,
+) -> Result<(Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>), ExceededParseErrorLimit> {
+    let (lhs_nodes, lhs_error_count) = to_syntax(
+        lhs_tree,
+        lhs_src,
+        arena,
+        config,
+        diff_options.ignore_comments,
+    );
+    let (rhs_nodes, rhs_error_count) = to_syntax(
+        rhs_tree,
+        rhs_src,
+        arena,
+        config,
+        diff_options.ignore_comments,
+    );
+    syntax::init_all_info(&lhs_nodes, &rhs_nodes);
+
+    let error_count = lhs_error_count + rhs_error_count;
+    if error_count > diff_options.parse_error_limit {
+        return Err(ExceededParseErrorLimit(error_count));
+    }
+
+    Ok((lhs_nodes, rhs_nodes))
 }
 
 pub fn to_syntax<'a>(

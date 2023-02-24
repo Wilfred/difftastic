@@ -368,147 +368,139 @@ fn diff_file_content(
 
     let mut language_used = None;
     let (lang_name, lhs_positions, rhs_positions) = match lang_config {
-        _ if lhs_bytes.len() > diff_options.byte_limit
-            || rhs_bytes.len() > diff_options.byte_limit =>
-        {
-            let num_bytes = std::cmp::max(lhs_bytes.len(), rhs_bytes.len());
-
-            let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
-            let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-            (
-                Some(format!(
-                    "Text ({} exceeded DFT_BYTE_LIMIT)",
-                    &format_num_bytes(num_bytes),
-                )),
-                lhs_positions,
-                rhs_positions,
-            )
-        }
-        Some(ts_lang) => {
-            let lhs_tree = tsp::to_tree(&lhs_src, &ts_lang);
-            let rhs_tree = tsp::to_tree(&rhs_src, &ts_lang);
-
-            let arena = Arena::new();
-            let (lhs, lhs_err_count) = tsp::to_syntax(
-                &lhs_tree,
-                &lhs_src,
-                &arena,
-                &ts_lang,
-                diff_options.ignore_comments,
-            );
-            let (rhs, rhs_err_count) = tsp::to_syntax(
-                &rhs_tree,
-                &rhs_src,
-                &arena,
-                &ts_lang,
-                diff_options.ignore_comments,
-            );
-
-            init_all_info(&lhs, &rhs);
-
-            if diff_options.check_only {
-                let lang_name = language.map(|l| language_name(l).into());
-                // TODO: respect syntax limit.
-                let has_syntactic_changes = lhs != rhs;
-
-                language_used = language;
-                return DiffResult {
-                    lhs_display_path: lhs_display_path.into(),
-                    rhs_display_path: rhs_display_path.into(),
-                    display_language: lang_name,
-                    language_used,
-                    lhs_src: FileContent::Text(lhs_src),
-                    rhs_src: FileContent::Text(rhs_src),
-                    lhs_positions: vec![],
-                    rhs_positions: vec![],
-                    hunks: vec![],
-                    has_byte_changes: true,
-                    has_syntactic_changes,
-                };
-            }
-
-            let mut change_map = ChangeMap::default();
-            let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
-                vec![(lhs.clone(), rhs.clone())]
-            } else {
-                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
-            };
-
-            let mut exceeded_graph_limit = false;
-
-            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
-                init_next_prev(&lhs_section_nodes);
-                init_next_prev(&rhs_section_nodes);
-
-                match mark_syntax(
-                    lhs_section_nodes.get(0).copied(),
-                    rhs_section_nodes.get(0).copied(),
-                    &mut change_map,
-                    diff_options.graph_limit,
-                ) {
-                    Ok(()) => {}
-                    Err(ExceededGraphLimit {}) => {
-                        exceeded_graph_limit = true;
-                        break;
-                    }
-                }
-            }
-
-            if exceeded_graph_limit {
-                let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
-                let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                (
-                    Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
-                    lhs_positions,
-                    rhs_positions,
-                )
-            } else if lhs_err_count + rhs_err_count > diff_options.parse_error_limit {
-                // TODO: doing a syntactic diff here is wasteful.
-                let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
-                let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                (
-                    Some(format!(
-                        "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
-                        (lhs_err_count + rhs_err_count),
-                        if (lhs_err_count + rhs_err_count) == 1 {
-                            ""
-                        } else {
-                            "s"
-                        }
-                    )),
-                    lhs_positions,
-                    rhs_positions,
-                )
-            } else {
-                language_used = language;
-                // TODO: Make this .expect() unnecessary.
-                let language =
-                    language.expect("If we had a ts_lang, we must have guessed the language");
-                fix_all_sliders(language, &lhs, &mut change_map);
-                fix_all_sliders(language, &rhs, &mut change_map);
-
-                let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
-                let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
-
-                if diff_options.ignore_comments {
-                    let lhs_comments = tsp::comment_positions(&lhs_tree, &lhs_src, &ts_lang);
-                    lhs_positions.extend(lhs_comments);
-
-                    let rhs_comments = tsp::comment_positions(&rhs_tree, &rhs_src, &ts_lang);
-                    rhs_positions.extend(rhs_comments);
-                }
-
-                (
-                    Some(language_name(language).into()),
-                    lhs_positions,
-                    rhs_positions,
-                )
-            }
-        }
         None => {
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
             (None, lhs_positions, rhs_positions)
+        }
+        Some(ts_lang) => {
+            let arena = Arena::new();
+            match tsp::to_tree_with_limit(diff_options, &ts_lang, &lhs_src, &rhs_src) {
+                Ok((lhs_tree, rhs_tree)) => {
+                    match tsp::to_syntax_with_limit(
+                        &lhs_src,
+                        &rhs_src,
+                        &lhs_tree,
+                        &rhs_tree,
+                        &arena,
+                        &ts_lang,
+                        diff_options,
+                    ) {
+                        Ok((lhs, rhs)) => {
+                            if diff_options.check_only {
+                                let lang_name = language.map(|l| language_name(l).into());
+                                let has_syntactic_changes = lhs != rhs;
+
+                                language_used = language;
+                                return DiffResult {
+                                    lhs_display_path: lhs_display_path.into(),
+                                    rhs_display_path: rhs_display_path.into(),
+                                    display_language: lang_name,
+                                    language_used,
+                                    lhs_src: FileContent::Text(lhs_src),
+                                    rhs_src: FileContent::Text(rhs_src),
+                                    lhs_positions: vec![],
+                                    rhs_positions: vec![],
+                                    hunks: vec![],
+                                    has_byte_changes: true,
+                                    has_syntactic_changes,
+                                };
+                            }
+
+                            let mut change_map = ChangeMap::default();
+                            let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
+                                vec![(lhs.clone(), rhs.clone())]
+                            } else {
+                                unchanged::mark_unchanged(&lhs, &rhs, &mut change_map)
+                            };
+
+                            let mut exceeded_graph_limit = false;
+
+                            for (lhs_section_nodes, rhs_section_nodes) in possibly_changed {
+                                init_next_prev(&lhs_section_nodes);
+                                init_next_prev(&rhs_section_nodes);
+
+                                match mark_syntax(
+                                    lhs_section_nodes.get(0).copied(),
+                                    rhs_section_nodes.get(0).copied(),
+                                    &mut change_map,
+                                    diff_options.graph_limit,
+                                ) {
+                                    Ok(()) => {}
+                                    Err(ExceededGraphLimit {}) => {
+                                        exceeded_graph_limit = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if exceeded_graph_limit {
+                                let lhs_positions =
+                                    line_parser::change_positions(&lhs_src, &rhs_src);
+                                let rhs_positions =
+                                    line_parser::change_positions(&rhs_src, &lhs_src);
+                                (
+                                    Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
+                                    lhs_positions,
+                                    rhs_positions,
+                                )
+                            } else {
+                                language_used = language;
+                                // TODO: Make this .expect() unnecessary.
+                                let language = language.expect(
+                                    "If we had a ts_lang, we must have guessed the language",
+                                );
+                                fix_all_sliders(language, &lhs, &mut change_map);
+                                fix_all_sliders(language, &rhs, &mut change_map);
+
+                                let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
+                                let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
+
+                                if diff_options.ignore_comments {
+                                    let lhs_comments =
+                                        tsp::comment_positions(&lhs_tree, &lhs_src, &ts_lang);
+                                    lhs_positions.extend(lhs_comments);
+
+                                    let rhs_comments =
+                                        tsp::comment_positions(&rhs_tree, &rhs_src, &ts_lang);
+                                    rhs_positions.extend(rhs_comments);
+                                }
+
+                                (
+                                    Some(language_name(language).into()),
+                                    lhs_positions,
+                                    rhs_positions,
+                                )
+                            }
+                        }
+                        Err(tsp::ExceededParseErrorLimit(error_count)) => {
+                            let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
+                            let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+                            (
+                                Some(format!(
+                                    "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
+                                    error_count,
+                                    if error_count == 1 { "" } else { "s" }
+                                )),
+                                lhs_positions,
+                                rhs_positions,
+                            )
+                        }
+                    }
+                }
+                Err(tsp::ExceededByteLimit(num_bytes)) => {
+                    let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
+                    let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
+                    (
+                        Some(format!(
+                            "Text ({} exceeded DFT_BYTE_LIMIT)",
+                            &format_num_bytes(num_bytes),
+                        )),
+                        lhs_positions,
+                        rhs_positions,
+                    )
+                }
+            }
         }
     };
 
