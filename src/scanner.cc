@@ -325,8 +325,11 @@ struct Scanner {
     // handles newlines. However, it feels safer to give indentation and
     // newlines higher precedence.
     if (
-      // Guard against BODY_END tokens overriding valid COMMA tokens.
+      // Guard against BODY_END tokens overriding valid tokens.
       !valid_symbols[COMMA] &&
+      !valid_symbols[CLOSE_PAREN] &&
+      !valid_symbols[CLOSE_BRACE] &&
+      !valid_symbols[CLOSE_BRACKET] &&
 
       // Body ends occur in error recovery mode since the grammar does not
       // (cannot?) specify that a body can end with the below characters without
@@ -334,12 +337,12 @@ struct Scanner {
       (error_recovery_mode || valid_symbols[BODY_END])
     ) {
       if (
-				lexer->lookahead == ',' ||  // separator
-				lexer->lookahead == ')' ||  // args, params, paren expr
+        lexer->lookahead == ',' ||  // separator
+        lexer->lookahead == ')' ||  // args, params, paren expr
         lexer->lookahead == '}' ||  // dictionary (may not be needed)
         lexer->lookahead == ']'     // array
         // lexer->lookahead == ':'  // key-value pairs (breaks var stmt, setget)
-			) {
+      ) {
         // BODY_END tokens can take the place of a dedent. Therefore, we should
         // pop the stack when DEDENT is valid.
         if (valid_symbols[DEDENT] && !indent_length_stack.empty()) {
