@@ -27,3 +27,17 @@ fn has_changes_requested_exit_code() {
         .arg("sample_files/simple_after.js");
     cmd.assert().failure().code(1);
 }
+
+#[test]
+fn check_only() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--check-only")
+        .arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
+
+    let predicate_fn = predicate::str::contains("Has syntactic changes");
+    cmd.assert().stdout(predicate_fn);
+}
