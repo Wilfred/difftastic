@@ -951,7 +951,18 @@ module.exports = grammar({
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
-      )
+      ),
+      // https://tc39.es/ecma262/#sec-html-like-comments
+      seq('<!--', /.*/),
+      // This allows code to exist before this token on the same line.
+      //
+      // Technically, --> is supposed to have nothing before it on the same line
+      // except for comments and whitespace, but that is difficult to express,
+      // and in general tree sitter grammars tend to prefer to be overly
+      // permissive anyway.
+      //
+      // This approach does not appear to cause problems in practice.
+      seq('-->', /.*/)
     )),
 
     template_string: $ => seq(
