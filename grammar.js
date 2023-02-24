@@ -49,9 +49,14 @@ module.exports = grammar({
     ")",
     "}",
 
-    // Allow the external scanner to check for valid comma tokens when scanning
-    // for a $._body_end token.
+    // Allow the external scanner to check for valid comma and colon tokens when
+    // scanning for a $._body_end token.
     ",",
+    // Allowing the scanner to check if colon is a valid token when
+    // parsing body ends works for expected cases. One case is using a lambda as
+    // a dictionary key e.g. `{func(): pass: 'value'}`.
+    // However, it breaks nested if else chains.
+    /* ":", */
     $._body_end,
   ],
 

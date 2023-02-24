@@ -22,6 +22,7 @@ enum TokenType {
   CLOSE_BRACKET,
   CLOSE_BRACE,
   COMMA,
+  /* COLON, // See grammar.js externals */
   BODY_END,
 };
 
@@ -327,6 +328,7 @@ struct Scanner {
     if (
       // Guard against BODY_END tokens overriding valid tokens.
       !valid_symbols[COMMA] &&
+      /* !valid_symbols[COLON] && */
       !valid_symbols[CLOSE_PAREN] &&
       !valid_symbols[CLOSE_BRACE] &&
       !valid_symbols[CLOSE_BRACKET] &&
@@ -341,7 +343,7 @@ struct Scanner {
         lexer->lookahead == ')' ||  // args, params, paren expr
         lexer->lookahead == '}' ||  // dictionary (may not be needed)
         lexer->lookahead == ']'     // array
-        // lexer->lookahead == ':'  // key-value pairs (breaks var stmt, setget)
+        /* lexer->lookahead == ':'     // key-value pairs (breaks if elses) */
       ) {
         // BODY_END tokens can take the place of a dedent. Therefore, we should
         // pop the stack when DEDENT is valid.

@@ -35,6 +35,76 @@ var x = func hello(): pass
         (pass_statement)))))
 
 =====================================
+Lambdas in Dictionary
+=====================================
+
+{key = func(): pass; pass, key = 1}
+{key = 1, 'key': func():
+	pass
+        pass}
+{key = 1, 'key': func():
+	pass
+        pass, 'key': 1}
+
+---
+
+(source
+  (expression_statement
+    (dictionary
+      (pair (identifier)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (pair (identifier) (integer))))
+  (expression_statement
+    (dictionary
+      (pair (identifier) (integer))
+      (pair (string)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))))
+  (expression_statement
+    (dictionary
+      (pair
+        (identifier)
+        (integer))
+      (pair
+        (string)
+        (lambda
+          (parameters)
+          (body
+            (pass_statement)
+            (pass_statement))))
+      (pair
+        (string)
+        (integer)))))
+
+; =====================================
+; Lambdas as Dictionary Keys
+; =====================================
+
+; {func():
+;   pass
+;   pass: 'value'}
+
+; ---
+
+; (source
+;   (expression_statement
+;     (dictionary
+;       (pair
+;         (lambda
+;           (parameters)
+;           (body
+;             (pass_statement)
+;             (pass_statement)))
+;         (string)))))
+
+=====================================
 Lambdas in Array
 =====================================
 
@@ -346,7 +416,7 @@ func x():
         if true:
           pass
         else:
-          var x = 1 + 1,
+          var x = 1 + 1 ,
         "END y")
     else:
       pass, "END x")
