@@ -1595,9 +1595,9 @@ module.exports = grammar({
 
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
       'qw',
-      $._start_delimiter_qw,
+      alias($._start_delimiter_qw, $.start_delimiter_qw),
       repeat(alias($._element_in_qw, $.list_item)),
-      $._end_delimiter_qw,
+      alias($._end_delimiter_qw, $.end_delimiter_qw),
     )),
 
     patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(

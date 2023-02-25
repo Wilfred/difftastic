@@ -202,6 +202,7 @@ namespace {
           && lexer->lookahead != '\r'
           && lexer->lookahead != '\n'
           && lexer->lookahead != get_end_delimiter()
+          && !lexer->lookahead // exit condition
         ) {
           lexer->result_symbol = ELEMENT_IN_QW;
           advance(lexer);

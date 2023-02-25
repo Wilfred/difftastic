@@ -16259,10 +16259,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
+          "type": "end_delimiter_qw",
+          "named": true
+        },
+        {
           "type": "list_item",
+          "named": true
+        },
+        {
+          "type": "start_delimiter_qw",
           "named": true
         }
       ]
@@ -17305,6 +17313,10 @@
     "named": true
   },
   {
+    "type": "end_delimiter_qw",
+    "named": true
+  },
+  {
     "type": "eq",
     "named": false
   },
@@ -17462,11 +17474,11 @@
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "push",
@@ -17542,6 +17554,10 @@
   },
   {
     "type": "start_delimiter",
+    "named": true
+  },
+  {
+    "type": "start_delimiter_qw",
     "named": true
   },
   {

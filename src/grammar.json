@@ -7763,8 +7763,13 @@
             "value": "qw"
           },
           {
-            "type": "SYMBOL",
-            "name": "_start_delimiter_qw"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_start_delimiter_qw"
+            },
+            "named": true,
+            "value": "start_delimiter_qw"
           },
           {
             "type": "REPEAT",
@@ -7779,8 +7784,13 @@
             }
           },
           {
-            "type": "SYMBOL",
-            "name": "_end_delimiter_qw"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_end_delimiter_qw"
+            },
+            "named": true,
+            "value": "end_delimiter_qw"
           }
         ]
       }
