@@ -692,3 +692,53 @@ do
           (long_identifier_or_op
             (long_identifier
               (identifier))))))))
+
+
+================================================================================
+ce expression 1
+================================================================================
+
+do
+  seq { "*.fs" }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (const (string))))))
+
+================================================================================
+ce expression 2
+================================================================================
+
+do
+  async {
+    do! Async.sleep 5
+    return ()
+  }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (ce_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (do_expression
+          (application_expression
+            (dot_expression
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier)))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))
+            (const (int))))
+        (return_expression
+          (const (unit)))))))

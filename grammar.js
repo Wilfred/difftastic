@@ -4,7 +4,7 @@ function imm(x) {
 
 const PREC = {
   SEQ_EXPR: 1,
-  APP_EXPR: 2,
+  APP_EXPR: 16,
   THEN_EXPR: 2,
   RARROW: 3,
   INFIX_OP: 4,
@@ -20,11 +20,11 @@ const PREC = {
   INTERFACE: 12,
   COMMA: 13,
   DOTDOT: 14,
-  CE_EXPR: 14,
-  PREFIX_EXPR: 15,
+  PREFIX_EXPR: 0,
   SPECIAL_INFIX: 16,
   LARROW: 16,
   TUPLE_EXPR: 16,
+  CE_EXPR: 17,
   SPECIAL_PREFIX: 17,
   DO_EXPR: 17,
   IF_EXPR: 18,
@@ -60,6 +60,7 @@ module.exports = grammar({
     [$.type_argument, $.static_type_argument],
     [$.symbolic_op, $.infix_op],
     [$.union_type_case, $.long_identifier],
+    [$._expressions],
     // [$._comp_expressions, $._expression],
   ],
 
@@ -337,7 +338,7 @@ module.exports = grammar({
       prec.left(PREC.SEQ_EXPR,
         seq(
           $._expression_inner,
-          repeat(seq(choice($._virtual_end_decl, $._seperator), $._expression_inner)),
+          repeat(prec.left(PREC.SEQ_EXPR, seq(choice($._virtual_end_decl, $._seperator), $._expression_inner))),
       )),
 
 
@@ -450,29 +451,31 @@ module.exports = grammar({
       prec.left(PREC.PREFIX_EXPR,
       seq(
         choice("lazy", "assert", "upcast", "downcast", "%", "%%", $.prefix_op),
-        $._expressions,
+        $._expression_inner,
       )),
 
     return_expression: $ =>
       prec.left(PREC.SPECIAL_PREFIX,
       seq(
         choice("return", "return!"),
-        $._expressions,
+        $._expression_inner,
       )),
 
     yield_expression: $ =>
       prec.left(PREC.SPECIAL_PREFIX,
       seq(
         choice("yield", "yield!"),
-        $._expressions,
+        $._expression_inner,
       )),
 
     ce_expression: $ =>
       prec(PREC.CE_EXPR,
       seq(
-        $._expressions,
+        $._expression_inner,
         "{",
-        $._comp_or_range_expression,
+          $._virtual_open_section,
+          $._comp_or_range_expression,
+          $._virtual_end_section,
         "}",
       )),
 
@@ -488,14 +491,14 @@ module.exports = grammar({
     literal_expression: $ =>
       prec(PREC.PAREN_EXPR,
       choice(
-        seq("<@", $._expressions, "@>"),
-        seq("<@@", $._expressions, "@@>"),
+        seq("<@", $._expression_inner, "@>"),
+        seq("<@@", $._expression_inner, "@@>"),
       )),
 
     typecast_expression: $ =>
       prec(PREC.SPECIAL_INFIX,
       seq(
-        $._expressions,
+        $._expression_inner,
         choice(
           ":",
           ":>",
@@ -515,7 +518,7 @@ module.exports = grammar({
         "for",
         choice(
             seq($._pattern, "in", $._expressions_or_range),
-            seq($.identifier, "=", $._expressions, "to", $._expressions),
+            seq($.identifier, "=", $._expression_inner, "to", $._expression_inner),
         ),
         "do",
           $._virtual_open_section,
@@ -1582,11 +1585,12 @@ module.exports = grammar({
       ),
 
     prefix_op: $ =>
+      prec.left(
       choice(
         $._infix_or_prefix_op,
-        prec.right(repeat1("~")),
+        repeat1("~"),
         $.symbolic_op,
-      ),
+      )),
 
     infix_op: $ =>
       prec(PREC.INFIX_OP,
