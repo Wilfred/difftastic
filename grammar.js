@@ -119,7 +119,9 @@ module.exports = grammar({
     $._transliteration_content,
     $._separator_delimiter_transliteration,
     $._end_delimiter_transliteration,
-    //  TODO: handle <<EOF
+    $._eof_start_identifier,
+    $._eof_content,
+    $._eof_end_identifier,
     $._pod_content,
   ],
   
@@ -164,7 +166,21 @@ module.exports = grammar({
 
       $.special_literal,
 
+      $.eof_statement,
+
       $.pod_statement,
+    ),
+
+    eof_statement: $ => seq(
+      $.eof_expression,
+    ),
+
+    // << start_identifier <any statement> \n
+    // content
+    // end_identifier
+    eof_expression: $ => seq(
+      '<<',
+      $._eof_start_identifier,
     ),
 
     pod_statement: $ => prec(PRECEDENCE.COMMENTS, seq(
@@ -720,6 +736,7 @@ module.exports = grammar({
       $.regex_pattern_qr,
       $.substitution_pattern_s,
       $.transliteration_tr_or_y,
+      $.eof_expression,
 
       $.pattern_matcher,
 
@@ -1907,6 +1924,13 @@ function with_or_without_brackets(rule) {
     seq('(', rule, ')'),
   ));
 }
+// TODO: the above should be like this, test it
+// function with_or_without_brackets(rule) {
+//   return choice(
+//     rule,
+//     prec(PRECEDENCE.BRACKETS, seq('(', rule, ')')),
+//   );
+// }
 
 /**
  * Given a rule, returns back a rule with and without

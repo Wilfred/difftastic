@@ -29,6 +29,9 @@ namespace {
     TRANSLITERATION_CONTENT,
     SEPARATOR_DELIMITER_TRANSLITERATION,
     END_DELIMITER_TRANSLITERATION,
+    EOF_START_IDENTIFIER,
+    EOF_CONTENT,
+    EOF_END_IDENTIFIER,
     POD_CONTENT,
   };
 
@@ -101,6 +104,9 @@ namespace {
         && valid_symbols[TRANSLITERATION_CONTENT]
         && valid_symbols[SEPARATOR_DELIMITER_TRANSLITERATION]
         && valid_symbols[END_DELIMITER_TRANSLITERATION]
+        && valid_symbols[EOF_START_IDENTIFIER]
+        && valid_symbols[EOF_CONTENT]
+        && valid_symbols[EOF_END_IDENTIFIER]
         && valid_symbols[POD_CONTENT]
       ) {
         return false;
@@ -295,6 +301,10 @@ namespace {
         return true;
       }
 
+      if (valid_symbols[EOF_START_IDENTIFIER]) {
+        return parse_eof_start_delimiter();
+      }
+
       if (valid_symbols[POD_CONTENT]) {
 
         while (lexer->lookahead) {
@@ -479,6 +489,10 @@ namespace {
       lexer->mark_end(lexer);
 
       return true;
+    }
+
+    bool parse_eof_start_delimiter() {
+
     }
 
     // runs over spaces like a champ
