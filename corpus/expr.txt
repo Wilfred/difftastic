@@ -30,7 +30,7 @@ do 4 3
           (int))))))
 
 ================================================================================
-const 3 sequence expression
+const 3 application expression
 ================================================================================
 
 do 4 3 3
@@ -41,13 +41,10 @@ do 4 3 3
   (value_declaration
     (do
       (application_expression
+        (const (int))
         (application_expression
-          (const
-            (int))
-          (const
-            (int)))
-        (const
-          (int))))))
+          (const (int))
+          (const (int)))))))
 
 ================================================================================
 const identifier expression
@@ -477,14 +474,14 @@ do let name x = 4 in 5
         (long_identifier
           (identifier))))
     (application_expression
+      (const
+        (int))
       (application_expression
-        (const
-          (int))
         (long_identifier_or_op
           (long_identifier
-            (identifier))))
-      (const
-        (int)))))
+            (identifier)))
+        (const
+          (int))))))
 
 ================================================================================
 function-align expressions
@@ -603,3 +600,68 @@ let z = ()
           (identifier_pattern
             (long_identifier (identifier))))
         (const (unit))))))
+
+================================================================================
+pipe expression 1
+================================================================================
+
+do
+  1 |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (const (int))
+        (infix_op (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier (identifier)))))))
+
+================================================================================
+pipe expression 2
+================================================================================
+
+do
+  1
+  |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (const (int))
+        (infix_op (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier (identifier)))))))
+
+================================================================================
+pipe expression 3
+================================================================================
+
+do
+  fun x ->
+    x
+  |> id
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (infix_expression
+        (fun_expression
+          (argument_patterns
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))
+        (infix_op
+          (symbolic_op))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))

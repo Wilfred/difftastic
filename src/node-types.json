@@ -1173,7 +1173,7 @@
     "named": true,
     "fields": {
       "base": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1610,7 +1610,7 @@
     "named": true,
     "fields": {
       "index": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -2029,7 +2029,7 @@
     "named": true,
     "fields": {
       "assignee": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2430,7 +2430,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -3220,7 +3220,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {

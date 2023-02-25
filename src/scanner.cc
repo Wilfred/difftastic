@@ -16,7 +16,6 @@ enum TokenType {
   VIRTUAL_OPEN_SECTION,
   VIRTUAL_END_SECTION,
   VIRTUAL_END_ALIGNED,
-  ALIGNED,
   SEPARATOR,
 };
 
@@ -25,7 +24,6 @@ bool in_error_recovery(const bool *valid_symbols) {
    (valid_symbols[VIRTUAL_OPEN_SECTION] &&
     valid_symbols[VIRTUAL_END_SECTION] &&
     valid_symbols[VIRTUAL_END_ALIGNED] &&
-    valid_symbols[ALIGNED] &&
     valid_symbols[SEPARATOR]);
 }
 
@@ -208,15 +206,26 @@ struct Scanner {
       }
       else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ')') {
         lexer->result_symbol = VIRTUAL_END_SECTION;
+        indent_length_stack.pop_back();
         return true;
       }
       else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ']') {
         lexer->result_symbol = VIRTUAL_END_SECTION;
+        indent_length_stack.pop_back();
         return true;
       }
       else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == '}') {
         lexer->result_symbol = VIRTUAL_END_SECTION;
+        indent_length_stack.pop_back();
         return true;
+      }
+      else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == '|') {
+        skip(lexer);
+        if (lexer->lookahead == '}' || lexer->lookahead == ']') {
+          lexer->result_symbol = VIRTUAL_END_SECTION;
+          indent_length_stack.pop_back();
+          return true;
+        }
       }
       else if (lexer->eof(lexer)) {
           if (valid_symbols[VIRTUAL_END_SECTION])
@@ -234,12 +243,8 @@ struct Scanner {
       else { break; }
     }
 
-    if (valid_symbols[ALIGNED] && !lexer->eof(lexer) && (indent_length_stack.empty() || lexer->get_column(lexer) == indent_length_stack.back())) {
-      lexer->result_symbol = ALIGNED;
-      return true;
-    }
     // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
-    else if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
+    if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
       indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
       return true;
