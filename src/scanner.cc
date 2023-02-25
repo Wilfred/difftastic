@@ -534,7 +534,8 @@ namespace {
           return true;
         }
         return false;
-    }
+      }
+      return false;
     }
 
     bool handle_nested_delimiters() {
