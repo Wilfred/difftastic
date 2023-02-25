@@ -200,14 +200,23 @@ struct Scanner {
       else if (lexer->lookahead == '\r') {
           skip(lexer);
       }
-      else if (lexer->lookahead == ';') {
-        if (valid_symbols[SEPARATOR]) {
-          advance(lexer);
-          lexer->mark_end(lexer);
-          lexer->result_symbol = SEPARATOR;
-          return true;
-        }
-        return false;
+      else if (valid_symbols[SEPARATOR] && lexer->lookahead == ';') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        lexer->result_symbol = SEPARATOR;
+        return true;
+      }
+      else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ')') {
+        lexer->result_symbol = VIRTUAL_END_SECTION;
+        return true;
+      }
+      else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ']') {
+        lexer->result_symbol = VIRTUAL_END_SECTION;
+        return true;
+      }
+      else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == '}') {
+        lexer->result_symbol = VIRTUAL_END_SECTION;
+        return true;
       }
       else if (lexer->eof(lexer)) {
           if (valid_symbols[VIRTUAL_END_SECTION])
