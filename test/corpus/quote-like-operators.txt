@@ -76,7 +76,7 @@ my @array = qw /
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (array_variable)) (word_list_qw (list_item) (list_item) (list_item)) (semi_colon)
+    (scope) (single_var_declaration (array_variable)) (word_list_qw (start_delimiter_qw) (list_item) (list_item) (list_item) (end_delimiter_qw)) (semi_colon)
   )
 )
 

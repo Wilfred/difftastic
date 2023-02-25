@@ -816,10 +816,13 @@ module.exports = grammar({
       '}'
     ),
 
-    _special_variable: $ => choice(
-      $.special_scalar_variable,
-      $.special_array_variable,
-      $.special_hash_variable,
+    _special_variable: $ => seq(
+        optional('local'), // for cases like, local $/; local $SIG{'INT'};
+        choice(
+          $.special_scalar_variable,
+          $.special_array_variable,
+          $.special_hash_variable,
+        )
     ),
 
     special_scalar_variable: $ => choice(

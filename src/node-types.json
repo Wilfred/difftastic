@@ -593,6 +593,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -825,6 +829,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -1845,6 +1853,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -2269,6 +2281,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -2501,6 +2517,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -2967,6 +2987,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -3936,6 +3960,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -4196,6 +4224,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -4430,6 +4462,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -4662,6 +4698,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -5178,6 +5218,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -5819,6 +5863,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -6326,6 +6374,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -6558,6 +6610,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -6818,6 +6874,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -7054,6 +7114,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -7531,6 +7595,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -7763,6 +7831,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -8021,6 +8093,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -8597,6 +8673,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -8829,6 +8909,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -9508,6 +9592,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -12470,6 +12558,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -12702,6 +12794,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -12952,6 +13048,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -13190,6 +13290,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -13599,6 +13703,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -13837,6 +13945,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -14374,6 +14486,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -14690,6 +14806,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -15002,6 +15122,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",
@@ -15527,6 +15651,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -15826,6 +15954,10 @@
             "named": true
           },
           {
+            "type": "local",
+            "named": false
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -16078,6 +16210,10 @@
           {
             "type": "join_function",
             "named": true
+          },
+          {
+            "type": "local",
+            "named": false
           },
           {
             "type": "method_invocation",

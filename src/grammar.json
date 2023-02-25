@@ -3768,19 +3768,36 @@
       ]
     },
     "_special_variable": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "special_scalar_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "local"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "special_array_variable"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "special_hash_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "special_scalar_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "special_array_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "special_hash_variable"
+            }
+          ]
         }
       ]
     },
