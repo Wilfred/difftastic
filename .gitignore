@@ -243,3 +243,6 @@ Cargo.lock
 build/
 /bindings/c/*.h
 /bindings/c/tree-sitter-*.pc
+
+# Swift Package Manager
+.build/
