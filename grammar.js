@@ -31,7 +31,7 @@ const PRECEDENCE = {
   RANGE_OPERATOR: 8,
   TERNARY_OPERATOR: 7,
   ASSIGNMENT_OPERATORS: 6,
-  // COMMA_OPERATORS: 5,
+  COMMA_OPERATORS: 5,
   UNARY_NOT: 4,
   UNARY_AND: 3,
   OR_XOR: 2,
@@ -57,6 +57,8 @@ module.exports = grammar({
     [$.binary_expression, $._bodmas_2, $._unary_not],
     [$.binary_expression, $._bodmas_2, $._unary_and],
     [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
+    [$.binary_expression, $._bodmas_2, $.join_function],
+    [$.binary_expression, $._bodmas_2, $.argument],
     [$._range_exp],
     [$._class_instance_exp],
     [$._primitive_expression, $._list],
@@ -506,7 +508,7 @@ module.exports = grammar({
     
     _declaration: $ => choice(
       $.function_definition,
-      $.variable_declaration, // TODO: make this under expression? to accommodate for loop?
+      $.variable_declaration, // TODO: make this under expression? to accommodate for loop? AND make declarations across grammers better.
     ),
 
     variable_declaration: $ => seq(
@@ -780,7 +782,7 @@ module.exports = grammar({
       ),
     )),
 
-    join_function: $ => prec.right(seq(
+    join_function: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       choice(
         alias('join', $.join),
       ),
@@ -1438,7 +1440,10 @@ module.exports = grammar({
       ')',
     )),
 
-    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated(choice($._dereference, $._expression))),
+    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, choice(
+      $._key_value_pair,
+      commaSeparated(choice($._dereference, $._expression)),
+    )),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
@@ -1843,6 +1848,11 @@ module.exports = grammar({
       field('key', choice(
         alias($.identifier, $.bareword),
         alias($.key_words_in_hash_key, $.bareword),
+        alias(seq(
+          optional($.scope),
+          choice($.single_var_declaration, $.type_glob_declaration),
+          optional($._initializer),
+        ), $.variable_declaration),
         $._expression_without_call_expression_with_just_name,
       )),
       $.hash_arrow_operator,
@@ -1866,7 +1876,7 @@ module.exports = grammar({
     )),
 
     arrow_operator: $ => /->/,
-    hash_arrow_operator: $ => /=>/,
+    hash_arrow_operator: $ => prec.left(PRECEDENCE.COMMA_OPERATORS, /=>/), // alias comma operator
 
     // some key words
     super: $ => 'SUPER',
@@ -1888,11 +1898,11 @@ module.exports = grammar({
  * @param {*} rule 
  */
 function commaSeparated(rule) {
-  return seq(
+  return prec.left(PRECEDENCE.COMMA_OPERATORS, seq(
     rule,
     repeat(seq(',', rule)),
     optional(','), // in perl so far you could have this
-  );
+  ));
 }
 
 /**
