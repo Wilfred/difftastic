@@ -10,6 +10,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * bfredl - neovim and tree-sitter work
 * borkdude - analyze-reify, babashka, clj-kondo, edamame, and more
 * carocad - parcera and discussions
+* cgrand - ClojureDart and related reader explanation
 * clojars - including everyone who has uploaded there
 * CoenraadS - Bracket-Pair-Colorizer-2
 * dannyfreeman - grammar.js enhancements and fixes, clojure-ts-mode and discussions
@@ -19,6 +20,7 @@ Many people were directly and indirectly involved in bringing about tree-sitter-
 * GrayJack - discussions and tree-sitter-janet
 * hitode909 - vscode-perl-outline
 * iarenaza - discussions
+* IGJoshua - ClojureCLR investigations
 * jafingerhut - clojure-related inquiries and haironfire research
 * jeff-hykin - tree-sitter and VSCode related
 * kolja - nrepl-alliance and tree-sitter question concerning Clojure on StackOverflow
