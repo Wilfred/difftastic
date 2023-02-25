@@ -632,20 +632,20 @@ module.exports = grammar({
     index_expression: $ =>
       prec(PREC.INDEX_EXPR,
       seq(
-        $._expressions,
+        $._expression_inner,
         optional(imm(".")),
         imm("["),
         choice(
-          field("index", $._expressions),
+          field("index", $._expression_inner),
           $.slice_ranges,
         ),
         "]",
       )),
 
     dot_expression: $ =>
-      prec.left(PREC.DOT,
+      prec.right(PREC.DOT,
       seq(
-        field("base", $._expressions),
+        field("base", $._expression_inner),
         imm("."),
         field("field", $.long_identifier_or_op),
       )),

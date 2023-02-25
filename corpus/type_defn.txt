@@ -301,34 +301,22 @@ and 'T maybe = Maybe<'T>
 
 (file
   (type_definition
-    (type_abbrev_defn
+    (union_type_defn
       (type_name
         (identifier)
         (type_arguments
           (type_argument_defn
             (type_argument
               (identifier)))))
-      (ERROR
-        (ERROR
-          (union_type_cases
-            (union_type_case
-              (identifier))
-            (ERROR
-              (UNEXPECTED 'B')
-              (UNEXPECTED 'T'))
-            (union_type_case
-              (identifier))))
-        (type
-          (type
-            (type_argument
-              (identifier)))
-          (long_identifier
-            (identifier))))
-      (type
-        (long_identifier
+      (union_type_cases
+        (union_type_case
           (identifier))
-        (type_attributes
-          (type_attribute
-            (type
-              (type_argument
-                (identifier)))))))))
+        (ERROR
+          (UNEXPECTED 'B')
+          (UNEXPECTED 'T'))
+        (union_type_case
+          (identifier)))))
+  (ERROR
+    (UNEXPECTED 'T')
+    (UNEXPECTED 'M')
+    (UNEXPECTED 'T')))

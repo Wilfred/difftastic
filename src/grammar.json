@@ -2346,7 +2346,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expressions"
+            "name": "_expression_inner"
           },
           {
             "type": "CHOICE",
@@ -2378,7 +2378,7 @@
                 "name": "index",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expressions"
+                  "name": "_expression_inner"
                 }
               },
               {
@@ -2395,7 +2395,7 @@
       }
     },
     "dot_expression": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 19,
       "content": {
         "type": "SEQ",
@@ -2405,7 +2405,7 @@
             "name": "base",
             "content": {
               "type": "SYMBOL",
-              "name": "_expressions"
+              "name": "_expression_inner"
             }
           },
           {

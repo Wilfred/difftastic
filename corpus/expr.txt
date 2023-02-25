@@ -183,11 +183,9 @@ do test.[test]
         (long_identifier_or_op
           (long_identifier
             (identifier)))
-        (slice_ranges
-          (slice_range
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
 
 ================================================================================
 index expression
@@ -204,11 +202,9 @@ do test[test]
         (long_identifier_or_op
           (long_identifier
             (identifier)))
-        (slice_ranges
-          (slice_range
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))))))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))))))
 
 ================================================================================
 mutate expression
@@ -337,10 +333,8 @@ do [2; 3; 4][1]
             (int))
           (const
             (int)))
-        (slice_ranges
-          (slice_range
-            (const
-              (int))))))))
+        (const
+          (int))))))
 
 ================================================================================
 index single list expressions
@@ -357,10 +351,8 @@ do [2][1]
         (list_expression
           (const
             (int)))
-        (slice_ranges
-          (slice_range
-            (const
-              (int))))))))
+        (const
+          (int))))))
 
 ================================================================================
 two single list expressions
@@ -414,10 +406,8 @@ do [|2; 3; 4|][1]
             (int))
           (const
             (int)))
-        (slice_ranges
-          (slice_range
-            (const
-              (int))))))))
+        (const
+          (int))))))
 
 ================================================================================
 array single list expressions
@@ -434,10 +424,8 @@ do [|2|][1]
         (array_expression
           (const
             (int)))
-        (slice_ranges
-          (slice_range
-            (const
-              (int))))))))
+        (const
+          (int))))))
 
 ================================================================================
 two single array expressions
@@ -665,3 +653,42 @@ do
         (long_identifier_or_op
           (long_identifier
             (identifier)))))))
+
+================================================================================
+pipe expression 4
+================================================================================
+
+do
+  A.x
+  |> B.y C.z
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (application_expression
+        (infix_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier))))
+          (infix_op
+            (symbolic_op))
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
+        (dot_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))

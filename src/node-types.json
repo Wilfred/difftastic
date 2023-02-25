@@ -1173,7 +1173,7 @@
     "named": true,
     "fields": {
       "base": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1610,7 +1610,7 @@
     "named": true,
     "fields": {
       "index": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
