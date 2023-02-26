@@ -1,0 +1,50 @@
+name: Build/release
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: "develop"
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm test
+      
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: "develop"
+          path: /dev
+      - uses: actions/checkout@v3
+        with:
+          ref: "main"
+          path: /main
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: "copy grammar to main branch"
+        run: |
+          cp /dev/grammar.js /main/grammar.js
+          cp /dev/src/scanner.cc /main/scanner.cc
+      - name: "compile main branch" 
+        working-directory: /app
+        run: |
+          npm install
+          npm run build
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "release"
+          file_pattern: '!.gitignore !README.md'
+          repository: /main
+          push_options: '--force'
