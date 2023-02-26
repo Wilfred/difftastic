@@ -1223,7 +1223,7 @@ module.exports = grammar({
 
     await_expression: $ => prec.right(PREC.UNARY, seq('await', $._expression)),
 
-    cast_expression: $ => prec.right(PREC.CAST, prec.dynamic(1, seq(  // higher than invocation, lower than binary
+    cast_expression: $ => prec.right(PREC.CAST, prec.dynamic(1, seq(
       '(',
       field('type', $._type),
       ')',
@@ -1644,11 +1644,11 @@ module.exports = grammar({
         ['>=', PREC.REL], // greater_than_or_equal_expression
         ['>', PREC.REL] //  greater_than_expression
       ].map(([operator, precedence]) =>
-        prec.left(precedence, prec.dynamic(2, seq(  // higher than cast
+        prec.left(precedence, seq(
           field('left', $._expression),
           field('operator', operator),
           field('right', $._expression)
-        )))
+        ))
       ),
       prec.right(PREC.COALESCING, seq(
         field('left', $._expression),
