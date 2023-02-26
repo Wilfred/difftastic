@@ -1064,7 +1064,15 @@
             },
             {
               "type": "SYMBOL",
+              "name": "_virtual_open_section"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_pattern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_virtual_end_section"
             },
             {
               "type": "STRING",
@@ -2100,20 +2108,12 @@
             "value": "elif"
           },
           {
-            "type": "SYMBOL",
-            "name": "_virtual_open_section"
-          },
-          {
             "type": "FIELD",
             "name": "guard",
             "content": {
               "type": "SYMBOL",
-              "name": "_expressions"
+              "name": "_expression_inner"
             }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_virtual_end_section"
           },
           {
             "type": "STRING",
@@ -2149,20 +2149,12 @@
             "value": "if"
           },
           {
-            "type": "SYMBOL",
-            "name": "_virtual_open_section"
-          },
-          {
             "type": "FIELD",
             "name": "guard",
             "content": {
               "type": "SYMBOL",
-              "name": "_expressions"
+              "name": "_expression_inner"
             }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_virtual_end_section"
           },
           {
             "type": "STRING",

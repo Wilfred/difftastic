@@ -45,12 +45,12 @@ let name (x : int) = 1
 (file
   (value_declaration
     (function_or_value_defn
-      (value_declaration_left
-        (identifier_pattern (long_identifier (identifier))
-          (paren_pattern
-            (typed_pattern
-              (identifier_pattern (long_identifier (identifier)))
-              (type (long_identifier (identifier)))))))
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (typed_pattern
+            (identifier_pattern (long_identifier (identifier)))
+            (type (long_identifier (identifier))))))
       (const (int)))))
 
 ================================================================================
@@ -64,16 +64,16 @@ let name (x: int, y: string) = 1, "test"
 (file
   (value_declaration
     (function_or_value_defn
-      (value_declaration_left
-        (identifier_pattern (long_identifier (identifier))
-          (paren_pattern
-            (repeat_pattern
-              (typed_pattern
-                (identifier_pattern (long_identifier (identifier)))
-                (type (long_identifier (identifier))))
-              (typed_pattern
-                (identifier_pattern (long_identifier (identifier)))
-                (type (long_identifier (identifier))))))))
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (repeat_pattern
+            (typed_pattern
+              (identifier_pattern (long_identifier (identifier)))
+              (type (long_identifier (identifier))))
+            (typed_pattern
+              (identifier_pattern (long_identifier (identifier)))
+              (type (long_identifier (identifier)))))))
       (tuple_expression
         (const (int))
         (const (string))))))

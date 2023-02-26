@@ -870,3 +870,105 @@ let x =
               (long_identifier_or_op (long_identifier (identifier))))
             (long_identifier_or_op (long_identifier (identifier)))))
         (const (int))))))
+
+================================================================================
+if-then-else expression 1
+================================================================================
+
+do
+  if true
+    then 1
+    else 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))
+        (const (int))))))
+
+================================================================================
+if-then-else expression 2
+================================================================================
+
+do
+  if true then 1 else 2
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))
+        (const (int))))))
+
+================================================================================
+if-then expression 1
+================================================================================
+
+do
+  if true then
+    1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))))))
+
+================================================================================
+if-then expression 2
+================================================================================
+
+do
+  if true then 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (if_expression
+        (const)
+        (const (int))))))
+
+================================================================================
+anonymous function expression
+================================================================================
+
+let exampleNamespace =
+    (fun (n,v) -> if n = "namespace" then Some (v :?> string) else None )
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern (long_identifier (identifier))))
+      (paren_expression
+        (fun_expression
+          (argument_patterns
+            (repeat_pattern
+              (identifier_pattern (long_identifier (identifier)))
+              (identifier_pattern (long_identifier (identifier)))))
+          (if_expression
+            (infix_expression
+              (long_identifier_or_op (long_identifier (identifier)))
+              (infix_op)
+              (const (string)))
+            (application_expression
+              (long_identifier_or_op (long_identifier (identifier)))
+              (paren_expression
+                (typecast_expression
+                  (long_identifier_or_op (long_identifier (identifier)))
+                  (type (long_identifier (identifier))))))
+            (long_identifier_or_op (long_identifier (identifier)))))))))

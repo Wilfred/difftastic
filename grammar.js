@@ -305,7 +305,7 @@ module.exports = grammar({
         $.list_pattern,
         $.record_pattern,
         $.array_pattern,
-        seq("(", $._pattern, ")"),
+        seq("(", $._virtual_open_section, $._pattern, $._virtual_end_section, ")"),
         // :? atomic_type
       ),
 
@@ -576,9 +576,7 @@ module.exports = grammar({
       prec(PREC.ELSE_EXPR,
       seq(
         "elif",
-        $._virtual_open_section,
-        field("guard", $._expressions),
-        $._virtual_end_section,
+        field("guard", $._expression_inner),
         "then",
         $._virtual_open_section,
         field("then", $._expressions),
@@ -589,9 +587,7 @@ module.exports = grammar({
       prec.left(PREC.IF_EXPR,
       seq(
         "if",
-        $._virtual_open_section,
-        field("guard", $._expressions),
-        $._virtual_end_section,
+        field("guard", $._expression_inner),
         "then",
         field("then", $._expressions),
         repeat($.elif_expression),

@@ -1169,7 +1169,7 @@
     "named": true,
     "fields": {
       "guard": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1529,7 +1529,7 @@
         ]
       },
       "guard": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
