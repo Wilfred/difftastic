@@ -3403,3 +3403,24 @@ var x = nameof(A.B);
                   (member_access_expression
                     (identifier)
                     (identifier)))))))))))
+
+================================================================================
+Generic invocation expression
+================================================================================
+
+MyFunction<A,B>(1);
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+    (global_statement
+      (expression_statement
+        (invocation_expression
+          (generic_name
+            (identifier)
+            (type_argument_list
+              (identifier)
+              (identifier)))
+          (argument_list
+            (argument
+              (integer_literal)))))))

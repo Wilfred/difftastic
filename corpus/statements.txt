@@ -2005,3 +2005,29 @@ person = new Person(null!, null!);
             (argument
               (postfix_unary_expression
                 (null_literal)))))))))
+
+================================================================================
+Variable declaration with generic invocation
+================================================================================
+
+MyClass myVar = MyFunction<MyOtherClass>("MyArg");
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+    (global_statement
+      (local_declaration_statement
+        (variable_declaration
+          (identifier)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+              (invocation_expression
+                (generic_name
+                  (identifier)
+                  (type_argument_list
+                    (identifier)))
+                (argument_list
+                  (argument
+                    (string_literal
+                      (string_literal_fragment)))))))))))
