@@ -92,13 +92,9 @@ type A() =
 (file
   (type_definition
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (class_function_or_value_defn
-          (const
-            (unit)))))))
+      (const (unit)))))
 
 ================================================================================
 class inherit definition
@@ -114,11 +110,9 @@ type A() =
     (anon_type_defn
       (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (class_inherits_decl
-          (type
-            (long_identifier (identifier)))
-          (const (unit)))))))
+      (class_inherits_decl
+        (type (long_identifier (identifier)))
+        (const (unit))))))
 
 ================================================================================
 basic class member definition
@@ -132,18 +126,15 @@ type A() =
 (file
   (type_definition
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (type_defn_elements
-          (member_defn
-            (method_or_prop_defn
-              (property_or_ident
-                (identifier)
-                (identifier))
-              (const_pattern (unit))
-              (const (unit)))))))))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (const_pattern (unit))
+          (const (unit)))))))
 
 ================================================================================
 basic class interface implementation definition
@@ -158,22 +149,50 @@ type A() =
 (file
   (type_definition
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (type_defn_elements
-          (interface_implementation
-            (type (long_identifier (identifier)))
-            (object_members
-              (member_defns
-                (member_defn
-                  (method_or_prop_defn
-                    (property_or_ident
-                      (identifier)
-                      (identifier))
-                    (const_pattern (unit))
-                    (const (unit))))))))))))
+      (interface_implementation
+        (type (long_identifier (identifier)))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern (unit))
+            (const (unit))))))))
+
+================================================================================
+basic class interface implementation definition with two members
+================================================================================
+
+type A() =
+  interface A with
+    member _.B() = ()
+    member _.C() = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name (identifier))
+      (primary_constr_args)
+      (interface_implementation
+        (type (long_identifier (identifier)))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern (unit))
+            (const (unit))))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern (unit))
+            (const (unit))))))))
 
 ================================================================================
 class inherit and do definition
@@ -188,17 +207,12 @@ type A() =
 (file
   (type_definition
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (class_inherits_decl
-          (type
-            (long_identifier
-              (identifier)))
-            (const (unit)))
-            (class_function_or_value_defn
-              (const (unit)))))))
+      (class_inherits_decl
+        (type (long_identifier (identifier)))
+        (const (unit)))
+      (const (unit)))))
 
 ================================================================================
 class inherit and member method definition
@@ -213,26 +227,18 @@ type A() =
 (file
   (type_definition
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (class_inherits_decl
-          (type
-            (long_identifier
-              (identifier)))
-          (const
-            (unit)))
-        (type_defn_elements
-          (member_defn
-            (method_or_prop_defn
-              (property_or_ident
-                (identifier)
-                (identifier))
-              (const_pattern
-                (unit))
-              (const
-                (unit)))))))))
+      (class_inherits_decl
+        (type (long_identifier (identifier)))
+        (const (unit)))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (const_pattern (unit))
+          (const (unit)))))))
 
 ================================================================================
 class member then interface impl. test
@@ -250,27 +256,22 @@ type A() =
     (anon_type_defn
       (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (type_defn_elements
-          (member_defn
-            (method_or_prop_defn
-              (property_or_ident
-                (identifier)
-                (identifier))
-              (const_pattern (unit))
-              (const (unit)))))
-        (type_defn_elements
-          (interface_implementation
-            (type (long_identifier (identifier)))
-            (object_members
-              (member_defns
-                (member_defn
-                  (method_or_prop_defn
-                    (property_or_ident
-                      (identifier)
-                      (identifier))
-                    (const_pattern (unit))
-                    (const (unit))))))))))))
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (const_pattern (unit))
+          (const (unit))))
+      (interface_implementation
+        (type (long_identifier (identifier)))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern (unit))
+            (const (unit))))))))
 
 ================================================================================
 Mutual type definition

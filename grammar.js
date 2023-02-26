@@ -135,8 +135,7 @@ module.exports = grammar({
 
     compiler_directive_decl: $ =>
       seq(
-        imm("#"),
-        $.identifier,
+        "#nowarn",
         repeat($.string),
       ),
 
@@ -436,7 +435,7 @@ module.exports = grammar({
         "new",
         $._base_call,
         $._virtual_open_section,
-        $.object_members,
+        $._object_members,
         $.interface_implementations,
         $._virtual_end_section,
       )),
@@ -1196,11 +1195,11 @@ module.exports = grammar({
     _class_type_body_inner: $ =>
       choice(
         $.class_inherits_decl,
-        $.class_function_or_value_defn,
-        $.type_defn_elements,
+        $._class_function_or_value_defn,
+        $._type_defn_elements,
       ),
 
-    class_type_body: $ =>
+    _class_type_body: $ =>
       seq(
         $._virtual_open_section,
         repeat1($._class_type_body_inner),
@@ -1297,7 +1296,7 @@ module.exports = grammar({
         $.type_name,
         $.primary_constr_args,
         "=",
-        $.class_type_body
+        $._class_type_body
       ),
 
     primary_constr_args: $ =>
@@ -1317,7 +1316,7 @@ module.exports = grammar({
         seq($.simple_pattern, ":", $.type)
       ),
 
-    class_function_or_value_defn: $ =>
+    _class_function_or_value_defn: $ =>
       seq(
         optional($.attributes),
         optional("static"),
@@ -1331,11 +1330,11 @@ module.exports = grammar({
       seq(
         "with",
         $._virtual_open_section,
-        $.type_defn_elements,
+        $._type_defn_elements,
         $._virtual_end_section,
       ),
 
-    type_defn_elements: $ =>
+    _type_defn_elements: $ =>
       choice(
         $.member_defn,
         $.interface_implementation,
@@ -1348,18 +1347,17 @@ module.exports = grammar({
       seq(
         "interface",
         $.type,
-        optional($.object_members),
+        optional($._object_members),
       )),
 
-    object_members: $ =>
+    _object_members: $ =>
       seq(
         "with",
         $._virtual_open_section,
-        $.member_defns,
+        $.member_defn,
+        repeat(seq($._virtual_end_decl, $.member_defn)),
         $._virtual_end_section,
       ),
-
-    member_defns: $ => repeat1($.member_defn),
 
     member_defn: $ =>
       seq(

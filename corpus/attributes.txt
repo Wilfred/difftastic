@@ -122,17 +122,10 @@ type A() =
       (attribute_set
         (attribute
           (object_construction
-            (type
-              (long_identifier
-                (identifier)))
+            (type (long_identifier (identifier)))
             (paren_expression
-              (const
-                (string)))))))
+              (const (string)))))))
     (anon_type_defn
-      (type_name
-        (identifier))
+      (type_name (identifier))
       (primary_constr_args)
-      (class_type_body
-        (class_function_or_value_defn
-          (const
-            (unit)))))))
+      (const (unit)))))

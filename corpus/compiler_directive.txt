@@ -6,21 +6,6 @@ basic compiler directive
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (UNEXPECTED 'w')
-  (UNEXPECTED 'n'))
-
-================================================================================
-multiple compiler directive
-================================================================================
-
-#identhere "hello" "test"
-
---------------------------------------------------------------------------------
-
-(ERROR
-  (UNEXPECTED 'r')
-  (UNEXPECTED 'h')
-  (UNEXPECTED '"')
-  (UNEXPECTED 'e')
-  (UNEXPECTED '"'))
+(file
+  (compiler_directive_decl
+    (string)))

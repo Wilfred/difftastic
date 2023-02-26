@@ -375,7 +375,27 @@
       "required": true,
       "types": [
         {
-          "type": "class_type_body",
+          "type": "_expression_inner",
+          "named": true
+        },
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "class_inherits_decl",
+          "named": true
+        },
+        {
+          "type": "function_or_value_defn",
+          "named": true
+        },
+        {
+          "type": "interface_implementation",
+          "named": true
+        },
+        {
+          "type": "member_defn",
           "named": true
         },
         {
@@ -733,29 +753,6 @@
     "fields": {}
   },
   {
-    "type": "class_function_or_value_defn",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression_inner",
-          "named": true
-        },
-        {
-          "type": "attributes",
-          "named": true
-        },
-        {
-          "type": "function_or_value_defn",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "class_inherits_decl",
     "named": true,
     "fields": {},
@@ -775,40 +772,13 @@
     }
   },
   {
-    "type": "class_type_body",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "class_function_or_value_defn",
-          "named": true
-        },
-        {
-          "type": "class_inherits_decl",
-          "named": true
-        },
-        {
-          "type": "type_defn_elements",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "compiler_directive_decl",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "string",
           "named": true
@@ -1740,7 +1710,7 @@
       "required": true,
       "types": [
         {
-          "type": "object_members",
+          "type": "member_defn",
           "named": true
         },
         {
@@ -1897,21 +1867,6 @@
         },
         {
           "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "member_defns",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "member_defn",
           "named": true
         }
       ]
@@ -2138,11 +2093,11 @@
           "named": true
         },
         {
-          "type": "object_construction",
+          "type": "member_defn",
           "named": true
         },
         {
-          "type": "object_members",
+          "type": "object_construction",
           "named": true
         }
       ]
@@ -2162,21 +2117,6 @@
         },
         {
           "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "object_members",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "member_defns",
           "named": true
         }
       ]
@@ -2816,25 +2756,6 @@
     }
   },
   {
-    "type": "type_defn_elements",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "interface_implementation",
-          "named": true
-        },
-        {
-          "type": "member_defn",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "type_extension",
     "named": true,
     "fields": {},
@@ -2862,7 +2783,11 @@
       "required": true,
       "types": [
         {
-          "type": "type_defn_elements",
+          "type": "interface_implementation",
+          "named": true
+        },
+        {
+          "type": "member_defn",
           "named": true
         }
       ]
@@ -3252,6 +3177,10 @@
   },
   {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "#nowarn",
     "named": false
   },
   {
