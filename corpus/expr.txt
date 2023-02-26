@@ -742,3 +742,131 @@ do
             (const (int))))
         (return_expression
           (const (unit)))))))
+
+================================================================================
+call function form list of functions
+================================================================================
+
+let x =
+  let fs = [id]
+  fs[0] 0
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (list_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))))
+        (application_expression
+          (index_expression
+            (long_identifier_or_op
+              (long_identifier
+                (identifier)))
+            (const (int)))
+          (const (int)))))))
+
+================================================================================
+index list with value declaration
+================================================================================
+
+let x =
+  let ys = [1;2]
+  ys[
+    let x = 1
+    x
+  ]
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (list_expression
+            (const (int))
+            (const (int))))
+        (index_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier (identifier))))
+              (const (int)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
+
+================================================================================
+apply value declaration to function
+================================================================================
+
+let x =
+  id
+   (let x = 1
+    x)
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier (identifier)))
+        (paren_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern
+                  (long_identifier
+                    (identifier))))
+              (const (int)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
+
+================================================================================
+apply value to function declaration
+================================================================================
+
+let x =
+  (let f = id
+   id) 4
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern (long_identifier (identifier))))
+      (application_expression
+        (paren_expression
+          (declaration_expression
+            (function_or_value_defn
+              (value_declaration_left
+                (identifier_pattern (long_identifier (identifier))))
+              (long_identifier_or_op (long_identifier (identifier))))
+            (long_identifier_or_op (long_identifier (identifier)))))
+        (const (int))))))

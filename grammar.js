@@ -479,13 +479,19 @@ module.exports = grammar({
         "}",
       )),
 
+    _infix_expression_inner: $ =>
+      prec.left(PREC.SPECIAL_INFIX,
+      seq(
+        optional($._virtual_end_decl),
+        $.infix_op,
+        $._expression_inner,
+      )),
+
     infix_expression: $ =>
       prec.left(PREC.SPECIAL_INFIX,
       seq(
         $._expression_inner,
-        optional($._virtual_end_decl),
-        $.infix_op,
-        $._expression_inner,
+        repeat1($._infix_expression_inner),
       )),
 
     literal_expression: $ =>
@@ -510,7 +516,7 @@ module.exports = grammar({
 
     begin_end_expression: $ => prec(PREC.PAREN_EXPR, seq("begin", $._expressions, "end")),
 
-    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._expressions, ")")),
+    paren_expression: $ => prec(PREC.PAREN_EXPR, seq("(", $._virtual_open_section, $._expressions, $._virtual_end_section, ")")),
 
     for_expression: $ =>
       prec.left(
@@ -638,10 +644,12 @@ module.exports = grammar({
         $._expression_inner,
         optional(imm(".")),
         imm("["),
+        $._virtual_open_section,
         choice(
-          field("index", $._expression_inner),
+          field("index", $._expressions),
           $.slice_ranges,
         ),
+        $._virtual_end_section,
         "]",
       )),
 
@@ -928,8 +936,8 @@ module.exports = grammar({
     //     repeat(seq("|", $.comp_rule)),
     //   )),
 
-    slice_ranges: $ => prec.left(PREC.COMMA,
-      seq($.slice_range, repeat(seq(",", $.slice_range)))),
+    slice_ranges: $ =>
+      seq($.slice_range, repeat(seq(",", $.slice_range))),
 
     _slice_range_special: $ =>
       prec.left(PREC.DOTDOT_SLICE,
@@ -941,12 +949,11 @@ module.exports = grammar({
       ),
 
     slice_range: $ =>
-      prec(PREC.DOTDOT_SLICE,
       choice(
         $._slice_range_special,
         $._expressions,
         "*",
-      )),
+      ),
 
     //
     // Computation expression (END)
@@ -1524,7 +1531,7 @@ module.exports = grammar({
     triple_quoted_string: $ => seq('"""', repeat($._simple_or_escape_char), imm('"""')),
     _newline: $ => /\r?\n/,
 
-    unit: $ => seq("(", ")"),
+    unit: $ => seq("(", optional(seq($._virtual_open_section, $._virtual_end_section)), ")"),
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,

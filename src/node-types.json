@@ -1610,7 +1610,7 @@
     "named": true,
     "fields": {
       "index": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
