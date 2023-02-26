@@ -119,7 +119,7 @@ basic class member definition
 ================================================================================
 
 type A() =
-  member this.Post() = ()
+  member this.Post(msg: string) = msg
 
 --------------------------------------------------------------------------------
 
@@ -128,6 +128,39 @@ type A() =
     (anon_type_defn
       (type_name (identifier))
       (primary_constr_args)
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (paren_pattern
+            (typed_pattern
+              (identifier_pattern (long_identifier (identifier)))
+              (type (long_identifier (identifier)))))
+          (long_identifier_or_op (long_identifier (identifier))))))))
+
+================================================================================
+basic class member definition with two members
+================================================================================
+
+type A() =
+  member this.Post() = ()
+  member this.Get() = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name (identifier))
+      (primary_constr_args)
+      (member_defn
+        (method_or_prop_defn
+          (property_or_ident
+            (identifier)
+            (identifier))
+          (const_pattern (unit))
+          (const (unit))))
       (member_defn
         (method_or_prop_defn
           (property_or_ident
@@ -186,6 +219,38 @@ type A() =
               (identifier))
             (const_pattern (unit))
             (const (unit))))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern (unit))
+            (const (unit))))))))
+
+================================================================================
+class interface implementation definition with member and property
+================================================================================
+
+type A() =
+  interface A with
+    member _.B = 1
+    member _.C() = ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (anon_type_defn
+      (type_name (identifier))
+      (primary_constr_args)
+      (interface_implementation
+        (type (long_identifier (identifier)))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const (int))))
         (member_defn
           (method_or_prop_defn
             (property_or_ident

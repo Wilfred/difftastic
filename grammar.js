@@ -233,13 +233,13 @@ module.exports = grammar({
       )),
 
     value_declaration_left: $ =>
-      seq(
+      prec.left(2,seq(
         optional("mutable"),
         optional($.access_modifier),
         $._pattern,
         optional($.type_arguments),
         optional(seq(":", $.type))
-      ),
+      )),
 
     access_modifier: $ => choice("private", "internal", "public"),
     //
@@ -269,15 +269,16 @@ module.exports = grammar({
           // :? atomic-type as ident
       ),
 
-    attribute_pattern: $ => seq($.attributes, $._pattern),
+    attribute_pattern: $ => prec.left(seq($.attributes, $._pattern)),
 
-    paren_pattern: $ => seq("(", $._pattern, ")"),
+    paren_pattern: $ => seq("(", $._virtual_open_section, $._pattern, $._virtual_end_section, ")"),
 
     repeat_pattern: $ =>
-      prec.left(PREC.COMMA,
+      prec.right(
       seq(
-        $._pattern,
-        repeat1(prec.left(PREC.COMMA, seq(",", $._pattern))),
+        $._pattern, ",",
+        repeat(prec.right(seq($._virtual_end_decl, $._pattern, ","))),
+        $._pattern
       )),
 
     identifier_pattern: $ =>
@@ -285,15 +286,15 @@ module.exports = grammar({
         seq($.long_identifier, optional($._pattern_param), optional($._pattern)),
       ),
 
-    as_pattern: $ => prec.left(3,seq($._pattern, "as", $.identifier)),
-    cons_pattern: $ => prec.left(3,seq($._pattern, "::", $._pattern)),
-    disjunct_pattern: $ => prec.left(3,seq($._pattern, "|", $._pattern)),
-    conjunct_pattern: $ => prec.left(3,seq($._pattern, "&", $._pattern)),
+    as_pattern: $ => prec.left(0,seq($._pattern, "as", $.identifier)),
+    cons_pattern: $ => prec.left(0,seq($._pattern, "::", $._pattern)),
+    disjunct_pattern: $ => prec.left(0,seq($._pattern, "|", $._pattern)),
+    conjunct_pattern: $ => prec.left(0,seq($._pattern, "&", $._pattern)),
     typed_pattern: $ => prec.left(3,seq($._pattern, ":", $.type)),
 
     argument_patterns: $ => repeat1($._atomic_pattern),
 
-    field_pattern: $ => seq($.long_identifier, '=', $._pattern),
+    field_pattern: $ => prec(1, seq($.long_identifier, '=', $._pattern)),
 
     _atomic_pattern: $ =>
       choice(
@@ -310,19 +311,37 @@ module.exports = grammar({
 
     list_pattern: $ => choice(
       seq('[', ']'),
-      seq('[', $._pattern, repeat(seq(';', $._pattern)), ']')),
+      seq('[', $._pattern, repeat(seq($._seperator, $._pattern)), ']')),
     array_pattern: $ => choice(
       seq('[|', '|]'),
-      seq('[|', $._pattern, repeat(seq(';', $._pattern)), '|]')),
+      seq('[|', $._pattern, repeat(seq($._seperator, $._pattern)), '|]')),
     record_pattern: $ =>
       prec.left(
         seq(
-        '{', $.field_pattern, repeat(seq(';', $.field_pattern)))),
+        '{', $.field_pattern, repeat(seq($._seperator, $.field_pattern)))),
 
     _pattern_param: $ =>
       prec(2,
         choice(
-          $.const
+          $.const,
+          $.long_identifier,
+          // seq($.long_identifier, $._pattern_param),
+          // seq($._pattern_param, ":", $.type),
+          // seq(
+          //   "[",
+          //   $._pattern_param,
+          //   repeat(seq($._seperator, $._pattern_param)),
+          //   "]",
+          // ),
+          // seq(
+          //   "(",
+          //   $._pattern_param,
+          //   repeat(seq($._seperator, $._pattern_param)),
+          //   ")",
+          // ),
+          // seq("<@", $._expression_inner, "@>"),
+          // seq("<@@", $._expression_inner, "@@>"),
+          "null",
         )
       ),
     //
@@ -1202,7 +1221,8 @@ module.exports = grammar({
     _class_type_body: $ =>
       seq(
         $._virtual_open_section,
-        repeat1($._class_type_body_inner),
+        $._class_type_body_inner,
+        repeat(seq($._virtual_end_decl,$._class_type_body_inner)),
         $._virtual_end_section,
       ),
 
@@ -1350,12 +1370,17 @@ module.exports = grammar({
         optional($._object_members),
       )),
 
+    _member_defns: $ =>
+      seq(
+        $.member_defn,
+        repeat(seq($._virtual_end_decl, $.member_defn)),
+      ),
+
     _object_members: $ =>
       seq(
         "with",
         $._virtual_open_section,
-        $.member_defn,
-        repeat(seq($._virtual_end_decl, $.member_defn)),
+        $._member_defns,
         $._virtual_end_section,
       ),
 
@@ -1375,7 +1400,7 @@ module.exports = grammar({
     property_or_ident: $ =>
       choice(
         seq(field("instance", $.identifier), ".", $.identifier),
-        $.identifier
+        $.identifier,
       ),
 
     _method_defn: $ =>
@@ -1387,7 +1412,9 @@ module.exports = grammar({
       seq(
         $.property_or_ident,
         "=",
+        $._virtual_open_section,
         $._expressions,
+        $._virtual_end_section,
         optional(
           seq(
             "with",
