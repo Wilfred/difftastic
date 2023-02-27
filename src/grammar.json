@@ -1122,6 +1122,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "tagged_or_ctor_lit"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "map_lit"
               },
               {
@@ -1168,6 +1172,10 @@
               {
                 "type": "SYMBOL",
                 "name": "read_cond_lit"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "tagged_or_ctor_lit"
               },
               {
                 "type": "SYMBOL",

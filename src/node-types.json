@@ -959,6 +959,10 @@
           {
             "type": "sym_lit",
             "named": true
+          },
+          {
+            "type": "tagged_or_ctor_lit",
+            "named": true
           }
         ]
       }
@@ -1204,6 +1208,10 @@
           },
           {
             "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "tagged_or_ctor_lit",
             "named": true
           }
         ]
