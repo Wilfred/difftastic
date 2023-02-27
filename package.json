@@ -3,8 +3,6 @@
   "version": "0.0.11",
   "description": "Clojure grammar for tree-sitter",
   "main": "bindings/node",
-  "author": "",
-  "license": "",
   "tree-sitter": [
     {
       "scope": "source.clojure",
