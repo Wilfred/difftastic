@@ -9,12 +9,6 @@
   },
   "author": "",
   "license": "",
-  "dependencies": {
-    "nan": "2.14.2"
-  },
-  "devDependencies": {
-    "tree-sitter-cli": "0.19.3"
-  },
   "tree-sitter": [
     {
       "scope": "source.clojure",
