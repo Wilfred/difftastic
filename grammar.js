@@ -3,8 +3,8 @@
 // things.  this is more or less in line with advice from tree-sitter
 // folks.
 
-function regex(patt) {
-  return RegExp(patt);
+function regex(...patts) {
+  return RegExp(patts.join(""));
 }
 
 // java.lang.Character.isWhitespace AND comma
@@ -35,12 +35,12 @@ function regex(patt) {
 // Unit Separator
 //   U+001F
 const WHITESPACE_CHAR =
-      regex("[" +
-            "\\f\\n\\r\\t, " +
-            "\\u000B\\u001C\\u001D\\u001E\\u001F" +
-            "\\u2028\\u2029\\u1680" +
-            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008" +
-            "\\u2009\\u200a\\u205f\\u3000" +
+      regex("[",
+            "\\f\\n\\r\\t, ",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
             "]");
 
 const WHITESPACE =
@@ -115,19 +115,19 @@ const BOOLEAN =
                    'true'));
 
 const KEYWORD_HEAD =
-      regex("[^" +
-            "\\f\\n\\r\\t " +
-            "()" +
-            "\\[\\]" +
-            "{}" +
-            '"' +
-            "@~^;`" +
-            "\\\\" +
-            ",:/" +
-            "\\u000B\\u001C\\u001D\\u001E\\u001F" +
-            "\\u2028\\u2029\\u1680" +
-            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008" +
-            "\\u2009\\u200a\\u205f\\u3000" +
+      regex("[^",
+            "\\f\\n\\r\\t ",
+            "()",
+            "\\[\\]",
+            "{}",
+            '"',
+            "@~^;`",
+            "\\\\",
+            ",:/",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
             "]");
 
 const KEYWORD_BODY =
@@ -198,18 +198,18 @@ const CHARACTER =
                        ANY_CHAR)));
 
 const SYMBOL_HEAD =
-      regex("[^" +
-            "\\f\\n\\r\\t " +
-            "/" +
-            "()\\[\\]{}" +
-            '"' +
-            "@~^;`" +
-            "\\\\" +
-            ",:#'0-9" +
-            "\\u000B\\u001C\\u001D\\u001E\\u001F" +
-            "\\u2028\\u2029\\u1680" +
-            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008" +
-            "\\u2009\\u200a\\u205f\\u3000" +
+      regex("[^",
+            "\\f\\n\\r\\t ",
+            "/",
+            "()\\[\\]{}",
+            '"',
+            "@~^;`",
+            "\\\\",
+            ",:#'0-9",
+            "\\u000B\\u001C\\u001D\\u001E\\u001F",
+            "\\u2028\\u2029\\u1680",
+            "\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008",
+            "\\u2009\\u200a\\u205f\\u3000",
             "]");
 
 const NS_DELIMITER =
