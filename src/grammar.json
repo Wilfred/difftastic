@@ -406,14 +406,41 @@
         ]
       }
     },
+    "string_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          },
+          "named": false,
+          "value": "value"
+        }
+      ]
+    },
     "node_path": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "@"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "@"
+              },
+              {
+                "type": "STRING",
+                "value": "^"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -2329,6 +2356,10 @@
         {
           "type": "SYMBOL",
           "name": "unary_operator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_name"
         },
         {
           "type": "SYMBOL",

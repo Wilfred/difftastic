@@ -270,6 +270,10 @@
         "named": true
       },
       {
+        "type": "string_name",
+        "named": true
+      },
+      {
         "type": "subscript",
         "named": true
       },
@@ -523,7 +527,7 @@
   },
   {
     "type": "body",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1812,6 +1816,11 @@
     }
   },
   {
+    "type": "string_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "subscript",
     "named": true,
     "fields": {},
@@ -1907,6 +1916,21 @@
       "types": [
         {
           "type": "_primary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
           "named": true
         }
       ]
