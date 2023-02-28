@@ -186,7 +186,6 @@ module.exports = grammar({
         $.class_name_statement,
         $.extends_statement,
         $.expression_statement,
-        $.match_statement,
         $.export_variable_statement,
         $.onready_variable_statement,
         $.variable_statement,
@@ -328,7 +327,8 @@ module.exports = grammar({
         $.function_definition,
         $.constructor_definition,
         $.class_definition,
-        $.enum_definition
+        $.enum_definition,
+        $.match_statement
       ),
 
     if_statement: ($) =>
