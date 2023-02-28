@@ -972,11 +972,9 @@ module.exports = grammar({
       ':',
       repeat(choice(
         token(prec(1, /[^{}\n]+/)),
-        $.format_expression
+        alias($.interpolation, $.format_expression)
       ))
     ),
-
-    format_expression: $ => seq('{', $.expression, '}'),
 
     type_conversion: $ => /![a-z]/,
 

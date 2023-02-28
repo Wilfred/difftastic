@@ -310,6 +310,7 @@ f"{b:{c.d}.{d.e}}"
 f"{a:#06x}"
 f"{a=}"
 f"{a=:.2f}"
+f"{value:{width + padding!r}.{precision}}"
 
 --------------------------------------------------------------------------------
 
@@ -342,7 +343,19 @@ f"{a=:.2f}"
     (string (interpolation (identifier))))
   (expression_statement
     (string
-      (interpolation (identifier) (format_specifier)))))
+      (interpolation (identifier) (format_specifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier)
+        (format_specifier
+          (format_expression
+            (binary_operator
+              (identifier)
+              (identifier))
+            (type_conversion))
+          (format_expression
+            (identifier)))))))
 
 ================================================================================
 Unicode escape sequences

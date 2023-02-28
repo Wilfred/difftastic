@@ -4820,28 +4820,16 @@
                 }
               },
               {
-                "type": "SYMBOL",
-                "name": "format_expression"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "interpolation"
+                },
+                "named": true,
+                "value": "format_expression"
               }
             ]
           }
-        }
-      ]
-    },
-    "format_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression"
-        },
-        {
-          "type": "STRING",
-          "value": "}"
         }
       ]
     },
