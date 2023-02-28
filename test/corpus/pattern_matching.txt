@@ -25,13 +25,13 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)))
+          (string (string_content))))
       (block
         (expression_statement
           (call
             (identifier)
             (argument_list
-              (string))))
+              (string (string_content)))))
         (expression_statement
           (call
             (identifier)
@@ -39,7 +39,7 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)))
+          (string (string_content))))
       (block
         (expression_statement
           (call
@@ -50,7 +50,7 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (identifier)))
       (block
         (expression_statement
@@ -64,7 +64,7 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (identifier)))
       (block
         (expression_statement
@@ -98,7 +98,7 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (list_splat
             (identifier))))
       (block
@@ -140,7 +140,7 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)))
+          (string (string_content))))
       (block
         (expression_statement
           (ellipsis))
@@ -148,14 +148,14 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (identifier)))
       (block
         (pass_statement)))
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (list_splat
             (identifier))))
       (block
@@ -169,6 +169,7 @@ match command.split():
             (identifier)
             (argument_list
               (string
+                (string_content)
                 (interpolation
                   (identifier)
                   (type_conversion))))))))))
@@ -195,10 +196,10 @@ match command.split():
       (case_pattern
         (binary_operator
           (list
-            (string))
+            (string (string_content)))
           (list
-            (string)
-            (string))))
+            (string (string_content))
+            (string (string_content)))))
       (block
         (expression_statement
           (assignment
@@ -208,22 +209,22 @@ match command.split():
                 (identifier)
                 (identifier))
               (argument_list
-                (string)))))))
+                (string (string_content))))))))
     (case_clause
       (case_pattern
         (binary_operator
           (binary_operator
             (list
-              (string)
+              (string (string_content))
               (identifier))
             (list
-              (string)
-              (string)
+              (string (string_content))
+              (string (string_content))
               (identifier)))
           (list
-            (string)
+            (string (string_content))
             (identifier)
-            (string))))
+            (string (string_content)))))
       (block
         (pass_statement)))))
 
@@ -246,16 +247,16 @@ match command.split():
     (case_clause
       (case_pattern
         (list
-          (string)
+          (string (string_content))
           (as_pattern
             (parenthesized_expression
               (binary_operator
                 (binary_operator
                   (binary_operator
-                    (string)
-                    (string))
-                  (string))
-                (string)))
+                    (string (string_content))
+                    (string (string_content)))
+                  (string (string_content)))
+                (string (string_content))))
             (as_pattern_target
               (identifier)))))
       (block
@@ -307,24 +308,7 @@ def foo(**match): pass
         (identifier))
       (expression_list
         (integer)
-        (string))))
-  (expression_statement
-    (assignment
-      (pattern_list
-        (list_splat_pattern
-          (identifier))
-        (identifier))
-      (list
-        (integer)
-        (integer)
-        (integer))))
-  (function_definition
-    (identifier)
-    (parameters
-      (dictionary_splat_pattern
-        (identifier)))
-    (block
-      (pass_statement))))
+        (string (string_content))))))
 
 ================================================================================
 Match is match but not pattern matching
@@ -363,7 +347,7 @@ field = call(match=r".*\.txt$")
         (argument_list
           (keyword_argument
             (identifier)
-            (string)))))))
+            (string (string_content))))))))
 
 ================================================================================
 Match kwargs 2
@@ -575,7 +559,7 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
           (identifier)
           (identifier))
         (argument_list
-          (string)
+          (string (string_content))
           (identifier)
           (keyword_argument
             (identifier)
