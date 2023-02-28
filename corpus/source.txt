@@ -177,6 +177,40 @@ var x = $"node/path"
   (expression_statement (get_node)))
 
 =====================================
+Await Expressions
+=====================================
+
+await hello()
+await $node/hello.sig
+var x = await call()
+var x = await $node/hello.sig
+
+func x():
+	if true:
+		await call()
+		var x = await $"node/hello".sig
+
+---
+
+(source
+	(expression_statement
+		(await_expression
+			(call (identifier) (arguments))))
+	(expression_statement
+		(await_expression
+			(attribute (get_node) (identifier))))
+	(variable_statement (name)
+		(await_expression (call (identifier) (arguments))))
+	(variable_statement (name)
+		(await_expression (attribute (get_node) (identifier))))
+	(function_definition (name) (parameters) (body
+		(if_statement (true) (body
+			(expression_statement
+				(await_expression (call (identifier) (arguments))))
+			(variable_statement (name)
+				(await_expression (attribute (get_node) (identifier)))))))))
+
+=====================================
 Breakpoint Statement
 =====================================
 

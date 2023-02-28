@@ -465,9 +465,10 @@ module.exports = grammar({
 
     _expression: ($) =>
       choice(
-        $.comparison_operator,
         $._primary_expression,
-        $.conditional_expression
+        $.comparison_operator,
+        $.conditional_expression,
+        $.await_expression
       ),
 
     _primary_expression: ($) =>
@@ -629,6 +630,12 @@ module.exports = grammar({
 
     parenthesized_expression: ($) =>
       prec(PREC.parenthesized_expression, seq("(", $._rhs_expression, ")")),
+
+    // -----------------------------------------------------------------------------
+    // -                                     Await                                 -
+    // -----------------------------------------------------------------------------
+
+    await_expression: ($) => seq("await", $._expression),
 
     // -----------------------------------------------------------------------------
     // -                                  Assignment                               -
