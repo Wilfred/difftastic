@@ -4673,7 +4673,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "_f_expression"
         },
         {
           "type": "CHOICE",
@@ -4714,6 +4714,23 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "_f_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "yield"
         }
       ]
     },

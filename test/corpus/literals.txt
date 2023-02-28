@@ -190,6 +190,11 @@ Raw strings
 r'ab\x00cd'
 ur"\n"
 
+# raw f-string
+fr"\{0}"
+
+r"\\"
+
 --------------------------------------------------------------------------------
 
 (module
@@ -202,6 +207,13 @@ ur"\n"
   (comment)
   (expression_statement
     (string))
+  (expression_statement
+    (string))
+  (comment)
+  (expression_statement
+    (string
+      (interpolation
+        (integer))))
   (expression_statement
     (string)))
 
@@ -238,6 +250,8 @@ f"a {b}}}"
 f"a {{{b}"
 f"a {{b}}"
 f"a {{{b}}}"
+f"{c,}"
+f"{yield d}"
 
 --------------------------------------------------------------------------------
 
@@ -275,7 +289,17 @@ f"a {{{b}}}"
   (expression_statement
     (string
       (interpolation
-        (identifier)))))
+        (identifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (expression_list
+          (identifier)))))
+  (expression_statement
+    (string
+      (interpolation
+        (yield
+          (identifier))))))
 
 ================================================================================
 Format strings with format specifiers

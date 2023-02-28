@@ -939,11 +939,17 @@ module.exports = grammar({
 
     interpolation: $ => seq(
       '{',
-      $.expression,
+      $._f_expression,
       optional('='),
       optional($.type_conversion),
       optional($.format_specifier),
       '}'
+    ),
+
+    _f_expression: $ => choice(
+      $.expression,
+      $.expression_list,
+      $.yield,
     ),
 
     _escape_interpolation: $ => choice('{{', '}}'),
