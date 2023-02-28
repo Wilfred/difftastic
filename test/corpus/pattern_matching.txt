@@ -308,7 +308,24 @@ def foo(**match): pass
         (identifier))
       (expression_list
         (integer)
-        (string (string_content))))))
+        (string (string_content)))))
+  (expression_statement
+    (assignment
+      (pattern_list
+        (list_splat_pattern
+          (identifier))
+        (identifier))
+      (list
+        (integer)
+        (integer)
+        (integer))))
+  (function_definition
+    (identifier)
+    (parameters
+      (dictionary_splat_pattern
+        (identifier)))
+    (block
+      (pass_statement))))
 
 ================================================================================
 Match is match but not pattern matching
