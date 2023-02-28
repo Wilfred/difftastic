@@ -147,7 +147,7 @@ module.exports = grammar({
         )
       ),
 
-    node_path: ($) => token(seq("@", nodePathString())),
+    node_path: ($) => token(seq(choice("@", "^"), nodePathString())),
 
     get_node: ($) =>
       token(

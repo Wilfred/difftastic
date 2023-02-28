@@ -145,6 +145,7 @@ NodePath
 @'Node/Path'
 @ 'node/path'
 var x = @"NodePath"
+^"node/path"
 
 ---
 
@@ -152,7 +153,8 @@ var x = @"NodePath"
   (expression_statement (node_path))
   (expression_statement (node_path))
   (ERROR) (expression_statement (string))
-  (variable_statement (name) (node_path)))
+  (variable_statement (name) (node_path))
+  (expression_statement (node_path)))
 
 =====================================
 Get Node
