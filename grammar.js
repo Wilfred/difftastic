@@ -478,7 +478,7 @@ module.exports = grammar({
 
     decorator: $ => seq(
       '@',
-      $.primary_expression,
+      $.expression,
       $._newline
     ),
 
@@ -939,11 +939,17 @@ module.exports = grammar({
 
     interpolation: $ => seq(
       '{',
-      $.expression,
+      $._f_expression,
       optional('='),
       optional($.type_conversion),
       optional($.format_specifier),
       '}'
+    ),
+
+    _f_expression: $ => choice(
+      $.expression,
+      $.expression_list,
+      $.yield,
     ),
 
     _escape_interpolation: $ => choice('{{', '}}'),
@@ -966,11 +972,9 @@ module.exports = grammar({
       ':',
       repeat(choice(
         token(prec(1, /[^{}\n]+/)),
-        $.format_expression
+        alias($.interpolation, $.format_expression)
       ))
     ),
-
-    format_expression: $ => seq('{', $.expression, '}'),
 
     type_conversion: $ => /![a-z]/,
 
