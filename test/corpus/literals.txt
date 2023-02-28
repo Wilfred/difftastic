@@ -190,6 +190,11 @@ Raw strings
 r'ab\x00cd'
 ur"\n"
 
+# raw f-string
+fr"\{0}"
+
+r"\\"
+
 --------------------------------------------------------------------------------
 
 (module
@@ -203,7 +208,14 @@ ur"\n"
   (expression_statement
     (string (string_content)))
   (expression_statement
-    (string (string_content))))
+    (string))
+  (comment)
+  (expression_statement
+    (string
+      (interpolation
+        (integer))))
+  (expression_statement
+    (string)))
 
 ================================================================================
 Raw strings with escaped quotes
@@ -238,6 +250,8 @@ f"a {b}}}"
 f"a {{{b}"
 f"a {{b}}"
 f"a {{{b}}}"
+f"{c,}"
+f"{yield d}"
 
 --------------------------------------------------------------------------------
 
@@ -287,8 +301,27 @@ f"a {{{b}}}"
     (string
       (string_content)
       (interpolation
-        (identifier))
-      (string_content))))
+        (identifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (expression_list
+          (identifier)))))
+  (expression_statement
+    (string
+      (interpolation
+        (yield
+          (identifier))))))
 
 ================================================================================
 Format strings with format specifiers
@@ -299,6 +332,7 @@ f"{b:{c.d}.{d.e}}"
 f"{a:#06x}"
 f"{a=}"
 f"{a=:.2f}"
+f"{value:{width + padding!r}.{precision}}"
 
 --------------------------------------------------------------------------------
 
@@ -333,7 +367,19 @@ f"{a=:.2f}"
     (string (interpolation (identifier))))
   (expression_statement
     (string
-      (interpolation (identifier) (format_specifier)))))
+      (interpolation (identifier) (format_specifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier)
+        (format_specifier
+          (format_expression
+            (binary_operator
+              (identifier)
+              (identifier))
+            (type_conversion))
+          (format_expression
+            (identifier)))))))
 
 ================================================================================
 Unicode escape sequences

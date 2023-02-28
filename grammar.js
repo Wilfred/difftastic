@@ -346,7 +346,7 @@ module.exports = grammar({
       $._suite
     ),
 
-   except_group_clause: $ => seq(
+    except_group_clause: $ => seq(
       'except*',
       seq(
         $.expression,
@@ -359,7 +359,7 @@ module.exports = grammar({
       $._suite
     ),
 
-   finally_clause: $ => seq(
+    finally_clause: $ => seq(
       'finally',
       ':',
       $._suite
@@ -478,7 +478,7 @@ module.exports = grammar({
 
     decorator: $ => seq(
       '@',
-      $.primary_expression,
+      $.expression,
       $._newline
     ),
 
@@ -695,9 +695,9 @@ module.exports = grammar({
             '>',
             '<>',
             'in',
-            seq('not', 'in'),
+            alias(seq('not', 'in'), 'not in'),
             'is',
-            seq('is', 'not')
+            alias(seq('is', 'not'), 'is not')
           )),
         $.primary_expression
       ))
@@ -950,12 +950,19 @@ module.exports = grammar({
 
     interpolation: $ => seq(
       token.immediate('{'),
-      field('expression', $.expression),
+      field('expression', $._f_expression),
       optional('='),
       optional(field('type_conversion', $.type_conversion)),
       optional(field('format_specifier', $.format_specifier)),
       '}'
     ),
+
+    _f_expression: $ => choice(
+      $.expression,
+      $.expression_list,
+      $.yield,
+    ),
+
     _escape_interpolation: $ => token.immediate(choice('{{', '}}')),
 
     escape_sequence: $ => token.immediate(prec(1, seq(
@@ -976,11 +983,9 @@ module.exports = grammar({
       ':',
       repeat(choice(
         token(prec(1, /[^{}\n]+/)),
-        $.format_expression
+        alias($.interpolation, $.format_expression)
       ))
     ),
-
-    format_expression: $ => seq('{', $.expression, '}'),
 
     type_conversion: $ => /![a-z]/,
 

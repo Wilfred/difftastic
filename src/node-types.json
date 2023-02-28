@@ -951,7 +951,11 @@
             "named": false
           },
           {
-            "type": "not",
+            "type": "is not",
+            "named": false
+          },
+          {
+            "type": "not in",
             "named": false
           }
         ]
@@ -1042,7 +1046,7 @@
       "required": true,
       "types": [
         {
-          "type": "primary_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1449,16 +1453,45 @@
   {
     "type": "format_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "yield",
+            "named": true
+          }
+        ]
+      },
+      "format_specifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "format_specifier",
+            "named": true
+          }
+        ]
+      },
+      "type_conversion": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_conversion",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1721,6 +1754,14 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "yield",
             "named": true
           }
         ]
@@ -3017,6 +3058,10 @@
     "named": false
   },
   {
+    "type": "is not",
+    "named": false
+  },
+  {
     "type": "lambda",
     "named": false
   },
@@ -3034,6 +3079,10 @@
   },
   {
     "type": "not",
+    "named": false
+  },
+  {
+    "type": "not in",
     "named": false
   },
   {
