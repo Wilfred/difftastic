@@ -695,9 +695,9 @@ module.exports = grammar({
             '>',
             '<>',
             'in',
-            seq('not', 'in'),
+            alias(seq('not', 'in'), 'not in'),
             'is',
-            seq('is', 'not')
+            alias(seq('is', 'not'), 'is not')
           )),
         $.primary_expression
       ))
