@@ -203,14 +203,14 @@ module.exports = grammar({
     ),
 
     named_expression: $ => seq(
-      field('name', $._named_expresssion_lhs),
+      field('name', $._named_expression_lhs),
       ':=',
       field('value', $.expression)
     ),
 
-    _named_expresssion_lhs: $ => choice(
+    _named_expression_lhs: $ => choice(
       $.identifier,
-      alias('match', $.identifier), // ambiguity with match statement: only ":" at end of line decides if "match" keyword
+      $.keyword_identifier
     ),
 
     return_statement: $ => seq(
@@ -535,7 +535,6 @@ module.exports = grammar({
 
     pattern: $ => choice(
       $.identifier,
-      alias('match', $.identifier), // ambiguity with match statement: only ":" at end of line decides if "match" keyword
       $.keyword_identifier,
       $.subscript,
       $.attribute,
@@ -610,7 +609,6 @@ module.exports = grammar({
     primary_expression: $ => choice(
       $.binary_operator,
       $.identifier,
-      alias("match", $.identifier),
       $.keyword_identifier,
       $.string,
       $.concatenated_string,
@@ -817,7 +815,7 @@ module.exports = grammar({
     type: $ => $.expression,
 
     keyword_argument: $ => seq(
-      field('name', choice($.identifier, $.keyword_identifier, alias("match", $.identifier))),
+      field('name', choice($.identifier, $.keyword_identifier)),
       '=',
       field('value', $.expression)
     ),
@@ -1036,6 +1034,7 @@ module.exports = grammar({
         'exec',
         'async',
         'await',
+        'match'
       ),
       $.identifier
     )),
