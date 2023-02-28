@@ -102,6 +102,10 @@
         "named": true
       },
       {
+        "type": "match_statement",
+        "named": true
+      },
+      {
         "type": "while_statement",
         "named": true
       }
@@ -113,6 +117,10 @@
     "subtypes": [
       {
         "type": "_primary_expression",
+        "named": true
+      },
+      {
+        "type": "await_expression",
         "named": true
       },
       {
@@ -465,6 +473,21 @@
     }
   },
   {
+    "type": "await_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "base_call",
     "named": true,
     "fields": {},
@@ -500,7 +523,7 @@
   },
   {
     "type": "body",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -544,10 +567,6 @@
         },
         {
           "type": "extends_statement",
-          "named": true
-        },
-        {
-          "type": "match_statement",
           "named": true
         },
         {
@@ -1751,10 +1770,6 @@
           "named": true
         },
         {
-          "type": "match_statement",
-          "named": true
-        },
-        {
           "type": "onready_variable_statement",
           "named": true
         },
@@ -2157,6 +2172,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "await",
     "named": false
   },
   {

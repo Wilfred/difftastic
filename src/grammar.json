@@ -684,10 +684,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "match_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "export_variable_statement"
         },
         {
@@ -1573,6 +1569,10 @@
         {
           "type": "SYMBOL",
           "name": "enum_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_statement"
         }
       ]
     },
@@ -2275,15 +2275,19 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "comparison_operator"
-        },
-        {
-          "type": "SYMBOL",
           "name": "_primary_expression"
         },
         {
           "type": "SYMBOL",
+          "name": "comparison_operator"
+        },
+        {
+          "type": "SYMBOL",
           "name": "conditional_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_expression"
         }
       ]
     },
@@ -3069,6 +3073,19 @@
           }
         ]
       }
+    },
+    "await_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "await"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "assignment": {
       "type": "SEQ",
