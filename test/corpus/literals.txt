@@ -208,10 +208,11 @@ r"\\"
   (expression_statement
     (string (string_content)))
   (expression_statement
-    (string))
+    (string (string_content)))
   (comment)
   (expression_statement
     (string
+      (string_content)
       (interpolation
         (integer))))
   (expression_statement
@@ -301,22 +302,12 @@ f"{yield d}"
     (string
       (string_content)
       (interpolation
-        (identifier))))
+        (identifier))
+      (string_content)))
   (expression_statement
     (string
       (interpolation
-        (identifier))))
-  (expression_statement
-    (string))
-  (expression_statement
-    (string
-      (interpolation
-        (identifier))))
-  (expression_statement
-    (string
-      (interpolation
-        (expression_list
-          (identifier)))))
+        (expression_list (identifier)))))
   (expression_statement
     (string
       (interpolation
