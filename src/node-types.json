@@ -1042,7 +1042,7 @@
       "required": true,
       "types": [
         {
-          "type": "primary_expression",
+          "type": "expression",
           "named": true
         }
       ]
@@ -1732,11 +1732,19 @@
           "named": true
         },
         {
+          "type": "expression_list",
+          "named": true
+        },
+        {
           "type": "format_specifier",
           "named": true
         },
         {
           "type": "type_conversion",
+          "named": true
+        },
+        {
+          "type": "yield",
           "named": true
         }
       ]
