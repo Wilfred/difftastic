@@ -138,6 +138,19 @@ Dictionary
     (dictionary (ERROR))))
 
 =====================================
+StringName
+=====================================
+
+&"string name"
+&'string name'
+
+---
+
+(source
+  (expression_statement (string_name))
+  (expression_statement (string_name)))
+
+=====================================
 NodePath
 =====================================
 

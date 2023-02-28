@@ -147,8 +147,9 @@ module.exports = grammar({
         )
       ),
 
+    // This should be a token.
+    string_name: ($) => seq("&", alias($.string, "value")),
     node_path: ($) => token(seq(choice("@", "^"), nodePathString())),
-
     get_node: ($) =>
       token(
         seq(
@@ -482,6 +483,7 @@ module.exports = grammar({
         $.false,
         $.null,
         $.unary_operator,
+        $.string_name,
         $.node_path,
         $.get_node,
         $.attribute,
