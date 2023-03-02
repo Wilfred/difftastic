@@ -12,8 +12,13 @@ pub enum FileContent {
 pub struct DiffResult {
     pub lhs_display_path: String,
     pub rhs_display_path: String,
+
+    /// The name of the language shown to the user, such as "Python"
+    /// or "Text". If the file was binary, this is None.
     pub display_language: Option<String>,
+    /// The language used to parse the file.
     pub language_used: Option<crate::parse::guess_language::Language>,
+
     pub lhs_src: FileContent,
     pub rhs_src: FileContent,
     pub hunks: Vec<Hunk>,
