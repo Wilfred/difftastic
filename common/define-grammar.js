@@ -267,6 +267,21 @@ module.exports = function defineGrammar(dialect) {
         previous
       ),
 
+      import_clause: ($, previous) => choice(
+        $.namespace_import,
+        $.named_imports,
+        seq(
+          choice($.identifier, alias('type', $.identifier)),
+          optional(seq(
+            ',',
+            choice(
+              $.namespace_import,
+              $.named_imports
+            )
+          ))
+        )
+      ),
+
       import_statement: $ => seq(
         'import',
         optional(choice('type', 'typeof')),
