@@ -2,13 +2,39 @@
 
 Bits may be missing and/or inaccurate :)
 
-### Upcoming?
+### Future?
 
-* Update tree-sitter and friends to 0.19.5 or 0.20.x
-* Add formatting docs and utilities
-* Revise and enhance package.json scripts
-* Revise and update docs
-* Add some \_bare\_\* constructs to inline
+* Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
+
+### v0.0.12 - 2023-03-??
+
+* Features and Fixes
+  * Loosen sym_val_lit definition
+  * Handle metadata that is an evaling_lit
+  * Handle construct used for ClojureDart's parameterized types
+  * Generate parser.c and friends with tree-sitter 0.20.7 (ABI 13)
+* Docs
+  * Credits - additions
+  * README
+    * Add section on "what and why"
+    * Add section pointing to other docs
+    * Move resources list to own document
+    * Remove npm-related descriptions
+  * Use doc - mostly new users added
+  * Scope doc - corrections and refinements
+  * Testing doc - link and format updates
+  * What and why doc - added
+  * notes.txt - removed
+* Developer-related
+  * Improve maintainability of grammar.js
+  * Remove dependence on npm
+  * Cleanup package.json
+  * Move corpus to test/corpus
+  * Most developer-bits moved to separate repository
+
+### v0.0.11 - 2023-01-22
+
+* Update version info in package.json
 
 ### v0.0.10 - 2023-01-06
 
