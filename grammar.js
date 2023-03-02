@@ -1547,7 +1547,6 @@ module.exports = grammar({
       $._simple_string_char,
       $._non_escape_char,
       '\\',
-      ''
     ),
     verbatim_string: $ => seq('@"', repeat($._verbatim_string_char), imm('"')),
     bytechar: $ => seq("'", $._char_char, imm("'B")),
