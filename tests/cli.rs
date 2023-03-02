@@ -41,3 +41,17 @@ fn check_only() {
     let predicate_fn = predicate::str::contains("Has syntactic changes");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn check_only_text_file() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--check-only")
+        .arg("sample_files/text_before.txt")
+        .arg("sample_files/text_after.txt");
+
+    let predicate_fn = predicate::str::contains("Has changes");
+    cmd.assert().stdout(predicate_fn);
+}

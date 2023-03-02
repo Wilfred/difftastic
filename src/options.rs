@@ -186,7 +186,7 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("check-only").long("check-only")
                 .env("DFT_CHECK_ONLY")
-                .help("Report whether there are any syntactic changes, but don't calculate them. Much faster.")
+                .help("Report whether there are any changes, but don't calculate them. Much faster.")
         )
         .arg(
             Arg::new("ignore-comments").long("ignore-comments")

@@ -4,6 +4,11 @@
 
 Added support for Newick and Racket.
 
+### Diffing
+
+Textual diffing now respects `--check-only`, consistent with syntactic
+diffing.
+
 ### Display
 
 Improved syntax highlighting for keywords.

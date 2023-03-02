@@ -299,6 +299,30 @@ fn diff_file(
     )
 }
 
+fn check_only_text(
+    display_language: Option<&str>,
+    lhs_display_path: &str,
+    rhs_display_path: &str,
+    lhs_src: &str,
+    rhs_src: &str,
+) -> DiffResult {
+    let has_changes = lhs_src != rhs_src;
+
+    return DiffResult {
+        lhs_display_path: lhs_display_path.into(),
+        rhs_display_path: rhs_display_path.into(),
+        display_language: display_language.map(|n| n.into()),
+        language_used: None,
+        lhs_src: FileContent::Text(lhs_src.into()),
+        rhs_src: FileContent::Text(rhs_src.into()),
+        lhs_positions: vec![],
+        rhs_positions: vec![],
+        hunks: vec![],
+        has_byte_changes: has_changes,
+        has_syntactic_changes: has_changes,
+    };
+}
+
 fn diff_file_content(
     lhs_display_path: &str,
     rhs_display_path: &str,
@@ -369,6 +393,16 @@ fn diff_file_content(
     let mut language_used = None;
     let (lang_name, lhs_positions, rhs_positions) = match lang_config {
         None => {
+            if diff_options.check_only {
+                return check_only_text(
+                    None,
+                    lhs_display_path,
+                    rhs_display_path,
+                    &lhs_src,
+                    &rhs_src,
+                );
+            }
+
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
             (None, lhs_positions, rhs_positions)
@@ -474,31 +508,47 @@ fn diff_file_content(
                             }
                         }
                         Err(tsp::ExceededParseErrorLimit(error_count)) => {
+                            let display_language = Some(format!(
+                                "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
+                                error_count,
+                                if error_count == 1 { "" } else { "s" }
+                            ));
+
+                            if diff_options.check_only {
+                                return check_only_text(
+                                    display_language.as_deref(),
+                                    lhs_display_path,
+                                    rhs_display_path,
+                                    &lhs_src,
+                                    &rhs_src,
+                                );
+                            }
+
                             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                            (
-                                Some(format!(
-                                    "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
-                                    error_count,
-                                    if error_count == 1 { "" } else { "s" }
-                                )),
-                                lhs_positions,
-                                rhs_positions,
-                            )
+                            (display_language, lhs_positions, rhs_positions)
                         }
                     }
                 }
                 Err(tsp::ExceededByteLimit(num_bytes)) => {
+                    let display_language = Some(format!(
+                        "Text ({} exceeded DFT_BYTE_LIMIT)",
+                        &format_num_bytes(num_bytes),
+                    ));
+
+                    if diff_options.check_only {
+                        return check_only_text(
+                            display_language.as_deref(),
+                            lhs_display_path,
+                            rhs_display_path,
+                            &lhs_src,
+                            &rhs_src,
+                        );
+                    }
+
                     let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                     let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                    (
-                        Some(format!(
-                            "Text ({} exceeded DFT_BYTE_LIMIT)",
-                            &format_num_bytes(num_bytes),
-                        )),
-                        lhs_positions,
-                        rhs_positions,
-                    )
+                    (display_language, lhs_positions, rhs_positions)
                 }
             }
         }
