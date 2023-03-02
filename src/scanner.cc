@@ -17,6 +17,7 @@ enum TokenType {
   VIRTUAL_END_SECTION,
   VIRTUAL_END_ALIGNED,
   SEPARATOR,
+  BLOCK_COMMENT_CONTENT,
 };
 
 bool in_error_recovery(const bool *valid_symbols) {
@@ -258,6 +259,35 @@ struct Scanner {
       }
       indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
+      return true;
+    }
+    else if (valid_symbols[BLOCK_COMMENT_CONTENT]) {
+      if (!can_call_mark_end) { return false; }
+      lexer->mark_end(lexer);
+      while (true) {
+          if (lexer->lookahead == '\0') { break; }
+          if (lexer->lookahead != '(' && lexer->lookahead != '*') {
+              advance(lexer);
+          }
+          else if (lexer->lookahead == '*') {
+              lexer->mark_end(lexer);
+              advance(lexer);
+              if (lexer->lookahead == ')')
+              {
+                  break;
+              }
+          }
+          else if (scan_block_comment(lexer))
+          {
+              lexer->mark_end(lexer);
+              advance(lexer);
+              if (lexer->lookahead == '*')
+              {
+                  break;
+              }
+          }
+      }
+      lexer->result_symbol = BLOCK_COMMENT_CONTENT;
       return true;
     }
     else if (has_newline) {

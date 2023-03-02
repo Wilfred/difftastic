@@ -7143,8 +7143,8 @@
           "value": "(*"
         },
         {
-          "type": "PATTERN",
-          "value": ".*"
+          "type": "SYMBOL",
+          "name": "block_comment_content"
         },
         {
           "type": "STRING",
@@ -7224,6 +7224,10 @@
     {
       "type": "SYMBOL",
       "name": "_seperator"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment_content"
     }
   ],
   "inline": [

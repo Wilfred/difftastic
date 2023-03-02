@@ -1,0 +1,79 @@
+================================================================================
+line comment
+================================================================================
+
+// comment
+let x = 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const (int)))))
+
+================================================================================
+block comment
+================================================================================
+
+(* comment *)
+let x = 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (block_comment
+    (block_comment_content))
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const (int)))))
+
+================================================================================
+multi-line block comment
+================================================================================
+
+(*
+ * comment
+ *)
+let x = 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (block_comment
+    (block_comment_content))
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const (int)))))
+
+================================================================================
+docstring
+================================================================================
+
+/// <c>code</c>
+let x = 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (line_comment)
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (const (int)))))

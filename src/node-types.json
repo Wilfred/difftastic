@@ -659,7 +659,17 @@
   {
     "type": "block_comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_comment_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "brace_expression",
@@ -3414,6 +3424,10 @@
   {
     "type": "begin",
     "named": false
+  },
+  {
+    "type": "block_comment_content",
+    "named": true
   },
   {
     "type": "comparison",

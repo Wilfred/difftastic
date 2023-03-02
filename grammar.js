@@ -47,6 +47,7 @@ module.exports = grammar({
     $._virtual_end_section, // end an indentation scope, popping the indentation off the stack.
     $._virtual_end_decl, // end an indentation scope with equal alignment, popping the indentation off the stack.
     $._seperator, // parse ";" tokens in the external scanner to prevent indentation scopes opening inside list expressions.
+    $.block_comment_content
   ],
 
   extras: $ => [
@@ -1683,7 +1684,7 @@ module.exports = grammar({
     // Constants (END)
     //
 
-    block_comment: $ => seq("(*", /.*/, "*)"),
+    block_comment: $ => seq("(*", $.block_comment_content, "*)"),
     line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
   }
 
