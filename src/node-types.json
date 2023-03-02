@@ -1984,7 +1984,7 @@
     "named": true,
     "fields": {
       "assignee": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1994,7 +1994,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {

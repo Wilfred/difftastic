@@ -420,8 +420,8 @@ module.exports = grammar({
     tuple_expression: $ =>
       prec.left(PREC.TUPLE_EXPR,
       seq(
-        $._expressions,
-        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expressions))),
+        $._expression_inner,
+        repeat1(prec.left(PREC.TUPLE_EXPR, seq(",", $._expression_inner))),
       )
       ),
 
@@ -555,7 +555,7 @@ module.exports = grammar({
       prec.left(
       seq(
         "while",
-          $._expressions,
+          $._expression_inner,
         "do",
           $._virtual_open_section,
           $._expressions,
@@ -622,7 +622,7 @@ module.exports = grammar({
       prec(PREC.MATCH_EXPR,
       seq(
         choice("match", "match!"),
-        $._expressions,
+        $._expression_inner,
         "with",
         $.rules,
       )),
@@ -640,16 +640,16 @@ module.exports = grammar({
         "new",
         $.type,
         imm("("),
-        $._expressions,
+        $._expression_inner,
         ")"
       )),
 
     mutate_expression: $ =>
       prec.right(PREC.LARROW,
       seq(
-        field("assignee", $._expressions),
+        field("assignee", $._expression_inner),
         "<-",
-        field("value", $._expressions),
+        field("value", $._expression_inner),
       )),
 
     index_expression: $ =>
@@ -678,7 +678,7 @@ module.exports = grammar({
     typed_expression: $ =>
       prec(PREC.PAREN_EXPR,
       seq(
-        $._expressions,
+        $._expression_inner,
         imm("<"),
         optional($.types),
         ">",
@@ -1472,13 +1472,17 @@ module.exports = grammar({
 
     as_defn: $ => seq("as", $.identifier),
 
-    field_initializer: $ => prec.right(seq($.long_identifier, "=", $._expressions)),
+    field_initializer: $ => prec.right(seq($.long_identifier, "=",
+      $._virtual_open_section,
+      $._expressions,
+      $._virtual_end_section,
+    )),
 
     field_initializers: $ =>
-      prec.left(
+      prec.left(PREC.COMMA+100,
       seq(
         $.field_initializer,
-        repeat(prec.right(PREC.SEQ_EXPR, seq(optional($._seperator), $.field_initializer)))
+        repeat(prec.left(PREC.COMMA+100, seq(choice($._seperator, $._virtual_end_decl), $.field_initializer)))
       )),
 
     //

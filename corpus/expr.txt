@@ -972,3 +972,34 @@ let exampleNamespace =
                   (long_identifier_or_op (long_identifier (identifier)))
                   (type (long_identifier (identifier))))))
             (long_identifier_or_op (long_identifier (identifier)))))))))
+
+================================================================================
+record update expression
+================================================================================
+
+do
+  { A with
+      Pattern = []
+      Expr = B }
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (do
+      (brace_expression
+        (with_field_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (field_initializers
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (list_expression))
+            (field_initializer
+              (long_identifier
+                (identifier))
+              (long_identifier_or_op
+                (long_identifier
+                  (identifier))))))))))

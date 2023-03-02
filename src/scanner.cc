@@ -243,8 +243,19 @@ struct Scanner {
       else { break; }
     }
 
+    bool closing = lexer->lookahead == ']' || lexer->lookahead == ')' || lexer->lookahead == '}';
+
     // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
     if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
+      if (closing) {
+        return false;
+      }
+      if (lexer->lookahead == '|') {
+        skip(lexer);
+        if (lexer->lookahead == '}' || lexer->lookahead == ']') {
+          return false;
+        }
+      }
       indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
       return true;
