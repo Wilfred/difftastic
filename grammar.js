@@ -904,13 +904,13 @@ module.exports = grammar(C, {
 
     constraint_conjunction: $ => prec.left(PREC.LOGICAL_AND, seq(
       field('left', $._requirement_clause_constraint),
-      field('operator', '&&'),
+      field('operator', choice('&&', 'and')),
       field('right', $._requirement_clause_constraint))
     ),
 
     constraint_disjunction: $ => prec.left(PREC.LOGICAL_OR, seq(
       field('left', $._requirement_clause_constraint),
-      field('operator', '||'),
+      field('operator', choice('||', 'or')),
       field('right', $._requirement_clause_constraint))
     ),
 
