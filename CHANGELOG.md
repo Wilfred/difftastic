@@ -1,5 +1,10 @@
 ## 0.45 (unreleased)
 
+### Diffing
+
+Racket and Newick are now treated as lisps for the purposes for
+parenthesis heuristics.
+
 ### Parsing
 
 Improved parsing for Makefiles.
