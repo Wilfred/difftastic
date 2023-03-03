@@ -1,4 +1,6 @@
-## 0.45 (unreleased)
+## 0.46 (unreleased)
+
+## 0.45 (released 3rd March 2023)
 
 ### Diffing
 
