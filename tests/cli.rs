@@ -68,3 +68,16 @@ fn makefile_text_as_atom() {
     let predicate_fn = predicate::str::contains("CCFLAGS");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn yaml_parse_errors() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/cli_tests/bad_yaml_before.yml")
+        .arg("sample_files/cli_tests/bad_yaml_after.yml");
+
+    let predicate_fn = predicate::str::contains("exceeded DFT_PARSE_ERROR_LIMIT");
+    cmd.assert().stdout(predicate_fn);
+}

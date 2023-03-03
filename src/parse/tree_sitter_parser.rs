@@ -1240,11 +1240,15 @@ pub fn to_syntax<'a>(
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
 
+    let mut error_count: usize = 0;
+    if cursor.node().is_error() {
+        error_count += 1;
+    }
+
     // The tree always has a single root, whereas we want nodes for
     // each top level syntax item.
     cursor.goto_first_child();
 
-    let mut error_count: usize = 0;
     let nodes = all_syntaxes_from_cursor(
         arena,
         src,

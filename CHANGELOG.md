@@ -7,6 +7,9 @@ parenthesis heuristics.
 
 ### Parsing
 
+Fixed an issue where parse errors were undercounted, particularly in
+YAML files.
+
 Improved parsing for Makefiles.
 
 ## 0.44 (released 2nd March 2023)
