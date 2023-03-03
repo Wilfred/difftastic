@@ -41,9 +41,6 @@ pub struct DiffResult {
     pub rhs_display_path: String,
 
     pub file_format: FileFormat,
-    /// The language used to parse the file.
-    pub language_used: Option<crate::parse::guess_language::Language>,
-
     pub lhs_src: FileContent,
     pub rhs_src: FileContent,
     pub hunks: Vec<Hunk>,

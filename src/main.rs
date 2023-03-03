@@ -312,7 +312,6 @@ fn check_only_text(
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         file_format: file_format.clone(),
-        language_used: None,
         lhs_src: FileContent::Text(lhs_src.into()),
         rhs_src: FileContent::Text(rhs_src.into()),
         lhs_positions: vec![],
@@ -340,7 +339,6 @@ fn diff_file_content(
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
                 file_format: FileFormat::Binary,
-                language_used: None,
                 lhs_src: FileContent::Binary,
                 rhs_src: FileContent::Binary,
                 lhs_positions: vec![],
@@ -384,7 +382,6 @@ fn diff_file_content(
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
             file_format,
-            language_used: language,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
             lhs_positions: vec![],
@@ -395,7 +392,6 @@ fn diff_file_content(
         };
     }
 
-    let mut language_used = None;
     let (file_format, lhs_positions, rhs_positions) = match lang_config {
         None => {
             let file_format = FileFormat::PlainText;
@@ -434,13 +430,10 @@ fn diff_file_content(
                                 };
 
                                 let has_syntactic_changes = lhs != rhs;
-
-                                language_used = language;
                                 return DiffResult {
                                     lhs_display_path: lhs_display_path.into(),
                                     rhs_display_path: rhs_display_path.into(),
                                     file_format,
-                                    language_used,
                                     lhs_src: FileContent::Text(lhs_src),
                                     rhs_src: FileContent::Text(rhs_src),
                                     lhs_positions: vec![],
@@ -491,7 +484,6 @@ fn diff_file_content(
                                     rhs_positions,
                                 )
                             } else {
-                                language_used = language;
                                 // TODO: Make this .expect() unnecessary.
                                 let language = language.expect(
                                     "If we had a ts_lang, we must have guessed the language",
@@ -585,7 +577,6 @@ fn diff_file_content(
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         file_format,
-        language_used,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
         lhs_positions,
@@ -641,7 +632,6 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
 
-            let display_language = &summary.file_format;
             if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
                     println!(
@@ -651,11 +641,11 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             &summary.rhs_display_path,
                             1,
                             1,
-                            &display_language,
+                            &summary.file_format,
                             display_options
                         )
                     );
-                    match display_language {
+                    match summary.file_format {
                         _ if summary.lhs_src == summary.rhs_src => {
                             println!("No changes.\n");
                         }
@@ -678,11 +668,11 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_display_path,
                         1,
                         1,
-                        &display_language,
+                        &summary.file_format,
                         display_options
                     )
                 );
-                match display_language {
+                match summary.file_format {
                     FileFormat::SupportedLanguage(_) => {
                         println!("Has syntactic changes.\n");
                     }
@@ -705,8 +695,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         hunks,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
-                        &display_language,
-                        summary.language_used,
+                        &summary.file_format,
                     );
                 }
                 DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
@@ -715,8 +704,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options,
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
-                        &display_language,
-                        summary.language_used,
+                        &summary.file_format,
                         lhs_src,
                         rhs_src,
                         &summary.lhs_positions,

@@ -7,7 +7,8 @@ use crate::{
     display::style::{self, apply_colors, apply_line_number_color},
     lines::{format_line_num, split_on_newlines, MaxLine},
     options::DisplayOptions,
-    parse::{guess_language::Language, syntax::MatchedPos}, summary::FileFormat,
+    parse::syntax::MatchedPos,
+    summary::FileFormat,
 };
 
 pub fn print(
@@ -20,7 +21,6 @@ pub fn print(
     lhs_display_path: &str,
     rhs_display_path: &str,
     file_format: &FileFormat,
-    language: Option<Language>,
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
         (
@@ -28,7 +28,7 @@ pub fn print(
                 lhs_src,
                 Side::Left,
                 display_options.syntax_highlight,
-                language,
+                file_format,
                 display_options.background_color,
                 lhs_positions,
             ),
@@ -36,7 +36,7 @@ pub fn print(
                 rhs_src,
                 Side::Right,
                 display_options.syntax_highlight,
-                language,
+                file_format,
                 display_options.background_color,
                 rhs_positions,
             ),

@@ -4,11 +4,9 @@ use crate::{
     constants::Side,
     lines::{byte_len, split_on_newlines, LineNumber},
     options::DisplayOptions,
-    parse::{
-        guess_language::Language,
-        syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
-    },
-    positions::SingleLineSpan, summary::FileFormat,
+    parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
+    positions::SingleLineSpan,
+    summary::FileFormat,
 };
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
@@ -328,7 +326,7 @@ pub fn color_positions(
     side: Side,
     background: BackgroundColor,
     syntax_highlight: bool,
-    language: Option<Language>,
+    file_format: &FileFormat,
     positions: &[MatchedPos],
 ) -> Vec<(SingleLineSpan, Style)> {
     let mut styles = vec![];
@@ -384,7 +382,7 @@ pub fn color_positions(
 
                 // Underline novel words inside comments in code, but
                 // don't apply it to every single line in plaintext.
-                if language.is_some() {
+                if matches!(file_format, FileFormat::SupportedLanguage(_)) {
                     style = style.underline();
                 }
 
@@ -408,11 +406,11 @@ pub fn apply_colors(
     s: &str,
     side: Side,
     syntax_highlight: bool,
-    language: Option<Language>,
+    file_format: &FileFormat,
     background: BackgroundColor,
     positions: &[MatchedPos],
 ) -> Vec<String> {
-    let styles = color_positions(side, background, syntax_highlight, language, positions);
+    let styles = color_positions(side, background, syntax_highlight, file_format, positions);
     let lines = split_on_newlines(s);
     style_lines(&lines, &styles)
 }

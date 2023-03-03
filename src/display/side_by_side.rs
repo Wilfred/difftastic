@@ -17,10 +17,7 @@ use crate::{
     },
     lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
     options::{DisplayMode, DisplayOptions},
-    parse::{
-        guess_language::Language,
-        syntax::{zip_pad_shorter, MatchedPos},
-    },
+    parse::syntax::{zip_pad_shorter, MatchedPos},
     positions::SingleLineSpan,
     summary::FileFormat,
 };
@@ -70,7 +67,7 @@ fn format_missing_line_num(
 fn display_single_column(
     lhs_display_path: &str,
     rhs_display_path: &str,
-    lang_name: &FileFormat,
+    file_format: &FileFormat,
     src_lines: &[String],
     side: Side,
     display_options: &DisplayOptions,
@@ -85,7 +82,7 @@ fn display_single_column(
         rhs_display_path,
         1,
         1,
-        lang_name,
+        file_format,
         display_options,
     ));
     header_line.push('\n');
@@ -255,15 +252,20 @@ pub fn lines_with_novel(
 fn highlight_positions(
     background: BackgroundColor,
     syntax_highlight: bool,
-    language: Option<Language>,
+    file_format: &FileFormat,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions =
-        color_positions(Side::Left, background, syntax_highlight, language, lhs_mps);
+    let lhs_positions = color_positions(
+        Side::Left,
+        background,
+        syntax_highlight,
+        file_format,
+        lhs_mps,
+    );
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in lhs_positions {
@@ -271,8 +273,13 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions =
-        color_positions(Side::Right, background, syntax_highlight, language, rhs_mps);
+    let rhs_positions = color_positions(
+        Side::Right,
+        background,
+        syntax_highlight,
+        file_format,
+        rhs_mps,
+    );
     let mut rhs_styles: FxHashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = FxHashMap::default();
     for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
@@ -311,8 +318,7 @@ pub fn print(
     display_options: &DisplayOptions,
     lhs_display_path: &str,
     rhs_display_path: &str,
-    lang_name: &FileFormat,
-    language: Option<Language>,
+    file_format: &FileFormat,
     lhs_src: &str,
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
@@ -324,7 +330,7 @@ pub fn print(
                 lhs_src,
                 Side::Left,
                 display_options.syntax_highlight,
-                language,
+                file_format,
                 display_options.background_color,
                 lhs_mps,
             ),
@@ -332,7 +338,7 @@ pub fn print(
                 rhs_src,
                 Side::Right,
                 display_options.syntax_highlight,
-                language,
+                file_format,
                 display_options.background_color,
                 rhs_mps,
             ),
@@ -354,7 +360,7 @@ pub fn print(
         for line in display_single_column(
             lhs_display_path,
             rhs_display_path,
-            lang_name,
+            file_format,
             &rhs_colored_lines,
             Side::Right,
             display_options,
@@ -368,7 +374,7 @@ pub fn print(
         for line in display_single_column(
             lhs_display_path,
             rhs_display_path,
-            lang_name,
+            file_format,
             &lhs_colored_lines,
             Side::Left,
             display_options,
@@ -384,7 +390,7 @@ pub fn print(
         highlight_positions(
             display_options.background_color,
             display_options.syntax_highlight,
-            language,
+            file_format,
             lhs_mps,
             rhs_mps,
         )
@@ -410,7 +416,7 @@ pub fn print(
                 rhs_display_path,
                 i + 1,
                 hunks.len(),
-                lang_name,
+                file_format,
                 display_options
             )
         );
@@ -593,7 +599,10 @@ pub fn print(
 
 #[cfg(test)]
 mod tests {
-    use crate::syntax::{AtomKind, MatchKind, TokenKind};
+    use crate::{
+        parse::guess_language::Language,
+        syntax::{AtomKind, MatchKind, TokenKind},
+    };
 
     use super::*;
     use pretty_assertions::assert_eq;
@@ -719,8 +728,7 @@ mod tests {
             &DisplayOptions::default(),
             "foo-old.el",
             "foo-new.el",
-            &FileFormat::SupportedLanguage(Language::Python),
-            Some(Language::EmacsLisp),
+            &FileFormat::SupportedLanguage(Language::EmacsLisp),
             "foo",
             "bar",
             &lhs_mps,
