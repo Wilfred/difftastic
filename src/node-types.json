@@ -855,6 +855,10 @@
           "named": true
         },
         {
+          "type": "decimal",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -879,6 +883,10 @@
           "named": true
         },
         {
+          "type": "nativeint",
+          "named": true
+        },
+        {
           "type": "sbyte",
           "named": true
         },
@@ -900,6 +908,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "unativeint",
           "named": true
         },
         {
@@ -946,6 +958,10 @@
           "named": true
         },
         {
+          "type": "decimal",
+          "named": true
+        },
+        {
           "type": "ieee32",
           "named": true
         },
@@ -970,6 +986,10 @@
           "named": true
         },
         {
+          "type": "nativeint",
+          "named": true
+        },
+        {
           "type": "sbyte",
           "named": true
         },
@@ -991,6 +1011,10 @@
         },
         {
           "type": "uint64",
+          "named": true
+        },
+        {
+          "type": "unativeint",
           "named": true
         },
         {
@@ -1030,6 +1054,25 @@
         },
         {
           "type": "type_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "decimal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "int",
           "named": true
         }
       ]
@@ -1500,8 +1543,12 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "float",
+          "named": true
+        },
         {
           "type": "xint",
           "named": true
@@ -1515,7 +1562,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "xint",
@@ -2062,6 +2109,25 @@
       "types": [
         {
           "type": "_module_elem",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nativeint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "xint",
           "named": true
         }
       ]
@@ -2956,6 +3022,25 @@
     }
   },
   {
+    "type": "unativeint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "xint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "union_type_case",
     "named": true,
     "fields": {},
@@ -3496,6 +3581,10 @@
   {
     "type": "finally",
     "named": false
+  },
+  {
+    "type": "float",
+    "named": true
   },
   {
     "type": "for",

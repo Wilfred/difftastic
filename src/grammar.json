@@ -1251,30 +1251,26 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "PREC_LEFT",
-              "value": 1,
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_virtual_end_decl"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_seperator"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_expression_inner"
-                  }
-                ]
-              }
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_virtual_end_decl"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_seperator"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expressions"
+                }
+              ]
             }
           }
         ]
@@ -6167,6 +6163,18 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nativeint"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unativeint"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decimal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "uint64"
         },
         {
@@ -6318,19 +6326,6 @@
         {
           "type": "STRING",
           "value": "(*)"
-        }
-      ]
-    },
-    "identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[_\\p{XID_Start}][_'\\p{XID_Continue}]*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "``([^`\\n\\r\\t])+``"
         }
       ]
     },
@@ -6959,7 +6954,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_float"
+              "name": "float"
             },
             {
               "type": "IMMEDIATE_TOKEN",
@@ -6989,27 +6984,18 @@
       ]
     },
     "ieee64": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_float"
+          "name": "xint"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "xint"
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "STRING",
-                "value": "LF"
-              }
-            }
-          ]
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "LF"
+          }
         }
       ]
     },
@@ -7037,7 +7023,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_float"
+              "name": "float"
             },
             {
               "type": "SYMBOL",
@@ -7054,7 +7040,7 @@
         }
       ]
     },
-    "_float": {
+    "float": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",
@@ -7166,6 +7152,19 @@
           }
         ]
       }
+    },
+    "identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[_\\p{XID_Start}][_'\\p{XID_Continue}]*"
+        },
+        {
+          "type": "PATTERN",
+          "value": "``([^`\\n\\r\\t])+``"
+        }
+      ]
     }
   },
   "extras": [
@@ -7179,7 +7178,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[ \\s\\f\\uFEFF\\u2060\\u200B]|\\\\\\r?\\n"
+      "value": "[ \\s\\f\\uFEFF\\u2060\\u200B]|\\\\\\r?n"
     }
   ],
   "conflicts": [
@@ -7198,9 +7197,6 @@
     [
       "union_type_case",
       "long_identifier"
-    ],
-    [
-      "_expressions"
     ]
   ],
   "precedences": [],

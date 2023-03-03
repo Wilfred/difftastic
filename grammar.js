@@ -53,7 +53,7 @@ module.exports = grammar({
   extras: $ => [
     $.block_comment,
     $.line_comment,
-    /[ \s\f\uFEFF\u2060\u200B]|\\\r?\n/,
+    /[ \s\f\uFEFF\u2060\u200B]|\\\r?n/,
   ],
 
   conflicts: $ => [
@@ -61,8 +61,6 @@ module.exports = grammar({
     [$.type_argument, $.static_type_argument],
     [$.symbolic_op, $.infix_op],
     [$.union_type_case, $.long_identifier],
-    [$._expressions],
-    // [$._comp_expressions, $._expression],
   ],
 
   words: $ => $.identifier,
@@ -357,7 +355,7 @@ module.exports = grammar({
       prec.left(PREC.SEQ_EXPR,
         seq(
           $._expression_inner,
-          repeat(prec.left(PREC.SEQ_EXPR, seq(choice($._virtual_end_decl, $._seperator), $._expression_inner))),
+          repeat(seq(choice($._virtual_end_decl, $._seperator), $._expressions)),
       )),
 
 
@@ -1560,6 +1558,7 @@ module.exports = grammar({
 
     const: $ => choice(
       $.sbyte, $.int16, $.int32, $.int64, $.byte, $.uint16, $.uint32, $.int,
+      $.nativeint, $.unativeint, $.decimal,
       $.uint64, $.ieee32, $.ieee64, $.bignum, $.char, $.string,
       $.verbatim_string, $.triple_quoted_string, $.bytearray,
       $.verbatim_bytearray, $.bytechar, "false", "true", $.unit),
@@ -1582,11 +1581,6 @@ module.exports = grammar({
       $.identifier,
       seq('(', $.op_name, ')'),
       "(*)"
-    ),
-
-    identifier: $ => choice(
-      /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
-      /``([^`\n\r\t])+``/ //TODO: Not quite the spec
     ),
 
     op_name: $ => choice(
@@ -1670,13 +1664,13 @@ module.exports = grammar({
     int64:      $ => seq(choice($.int, $.xint), imm('L')),
     uint64:     $ => seq(choice($.int, $.xint), imm(choice('UL', 'uL'))),
 
-    ieee32: $ => choice(seq($._float, imm("f")), seq($.xint, imm("lf"))),
-    ieee64: $ => choice($._float, seq($.xint, imm("LF"))),
+    ieee32: $ => choice(seq($.float, imm("f")), seq($.xint, imm("lf"))),
+    ieee64: $ => seq($.xint, imm("LF")),
 
     bignum:     $ => seq($.int, imm(/[QRZING]/)),
-    decimal:    $ => seq(choice($._float,$.int), imm(/[Mm]/)),
+    decimal:    $ => seq(choice($.float,$.int), imm(/[Mm]/)),
 
-    _float: $ => token(choice(
+    float: $ => token(choice(
       seq(/[0-9]+/, imm(/\.[0-9]*/)),
       seq(/[0-9]+/, optional(imm(/\.[0-9]*/)), imm(/[eE]/), optional(imm(/[+-]/)), imm(/[0-9]+/)))),
     //
@@ -1685,6 +1679,11 @@ module.exports = grammar({
 
     block_comment: $ => seq("(*", $.block_comment_content, "*)"),
     line_comment: $ => token(seq("//", repeat(/[^\n\r]/))),
+
+    identifier: $ => choice(
+      /[_\p{XID_Start}][_'\p{XID_Continue}]*/,
+      /``([^`\n\r\t])+``/ //TODO: Not quite the spec
+    ),
   }
 
 });
