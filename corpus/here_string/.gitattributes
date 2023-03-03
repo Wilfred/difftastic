@@ -1,2 +1,2 @@
-win_* text eol=crlf
+win_* eol=crlf
 * eol=lf
