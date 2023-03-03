@@ -8,7 +8,7 @@ use crate::{
         guess_language::Language,
         syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     },
-    positions::SingleLineSpan,
+    positions::SingleLineSpan, summary::FileFormat,
 };
 use owo_colors::{OwoColorize, Style};
 use rustc_hash::FxHashMap;
@@ -471,7 +471,7 @@ pub fn header(
     rhs_display_path: &str,
     hunk_num: usize,
     hunk_total: usize,
-    display_language: &str,
+    display_language: &FileFormat,
     display_options: &DisplayOptions,
 ) -> String {
     let divider = if hunk_total == 1 {

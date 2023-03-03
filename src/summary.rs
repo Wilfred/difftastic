@@ -1,6 +1,14 @@
 //! Data types summarising the result of diffing content.
 
-use crate::{display::hunks::Hunk, parse::syntax::MatchedPos};
+use std::fmt::Display;
+
+use crate::{
+    display::hunks::Hunk,
+    parse::{
+        guess_language::{self, language_name},
+        syntax::MatchedPos,
+    },
+};
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum FileContent {
@@ -8,14 +16,31 @@ pub enum FileContent {
     Binary,
 }
 
+#[derive(Debug, Clone)]
+pub enum FileFormat {
+    SupportedLanguage(guess_language::Language),
+    PlainText,
+    TextFallback { reason: String },
+    Binary,
+}
+
+impl Display for FileFormat {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            FileFormat::SupportedLanguage(language) => write!(f, "{}", language_name(*language)),
+            FileFormat::PlainText => write!(f, "Text"),
+            FileFormat::TextFallback { reason } => write!(f, "Text ({})", reason),
+            FileFormat::Binary => write!(f, "Binary"),
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct DiffResult {
     pub lhs_display_path: String,
     pub rhs_display_path: String,
 
-    /// The name of the language shown to the user, such as "Python"
-    /// or "Text". If the file was binary, this is None.
-    pub display_language: Option<String>,
+    pub file_format: FileFormat,
     /// The language used to parse the file.
     pub language_used: Option<crate::parse::guess_language::Language>,
 

@@ -22,6 +22,7 @@ use crate::{
         syntax::{zip_pad_shorter, MatchedPos},
     },
     positions::SingleLineSpan,
+    summary::FileFormat,
 };
 
 const SPACER: &str = " ";
@@ -69,7 +70,7 @@ fn format_missing_line_num(
 fn display_single_column(
     lhs_display_path: &str,
     rhs_display_path: &str,
-    lang_name: &str,
+    lang_name: &FileFormat,
     src_lines: &[String],
     side: Side,
     display_options: &DisplayOptions,
@@ -310,7 +311,7 @@ pub fn print(
     display_options: &DisplayOptions,
     lhs_display_path: &str,
     rhs_display_path: &str,
-    lang_name: &str,
+    lang_name: &FileFormat,
     language: Option<Language>,
     lhs_src: &str,
     rhs_src: &str,
@@ -661,7 +662,7 @@ mod tests {
         let res_lines = display_single_column(
             "foo.py",
             "foo.py",
-            "Python",
+            &FileFormat::SupportedLanguage(Language::Python),
             &["print(123)\n".to_string()],
             Side::Right,
             &DisplayOptions::default(),
@@ -718,7 +719,7 @@ mod tests {
             &DisplayOptions::default(),
             "foo-old.el",
             "foo-new.el",
-            "Emacs Lisp",
+            &FileFormat::SupportedLanguage(Language::Python),
             Some(Language::EmacsLisp),
             "foo",
             "bar",

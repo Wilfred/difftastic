@@ -67,7 +67,7 @@ use rayon::prelude::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::{env, path::Path};
-use summary::{DiffResult, FileContent};
+use summary::{DiffResult, FileContent, FileFormat};
 use syntax::init_next_prev;
 use typed_arena::Arena;
 
@@ -300,7 +300,7 @@ fn diff_file(
 }
 
 fn check_only_text(
-    display_language: Option<&str>,
+    file_format: &FileFormat,
     lhs_display_path: &str,
     rhs_display_path: &str,
     lhs_src: &str,
@@ -311,7 +311,7 @@ fn check_only_text(
     return DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
-        display_language: display_language.map(|n| n.into()),
+        file_format: file_format.clone(),
         language_used: None,
         lhs_src: FileContent::Text(lhs_src.into()),
         rhs_src: FileContent::Text(rhs_src.into()),
@@ -339,7 +339,7 @@ fn diff_file_content(
             return DiffResult {
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
-                display_language: None,
+                file_format: FileFormat::Binary,
                 language_used: None,
                 lhs_src: FileContent::Binary,
                 rhs_src: FileContent::Binary,
@@ -373,12 +373,17 @@ fn diff_file_content(
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
+        let file_format = match language {
+            Some(language) => FileFormat::SupportedLanguage(language),
+            None => FileFormat::PlainText,
+        };
+
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
-            display_language: language.map(|l| language_name(l).into()),
+            file_format,
             language_used: language,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -391,11 +396,12 @@ fn diff_file_content(
     }
 
     let mut language_used = None;
-    let (lang_name, lhs_positions, rhs_positions) = match lang_config {
+    let (file_format, lhs_positions, rhs_positions) = match lang_config {
         None => {
+            let file_format = FileFormat::PlainText;
             if diff_options.check_only {
                 return check_only_text(
-                    None,
+                    &file_format,
                     lhs_display_path,
                     rhs_display_path,
                     &lhs_src,
@@ -405,7 +411,7 @@ fn diff_file_content(
 
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-            (None, lhs_positions, rhs_positions)
+            (file_format, lhs_positions, rhs_positions)
         }
         Some(ts_lang) => {
             let arena = Arena::new();
@@ -422,14 +428,18 @@ fn diff_file_content(
                     ) {
                         Ok((lhs, rhs)) => {
                             if diff_options.check_only {
-                                let lang_name = language.map(|l| language_name(l).into());
+                                let file_format = match language {
+                                    Some(language) => FileFormat::SupportedLanguage(language),
+                                    None => FileFormat::PlainText,
+                                };
+
                                 let has_syntactic_changes = lhs != rhs;
 
                                 language_used = language;
                                 return DiffResult {
                                     lhs_display_path: lhs_display_path.into(),
                                     rhs_display_path: rhs_display_path.into(),
-                                    display_language: lang_name,
+                                    file_format,
                                     language_used,
                                     lhs_src: FileContent::Text(lhs_src),
                                     rhs_src: FileContent::Text(rhs_src),
@@ -474,7 +484,9 @@ fn diff_file_content(
                                 let rhs_positions =
                                     line_parser::change_positions(&rhs_src, &lhs_src);
                                 (
-                                    Some("Text (exceeded DFT_GRAPH_LIMIT)".into()),
+                                    FileFormat::TextFallback {
+                                        reason: "exceeded DFT_GRAPH_LIMIT".into(),
+                                    },
                                     lhs_positions,
                                     rhs_positions,
                                 )
@@ -501,22 +513,24 @@ fn diff_file_content(
                                 }
 
                                 (
-                                    Some(language_name(language).into()),
+                                    FileFormat::SupportedLanguage(language),
                                     lhs_positions,
                                     rhs_positions,
                                 )
                             }
                         }
                         Err(tsp::ExceededParseErrorLimit(error_count)) => {
-                            let display_language = Some(format!(
-                                "Text ({} error{}, exceeded DFT_PARSE_ERROR_LIMIT)",
-                                error_count,
-                                if error_count == 1 { "" } else { "s" }
-                            ));
+                            let file_format = FileFormat::TextFallback {
+                                reason: format!(
+                                    "{} error{}, exceeded DFT_PARSE_ERROR_LIMIT",
+                                    error_count,
+                                    if error_count == 1 { "" } else { "s" }
+                                ),
+                            };
 
                             if diff_options.check_only {
                                 return check_only_text(
-                                    display_language.as_deref(),
+                                    &file_format,
                                     lhs_display_path,
                                     rhs_display_path,
                                     &lhs_src,
@@ -526,19 +540,18 @@ fn diff_file_content(
 
                             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                             let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                            (display_language, lhs_positions, rhs_positions)
+                            (file_format, lhs_positions, rhs_positions)
                         }
                     }
                 }
                 Err(tsp::ExceededByteLimit(num_bytes)) => {
-                    let display_language = Some(format!(
-                        "Text ({} exceeded DFT_BYTE_LIMIT)",
-                        &format_num_bytes(num_bytes),
-                    ));
+                    let file_format = FileFormat::TextFallback {
+                        reason: format!("{} exceeded DFT_BYTE_LIMIT", &format_num_bytes(num_bytes)),
+                    };
 
                     if diff_options.check_only {
                         return check_only_text(
-                            display_language.as_deref(),
+                            &file_format,
                             lhs_display_path,
                             rhs_display_path,
                             &lhs_src,
@@ -548,7 +561,7 @@ fn diff_file_content(
 
                     let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
                     let rhs_positions = line_parser::change_positions(&rhs_src, &lhs_src);
-                    (display_language, lhs_positions, rhs_positions)
+                    (file_format, lhs_positions, rhs_positions)
                 }
             }
         }
@@ -571,7 +584,7 @@ fn diff_file_content(
     DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
-        display_language: lang_name,
+        file_format,
         language_used,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
@@ -628,10 +641,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
         (FileContent::Text(lhs_src), FileContent::Text(rhs_src)) => {
             let hunks = &summary.hunks;
 
-            let display_language = summary
-                .display_language
-                .clone()
-                .unwrap_or_else(|| "Text".into());
+            let display_language = &summary.file_format;
             if !summary.has_syntactic_changes {
                 if display_options.print_unchanged {
                     println!(
@@ -645,12 +655,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                             display_options
                         )
                     );
-                    if display_language == "Text" || summary.lhs_src == summary.rhs_src {
-                        // TODO: there are other strings used for text now, so
-                        // they will hit the second case incorrectly.
-                        println!("No changes.\n");
-                    } else {
-                        println!("No syntactic changes.\n");
+                    match display_language {
+                        _ if summary.lhs_src == summary.rhs_src => {
+                            println!("No changes.\n");
+                        }
+                        FileFormat::SupportedLanguage(_) => {
+                            println!("No syntactic changes.\n");
+                        }
+                        _ => {
+                            println!("No changes.\n");
+                        }
                     }
                 }
                 return;
@@ -668,12 +682,13 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         display_options
                     )
                 );
-                if display_language == "Text" {
-                    // TODO: there are other Text names now, so
-                    // they will hit the second case incorrectly.
-                    println!("Has changes.\n");
-                } else {
-                    println!("Has syntactic changes.\n");
+                match display_language {
+                    FileFormat::SupportedLanguage(_) => {
+                        println!("Has syntactic changes.\n");
+                    }
+                    _ => {
+                        println!("Has changes.\n");
+                    }
                 }
 
                 return;
@@ -719,7 +734,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_display_path,
                         1,
                         1,
-                        "binary",
+                        &FileFormat::Binary,
                         display_options
                     )
                 );
@@ -740,7 +755,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     &summary.rhs_display_path,
                     1,
                     1,
-                    "binary",
+                    &FileFormat::Binary,
                     display_options
                 )
             );
