@@ -105,6 +105,8 @@ use a <- f()
 
 use a, b, c, d, e <- f()
 
+use #(a, b) <- blah
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -125,4 +127,9 @@ use a, b, c, d, e <- f()
     (identifier)
     (function_call
       (identifier)
-      (arguments))))
+      (arguments)))
+  (use
+    (tuple_pattern
+      (identifier)
+      (identifier))
+    (identifier)))

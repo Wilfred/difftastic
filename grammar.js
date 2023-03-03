@@ -444,7 +444,7 @@ module.exports = grammar({
     use: ($) =>
       seq(
         "use",
-        optional(series_of($.identifier, ",")),
+        optional(series_of($._pattern, ",")),
         "<-",
         field("value", $._expression)
       ),
