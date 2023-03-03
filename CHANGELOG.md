@@ -1,5 +1,9 @@
 ## 0.45 (unreleased)
 
+### Parsing
+
+Improved parsing for Makefiles.
+
 ## 0.44 (released 2nd March 2023)
 
 ### Parsing

@@ -55,3 +55,16 @@ fn check_only_text_file() {
     let predicate_fn = predicate::str::contains("Has changes");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn makefile_text_as_atom() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/cli_tests/makefile_before.mk")
+        .arg("sample_files/cli_tests/makefile_after.mk");
+
+    let predicate_fn = predicate::str::contains("CCFLAGS");
+    cmd.assert().stdout(predicate_fn);
+}
