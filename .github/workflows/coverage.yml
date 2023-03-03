@@ -16,7 +16,7 @@ jobs:
       - name: Generate code coverage
         run: cargo +stable llvm-cov --all-features --workspace --lcov --output-path lcov.info
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           files: lcov.info
           fail_ci_if_error: true
