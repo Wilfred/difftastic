@@ -108,3 +108,9 @@ fn comment_string_test() {
   // ^ function
   //            ^ string
 }
+
+fn let_assert_test() {
+  let assert #(x, _) = #(1, 2)
+  // <- keyword
+  //  ^ keyword
+}
