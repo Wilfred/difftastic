@@ -1144,5 +1144,5 @@ io.println("// hello world!\n")
     arguments: (arguments
       (argument
         value: (string
-    (quoted_content)
-    (escape_sequence))))))
+          (quoted_content)
+          (escape_sequence))))))
