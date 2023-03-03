@@ -471,7 +471,7 @@ pub fn header(
     rhs_display_path: &str,
     hunk_num: usize,
     hunk_total: usize,
-    display_language: &FileFormat,
+    file_format: &FileFormat,
     display_options: &DisplayOptions,
 ) -> String {
     let divider = if hunk_total == 1 {
@@ -496,7 +496,7 @@ pub fn header(
         let renamed = format!("Renamed {} to {}", lhs_path_pretty, rhs_path_pretty);
         format!(
             "{}\n{} --- {}{}",
-            renamed, rhs_path_pretty, divider, display_language
+            renamed, rhs_path_pretty, divider, file_format
         )
     } else {
         // Prefer showing the RHS path in the header unless it's
@@ -507,7 +507,7 @@ pub fn header(
         } else {
             rhs_path_pretty
         };
-        format!("{} --- {}{}", path_pretty, divider, display_language)
+        format!("{} --- {}{}", path_pretty, divider, file_format)
     }
 }
 

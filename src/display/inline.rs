@@ -19,7 +19,7 @@ pub fn print(
     hunks: &[Hunk],
     lhs_display_path: &str,
     rhs_display_path: &str,
-    display_language: &FileFormat,
+    file_format: &FileFormat,
     language: Option<Language>,
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
@@ -74,7 +74,7 @@ pub fn print(
                 rhs_display_path,
                 i + 1,
                 hunks.len(),
-                display_language,
+                file_format,
                 display_options
             )
         );
