@@ -10,7 +10,7 @@ Added support for Newick and Racket.
 
 Difftastic now uses a textual diff on files that have any parse
 errors. The parse error limit defaults to 0, but it is configurable
-with DFT_PARSE_ERROR_LIMIT or --parse-error-limit.
+with `DFT_PARSE_ERROR_LIMIT` or `--parse-error-limit`.
 
 Textual diffing now respects `--check-only`, consistent with syntactic
 diffing.
@@ -19,7 +19,7 @@ diffing.
 
 Improved syntax highlighting for keywords.
 
-If a file exceeds DFT_BYTE_LIMIT, difftastic now displays its size in
+If a file exceeds `DFT_BYTE_LIMIT`, difftastic now displays its size in
 the header.
 
 ## 0.43.1 (released 3rd February 2023)
