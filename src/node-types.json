@@ -130,6 +130,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -331,6 +335,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -436,6 +444,10 @@
           },
           {
             "type": "negation",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
@@ -655,6 +667,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -841,6 +857,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -942,6 +962,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -1102,6 +1126,10 @@
           },
           {
             "type": "negation",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
@@ -1349,6 +1377,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -1642,6 +1674,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -1973,6 +2009,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -2415,6 +2455,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2511,6 +2555,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2599,6 +2647,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -2787,6 +2839,10 @@
           "named": true
         },
         {
+          "type": "panic",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -2816,6 +2872,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "panic",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "pattern_spread",
@@ -3070,6 +3131,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -3173,6 +3238,10 @@
           },
           {
             "type": "negation",
+            "named": true
+          },
+          {
+            "type": "panic",
             "named": true
           },
           {
@@ -3356,6 +3425,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -3650,6 +3723,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -3743,6 +3820,10 @@
         },
         {
           "type": "negation",
+          "named": true
+        },
+        {
+          "type": "panic",
           "named": true
         },
         {
@@ -4262,6 +4343,10 @@
             "named": true
           },
           {
+            "type": "panic",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -4541,11 +4626,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "fn",
@@ -4586,6 +4671,10 @@
   {
     "type": "opacity_modifier",
     "named": true
+  },
+  {
+    "type": "panic",
+    "named": false
   },
   {
     "type": "quoted_content",

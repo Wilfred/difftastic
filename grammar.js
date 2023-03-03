@@ -319,6 +319,7 @@ module.exports = grammar({
         $.record,
         $.identifier,
         $.todo,
+        $.panic,
         $.tuple,
         $.list,
         alias($._expression_bit_string, $.bit_string),
@@ -341,6 +342,7 @@ module.exports = grammar({
       ),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
+    panic: (_$) => seq("panic"),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
     list: ($) =>
       seq(

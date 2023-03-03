@@ -37,6 +37,7 @@ Various Gotchas
 ---------------
 
 There are a few nodes in the generated AST that may be confusing at first:
+
 - `type` :: A very ambiguous name, but this refers to a concrete type such as
   `List(#(String, Int))`
 - `type_name` :: Refers to essentially the left side of a type declaration and
@@ -67,13 +68,21 @@ To-do List
 
 [open an issue]: https://github.com/J3RN/tree-sitter-gleam/issues/new
 
+Contributing
+------------
+
+1. Change files such as `grammar.js` and `queries/highlight.scm`.
+2. The grammar needs to be generated from the `grammar.js` file by running `npm run generate`.
+3. Add parser feature tests to the relevant file(s) in `test/corpus/`, or make a new one.
+4. Run `npm run test` and fix any failing tests.
+
 Style
 -----
 
 To prevent headaches from stylistic differences, I request that you please
 follow these style suggestions. 🙏
 
-- Remove all non-mandatory trailing whitespace
+- Remove all non-mandatory trailing whitespace.
 - Ensure a final newline is present at the end of all files (this is the default
-  in Vim, Emacs)
-- Format JavaScript by running `npm run format`
+  in Vim, Emacs).
+- Format JavaScript by running `npm run format`.
