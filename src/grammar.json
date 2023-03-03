@@ -4050,7 +4050,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "_pattern"
                 },
                 {
                   "type": "REPEAT",
@@ -4063,7 +4063,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "identifier"
+                        "name": "_pattern"
                       }
                     ]
                   }
