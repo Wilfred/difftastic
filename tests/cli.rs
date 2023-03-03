@@ -81,3 +81,18 @@ fn yaml_parse_errors() {
     let predicate_fn = predicate::str::contains("exceeded DFT_PARSE_ERROR_LIMIT");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn list_languages() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--list-languages");
+
+    let predicate_fn = predicate::str::contains("TOML");
+    cmd.assert().stdout(predicate_fn);
+
+    let predicate_fn = predicate::str::contains("*.toml");
+    cmd.assert().stdout(predicate_fn);
+}
