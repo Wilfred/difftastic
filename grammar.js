@@ -1,4 +1,5 @@
 const PREC = {
+  GENERIC: 19,
   DOT: 18,
   INVOCATION: 18,
   POSTFIX: 18,
@@ -206,14 +207,14 @@ module.exports = grammar({
 
     // Intentionally different from Roslyn to avoid non-matching
     // omitted_type_argument in a lot of unnecessary places.
-    type_argument_list: $ => seq(
+    type_argument_list: $ => prec.dynamic(PREC.GENERIC, seq(
       '<',
       choice(
         repeat(','),
         commaSep1($._type),
       ),
       '>'
-    ),
+    )),
 
     qualified_name: $ => prec(PREC.DOT, seq($._name, '.', $._simple_name)),
 
@@ -1223,7 +1224,7 @@ module.exports = grammar({
 
     await_expression: $ => prec.right(PREC.UNARY, seq('await', $._expression)),
 
-    cast_expression: $ => prec.right(PREC.CAST, prec.dynamic(1, seq(
+    cast_expression: $ => prec.right(PREC.CAST, prec.dynamic(1, seq(  // higher than invocation, lower than binary
       '(',
       field('type', $._type),
       ')',
@@ -1644,11 +1645,11 @@ module.exports = grammar({
         ['>=', PREC.REL], // greater_than_or_equal_expression
         ['>', PREC.REL] //  greater_than_expression
       ].map(([operator, precedence]) =>
-        prec.left(precedence, seq(
+        prec.left(precedence, prec.dynamic(2, seq(  // higher than cast
           field('left', $._expression),
           field('operator', operator),
           field('right', $._expression)
-        ))
+        )))
       ),
       prec.right(PREC.COALESCING, seq(
         field('left', $._expression),
