@@ -2,7 +2,6 @@
   "name": "tree-sitter-clojure",
   "version": "0.0.12",
   "description": "Clojure grammar for tree-sitter",
-  "main": "bindings/node",
   "tree-sitter": [
     {
       "scope": "source.clojure",

@@ -69,11 +69,53 @@ ATM, some of that includes:
 * Node.js bindings
 * Rust bindings
 
+### About the Bindings
+
 The bindings are not tested in any way and only really exist as a
-side-effect of running the `tree-sitter` cli `generate` subcommand.
+side-effect of running the `tree-sitter` cli's `generate` subcommand.
 They may be removed at some point, but they should be straight-forward
 to generate as long as one has a suitable `tree-sitter` cli and the
-`grammar.js` file mentioned above.
+`grammar.js` file mentioned above, but see below for details and/or
+have a look at some [official
+docs](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md#command-generate).
+
+### Rust Bindings
+
+Invoking `tree-sitter generate` should lead to the creation of the
+`bindings/rust` directory (plus files within) and `Cargo.toml` if
+these don't already exist.
+
+To build the bindings, use `cargo build` for a debug build or `cargo
+build --release` for a release build.  The results should end up under
+the `target/debug` and `target/release` directories respectively.
+
+### Node.js Bindings
+
+In order to successfully build the Node.js bindings (say, by an
+invocation of `npx node-gyp rebuild`), first do the following:
+
+* Remove `package.json` (or rename it)
+* Invoke `tree-sitter generate`
+
+This will create a new `package.json` with allegedly correct values
+for properties like `dependencies` and `main`.  It might be worth
+tweaking some of the other properties such as `version` to avoid
+confusion.  The `generate` subcommand should also create `binding.gyp`
+and the `bindings/node` directory (plus files within), if these don't
+already exist.
+
+Once the new `package.json` has been arranged for, invoking `npm
+install` should lead to appropriate dependencies being installed.
+
+Executing `npx node-gyp rebuild` should then be enough to build the
+Node.js bindings.  The result should end up in the `build/Release`
+directory.
+
+Note that though I have tried the above instructions, I don't use or
+test the bindings and it may be that they will be out-of-date at some
+point.  I suggest checking the aforementioned [official
+docs](https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md#command-generate)
+or asking at the tree-sitter repository.
 
 ## Footnotes
 
