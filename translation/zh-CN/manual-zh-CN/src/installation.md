@@ -2,49 +2,49 @@
 
 ## 从二进制安装
 
-Difftastic以预先编译好的二进制的形式[提供Github realease](https://github.com/Wilfred/difftastic/releases) 。
+Difftastic 将预先编译好的二进制文件 [提供到 GitHub realeases](https://github.com/Wilfred/difftastic/releases) 。
 
 在以下平台上也可以使用软件包。
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/difftastic.svg)](https://repology.org/project/difftastic/versions)
+[![安装包状态](https://repology.org/badge/vertical-allrepos/difftastic.svg)](https://repology.org/project/difftastic/versions)
 
 
-## 通过homebrew安装（在macos或者Linux平台）
+## 通过 homebrew 安装（macOS 或 Linux）
 
-Difftastic可以用[Homebrew](https://formulae.brew.sh/formula/difftastic)安装在macOS或Linux上。
+Difftastic 可以使用 [Homebrew](https://formulae.brew.sh/formula/difftastic) 安装在 macOS 或 Linux 上。
 
 
 ```
 $ brew install difftastic
 ```
 
-## 从源码安装
+## 从源码构建
 
-### 编译要求
+### 要求
 
-Difftastic是使用Rust编写的，所以你需要安装Rust。我推荐使用[rustup](https://rustup.rs/)来安装Rust。
+Difftastic 使用 Rust 编写，所以你需安装 Rust。我推荐使用 [rustup](https://rustup.rs/) 安装 Rust。Difftastic 要求 Rust 版本不低于 1.57。
 
-同时你也需要一个支持C++14的C++编译器。如果你正在使用GCC，则GCC版本至少为8。
+你也需要一个支持 C++14 的 C++ 编译器。如果你正在使用 GCC，则 GCC 版本至少为 8。
 
-### Build编译
+### 构建
 
-你可以下载并通过Cargo（它是Rust的一部分）来编译[difftastic on
-crates.io](https://crates.io/crates/difftastic) 。
+你可以下载并使用 Cargo（Rust 的一部分）构建 [Difftastic on
+crates.io](https://crates.io/crates/difftastic)。
 
 ```
 $ cargo install difftastic
 ```
 
- Difftastic使用`cc`程序箱来构建C/C++的依赖关系。这使得你可以通过环境变量`CC`和`CXX`来控制使用的编译器（参照see [the cc
-docs](https://github.com/alexcrichton/cc-rs#external-configuration-via-environment-variables)）。
+Difftastic 使用 `cc` 程序箱来构建 C/C++ 的依赖关系，这使你能通过环境变量 `CC` 与 `CXX` 来控制使用的编译器（参照 [cc
+文档](https://github.com/alexcrichton/cc-rs#external-configuration-via-environment-variables)）。
 
-参考[contributing](./contributing.md)来查看有关构建的说明。
+参考 [贡献](./contributing.md) 来查看有关构建的说明。
 
-## （可选）安装MIME数据库
+## （可选）安装 MIME 数据库
 
-如果有一个MIME数据库，Difftastic将使用它来更准确地检测二进制文件。这个也是使用`file`命令时所调用的同一个数据库，你可能已经安装了它。
+如果有一个 MIME 数据库，Difftastic 将使用它来更准确地检测二进制文件。MIME 数据库在使用 `file` 命令时也需要被调用，因此你可能已经安装了它。
 
-MIME数据库的路径[是在XDG的规定下](https://specifications.freedesktop.org/shared-mime-info-spec/0.11/ar01s03.html)：
+MIME 数据库的路径 [在 XDG 的规范下](https://specifications.freedesktop.org/shared-mime-info-spec/0.11/ar01s03.html)：
 
 * `/usr/share/mime/magic`
 * `/usr/local/share/mime/magic`
