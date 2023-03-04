@@ -1,21 +1,22 @@
 # 简介
 
-Difftastic是一个根据文件的语法的结构化比较工具。它支持[超过20款编程语言](./languages_supported.html)，当使用它的时候，就会知道它有多么的*棒*。
+Difftastic 是一个根据文件语法进行比较的结构化比较工具。它 [支持超过 30 种编程语言](./languages_supported.html)。当你使用时，便会知道它有多么 *棒*。
 
-Difftastic是一款开源软件（使用MIT许可证）并且可以[在Github上获得](https://github.com/wilfred/difftastic)。
+Difftastic 是一款开源软件（使用 MIT 许可证），你可以 [在 GitHub 上查看其源代码](https://github.com/wilfred/difftastic)。
 
-该说明书会表明当前版本DFT_VERSION_HERE。[变更记录](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)会记录每个版本的特性增加和bug的修复。
+本说明书描述当前版本 DFT_VERSION_HERE。[更新日志](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md) 会记录每个版本的新特性与 bug 的修复。
 
-如果你正在寻找其他语言版本的说明书，我们同样提供了[英语版本](https://difftastic.wilfred.me.uk/)。
+*如果你正寻找其他语言的说明书，我们同样提供了 [英文版](https://difftastic.wilfred.me.uk/)。*
 
 ## 语法差异分析
 
-Difftastic会[检测编程语言](./usage.html#language-detection)，爬取代码，随后比较句法树。见例子：
+Difftastic [检测编程语言](./usage.html#language-detection)、解析代码，并比较语法树。以下是例子。
 
 ```
 // old.rs
 let ts_lang = guess(path, guess_src).map(tsp::from_language);
 ```
+
 ```
 // new.rs
 let ts_lang = language_override
@@ -31,9 +32,9 @@ let ts_lang = language_override
 </code>
 </pre>
 
-注意Difftastic是如何识别`.map`那段没有发生变化的，尽管它是在新的一行上以空格开头的。
+注意 Difftastic 是如何识别 `.map` 没有变化的，尽管它在带有空格的新行上。
 
-如果是以前那种面对行的差异分析表现会不理想。
+面对行的差异分析表现则会很不理想。
 
 <pre><code style="display:block">$ diff -u old.rs new.rs
 
@@ -45,10 +46,10 @@ let ts_lang = language_override
 </code>
 </pre>
 
-一些文本差异分析工具也会突出单词的变化（例如GitHub或者是git的`--word-diff`），但是它们无法做到理解代码本身。Difftastic永远会找到匹配的定界符：你可以看到`or_else`结尾出的`)`已经被突出显示。
+一些文本差异分析工具也会突出单词的变化（如 GitHub 或 git 的 `--word-diff`），但它们仍无法理解代码本身。Difftastic 永远会找到匹配的定界符：你可以看到 `or_else` 结尾处的 `)` 已被突出显示。
 
-## 另一种文本差异分析
+## 备用的文本差异分析
 
-如果输入的文件格式Difftastic无法理解，他就会使用传统的以行为单位的文本差异分析，并且会将单词高亮显示。
+如果 Difftastic 不能理解输入文件，它将用常规的面向行的文本差异分析与单词高亮显示。
 
-同时，当输入的文件较大时，Difftastic也会使用以行为单位的文本差异分析。
+同时，当输入的文件较大时，Difftastic 也会使用面向行的文本差异分析。
