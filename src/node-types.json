@@ -497,6 +497,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -728,6 +732,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -956,6 +964,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -1202,6 +1214,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -1440,6 +1456,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -1669,6 +1689,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -1911,6 +1935,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -2139,6 +2167,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -2459,6 +2491,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -2890,6 +2926,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -3128,6 +3168,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -3352,6 +3396,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -3595,6 +3643,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -4321,6 +4373,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -4566,6 +4622,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -4833,6 +4893,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -5071,6 +5135,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -5306,6 +5374,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -5586,6 +5658,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -5826,6 +5902,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -6093,6 +6173,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -6472,6 +6556,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -6733,6 +6821,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -7225,6 +7317,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -7487,6 +7583,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -7729,6 +7829,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -7963,6 +8067,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -8455,6 +8563,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -8718,6 +8830,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -9045,6 +9161,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -9534,6 +9654,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -10217,6 +10341,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -10934,6 +11062,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -11224,6 +11356,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -11507,6 +11643,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -11794,6 +11934,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "when_simple_statement",
           "named": true
         },
@@ -12062,6 +12206,10 @@
         },
         {
           "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "variable_declaration",
           "named": true
         },
         {
@@ -13184,6 +13332,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -13419,6 +13571,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -13674,6 +13830,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -13915,6 +14075,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -14329,6 +14493,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -14574,6 +14742,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -14869,6 +15041,10 @@
           "named": true
         },
         {
+          "type": "variable_declaration",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -15113,6 +15289,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -15429,6 +15609,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -15751,6 +15935,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {
@@ -16277,6 +16465,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -16293,10 +16485,6 @@
         },
         {
           "type": "scope",
-          "named": true
-        },
-        {
-          "type": "semi_colon",
           "named": true
         },
         {
@@ -16584,6 +16772,10 @@
             "named": true
           },
           {
+            "type": "variable_declaration",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -16839,6 +17031,10 @@
           },
           {
             "type": "unpack_function",
+            "named": true
+          },
+          {
+            "type": "variable_declaration",
             "named": true
           },
           {

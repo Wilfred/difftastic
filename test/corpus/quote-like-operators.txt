@@ -47,7 +47,7 @@ my $string = q{im a non interpolated string};
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted)) (semi_colon)
 )
 
 =================================================
@@ -59,7 +59,7 @@ my $string = q{im a non interpolated string};
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted)) (semi_colon)
 )
 
 =================================================
@@ -76,8 +76,8 @@ my @array = qw /
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (array_variable)) (word_list_qw (start_delimiter_qw) (list_item) (list_item) (list_item) (end_delimiter_qw)) (semi_colon)
-  )
+    (scope) (single_var_declaration (array_variable)) (word_list_qw (start_delimiter_qw) (list_item) (list_item) (list_item) (end_delimiter_qw))
+  ) (semi_colon)
 )
 
 =================================================
@@ -105,7 +105,7 @@ if ($x =~ m/u$/) {
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted)) (semi_colon)
   (if_statement
     (parenthesized_expression (binary_expression (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter))))
       (block)
@@ -122,8 +122,8 @@ my $rex = qr/my.STRING/is;
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (scalar_variable)) (regex_pattern_qr (start_delimiter) (end_delimiter) (regex_option)) (semi_colon)
-  )
+    (scope) (single_var_declaration (scalar_variable)) (regex_pattern_qr (start_delimiter) (end_delimiter) (regex_option))
+    ) (semi_colon)
 )
 
 =================================================
@@ -163,8 +163,7 @@ my $subs =~ tr{bar}{foo}cs;
 ---
 
 (source_file
-  (variable_declaration
-    (scope) (single_var_declaration (scalar_variable))
-      (unary_expression (transliteration_tr_or_y (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_transliteration))) (semi_colon)
-  )
-)
+  (binary_expression
+    (variable_declaration (scope) (single_var_declaration (scalar_variable)))
+    (transliteration_tr_or_y (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_transliteration)))
+    (semi_colon))

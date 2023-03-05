@@ -98,6 +98,8 @@ module.exports = grammar({
     [$.list_block],
     [$.method_invocation, $.hash_dereference],
     [$.method_invocation, $.array_dereference],
+    [$.variable_declaration],
+    [$.variable_declaration, $._key_value_pair],
   ],
 
   externals: $ => [
@@ -477,14 +479,22 @@ module.exports = grammar({
       ),
     ),
 
-    _for_parenthesize: $ => seq(
-      '(',
-      optional(field('initializer', $._expression)),
-      $.semi_colon,
-      optional(field('condition', $._expression)),
-      $.semi_colon,
-      optional(field('incrementor', $._expression)),
-      ')'
+    _for_parenthesize: $ => choice(
+      seq(
+        '(',
+        field('initializer', $._expression),
+        $.semi_colon,
+        field('condition', $._expression),
+        $.semi_colon,
+        field('incrementor', $._expression),
+        ')'
+      ),
+      seq(
+        '(',
+        $.semi_colon,
+        $.semi_colon,
+        ')'
+      )
     ),
 
     foreach_statement: $ => seq(
@@ -508,7 +518,7 @@ module.exports = grammar({
     
     _declaration: $ => choice(
       $.function_definition,
-      $.variable_declaration, // TODO: make this under expression? to accommodate for loop? AND make declarations across grammers better.
+      // moving variable_declaration to expressioin
     ),
 
     variable_declaration: $ => seq(
@@ -517,7 +527,6 @@ module.exports = grammar({
       // or single declaration without brackets
       choice($.multi_var_declaration, $.single_var_declaration, $.type_glob_declaration),
       optional($._initializer),
-      $.semi_colon,
     ),
 
     multi_var_declaration: $ => seq(
@@ -748,6 +757,8 @@ module.exports = grammar({
       $.push_function,
 
       $.array_function,
+
+      $.variable_declaration,
     )),
 
     array_function: $ => seq(
