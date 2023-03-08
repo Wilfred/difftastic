@@ -319,6 +319,11 @@ import type UserID, {addUser, removeUser} from './User.js';
 
 import type from './User.js';
 import type, {addUser} from './User.js';
+import {type} from './User.js';
+import {addUser as type} from './User.js';
+import {type as addUser} from './User.js';
+import {type, addUser} from './User.js';
+import {addUser, type} from './User.js';
 import type, {addUser, type User} from './User.js';
 
 ---
@@ -341,6 +346,21 @@ import type, {addUser, type User} from './User.js';
   (import_statement
     (import_clause (identifier)
       (named_imports (import_specifier (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause (identifier)
       (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment))))
