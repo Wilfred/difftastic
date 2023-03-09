@@ -388,7 +388,34 @@ and 'T maybe = Maybe<'T>
     (UNEXPECTED 'T')))
 
 ================================================================================
-Type extension.
+record definition
+================================================================================
+
+type T =
+    { A: int
+      B: int }
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (record_type_defn
+      (type_name
+        (identifier))
+      (record_fields
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier))))
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier))))))))
+
+================================================================================
+Type extension
 ================================================================================
 
 type T =
@@ -399,8 +426,36 @@ type T =
 
 --------------------------------------------------------------------------------
 
+(file
+  (type_definition
+    (record_type_defn
+      (type_name (identifier))
+      (record_fields
+        (record_field
+          (identifier)
+          (type (long_identifier (identifier))))
+        (record_field
+          (identifier)
+          (type (long_identifier (identifier)))))
+      (type_extension_elements
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier))
+            (brace_expression
+              (field_expression
+                (field_initializers
+                  (field_initializer
+                    (long_identifier (identifier))
+                    (const (int))
+                    (infix_expression
+                      (long_identifier_or_op
+                        (long_identifier (identifier)))
+                      (infix_op)
+                      (const (int)))))))))))))
+
 ================================================================================
-Type extension. "with" keyword.
+Type extension. "with" keyword
 ================================================================================
 
 type T =
@@ -411,8 +466,36 @@ type T =
 
 --------------------------------------------------------------------------------
 
+(file
+  (type_definition
+    (record_type_defn
+      (type_name (identifier))
+      (record_fields
+        (record_field
+          (identifier)
+          (type (long_identifier (identifier))))
+        (record_field
+          (identifier)
+          (type (long_identifier (identifier)))))
+      (type_extension_elements
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier))
+            (brace_expression
+              (field_expression
+                (field_initializers
+                  (field_initializer
+                    (long_identifier (identifier))
+                    (const (int))
+                    (infix_expression
+                      (long_identifier_or_op
+                        (long_identifier (identifier)))
+                      (infix_op)
+                      (const (int)))))))))))))
+
 ================================================================================
-Type extension. "with" keyword newline.
+Type extension. "with" keyword newline
 ================================================================================
 
 type T =
@@ -424,3 +507,62 @@ type T =
       member x.Test() = { A = 1; B = 2 }
 
 --------------------------------------------------------------------------------
+
+(file
+  (type_definition
+    (record_type_defn
+      (type_name
+        (identifier))
+      (record_fields
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier))))
+        (record_field
+          (identifier)
+          (type
+            (long_identifier
+              (identifier)))))
+      (type_extension_elements
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier))
+            (brace_expression
+              (field_expression
+                (field_initializers
+                  (field_initializer
+                    (long_identifier
+                      (identifier))
+                    (const
+                      (int))
+                    (infix_expression
+                      (long_identifier_or_op
+                        (long_identifier
+                          (identifier)))
+                      (infix_op)
+                      (const
+                        (int)))))))))
+        (member_defn
+          (method_or_prop_defn
+            (property_or_ident
+              (identifier)
+              (identifier))
+            (const_pattern
+              (unit))
+            (brace_expression
+              (field_expression
+                (field_initializers
+                  (field_initializer
+                    (long_identifier
+                      (identifier))
+                    (const
+                      (int))
+                    (infix_expression
+                      (long_identifier_or_op
+                        (long_identifier
+                          (identifier)))
+                      (infix_op)
+                      (const
+                        (int)))))))))))))

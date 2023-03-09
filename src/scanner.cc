@@ -16,7 +16,6 @@ enum TokenType {
   VIRTUAL_OPEN_SECTION,
   VIRTUAL_END_SECTION,
   VIRTUAL_END_ALIGNED,
-  SEPARATOR,
   BLOCK_COMMENT_CONTENT,
 };
 
@@ -24,8 +23,7 @@ bool in_error_recovery(const bool *valid_symbols) {
   return
    (valid_symbols[VIRTUAL_OPEN_SECTION] &&
     valid_symbols[VIRTUAL_END_SECTION] &&
-    valid_symbols[VIRTUAL_END_ALIGNED] &&
-    valid_symbols[SEPARATOR]);
+    valid_symbols[VIRTUAL_END_ALIGNED]);
 }
 
 struct Scanner {
@@ -199,10 +197,10 @@ struct Scanner {
       else if (lexer->lookahead == '\r') {
           skip(lexer);
       }
-      else if (valid_symbols[SEPARATOR] && lexer->lookahead == ';') {
+      else if (valid_symbols[VIRTUAL_END_ALIGNED] && lexer->lookahead == ';') {
         advance(lexer);
         lexer->mark_end(lexer);
-        lexer->result_symbol = SEPARATOR;
+        lexer->result_symbol = VIRTUAL_END_ALIGNED;
         return true;
       }
       else if (valid_symbols[VIRTUAL_END_SECTION] && lexer->lookahead == ')') {
@@ -248,6 +246,7 @@ struct Scanner {
 
     // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
     if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer)) {
+      indent_length_stack.push_back(lexer->get_column(lexer));
       if (closing) {
         return false;
       }
@@ -257,7 +256,6 @@ struct Scanner {
           return false;
         }
       }
-      indent_length_stack.push_back(lexer->get_column(lexer));
       lexer->result_symbol = VIRTUAL_OPEN_SECTION;
       return true;
     }

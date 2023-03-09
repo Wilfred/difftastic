@@ -1778,21 +1778,6 @@
     }
   },
   {
-    "type": "interface_implementations",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "interface_implementation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list_expression",
     "named": true,
     "fields": {},
@@ -2165,7 +2150,7 @@
           "named": true
         },
         {
-          "type": "interface_implementations",
+          "type": "interface_implementation",
           "named": true
         },
         {
@@ -2855,8 +2840,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "interface_implementation",
@@ -3388,6 +3373,10 @@
   },
   {
     "type": ":?>",
+    "named": false
+  },
+  {
+    "type": ";",
     "named": false
   },
   {
