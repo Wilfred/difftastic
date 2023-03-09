@@ -187,7 +187,7 @@ inline: A single column display, closer to traditional diff display.")
         .arg(
             Arg::new("exit-code").long("exit-code")
                 .env("DFT_EXIT_CODE")
-                .help("Set the exit code to 1 if there are syntactic changes in any text files, or byte changes in any binary files.")
+                .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
