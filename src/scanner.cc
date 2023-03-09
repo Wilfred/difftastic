@@ -295,9 +295,9 @@ struct Scanner {
       while (indent_length <= indent_length_stack.back()) {
           if (indent_length == indent_length_stack.back()) {
             // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
-            if (lexer->lookahead == '*') {
+            if (lexer->lookahead == '/') {
               skip(lexer);
-              if (lexer->lookahead == '*') { break; }
+              if (lexer->lookahead == '/') { break; }
             }
             // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
             if (lexer->lookahead == '(') {

@@ -1003,3 +1003,66 @@ do
               (long_identifier_or_op
                 (long_identifier
                   (identifier))))))))))
+
+================================================================================
+SeqBlock with line comment
+================================================================================
+
+let x =
+  let y = 5
+  // comment
+  y + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier
+                (identifier))))
+          (const (int)))
+        (line_comment)
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (infix_op)
+          (const (int)))))))
+
+================================================================================
+SeqBlock with multi-line comment
+================================================================================
+
+let x =
+  let y = 5
+  (*
+   * comment
+   *)
+  y + 1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier (identifier))))
+      (declaration_expression
+        (function_or_value_defn
+          (value_declaration_left
+            (identifier_pattern
+              (long_identifier (identifier))))
+          (const (int)))
+        (block_comment (block_comment_content))
+        (infix_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (infix_op)
+          (const (int)))))))
