@@ -560,22 +560,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "STRING",
-                    "value": "type"
-                  },
-                  "named": true,
-                  "value": "identifier"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_import_identifier"
             },
             {
               "type": "CHOICE",
@@ -734,22 +720,8 @@
               "type": "FIELD",
               "name": "name",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  },
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "STRING",
-                      "value": "type"
-                    },
-                    "named": true,
-                    "value": "identifier"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_import_identifier"
               }
             },
             {
@@ -785,22 +757,8 @@
                   "type": "FIELD",
                   "name": "alias",
                   "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "identifier"
-                      },
-                      {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "STRING",
-                          "value": "type"
-                        },
-                        "named": true,
-                        "value": "identifier"
-                      }
-                    ]
+                    "type": "SYMBOL",
+                    "name": "_import_identifier"
                   }
                 }
               ]
@@ -7318,6 +7276,24 @@
               "name": "_jsx_attribute"
             }
           }
+        }
+      ]
+    },
+    "_import_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "type"
+          },
+          "named": true,
+          "value": "identifier"
         }
       ]
     },
