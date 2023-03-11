@@ -152,7 +152,13 @@ fn app() -> clap::Command<'static> {
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .env("DFT_DISPLAY")
-                .help("Display mode for showing results.")
+                .help("Display mode for showing results.
+
+side-by-side: Display the before file and the after file in two separate columns, with line numbers aligned according to unchanged content. If a change is exclusively additions or exclusively removals, use a single column.
+
+side-by-side-show-both: The same as side-by-side, but always uses two columns.
+
+inline: A single column display, closer to traditional diff display.")
         )
         .arg(
             Arg::new("color").long("color")
@@ -181,7 +187,7 @@ fn app() -> clap::Command<'static> {
         .arg(
             Arg::new("exit-code").long("exit-code")
                 .env("DFT_EXIT_CODE")
-                .help("Set the exit code to 1 if there are syntactic changes in any text files, or byte changes in any binary files.")
+                .help("Set the exit code to 1 if there are syntactic changes in any files. For files where there is no detected language (e.g. unsupported language or binary files), sets the exit code if there are any byte changes.")
         )
         .arg(
             Arg::new("check-only").long("check-only")
