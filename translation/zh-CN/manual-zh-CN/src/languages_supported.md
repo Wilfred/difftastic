@@ -48,7 +48,6 @@
 | Zig             | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig)                                                                                        |
 
 ## 结构化文本格式
-           1
 | 语言      | 使用的解析器                                                                         |
 |----------|-----------------------------------------------------------------------------------|
 | CSS      | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)     |

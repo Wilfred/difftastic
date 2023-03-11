@@ -20,7 +20,7 @@ Difftastic 会递归地浏览这两个文件夹，对同名的文件进行差异
 
 ### 从 stdin 读取
 
-您可以通过指定 `-` 作为文件路径从 stdin 读取文件。
+您可以通过指定 `-` 作为文件路径从标准输入（stdin）读取文件。
 
 ```
 $ cat sample_files/before.js | difft - sample_files/after.js
