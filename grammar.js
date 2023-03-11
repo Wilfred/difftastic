@@ -1,13 +1,15 @@
 const PREC = {
   first: $ => prec(100, $),
   last: $ => prec(-1, $),
+  number: $ => prec(2, $),
+  symbol: $ => prec(1, $),
   left: prec.left,
   right: prec.right,
 };
 
 const LEAF = {
   // https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
-  whitespace: /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}]/u,
+  whitespace: /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}]+/u,
   newline: /[\r\n\u{85}\u{2028}\u{2029}]/,
   delimiter: /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
   non_delimiter: /[^ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}\u{FEFF}(){}",'`;\[\]]/u,
@@ -49,22 +51,20 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        token(repeat1(LEAF.whitespace)),
-        $._all_comment,
+        $._skip,
         $.extension,
         $._datum),
 
-    _skip: $ => choice(token(repeat1(LEAF.whitespace)), $._all_comment),
+    _skip: $ =>
+      choice(
+        LEAF.whitespace,
+        $.comment,
+        $.sexp_comment,
+        $.block_comment),
 
     dot: _ => ".",
 
     // comment {{{
-
-    _all_comment: $ =>
-      choice(
-        $.comment,
-        $.sexp_comment,
-        $.block_comment),
 
     comment: $ =>
       choice(
@@ -110,7 +110,15 @@ module.exports = grammar({
         $.graph,
         $.structure,
         $.hash,
-        $._abbrev,
+
+        $.quote,
+        $.quasiquote,
+        $.syntax,
+        $.quasisyntax,
+        $.unquote,
+        $.unquote_splicing,
+        $.unsyntax,
+        $.unsyntax_splicing,
 
         $.list,
         $.vector),
@@ -156,12 +164,17 @@ module.exports = grammar({
     // string }}}
 
     number: _ =>
-      token(
-        choice(
-          _number_base(2),
-          _number_base(8),
-          _number_base(10),
-          _number_base(16))),
+      PREC.number(
+        token(
+          choice(
+            extflonum(2),
+            extflonum(8),
+            extflonum(10),
+            extflonum(16),
+            number_base(2),
+            number_base(8),
+            number_base(10),
+            number_base(16)))),
 
     decimal: _ => /[0-9]+/,
 
@@ -178,9 +191,9 @@ module.exports = grammar({
             /./))),
 
     symbol: _ =>
-      PREC.last(
-        PREC.right(
-          token(
+      PREC.symbol(
+        token(
+          PREC.right(
             choice(
               /#[cC][iIsS]/, // read-case-sensitive parameter
               seq(
@@ -232,17 +245,6 @@ module.exports = grammar({
             "=",
             repeat($._skip),
             $._datum))),
-
-    _abbrev: $ =>
-      choice(
-        $.quote,
-        $.quasiquote,
-        $.syntax,
-        $.quasisyntax,
-        $.unquote,
-        $.unquote_splicing,
-        $.unsyntax,
-        $.unsyntax_splicing),
 
     quote: $ =>
       seq(
@@ -309,45 +311,44 @@ module.exports = grammar({
 
 // number {{{
 
-function _number_base(n) {
-  const number = _ =>
+function number_base(n) {
+  const general_number = _ =>
     seq(
-      choice(
-        seq(radix(), optional(exactness())),
-        seq(optional(exactness()), radix()),
-      ),
-      choice(
-        // Inexact number pattern already contains exact pattern.
-        // So we don't need to parse exact number explicitly
-        inexact()));
+      optional(exactness()),
+      number());
 
-  const sign = _ => /[+-]/;
+  const number = _ =>
+    choice(
+      exact(),
+      inexact());
 
-  const digit = _ => {
-    return {
-      2: /[01]/,
-      8: /[0-7]/,
-      10: /[0-9]/,
-      16: /[0-9a-fA-F]/,
-    }[n];
-  };
+  const exact = _ =>
+    choice(
+      exact_rational(),
+      exact_complex());
 
-  const radix = _ => {
-    return {
-      2: /#[bB]/,
-      8: /#[oO]/,
-      10: optional(/#[dD]/),
-      16: /#[xX]/,
-    }[n];
-  };
+  const exact_rational = _ =>
+    seq(
+      optional(sign()),
+      unsigned_rational());
 
-  const exactness = _ =>
-    choice("#e", "#E", "#i", "#I");
+  const unsigned_rational = _ =>
+    choice(
+      unsigned_integer(),
+      seq(unsigned_integer(), "/", unsigned_integer()));
 
-  const exp_mark = _ => /[sldeftSLDEFT]/;
+  const exact_integer = _ =>
+    seq(
+      optional(sign()),
+      unsigned_integer());
 
-  const unsigned_integer = _ =>
-    repeat1(digit());
+  const unsigned_integer = _ => repeat1(digit());
+
+  const exact_complex = _ =>
+    seq(
+      exact_rational(),
+      sign(),
+      unsigned_rational());
 
   const inexact = _ =>
     choice(
@@ -363,6 +364,44 @@ function _number_base(n) {
         sign(),
         inexact_special()));
 
+  const inexact_unsigned = _ =>
+    choice(
+      inexact_normal(),
+      inexact_special());
+
+  const inexact_normal = _ =>
+    seq(
+      inexact_simple(),
+      optional(
+        seq(
+          exp_mark(),
+          exact_integer())));
+
+  const inexact_simple = _ =>
+    choice(
+      seq(
+        digits_hash(),
+        optional("."),
+        repeat("#")),
+      seq(
+        optional(unsigned_integer()),
+        ".",
+        digits_hash()),
+      seq(
+        digits_hash(),
+        "/",
+        digits_hash()));
+
+  const inexact_special = _ =>
+    choice(
+      /[iI][nN][fF]\.[0fF]/,
+      /[nN][aA][nN]\.[0fF]/);
+
+  const digits_hash = _ =>
+    seq(
+      repeat1(digit()),
+      repeat("#"));
+
   const inexact_complex = _ =>
     choice(
       seq(
@@ -375,10 +414,48 @@ function _number_base(n) {
         "@",
         inexact_real()));
 
-  const inexact_unsigned = _ =>
+  const sign = _ => /[+-]/;
+
+  const digit = _ => {
+    return {
+      2: /[01]/,
+      8: /[0-7]/,
+      10: /[0-9]/,
+      16: /[0-9a-fA-F]/,
+    }[n];
+  };
+
+  const exp_mark = _ => {
+    return {
+      2: /[sldefSLDEF]/,
+      8: /[sldefSLDEF]/,
+      10: /[sldefSLDEF]/,
+      16: /[slSL]/,
+    }[n];
+  };
+
+  const exactness = _ =>
+    choice("#e", "#E", "#i", "#I");
+
+  return general_number();
+}
+
+function extflonum(n) {
+  const exact_integer = _ =>
+    seq(
+      optional(sign()),
+      unsigned_integer());
+
+  const unsigned_integer = _ => repeat1(digit());
+
+  const inexact_real = _ =>
     choice(
-      inexact_normal(),
-      inexact_special());
+      seq(
+        optional(sign()),
+        inexact_normal()),
+      seq(
+        sign(),
+        inexact_special()));
 
   const inexact_normal = _ =>
     seq(
@@ -386,38 +463,63 @@ function _number_base(n) {
       optional(
         seq(
           exp_mark(),
-          optional(sign()),
-          unsigned_integer())));
-
-  const inexact_special = _ =>
-    choice(
-      /[iI][nN][fF]\.0/,
-      /[nN][aA][nN]\.0/,
-      /[iI][nN][fF]\.[fFtT]/,
-      /[nN][aA][nN]\.[fFtT]/,
-    );
+          exact_integer())));
 
   const inexact_simple = _ =>
     choice(
       seq(
-        digits(),
+        digits_hash(),
         optional("."),
         repeat("#")),
       seq(
         optional(unsigned_integer()),
         ".",
-        digits()),
+        digits_hash()),
       seq(
-        digits(),
+        digits_hash(),
         "/",
-        digits()));
+        digits_hash()));
 
-  const digits = _ =>
+  const inexact_special = _ =>
+    choice(
+      /[iI][nN][fF]\.[0fFtT]/,
+      /[nN][aA][nN]\.[0fFtT]/);
+
+  const digits_hash = _ =>
     seq(
-      unsigned_integer(),
+      repeat1(digit()),
       repeat("#"));
 
-  return token(number());
+  const sign = _ => /[+-]/;
+
+  const digit = _ => {
+    return {
+      2: /[01]/,
+      8: /[0-7]/,
+      10: /[0-9]/,
+      16: /[0-9a-fA-F]/,
+    }[n];
+  };
+
+  const exp_mark = _ => {
+    return {
+      2: /[sldefSLDEFtT]/,
+      8: /[sldefSLDEFtT]/,
+      10: /[sldefSLDEFtT]/,
+      16: /[slSLtT]/,
+    }[n];
+  };
+
+  const radix = _ => {
+    return {
+      2: /#[bB]/,
+      8: /#[oO]/,
+      10: optional(/#[dD]/),
+      16: /#[xX]/,
+    }[n];
+  };
+
+  return seq(radix(), inexact_real());
 }
 
 // number }}}

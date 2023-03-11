@@ -531,6 +531,11 @@
     }
   },
   {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -1891,10 +1896,6 @@
   },
   {
     "type": "lang_name",
-    "named": true
-  },
-  {
-    "type": "number",
     "named": true
   },
   {
