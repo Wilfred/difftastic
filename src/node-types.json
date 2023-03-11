@@ -646,11 +646,6 @@
     }
   },
   {
-    "type": "symbol",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "syntax",
     "named": true,
     "fields": {},
@@ -1238,6 +1233,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "symbol",
     "named": true
   },
   {

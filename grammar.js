@@ -1,6 +1,8 @@
 const PREC = {
   first: $ => prec(100, $),
   last: $ => prec(-1, $),
+  number: $ => prec(2, $),
+  symbol: $ => prec(1, $),
 };
 
 const LEAF = {
@@ -34,10 +36,9 @@ module.exports = grammar({
         $.directive,
         $._datum),
 
-    _skip: $ => choice(LEAF.whitespace, $._all_comment),
-
-    _all_comment: $ =>
+    _skip: $ =>
       choice(
+        LEAF.whitespace,
         $.comment,
         $.block_comment),
 
@@ -83,11 +84,16 @@ module.exports = grammar({
 
     number: _ =>
       token(
-        choice(
-          number_base(2),
-          number_base(8),
-          number_base(10),
-          number_base(16))),
+        PREC.number(
+          choice(
+            r5rs_number_base(2),
+            r5rs_number_base(8),
+            r5rs_number_base(10),
+            r5rs_number_base(16),
+            r6rs_number_base(2),
+            r6rs_number_base(8),
+            r6rs_number_base(10),
+            r6rs_number_base(16)))),
 
     character: _ =>
       token(
@@ -119,7 +125,7 @@ module.exports = grammar({
           seq("\\", repeat(LEAF.intra_whitespace), LEAF.line_ending, repeat(LEAF.intra_whitespace)),
           /\\x[0-9a-fA-F]+;/)),
 
-    symbol: _ => PREC.last(token(repeat1(LEAF.symbol_element))),
+    symbol: _ => token(PREC.symbol(repeat1(LEAF.symbol_element))),
 
     // simple datum }}}
 
@@ -184,11 +190,11 @@ module.exports = grammar({
 
 // number {{{
 
-function number_base(n) {
+function r5rs_number_base(n) {
   const radixn = {
     2: choice("#b", "#B"),
     8: choice("#o", "#O"),
-    10: choice("#d", "#D", ""),
+    10: optional(choice("#d", "#D")),
     16: choice("#x", "#X"),
   };
   const digitsn = {
@@ -198,19 +204,30 @@ function number_base(n) {
     16: /[0-9a-fA-F]/,
   };
 
-  const exactness = optional(choice("#i", "#e", "#I", "#E"));
+  const exactness =
+    optional(
+      choice("#i", "#e", "#I", "#E"));
   const radix = radixn[n];
-  const prefix = choice(seq(radix, exactness), seq(exactness, radix));
+  const prefix =
+    choice(
+      seq(radix, exactness),
+      seq(exactness, radix));
 
   const sign = optional(/[+-]/);
   const digits = digitsn[n];
 
   const exponent = /[eEsSfFdDlL]/;
-  const suffix = optional(choice(
-    seq(exponent, sign, repeat1(digitsn[10])),
-    seq("|", repeat1(digitsn[10])),
-  ));
-  const uinteger = seq(repeat1(digits), repeat("#"));
+  const suffix =
+    optional(
+      seq(
+        exponent,
+        sign,
+        repeat1(digitsn[10])));
+
+  const uinteger =
+    seq(
+      repeat1(digits),
+      repeat("#"));
   const decimal10 = choice(
     seq(uinteger, suffix),
     seq(".", repeat1(digits), repeat("#"), suffix),
@@ -222,22 +239,97 @@ function number_base(n) {
     8: "",
     10: decimal10,
     16: "",
+  }[n];
+
+  const ureal =
+    choice(
+      uinteger,
+      seq(uinteger, "/", uinteger),
+      decimal);
+  const real = seq(sign, ureal);
+  const complex = choice(
+    real,
+    seq(real, "@", real),
+    seq(optional(real), /[+-]/, optional(ureal), "i")
+  );
+
+  return seq(prefix, complex);
+}
+
+function r6rs_number_base(n) {
+  const radixn = {
+    2: choice("#b", "#B"),
+    8: choice("#o", "#O"),
+    10: optional(choice("#d", "#D")),
+    16: choice("#x", "#X"),
   };
+  const digitsn = {
+    2: /[01]/,
+    8: /[0-7]/,
+    10: /[0-9]/,
+    16: /[0-9a-fA-F]/,
+  };
+
+  const exactness =
+    optional(
+      choice("#i", "#e", "#I", "#E"));
+  const radix = radixn[n];
+  const prefix =
+    choice(
+      seq(radix, exactness),
+      seq(exactness, radix));
+
+  const sign = optional(/[+-]/);
+  const digits = digitsn[n];
+  const digits10 = digitsn[10];
+
+  const exponent = /[eEsSfFdDlL]/;
+  const suffix =
+    optional(
+      seq(
+        exponent,
+        sign,
+        repeat1(digits10)));
+
+  const uinteger = repeat1(digits);
+  const decimal10 =
+    choice(
+      seq(uinteger, suffix),
+      seq(".", repeat1(digits), suffix),
+      seq(repeat1(digits), ".", repeat(digits), suffix),
+      seq(repeat1(digits), ".", suffix));
+  const decimal = {
+    2: "",
+    8: "",
+    10: decimal10,
+    16: "",
+  }[n];
+
+  const mantissa_width =
+    optional(
+      seq("|", repeat1(digits10)));
+
+  const naninf = choice("nan.0", "inf.0");
 
   const ureal =
     seq(
       choice(
         uinteger,
         seq(uinteger, "/", uinteger),
-        decimal[n]),
-      suffix);
-  const imag = choice("i", seq(ureal, "i"), "inf.0i", "nan.0i");
-  const real = choice(seq(sign, ureal), "+nan.0", "-nan.0", "+inf.0", "-inf.0");
-  const complex = choice(
-    real,
-    seq(real, "@", real),
-    seq(optional(real), /[+-]/, imag)
-  );
+        seq(decimal, mantissa_width)));
+  const real =
+    choice(
+      seq(sign, ureal),
+      seq(/[+-]/, naninf));
+  const complex =
+    choice(
+      real,
+      seq(real, "@", real),
+      seq(
+        optional(real),
+        /[+-]/,
+        optional(choice(ureal, naninf)),
+        "i"));
 
   return seq(prefix, complex);
 }
