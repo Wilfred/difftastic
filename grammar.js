@@ -30,8 +30,7 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        LEAF.whitespace,
-        $._all_comment,
+        $._skip,
         $.directive,
         $._datum),
 
@@ -58,17 +57,27 @@ module.exports = grammar({
             LEAF.any_char)),
         PREC.first("|#")),
 
-    _datum: $ => choice($._simple_datum, $._compound_datum),
+    _datum: $ => choice(
+      $.boolean,
+      $.number,
+      $.character,
+      $.string,
+      $.symbol,
+
+      $.vector,
+      $.byte_vector,
+      $.list,
+
+      $.quote,
+      $.quasiquote,
+      $.unquote,
+      $.unquote_splicing,
+      $.syntax,
+      $.quasisyntax,
+      $.unsyntax,
+      $.unsyntax_splicing),
 
     // simple datum {{{
-
-    _simple_datum: $ =>
-      choice(
-        $.boolean,
-        $.number,
-        $.character,
-        $.string,
-        $.symbol),
 
     boolean: _ => token(choice("#t", "#f", "#T", "#F")),
 
@@ -115,21 +124,6 @@ module.exports = grammar({
     // simple datum }}}
 
     // compound datum {{{
-
-    _compound_datum: $ =>
-      choice(
-        $.vector,
-        $.byte_vector,
-        $.list,
-
-        $.quote,
-        $.quasiquote,
-        $.unquote,
-        $.unquote_splicing,
-        $.syntax,
-        $.quasisyntax,
-        $.unsyntax,
-        $.unsyntax_splicing),
 
     list: $ => paren(repeat($._token)),
 

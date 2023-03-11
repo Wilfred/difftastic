@@ -12,12 +12,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[ \\r\\n\\t\\f\\v\\p{Zs}\\p{Zl}\\p{Zp}]+"
-        },
-        {
           "type": "SYMBOL",
-          "name": "_all_comment"
+          "name": "_skip"
         },
         {
           "type": "SYMBOL",
@@ -146,19 +142,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_simple_datum"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_compound_datum"
-        }
-      ]
-    },
-    "_simple_datum": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
           "name": "boolean"
         },
         {
@@ -176,6 +159,50 @@
         {
           "type": "SYMBOL",
           "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "vector"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "byte_vector"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasiquote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote_splicing"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "syntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasisyntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unsyntax"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unsyntax_splicing"
         }
       ]
     },
@@ -6053,55 +6080,6 @@
           }
         }
       }
-    },
-    "_compound_datum": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "vector"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "byte_vector"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quasiquote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unquote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unquote_splicing"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "syntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quasisyntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unsyntax"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unsyntax_splicing"
-        }
-      ]
     },
     "list": {
       "type": "CHOICE",
