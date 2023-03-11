@@ -1,15 +1,15 @@
 # Mercurial
 
-Mercurial[支持另外的diff工具](https://www.mercurial-scm.org/wiki/ExtdiffExtension)与Extdiff扩展。通过在你的`.hgrc`中添加`extensions`条目来启用它。
+Mercurial 在使用 Extdiff 拓展时，[支持使用外部差异分析工具](https://www.mercurial-scm.org/wiki/ExtdiffExtension)。你可以在 `.hgrc` 文件中添加 `extensions` 条目来启用它。
 
 ```
 [extensions]
 extdiff =
 ```
 
-然后你可以运行`hg extdiff -p difft`命令（假定`difft`二进制文件存放在你的`$PATH`中。
+接下来，你可以运行 `hg extdiff -p difft` 命令（假定 `difft` 二进制文件已经存放在 `$PATH` 中）。
 
-你也可以为带有hg的difftastic的语句定义一个别名。在你的`.hgrc`中添加以下内容，以便用`hg dft`运行Difftastic。
+您还可以定义一个别名，用 hg 运行 Difftastic。将以下内容添加到您的 `.hgrc` 中，以使用 `hg dft` 命令运行 Difftastic。
 
 ```
 [extdiff]
@@ -19,7 +19,7 @@ opts.dft = --missing-as-empty
 
 ## hg log -p
 
-Mercurial没有办法改变默认的差异工具，至少就作者所知。
+Mercurial 不能改变默认的差异工具，至少就作者所知。
 
 如果你只想查看最近的一次提交的差异，你可以使用下面的方法。
 
