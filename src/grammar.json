@@ -222,10 +222,10 @@
       }
     },
     "number": {
-      "type": "TOKEN",
+      "type": "PREC",
+      "value": 2,
       "content": {
-        "type": "PREC",
-        "value": 2,
+        "type": "TOKEN",
         "content": {
           "type": "CHOICE",
           "members": [
@@ -7919,10 +7919,10 @@
       }
     },
     "symbol": {
-      "type": "TOKEN",
+      "type": "PREC",
+      "value": 1,
       "content": {
-        "type": "PREC",
-        "value": 1,
+        "type": "TOKEN",
         "content": {
           "type": "REPEAT1",
           "content": {

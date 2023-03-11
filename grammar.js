@@ -83,8 +83,8 @@ module.exports = grammar({
     boolean: _ => token(choice("#t", "#f", "#T", "#F")),
 
     number: _ =>
-      token(
-        PREC.number(
+      PREC.number(
+        token(
           choice(
             r5rs_number_base(2),
             r5rs_number_base(8),
@@ -125,7 +125,10 @@ module.exports = grammar({
           seq("\\", repeat(LEAF.intra_whitespace), LEAF.line_ending, repeat(LEAF.intra_whitespace)),
           /\\x[0-9a-fA-F]+;/)),
 
-    symbol: _ => token(PREC.symbol(repeat1(LEAF.symbol_element))),
+    symbol: _ =>
+      PREC.symbol(
+        token(
+          repeat1(LEAF.symbol_element))),
 
     // simple datum }}}
 
