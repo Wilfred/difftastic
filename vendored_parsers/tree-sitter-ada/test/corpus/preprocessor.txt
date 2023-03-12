@@ -1,0 +1,83 @@
+================================================================================
+Preprocess-if (GNAT)
+================================================================================
+
+procedure P is
+   #if not CHECKING_MODE then
+      pragma Suppress (Access_Checks);
+   #end if;
+begin
+   null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (gnatprep_declarative_if_statement
+          (expression
+            (term
+              (factor_not
+                (identifier))))
+          (pragma_g
+            (identifier)
+            (pragma_argument_association
+              (expression
+                (term
+                  (identifier)))))))
+      (handled_sequence_of_statements
+        (null_statement)))))
+
+================================================================================
+Preprocess substitution (GNAT)
+================================================================================
+
+package P is
+   Flavour : constant F := $FLAVOR;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (gnatprep_identifier)))))))
+
+================================================================================
+Preprocess empty (GNAT)
+================================================================================
+
+procedure P is
+   #if not CHECKING_MODE then
+      --  pragma Suppress (Access_Checks);
+   #end if;
+begin
+   null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (gnatprep_declarative_if_statement
+          (expression
+            (term
+              (factor_not
+                (identifier))))
+          (comment)))
+      (handled_sequence_of_statements
+        (null_statement)))))
