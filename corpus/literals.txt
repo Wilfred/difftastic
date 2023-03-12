@@ -67,10 +67,14 @@ val l1 = -0l
 val l2 = 1234L
 val l3 = 0xF23l
 val l4 = 0XA03L
+val l5 = 150_000_000
+val l6 = 0xFF_FF_FF
 
 ---
 
 (compilation_unit
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
   (val_definition (identifier) (integer_literal))
   (val_definition (identifier) (integer_literal))
   (val_definition (identifier) (integer_literal))

@@ -1248,8 +1248,8 @@ module.exports = grammar({
       seq(
         optional(/[-]/),
         choice(
-          /[\d]+/,
-          /0[xX][\da-fA-F]+/
+          /[\d](_?\d)*/,
+          /0[xX][\da-fA-F](_?[\da-fA-F])*/
         ),
         optional(/[lL]/)
       )
