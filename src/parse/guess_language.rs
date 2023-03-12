@@ -18,6 +18,7 @@ use std::{borrow::Borrow, ffi::OsStr, path::Path};
 /// corresponding tree-sitter parser.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Language {
+    Ada,
     Bash,
     C,
     Clojure,
@@ -74,6 +75,7 @@ pub enum Language {
 /// The language name shown to the user.
 pub fn language_name(language: Language) -> &'static str {
     match language {
+        Ada => "Ada",
         Bash => "Bash",
         C => "C",
         Clojure => "Clojure",
@@ -132,6 +134,12 @@ use Language::*;
 
 /// Which file extensions are associated with which languages.
 pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
+    (
+        Ada,
+        &[
+            "ada", "adb", "ads"
+        ],
+    ),
     (
         Bash,
         &[
@@ -224,6 +232,7 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
 
 /// Which file names are associated with which languages.
 pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
+    (Ada, &["alire.toml"]),
     (
         Bash,
         &[
@@ -349,6 +358,7 @@ fn from_emacs_mode_header(src: &str) -> Option<Language> {
             _ => "".into(),
         };
         let lang = match mode_name.to_ascii_lowercase().trim().borrow() {
+            "ada" => Some(Ada),
             "c" => Some(C),
             "clojure" => Some(Clojure),
             "csharp" => Some(CSharp),
