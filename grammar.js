@@ -79,7 +79,6 @@ const RADIX_NUMBER =
           regex('[rR]'),
           repeat1(ALPHANUMERIC));
 
-// XXX: not accounting for division by zero
 const RATIO =
       seq(repeat1(DIGIT),
           "/",
@@ -160,9 +159,6 @@ const OCTAL_CHAR =
           choice(seq(DIGIT, DIGIT, DIGIT),
                  seq(DIGIT, DIGIT),
                  seq(DIGIT)));
-// choice(seq(/[0-3]/, OCTAL_DIGIT, OCTAL_DIGIT),
-//        seq(OCTAL_DIGIT, OCTAL_DIGIT),
-//        seq(OCTAL_DIGIT)));
 
 const NAMED_CHAR =
       choice("backspace",
