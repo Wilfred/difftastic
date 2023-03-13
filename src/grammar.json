@@ -5771,11 +5771,11 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[\\d]+"
+                "value": "[\\d](_?\\d)*"
               },
               {
                 "type": "PATTERN",
-                "value": "0[xX][\\da-fA-F]+"
+                "value": "0[xX][\\da-fA-F](_?[\\da-fA-F])*"
               }
             ]
           },
