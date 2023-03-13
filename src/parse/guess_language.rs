@@ -134,12 +134,7 @@ use Language::*;
 
 /// Which file extensions are associated with which languages.
 pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
-    (
-        Ada,
-        &[
-            "ada", "adb", "ads"
-        ],
-    ),
+    (Ada, &["ada", "adb", "ads"]),
     (
         Bash,
         &[

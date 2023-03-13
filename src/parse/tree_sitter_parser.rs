@@ -133,7 +133,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             let language = unsafe { tree_sitter_ada() };
             TreeSitterConfig {
                 language,
-                atom_nodes: vec!["string_literal", "character_literal"].into_iter().collect(),
+                atom_nodes: vec!["string_literal", "character_literal"]
+                    .into_iter()
+                    .collect(),
                 delimiter_tokens: vec![("(", ")"), ("[", "]")],
                 highlight_query: ts::Query::new(
                     language,
