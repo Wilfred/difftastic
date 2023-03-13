@@ -151,7 +151,7 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
     // Treat .h as C++ rather than C. This is an arbitrary choice, but
     // C++ is more widely used than C according to
     // https://madnight.github.io/githut/
-    (CPlusPlus, &["cc", "cpp", "h", "hh", "hpp", "cxx"]),
+    (CPlusPlus, &["cc", "cpp", "h", "hh", "hpp", "ino", "cxx"]),
     (CSharp, &["cs"]),
     (Css, &["css"]),
     (Dart, &["dart"]),
