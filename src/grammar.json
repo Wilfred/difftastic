@@ -1114,33 +1114,8 @@
           "type": "FIELD",
           "name": "value",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "read_cond_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "tagged_or_ctor_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "map_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "str_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "kwd_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "sym_lit"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_form"
           }
         }
       ]
@@ -1167,33 +1142,8 @@
           "type": "FIELD",
           "name": "value",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "read_cond_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "tagged_or_ctor_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "map_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "str_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "kwd_lit"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "sym_lit"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_form"
           }
         }
       ]

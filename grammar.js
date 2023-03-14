@@ -366,22 +366,12 @@ module.exports = grammar({
     meta_lit: $ =>
     seq(field('marker', "^"),
         repeat($._gap),
-        field('value', choice($.read_cond_lit,
-                              $.tagged_or_ctor_lit,
-                              $.map_lit,
-                              $.str_lit,
-                              $.kwd_lit,
-                              $.sym_lit))),
+        field('value', $._form)),
 
     old_meta_lit: $ =>
     seq(field('marker', "#^"),
         repeat($._gap),
-        field('value', choice($.read_cond_lit,
-                              $.tagged_or_ctor_lit,
-                              $.map_lit,
-                              $.str_lit,
-                              $.kwd_lit,
-                              $.sym_lit))),
+        field('value', $._form)),
 
     list_lit: $ =>
     seq(repeat($._metadata_lit),

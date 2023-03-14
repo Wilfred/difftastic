@@ -941,7 +941,31 @@
         "required": true,
         "types": [
           {
+            "type": "anon_fn_lit",
+            "named": true
+          },
+          {
+            "type": "bool_lit",
+            "named": true
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "evaling_lit",
+            "named": true
+          },
+          {
             "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
             "named": true
           },
           {
@@ -949,7 +973,35 @@
             "named": true
           },
           {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "ns_map_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "regex_lit",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
             "named": true
           },
           {
@@ -961,7 +1013,31 @@
             "named": true
           },
           {
+            "type": "sym_val_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
             "type": "tagged_or_ctor_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
             "named": true
           }
         ]
@@ -1191,7 +1267,31 @@
         "required": true,
         "types": [
           {
+            "type": "anon_fn_lit",
+            "named": true
+          },
+          {
+            "type": "bool_lit",
+            "named": true
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "evaling_lit",
+            "named": true
+          },
+          {
             "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
             "named": true
           },
           {
@@ -1199,7 +1299,35 @@
             "named": true
           },
           {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "ns_map_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "regex_lit",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
             "named": true
           },
           {
@@ -1211,7 +1339,31 @@
             "named": true
           },
           {
+            "type": "sym_val_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
             "type": "tagged_or_ctor_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
             "named": true
           }
         ]
