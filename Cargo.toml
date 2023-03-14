@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-elixir"
-description = "elixir grammar for the tree-sitter parsing library"
+description = "Elixir grammar for the tree-sitter parsing library"
 version = "0.1.0"
 keywords = ["incremental", "parsing", "elixir"]
 categories = ["parsing", "text-editors"]
