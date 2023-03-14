@@ -190,6 +190,19 @@ upper sigil / escape terminator
     (quoted_content)))
 
 =====================================
+upper sigil / multiple characters
+=====================================
+
+~MAT"1 2"
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (quoted_content)))
+
+=====================================
 heredoc delimiter
 =====================================
 
