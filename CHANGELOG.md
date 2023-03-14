@@ -1,5 +1,9 @@
 ## 0.46 (unreleased)
 
+### Parsing
+
+`.ino` files are now treated as C++.
+
 ## 0.45 (released 3rd March 2023)
 
 ### Diffing
