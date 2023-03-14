@@ -2623,7 +2623,7 @@
                     "type": "IMMEDIATE_TOKEN",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[A-Z]"
+                      "value": "[A-Z]+"
                     }
                   },
                   "named": true,
