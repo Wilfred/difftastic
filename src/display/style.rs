@@ -109,10 +109,6 @@ fn split_string_by_width(s: &str, max_width: usize, tab_width: usize) -> Vec<(&s
     res
 }
 
-fn highlight_missing_style_bug(s: &str) -> String {
-    s.on_purple().to_string()
-}
-
 /// Return a copy of `src` with all the tab characters replaced by
 /// `tab_width` strings.
 pub fn replace_tabs(src: &str, tab_width: usize) -> String {
@@ -127,7 +123,6 @@ pub fn split_and_apply(
     line: &str,
     max_len: usize,
     tab_width: usize,
-    use_color: bool,
     styles: &[(SingleLineSpan, Style)],
     side: Side,
 ) -> Vec<String> {
@@ -149,13 +144,7 @@ pub fn split_and_apply(
                 let part = replace_tabs(part, tab_width);
 
                 let mut res = String::with_capacity(part.len() + pad);
-                if use_color {
-                    // If we're syntax highlighting and have no
-                    // styles, that's a bug.
-                    res.push_str(&highlight_missing_style_bug(&part));
-                } else {
-                    res.push_str(&part);
-                }
+                res.push_str(&part);
 
                 if matches!(side, Side::Left) {
                     res.push_str(&" ".repeat(pad));
@@ -236,10 +225,6 @@ pub fn split_and_apply(
 /// Return a copy of `line` with styles applied to all the spans
 /// specified.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
-    if styles.is_empty() && !line.is_empty() {
-        return highlight_missing_style_bug(line);
-    }
-
     let line_bytes = byte_len(line);
     let mut res = String::with_capacity(line.len());
     let mut i = 0;
@@ -557,18 +542,11 @@ mod tests {
     }
 
     #[test]
-    fn test_split_and_apply_missing() {
-        let res = split_and_apply("foo", 3, TAB_WIDTH, true, &[], Side::Left);
-        assert_eq!(res, vec![highlight_missing_style_bug("foo")])
-    }
-
-    #[test]
     fn test_split_and_apply() {
         let res = split_and_apply(
             "foo",
             3,
             TAB_WIDTH,
-            true,
             &[(
                 SingleLineSpan {
                     line: 0.into(),
@@ -588,7 +566,6 @@ mod tests {
             "foobar",
             6,
             TAB_WIDTH,
-            true,
             &[(
                 SingleLineSpan {
                     line: 0.into(),
@@ -608,7 +585,6 @@ mod tests {
             "foobar",
             3,
             TAB_WIDTH,
-            true,
             &[
                 (
                     SingleLineSpan {
@@ -638,7 +614,6 @@ mod tests {
             "foobar      ",
             6,
             TAB_WIDTH,
-            true,
             &[(
                 SingleLineSpan {
                     line: 0.into(),

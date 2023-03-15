@@ -4,6 +4,12 @@
 
 `.ino` files are now treated as C++.
 
+### Display
+
+Difftastic no longer uses purple to highlight regions that are missing
+styling. This was intended as a debug feature, but it in practice it
+only highlighted trailing whitespace for a few languages.
+
 ## 0.45 (released 3rd March 2023)
 
 ### Diffing
