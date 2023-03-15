@@ -227,7 +227,6 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
 
 /// Which file names are associated with which languages.
 pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
-    (Ada, &["alire.toml"]),
     (
         Bash,
         &[
