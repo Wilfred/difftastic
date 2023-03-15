@@ -8,7 +8,7 @@ with `difft --list-languages`.
 
 | Language        | Parser Used                                                                                                                                                    |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Ada             | [tree-sitter/tree-sitter-ada](https://github.com/briot/tree-sitter-ada)                                                                                        |
+| Ada             | [briot/tree-sitter-ada](https://github.com/briot/tree-sitter-ada)                                                                                        |
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                                                |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                                                                                      |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                                                                                  |
