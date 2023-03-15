@@ -1,0 +1,200 @@
+================================================================================
+Range type
+================================================================================
+
+package P is
+   type A is range 1 .. 2;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (signed_integer_type_definition
+          (term
+            (numeric_literal))
+          (term
+            (numeric_literal))))
+      (identifier))))
+
+================================================================================
+Derived type
+================================================================================
+
+package P is
+   type B is new Integer
+     with Size => 8;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (derived_type_definition
+          (identifier))
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier)
+              (expression
+                (term
+                  (numeric_literal)))))))
+      (identifier))))
+
+================================================================================
+Modular types
+================================================================================
+
+package P is
+   type C is mod 256;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (modular_type_definition
+          (expression
+            (term
+              (numeric_literal)))))
+      (identifier))))
+
+================================================================================
+Floats
+================================================================================
+
+package P is
+   type B is new Float range 0.0 .. 1.0;
+   type D is delta 0.1 digits 8;
+   type E is delta 0.1 range 0.0 .. 1.0;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (derived_type_definition
+          (identifier)
+          (range_constraint
+            (range_g
+              (term
+                (numeric_literal))
+              (term
+                (numeric_literal))))))
+      (full_type_declaration
+        (identifier)
+        (decimal_fixed_point_definition
+          (expression
+            (term
+              (numeric_literal)))
+          (expression
+            (term
+              (numeric_literal)))))
+      (full_type_declaration
+        (identifier)
+        (ordinary_fixed_point_definition
+          (expression
+            (term
+              (numeric_literal)))
+          (real_range_specification
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))))
+      (identifier))))
+
+================================================================================
+Enumerations
+================================================================================
+
+package P is
+   type E is (VAL1, VAL2);
+   for E use (VAL1 => 1, VAL2 => 2);
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (enumeration_type_definition
+          (identifier)
+          (identifier)))
+      (enumeration_representation_clause
+        (identifier)
+        (enumeration_aggregate
+          (named_array_aggregate
+            (array_component_association
+              (discrete_choice_list
+                (discrete_choice
+                  (identifier)))
+              (expression
+                (term
+                  (numeric_literal))))
+            (array_component_association
+              (discrete_choice_list
+                (discrete_choice
+                  (identifier)))
+              (expression
+                (term
+                  (numeric_literal)))))))
+      (identifier))))
+
+================================================================================
+Subtypes
+================================================================================
+
+package P is
+   subtype T is Integer range 1 .. 2;
+   subtype Arr is MyArray (1 .. 2, 3 .. 4);
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (subtype_declaration
+        (identifier)
+        (identifier)
+        (range_constraint
+          (range_g
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))))
+      (subtype_declaration
+        (identifier)
+        (identifier)
+        (index_constraint
+          (range_g
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))
+          (range_g
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))))
+      (identifier))))

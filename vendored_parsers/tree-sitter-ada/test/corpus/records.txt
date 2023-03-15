@@ -1,0 +1,565 @@
+================================================================================
+null record
+================================================================================
+
+package P is
+   type R is null record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (record_type_definition
+          (record_definition))))))
+
+================================================================================
+records
+================================================================================
+
+package P is
+   type R2 is record
+      A : aliased Integer;
+      B : Integer range 0 .. 2;
+      C, D : not null access Integer;
+   end record;
+
+   for R2 use record
+      A at 0 range 0 .. 31;
+   end record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (record_type_definition
+          (record_definition
+            (component_list
+              (component_declaration
+                (identifier)
+                (component_definition
+                  (identifier)))
+              (component_declaration
+                (identifier)
+                (component_definition
+                  (identifier)
+                  (range_constraint
+                    (range_g
+                      (term
+                        (numeric_literal))
+                      (term
+                        (numeric_literal))))))
+              (component_declaration
+                (identifier)
+                (identifier)
+                (component_definition
+                  (access_definition
+                    (null_exclusion)
+                    (identifier))))))))
+      (record_representation_clause
+        (identifier)
+        (component_clause
+          (identifier)
+          (expression
+            (term
+              (numeric_literal)))
+          (term
+            (numeric_literal))
+          (term
+            (numeric_literal)))))))
+
+================================================================================
+Multiple fields on one line
+================================================================================
+
+package P is
+   type R is record
+      A, B : Integer;
+   end record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (record_type_definition
+          (record_definition
+            (component_list
+              (component_declaration
+                (identifier)
+                (identifier)
+                (component_definition
+                  (identifier))))))))))
+
+================================================================================
+Discriminated
+================================================================================
+
+package P is
+   type R (A : Integer; B : Integer) is record
+      F : Float;
+   end record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (known_discriminant_part
+          (discriminant_specification_list
+            (discriminant_specification
+              (identifier)
+              (identifier))
+            (discriminant_specification
+              (identifier)
+              (identifier))))
+        (record_type_definition
+          (record_definition
+            (component_list
+              (component_declaration
+                (identifier)
+                (component_definition
+                  (identifier))))))))))
+
+================================================================================
+tagged
+================================================================================
+
+package P is
+   type T is abstract tagged limited null record;
+   type T2 is new T with record
+      F : Integer;
+   end record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (record_type_definition
+          (record_definition)))
+      (full_type_declaration
+        (identifier)
+        (derived_type_definition
+          (identifier)
+          (record_extension_part
+            (record_definition
+              (component_list
+                (component_declaration
+                  (identifier)
+                  (component_definition
+                    (identifier)))))))))))
+
+================================================================================
+Variant
+================================================================================
+
+package P is
+   type R (A : Integer) is record
+      case A is
+         when 0 | 1 .. 2 =>
+            B : Integer;
+         when others =>
+            null;
+      end case;
+   end record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (known_discriminant_part
+          (discriminant_specification_list
+            (discriminant_specification
+              (identifier)
+              (identifier))))
+        (record_type_definition
+          (record_definition
+            (component_list
+              (variant_part
+                (identifier)
+                (variant_list
+                  (variant
+                    (discrete_choice_list
+                      (discrete_choice
+                        (expression
+                          (term
+                            (numeric_literal))))
+                      (discrete_choice
+                        (range_g
+                          (term
+                            (numeric_literal))
+                          (term
+                            (numeric_literal)))))
+                    (component_list
+                      (component_declaration
+                        (identifier)
+                        (component_definition
+                          (identifier)))))
+                  (variant
+                    (discrete_choice_list
+                      (discrete_choice))
+                    (component_list)))))))))))
+
+================================================================================
+interface
+================================================================================
+
+package P is
+    type R is interface;
+    type R2 is interface and Intf1;
+    type R3 is new Root and R with null record;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (interface_type_definition))
+      (full_type_declaration
+        (identifier)
+        (interface_type_definition
+          (identifier)))
+      (full_type_declaration
+        (identifier)
+        (derived_type_definition
+          (identifier)
+          (identifier)
+          (record_extension_part
+            (record_definition)))))))
+
+================================================================================
+record aggregates
+================================================================================
+
+procedure P is
+begin
+   A := (F1 => 1, F2 => 2);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (record_aggregate
+                (record_component_association_list
+                  (component_choice_list
+                    (identifier))
+                  (expression
+                    (term
+                      (numeric_literal)))
+                  (component_choice_list
+                    (identifier))
+                  (expression
+                    (term
+                      (numeric_literal))))))))))))
+
+================================================================================
+record aggregate extension
+================================================================================
+
+procedure P is
+begin
+   A := (B with F3 => 2);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (extension_aggregate
+                (expression
+                  (term
+                    (identifier)))
+                (record_component_association_list
+                  (component_choice_list
+                    (identifier))
+                  (expression
+                    (term
+                      (numeric_literal))))))))))))
+
+================================================================================
+record delta aggregate
+================================================================================
+
+procedure P is
+begin
+   A := (B with delta F3 => 2);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (record_delta_aggregate
+                (expression
+                  (term
+                    (identifier)))
+                (record_component_association_list
+                  (component_choice_list
+                    (identifier))
+                  (expression
+                    (term
+                      (numeric_literal))))))))))))
+
+================================================================================
+Variant records
+================================================================================
+
+type R (D : Boolean) is record
+   A : Integer;
+   case D is
+      when True => null;
+      when False =>
+         B : Integer := 1;
+         --  some comment
+   end case;
+end record;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (full_type_declaration
+      (identifier)
+      (known_discriminant_part
+        (discriminant_specification_list
+          (discriminant_specification
+            (identifier)
+            (identifier))))
+      (record_type_definition
+        (record_definition
+          (component_list
+            (component_declaration
+              (identifier)
+              (component_definition
+                (identifier)))
+            (variant_part
+              (identifier)
+              (variant_list
+                (variant
+                  (discrete_choice_list
+                    (discrete_choice
+                      (identifier)))
+                  (component_list))
+                (variant
+                  (discrete_choice_list
+                    (discrete_choice
+                      (identifier)))
+                  (component_list
+                    (component_declaration
+                      (identifier)
+                      (component_definition
+                        (identifier))
+                      (expression
+                        (term
+                          (numeric_literal)))))))
+              (comment))))))))
+
+================================================================================
+variants 2
+================================================================================
+
+   type R (S : Config_Side) is record
+      E : Duration;
+      F : Duration;
+
+      case Side is
+         when Config_Consumer =>
+            C : Duration;
+      end case;
+   end record;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (full_type_declaration
+      (identifier)
+      (known_discriminant_part
+        (discriminant_specification_list
+          (discriminant_specification
+            (identifier)
+            (identifier))))
+      (record_type_definition
+        (record_definition
+          (component_list
+            (component_declaration
+              (identifier)
+              (component_definition
+                (identifier)))
+            (component_declaration
+              (identifier)
+              (component_definition
+                (identifier)))
+            (variant_part
+              (identifier)
+              (variant_list
+                (variant
+                  (discrete_choice_list
+                    (discrete_choice
+                      (identifier)))
+                  (component_list
+                    (component_declaration
+                      (identifier)
+                      (component_definition
+                        (identifier)))))))))))))
+
+================================================================================
+Extension with aggregate
+================================================================================
+
+procedure Proc is
+   Null  : constant Rec := (Parent with A => null);
+   Null2 : constant Rec := (Parent with null);
+begin
+   null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (object_declaration
+          (identifier)
+          (identifier)
+          (expression
+            (term
+              (extension_aggregate
+                (expression
+                  (term
+                    (identifier)))
+                (record_component_association_list
+                  (component_choice_list
+                    (identifier))
+                  (expression
+                    (term
+                      (primary_null))))))))
+        (object_declaration
+          (identifier)
+          (identifier)
+          (expression
+            (term
+              (extension_aggregate
+                (expression
+                  (term
+                    (identifier)))
+                (expression
+                  (term
+                    (primary_null))))))))
+      (handled_sequence_of_statements
+        (null_statement)))))
+
+================================================================================
+Record with discr
+================================================================================
+
+procedure Proc is
+   type Rec (Len : Natural) is null record;
+   R : Rec (0);
+   R2 : Rec (if N > 0 then 1 else 0);
+begin
+   null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (full_type_declaration
+          (identifier)
+          (known_discriminant_part
+            (discriminant_specification_list
+              (discriminant_specification
+                (identifier)
+                (identifier))))
+          (record_type_definition
+            (record_definition)))
+        (object_declaration
+          (identifier)
+          (identifier)
+          (discriminant_constraint
+            (expression
+              (term
+                (numeric_literal)))))
+        (object_declaration
+          (identifier)
+          (identifier)
+          (discriminant_constraint
+            (if_expression
+              (expression
+                (term
+                  (identifier))
+                (relational_operator)
+                (term
+                  (numeric_literal)))
+              (expression
+                (term
+                  (numeric_literal)))
+              (expression
+                (term
+                  (numeric_literal)))))))
+      (handled_sequence_of_statements
+        (null_statement)))))

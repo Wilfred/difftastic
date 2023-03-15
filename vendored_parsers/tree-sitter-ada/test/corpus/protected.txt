@@ -1,0 +1,110 @@
+================================================================================
+protected objects
+================================================================================
+
+package body P is
+   protected Obj is
+      procedure Proc;
+      function Func return Boolean;
+      entry E;
+      entry E2 (Color)(A : Integer);
+   private
+      Field : Integer;
+   end Obj;
+
+   protected body Obj is
+      procedure Proc is begin abort T; end;
+      function Func return Boolean is begin return False; end;
+      entry E when Field > 0 is
+      begin
+         requeue E with abort;
+      end E;
+      entry E2 (for C in Color)(A : Integer) when True is
+      begin
+         null;
+      end E2;
+   end Obj;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (object_declaration
+          (single_protected_declaration
+            (identifier)
+            (protected_definition
+              (subprogram_declaration
+                (procedure_specification
+                  (identifier)))
+              (subprogram_declaration
+                (function_specification
+                  (identifier)
+                  (result_profile
+                    (identifier))))
+              (entry_declaration
+                (identifier))
+              (entry_declaration
+                (identifier)
+                (identifier)
+                (formal_part
+                  (parameter_specification
+                    (identifier)
+                    (identifier))))
+              (component_declaration
+                (identifier)
+                (component_definition
+                  (identifier)))
+              (identifier))))
+        (protected_body
+          (identifier)
+          (subprogram_body
+            (procedure_specification
+              (identifier))
+            (handled_sequence_of_statements
+              (abort_statement
+                (identifier))))
+          (subprogram_body
+            (function_specification
+              (identifier)
+              (result_profile
+                (identifier)))
+            (handled_sequence_of_statements
+              (simple_return_statement
+                (expression
+                  (term
+                    (identifier))))))
+          (entry_body
+            (identifier)
+            (entry_barrier
+              (expression
+                (term
+                  (identifier))
+                (relational_operator)
+                (term
+                  (numeric_literal))))
+            (handled_sequence_of_statements
+              (requeue_statement
+                (identifier)))
+            (identifier))
+          (entry_body
+            (identifier)
+            (non_empty_entry_body_formal_part
+              (entry_index_specification
+                (identifier)
+                (identifier))
+              (formal_part
+                (parameter_specification
+                  (identifier)
+                  (identifier))))
+            (entry_barrier
+              (expression
+                (term
+                  (identifier))))
+            (handled_sequence_of_statements
+              (null_statement))
+            (identifier))
+          (identifier))))))

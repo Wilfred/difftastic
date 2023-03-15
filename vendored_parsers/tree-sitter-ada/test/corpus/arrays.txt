@@ -1,0 +1,289 @@
+================================================================================
+Definite
+================================================================================
+
+package P is
+   type A is array (1 .. 2) of Boolean;
+   V : constant A := (1 => True, 2 => False);
+   V2 : constant A := (1 => True, others => False);
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (array_type_definition
+          (range_g
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))
+          (component_definition
+            (identifier))))
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (named_array_aggregate
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice
+                    (expression
+                      (term
+                        (numeric_literal)))))
+                (expression
+                  (term
+                    (identifier))))
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice
+                    (expression
+                      (term
+                        (numeric_literal)))))
+                (expression
+                  (term
+                    (identifier))))))))
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (named_array_aggregate
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice
+                    (expression
+                      (term
+                        (numeric_literal)))))
+                (expression
+                  (term
+                    (identifier))))
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice))
+                (expression
+                  (term
+                    (identifier))))))))
+      (identifier))))
+
+================================================================================
+Definite-2
+================================================================================
+
+package P is
+   type A is array (1 .. 3) of Boolean;
+   V : constant A := (1, 2, 3);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (array_type_definition
+          (range_g
+            (term
+              (numeric_literal))
+            (term
+              (numeric_literal)))
+          (component_definition
+            (identifier))))
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (positional_array_aggregate
+              (expression
+                (term
+                  (numeric_literal)))
+              (expression
+                (term
+                  (numeric_literal)))
+              (expression
+                (term
+                  (numeric_literal))))))))))
+
+================================================================================
+Indefinite
+================================================================================
+
+package P is
+   type B is array (Natural range <>) of Boolean;
+   V : constant B := (1 .. 2 => False);
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (array_type_definition
+          (index_subtype_definition
+            (identifier))
+          (component_definition
+            (identifier))))
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (named_array_aggregate
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice
+                    (range_g
+                      (term
+                        (numeric_literal))
+                      (term
+                        (numeric_literal)))))
+                (expression
+                  (term
+                    (identifier))))))))
+      (identifier))))
+
+================================================================================
+2D
+================================================================================
+
+package P is
+   type C is array (Natural range <>, Integer range <>) of Boolean;
+   V : constant C := (1 .. 2 => (1 .. 2 => False));
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (array_type_definition
+          (index_subtype_definition
+            (identifier))
+          (index_subtype_definition
+            (identifier))
+          (component_definition
+            (identifier))))
+      (object_declaration
+        (identifier)
+        (identifier)
+        (expression
+          (term
+            (named_array_aggregate
+              (array_component_association
+                (discrete_choice_list
+                  (discrete_choice
+                    (range_g
+                      (term
+                        (numeric_literal))
+                      (term
+                        (numeric_literal)))))
+                (expression
+                  (term
+                    (named_array_aggregate
+                      (array_component_association
+                        (discrete_choice_list
+                          (discrete_choice
+                            (range_g
+                              (term
+                                (numeric_literal))
+                              (term
+                                (numeric_literal)))))
+                        (expression
+                          (term
+                            (identifier))))))))))))
+      (identifier))))
+
+================================================================================
+Index in array aggregates
+================================================================================
+
+procedure P is
+begin
+   Arr := (for Index in 1 .. Count => Function_Returning_Limited (Index));
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (named_array_aggregate
+                (array_component_association
+                  (iterated_element_association
+                    (loop_parameter_specification
+                      (identifier)
+                      (range_g
+                        (term
+                          (numeric_literal))
+                        (term
+                          (identifier))))
+                    (expression
+                      (term
+                        (function_call
+                          (identifier)
+                          (actual_parameter_part
+                            (parameter_association
+                              (expression
+                                (term
+                                  (identifier))))))))))))))))))
+
+================================================================================
+Slices
+================================================================================
+
+Proc (Arr (1 .. 2));
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (procedure_call_statement
+      (identifier)
+      (actual_parameter_part
+        (parameter_association
+          (expression
+            (term
+              (slice
+                (identifier)
+                (range_g
+                  (term
+                    (numeric_literal))
+                  (term
+                    (numeric_literal)))))))))))
+
+================================================================================
+Slices with subtype declaration
+================================================================================
+
+A : Arr (Boolean);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (object_declaration
+      (identifier)
+      (identifier)
+      (index_constraint
+        (identifier)))))

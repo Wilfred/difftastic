@@ -1,0 +1,52 @@
+================================================================================
+Renames object
+================================================================================
+
+procedure P is
+   Threshold renames With_Type_Inference;
+   A : Integer renames B;
+   CE : exception renames Constraint_Error;
+   package TIO renames Ada.Text_IO;
+   procedure Proc (A : Integer) renames Process;
+   generic procedure Proc renames Generic_Process;
+begin
+   null;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (object_renaming_declaration
+          (identifier)
+          (identifier))
+        (object_renaming_declaration
+          (identifier)
+          (identifier)
+          (identifier))
+        (exception_renaming_declaration
+          (identifier)
+          (identifier))
+        (package_renaming_declaration
+          (identifier)
+          (selected_component
+            (identifier)
+            (identifier)))
+        (subprogram_renaming_declaration
+          (procedure_specification
+            (identifier)
+            (formal_part
+              (parameter_specification
+                (identifier)
+                (identifier))))
+          (identifier))
+        (generic_renaming_declaration
+          (identifier)
+          (identifier)))
+      (handled_sequence_of_statements
+        (null_statement))
+      (identifier))))

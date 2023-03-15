@@ -1,0 +1,90 @@
+================================================================================
+pragma on record field
+================================================================================
+
+package P is
+   type R is record
+      Started : Boolean := False;
+      pragma Atomic (Started);
+   end record;
+   pragma Foo;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (record_type_definition
+          (record_definition
+            (component_list
+              (component_declaration
+                (identifier)
+                (component_definition
+                  (identifier))
+                (expression
+                  (term
+                    (identifier))))
+              (pragma_g
+                (identifier)
+                (pragma_argument_association
+                  (expression
+                    (term
+                      (identifier)))))))))
+      (pragma_g
+        (identifier)))))
+
+================================================================================
+pragma in statement
+================================================================================
+
+procedure P is
+begin
+   null;
+   pragma Foo;
+   null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (null_statement)
+        (pragma_g
+          (identifier))
+        (null_statement)))))
+
+================================================================================
+pragma in tasks
+================================================================================
+
+package P is
+   task type T is
+       pragma Storage_Size (1024);
+   end T;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (task_type_declaration
+          (identifier)
+          (task_definition
+            (pragma_g
+              (identifier)
+              (pragma_argument_association
+                (expression
+                  (term
+                    (numeric_literal)))))
+            (identifier)))))))

@@ -1,0 +1,83 @@
+================================================================================
+access types
+================================================================================
+
+package P is
+   type A is access Integer;
+   type B is access not null Integer;
+   type C is access constant Integer;
+   type D is access all Integer;
+   type E is access function return Boolean;
+   type F is access protected function return Boolean;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (identifier)
+        (access_to_object_definition
+          (identifier)))
+      (full_type_declaration
+        (identifier)
+        (access_to_object_definition
+          (null_exclusion)
+          (identifier)))
+      (full_type_declaration
+        (identifier)
+        (access_to_object_definition
+          (general_access_modifier)
+          (identifier)))
+      (full_type_declaration
+        (identifier)
+        (access_to_object_definition
+          (general_access_modifier)
+          (identifier)))
+      (full_type_declaration
+        (identifier)
+        (access_to_subprogram_definition
+          (result_profile
+            (identifier))))
+      (full_type_declaration
+        (identifier)
+        (access_to_subprogram_definition
+          (result_profile
+            (identifier)))))))
+
+================================================================================
+Dereference
+================================================================================
+
+procedure P is
+begin
+   A := Acc.all;
+   Proc.all (1);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (selected_component
+                (identifier)
+                (identifier)))))
+        (procedure_call_statement
+          (selected_component
+            (identifier)
+            (identifier))
+          (actual_parameter_part
+            (parameter_association
+              (expression
+                (term
+                  (numeric_literal))))))))))

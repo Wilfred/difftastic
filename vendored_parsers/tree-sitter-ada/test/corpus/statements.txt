@@ -1,0 +1,643 @@
+================================================================================
+Untyped Constant
+================================================================================
+
+A : constant := 111;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (number_declaration
+      (identifier)
+      (expression
+        (term
+          (numeric_literal))))))
+
+================================================================================
+Factors
+================================================================================
+
+A : constant Integer := 2 + 8 * 3;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (object_declaration
+      (identifier)
+      (identifier)
+      (expression
+        (term
+          (numeric_literal))
+        (binary_adding_operator)
+        (term
+          (numeric_literal)
+          (multiplying_operator)
+          (numeric_literal))))))
+
+================================================================================
+While
+================================================================================
+
+procedure P is
+begin
+   while True loop
+      exit;
+      exit when A > 0;
+   end loop;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (loop_statement
+          (iteration_scheme
+            (expression
+              (term
+                (identifier))))
+          (exit_statement)
+          (exit_statement
+            (expression
+              (term
+                (identifier))
+              (relational_operator)
+              (term
+                (numeric_literal)))))))))
+
+================================================================================
+For loops
+================================================================================
+
+procedure P is
+begin
+   for E in Pkg.Arr'Range loop
+      goto end_loop;
+
+      <<end_loop>>
+   end loop;
+
+   for E of reverse Arr loop
+      delay 1.0;
+   end loop;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (loop_statement
+          (iteration_scheme
+            (loop_parameter_specification
+              (identifier)
+              (range_g
+                (selected_component
+                  (identifier)
+                  (identifier))
+                (tick)
+                (range_attribute_designator))))
+          (goto_statement
+            (identifier))
+          (label
+            (identifier)))
+        (loop_statement
+          (iteration_scheme
+            (iterator_specification
+              (identifier)
+              (identifier)))
+          (delay_relative_statement
+            (expression
+              (term
+                (numeric_literal))))))
+      (identifier))))
+
+================================================================================
+Named loop
+================================================================================
+
+procedure P is
+begin
+    Main:
+    loop
+       exit Main;
+    end loop Main;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (loop_statement
+          (loop_label
+            (identifier))
+          (exit_statement
+            (identifier))
+          (identifier))))))
+
+================================================================================
+Return
+================================================================================
+
+function F return Boolean is
+begin
+   return True;
+   return A : My_Rec := (F => 1) do
+      null;
+   end return;
+end F;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (function_specification
+        (identifier)
+        (result_profile
+          (identifier)))
+      (handled_sequence_of_statements
+        (simple_return_statement
+          (expression
+            (term
+              (identifier))))
+        (extended_return_statement
+          (extended_return_object_declaration
+            (identifier)
+            (identifier)
+            (expression
+              (term
+                (record_aggregate
+                  (record_component_association_list
+                    (component_choice_list
+                      (identifier))
+                    (expression
+                      (term
+                        (numeric_literal))))))))
+          (handled_sequence_of_statements
+            (null_statement))))
+      (identifier))))
+
+================================================================================
+Procedure call
+================================================================================
+
+procedure P (A : Integer) is
+begin
+   P2 (1, False);
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier))))
+      (handled_sequence_of_statements
+        (procedure_call_statement
+          (identifier)
+          (actual_parameter_part
+            (parameter_association
+              (expression
+                (term
+                  (numeric_literal))))
+            (parameter_association
+              (expression
+                (term
+                  (identifier)))))))
+      (identifier))))
+
+================================================================================
+Raise exception
+================================================================================
+
+procedure P is
+begin
+   raise Constraint_Error;
+   raise Constraint_Error with "msg";
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (raise_statement
+          (identifier))
+        (raise_statement
+          (identifier)
+          (expression
+            (term
+              (string_literal))))))))
+
+================================================================================
+Function calls
+================================================================================
+
+procedure P is
+  A : Integer;
+begin
+  A := Func (B => 1);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (object_declaration
+          (identifier)
+          (identifier)))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (function_call
+                (identifier)
+                (actual_parameter_part
+                  (parameter_association
+                    (component_choice_list
+                      (identifier))
+                    (expression
+                      (term
+                        (numeric_literal)))))))))))))
+
+================================================================================
+if statement
+================================================================================
+
+procedure P is
+begin
+   if A = 0 or else B = 1 then
+      declare
+      begin
+         null;
+      end;
+   elsif A = 1 then
+      declare
+         C : Integer;
+      begin
+         null;
+      exception
+         when Constraint_Error => null;
+      end;
+   else
+      begin
+         null;
+      end;
+   end if;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (if_statement
+          (expression
+            (term
+              (identifier))
+            (relational_operator)
+            (term
+              (numeric_literal))
+            (term
+              (identifier))
+            (relational_operator)
+            (term
+              (numeric_literal)))
+          (block_statement
+            (handled_sequence_of_statements
+              (null_statement)))
+          (elsif_statement_item
+            (expression
+              (term
+                (identifier))
+              (relational_operator)
+              (term
+                (numeric_literal)))
+            (block_statement
+              (non_empty_declarative_part
+                (object_declaration
+                  (identifier)
+                  (identifier)))
+              (handled_sequence_of_statements
+                (null_statement)
+                (exception_handler
+                  (exception_choice_list
+                    (exception_choice
+                      (identifier)))
+                  (null_statement)))))
+          (block_statement
+            (handled_sequence_of_statements
+              (null_statement)))))
+      (identifier))))
+
+================================================================================
+Case statement
+================================================================================
+
+procedure P is
+begin
+   case Func(A => 1) is
+      when '1' .. '2' =>
+         null;
+      when '3' | '4' =>
+         null;
+   end case;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (case_statement
+          (expression
+            (term
+              (function_call
+                (identifier)
+                (actual_parameter_part
+                  (parameter_association
+                    (component_choice_list
+                      (identifier))
+                    (expression
+                      (term
+                        (numeric_literal))))))))
+          (case_statement_alternative
+            (discrete_choice_list
+              (discrete_choice
+                (range_g
+                  (term
+                    (character_literal))
+                  (term
+                    (character_literal)))))
+            (null_statement))
+          (case_statement_alternative
+            (discrete_choice_list
+              (discrete_choice
+                (character_literal))
+              (discrete_choice
+                (character_literal)))
+            (null_statement)))))))
+
+================================================================================
+Allocators
+================================================================================
+
+procedure P is
+begin
+   A := new T;
+   A := new (pkg.pool) T'((F => 1));
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (allocator
+                (identifier)))))
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (allocator
+                (subpool_specification
+                  (selected_component
+                    (identifier)
+                    (identifier)))
+                (qualified_expression
+                  (identifier)
+                  (tick)
+                  (expression
+                    (term
+                      (record_aggregate
+                        (record_component_association_list
+                          (component_choice_list
+                            (identifier))
+                          (expression
+                            (term
+                              (numeric_literal))))))))))))))))
+
+================================================================================
+Filtered for loops
+================================================================================
+
+procedure P is
+begin
+   for E of Some_Array when E /= 0 loop
+      null;
+   end loop;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (loop_statement
+          (iteration_scheme
+            (iterator_specification
+              (identifier)
+              (identifier)
+              (iterator_filter
+                (expression
+                  (term
+                    (identifier))
+                  (relational_operator)
+                  (term
+                    (numeric_literal))))))
+          (null_statement))))))
+
+================================================================================
+Assignment target name
+================================================================================
+
+procedure P is
+begin
+   Some_Very_Long.And_Complex (Expression) := @ + 1;
+   Another_Very_Long.And_Complex (Expression) := Function_Call (@);
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (function_call
+            (selected_component
+              (identifier)
+              (identifier))
+            (actual_parameter_part
+              (parameter_association
+                (expression
+                  (term
+                    (identifier))))))
+          (expression
+            (term
+              (target_name))
+            (binary_adding_operator)
+            (term
+              (numeric_literal))))
+        (assignment_statement
+          (function_call
+            (selected_component
+              (identifier)
+              (identifier))
+            (actual_parameter_part
+              (parameter_association
+                (expression
+                  (term
+                    (identifier))))))
+          (expression
+            (term
+              (function_call
+                (identifier)
+                (actual_parameter_part
+                  (parameter_association
+                    (expression
+                      (term
+                        (target_name)))))))))))))
+
+================================================================================
+if-expressions
+================================================================================
+
+procedure P is
+begin
+   S := new String'((if N /= "" then N else "12"));
+   S := new String'(if N /= "" then N else "12");
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (allocator
+                (qualified_expression
+                  (identifier)
+                  (tick)
+                  (expression
+                    (term
+                      (if_expression
+                        (expression
+                          (term
+                            (identifier))
+                          (relational_operator)
+                          (term
+                            (string_literal)))
+                        (expression
+                          (term
+                            (identifier)))
+                        (expression
+                          (term
+                            (string_literal)))))))))))
+        (assignment_statement
+          (identifier)
+          (expression
+            (term
+              (allocator
+                (qualified_expression
+                  (identifier)
+                  (tick)
+                  (if_expression
+                    (expression
+                      (term
+                        (identifier))
+                      (relational_operator)
+                      (term
+                        (string_literal)))
+                    (expression
+                      (term
+                        (identifier)))
+                    (expression
+                      (term
+                        (string_literal)))))))))))))
+
+================================================================================
+Re-raise
+================================================================================
+
+procedure P is
+begin
+   null;
+exception
+   when others =>
+      Proc;
+      pragma Assert (True);
+      raise;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (handled_sequence_of_statements
+        (null_statement)
+        (exception_handler
+          (exception_choice_list
+            (exception_choice))
+          (procedure_call_statement
+            (identifier))
+          (pragma_g
+            (identifier)
+            (pragma_argument_association
+              (expression
+                (term
+                  (identifier)))))
+          (raise_statement))))))

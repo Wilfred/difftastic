@@ -1,0 +1,193 @@
+================================================================================
+with clauses
+================================================================================
+
+with Ada.Text_IO, System;   --  multiple names, and fully qualified
+limited with Ada;           --  limited with
+private with Ada;
+limited private with Ada;
+use Ada.Text_IO, System;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (with_clause
+      (selected_component
+        (identifier)
+        (identifier))
+      (identifier)))
+  (comment)
+  (compilation_unit
+    (with_clause
+      (identifier)))
+  (comment)
+  (compilation_unit
+    (with_clause
+      (identifier)))
+  (compilation_unit
+    (with_clause
+      (identifier)))
+  (compilation_unit
+    (use_clause
+      (selected_component
+        (identifier)
+        (identifier))
+      (identifier))))
+
+================================================================================
+Case insensitive
+================================================================================
+
+PACkaGe P1 Is
+enD;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier))))
+
+================================================================================
+multiple compilation units
+================================================================================
+
+package P1 is
+   package Nested is
+   end Nested;
+end P1;
+
+private package Child.P2 is --  comment to be ignored
+private
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (package_declaration
+        (identifier)
+        (identifier))
+      (identifier)))
+  (compilation_unit
+    (package_declaration
+      (selected_component
+        (identifier)
+        (identifier))
+      (comment))))
+
+================================================================================
+body
+================================================================================
+
+package body Child.P2 is
+   package body Nested is
+   begin
+      null;
+   end Nested;
+begin
+   null;
+end Child.P2;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (selected_component
+        (identifier)
+        (identifier))
+      (non_empty_declarative_part
+        (package_body
+          (identifier)
+          (handled_sequence_of_statements
+            (null_statement))
+          (identifier)))
+      (handled_sequence_of_statements
+        (null_statement))
+      (selected_component
+        (identifier)
+        (identifier)))))
+
+================================================================================
+separate
+================================================================================
+
+separate (Child) package body P2 is
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subunit
+      (identifier)
+      (package_body
+        (identifier)))))
+
+================================================================================
+private types
+================================================================================
+
+package P is
+   type A is private;
+   type B is abstract synchronized new C with private;
+   type C is abstract tagged limited private with Size => 8;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (private_type_declaration
+        (identifier))
+      (private_extension_declaration
+        (identifier)
+        (identifier))
+      (private_type_declaration
+        (identifier)
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier)
+              (expression
+                (term
+                  (numeric_literal))))))))))
+
+================================================================================
+incomplete types
+================================================================================
+
+package P is
+private
+    type I;
+    type R (A : Integer);
+    type R2 (<>);
+    type T is tagged;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (incomplete_type_declaration
+        (identifier))
+      (incomplete_type_declaration
+        (identifier)
+        (known_discriminant_part
+          (discriminant_specification_list
+            (discriminant_specification
+              (identifier)
+              (identifier)))))
+      (incomplete_type_declaration
+        (identifier)
+        (unknown_discriminant_part))
+      (incomplete_type_declaration
+        (identifier)))))

@@ -1,0 +1,603 @@
+================================================================================
+null procedure
+================================================================================
+
+package P is
+   procedure A is null;
+   overriding procedure B is null;
+   procedure B is null with Inline;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (null_procedure_declaration
+        (procedure_specification
+          (identifier)))
+      (null_procedure_declaration
+        (overriding_indicator)
+        (procedure_specification
+          (identifier)))
+      (null_procedure_declaration
+        (procedure_specification
+          (identifier))
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier))))))))
+
+================================================================================
+procedures
+================================================================================
+
+package P is
+   procedure A (P1, P2 : Integer; P3 : Float)
+      with Inline;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (subprogram_declaration
+        (procedure_specification
+          (identifier)
+          (formal_part
+            (parameter_specification
+              (identifier)
+              (identifier)
+              (identifier))
+            (parameter_specification
+              (identifier)
+              (identifier))))
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier))))))))
+
+================================================================================
+abstract procedures
+================================================================================
+
+package P is
+   procedure B is abstract;
+   overriding procedure C is abstract with Inline;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (subprogram_declaration
+        (procedure_specification
+          (identifier)))
+      (subprogram_declaration
+        (overriding_indicator)
+        (procedure_specification
+          (identifier))
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier))))))))
+
+================================================================================
+functions
+================================================================================
+
+package P is
+    function F (A, B : Integer) return not null access Integer
+       with Inline, Convention => C;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (subprogram_declaration
+        (function_specification
+          (identifier)
+          (formal_part
+            (parameter_specification
+              (identifier)
+              (identifier)
+              (identifier)))
+          (result_profile
+            (access_definition
+              (null_exclusion)
+              (identifier))))
+        (aspect_specification
+          (aspect_mark_list
+            (aspect_association
+              (identifier))
+            (aspect_association
+              (identifier)
+              (expression
+                (term
+                  (identifier))))))))))
+
+================================================================================
+subprogram body
+================================================================================
+
+package body P is
+    procedure A (B : Integer) is
+       V : Integer;
+    begin
+       null;
+    end A;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (subprogram_body
+          (procedure_specification
+            (identifier)
+            (formal_part
+              (parameter_specification
+                (identifier)
+                (identifier))))
+          (non_empty_declarative_part
+            (object_declaration
+              (identifier)
+              (identifier)))
+          (handled_sequence_of_statements
+            (null_statement))
+          (identifier))))))
+
+================================================================================
+Expression function membership
+================================================================================
+
+function F2 (A : Integer) return Boolean
+   is (A not in Small_Integer);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (expression
+        (relation_membership
+          (term
+            (identifier))
+          (membership_choice_list
+            (term
+              (identifier))))))))
+
+================================================================================
+Expression function declare
+================================================================================
+
+function F2 (A : Integer) return Boolean
+   is (declare B : constant Integer := A + 1; begin B);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (declare_expression
+        (object_declaration
+          (identifier)
+          (identifier)
+          (expression
+            (term
+              (identifier))
+            (binary_adding_operator)
+            (term
+              (numeric_literal))))
+        (expression
+          (term
+            (identifier)))))))
+
+================================================================================
+Expression function raise
+================================================================================
+
+function F3 return Boolean
+   is (raise Constraint_Error);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (result_profile
+          (identifier)))
+      (expression
+        (raise_expression
+          (identifier))))))
+
+================================================================================
+Expression function simple
+================================================================================
+
+function F4 return Boolean is (True);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (result_profile
+          (identifier)))
+      (expression
+        (term
+          (identifier))))))
+
+================================================================================
+Expression function if
+================================================================================
+
+function F (A : Integer) return Boolean
+   is (if A = 0 or A = 1 then True else False);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (if_expression
+        (expression
+          (term
+            (identifier))
+          (relational_operator)
+          (term
+            (numeric_literal))
+          (term
+            (identifier))
+          (relational_operator)
+          (term
+            (numeric_literal)))
+        (expression
+          (term
+            (identifier)))
+        (expression
+          (term
+            (identifier)))))))
+
+================================================================================
+Expression function if extra parenthesis
+================================================================================
+
+function F5 (A : Integer) return Boolean
+   is ((if A = 0 then True else False));
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (expression
+        (term
+          (if_expression
+            (expression
+              (term
+                (identifier))
+              (relational_operator)
+              (term
+                (numeric_literal)))
+            (expression
+              (term
+                (identifier)))
+            (expression
+              (term
+                (identifier)))))))))
+
+================================================================================
+Expression function case
+================================================================================
+
+function F (A : Integer) return Boolean
+ is (case A + 1 is
+        when 0 .. 1 | 3 .. 4  => True,
+        when others => False);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (case_expression
+        (expression
+          (term
+            (identifier))
+          (binary_adding_operator)
+          (term
+            (numeric_literal)))
+        (case_expression_alternative
+          (discrete_choice_list
+            (discrete_choice
+              (range_g
+                (term
+                  (numeric_literal))
+                (term
+                  (numeric_literal))))
+            (discrete_choice
+              (range_g
+                (term
+                  (numeric_literal))
+                (term
+                  (numeric_literal)))))
+          (expression
+            (term
+              (identifier))))
+        (case_expression_alternative
+          (discrete_choice_list
+            (discrete_choice))
+          (expression
+            (term
+              (identifier))))))))
+
+================================================================================
+Expression function array
+================================================================================
+
+function F return My_Array is (1 .. 2 => True);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (result_profile
+          (identifier)))
+      (named_array_aggregate
+        (array_component_association
+          (discrete_choice_list
+            (discrete_choice
+              (range_g
+                (term
+                  (numeric_literal))
+                (term
+                  (numeric_literal)))))
+          (expression
+            (term
+              (identifier))))))))
+
+================================================================================
+Expression function quantified
+================================================================================
+
+function F (A : My_Array) return Boolean
+   is (for some E of A => E = 1);
+
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (expression_function_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (quantified_expression
+        (quantifier)
+        (iterator_specification
+          (identifier)
+          (identifier))
+        (expression
+          (term
+            (identifier))
+          (relational_operator)
+          (term
+            (numeric_literal)))))))
+
+================================================================================
+Operators
+================================================================================
+
+overriding function "<" (Left, Right : My_Int) return Boolean is
+begin
+   return False;
+end "<";
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (overriding_indicator)
+      (function_specification
+        (string_literal)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (handled_sequence_of_statements
+        (simple_return_statement
+          (expression
+            (term
+              (identifier)))))
+      (string_literal))))
+
+================================================================================
+Access Parameters
+================================================================================
+
+procedure Proc (A : access Integer);
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_declaration
+      (procedure_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (access_definition
+              (identifier))))))))
+
+================================================================================
+Subprogram and field access
+================================================================================
+
+  V := Func (2).Value;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (assignment_statement
+      (identifier)
+      (expression
+        (term
+          (selected_component
+            (function_call
+              (identifier)
+              (actual_parameter_part
+                (parameter_association
+                  (expression
+                    (term
+                      (numeric_literal))))))
+            (identifier)))))))
+
+================================================================================
+Parameterless Procedure call
+================================================================================
+
+Proc;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (procedure_call_statement
+      (identifier))))
+
+================================================================================
+Parameterless Function call
+================================================================================
+
+A := Func;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (assignment_statement
+      (identifier)
+      (expression
+        (term
+          (identifier))))))
+
+================================================================================
+Parameter association for operators
+================================================================================
+
+package P is new Pack ("+" => "+", "-" => Imported."+");
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (generic_instantiation
+      (identifier)
+      (function_call
+        (identifier)
+        (actual_parameter_part
+          (parameter_association
+            (component_choice_list
+              (string_literal))
+            (expression
+              (term
+                (string_literal))))
+          (parameter_association
+            (component_choice_list
+              (string_literal))
+            (expression
+              (term
+                (selected_component
+                  (identifier)
+                  (string_literal))))))))))
+
+================================================================================
+Function renaming
+================================================================================
+
+function F (S : String) return Boolean renames F2;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_renaming_declaration
+      (function_specification
+        (identifier)
+        (formal_part
+          (parameter_specification
+            (identifier)
+            (identifier)))
+        (result_profile
+          (identifier)))
+      (identifier))))

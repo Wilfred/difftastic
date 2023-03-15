@@ -1,0 +1,294 @@
+================================================================================
+tasks
+================================================================================
+
+package body P is
+   task T is
+      entry E (A : Integer);
+   private
+      entry E2;
+   end T;
+
+   task body T is
+      A : Integer;
+   begin
+      accept E (A : Integer) do
+         null;
+      end E;
+
+      select
+         Call (1);
+      or
+         delay 1.0;
+      end select;
+
+      select
+         Call (1);
+      else
+         null;
+      end select;
+   end T;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (object_declaration
+          (single_task_declaration
+            (identifier)
+            (task_definition
+              (entry_declaration
+                (identifier)
+                (formal_part
+                  (parameter_specification
+                    (identifier)
+                    (identifier))))
+              (entry_declaration
+                (identifier))
+              (identifier))))
+        (task_body
+          (identifier)
+          (non_empty_declarative_part
+            (object_declaration
+              (identifier)
+              (identifier)))
+          (handled_sequence_of_statements
+            (accept_statement
+              (identifier)
+              (formal_part
+                (parameter_specification
+                  (identifier)
+                  (identifier)))
+              (handled_sequence_of_statements
+                (null_statement))
+              (identifier))
+            (timed_entry_call
+              (entry_call_alternative
+                (procedure_call_statement
+                  (identifier)
+                  (actual_parameter_part
+                    (parameter_association
+                      (expression
+                        (term
+                          (numeric_literal)))))))
+              (delay_alternative
+                (delay_relative_statement
+                  (expression
+                    (term
+                      (numeric_literal))))))
+            (conditional_entry_call
+              (entry_call_alternative
+                (procedure_call_statement
+                  (identifier)
+                  (actual_parameter_part
+                    (parameter_association
+                      (expression
+                        (term
+                          (numeric_literal)))))))
+              (null_statement)))
+          (identifier)))
+      (identifier))))
+
+================================================================================
+Task types
+================================================================================
+
+package body P is
+   task type T1;
+   task type T is
+      entry E (A : Integer);
+   end T;
+   task type T2 is new T with
+      entry E2;
+   end T2;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (full_type_declaration
+          (task_type_declaration
+            (identifier)))
+        (full_type_declaration
+          (task_type_declaration
+            (identifier)
+            (task_definition
+              (entry_declaration
+                (identifier)
+                (formal_part
+                  (parameter_specification
+                    (identifier)
+                    (identifier))))
+              (identifier))))
+        (full_type_declaration
+          (task_type_declaration
+            (identifier)
+            (identifier)
+            (task_definition
+              (entry_declaration
+                (identifier))
+              (identifier))))))))
+
+================================================================================
+asynchronous select
+================================================================================
+
+package body P is
+   task body T is
+   begin
+      select
+         Proc (1);
+         null;
+      then abort
+         Proc2;
+      end select;
+   end;
+end;
+      null;
+   end;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (task_body
+          (identifier)
+          (handled_sequence_of_statements
+            (asynchronous_select
+              (triggering_alternative
+                (procedure_call_statement
+                  (identifier)
+                  (actual_parameter_part
+                    (parameter_association
+                      (expression
+                        (term
+                          (numeric_literal))))))
+                (null_statement))
+              (procedure_call_statement
+                (identifier))))))))
+  (compilation_unit
+    (null_statement))
+  (compilation_unit
+    (procedure_call_statement
+      (identifier)))
+  (compilation_unit
+    (procedure_call_statement
+      (identifier))))
+
+================================================================================
+Accept
+================================================================================
+
+accept Start (A : Integer; B : Integer) do
+   null;
+end Start;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (accept_statement
+      (identifier)
+      (formal_part
+        (parameter_specification
+          (identifier)
+          (identifier))
+        (parameter_specification
+          (identifier)
+          (identifier)))
+      (handled_sequence_of_statements
+        (null_statement))
+      (identifier))))
+
+================================================================================
+Select terminate
+================================================================================
+
+select
+   accept Start;
+or
+   terminate;
+end select;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (selective_accept
+      (select_alternative
+        (accept_alternative
+          (accept_statement
+            (identifier))))
+      (select_alternative
+        (terminate_alternative)))))
+
+================================================================================
+Task type with discriminant
+================================================================================
+
+package P is
+   task type T (A : Integer) is
+   end T;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (task_type_declaration
+          (identifier)
+          (known_discriminant_part
+            (discriminant_specification_list
+              (discriminant_specification
+                (identifier)
+                (identifier))))
+          (task_definition
+            (identifier)))))))
+
+================================================================================
+Task type with aspect
+================================================================================
+
+package P is
+   task type T (A : Integer) with Priority => 1 is
+   end T;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_declaration
+      (identifier)
+      (full_type_declaration
+        (task_type_declaration
+          (identifier)
+          (known_discriminant_part
+            (discriminant_specification_list
+              (discriminant_specification
+                (identifier)
+                (identifier))))
+          (aspect_specification
+            (aspect_mark_list
+              (aspect_association
+                (identifier)
+                (expression
+                  (term
+                    (numeric_literal))))))
+          (task_definition
+            (identifier)))))))

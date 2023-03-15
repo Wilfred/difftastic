@@ -63,6 +63,7 @@ pub struct TreeSitterConfig {
 }
 
 extern "C" {
+    fn tree_sitter_ada() -> ts::Language;
     fn tree_sitter_bash() -> ts::Language;
     fn tree_sitter_c() -> ts::Language;
     fn tree_sitter_c_sharp() -> ts::Language;
@@ -128,6 +129,22 @@ const OCAML_ATOM_NODES: [&str; 6] = [
 pub fn from_language(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
+        Ada => {
+            let language = unsafe { tree_sitter_ada() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string_literal", "character_literal"]
+                    .into_iter()
+                    .collect(),
+                delimiter_tokens: vec![("(", ")"), ("[", "]")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/ada.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
         Bash => {
             let language = unsafe { tree_sitter_bash() };
             TreeSitterConfig {

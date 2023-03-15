@@ -1,0 +1,95 @@
+================================================================================
+Separate subprograms
+================================================================================
+
+package body P is
+   overriding procedure Proc is separate with Inline;
+   overriding function Func return Boolean is separate with Inline;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (body_stub
+          (subprogram_body_stub
+            (overriding_indicator)
+            (procedure_specification
+              (identifier))
+            (aspect_specification
+              (aspect_mark_list
+                (aspect_association
+                  (identifier))))))
+        (body_stub
+          (subprogram_body_stub
+            (overriding_indicator)
+            (function_specification
+              (identifier)
+              (result_profile
+                (identifier)))
+            (aspect_specification
+              (aspect_mark_list
+                (aspect_association
+                  (identifier))))))))))
+
+================================================================================
+Separate packages
+================================================================================
+
+package body P is
+   package body Child is separate;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (body_stub
+          (package_body_stub
+            (identifier)))))))
+
+================================================================================
+Separate protected
+================================================================================
+
+package body P is
+   protected body Prot is separate;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (body_stub
+          (protected_body_stub
+            (identifier))))
+      (identifier))))
+
+================================================================================
+Separate task
+================================================================================
+
+package body P is
+   task body T is separate;
+end P;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (package_body
+      (identifier)
+      (non_empty_declarative_part
+        (body_stub
+          (task_body_stub
+            (identifier))))
+      (identifier))))

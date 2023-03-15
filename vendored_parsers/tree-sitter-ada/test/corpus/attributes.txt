@@ -1,0 +1,113 @@
+================================================================================
+Range attribute
+================================================================================
+
+procedure P is
+   A : MyArray (B'Range (1));
+begin
+   for E in Arr'Range loop
+      null;
+   end loop;
+   for E in Arr'Range (1) loop
+      null;
+   end loop;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (object_declaration
+          (identifier)
+          (slice
+            (identifier)
+            (range_g
+              (identifier)
+              (tick)
+              (range_attribute_designator
+                (expression
+                  (term
+                    (numeric_literal))))))))
+      (handled_sequence_of_statements
+        (loop_statement
+          (iteration_scheme
+            (loop_parameter_specification
+              (identifier)
+              (range_g
+                (identifier)
+                (tick)
+                (range_attribute_designator))))
+          (null_statement))
+        (loop_statement
+          (iteration_scheme
+            (loop_parameter_specification
+              (identifier)
+              (range_g
+                (identifier)
+                (tick)
+                (range_attribute_designator
+                  (expression
+                    (term
+                      (numeric_literal)))))))
+          (null_statement))))))
+
+================================================================================
+Reduction
+================================================================================
+
+procedure P is
+   X : Integer := 
+      [parallel for Val of M when Val > 100.0 => (Val, 1)]
+      'Reduce("+", 0);
+begin
+  null;
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (subprogram_body
+      (procedure_specification
+        (identifier))
+      (non_empty_declarative_part
+        (object_declaration
+          (identifier)
+          (identifier)
+          (expression
+            (term
+              (value_sequence
+                (iterated_element_association
+                  (iterator_specification
+                    (identifier)
+                    (identifier)
+                    (iterator_filter
+                      (expression
+                        (term
+                          (identifier))
+                        (relational_operator)
+                        (term
+                          (numeric_literal)))))
+                  (expression
+                    (term
+                      (positional_array_aggregate
+                        (expression
+                          (term
+                            (identifier)))
+                        (expression
+                          (term
+                            (numeric_literal))))))))
+              (tick)
+              (reduction_attribute_designator
+                (identifier)
+                (reduction_specification
+                  (string_literal)
+                  (expression
+                    (term
+                      (numeric_literal)))))))))
+      (handled_sequence_of_statements
+        (null_statement)))))

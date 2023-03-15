@@ -1,0 +1,92 @@
+================================================================================
+generic package
+================================================================================
+
+generic
+   A : Integer := 1;
+   type T (<>) is abstract tagged limited private or use My_Tagged;
+   type I;
+   with package Pro is new My_Pkg (F => 1, others => <>);
+   with procedure Proc is null;
+   with function Func return Boolean is <>;
+package P is
+   pragma Compile_Time_Error (True, "an exception");
+end;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (generic_package_declaration
+      (generic_formal_part
+        (formal_object_declaration
+          (identifier)
+          (identifier)
+          (expression
+            (term
+              (numeric_literal))))
+        (formal_complete_type_declaration
+          (identifier)
+          (unknown_discriminant_part)
+          (formal_private_type_definition)
+          (identifier))
+        (formal_incomplete_type_declaration
+          (identifier))
+        (formal_package_declaration
+          (identifier)
+          (function_call
+            (identifier)
+            (actual_parameter_part
+              (parameter_association
+                (component_choice_list
+                  (identifier))
+                (expression
+                  (term
+                    (numeric_literal))))
+              (parameter_association
+                (component_choice_list)))))
+        (formal_subprogram_declaration
+          (formal_concrete_subprogram_declaration
+            (procedure_specification
+              (identifier))
+            (subprogram_default)))
+        (formal_subprogram_declaration
+          (formal_concrete_subprogram_declaration
+            (function_specification
+              (identifier)
+              (result_profile
+                (identifier)))
+            (subprogram_default))))
+      (package_declaration
+        (identifier)
+        (pragma_g
+          (identifier)
+          (pragma_argument_association
+            (expression
+              (term
+                (identifier))))
+          (pragma_argument_association
+            (expression
+              (term
+                (string_literal)))))))))
+
+================================================================================
+formal derived types
+================================================================================
+
+generic
+    type T is new P with private;
+procedure A;
+
+--------------------------------------------------------------------------------
+
+(compilation
+  (compilation_unit
+    (generic_subprogram_declaration
+      (generic_formal_part
+        (formal_complete_type_declaration
+          (identifier)
+          (formal_derived_type_definition
+            (identifier))))
+      (procedure_specification
+        (identifier)))))
