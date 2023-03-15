@@ -1450,6 +1450,22 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "FIELD",
+          "name": "descriptor",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_descriptor"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -1517,6 +1533,22 @@
     "herestring_redirect": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "FIELD",
+          "name": "descriptor",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_descriptor"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
         {
           "type": "STRING",
           "value": "<<<"

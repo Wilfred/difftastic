@@ -353,3 +353,23 @@ Hello.
   (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body)
   (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body)
   (redirected_statement (command (command_name (word))) (heredoc_redirect (heredoc_start))) (heredoc_body))
+
+==========================================
+Herestrings
+==========================================
+
+node <<< foo
+
+while read -u 3 entry; do
+  echo $entry
+done 3<<<"$ENTRIES"
+
+---
+
+(program
+  (redirected_statement (command (command_name (word))) (herestring_redirect (word)))
+  (redirected_statement
+    (while_statement
+      (command (command_name (word)) (word) (word) (word))
+      (do_group (command (command_name (word)) (simple_expansion (variable_name)))))
+    (herestring_redirect (file_descriptor) (string (simple_expansion (variable_name))))))
