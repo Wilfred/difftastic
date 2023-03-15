@@ -42,7 +42,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "ansii_c_string",
+        "type": "ansi_c_string",
         "named": true
       },
       {
@@ -70,7 +70,7 @@
         "named": true
       },
       {
-        "type": "string_expansion",
+        "type": "translated_string",
         "named": true
       },
       {
@@ -639,10 +639,6 @@
           "named": true
         },
         {
-          "type": "expansion_flags",
-          "named": true
-        },
-        {
           "type": "regex",
           "named": true
         },
@@ -660,11 +656,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "expansion_flags",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "file_redirect",
@@ -796,7 +787,18 @@
   {
     "type": "heredoc_redirect",
     "named": true,
-    "fields": {},
+    "fields": {
+      "descriptor": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "file_descriptor",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -811,7 +813,18 @@
   {
     "type": "herestring_redirect",
     "named": true,
-    "fields": {},
+    "fields": {
+      "descriptor": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "file_descriptor",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -1079,25 +1092,6 @@
     }
   },
   {
-    "type": "string_expansion",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "raw_string",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "subscript",
     "named": true,
     "fields": {
@@ -1192,6 +1186,21 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "translated_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -1537,7 +1546,7 @@
     "named": false
   },
   {
-    "type": "ansii_c_string",
+    "type": "ansi_c_string",
     "named": true
   },
   {

@@ -307,11 +307,11 @@ echo "s$"
 Strings with ANSI-C quoting
 ========================================
 
-echo $'Here\'s johnny!\r\n'
+echo $'Here\'s Johnny!\r\n'
 
 ---
 
-(program (command (command_name (word)) (ansii_c_string)))
+(program (command (command_name (word)) (ansi_c_string)))
 
 =========================================
 Arrays and array expansions

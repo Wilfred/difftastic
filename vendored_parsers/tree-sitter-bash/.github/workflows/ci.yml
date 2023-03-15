@@ -1,4 +1,4 @@
-name: Build & Test
+name: Build/test
 on:
   push:
     branches:
@@ -7,16 +7,31 @@ on:
     branches:
       - master
 jobs:
-  build-and-test:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: true
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-      fail-fast: false
+        os: [macos-latest, ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
         with:
-          node-version: 14
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - run: npm install
-      - run: node_modules/.bin/tree-sitter test
+      - run: npm test
+  test_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run-script test-windows

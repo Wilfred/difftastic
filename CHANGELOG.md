@@ -8,7 +8,7 @@ Added support for Ada.
 
 Improved parsing for TOML.
 
-Updated grammar for Clojure.
+Updated grammar for Bash and Clojure.
 
 ### Display
 

@@ -1450,6 +1450,22 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "FIELD",
+          "name": "descriptor",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_descriptor"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -1517,6 +1533,22 @@
     "herestring_redirect": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "FIELD",
+          "name": "descriptor",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "file_descriptor"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
         {
           "type": "STRING",
           "value": "<<<"
@@ -1845,7 +1877,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "ansii_c_string"
+          "name": "translated_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ansi_c_string"
         },
         {
           "type": "SYMBOL",
@@ -1854,10 +1890,6 @@
         {
           "type": "SYMBOL",
           "name": "simple_expansion"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string_expansion"
         },
         {
           "type": "SYMBOL",
@@ -2063,6 +2095,19 @@
         }
       }
     },
+    "translated_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
     "array": {
       "type": "SEQ",
       "members": [
@@ -2087,7 +2132,7 @@
       "type": "PATTERN",
       "value": "'[^']*'"
     },
-    "ansii_c_string": {
+    "ansi_c_string": {
       "type": "PATTERN",
       "value": "\\$'([^']|\\\\')*'"
     },
@@ -2139,37 +2184,8 @@
           "value": "$"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "string"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "raw_string"
-            }
-          ]
-        }
-      ]
-    },
-    "expansion_flags": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^()]"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
@@ -2179,18 +2195,6 @@
         {
           "type": "STRING",
           "value": "${"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "expansion_flags"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         },
         {
           "type": "CHOICE",
