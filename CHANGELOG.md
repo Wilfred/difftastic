@@ -6,6 +6,8 @@ Added support for Ada.
 
 `.ino` files are now treated as C++.
 
+Improved parsing for TOML.
+
 ### Display
 
 Difftastic no longer uses purple to highlight regions that are missing
