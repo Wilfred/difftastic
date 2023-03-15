@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added support for Ada.
+
 `.ino` files are now treated as C++.
 
 ### Display
