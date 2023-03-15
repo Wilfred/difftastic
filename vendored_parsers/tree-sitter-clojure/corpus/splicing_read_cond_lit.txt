@@ -1,0 +1,27 @@
+================================================================================
+Splicing Reader Conditional
+================================================================================
+
+(list '*
+      #?@(:clj [x y] :cljr [i j] :cljs [a b]))
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit (sym_name))
+    (quoting_lit
+      (sym_lit (sym_name)))
+    (splicing_read_cond_lit
+      (kwd_lit (kwd_name))
+      (vec_lit
+        (sym_lit (sym_name))
+        (sym_lit (sym_name)))
+      (kwd_lit (kwd_name))
+      (vec_lit
+        (sym_lit (sym_name))
+        (sym_lit (sym_name)))
+      (kwd_lit (kwd_name))
+      (vec_lit
+        (sym_lit (sym_name))
+        (sym_lit (sym_name))))))

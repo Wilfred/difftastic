@@ -1,0 +1,18 @@
+================================================================================
+Platform Reader Conditional
+================================================================================
+
+#?(:clj :clj
+   :cljr :cljr
+   :cljs :cljs)
+
+--------------------------------------------------------------------------------
+
+(source
+  (read_cond_lit
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))
+    (kwd_lit (kwd_name))))

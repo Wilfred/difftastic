@@ -8,6 +8,8 @@ Added support for Ada.
 
 Improved parsing for TOML.
 
+Updated grammar for Clojure.
+
 ### Display
 
 Difftastic no longer uses purple to highlight regions that are missing

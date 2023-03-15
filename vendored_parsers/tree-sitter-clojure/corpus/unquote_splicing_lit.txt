@@ -1,0 +1,75 @@
+================================================================================
+Unquote Splicing into List
+================================================================================
+
+`(+ ~@(list 2 3))
+
+--------------------------------------------------------------------------------
+
+(source
+  (syn_quoting_lit
+    (list_lit
+      (sym_lit (sym_name))
+      (unquote_splicing_lit
+        (list_lit
+          (sym_lit (sym_name))
+          (num_lit)
+          (num_lit))))))
+
+================================================================================
+Unquote Splicing into Vector
+================================================================================
+
+`[:a ~@(list :b :c)]
+
+--------------------------------------------------------------------------------
+
+(source
+  (syn_quoting_lit
+    (vec_lit
+      (kwd_lit (kwd_name))
+      (unquote_splicing_lit
+        (list_lit
+          (sym_lit (sym_name))
+          (kwd_lit (kwd_name))
+          (kwd_lit (kwd_name)))))))
+
+================================================================================
+Unquote Splicing into Set
+================================================================================
+
+`#{:i ~@(list :j :k)}
+
+--------------------------------------------------------------------------------
+
+(source
+  (syn_quoting_lit
+    (set_lit
+      (kwd_lit (kwd_name))
+      (unquote_splicing_lit
+        (list_lit
+          (sym_lit (sym_name))
+          (kwd_lit (kwd_name))
+          (kwd_lit (kwd_name)))))))
+
+================================================================================
+Unquote Splicing into Map
+================================================================================
+
+`{~@(list :a 1) ~@(list :b 2)}
+
+--------------------------------------------------------------------------------
+
+(source
+  (syn_quoting_lit
+    (map_lit
+      (unquote_splicing_lit
+        (list_lit
+          (sym_lit (sym_name))
+          (kwd_lit (kwd_name))
+          (num_lit)))
+      (unquote_splicing_lit
+        (list_lit
+          (sym_lit (sym_name))
+          (kwd_lit (kwd_name))
+          (num_lit))))))
