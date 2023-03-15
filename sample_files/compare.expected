@@ -1,3 +1,6 @@
+sample_files/Session_before.kt sample_files/Session_after.kt
+9def134da4bbc423a1fde93001618776  -
+
 sample_files/ada_before.adb sample_files/ada_after.adb
 a3b2b5033fde04bf9d2d71cb56d9eade  -
 
@@ -61,11 +64,11 @@ sample_files/haskell_before.hs sample_files/haskell_after.hs
 sample_files/hcl_before.hcl sample_files/hcl_after.hcl
 24c6205befd0fd1b44f21dd039cafb48  -
 
-sample_files/helpful_before.el sample_files/helpful_after.el
-65ad6cb40353750f05d183f9276930b6  -
-
 sample_files/helpful-unit-test-before.el sample_files/helpful-unit-test-after.el
 ce09e8127c21b8c186cd8a2143035b28  -
+
+sample_files/helpful_before.el sample_files/helpful_after.el
+65ad6cb40353750f05d183f9276930b6  -
 
 sample_files/html_before.html sample_files/html_after.html
 a84fc473494c982bb1c0fb8ad9f1e84f  -
@@ -160,20 +163,17 @@ sample_files/preprocesor_before.h sample_files/preprocesor_after.h
 sample_files/qml_before.qml sample_files/qml_after.qml
 622951bb34dbae3e35acd72d712bf127  -
 
-sample_files/racket_before.rkt sample_files/racket_after.rkt
-37b30401886359735b9bc43518361945  -
-
 sample_files/r_before.R sample_files/r_after.R
 7a9bc4e3ba87b6f2139a6cdadcc7ee5f  -
+
+sample_files/racket_before.rkt sample_files/racket_after.rkt
+37b30401886359735b9bc43518361945  -
 
 sample_files/ruby_before.rb sample_files/ruby_after.rb
 db81701f87486b18f99d326d028d9929  -
 
 sample_files/scala_before.scala sample_files/scala_after.scala
 4cb631c1114a51399381aff144300019  -
-
-sample_files/Session_before.kt sample_files/Session_after.kt
-9def134da4bbc423a1fde93001618776  -
 
 sample_files/simple_before.js sample_files/simple_after.js
 43feeac1f3afe2c0c0b862009770f27a  -

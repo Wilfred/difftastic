@@ -20,7 +20,8 @@ cargo build --release
 # Set language so we expand globs in a consistent order regardless of
 # locale (e.g. on GitHub actions).
 LANG=en_US.UTF-8
-unset LC_ALL LC_COLLATE
+LC_ALL=C
+LC_COLLATE=C
 
 echo "==> Check outputs"
 for before_f in sample_files/*before.*; do
