@@ -10,6 +10,10 @@ Improved parsing for TOML.
 
 Updated grammars for Bash, C, C++, C# and Clojure.
 
+Difftastic now prefers treating files as 'mostly UTF-8' or binary rather than
+UTF-16. Many files can be decoded as UTF-16 without decoding errors
+but produce nonsense results, so this heuristic seems to work better.
+
 ### Display
 
 Difftastic no longer uses purple to highlight regions that are missing

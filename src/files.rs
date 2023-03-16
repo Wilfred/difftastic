@@ -147,21 +147,6 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     let mime = tree_magic_mini::from_u8(magic_bytes);
     info!("MIME type detected: {}", mime);
 
-    // This is a dirty hack to handle cases where files are obviously
-    // binary but can be still converted to UTF16 string.
-    // See test_gzip_is_binary
-    match mime {
-        "application/gzip" => return ProbableFileKind::Binary,
-        _ => {}
-    }
-
-    // If the bytes are is entirely valid UTF-16, treat them as a
-    // string.
-    let u16_values = u16_from_bytes(bytes);
-    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
-        return ProbableFileKind::Text(valid_utf16_string);
-    }
-
     // Use MIME type detection to guess whether a file is binary. This
     // has false positives and false negatives, so only check the MIME
     // type after allowing perfect text files (see issue #433).
@@ -169,8 +154,9 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         // Treat pdf as binary.
         "application/pdf" => return ProbableFileKind::Binary,
         // application/* is a mix of stuff, application/json is fine
-        // but application/zip is binary that often looks text-ish to
-        // our heuristics.
+        // but application/zip is binary that often decodes as valid
+        // UTF-16.
+        "application/gzip" => return ProbableFileKind::Binary,
         "application/zip" => return ProbableFileKind::Binary,
         // Treat all image content as binary.
         v if v.starts_with("image/") => return ProbableFileKind::Binary,
@@ -193,6 +179,18 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     if num_utf8_invalid <= 10 {
         info!("Input file is mostly valid UTF-8");
         return ProbableFileKind::Text(utf8_string);
+    }
+
+    // If the bytes are is entirely valid UTF-16, treat them as a
+    // string.
+    //
+    // Note that many binary files and mostly-valid UTF-8 files happen
+    // to be valid UTF-16. Decoding these as UTF-16 leads to garbage
+    // ("mojibake"), so only try UTF-16 after we've done MIME type
+    // checks and UTF-8-ish checks.
+    let u16_values = u16_from_bytes(bytes);
+    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
+        return ProbableFileKind::Text(valid_utf16_string);
     }
 
     // If the input bytes are *almost* valid UTF-16, treat them as

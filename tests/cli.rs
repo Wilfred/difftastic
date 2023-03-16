@@ -32,7 +32,6 @@ fn binary_changed() {
     cmd.assert().stdout(predicate_fn);
 }
 
-
 #[test]
 fn has_changes_default_exit_code() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
@@ -119,5 +118,16 @@ fn test_mime_type_false_positive() {
         .arg("sample_files/cli_tests/empty.js");
 
     let predicate_fn = predicate::str::contains("JavaScript");
+    cmd.assert().stdout(predicate_fn);
+}
+
+#[test]
+fn sligtly_invalid_utf8() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/cli_tests/MainWindowViewModel.cs")
+        .arg("/dev/null");
+
+    let predicate_fn = predicate::str::contains("using");
     cmd.assert().stdout(predicate_fn);
 }
