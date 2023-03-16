@@ -1,4 +1,5 @@
 use assert_cmd::prelude::*;
+use predicates::prelude::*;
 use std::process::Command;
 
 #[test]
@@ -30,8 +31,6 @@ fn has_changes_requested_exit_code() {
 
 #[test]
 fn check_only() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("--check-only")
@@ -44,8 +43,6 @@ fn check_only() {
 
 #[test]
 fn check_only_text_file() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("--check-only")
@@ -58,8 +55,6 @@ fn check_only_text_file() {
 
 #[test]
 fn makefile_text_as_atom() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("sample_files/cli_tests/makefile_before.mk")
@@ -71,8 +66,6 @@ fn makefile_text_as_atom() {
 
 #[test]
 fn yaml_parse_errors() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("sample_files/cli_tests/bad_yaml_before.yml")
@@ -84,8 +77,6 @@ fn yaml_parse_errors() {
 
 #[test]
 fn list_languages() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("--list-languages");
@@ -99,8 +90,6 @@ fn list_languages() {
 
 #[test]
 fn test_mime_type_false_positive() {
-    use predicates::prelude::*;
-
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("sample_files/cli_tests/x_mod_false_positive.js")
