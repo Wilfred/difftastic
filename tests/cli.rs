@@ -96,3 +96,16 @@ fn list_languages() {
     let predicate_fn = predicate::str::contains("*.toml");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn test_mime_type_false_positive() {
+    use predicates::prelude::*;
+
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/cli_tests/x_mod_false_positive.js")
+        .arg("sample_files/cli_tests/empty.js");
+
+    let predicate_fn = predicate::str::contains("JavaScript");
+    cmd.assert().stdout(predicate_fn);
+}
