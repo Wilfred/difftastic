@@ -7,6 +7,7 @@
 (enum_declaration name: (identifier) @type)
 (struct_declaration (identifier) @type)
 (record_declaration (identifier) @type)
+(record_struct_declaration (identifier) @type)
 (namespace_declaration name: (identifier) @type)
 
 (constructor_declaration name: (identifier) @type)
@@ -44,7 +45,6 @@
 [
   (boolean_literal)
   (null_literal)
-  (void_keyword)
 ] @constant.builtin
 
 ;; Comments

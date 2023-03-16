@@ -1,10 +1,10 @@
-=======================================
+================================================================================
 From keyword can be a variable
-=======================================
+================================================================================
 
 var a = Assert.Range(from, to);
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (global_statement
@@ -15,5 +15,598 @@ var a = Assert.Range(from, to);
           (identifier)
           (equals_value_clause
             (invocation_expression
-              (member_access_expression (identifier) (identifier))
-              (argument_list (argument (identifier)) (argument (identifier)))))))))) 
+              (member_access_expression
+                (identifier)
+                (identifier))
+              (argument_list
+                (argument
+                  (identifier))
+                (argument
+                  (identifier))))))))))
+
+================================================================================
+File keyword in invocation
+================================================================================
+
+file.Method(1, 2);
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (expression_statement
+      (invocation_expression
+        (member_access_expression
+          (identifier)
+          (identifier))
+        (argument_list
+          (argument
+            (integer_literal))
+          (argument
+            (integer_literal)))))))
+
+================================================================================
+File contextual keyword
+================================================================================
+
+void file() { }
+void m(file p) { }
+void m(int file) { }
+void m()
+{
+    file v = null;
+    int file = file;
+
+    file();
+    m(file);
+
+    var x = file + 1;
+}
+
+file class file { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))
+
+================================================================================
+Scoped contextual keyword
+================================================================================
+
+void scoped() { }
+void m(scoped p) { }
+void m(scoped ref int p) { }
+void m(scoped ref scoped p) { }
+void m(int scoped) { }
+void m()
+{
+    scoped v = null;
+    scoped ref int v = null;
+    scoped ref scoped v = null;
+    int scoped = null;
+
+    scoped();
+    m(scoped);
+
+    var x = scoped + 1;
+    var l = scoped => null;
+    var l = (scoped i) => null;
+    var l = (scoped, i) => null;
+    var l = scoped (int i, int j) => null;
+}
+
+class scoped { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (parameter_modifier)
+          (parameter_modifier)
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (parameter_modifier)
+          (parameter_modifier)
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (scoped_type
+              (ref_type
+                (predefined_type)))
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (scoped_type
+              (ref_type
+                (identifier)))
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (identifier)
+                  (null_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (identifier)
+                      (identifier)))
+                  (null_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (parameter_list
+                    (parameter
+                      (identifier))
+                    (parameter
+                      (identifier)))
+                  (null_literal))))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (lambda_expression
+                  (identifier)
+                  (parameter_list
+                    (parameter
+                      (predefined_type)
+                      (identifier))
+                    (parameter
+                      (predefined_type)
+                      (identifier)))
+                  (null_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))
+
+================================================================================
+Set contextual keyword
+================================================================================
+
+void set() { }
+void m(set p) { }
+void m(int set) { }
+void m()
+{
+    set v = null;
+    int set = set;
+
+    set();
+    m(set);
+
+    var x = set + 1;
+}
+
+class set { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))
+
+================================================================================
+Var contextual keyword
+================================================================================
+
+void var() { }
+void m(var p) { }
+void m(int var) { }
+void m()
+{
+    var v = null;
+    int var = var;
+    var var = 1;
+
+    var();
+    m(var);
+
+    var x = var + 1;
+}
+
+class var { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (implicit_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (integer_literal)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))
+
+================================================================================
+Nameof contextual keyword
+================================================================================
+
+void nameof() { }
+void m(nameof p) { }
+void m(int nameof) { }
+void m()
+{
+    nameof v = null;
+    int nameof = nameof;
+
+    nameof();
+    nameof(a, b);
+    m(nameof);
+
+    var x = nameof + 1;
+}
+
+class nameof { }
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list
+        (parameter
+          (predefined_type)
+          (identifier)))
+      (block)))
+  (global_statement
+    (local_function_statement
+      (predefined_type)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration
+            (identifier)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (null_literal)))))
+        (local_declaration_statement
+          (variable_declaration
+            (predefined_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list)))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier))
+              (argument
+                (identifier)))))
+        (expression_statement
+          (invocation_expression
+            (identifier)
+            (argument_list
+              (argument
+                (identifier)))))
+        (local_declaration_statement
+          (variable_declaration
+            (implicit_type)
+            (variable_declarator
+              (identifier)
+              (equals_value_clause
+                (binary_expression
+                  (identifier)
+                  (integer_literal)))))))))
+  (class_declaration
+    (identifier)
+    (declaration_list)))

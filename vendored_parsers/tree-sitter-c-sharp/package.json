@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c-sharp",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "description": "C# grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -18,10 +18,11 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.4"
+    "tree-sitter-cli": "^0.20.0"
   },
   "scripts": {
-    "test": "tree-sitter test && node test.js"
+    "test": "tree-sitter test && script/update-file-sizes && script/parse-examples",
+    "test-windows": "tree-sitter test"
   },
   "tree-sitter": [
     {

@@ -5,33 +5,32 @@ on:
   pull_request:
     branches:
       - "**" # Don't trust forks because miners
-      
+
 jobs:
   build:
-    name: build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '12'
+          node-version: '18'
+      - run: npm install
+      - run: npm test
 
-      - name: Display Node versions
-        run: |
-          node --version
-          npm --version
-      
-      - name: Install dependencies
-        run: npm install
-
-      - name: Test corpus
-        run: npm test
-
-      - name: Parse examples
-        run: |
-          PATH=$(npm bin):$PATH
-          script/fetch-examples
-          script/parse-examples
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: true
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run-script test-windows
