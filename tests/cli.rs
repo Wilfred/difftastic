@@ -21,6 +21,19 @@ fn inline() {
 }
 
 #[test]
+fn binary_changed() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--display=inline")
+        .arg("img/logo.png")
+        .arg("/dev/null");
+
+    let predicate_fn = predicate::str::contains("Binary contents changed");
+    cmd.assert().stdout(predicate_fn);
+}
+
+
+#[test]
 fn has_changes_default_exit_code() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
