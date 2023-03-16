@@ -11,6 +11,16 @@ fn no_such_files() {
 }
 
 #[test]
+fn inline() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("--display=inline")
+        .arg("sample_files/simple_before.js")
+        .arg("sample_files/simple_after.js");
+    cmd.assert().success();
+}
+
+#[test]
 fn has_changes_default_exit_code() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
