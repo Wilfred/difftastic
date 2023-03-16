@@ -43,7 +43,7 @@ int main() {
   for (start(); check(); step())
     3;
 
-  for (i = 0, j = 0, k = 0, l = 0; i < 1; i++, j++, k++, l++)
+  for (i = 0, j = 0, k = 0, l = 0; i < 1, j < 1; i++, j++, k++, l++)
     1;
 }
 
@@ -76,9 +76,13 @@ int main() {
             (comma_expression
               (assignment_expression (identifier) (number_literal))
               (assignment_expression (identifier) (number_literal)))))
-        (binary_expression
-          (identifier)
-          (number_literal))
+        (comma_expression
+          (binary_expression
+            (identifier)
+            (number_literal))
+          (binary_expression
+            (identifier)
+            (number_literal)))
         (comma_expression
           (update_expression (identifier))
           (comma_expression
@@ -279,6 +283,10 @@ void f() {
   [[a]];
   [[a]] label: {}
   [[a]] goto label;
+
+  // these are c++ specific, but their bind locations should be c-compatible
+  if (true) [[likely]] {} else [[unlikely]] {}
+  do [[likely]] {} while (true);
 }
 
 ---
@@ -307,5 +315,12 @@ void f() {
         (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
         (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
         (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
-        (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier))))))
-
+        (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier)))
+        (comment)
+        (if_statement
+          (parenthesized_expression (true))
+          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement))
+          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement)))
+        (do_statement
+          (attributed_statement (attribute_declaration (attribute (identifier))) (compound_statement))
+          (parenthesized_expression (true))))))

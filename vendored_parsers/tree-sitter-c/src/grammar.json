@@ -3795,22 +3795,6 @@
         }
       ]
     },
-    "attributed_non_case_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attribute_declaration"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_non_case_statement"
-        }
-      ]
-    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -3827,6 +3811,10 @@
     "_non_case_statement": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "attributed_statement"
+        },
         {
           "type": "SYMBOL",
           "name": "labeled_statement"
@@ -4049,15 +4037,6 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "attributed_non_case_statement"
-                  },
-                  "named": true,
-                  "value": "attributed_statement"
-                },
-                {
                   "type": "SYMBOL",
                   "name": "_non_case_statement"
                 },
@@ -4198,8 +4177,17 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "_expression"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "comma_expression"
+                  }
+                ]
               },
               {
                 "type": "BLANK"
@@ -4241,8 +4229,12 @@
           "value": ")"
         },
         {
-          "type": "SYMBOL",
-          "name": "_statement"
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
         }
       ]
     },
@@ -6584,12 +6576,11 @@
       "sized_type_specifier"
     ],
     [
-      "_declaration_modifiers",
       "attributed_statement"
     ],
     [
       "_declaration_modifiers",
-      "attributed_non_case_statement"
+      "attributed_statement"
     ]
   ],
   "precedences": [],
