@@ -31,6 +31,14 @@ T main() {
   for (const auto &value : {1, 2, 3}) {
     cout << value;
   }
+
+  for (auto n = v.size(); auto i : v) {
+    cout << --n + i << ' ';
+  }
+
+  for (using elem_t = T::value_type; elem_t i : v) {
+    cout << --n + i << ' ';
+  }
 }
 
 ---
@@ -67,7 +75,52 @@ T main() {
         body: (compound_statement
           (expression_statement (binary_expression
             left: (identifier)
-            right: (identifier))))))))
+            right: (identifier)))))
+      (for_range_loop
+        initializer: (init_statement
+          (declaration
+            type: (placeholder_type_specifier (auto))
+            declarator: (init_declarator
+              declarator: (identifier)
+              value: (call_expression
+                function: (field_expression
+                  argument: (identifier)
+                  field: (field_identifier))
+                arguments: (argument_list)))))
+        type: (placeholder_type_specifier (auto))
+        declarator: (identifier)
+        right: (identifier)
+        body: (compound_statement
+          (expression_statement
+            (binary_expression
+              left: (binary_expression
+                left: (identifier)
+                right: (binary_expression
+                  left: (update_expression
+                    argument: (identifier))
+                  right: (identifier)))
+              right: (char_literal)))))
+      (for_range_loop
+        initializer: (init_statement
+          (alias_declaration
+            name: (type_identifier)
+            type: (type_descriptor
+              type: (qualified_identifier
+                scope: (namespace_identifier)
+                name: (type_identifier)))))
+        type: (type_identifier)
+        declarator: (identifier)
+        right: (identifier)
+        body: (compound_statement
+          (expression_statement
+            (binary_expression
+              left: (binary_expression
+                left: (identifier)
+                right: (binary_expression
+                  left: (update_expression
+                    argument: (identifier))
+                  right: (identifier)))
+              right: (char_literal))))))))
 
 ===========================================
 Constexpr if statements
@@ -140,12 +193,13 @@ void f() {
         consequence: (compound_statement))
       (if_statement
         condition: (condition_clause
-          initializer: (declaration
-            (type_qualifier)
-            type: (primitive_type)
-            declarator: (init_declarator
-              declarator: (identifier)
-              value: (call_expression function: (identifier) arguments: (argument_list))))
+          initializer: (init_statement
+            (declaration
+              (type_qualifier)
+              type: (primitive_type)
+              declarator: (init_declarator
+                declarator: (identifier)
+                value: (call_expression function: (identifier) arguments: (argument_list)))))
           value: (binary_expression left: (identifier) right: (number_literal)))
         consequence: (compound_statement)))))
 

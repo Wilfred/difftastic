@@ -113,6 +113,7 @@ Decltype
 decltype(A) x;
 decltype(B) foo(void x, decltype(C) y);
 template<typename T, typename U> auto add(T t, U u) -> decltype(t + u);
+array<decltype(foo)::type, 5> arr;
 
 ---
 
@@ -138,7 +139,17 @@ template<typename T, typename U> auto add(T t, U u) -> decltype(t + u);
           (parameter_declaration (type_identifier) (identifier)))
         (trailing_return_type
           (type_descriptor
-            (decltype (binary_expression (identifier) (identifier)))))))))
+            (decltype (binary_expression (identifier) (identifier))))))))
+  (declaration
+    (template_type
+      (type_identifier)
+      (template_argument_list
+        (type_descriptor
+          (qualified_identifier
+            (decltype (identifier))
+            (type_identifier)))
+        (number_literal)))
+    (identifier)))
 
 ====================================================
 Trailing return type

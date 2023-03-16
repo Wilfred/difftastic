@@ -34,6 +34,8 @@ T::T() : f1(0), f2(1, 2) {
 
 T::T() : Base<T>() {}
 
+T::T() try : f1(0) {} catch(...) {}
+
 ---
 
 (translation_unit
@@ -61,7 +63,23 @@ T::T() : Base<T>() {}
           (field_identifier)
           (template_argument_list (type_descriptor (type_identifier))))
         (argument_list)))
-    (compound_statement)))
+    (compound_statement))
+  (function_definition
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list))
+    (try_statement
+      (field_initializer_list
+        (field_initializer
+          (field_identifier)
+          (argument_list
+            (number_literal))))
+      (compound_statement)
+      (catch_clause
+        (parameter_list)
+        (compound_statement)))))
 
 =====================================
 Explicit constructor definitions
@@ -130,7 +148,9 @@ class A : public B {
 (translation_unit
   (class_specifier
     (type_identifier)
-    (base_class_clause (type_identifier))
+    (base_class_clause
+      (access_specifier)
+      (type_identifier))
     (field_declaration_list
       (function_definition
         (function_declarator (identifier) (parameter_list))
@@ -175,3 +195,51 @@ T::~T() {}
     (function_declarator
       (qualified_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
     (compound_statement)))
+
+=====================================
+Function-try-block definitions
+=====================================
+
+void foo() try {} catch(...) {}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (try_statement
+      (compound_statement)
+      (catch_clause
+        (parameter_list)
+        (compound_statement)))))
+
+
+=====================================
+Conversion operator definitions
+=====================================
+
+T::operator int() try { throw 1; } catch (...) { return 2; }
+
+---
+
+(translation_unit
+  (function_definition
+    (qualified_identifier
+      (namespace_identifier)
+      (operator_cast
+        (primitive_type)
+        (abstract_function_declarator
+          (parameter_list))))
+    (try_statement
+      (compound_statement
+        (throw_statement
+          (number_literal)))
+      (catch_clause
+        (parameter_list)
+        (compound_statement
+          (return_statement
+            (number_literal)))))))
+

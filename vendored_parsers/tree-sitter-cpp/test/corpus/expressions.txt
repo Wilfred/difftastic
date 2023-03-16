@@ -474,37 +474,53 @@ const char *s6 = LR"FOO(
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal)))
+      (raw_string_literal
+        (raw_string_content))))
   (declaration
     (type_qualifier)
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal)))
+      (raw_string_literal
+        (raw_string_delimiter)
+        (raw_string_content)
+        (raw_string_delimiter))))
   (declaration
     (type_qualifier)
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal)))
+      (raw_string_literal
+        (raw_string_delimiter)
+        (raw_string_content)
+        (raw_string_delimiter))))
   (declaration
     (type_qualifier)
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal)))
+      (raw_string_literal
+        (raw_string_delimiter)
+        (raw_string_content)
+        (raw_string_delimiter))))
   (declaration
     (type_qualifier)
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal)))
+      (raw_string_literal
+        (raw_string_delimiter)
+        (raw_string_content)
+        (raw_string_delimiter))))
   (declaration
     (type_qualifier)
     (primitive_type)
     (init_declarator
       (pointer_declarator (identifier))
-      (raw_string_literal))))
+      (raw_string_literal
+        (raw_string_delimiter)
+        (raw_string_content)
+        (raw_string_delimiter)))))
 
 ====================================================
 Template calls
@@ -751,6 +767,7 @@ void f(T...) {}
   (class_specifier
     name: (type_identifier)
     (base_class_clause
+      (access_specifier)
       (type_identifier))
     body: (field_declaration_list
       (access_specifier)
@@ -811,8 +828,8 @@ R"(a)" R"(b)" R"(c)";
 
 (translation_unit
   (expression_statement (concatenated_string (string_literal) (string_literal) (string_literal)))
-  (expression_statement (concatenated_string (raw_string_literal) (raw_string_literal) (raw_string_literal)))
-  (expression_statement (concatenated_string (string_literal) (raw_string_literal) (string_literal) (raw_string_literal))))
+  (expression_statement (concatenated_string (raw_string_literal (raw_string_content)) (raw_string_literal (raw_string_content)) (raw_string_literal (raw_string_content))))
+  (expression_statement (concatenated_string (string_literal) (raw_string_literal (raw_string_content)) (string_literal) (raw_string_literal (raw_string_delimiter) (raw_string_content) (raw_string_delimiter)))))
 
 ============================================
 User-defined literals
@@ -989,3 +1006,46 @@ bool t3 = (IndexOf<T> + ... + 1);
             (type_descriptor
               (type_identifier))))
         (number_literal)))))
+
+================================================
+Alternative tokens (digraphs)
+=================================================
+
+if (not marked and (x < left or right < x)) {}
+
+operator not_eq(int) { return true; }
+
+foo and_eq bar();
+
+---
+
+(translation_unit
+  (if_statement
+    (condition_clause
+      (binary_expression
+        (unary_expression
+          (identifier))
+        (parenthesized_expression
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (identifier))
+            (binary_expression
+              (identifier)
+              (identifier))))))
+    (compound_statement))
+  (function_definition
+    (function_declarator
+      (operator_name)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (return_statement
+        (true))))
+  (expression_statement
+    (assignment_expression
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list)))))
