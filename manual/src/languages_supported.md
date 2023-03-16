@@ -8,12 +8,12 @@ with `difft --list-languages`.
 
 | Language        | Parser Used                                                                                                                                                    |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Ada             | [briot/tree-sitter-ada](https://github.com/briot/tree-sitter-ada)                                                                                        |
+| Ada             | [briot/tree-sitter-ada](https://github.com/briot/tree-sitter-ada)                                                                                              |
 | Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                                                |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                                                                                      |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                                                                                  |
 | C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)                                                                          |
-| Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) ([branched](https://github.com/sogaiu/tree-sitter-clojure/tree/issue-21))          |
+| Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)                                                                                    |
 | CMake           | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake)                                                                                            |
 | Common Lisp     | [theHamsta/tree-sitter-commonlisp](https://github.com/theHamsta/tree-sitter-commonlisp)                                                                        |
 | Dart            | [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)                                                                              |
