@@ -102,6 +102,14 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
     }
 }
 
+fn has_utf16_byte_order_mark(bytes: &[u8]) -> bool {
+    match &bytes {
+        [0xfe, 0xff, ..] => true,
+        [0xff, 0xfe, ..] => true,
+        _ => false,
+    }
+}
+
 /// Group bytes into u16 values for conversion to UTF-16, respecting
 /// the byte order mark if present.
 fn u16_from_bytes(bytes: &[u8]) -> Vec<u16> {
@@ -169,6 +177,22 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
         _ => {}
     }
 
+    // Note that many binary files and mostly-valid UTF-8 files happen
+    // to be valid UTF-16. Decoding these as UTF-16 leads to garbage
+    // ("mojibake").
+    //
+    // To avoid this, we only try UTF-16 after we'vedone MIME type
+    // checks for binary, and we conservatively require an explicit
+    // byte order mark.
+    let u16_values = u16_from_bytes(bytes);
+    let utf16_str_result = String::from_utf16(&u16_values);
+    match utf16_str_result {
+        Ok(valid_utf16_string) if has_utf16_byte_order_mark(bytes) => {
+            return ProbableFileKind::Text(valid_utf16_string);
+        }
+        _ => {}
+    }
+
     // If the input bytes are *almost* valid UTF-8, treat them as UTF-8.
     let utf8_string = String::from_utf8_lossy(bytes).to_string();
     let num_utf8_invalid = utf8_string
@@ -179,18 +203,6 @@ pub fn guess_content(bytes: &[u8]) -> ProbableFileKind {
     if num_utf8_invalid <= 10 {
         info!("Input file is mostly valid UTF-8");
         return ProbableFileKind::Text(utf8_string);
-    }
-
-    // If the bytes are is entirely valid UTF-16, treat them as a
-    // string.
-    //
-    // Note that many binary files and mostly-valid UTF-8 files happen
-    // to be valid UTF-16. Decoding these as UTF-16 leads to garbage
-    // ("mojibake"), so only try UTF-16 after we've done MIME type
-    // checks and UTF-8-ish checks.
-    let u16_values = u16_from_bytes(bytes);
-    if let Ok(valid_utf16_string) = String::from_utf16(&u16_values) {
-        return ProbableFileKind::Text(valid_utf16_string);
     }
 
     // If the input bytes are *almost* valid UTF-16, treat them as
