@@ -23,6 +23,88 @@
     }
   },
   {
+    "type": "block_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_def",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_command",
+          "named": true
+        },
+        {
+          "type": "block_def",
+          "named": true
+        },
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
+          "type": "endblock_command",
+          "named": true
+        },
+        {
+          "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "function_def",
+          "named": true
+        },
+        {
+          "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "normal_command",
+          "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "cache_var",
     "named": true,
     "fields": {},
@@ -82,6 +164,33 @@
         },
         {
           "type": "elseif",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "endblock_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
+          "type": "endblock",
           "named": true
         },
         {
@@ -266,6 +375,10 @@
       "required": true,
       "types": [
         {
+          "type": "block_def",
+          "named": true
+        },
+        {
           "type": "bracket_comment",
           "named": true
         },
@@ -343,6 +456,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_def",
+          "named": true
+        },
         {
           "type": "bracket_comment",
           "named": true
@@ -437,6 +554,10 @@
       "required": true,
       "types": [
         {
+          "type": "block_def",
+          "named": true
+        },
+        {
           "type": "bracket_comment",
           "named": true
         },
@@ -522,6 +643,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_def",
+          "named": true
+        },
         {
           "type": "bracket_comment",
           "named": true
@@ -653,6 +778,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "block_def",
+          "named": true
+        },
         {
           "type": "bracket_comment",
           "named": true
@@ -789,6 +918,10 @@
       "required": true,
       "types": [
         {
+          "type": "block_def",
+          "named": true
+        },
+        {
           "type": "bracket_comment",
           "named": true
         },
@@ -852,6 +985,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -868,6 +1005,10 @@
     "named": false
   },
   {
+    "type": "\\;",
+    "named": false
+  },
+  {
     "type": "\\n",
     "named": false
   },
@@ -878,6 +1019,10 @@
   {
     "type": "\\t",
     "named": false
+  },
+  {
+    "type": "block",
+    "named": true
   },
   {
     "type": "bracket_argument",
@@ -893,6 +1038,10 @@
   },
   {
     "type": "elseif",
+    "named": true
+  },
+  {
+    "type": "endblock",
     "named": true
   },
   {

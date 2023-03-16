@@ -127,3 +127,6 @@ scanner.obj
 # Rust files
 target/**
 Cargo.lock
+
+#pnpm
+pnpm-lock.yaml
