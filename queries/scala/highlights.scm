@@ -23,7 +23,10 @@
 (class_parameter 
   name: (identifier) @parameter)
 
-(interpolation) @none
+(self_type (identifier) @parameter)
+
+(interpolation (identifier) @none)
+(interpolation (block) @none)
 
 ;; types
 

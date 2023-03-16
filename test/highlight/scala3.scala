@@ -141,9 +141,9 @@ class Copier:
 
   export scanUnit.scan
   // ^ include
-  //        ^namespace
+  //        ^variable
   export printUnit.{status as _, *}
   // ^ include
-  //        ^namespace
+  //        ^variable
 
   def status: List[String] = printUnit.status ++ scanUnit.status

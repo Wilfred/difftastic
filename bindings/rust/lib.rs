@@ -37,7 +37,7 @@ pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
 
 pub const HIGHLIGHTS_QUERY: &'static str = include_str!("../../queries/scala/highlights.scm");
 // pub const INJECTIONS_QUERY: &'static str = include_str!("../../queries/injections.scm");
-// pub const LOCALS_QUERY: &'static str = include_str!("../../queries/locals.scm");
+pub const LOCALS_QUERY: &'static str = include_str!("../../queries/scala/locals.scm");
 // pub const TAGS_QUERY: &'static str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]

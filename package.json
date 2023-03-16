@@ -25,7 +25,8 @@
       "file-types": [
         "scala"
       ],
-      "highlights": "queries/scala/highlights.scm"
+      "highlights": "queries/scala/highlights.scm",
+      "locals": "queries/scala/locals.scm"
     }
   ]
 }
