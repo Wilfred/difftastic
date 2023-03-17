@@ -1,5 +1,10 @@
 ## 0.46 (unreleased)
 
+### Command Line Interface
+
+Removed the option `--missing-as-empty`. This is no longer needed as
+difftastic handles `/dev/null` gracefully on all platforms.
+
 ### Parsing
 
 Added support for Ada.

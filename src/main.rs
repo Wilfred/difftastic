@@ -171,7 +171,6 @@ fn main() {
         Mode::Diff {
             diff_options,
             display_options,
-            missing_as_empty,
             set_exit_code,
             language_override,
             lhs_path,
@@ -238,7 +237,6 @@ fn main() {
                         &rhs_path,
                         &display_options,
                         &diff_options,
-                        missing_as_empty,
                         language_override,
                     );
                     print_diff_result(&display_options, &diff_result);
@@ -282,10 +280,9 @@ fn diff_file(
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    missing_as_empty: bool,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
-    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
+    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path);
     diff_file_content(
         lhs_display_path,
         rhs_display_path,
@@ -621,7 +618,6 @@ fn diff_directories<'a>(
             &FileArgument::NamedPath(rhs_path),
             &display_options,
             &diff_options,
-            true,
             language_override,
         )
     })

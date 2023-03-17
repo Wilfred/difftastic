@@ -326,7 +326,6 @@ pub enum Mode {
     Diff {
         diff_options: DiffOptions,
         display_options: DisplayOptions,
-        missing_as_empty: bool,
         set_exit_code: bool,
         language_override: Option<guess_language::Language>,
         /// The path where we can read the LHS file. This is often a
@@ -518,10 +517,6 @@ pub fn parse_args() -> Mode {
 
     let print_unchanged = !matches.is_present("skip-unchanged");
 
-    // TODO: is this necessary now we handle /dev/null as an empty
-    // file on all platforms?
-    let missing_as_empty = matches.is_present("missing-as-empty");
-
     let set_exit_code = matches.is_present("exit-code");
 
     let check_only = matches.is_present("check-only");
@@ -549,7 +544,6 @@ pub fn parse_args() -> Mode {
     Mode::Diff {
         diff_options,
         display_options,
-        missing_as_empty,
         set_exit_code,
         language_override,
         lhs_path,
