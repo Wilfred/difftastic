@@ -89,3 +89,22 @@ Multiple Bits of Metadata
       (kwd_lit (kwd_name)))
     (meta_lit
       (kwd_lit (kwd_name)))))
+
+================================================================================
+Tagged Literal Metadata
+================================================================================
+
+^#/(data) thing
+
+--------------------------------------------------------------------------------
+
+(source
+  (sym_lit
+    (meta_lit
+      (tagged_or_ctor_lit
+        (sym_lit
+          (sym_name))
+        (list_lit
+          (sym_lit
+            (sym_name)))))
+    (sym_name)))
