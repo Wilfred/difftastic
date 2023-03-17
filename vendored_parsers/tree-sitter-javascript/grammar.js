@@ -103,11 +103,12 @@ module.exports = grammar({
       seq(
         'export',
         choice(
-          seq('*', $._from_clause, $._semicolon),
-          seq(alias($.namespace_import_export, $.namespace_export), $._from_clause, $._semicolon),
-          seq($.export_clause, $._from_clause, $._semicolon),
-          seq($.export_clause, $._semicolon)
-        )
+          seq('*', $._from_clause),
+          seq($.namespace_export, $._from_clause),
+          seq($.export_clause, $._from_clause),
+          $.export_clause,
+        ),
+        $._semicolon,
       ),
       seq(
         repeat(field('decorator', $.decorator)),
@@ -128,19 +129,28 @@ module.exports = grammar({
       )
     ),
 
+    namespace_export: $ => seq(
+      '*', 'as', $._module_export_name
+    ),
+
     export_clause: $ => seq(
       '{',
-      commaSep(alias($._import_export_specifier, $.export_specifier)),
+      commaSep($.export_specifier),
       optional(','),
       '}'
     ),
 
-    _import_export_specifier: $ => seq(
-      field('name', $.identifier),
+    export_specifier: $ => seq(
+      field('name', $._module_export_name),
       optional(seq(
         'as',
-        field('alias', $.identifier)
+        field('alias', $._module_export_name)
       ))
+    ),
+
+    _module_export_name: $ => choice(
+      $.identifier,
+      $.string,
     ),
 
     declaration: $ => choice(
@@ -167,14 +177,14 @@ module.exports = grammar({
     ),
 
     import_clause: $ => choice(
-      alias($.namespace_import_export, $.namespace_import),
+      $.namespace_import,
       $.named_imports,
       seq(
         $.identifier,
         optional(seq(
           ',',
           choice(
-            alias($.namespace_import_export, $.namespace_import),
+            $.namespace_import,
             $.named_imports
           )
         ))
@@ -185,15 +195,24 @@ module.exports = grammar({
       "from", field('source', $.string)
     ),
 
-    namespace_import_export: $ => seq(
+    namespace_import: $ => seq(
       "*", "as", $.identifier
     ),
 
     named_imports: $ => seq(
       '{',
-      commaSep(alias($._import_export_specifier, $.import_specifier)),
+      commaSep($.import_specifier),
       optional(','),
       '}'
+    ),
+
+    import_specifier: $ => choice(
+      field('name', $.identifier),
+      seq(
+        field('name', $._module_export_name),
+        'as',
+        field('alias', $.identifier)
+      ),
     ),
 
     //
@@ -436,6 +455,7 @@ module.exports = grammar({
 
     expression: $ => choice(
       $.primary_expression,
+      $.glimmer_template,
       $._jsx_element,
       $.jsx_fragment,
       $.assignment_expression,
@@ -542,6 +562,24 @@ module.exports = grammar({
       ))),
       ']'
     ),
+
+    glimmer_template: $ => choice(
+      seq(
+        field('open_tag', $.glimmer_opening_tag),
+        field('content', repeat($._glimmer_template_content)),
+        field('close_tag', $.glimmer_closing_tag),
+      ),
+      // empty template has no content
+      // <template></template>
+      seq(
+        field('open_tag', $.glimmer_opening_tag),
+        field('close_tag', $.glimmer_closing_tag),
+      ),
+    ),
+
+    _glimmer_template_content: $ => /.{1,}/,
+    glimmer_opening_tag: $ => seq('<template>'),
+    glimmer_closing_tag: $ => seq('</template>'),
 
     _jsx_element: $ => choice($.jsx_element, $.jsx_self_closing_element),
 
@@ -709,6 +747,8 @@ module.exports = grammar({
     _call_signature: $ => field('parameters', $.formal_parameters),
     _formal_parameter: $ => choice($.pattern, $.assignment_pattern),
 
+    optional_chain: $ => '?.',
+
     call_expression: $ => choice(
       prec('call', seq(
         field('function', $.expression),
@@ -716,7 +756,7 @@ module.exports = grammar({
       )),
       prec('member', seq(
         field('function', $.primary_expression),
-        '?.',
+        field('optional_chain', $.optional_chain),
         field('arguments', $.arguments)
       ))
     ),
@@ -734,7 +774,7 @@ module.exports = grammar({
 
     member_expression: $ => prec('member', seq(
       field('object', choice($.expression, $.primary_expression)),
-      choice('.', '?.'),
+      choice('.', field('optional_chain', $.optional_chain)),
       field('property', choice(
         $.private_property_identifier,
         alias($.identifier, $.property_identifier)))
@@ -742,7 +782,7 @@ module.exports = grammar({
 
     subscript_expression: $ => prec.right('member', seq(
       field('object', choice($.expression, $.primary_expression)),
-      optional('?.'),
+      optional(field('optional_chain', $.optional_chain)),
       '[', field('index', $._expressions), ']'
     )),
 
@@ -810,7 +850,7 @@ module.exports = grammar({
         ['*', 'binary_times'],
         ['/', 'binary_times'],
         ['%', 'binary_times'],
-        ['**', 'binary_exp'],
+        ['**', 'binary_exp', 'right'],
         ['<', 'binary_relation'],
         ['<=', 'binary_relation'],
         ['==', 'binary_equality'],
@@ -822,8 +862,8 @@ module.exports = grammar({
         ['??', 'ternary'],
         ['instanceof', 'binary_relation'],
         ['in', 'binary_relation'],
-      ].map(([operator, precedence]) =>
-        prec.left(precedence, seq(
+      ].map(([operator, precedence, associativity]) =>
+        (associativity === 'right' ? prec.right : prec.left)(precedence, seq(
           field('left', $.expression),
           field('operator', operator),
           field('right', $.expression)
@@ -911,7 +951,18 @@ module.exports = grammar({
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
-      )
+      ),
+      // https://tc39.es/ecma262/#sec-html-like-comments
+      seq('<!--', /.*/),
+      // This allows code to exist before this token on the same line.
+      //
+      // Technically, --> is supposed to have nothing before it on the same line
+      // except for comments and whitespace, but that is difficult to express,
+      // and in general tree sitter grammars tend to prefer to be overly
+      // permissive anyway.
+      //
+      // This approach does not appear to cause problems in practice.
+      seq('-->', /.*/)
     )),
 
     template_string: $ => seq(
@@ -1062,7 +1113,9 @@ module.exports = grammar({
       '{',
       repeat(choice(
         seq(field('member', $.method_definition), optional(';')),
-        seq(field('member', $.field_definition), $._semicolon)
+        seq(field('member', $.field_definition), $._semicolon),
+        field('member', $.class_static_block),
+        field('template', $.glimmer_template)
       )),
       '}'
     ),
@@ -1081,6 +1134,11 @@ module.exports = grammar({
         optional(',')
       )),
       ')'
+    ),
+
+    class_static_block: $ => seq(
+      'static',
+      field('body', $.statement_block)
     ),
 
     // This negative dynamic precedence ensures that during error recovery,

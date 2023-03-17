@@ -41,6 +41,7 @@ import * as name from "module-name";
 import { member } from "module-name";
 import { member1 , member2 } from "module-name";
 import { member1 , member2 as alias2 } from "module-name";
+import { "string name" as alias } from "module-name";
 import defaultMember, { member1, member2 as alias2 } from "module-name";
 import defaultMember, * as name from "module-name";
 import "module-name";
@@ -62,6 +63,8 @@ import.meta.url;
     (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
+  (import_statement
+    (import_clause (named_imports (import_specifier (string (string_fragment)) (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause (identifier) (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
   (import_statement
@@ -95,6 +98,7 @@ Exports
 
 export { name1, name2, name3, nameN };
 export { variable1 as name1, variable2 as name2, nameN };
+export { variable1 as "string name" };
 export let name1, name2, nameN;
 export let name1 = value1, name2 = value2, name3, nameN;
 
@@ -106,8 +110,11 @@ export { name1 as default };
 
 export * from 'foo';
 export * as someIdentifier from "someModule";
+export * as "string name" from "someModule";
 export { name1, name2, nameN } from 'foo';
 export { import1 as name1, import2 as name2, nameN } from 'foo';
+export { import1 as "string name" } from 'foo';
+export { "string import" as "string export" } from 'foo';
 
 ----
 
@@ -123,6 +130,9 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier))))
+  (export_statement
+    (export_clause
+      (export_specifier name: (identifier) alias: (string (string_fragment)))))
   (export_statement
     declaration: (lexical_declaration
       (variable_declarator name: (identifier))
@@ -152,6 +162,9 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
     (namespace_export (identifier))
     source: (string (string_fragment)))
   (export_statement
+    (namespace_export (string (string_fragment)))
+    source: (string (string_fragment)))
+  (export_statement
     (export_clause
       (export_specifier name: (identifier))
       (export_specifier name: (identifier))
@@ -162,6 +175,14 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier)))
+    source: (string (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier name: (identifier) alias: (string (string_fragment))))
+    source: (string (string_fragment)))
+  (export_statement
+    (export_clause
+      (export_specifier name: (string (string_fragment)) alias: (string (string_fragment))))
     source: (string (string_fragment))))
 
 ============================================
@@ -626,6 +647,40 @@ y // comment
 
 (program (expression_statement
   (binary_expression (identifier) (comment) (identifier))))
+
+==========================================
+HTML Comments
+==========================================
+
+<!-- we can put whatever we like here. this affects one line only.
+y * z;
+<!-- and here as well. these do not have to have matching close comments.
+
+x + 1; --> for some reason you can put text after a close comment.
+
+--> note that the x + 1 above should be rejected according to the spec.
+--> it should instead be rejected as invalid.
+--> you are supposed to only have whitespace or comments before
+--> an HTML close comment.
+
+---
+
+(program
+  (comment)
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (identifier)))
+  (comment)
+  (expression_statement
+    (binary_expression
+      (identifier)
+      (number)))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment))
 
 ============================================
 Switch statements

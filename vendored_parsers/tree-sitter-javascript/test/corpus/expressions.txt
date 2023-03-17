@@ -360,6 +360,10 @@ class Foo extends require('another-class') {
     super()
   }
 
+  static {
+    this.#foo = 'bar';
+  }
+
   bar() {
     super.a()
     this.#baz()
@@ -403,6 +407,15 @@ class Foo extends require('another-class') {
         (formal_parameters)
         (statement_block
           (expression_statement (call_expression (super) (arguments)))))
+      (class_static_block
+        (statement_block
+          (expression_statement
+            (assignment_expression
+              (member_expression
+                (this)
+                (private_property_identifier))
+              (string
+                (string_fragment))))))
       (method_definition
         (property_identifier)
         (formal_parameters)
@@ -767,7 +780,7 @@ a ?. b;
   (expression_statement
     (member_expression (identifier) (property_identifier)))
   (expression_statement
-    (member_expression (identifier) (property_identifier))))
+    (member_expression (identifier) (optional_chain) (property_identifier))))
 
 ============================================
 Optional chaining array access
@@ -782,7 +795,7 @@ a ?. [b];
   (expression_statement
     (subscript_expression (identifier) (identifier)))
   (expression_statement
-    (subscript_expression (identifier) (identifier))))
+    (subscript_expression (identifier) (optional_chain) (identifier))))
 
 ============================================
 Optional function calls
@@ -796,14 +809,16 @@ d.e?.(f);
 
 (program
   (expression_statement
-    (call_expression (identifier) (arguments (identifier))))
+    (call_expression (identifier) (optional_chain) (arguments (identifier))))
   (expression_statement
     (call_expression
       (subscript_expression (identifier) (identifier))
+      (optional_chain)
       (arguments (identifier))))
   (expression_statement
     (call_expression
       (member_expression (identifier) (property_identifier))
+      (optional_chain)
       (arguments (identifier)))))
 
 ============================================
@@ -902,6 +917,7 @@ i--;
 i + j * 3 - j % 5;
 2 ** i * 3;
 2 * i ** 3;
+2 ** i ** 3;
 +x;
 -x;
 
@@ -918,6 +934,9 @@ i + j * 3 - j % 5;
   (expression_statement (binary_expression
     (binary_expression (number) (identifier))
     (number)))
+  (expression_statement (binary_expression
+    (number)
+    (binary_expression (identifier) (number))))
   (expression_statement (binary_expression
     (number)
     (binary_expression (identifier) (number))))
