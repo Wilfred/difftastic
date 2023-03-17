@@ -100,9 +100,9 @@ module com.foo { }
       (identifier)
       (annotation_argument_list
         (element_value_pair (identifier) (decimal_integer_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))
-        (element_value_pair (identifier) (string_literal))))
+        (element_value_pair (identifier) (string_literal (string_fragment)))
+        (element_value_pair (identifier) (string_literal (string_fragment)))
+        (element_value_pair (identifier) (string_literal (string_fragment)))))
     (scoped_identifier (identifier) (identifier))
     (module_body)))
 
@@ -138,7 +138,7 @@ module com.foo {}
   (module_declaration
     (annotation
       (identifier)
-      (annotation_argument_list (string_literal)))
+      (annotation_argument_list (string_literal (string_fragment))))
     (scoped_identifier
       (identifier)
       (identifier))
@@ -597,8 +597,76 @@ enum HandSign {
 
 
 =================
-record declaration
+enum declaration inside an interface
 =================
+
+public @interface Foo {
+  enum HandSign {
+     SCISSOR, PAPER, STONE
+  }
+}
+
+---
+
+    (program
+      (annotation_type_declaration
+        (modifiers)
+        name: (identifier)
+        body: (annotation_type_body
+          (enum_declaration
+            name: (identifier)
+            body: (enum_body
+              (enum_constant
+                name: (identifier))
+              (enum_constant
+                name: (identifier))
+              (enum_constant
+                name: (identifier)))))))
+
+=================
+record declaration
+==================
+
+public record Foo(int bar) {
+}
+
+---
+
+(program
+  (record_declaration
+        (modifiers)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (class_body)))
+
+================================
+record declaration with generics
+================================
+
+public record Foo<T>(T bar) {
+}
+
+---
+
+(program
+  (record_declaration
+        (modifiers)
+        name: (identifier)
+        type_parameters: (type_parameters
+          (type_parameter
+            (type_identifier)))
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier)
+            name: (identifier)))
+        body: (class_body)))
+
+=================================
+record declaration inside a class
+=================================
 
 public class Usecase {
     public static record Commande(@NotNull String param) {
@@ -637,6 +705,81 @@ public class Usecase {
                   type: (type_identifier)
                   arguments: (argument_list
                     (string_literal)))))))))))
+
+======================================
+record declaration inside an interface
+======================================
+
+interface I { record R(int a) {} }
+
+---
+
+(program
+  (interface_declaration
+    (identifier)
+    (interface_body
+      (record_declaration
+        (identifier)
+        (formal_parameters
+          (formal_parameter
+            (integral_type)
+            (identifier)))
+        (class_body)))))
+
+
+===========================================
+record declaration with compact constructor
+===========================================
+
+record Person(int age) {
+  public Person {
+    if (age < 0) throw new IllegalArgumentException("invalid age"); 
+  }
+}
+
+---
+
+(program
+  (record_declaration
+    (identifier)
+    (formal_parameters
+      (formal_parameter
+        (integral_type)
+        (identifier)))
+    (class_body
+      (compact_constructor_declaration
+        (modifiers)
+        (identifier)
+        (block
+          (if_statement
+            (parenthesized_expression
+              (binary_expression
+                (identifier)
+                (decimal_integer_literal)))
+            (throw_statement
+              (object_creation_expression
+                (type_identifier)
+                (argument_list
+                  (string_literal
+                        (string_fragment)))))))))))
+
+============================================
+record declaration that implements interface
+============================================
+
+record R() implements I {}
+
+---
+
+(program
+  (record_declaration
+    (identifier)
+    (formal_parameters)
+    (super_interfaces
+      (type_list
+        (type_identifier)))
+    (class_body)))
+
 
 ==============================================
 class declaration with dollar-sign identifiers

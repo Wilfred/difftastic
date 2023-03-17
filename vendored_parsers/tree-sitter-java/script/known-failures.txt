@@ -1,0 +1,3 @@
+examples/flink/flink-quickstart/flink-quickstart-java/src/main/resources/archetype-resources/src/main/java/DataStreamJob.java
+examples/flink/flink-walkthroughs/flink-walkthrough-datastream-java/src/main/resources/archetype-resources/src/main/java/FraudDetectionJob.java
+examples/flink/flink-walkthroughs/flink-walkthrough-datastream-java/src/main/resources/archetype-resources/src/main/java/FraudDetector.java

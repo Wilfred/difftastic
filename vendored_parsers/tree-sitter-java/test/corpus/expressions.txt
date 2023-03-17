@@ -65,6 +65,8 @@ instanceof expressions
 a instanceof C.D;
 a instanceof List<B>;
 c instanceof C[];
+c instanceof C foo;
+d instanceof final D bar;
 
 ---
 
@@ -77,7 +79,16 @@ c instanceof C[];
     (generic_type (type_identifier) (type_arguments (type_identifier)))))
   (expression_statement (instanceof_expression
     (identifier)
-    (array_type (type_identifier) (dimensions)))))
+    (array_type (type_identifier) (dimensions))))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (type_identifier)
+    (identifier)))
+  (expression_statement (instanceof_expression
+    (identifier)
+    (type_identifier)
+    (identifier))))
+
 
 ===========================================================
 if statements
@@ -225,7 +236,7 @@ for (j.init(i); j.check(); j.update()) {
           field: (identifier))
         name: (identifier)
         arguments: (argument_list (binary_expression
-          left: (string_literal)
+          left: (string_literal (string_fragment))
           right: (identifier)))))))
   (for_statement
     init: (method_invocation
@@ -316,7 +327,7 @@ class WhileDemo {
                   field: (identifier))
                 name: (identifier)
                 arguments: (argument_list
-                  (binary_expression left: (string_literal) right: (identifier)))))
+                  (binary_expression left: (string_literal (string_fragment)) right: (identifier)))))
               (expression_statement (update_expression (identifier))))))))))
 
 ==================================
@@ -337,7 +348,7 @@ try (FileInputStream input = new FileInputStream("file.txt")) {
         name: (identifier)
         value: (object_creation_expression
           type: (type_identifier)
-          arguments: (argument_list (string_literal)))))
+          arguments: (argument_list (string_literal (string_fragment))))))
     body: (block
       (local_variable_declaration
         type: (integral_type)
@@ -385,7 +396,7 @@ class Duck {
         (annotation_argument_list
           (element_value_pair
             (identifier)
-            (string_literal))))
+            (string_literal (string_fragment)))))
       (annotation
         (identifier)
         (annotation_argument_list
@@ -437,9 +448,31 @@ class Quack {
   (class_declaration
     (modifiers
       (annotation (identifier) (annotation_argument_list (field_access (identifier) (identifier))))
-      (annotation (identifier) (annotation_argument_list (string_literal))))
+      (annotation (identifier) (annotation_argument_list (string_literal (string_fragment)))))
     (identifier)
     (class_body)))
+
+==================================
+annotation in array creation
+==================================
+
+String[] allMyStrings = new @Nullable String[5];
+
+---
+
+    (program
+      (local_variable_declaration
+        (array_type
+          (type_identifier)
+          (dimensions))
+        (variable_declarator
+          (identifier)
+          (array_creation_expression
+            (marker_annotation
+              (identifier))
+            (type_identifier)
+            (dimensions_expr
+              (decimal_integer_literal))))))
 
 ==================================
 lambda expression
@@ -448,7 +481,7 @@ lambda expression
 class LambdaTest {
   void singleton() {
     version -> create;
-    (a, b) -> a + b;
+    (record, b) -> record + b;
   }
 }
 
@@ -529,7 +562,8 @@ public class SwitchDemo {
                 (expression_statement
                   (assignment_expression
                     left: (identifier)
-                    right: (string_literal)))
+                    right: (string_literal
+                      (string_fragment))))
                 (break_statement))
               (switch_block_statement_group
                 (switch_label
@@ -537,7 +571,8 @@ public class SwitchDemo {
                 (expression_statement
                   (assignment_expression
                     left: (identifier)
-                    right: (string_literal)))
+                    right: (string_literal
+                      (string_fragment))))
                 (break_statement))
               (switch_block_statement_group
                 (switch_label
@@ -545,14 +580,16 @@ public class SwitchDemo {
                 (expression_statement
                   (assignment_expression
                     left: (identifier)
-                    right: (string_literal)))
+                    right: (string_literal
+                      (string_fragment))))
                 (break_statement))
               (switch_block_statement_group
                 (switch_label)
                 (expression_statement
                   (assignment_expression
                     left: (identifier)
-                    right: (string_literal)))
+                    right: (string_literal
+                      (string_fragment))))
                 (break_statement))))
           (expression_statement
             (method_invocation
@@ -708,7 +745,8 @@ class Test {
                           field: (identifier))
                         name: (identifier)
                         arguments: (argument_list
-                          (string_literal))))
+                          (string_literal
+                                (string_fragment)))))
                     (yield_statement
                       (decimal_integer_literal))))))))))))
 
@@ -897,6 +935,58 @@ class Test {
                         (decimal_integer_literal)))))))))))))
 
 ==================================
+switch statement and pre-increment
+==================================
+
+class Test {
+    int i;
+    static void foo(boolean bar) {
+      int ddsd;
+      switch(bar) {
+        default:
+          i = 3;
+      }
+     ++ddsd;
+    }
+}
+
+---
+
+    (program
+      (class_declaration
+        (identifier)
+        (class_body
+          (field_declaration
+            (integral_type)
+            (variable_declarator
+              (identifier)))
+          (method_declaration
+            (modifiers)
+            (void_type)
+            (identifier)
+            (formal_parameters
+              (formal_parameter
+                (boolean_type)
+                (identifier)))
+            (block
+              (local_variable_declaration
+                (integral_type)
+                (variable_declarator
+                  (identifier)))
+              (switch_expression
+                (parenthesized_expression
+                  (identifier))
+                (switch_block
+                  (switch_block_statement_group
+                    (switch_label)
+                    (expression_statement
+                      (assignment_expression
+                        (identifier)
+                        (decimal_integer_literal))))))
+              (expression_statement
+                (update_expression
+                  (identifier))))))))
+==================================
 type arguments
 ==================================
 
@@ -1074,3 +1164,53 @@ $cibleVisée2 = 2;
     (assignment_expression
       (identifier)
       (decimal_integer_literal))))
+
+================================================================================
+Local variable declaration with scoped type identifiers
+================================================================================
+
+util.List<Integer> x = null;
+java.util.List<Integer> x = null;
+java.util.List<java.lang.Integer> x = null;
+
+--------------------------------------------------------------------------------
+
+(program
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (type_identifier)
+        (type_identifier))
+      (type_arguments
+        (type_identifier)))
+    (variable_declarator
+      (identifier)
+      (null_literal)))
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (scoped_type_identifier
+          (type_identifier)
+          (type_identifier))
+        (type_identifier))
+      (type_arguments
+        (type_identifier)))
+    (variable_declarator
+      (identifier)
+      (null_literal)))
+  (local_variable_declaration
+    (generic_type
+      (scoped_type_identifier
+        (scoped_type_identifier
+          (type_identifier)
+          (type_identifier))
+        (type_identifier))
+      (type_arguments
+        (scoped_type_identifier
+          (scoped_type_identifier
+            (type_identifier)
+            (type_identifier))
+          (type_identifier))))
+    (variable_declarator
+      (identifier)
+      (null_literal))))

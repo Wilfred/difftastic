@@ -4,7 +4,6 @@ const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
   COMMENT: 0,      // //  /*  */
   ASSIGN: 1,       // =  += -=  *=  /=  %=  &=  ^=  |=  <<=  >>=  >>>=
-  SWITCH_EXP: 1,   // always prefer to parse switch as expression over statement
   DECL: 2,
   ELEMENT_VAL: 2,
   TERNARY: 3,      // ?:
@@ -25,6 +24,7 @@ const PREC = {
   ARRAY: 16,       // [Index]
   OBJ_ACCESS: 16,  // .
   PARENS: 16,      // (Expression)
+  CLASS_LITERAL: 17,  // .
 };
 
 module.exports = grammar({
@@ -66,8 +66,11 @@ module.exports = grammar({
     [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
     [$.generic_type, $.primary_expression],
+    [$.expression, $.statement],
     // Only conflicts in switch expressions
     [$.lambda_expression, $.primary_expression],
+    [$.inferred_parameters, $.primary_expression],
+    [$.class_literal, $.field_access],
   ],
 
   word: $ => $.identifier,
@@ -88,7 +91,6 @@ module.exports = grammar({
       $.false,
       $.character_literal,
       $.string_literal,
-      $.text_block,
       $.null_literal
     ),
 
@@ -141,24 +143,58 @@ module.exports = grammar({
     false: $ => 'false',
 
     character_literal: $ => token(seq(
-      "'",
+      '\'',
       repeat1(choice(
         /[^\\'\n]/,
         /\\./,
         /\\\n/
       )),
-      "'"
+      '\''
     )),
 
-    string_literal: $ => token(choice(
-      seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
-      // TODO: support multiline string literals by debugging the following:
-      // seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"', '+', /\n/, '"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)))
-    )),
+    string_literal: $ => choice($._string_literal, $._multiline_string_literal),
+    _string_literal: $ => seq(
+      '"',
+      repeat(choice(
+        $.string_fragment,
+        $.escape_sequence,
+      )),
+      '"'
+    ),
+    _multiline_string_literal: $ => seq(
+      '"""',
+      repeat(choice(
+        alias($._multiline_string_fragment, $.multiline_string_fragment),
+        $._escape_sequence,
+      )),
+      '"""'
+    ),
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token() constructs containing a regexp
+    // so as to obtain a node in the CST.
+    //
+    string_fragment: $ =>
+      token.immediate(prec(1, /[^"\\]+/)),
+    _multiline_string_fragment: () =>
+      prec.right(choice(
+        /[^"]+/,
+        seq(/"[^"]*/, repeat(/[^"]+/))
+      )),
 
-    text_block: $ => token(choice(
-      seq('"""', /\s*\n/, optional(repeat(choice(/[^\\"]/, /\\(.)/))), '"""'),
-    )),
+    _escape_sequence: $ =>
+      choice(
+        prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+        prec(1, $.escape_sequence)
+      ),
+    escape_sequence: () => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/
+      ))),
 
     null_literal: $ => 'null',
 
@@ -174,7 +210,7 @@ module.exports = grammar({
       $.primary_expression,
       $.unary_expression,
       $.cast_expression,
-      prec(PREC.SWITCH_EXP, $.switch_expression),
+      $.switch_expression,
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
@@ -227,12 +263,14 @@ module.exports = grammar({
     instanceof_expression: $ => prec(PREC.REL, seq(
       field('left', $.expression),
       'instanceof',
-      field('right', $._type)
+      optional('final'),
+      field('right', $._type),
+      field('name', optional(choice($.identifier, $._reserved_identifier)))
     )),
 
     lambda_expression: $ => seq(
       field('parameters', choice(
-        $.identifier, $.formal_parameters, $.inferred_parameters
+        $.identifier, $.formal_parameters, $.inferred_parameters, $._reserved_identifier
       )),
       '->',
       field('body', choice($.expression, $.block))
@@ -240,7 +278,7 @@ module.exports = grammar({
 
     inferred_parameters: $ => seq(
       '(',
-      commaSep1($.identifier),
+      commaSep1(choice($.identifier, $._reserved_identifier)),
       ')'
     ),
 
@@ -289,6 +327,7 @@ module.exports = grammar({
 
     array_creation_expression: $ => prec.right(seq(
       'new',
+      repeat($._annotation),
       field('type', $._simple_type),
       choice(
         seq(
@@ -306,7 +345,7 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq('(', $.expression, ')'),
 
-    class_literal: $ => seq($._unannotated_type, '.', 'class'),
+    class_literal: $ => prec.dynamic(PREC.CLASS_LITERAL, seq($._unannotated_type, '.', 'class')),
 
     object_creation_expression: $ => choice(
       $._unqualified_object_creation_expression,
@@ -434,7 +473,7 @@ module.exports = grammar({
       $.continue_statement,
       $.return_statement,
       $.yield_statement,
-      $.switch_expression, //switch statements and expressions are identical
+      $.switch_expression, // switch statements and expressions are identical
       $.synchronized_statement,
       $.local_variable_declaration,
       $.throw_statement,
@@ -635,6 +674,7 @@ module.exports = grammar({
       $.package_declaration,
       $.import_declaration,
       $.class_declaration,
+      $.record_declaration,
       $.interface_declaration,
       $.annotation_type_declaration,
       $.enum_declaration,
@@ -827,6 +867,7 @@ module.exports = grammar({
       $.field_declaration,
       $.record_declaration,
       $.method_declaration,
+      $.compact_constructor_declaration, // For records.
       $.class_declaration,
       $.interface_declaration,
       $.annotation_type_declaration,
@@ -902,7 +943,9 @@ module.exports = grammar({
       optional($.modifiers),
       'record',
       field('name', $.identifier),
+      optional(field('type_parameters', $.type_parameters)),
       field('parameters', $.formal_parameters),
+      optional(field('interfaces', $.super_interfaces)),
       field('body', $.class_body)
     ),
 
@@ -919,6 +962,7 @@ module.exports = grammar({
         $.constant_declaration,
         $.class_declaration,
         $.interface_declaration,
+        $.enum_declaration,
         $.annotation_type_declaration
       )),
       '}'
@@ -962,6 +1006,7 @@ module.exports = grammar({
         $.method_declaration,
         $.class_declaration,
         $.interface_declaration,
+        $.record_declaration,
         $.annotation_type_declaration,
         ';'
       )),
@@ -1129,9 +1174,16 @@ module.exports = grammar({
       choice(field('body', $.block), ';')
     ),
 
+    compact_constructor_declaration: $ => seq(
+      optional($.modifiers),
+      field('name', $.identifier),
+      field('body', $.block)
+    ),
+
     _reserved_identifier: $ => alias(choice(
       'open',
-      'module'
+      'module',
+      'record'
     ), $.identifier),
 
     this: $ => 'this',

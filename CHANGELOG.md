@@ -8,7 +8,8 @@ Added support for Ada.
 
 Improved parsing for TOML.
 
-Updated grammars for Bash, C, C++, C#, Clojure, CMake and Elixir.
+Updated grammars for Bash, C, C++, C#, Clojure, CMake, Elixir and
+Java.
 
 Difftastic now prefers treating files as 'mostly UTF-8' or binary rather than
 UTF-16. Many files can be decoded as UTF-16 without decoding errors
