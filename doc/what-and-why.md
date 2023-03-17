@@ -1,9 +1,10 @@
 # What the Repository Provides and Why
 
 This document describes what files and directories the repository
-provides and associated reasoning.  First it covers the bits that are
-likely to be around in the near future.  This is followed by a
-description of things that may change or be removed.
+provides and associated reasoning.  First it covers things which are
+likely to remain in place for some time (except perhaps the `src`
+directory).  This is followed by a description of things that are more
+likely to change or be removed.
 
 One might be interested in this content out of academic curiosity but
 more likely it might be because one is thinking of depending on the
@@ -11,12 +12,8 @@ repository in some way.
 
 ## What and Why
 
-The following is a list of files and directories that are likely to
-remain "provided" by the repository unless significant changes occur
-elsewhere (e.g. upstream tree-sitter changes what / how they do things
-or other grammar repositories decide to change certain practices).
-The order is alphabetical and not meant to reflect relative
-importance.
+The order of the following files and directories is alphabetical and
+not meant to reflect relative importance.
 
 * `CHANGELOG.md` - this file contains a changelog.
 
@@ -48,20 +45,20 @@ importance.
   content of this directory is generated, the files are provided
   because in practice, multiple parties have already become dependant
   on them.  There have been opinions voiced that this should not
-  remain so, but change in that direction has not been widespread
-  AFAICT.  See
+  remain so, but change in that direction has not been widespread.  We
+  would prefer not to be hosting this directory and its content, but
+  are leaving it in place for the time being.  See
   [here](https://github.com/sogaiu/ts-questions/blob/master/questions/should-parser-source-be-committed/README.md)
   for more on the topic if interested.
 
-* `test` - this directory contains test-related information.  It
-  exists partly for tree-sitter's corpus test functionality to work,
-  but there is also other content that is used for other testing.
+* `test/corpus` - this directory contains tree-sitter's corpus
+  test-related files.
 
 ## Other Content
 
-The rest of the content of the repository is subject to change /
-removal so depending on such remaining in place is likely not a good
-idea.
+The rest of the content of the repository is much more subject to
+change / removal so depending on such remaining in place is likely not
+a good idea.
 
 ATM, some of that includes:
 
