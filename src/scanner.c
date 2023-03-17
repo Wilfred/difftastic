@@ -16,6 +16,7 @@ enum TokenType {
 // the scanner is currently within a string.
 // This will let us ignore comments, which otherwise would be tokenized within
 // strings.
+// This method is borrowed from the OCaml tree-sitter parser.
 void *tree_sitter_kotlin_external_scanner_create() { 
   bool* in_string = malloc(sizeof(bool));
   *in_string = false;
