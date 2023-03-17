@@ -5,32 +5,97 @@ Bits may be missing and/or inaccurate :)
 ### Future?
 
 * Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
+  ([#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41))
 
 ### v0.0.12 - 2023-03-??
 
+* Credits
+  * cgrand
+    ([#44](https://github.com/sogaiu/tree-sitter-clojure/pull/44))
+  * dannyfreeman
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
+    [#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41),
+    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42),
+    [#43](https://github.com/sogaiu/tree-sitter-clojure/issues/43),
+    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
+    [#48](https://github.com/sogaiu/tree-sitter-clojure/pull/48),
+    [#49](https://github.com/sogaiu/tree-sitter-clojure/issues/49))
+  * dmiller
+    ([#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
+  * IGJoshua
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
+  * NoahTheDuke
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
+    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
+  * phronmophobic
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
 * Features and Fixes
   * Loosen sym_val_lit definition
+    ([#51](https://github.com/sogaiu/tree-sitter-clojure/issues/51))
   * Handle metadata that is an evaling_lit
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
+    [#50](https://github.com/sogaiu/tree-sitter-clojure/issues/50))
   * Handle construct used for ClojureDart's parameterized types
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#44](https://github.com/sogaiu/tree-sitter-clojure/pull/44),
+    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46))
   * Generate parser.c and friends with tree-sitter 0.20.7 (ABI 13)
+    ([#26](https://github.com/sogaiu/tree-sitter-clojure/pull/26),
+    [#34](https://github.com/sogaiu/tree-sitter-clojure/issues/34),
+    [#45](https://github.com/sogaiu/tree-sitter-clojure/issues/45))
 * Docs
-  * Credits - additions
   * README
     * Add section on "what and why"
+      ([#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38))
     * Add section pointing to other docs
+      ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
     * Move resources list to own document
+      ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
     * Remove npm-related descriptions
+      ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * Use doc - mostly new users added
+    ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * Scope doc - corrections and refinements
+    ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * Testing doc - link and format updates
+    ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * What and why doc - added
+    ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * notes.txt - removed
 * Developer-related
   * Improve maintainability of grammar.js
+    ([#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40))
   * Remove dependence on npm
+    ([#36](https://github.com/sogaiu/tree-sitter-clojure/issues/36),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#45](https://github.com/sogaiu/tree-sitter-clojure/issues/45))
   * Cleanup package.json
+    ([#34](https://github.com/sogaiu/tree-sitter-clojure/issues/34),
+    [#36](https://github.com/sogaiu/tree-sitter-clojure/issues/36),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#45](https://github.com/sogaiu/tree-sitter-clojure/issues/45))
   * Move corpus to test/corpus
   * Most developer-bits moved to separate repository
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#36](https://github.com/sogaiu/tree-sitter-clojure/issues/36),
+    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42),
+    [#43](https://github.com/sogaiu/tree-sitter-clojure/issues/43),
+    [#45](https://github.com/sogaiu/tree-sitter-clojure/issues/45),
+    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
+    [#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
 
 ### v0.0.11 - 2023-01-22
 
