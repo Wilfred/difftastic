@@ -12,6 +12,10 @@ enum TokenType {
   COMMENT,
 };
 
+// We create a bool for our state, which is meant to denote whether or not
+// the scanner is currently within a string.
+// This will let us ignore comments, which otherwise would be tokenized within
+// strings.
 void *tree_sitter_kotlin_external_scanner_create() { 
   bool* in_string = malloc(sizeof(bool));
   *in_string = false;
@@ -24,23 +28,14 @@ void tree_sitter_kotlin_external_scanner_destroy(void *p) {
 }
 
 unsigned tree_sitter_kotlin_external_scanner_serialize(void *p, char *buffer) {
-  if (*((bool*) p)) {
-    buffer[0] = 'a';
-  }
-  else {
-    buffer[0] = 'b';
-  }
+  buffer[0] = *((bool *) p); 
+
   return 1;
 }
 
 void tree_sitter_kotlin_external_scanner_deserialize(void *p, const char *b, unsigned n) {
   if (n > 0) {
-    if (b[0] == 'a') {
-      *((bool*) p) = true; 
-    }
-    else {
-      *((bool*) p) = false; 
-    }
+    *((bool*) p) = b[0]; 
   }
 }
 
@@ -51,7 +46,6 @@ bool scan_string_delim(bool* payload, TSLexer *lexer) {
   lexer->result_symbol = STRING_DELIM;
   lexer->mark_end(lexer);
   
-  // This inverts whether we are in a string or not.
   return true;
 }
 
@@ -66,7 +60,6 @@ bool scan_multi_line_string_delim(bool* payload, TSLexer *lexer) {
     }
   }
 
-  // This inverts whether we are in a string or not.
   lexer->mark_end(lexer);
   return true;
 }
@@ -373,14 +366,7 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
 
   bool *in_string = payload;
 
-  // this needs to be up here or line literals containing comments won't work
-  // actually just any string literals won't work
-
-  // this might be possible when we're after a return
-  // like
-  // return "hi"
-  // which will inhibit us from going down and picking a string
-  if (valid_symbols[AUTOMATIC_SEMICOLON] && !(lexer->lookahead == '/')) {
+  if (valid_symbols[AUTOMATIC_SEMICOLON]) {
     bool ret = scan_automatic_semicolon(lexer);
     if (!ret && valid_symbols[SAFE_NAV] && lexer->lookahead == '?')
       return scan_safe_nav(lexer);
@@ -394,7 +380,8 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
   if (valid_symbols[IMPORT_LIST_DELIMITER])
     return scan_import_list_delimiter(lexer);
 
-
+  // a string might follow after some whitespace, so we can't lookahead 
+  // until we get rid of it
   while(iswspace(lexer->lookahead)) {
     skip(lexer);
   }
@@ -409,14 +396,8 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     return scan_string_delim(payload, lexer);
   }
 
-  // but this needs to be up here or comments won't work
-  // because removing this check for in_string causes tests to pass, there must be values for
-  // which this value is changing
   // only lex comments if we are not currently within a string
-  else if (!(*in_string) && valid_symbols[COMMENT] && (iswspace(lexer->lookahead) || lexer->lookahead == '/')) {
-    while (iswspace(lexer->lookahead)) {
-      skip(lexer);
-    }
+  else if (!(*in_string) && valid_symbols[COMMENT] && lexer->lookahead == '/') {
     if (lexer->lookahead == '/') {
       advance(lexer);
       lexer->result_symbol = COMMENT;

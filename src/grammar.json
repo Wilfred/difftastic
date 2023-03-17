@@ -5406,48 +5406,6 @@
         }
       ]
     },
-    "comment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 0,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "//"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": ".*"
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "/*"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "/"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
     "_return_at": {
       "type": "SEQ",
       "members": [
@@ -6228,6 +6186,18 @@
     {
       "type": "SYMBOL",
       "name": "safe_nav"
+    },
+    {
+      "type": "STRING",
+      "value": "\"\"\""
+    },
+    {
+      "type": "STRING",
+      "value": "\""
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "inline": [],
