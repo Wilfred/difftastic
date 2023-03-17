@@ -246,6 +246,7 @@ func f2() (result int, err error) {}
 func f(x ... int, y ... int)
 func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
+func g2(a foo.bar[int]) {}
 func f[A int|string, B ~int, C ~int|~string]()
 
 --------------------------------------------------------------------------------
@@ -350,6 +351,18 @@ func f[A int|string, B ~int, C ~int|~string]()
         (identifier)
         (generic_type
           (type_identifier)
+          (type_arguments
+            (type_identifier)))))
+    (block))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter_declaration
+        (identifier)
+        (generic_type
+          (qualified_type
+            (package_identifier)
+            (type_identifier))
           (type_arguments
             (type_identifier)))))
     (block))
@@ -463,6 +476,7 @@ package main
 
 func (self Person) Equals(other Person) bool {}
 func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
+func (p *T1) M1()
 
 --------------------------------------------------------------------------------
 
@@ -494,7 +508,15 @@ func (v *Value) ObjxMap(optionalDefault ...(Map)) Map {}
         (parenthesized_type
           (type_identifier))))
     (type_identifier)
-    (block)))
+    (block))
+  (method_declaration
+    (parameter_list
+      (parameter_declaration
+        (identifier)
+        (pointer_type
+          (type_identifier))))
+    (field_identifier)
+    (parameter_list)))
 
 ================================================================================
 Type declarations

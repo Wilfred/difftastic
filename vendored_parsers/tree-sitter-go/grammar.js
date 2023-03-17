@@ -214,7 +214,7 @@ module.exports = grammar({
       field('name', $._field_identifier),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
-      field('body', $.block)
+      field('body', optional($.block))
     )),
 
     type_parameter_list: $ => seq(
@@ -295,7 +295,7 @@ module.exports = grammar({
     ),
 
     generic_type: $ => seq(
-      field('type', $._type_identifier),
+      field('type', choice($._type_identifier, $.qualified_type)),
       field('type_arguments', $.type_arguments),
     ),
 
@@ -372,7 +372,7 @@ module.exports = grammar({
     ),
 
     _interface_body: $ => choice(
-       $.method_spec, $.interface_type_name, $.constraint_elem
+       $.method_spec, $.interface_type_name, $.constraint_elem, $.struct_elem
     ),
 
     interface_type_name: $ => choice($._type_identifier, $.qualified_type),
@@ -385,6 +385,16 @@ module.exports = grammar({
     constraint_term: $ => prec(-1, seq(
       optional('~'),
       $._type_identifier,
+    )),
+
+    struct_elem: $ => seq(
+      $.struct_term,
+      repeat(seq('|', $.struct_term))
+    ),
+
+    struct_term: $ => prec(-1, seq(
+      optional(choice('~', '*')),
+      $.struct_type
     )),
 
     method_spec: $ => seq(
@@ -841,7 +851,7 @@ module.exports = grammar({
         $._interpreted_string_literal_basic_content,
         $.escape_sequence
       )),
-      '"'
+      token.immediate('"')
     ),
     _interpreted_string_literal_basic_content: $ => token.immediate(prec(1, /[^"\n\\]+/)),
 
