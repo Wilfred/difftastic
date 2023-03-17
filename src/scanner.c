@@ -18,8 +18,7 @@ enum TokenType {
 // strings.
 // This method is borrowed from the OCaml tree-sitter parser.
 void *tree_sitter_kotlin_external_scanner_create() { 
-  bool* in_string = malloc(sizeof(bool));
-  *in_string = false;
+  bool *in_string = malloc(sizeof(bool));
 
   return in_string;
 }
@@ -29,14 +28,16 @@ void tree_sitter_kotlin_external_scanner_destroy(void *p) {
 }
 
 unsigned tree_sitter_kotlin_external_scanner_serialize(void *p, char *buffer) {
-  buffer[0] = *((bool *) p); 
+  bool *in_string = p;
+  buffer[0] = *in_string;
 
   return 1;
 }
 
 void tree_sitter_kotlin_external_scanner_deserialize(void *p, const char *b, unsigned n) {
+  bool *in_string = p;
   if (n > 0) {
-    *((bool*) p) = b[0]; 
+    *in_string = b[0];
   }
 }
 
@@ -100,29 +101,7 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
     }
 
     if (lexer->lookahead == '/') {
-      skip(lexer);
-
-      if (lexer->lookahead == '/') {
-        skip(lexer);
-        while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
-          skip(lexer);
-        }
-      } else if (lexer->lookahead == '*') {
-        skip(lexer);
-        while (lexer->lookahead != 0) {
-          if (lexer->lookahead == '*') {
-            skip(lexer);
-            if (lexer->lookahead == '/') {
-              skip(lexer);
-              break;
-            }
-          } else {
-            skip(lexer);
-          }
-        }
-      } else {
-        return false;
-      }
+      return false;
     } else {
       return true;
     }
@@ -218,7 +197,7 @@ bool scan_automatic_semicolon(TSLexer *lexer) {
     case '&':
     case '/':
       return false;
-
+    
     // Insert a semicolon before `--` and `++`, but not before binary `+` or `-`.
     // Insert before +/-Float
     case '+':
@@ -389,12 +368,35 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
 
   if (valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
     advance(lexer);
+
     *in_string = !(*in_string);
 
+    lexer->result_symbol = STRING_DELIM;
+    lexer->mark_end(lexer);
+
     if (lexer->lookahead == '"') {
-      return scan_multi_line_string_delim(payload, lexer);
+      advance(lexer);
+      // This might still be the empty string.
+      // In which case, if we don't see a third quote, we know we
+      // should parse just the first quote.
+
+      if (lexer->lookahead == '"') {
+        advance(lexer);
+
+				// We return here if there are four strings in a row, because
+				// the first one is a quote interior to a multi line string delim.
+				// So we want to shift forward by one and try the multi line string
+				// delim again.
+        if (lexer->lookahead == '"') {
+          return false;
+        }
+
+        lexer->result_symbol = MULTI_LINE_STRING_DELIM;
+        lexer->mark_end(lexer);
+      }
     }
-    return scan_string_delim(payload, lexer);
+
+    return true;
   }
 
   // only lex comments if we are not currently within a string

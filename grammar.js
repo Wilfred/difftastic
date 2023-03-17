@@ -119,7 +119,7 @@ module.exports = grammar({
     $._automatic_semicolon,
     $._import_list_delimiter,
     $.safe_nav,
-    '"""',
+    $.multi_line_string_delim,
     '"',
     $.comment,
   ],
@@ -760,12 +760,12 @@ module.exports = grammar({
     line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
 
     multi_line_string_literal: $ => seq(
-      '"""',
+      $.multi_line_string_delim,
       repeat(choice(
         $._multi_line_string_content,
         $._interpolation
       )),
-      '"""'
+      $.multi_line_string_delim,
     ),
 
     _line_string_content: $ => choice(

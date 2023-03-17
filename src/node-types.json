@@ -5449,7 +5449,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "interpolated_expression",
@@ -5457,6 +5457,10 @@
         },
         {
           "type": "interpolated_identifier",
+          "named": true
+        },
+        {
+          "type": "multi_line_string_delim",
           "named": true
         }
       ]
@@ -9425,10 +9429,6 @@
     "named": false
   },
   {
-    "type": "\"\"\"",
-    "named": false
-  },
-  {
     "type": "#!",
     "named": false
   },
@@ -9779,6 +9779,10 @@
   {
     "type": "lateinit",
     "named": false
+  },
+  {
+    "type": "multi_line_string_delim",
+    "named": true
   },
   {
     "type": "noinline",

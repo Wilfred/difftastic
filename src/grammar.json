@@ -3771,8 +3771,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "SYMBOL",
+          "name": "multi_line_string_delim"
         },
         {
           "type": "REPEAT",
@@ -3791,8 +3791,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "SYMBOL",
+          "name": "multi_line_string_delim"
         }
       ]
     },
@@ -6188,8 +6188,8 @@
       "name": "safe_nav"
     },
     {
-      "type": "STRING",
-      "value": "\"\"\""
+      "type": "SYMBOL",
+      "name": "multi_line_string_delim"
     },
     {
       "type": "STRING",
