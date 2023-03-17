@@ -20,7 +20,7 @@ module.exports = function defineGrammar(dialect) {
       [
         'call',
         'unary',
-        'binary_as',
+        'binary',
         $.await_expression,
         $.arrow_function,
       ],
@@ -29,7 +29,7 @@ module.exports = function defineGrammar(dialect) {
         $.union_type,
         $.conditional_type,
         $.function_type,
-        'binary_as',
+        'binary',
         $.type_predicate,
         $.readonly_type
       ],
@@ -47,7 +47,7 @@ module.exports = function defineGrammar(dialect) {
       [$.type_query, $.subscript_expression, $.expression],
       [$.type_query, $._type_query_subscript_expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
-      [$.as_expression, $._primary_type],
+      [$.as_expression, $.satisfies_expression, $._primary_type],
       [$._type_query_member_expression, $.member_expression],
       [$._type_query_member_expression, $.primary_expression],
       [$._type_query_subscript_expression, $.subscript_expression],
@@ -208,6 +208,7 @@ module.exports = function defineGrammar(dialect) {
       expression: ($, previous) => {
         const choices = [
           $.as_expression,
+          $.satisfies_expression,
           $.internal_module,
         ];
 
@@ -256,9 +257,37 @@ module.exports = function defineGrammar(dialect) {
         '>'
       )),
 
-      _import_export_specifier: ($, previous) => seq(
+      export_specifier: ($, previous) => seq(
         optional(choice('type', 'typeof')),
         previous
+      ),
+
+      _import_identifier: $ => choice($.identifier, alias('type', $.identifier)),
+
+      import_specifier: ($, previous) => seq(
+        optional(choice('type', 'typeof')),
+        choice(
+        field('name', $._import_identifier),
+        seq(
+          field('name', choice($._module_export_name, alias('type', $.identifier))),
+          'as',
+          field('alias', $._import_identifier)
+        ),
+      )),
+
+      import_clause: ($, previous) => choice(
+        $.namespace_import,
+        $.named_imports,
+        seq(
+          $._import_identifier,
+          optional(seq(
+            ',',
+            choice(
+              $.namespace_import,
+              $.named_imports
+            )
+          ))
+        )
       ),
 
       import_statement: $ => seq(
@@ -359,6 +388,7 @@ module.exports = function defineGrammar(dialect) {
           // The same rule applies for functions and that's why we use
           // "_function_signature_automatic_semicolon".
           seq($.method_signature, choice($._function_signature_automatic_semicolon, ',')),
+          $.class_static_block,
           seq(
             choice(
               $.abstract_method_signature,
@@ -403,10 +433,16 @@ module.exports = function defineGrammar(dialect) {
         $.expression
       )),
 
-      as_expression: $ => prec.left('binary_as', seq(
+      as_expression: $ => prec.left('binary', seq(
         $.expression,
         'as',
-        choice($._type, $.template_literal_type)
+        $._type
+      )),
+
+      satisfies_expression: $ => prec.left('binary', seq(
+        $.expression,
+        'satisfies',
+        $._type
       )),
 
       class_heritage: $ => choice(

@@ -31,4 +31,5 @@
   "type"
   "readonly"
   "override"
+  "satisfies"
 ] @keyword

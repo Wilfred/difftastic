@@ -13,7 +13,10 @@ require('tree-sitter-typescript').typescript; // TypeScript grammar
 require('tree-sitter-typescript').tsx; // TSX grammar
 ```
 
+For Javascript files with [flow] type annotations you can use the the `tsx` parser.
+
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
+[flow]: https://flow.org/en/
 
 References
 
