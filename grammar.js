@@ -461,7 +461,7 @@ module.exports = grammar({
     sym_val_lit: $ =>
     seq(field('marker', "##"),
         repeat($._gap),
-        field('value', $.sym_lit)),
+        field('value', $._form)),
 
     evaling_lit: $ =>
     seq(repeat($._metadata_lit), // ^:x #=(vector 1)
