@@ -19,5 +19,5 @@ my $string = "This is a string with # in it";
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_double_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_double_quoted)) (semi_colon)
 )

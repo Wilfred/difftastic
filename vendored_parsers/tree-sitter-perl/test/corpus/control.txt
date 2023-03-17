@@ -54,7 +54,7 @@ while ($i < 10) {
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer)) (semi_colon)
   (while_statement (empty_parenthesized_expression (binary_expression (scalar_variable) (integer)))
     (block
       (call_expression (identifier) (argument (string_double_quoted (interpolation (scalar_variable))))) (semi_colon)
@@ -79,7 +79,7 @@ MEOW: while ($i < 10) {
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer)) (semi_colon)
   (while_statement (identifier) (empty_parenthesized_expression (binary_expression (scalar_variable) (integer)))
     (block
       (call_expression (identifier) (argument (string_double_quoted (interpolation (scalar_variable))))) (semi_colon) (loop_control_statement (loop_control_keyword) (identifier) (semi_colon)) (unary_expression (scalar_variable)) (semi_colon))
@@ -96,7 +96,7 @@ print "in a loop" for @array;
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (array_variable)) (array (integer) (integer) (integer)) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (array_variable)) (array (integer) (integer) (integer))) (semi_colon)
   (single_line_statement (call_expression (identifier) (argument (string_double_quoted))) (for_simple_statement (array_variable) (semi_colon)))
 )
 
@@ -110,7 +110,7 @@ for (my $i=1; $i < 10; $i++) {
 ---
 
 (source_file
-  (for_statement_1 (binary_expression (call_expression (identifier) (argument (scalar_variable))) (integer)) (semi_colon) (binary_expression (scalar_variable) (integer)) (semi_colon) (unary_expression (scalar_variable))
+  (for_statement_1 (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer)) (semi_colon) (binary_expression (scalar_variable) (integer)) (semi_colon) (unary_expression (scalar_variable))
     (block)
   )
 )

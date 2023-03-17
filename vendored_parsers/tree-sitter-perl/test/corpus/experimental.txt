@@ -16,4 +16,4 @@ use feature qw(switch say);
 
 ---
 
-(source_file (use_no_feature_statement (word_list_qw (list_item) (list_item)) (semi_colon)))
+(source_file (use_no_feature_statement (word_list_qw (start_delimiter_qw) (list_item) (list_item) (end_delimiter_qw)) (semi_colon)))

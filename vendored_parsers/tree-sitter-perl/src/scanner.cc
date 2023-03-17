@@ -197,7 +197,8 @@ namespace {
         }
 
         while (
-          lexer->lookahead != ' '
+          lexer->lookahead // exit condition
+          && lexer->lookahead != ' '
           && lexer->lookahead != '\t'
           && lexer->lookahead != '\r'
           && lexer->lookahead != '\n'
@@ -533,7 +534,8 @@ namespace {
           return true;
         }
         return false;
-    }
+      }
+      return false;
     }
 
     bool handle_nested_delimiters() {
