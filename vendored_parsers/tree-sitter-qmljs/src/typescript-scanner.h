@@ -1,6 +1,6 @@
 /*
 Source:
-github:tree-sitter/tree-sitter-typescript#1b3ba31c7538825b05815f4f5bffcca6394edc63
+github:tree-sitter/tree-sitter-typescript#0ab9d99867435a7667c5548a6617a6bf73dbd830
 
 The MIT License (MIT)
 
@@ -199,18 +199,18 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
     /* Optional chaining. */
     if (lexer->lookahead == '.') return false;
 
+    lexer->mark_end(lexer);
+    lexer->result_symbol = TERNARY_QMARK;
+
     /* TypeScript optional arguments contain the ?: sequence, possibly
        with whitespace. */
     for(;;) {
       if (!iswspace(lexer->lookahead)) break;
-      skip(lexer);
+      advance(lexer);
     }
     if (lexer->lookahead == ':') return false;
     if (lexer->lookahead == ')') return false;
     if (lexer->lookahead == ',') return false;
-
-    lexer->mark_end(lexer);
-    lexer->result_symbol = TERNARY_QMARK;
 
     if (lexer->lookahead == '.') {
       advance(lexer);

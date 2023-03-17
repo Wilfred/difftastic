@@ -125,7 +125,7 @@ Weird object pattern
 ================================================================================
 
 // Found in
-// qtdeclarative/tests/auto/quickcontrols2/controls/data/tst_scrollbar.qml
+// qtdeclarative/tests/auto/quickcontrols/controls/data/tst_scrollbar.qml
 //
 // This appears not accepted by Chrome/Firefox, but QML parser doesn't report
 // any error.
