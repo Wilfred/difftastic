@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-elixir",
-  "version": "0.19.0",
-  "description": "Elixir grammar for tree-sitter",
+  "version": "0.1.0",
+  "description": "Elixir grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "keywords": [
     "parser",
@@ -9,18 +9,22 @@
     "elixir",
     "tree-sitter"
   ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elixir-lang/tree-sitter-elixir.git"
+  },
   "scripts": {
     "test": "tree-sitter test",
     "format": "prettier --trailing-comma es5 --write grammar.js",
     "format-check": "prettier --trailing-comma es5 --check grammar.js"
   },
-  "license": "Apache-2.0",
   "dependencies": {
     "nan": "^2.15.0"
   },
   "devDependencies": {
     "prettier": "^2.3.2",
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.20.7"
   },
   "tree-sitter": [
     {
