@@ -33,3 +33,20 @@ NaN
 (source
   (sym_val_lit
     (sym_lit (sym_name))))
+
+================================================================================
+Symbolic Value Literal with Evaling Literal
+================================================================================
+
+###=(identity NaN)
+
+--------------------------------------------------------------------------------
+
+(source
+  (sym_val_lit
+    (evaling_lit
+      (list_lit
+        (sym_lit
+          (sym_name))
+        (sym_lit
+          (sym_name))))))
