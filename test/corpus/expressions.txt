@@ -328,3 +328,55 @@ when (dir) {
               (navigation_suffix
                 (simple_identifier)))
             (simple_identifier)))))))
+
+==================
+Comments in Strings
+==================
+
+val comments = foo("//")
+val comments = foo("hello //")
+val comments = foo("// there")
+val comments = foo("hello // there")
+val comments = """ 
+  // hey there's a
+  
+  /* comment or two here */
+"""
+val comments = """ // and here """ 
+
+---
+
+(source_file 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(call_expression 
+			(simple_identifier) 
+			(call_suffix (value_arguments (value_argument (line_string_literal)))))
+	) 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(call_expression 
+			(simple_identifier) 
+			(call_suffix (value_arguments (value_argument (line_string_literal)))))
+	) 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(call_expression 
+			(simple_identifier) 
+			(call_suffix (value_arguments (value_argument (line_string_literal)))))
+	) 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(call_expression 
+			(simple_identifier) 
+			(call_suffix (value_arguments (value_argument (line_string_literal)))))
+	) 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(multi_line_string_literal)
+	) 
+	(property_declaration 
+		(variable_declaration (simple_identifier)) 
+		(multi_line_string_literal)
+	)
+)

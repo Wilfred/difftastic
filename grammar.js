@@ -119,6 +119,9 @@ module.exports = grammar({
     $._automatic_semicolon,
     $._import_list_delimiter,
     $.safe_nav,
+    '"""',
+    '"',
+    $.comment,
   ],
 
   extras: $ => [
@@ -1108,12 +1111,6 @@ module.exports = grammar({
     // ==========
     // General
     // ==========
-
-    // Source: https://github.com/tree-sitter/tree-sitter-java/blob/bc7124d924723e933b6ffeb5f22c4cf5248416b7/grammar.js#L1030
-    comment: $ => token(prec(PREC.COMMENT, choice(
-      seq("//", /.*/),
-      seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
-    ))),
 
     // ==========
     // Separators and operations

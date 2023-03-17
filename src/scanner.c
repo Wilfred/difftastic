@@ -7,16 +7,97 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   IMPORT_LIST_DELIMITER,
   SAFE_NAV,
+  MULTI_LINE_STRING_DELIM,
+  STRING_DELIM,
+  COMMENT,
 };
 
-void *tree_sitter_kotlin_external_scanner_create() { return NULL; }
-void tree_sitter_kotlin_external_scanner_destroy(void *p) {}
-void tree_sitter_kotlin_external_scanner_reset(void *p) {}
-unsigned tree_sitter_kotlin_external_scanner_serialize(void *p, char *buffer) { return 0; }
-void tree_sitter_kotlin_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+void *tree_sitter_kotlin_external_scanner_create() { 
+  bool* in_string = malloc(sizeof(bool));
+  *in_string = false;
+
+  return in_string;
+}
+
+void tree_sitter_kotlin_external_scanner_destroy(void *p) {
+  free(p);
+}
+
+unsigned tree_sitter_kotlin_external_scanner_serialize(void *p, char *buffer) {
+  if (*((bool*) p)) {
+    buffer[0] = 'a';
+  }
+  else {
+    buffer[0] = 'b';
+  }
+  return 1;
+}
+
+void tree_sitter_kotlin_external_scanner_deserialize(void *p, const char *b, unsigned n) {
+  if (n > 0) {
+    if (b[0] == 'a') {
+      *((bool*) p) = true; 
+    }
+    else {
+      *((bool*) p) = false; 
+    }
+  }
+}
 
 static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+
+bool scan_string_delim(bool* payload, TSLexer *lexer) {
+  lexer->result_symbol = STRING_DELIM;
+  lexer->mark_end(lexer);
+  
+  // This inverts whether we are in a string or not.
+  return true;
+}
+
+bool scan_multi_line_string_delim(bool* payload, TSLexer *lexer) {
+  lexer->result_symbol = MULTI_LINE_STRING_DELIM;
+
+  for (int i = 0; i < 2; i++) {
+    if (lexer->lookahead == '"') {
+      advance(lexer);
+    } else {
+      return false;
+    }
+  }
+
+  // This inverts whether we are in a string or not.
+  lexer->mark_end(lexer);
+  return true;
+}
+
+bool scan_comment(TSLexer *lexer) {
+  if (lexer->lookahead == '/') {
+    advance(lexer);
+    while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
+      advance(lexer);
+    }
+    lexer->mark_end(lexer);
+    return true;
+  } else if (lexer->lookahead == '*') {
+    advance(lexer);
+    while (lexer->lookahead != 0) {
+      if (lexer->lookahead == '*') {
+        advance(lexer);
+        if (lexer->lookahead == '/') {
+          advance(lexer);
+          break;
+        }
+      } else {
+        advance(lexer);
+      }
+    }
+    lexer->mark_end(lexer);
+    return true;
+  } else {
+    return false;
+  }
+}
 
 static bool scan_whitespace_and_comments(TSLexer *lexer) {
   for (;;) {
@@ -289,20 +370,64 @@ bool scan_import_list_delimiter(TSLexer *lexer) {
 
 bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+
+  bool *in_string = payload;
+
+  // this needs to be up here or line literals containing comments won't work
+  // actually just any string literals won't work
+
+  // this might be possible when we're after a return
+  // like
+  // return "hi"
+  // which will inhibit us from going down and picking a string
+  if (valid_symbols[AUTOMATIC_SEMICOLON] && !(lexer->lookahead == '/')) {
     bool ret = scan_automatic_semicolon(lexer);
     if (!ret && valid_symbols[SAFE_NAV] && lexer->lookahead == '?')
       return scan_safe_nav(lexer);
 
-    return ret;
-  }
-
-  if (valid_symbols[SAFE_NAV]) {
-    return scan_safe_nav(lexer);
+    // if we fail to find an automatic semicolon, it's still possible that we may 
+    // want to lex a string or comment later
+    if (ret)
+      return ret;
   }
 
   if (valid_symbols[IMPORT_LIST_DELIMITER])
     return scan_import_list_delimiter(lexer);
+
+
+  while(iswspace(lexer->lookahead)) {
+    skip(lexer);
+  }
+
+  if (valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
+    advance(lexer);
+    *in_string = !(*in_string);
+
+    if (lexer->lookahead == '"') {
+      return scan_multi_line_string_delim(payload, lexer);
+    }
+    return scan_string_delim(payload, lexer);
+  }
+
+  // but this needs to be up here or comments won't work
+  // because removing this check for in_string causes tests to pass, there must be values for
+  // which this value is changing
+  // only lex comments if we are not currently within a string
+  else if (!(*in_string) && valid_symbols[COMMENT] && (iswspace(lexer->lookahead) || lexer->lookahead == '/')) {
+    while (iswspace(lexer->lookahead)) {
+      skip(lexer);
+    }
+    if (lexer->lookahead == '/') {
+      advance(lexer);
+      lexer->result_symbol = COMMENT;
+      return scan_comment(lexer);
+    }
+    return false;
+  } 
+
+  else if (valid_symbols[SAFE_NAV]) {
+    return scan_safe_nav(lexer);
+  }
 
   return false;
 }
