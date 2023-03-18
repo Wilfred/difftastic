@@ -5,6 +5,10 @@
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)
 has been tested using a variety of methods.
 
+_Note_: The description below is somewhat out-of-date.  Once the
+currently used methods stabilize a bit, the following content may get
+updated.
+
 ## The Details
 
 This document will touch on some of those methods and why they were
@@ -116,7 +120,7 @@ tree-sitter's `parse` command in combination with `find`, `xargs` and the like
 if on some kind of \*nix.  An example of a comparable invocation is:
 
 ```
-find ~/src/clojars-cljish -type f -regex '.*\.clj[cs]?$' -print0 | xargs -0 npx tree-sitter parse --quiet > my-results.txt
+find ~/src/clojars-cljish -type f -regex '.*\.clj[cs]?$' -print0 | xargs -0 tree-sitter parse --quiet > my-results.txt
 ```
 
 `a-tsclj-checker` is the fastest tool but it has not been updated to
