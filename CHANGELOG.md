@@ -42,6 +42,7 @@ Bits may be missing and/or inaccurate :)
     ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
   * What and why doc - added
     ([#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
+  * Limits doc - added
   * notes.txt - removed
 * Developer-related
   * Improve maintainability of grammar.js
