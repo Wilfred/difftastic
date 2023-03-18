@@ -10,7 +10,7 @@ tree-sitter-clojure has been used in or by the following:
 
 * [Helix Editor](https://github.com/helix-editor/helix)
 
-* [Lacpe](https://github.com/lapce/lapce) (though this is via [a
+* [Lapce](https://github.com/lapce/lapce) (though this is via [a
   fork](https://github.com/abreumatheus/tree-sitter-clojure)).
 
 * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
