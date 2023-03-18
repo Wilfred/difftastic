@@ -21,7 +21,13 @@ notified beforehand.
 
 ## Other Documents
 
-Please see the [`doc` directory](doc/).
+There are some documents in the [`doc` directory](doc/) covering
+topics such as:
+
+* [Scope](doc/scope.md)
+* [Limits](doc/limits.md)
+* [Testing](doc/testing.md)
+* [Uses](doc/use.md)
 
 ## Acknowledgments
 
