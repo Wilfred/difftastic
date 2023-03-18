@@ -9,34 +9,6 @@ Bits may be missing and/or inaccurate :)
 
 ### v0.0.12 - 2023-03-??
 
-* Credits
-  * cgrand
-    ([#44](https://github.com/sogaiu/tree-sitter-clojure/pull/44))
-  * dannyfreeman
-    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
-    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
-    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
-    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
-    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
-    [#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41),
-    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42),
-    [#43](https://github.com/sogaiu/tree-sitter-clojure/issues/43),
-    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
-    [#48](https://github.com/sogaiu/tree-sitter-clojure/pull/48),
-    [#49](https://github.com/sogaiu/tree-sitter-clojure/issues/49))
-  * dmiller
-    ([#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
-  * IGJoshua
-    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
-  * NoahTheDuke
-    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
-    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
-    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
-    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
-    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
-    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
-  * phronmophobic
-    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
 * Features and Fixes
   * Loosen sym_val_lit definition
     ([#51](https://github.com/sogaiu/tree-sitter-clojure/issues/51))
@@ -96,6 +68,34 @@ Bits may be missing and/or inaccurate :)
     [#45](https://github.com/sogaiu/tree-sitter-clojure/issues/45),
     [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
     [#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
+* Credits
+  * cgrand
+    ([#44](https://github.com/sogaiu/tree-sitter-clojure/pull/44))
+  * dannyfreeman
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
+    [#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41),
+    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42),
+    [#43](https://github.com/sogaiu/tree-sitter-clojure/issues/43),
+    [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
+    [#48](https://github.com/sogaiu/tree-sitter-clojure/pull/48),
+    [#49](https://github.com/sogaiu/tree-sitter-clojure/issues/49))
+  * dmiller
+    ([#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
+  * IGJoshua
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
+  * NoahTheDuke
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35),
+    [#37](https://github.com/sogaiu/tree-sitter-clojure/issues/37),
+    [#38](https://github.com/sogaiu/tree-sitter-clojure/issues/38),
+    [#39](https://github.com/sogaiu/tree-sitter-clojure/issues/39),
+    [#40](https://github.com/sogaiu/tree-sitter-clojure/issues/40),
+    [#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
+  * phronmophobic
+    ([#35](https://github.com/sogaiu/tree-sitter-clojure/issues/35))
 
 ### v0.0.11 - 2023-01-22
 
