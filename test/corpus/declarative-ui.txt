@@ -4,6 +4,7 @@ Pragma and imports
 
 pragma Singleton
 pragma ListPropertyAssignBehavior: Append
+pragma ValueTypeBehavior: Copy, Addressable
 import QtQuick
 import Qt.labs.platform as Platform
 import QtQuick.Controls 2
@@ -20,6 +21,10 @@ Item {}
     name: (identifier))
   (ui_pragma
     name: (identifier)
+    value: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (identifier)
     value: (identifier))
   (ui_import
     source: (identifier))

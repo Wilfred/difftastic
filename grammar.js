@@ -45,7 +45,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       field('name', $.identifier),  // PragmaId
       optional(seq(
         ':',
-        field('value', $.identifier),
+        // TODO: or insert 'values': (ui_pragma_value_list ..)?
+        sep1(field('value', $.identifier), ','),
       )),
       $._semicolon,
     ),
