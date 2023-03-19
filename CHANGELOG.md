@@ -70,6 +70,8 @@ Bits may be missing and/or inaccurate :)
     [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
     [#47](https://github.com/sogaiu/tree-sitter-clojure/issues/47))
 * Credits
+  * borkdude
+    ([#51](https://github.com/sogaiu/tree-sitter-clojure/issues/51))
   * cgrand
     ([#44](https://github.com/sogaiu/tree-sitter-clojure/pull/44))
   * dannyfreeman
@@ -84,7 +86,8 @@ Bits may be missing and/or inaccurate :)
     [#43](https://github.com/sogaiu/tree-sitter-clojure/issues/43),
     [#46](https://github.com/sogaiu/tree-sitter-clojure/issues/46),
     [#48](https://github.com/sogaiu/tree-sitter-clojure/pull/48),
-    [#49](https://github.com/sogaiu/tree-sitter-clojure/issues/49))
+    [#49](https://github.com/sogaiu/tree-sitter-clojure/issues/49),
+    [#51](https://github.com/sogaiu/tree-sitter-clojure/issues/51))
   * dmiller
     ([#42](https://github.com/sogaiu/tree-sitter-clojure/issues/42))
   * IGJoshua
