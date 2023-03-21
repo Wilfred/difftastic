@@ -119,13 +119,15 @@ module.exports = grammar({
     $._automatic_semicolon,
     $._import_list_delimiter,
     $.safe_nav,
-    $.multi_line_string_delim,
-    '"',
-    $.comment,
+    $.multiline_comment,
+    $._string_start,
+    $._string_end,
+    $._string_content,
   ],
 
   extras: $ => [
-    $.comment,
+    $.line_comment,
+    $.multiline_comment,
     /\s+/ // Whitespace
   ],
 
@@ -723,7 +725,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.simple_identifier,
       $._literal_constant,
-      $._string_literal,
+      $.string_literal,
       $.callable_reference,
       $._function_literal,
       $.object_literal,
@@ -752,30 +754,13 @@ module.exports = grammar({
       $.unsigned_literal
     ),
 
-    _string_literal: $ => choice(
-      $.line_string_literal,
-      $.multi_line_string_literal
-    ),
-
-    line_string_literal: $ => seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
-
-    multi_line_string_literal: $ => seq(
-      $.multi_line_string_delim,
-      repeat(choice(
-        $._multi_line_string_content,
-        $._interpolation
-      )),
-      $.multi_line_string_delim,
-    ),
-
-    _line_string_content: $ => choice(
-      $._line_str_text,
-      $.character_escape_seq
+    string_literal: $ => seq(
+      $._string_start,
+      repeat(choice($._string_content, $._interpolation)),
+      $._string_end,
     ),
 
     line_string_expression: $ => seq("${", $._expression, "}"),
-
-    _multi_line_string_content: $ => choice($._multi_line_str_text, '"'),
 
     _interpolation: $ => choice(
       seq("${", alias($._expression, $.interpolated_expression), "}"),
@@ -1112,6 +1097,8 @@ module.exports = grammar({
     // General
     // ==========
 
+    line_comment: $ => token(seq('//', /.*/)),
+
     // ==========
     // Separators and operations
     // ==========
@@ -1196,13 +1183,6 @@ module.exports = grammar({
 
     _escaped_identifier: $ => /\\[tbrn'"\\$]/,
 
-    // ==========
-    // Strings
-    // ==========
-
-    _line_str_text: $ => /[^\\"$]+/,
-
-    _multi_line_str_text: $ => /[^"$]+/
   }
 });
 

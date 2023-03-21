@@ -1,3 +1,4 @@
+#include <string.h>
 #include <tree_sitter/parser.h>
 #include <wctype.h>
 
@@ -7,90 +8,196 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   IMPORT_LIST_DELIMITER,
   SAFE_NAV,
-  MULTI_LINE_STRING_DELIM,
-  STRING_DELIM,
-  COMMENT,
+  MULTILINE_COMMENT,
+  STRING_START,
+  STRING_END,
+  STRING_CONTENT,
 };
 
-// We create a bool for our state, which is meant to denote whether or not
-// the scanner is currently within a string.
-// This will let us ignore comments, which otherwise would be tokenized within
-// strings.
-// This method is borrowed from the OCaml tree-sitter parser.
-void *tree_sitter_kotlin_external_scanner_create() { 
-  bool *in_string = malloc(sizeof(bool));
+typedef char Delimiter;
 
-  return in_string;
+// Block comments are easy to parse, but strings require extra-attention.
+
+// The main problems that arise when parsing strings are:
+// 1. Triple quoted strings allow single quotes inside. e.g. """ "foo" """.
+// 2. Non-standard string literals don't allow interpolations or escape
+//    sequences, but you can always write \" and \`.
+
+// To efficiently store a delimiter, we take advantage of the fact that:
+// (int)'"' == 34 && 34 % 2 == 0
+// i.e. " has an even numeric representation, so we can store a triple
+// quoted delimiter as (delimiter + 1).
+
+// We use a stack to keep track of the string delimiters.
+typedef struct {
+  Delimiter *arr;
+  unsigned len;
+} Stack;
+
+static Stack *new_stack() {
+  Delimiter *arr = malloc(TREE_SITTER_SERIALIZATION_BUFFER_SIZE);
+  if (arr == NULL) exit(1);
+  Stack *stack = malloc(sizeof(Stack));
+  if (stack == NULL) exit(1);
+  stack->arr = arr;
+  stack->len = 0;
+  return stack;
 }
 
-void tree_sitter_kotlin_external_scanner_destroy(void *p) {
-  free(p);
+static void free_stack(Stack *stack) {
+  free(stack->arr);
+  free(stack);
 }
 
-unsigned tree_sitter_kotlin_external_scanner_serialize(void *p, char *buffer) {
-  bool *in_string = p;
-  buffer[0] = *in_string;
-
-  return 1;
+static void push(Stack *stack, char c, bool triple) {
+  if (stack->len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) exit(1);
+  stack->arr[stack->len++] = triple ? (c + 1) : c;
 }
 
-void tree_sitter_kotlin_external_scanner_deserialize(void *p, const char *b, unsigned n) {
-  bool *in_string = p;
-  if (n > 0) {
-    *in_string = b[0];
+static Delimiter pop(Stack *stack) {
+  if (stack->len == 0) exit(1);
+  return stack->arr[stack->len--];
+}
+
+static unsigned serialize_stack(Stack *stack, char *buffer) {
+  unsigned len = stack->len;
+  memcpy(buffer, stack->arr, len);
+  return len;
+}
+
+static void deserialize_stack(Stack *stack, const char *buffer, unsigned len) {
+  if (len > 0) {
+    memcpy(stack->arr, buffer, len);
+    stack->len = len;
+  } else {
+    stack->len = 0;
   }
 }
 
 static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+static void mark_end(TSLexer *lexer) { lexer->mark_end(lexer); }
 
-bool scan_string_delim(bool* payload, TSLexer *lexer) {
-  lexer->result_symbol = STRING_DELIM;
-  lexer->mark_end(lexer);
-  
-  return true;
-}
+// Scanner functions
 
-bool scan_multi_line_string_delim(bool* payload, TSLexer *lexer) {
-  lexer->result_symbol = MULTI_LINE_STRING_DELIM;
-
-  for (int i = 0; i < 2; i++) {
-    if (lexer->lookahead == '"') {
-      advance(lexer);
-    } else {
-      return false;
+static bool scan_string_start(TSLexer *lexer, Stack *stack) {
+  if (lexer->lookahead != '"') return false;
+  advance(lexer);
+  mark_end(lexer);
+  for (unsigned count = 1; count < 3; count++) {
+    if (lexer->lookahead != '"') {
+      // It's not a triple quoted delimiter.
+      push(stack, '"', false);
+      return true;
     }
+    advance(lexer);
   }
-
-  lexer->mark_end(lexer);
+  mark_end(lexer);
+  push(stack, '"', true);
   return true;
 }
 
-bool scan_comment(TSLexer *lexer) {
-  if (lexer->lookahead == '/') {
-    advance(lexer);
-    while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
-      advance(lexer);
-    }
-    lexer->mark_end(lexer);
-    return true;
-  } else if (lexer->lookahead == '*') {
-    advance(lexer);
-    while (lexer->lookahead != 0) {
-      if (lexer->lookahead == '*') {
-        advance(lexer);
-        if (lexer->lookahead == '/') {
-          advance(lexer);
-          break;
-        }
-      } else {
-        advance(lexer);
+static bool scan_string_content(TSLexer *lexer, Stack *stack) {
+  if (stack->len == 0) return false;  // Stack is empty. We're not in a string.
+  Delimiter end_char = stack->arr[stack->len - 1];  // peek
+  bool is_triple = false;
+  bool has_content = false;
+  if (end_char % 2 != 0) {
+    is_triple = true;
+    end_char--;
+  }
+  TSSymbol end_symbol = STRING_END;
+  TSSymbol end_content = STRING_CONTENT; 
+  while (lexer->lookahead) {
+    if (lexer->lookahead == '$') {
+      // if we did not just start reading stuff, then we should stop
+      // lexing right here, so we can offer the opportunity to lex a
+      // interpolated identifier
+      if (has_content) {
+        lexer->result_symbol = end_content;
+        return has_content;
       }
+      // otherwise, if this is the start, determine if it is an 
+      // interpolated identifier.
+      // otherwise, read it and continue
+      else {
+        advance(lexer);
+        if (iswalpha(lexer->lookahead) || lexer->lookahead == '{') {
+          // this must be a string interpolation, let's
+          // fail and parse it as such
+          return false;
+        }
+        lexer->result_symbol = end_content;
+        mark_end(lexer);
+        return true;
+      }
+    } else if (lexer->lookahead == end_char) {
+      if (is_triple) {
+        mark_end(lexer);
+        for (unsigned count = 1; count < 3; count++) {
+          advance(lexer);
+          if (lexer->lookahead != end_char) {
+            mark_end(lexer);
+            lexer->result_symbol = end_content;
+            return true;
+          }
+        }
+      }
+      if (has_content) {
+        lexer->result_symbol = end_content;
+      } else {
+        pop(stack);
+        advance(lexer);
+        mark_end(lexer);
+        lexer->result_symbol = end_symbol;
+      }
+      return true;
     }
-    lexer->mark_end(lexer);
-    return true;
-  } else {
-    return false;
+    advance(lexer);
+    has_content = true;
+  }
+  return false;
+}
+
+bool scan_multiline_comment(TSLexer *lexer) {
+  if (lexer->lookahead != '/') return false;
+  advance(lexer);
+  if (lexer->lookahead != '*') return false;
+  advance(lexer);
+
+  bool after_star = false;
+  unsigned nesting_depth = 1;
+  for (;;) {
+    switch (lexer->lookahead) {
+      case '*':
+        advance(lexer);
+        after_star = true;
+        break;
+      case '/':
+        advance(lexer);
+        if (after_star) {
+          after_star = false;
+          nesting_depth--;
+          // if (nesting_depth == 0) {
+            lexer->result_symbol = MULTILINE_COMMENT;
+            mark_end(lexer);
+            return true;
+          // }
+        } else {
+          after_star = false;
+          if (lexer->lookahead == '*') {
+            nesting_depth++;
+            advance(lexer);
+          }
+        }
+        break;
+      case '\0':
+        return false;
+      default:
+        advance(lexer);
+        after_star = false;
+        break;
+    }
   }
 }
 
@@ -360,58 +467,51 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
   if (valid_symbols[IMPORT_LIST_DELIMITER])
     return scan_import_list_delimiter(lexer);
 
+  // content or end
+  if (valid_symbols[STRING_CONTENT] &&
+      scan_string_content(lexer, payload)) {
+    return true;
+  }
+
   // a string might follow after some whitespace, so we can't lookahead 
   // until we get rid of it
   while(iswspace(lexer->lookahead)) {
     skip(lexer);
   }
 
-  if (valid_symbols[STRING_DELIM] && lexer->lookahead == '"') {
-    advance(lexer);
-
-    *in_string = !(*in_string);
-
-    lexer->result_symbol = STRING_DELIM;
-    lexer->mark_end(lexer);
-
-    if (lexer->lookahead == '"') {
-      advance(lexer);
-      // This might still be the empty string.
-      // In which case, if we don't see a third quote, we know we
-      // should parse just the first quote.
-
-      if (lexer->lookahead == '"') {
-        advance(lexer);
-
-				// We return here if there are four strings in a row, because
-				// the first one is a quote interior to a multi line string delim.
-				// So we want to shift forward by one and try the multi line string
-				// delim again.
-        if (lexer->lookahead == '"') {
-          return false;
-        }
-
-        lexer->result_symbol = MULTI_LINE_STRING_DELIM;
-        lexer->mark_end(lexer);
-      }
-    }
-
+  if (valid_symbols[STRING_START] && scan_string_start(lexer, payload)) {
+    lexer->result_symbol = STRING_START;
     return true;
   }
 
-  // only lex comments if we are not currently within a string
-  else if (!(*in_string) && valid_symbols[COMMENT] && lexer->lookahead == '/') {
-    if (lexer->lookahead == '/') {
-      advance(lexer);
-      lexer->result_symbol = COMMENT;
-      return scan_comment(lexer);
-    }
-    return false;
-  } 
+  if (valid_symbols[MULTILINE_COMMENT] && scan_multiline_comment(lexer)) {
+    return true;
+  }
 
-  else if (valid_symbols[SAFE_NAV]) {
+  if (valid_symbols[SAFE_NAV]) {
     return scan_safe_nav(lexer);
   }
 
   return false;
+}
+
+void *tree_sitter_kotlin_external_scanner_create() { return new_stack(); }
+
+void tree_sitter_kotlin_external_scanner_destroy(void *payload) {
+  free_stack(payload);
+}
+
+unsigned tree_sitter_kotlin_external_scanner_serialize(
+    void *payload,
+    char *buffer
+) {
+  return serialize_stack(payload, buffer);
+}
+
+void tree_sitter_kotlin_external_scanner_deserialize(
+    void *payload,
+    const char *buffer,
+    unsigned length
+) {
+  deserialize_stack(payload, buffer, length);
 }

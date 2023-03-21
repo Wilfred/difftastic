@@ -1,19 +1,22 @@
-==================
+================================================================================
 Classes
-==================
+================================================================================
 
 class Empty
 class Empty2 {}
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (class_declaration (type_identifier))
-  (class_declaration (type_identifier) (class_body)))
+  (class_declaration
+    (type_identifier))
+  (class_declaration
+    (type_identifier)
+    (class_body)))
 
-==================
+================================================================================
 Class with methods
-==================
+================================================================================
 
 class HelloWorld {
   fun a() {}
@@ -21,30 +24,38 @@ class HelloWorld {
   fun b() {}
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (class_declaration (type_identifier)
+  (class_declaration
+    (type_identifier)
     (class_body
-      (function_declaration (simple_identifier) (function_body))
-      (function_declaration (simple_identifier) (function_body)))))
+      (function_declaration
+        (simple_identifier)
+        (function_body))
+      (function_declaration
+        (simple_identifier)
+        (function_body)))))
 
-==================
+================================================================================
 Generic class
-==================
+================================================================================
 
 class Container<T> {}
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (class_declaration (type_identifier)
-    (type_parameters (type_parameter (type_identifier)))
+  (class_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
     (class_body)))
 
-==================
+================================================================================
 Class with methods and expressions
-==================
+================================================================================
 
 class Strings {
   fun aString() = "Hello World!"
@@ -52,80 +63,95 @@ class Strings {
   fun anotherString() = "Hello" + " " + "World"
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (class_declaration (type_identifier)
+  (class_declaration
+    (type_identifier)
     (class_body
-      (function_declaration (simple_identifier) (function_body
-        (line_string_literal)))
-      (function_declaration (simple_identifier) (function_body
-        (additive_expression
+      (function_declaration
+        (simple_identifier)
+        (function_body
+          (string_literal)))
+      (function_declaration
+        (simple_identifier)
+        (function_body
           (additive_expression
-            (line_string_literal)
-            (line_string_literal))
-          (line_string_literal)))))))
+            (additive_expression
+              (string_literal)
+              (string_literal))
+            (string_literal)))))))
 
-==================
+================================================================================
 Class with modifiers
-==================
+================================================================================
 
 internal open class Test {
   private abstract inline fun test()
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
-    (modifiers (visibility_modifier) (inheritance_modifier))
+    (modifiers
+      (visibility_modifier)
+      (inheritance_modifier))
     (type_identifier)
     (class_body
       (function_declaration
-        (modifiers (visibility_modifier) (inheritance_modifier) (function_modifier))
+        (modifiers
+          (visibility_modifier)
+          (inheritance_modifier)
+          (function_modifier))
         (simple_identifier)))))
 
-==================
+================================================================================
 Objects
-==================
+================================================================================
 
 object Singleton {
   fun test()
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (object_declaration (type_identifier)
+  (object_declaration
+    (type_identifier)
     (class_body
-      (function_declaration (simple_identifier)))))
+      (function_declaration
+        (simple_identifier)))))
 
-==================
+================================================================================
 Primary constructors
-==================
+================================================================================
 
 data class Vector2D(
   val x: Int,
   val y: Int
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
-    (modifiers (class_modifier))
+    (modifiers
+      (class_modifier))
     (type_identifier)
     (primary_constructor
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier)))
+        (user_type
+          (type_identifier)))
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier))))))
+        (user_type
+          (type_identifier))))))
 
-==================
+================================================================================
 Inheritance
-==================
+================================================================================
 
 class A : B() {}
 
@@ -133,29 +159,40 @@ class C(param: Int) : D(param)
 
 class D : SomeInterface
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
     (type_identifier)
-    (delegation_specifier (constructor_invocation (user_type (type_identifier))
-      (value_arguments)))
+    (delegation_specifier
+      (constructor_invocation
+        (user_type
+          (type_identifier))
+        (value_arguments)))
     (class_body))
   (class_declaration
     (type_identifier)
     (primary_constructor
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier))))
-    (delegation_specifier (constructor_invocation (user_type (type_identifier))
-      (value_arguments (value_argument (simple_identifier))))))
+        (user_type
+          (type_identifier))))
+    (delegation_specifier
+      (constructor_invocation
+        (user_type
+          (type_identifier))
+        (value_arguments
+          (value_argument
+            (simple_identifier))))))
   (class_declaration
     (type_identifier)
-    (delegation_specifier (user_type (type_identifier)))))
+    (delegation_specifier
+      (user_type
+        (type_identifier)))))
 
-==================
+================================================================================
 Properties
-==================
+================================================================================
 
 class Something {
   val x: Int = 4
@@ -163,7 +200,7 @@ class Something {
   val z: Int get() = x
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -172,27 +209,33 @@ class Something {
       (property_declaration
         (variable_declaration
           (simple_identifier)
-          (user_type (type_identifier)))
+          (user_type
+            (type_identifier)))
         (integer_literal))
       (property_declaration
         (variable_declaration
           (simple_identifier)
-          (nullable_type (user_type (type_identifier)))))
+          (nullable_type
+            (user_type
+              (type_identifier)))))
       (property_declaration
         (variable_declaration
           (simple_identifier)
-          (user_type (type_identifier)))
-        (getter (function_body (simple_identifier)))))))
+          (user_type
+            (type_identifier)))
+        (getter
+          (function_body
+            (simple_identifier)))))))
 
-==================
+================================================================================
 Constructor delegation calls
-==================
+================================================================================
 
 class Test(x: Int, y: Int) {
   constructor() : this(0, 0)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -200,20 +243,24 @@ class Test(x: Int, y: Int) {
     (primary_constructor
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier)))
+        (user_type
+          (type_identifier)))
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier))))
+        (user_type
+          (type_identifier))))
     (class_body
       (secondary_constructor
         (constructor_delegation_call
           (value_arguments
-            (value_argument (integer_literal))
-            (value_argument (integer_literal))))))))
+            (value_argument
+              (integer_literal))
+            (value_argument
+              (integer_literal))))))))
 
-==================
+================================================================================
 Enum classes
-==================
+================================================================================
 
 enum class Suit {
   DIAMONDS, CLOVERS, HEARTS, SPADES
@@ -227,7 +274,7 @@ enum class Color(val rgb: Int) {
   override fun toString() = rgb.toString(16)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -246,22 +293,27 @@ enum class Color(val rgb: Int) {
     (primary_constructor
       (class_parameter
         (simple_identifier)
-        (user_type (type_identifier))))
+        (user_type
+          (type_identifier))))
     (enum_class_body
       (enum_entry
         (simple_identifier)
         (value_arguments
-          (value_argument (hex_literal))))
+          (value_argument
+            (hex_literal))))
       (enum_entry
         (simple_identifier)
         (value_arguments
-          (value_argument (hex_literal))))
+          (value_argument
+            (hex_literal))))
       (enum_entry
         (simple_identifier)
         (value_arguments
-          (value_argument (hex_literal))))
+          (value_argument
+            (hex_literal))))
       (function_declaration
-        (modifiers (member_modifier))
+        (modifiers
+          (member_modifier))
         (simple_identifier)
         (function_body
           (call_expression
@@ -271,47 +323,19 @@ enum class Color(val rgb: Int) {
                 (simple_identifier)))
             (call_suffix
               (value_arguments
-                (value_argument (integer_literal))))))))))
+                (value_argument
+                  (integer_literal))))))))))
 
-==================
-Type alias declaration
-==================
-
-@Suppress("ACTUAL_WITHOUT_EXPECT")
- internal actual typealias CoroutineStackFrame = kotlin.coroutines.jvm.internal.CoroutineStackFrame
-
- ---
-
- (source_file
-  (type_alias
-    (modifiers
-      (annotation
-        (constructor_invocation
-          (user_type
-            (type_identifier))
-          (value_arguments
-            (value_argument
-              (line_string_literal)))))
-      (visibility_modifier)
-      (platform_modifier))
-    (type_identifier)
-    (user_type
-      (type_identifier)
-      (type_identifier)
-      (type_identifier)
-      (type_identifier)
-      (type_identifier))))
-
-==================
+================================================================================
 Data class with hanging comma
-==================
+================================================================================
 
 data class JwtConfiguration(
    val audience: String,
    val realm: String,
 )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
