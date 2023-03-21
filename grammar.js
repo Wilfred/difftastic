@@ -1173,7 +1173,7 @@ module.exports = grammar({
       $._backtick_identifier,
     ),
 
-    _alpha_identifier: $ => /[\p{L}_][\p{L}\p{Nd}_]*/,
+    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
 
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
