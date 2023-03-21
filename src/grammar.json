@@ -268,6 +268,18 @@
           "value": "type_identifier"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "="
         },
@@ -5971,7 +5983,7 @@
     },
     "_alpha_identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_][a-zA-Z_0-9]*"
+      "value": "[\\p{L}_][\\p{L}\\p{Nd}_]*"
     },
     "_backtick_identifier": {
       "type": "PATTERN",

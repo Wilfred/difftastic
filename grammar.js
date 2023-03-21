@@ -184,6 +184,7 @@ module.exports = grammar({
       optional($.modifiers),
       "typealias",
       alias($.simple_identifier, $.type_identifier),
+      optional($.type_parameters),
       "=",
       $._type
     ),
@@ -1172,7 +1173,7 @@ module.exports = grammar({
       $._backtick_identifier,
     ),
 
-    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+    _alpha_identifier: $ => /[\p{L}_][\p{L}\p{Nd}_]*/,
 
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
