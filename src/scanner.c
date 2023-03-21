@@ -131,6 +131,16 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
         mark_end(lexer);
         return true;
       }
+    } else if (lexer->lookahead == '\\') {
+      // if we see a \, then this might possibly escape a dollar sign
+      // in which case, we need to not defer to the interpolation 
+      has_content = true;
+      advance(lexer);
+      // we need to consume this, so we don't re-enter the dollar sign
+      // case in the above loop
+      if (lexer->lookahead == '$') {
+        advance(lexer);
+      }
     } else if (lexer->lookahead == end_char) {
       if (is_triple) {
         mark_end(lexer);

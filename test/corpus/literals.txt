@@ -69,10 +69,12 @@ More string interpolation
 "$"
 "$1"
 "$ $ $"
+"\$foo"
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (string_literal)
   (string_literal)
   (string_literal)
   (string_literal))
