@@ -23,6 +23,7 @@ jobs:
       - name: Verify that generated parser matches the repository
         run: |
           diff=`git diff HEAD -- src`
+          echo "$diff"
           test -z "$diff"
       - name: Run tests
         run: npm test
