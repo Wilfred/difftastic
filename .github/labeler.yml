@@ -1,0 +1,11 @@
+ci-cd:
+- .github/**/*
+
+grammar:
+- grammar.js
+
+bindings:
+- bindings/**/*
+
+examples:
+- examples/**/*
