@@ -21,7 +21,7 @@ jobs:
       - name: Generate parser
         run: npm run generate
       - name: Verify that generated parser matches repo
-        run:
+        run: |
           git diff HEAD
           test -z "$(git diff HEAD)"
       - name: Run tests
