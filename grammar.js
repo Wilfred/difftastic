@@ -184,6 +184,7 @@ module.exports = grammar({
       optional($.modifiers),
       "typealias",
       alias($.simple_identifier, $.type_identifier),
+      optional($.type_parameters),
       "=",
       $._type
     ),

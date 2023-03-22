@@ -255,3 +255,26 @@ a as Foo(x = "hi", y = "bar",)
         (value_argument
           (simple_identifier)
           (string_literal))))))
+
+================================================================================
+Type alias with type parameters
+================================================================================
+
+private typealias T<E> = Foo<E>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (user_type
+      (type_identifier)
+      (type_arguments
+        (type_projection
+          (user_type
+            (type_identifier)))))))

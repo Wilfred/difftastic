@@ -8111,6 +8111,10 @@
           "named": true
         },
         {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
           "type": "user_type",
           "named": true
         }
