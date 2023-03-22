@@ -22,8 +22,8 @@ jobs:
         run: npm run generate
       - name: Verify that generated parser matches repo
         run: |
-          git diff HEAD
-          test -z "$(git diff HEAD)"
+          diff=`git diff HEAD -- src`
+          test -z "$diff"
       - name: Run tests
         run: npm test
       - name: Set up Rust
