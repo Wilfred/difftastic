@@ -1397,7 +1397,7 @@
     },
     "variable_declaration": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
