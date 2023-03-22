@@ -3777,7 +3777,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_key_value_pair"
+                    "name": "key_value_pair"
                   }
                 ]
               }
@@ -7131,7 +7131,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_key_value_pair"
+            "name": "key_value_pair"
           },
           {
             "type": "PREC_LEFT",
@@ -8766,7 +8766,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_key_value_pair"
+                        "name": "key_value_pair"
                       },
                       {
                         "type": "SYMBOL",
@@ -8792,7 +8792,7 @@
                             },
                             {
                               "type": "SYMBOL",
-                              "name": "_key_value_pair"
+                              "name": "key_value_pair"
                             },
                             {
                               "type": "SYMBOL",
@@ -8866,7 +8866,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_key_value_pair"
+                        "name": "key_value_pair"
                       },
                       {
                         "type": "SYMBOL",
@@ -8892,7 +8892,7 @@
                             },
                             {
                               "type": "SYMBOL",
-                              "name": "_key_value_pair"
+                              "name": "key_value_pair"
                             },
                             {
                               "type": "SYMBOL",
@@ -9109,7 +9109,7 @@
         ]
       }
     },
-    "_key_value_pair": {
+    "key_value_pair": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -9454,7 +9454,7 @@
     ],
     [
       "_scalar_type",
-      "_key_value_pair"
+      "key_value_pair"
     ],
     [
       "hash_ref"
@@ -9562,7 +9562,7 @@
     ],
     [
       "variable_declaration",
-      "_key_value_pair"
+      "key_value_pair"
     ]
   ],
   "precedences": [],

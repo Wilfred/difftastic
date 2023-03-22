@@ -11,7 +11,7 @@ my $output = BaseModule::YeaThis->hello('first', {
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
   (method_invocation (package_name (identifier) (identifier)) (arrow_operator) (identifier)
-    (parenthesized_argument (argument (string_single_quoted) (hash_ref (bareword) (hash_arrow_operator) (string_single_quoted)))))
+    (parenthesized_argument (argument (string_single_quoted) (hash_ref (key_value_pair (bareword) (hash_arrow_operator) (string_single_quoted))))))
   ) (semi_colon)
 )
 

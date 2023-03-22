@@ -71,7 +71,7 @@ module.exports = grammar({
     [$.package_name],
     [$._list, $._variables],
     [$._dereference],
-    [$._scalar_type, $._key_value_pair],
+    [$._scalar_type, $.key_value_pair],
     [$.hash_ref],
     [$.hash],
     [$.hash_ref, $._dereference],
@@ -99,7 +99,7 @@ module.exports = grammar({
     [$.method_invocation, $.hash_dereference],
     [$.method_invocation, $.array_dereference],
     [$.variable_declaration],
-    [$.variable_declaration, $._key_value_pair],
+    [$.variable_declaration, $.key_value_pair],
   ],
 
   externals: $ => [
@@ -823,7 +823,7 @@ module.exports = grammar({
     list_block: $ => seq(
       '{',
       choice(
-        repeat1(choice($._expression_without_call_expression_with_just_name, $._key_value_pair)),
+        repeat1(choice($._expression_without_call_expression_with_just_name, $.key_value_pair)),
         repeat1($._statement),
       ),
       '}'
@@ -1452,7 +1452,7 @@ module.exports = grammar({
     )),
 
     argument: $ => prec.left(PRECEDENCE.SUB_ARGS, choice(
-      $._key_value_pair,
+      $.key_value_pair,
       commaSeparated(choice($._dereference, $._expression)),
     )),
 
@@ -1797,7 +1797,7 @@ module.exports = grammar({
       '(',
       optional(commaSeparated(choice(
         $.ternary_expression_in_hash,
-        $._key_value_pair,
+        $.key_value_pair,
         $.hash_dereference,
       ))),
       ')',
@@ -1808,7 +1808,7 @@ module.exports = grammar({
       '{',
       optional(commaSeparated(choice(
         $.ternary_expression_in_hash,
-        $._key_value_pair,
+        $.key_value_pair,
         $.hash_dereference,
       ))),
       '}'
@@ -1855,7 +1855,7 @@ module.exports = grammar({
     )),
 
     // cat => 'meow', meta => {}
-    _key_value_pair: $ => prec.left(seq(
+    key_value_pair: $ => prec.left(seq(
       field('key', choice(
         alias($.identifier, $.bareword),
         alias($.key_words_in_hash_key, $.bareword),

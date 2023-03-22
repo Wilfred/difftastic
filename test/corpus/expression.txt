@@ -83,9 +83,15 @@ my $hash = {
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
     (hash_ref
-      (string_single_quoted) (hash_arrow_operator) (string_single_quoted)
-      (string_double_quoted) (hash_arrow_operator) (string_single_quoted)
-      (bareword) (hash_arrow_operator) (string_single_quoted)))
+      (key_value_pair
+        (string_single_quoted) (hash_arrow_operator) (string_single_quoted)
+      )
+      (key_value_pair
+        (string_double_quoted) (hash_arrow_operator) (string_single_quoted)
+      )
+      (key_value_pair
+        (bareword) (hash_arrow_operator) (string_single_quoted)))
+      )
     (semi_colon))
 
 =================================================
