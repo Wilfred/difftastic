@@ -14,6 +14,16 @@ enum TokenType {
   STRING_CONTENT,
 };
 
+/* Pretty much all of this code is taken from the Julia tree-sitter
+   parser.
+   
+   Julia has similar problems with multiline comments that can be nested,
+   line comments, as well as line and multiline strings.
+
+   The most heavily edited section is `scan_string_content`,
+   particularly with respect to interpolation.
+ */
+
 typedef char Delimiter;
 
 // Block comments are easy to parse, but strings require extra-attention.
