@@ -106,28 +106,26 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
     is_triple = true;
     end_char--;
   }
-  TSSymbol end_symbol = STRING_END;
-  TSSymbol end_content = STRING_CONTENT; 
   while (lexer->lookahead) {
     if (lexer->lookahead == '$') {
       // if we did not just start reading stuff, then we should stop
       // lexing right here, so we can offer the opportunity to lex a
       // interpolated identifier
       if (has_content) {
-        lexer->result_symbol = end_content;
+        lexer->result_symbol = STRING_CONTENT;
         return has_content;
       }
       // otherwise, if this is the start, determine if it is an 
       // interpolated identifier.
-      // otherwise, read it and continue
+      // otherwise, it's just string content, so continue 
       else {
         advance(lexer);
         if (iswalpha(lexer->lookahead) || lexer->lookahead == '{') {
           // this must be a string interpolation, let's
-          // fail and parse it as such
+          // fail so we parse it as such
           return false;
         }
-        lexer->result_symbol = end_content;
+        lexer->result_symbol = STRING_CONTENT;
         mark_end(lexer);
         return true;
       }
@@ -136,8 +134,9 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
       // in which case, we need to not defer to the interpolation 
       has_content = true;
       advance(lexer);
-      // we need to consume this, so we don't re-enter the dollar sign
-      // case in the above loop
+      // this dollar sign is escaped, so it must be content.
+      // we consume it here so we don't enter the dollar sign case above,
+      // which leaves the possibility that it is an interpolation 
       if (lexer->lookahead == '$') {
         advance(lexer);
       }
@@ -148,20 +147,33 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
           advance(lexer);
           if (lexer->lookahead != end_char) {
             mark_end(lexer);
-            lexer->result_symbol = end_content;
+            lexer->result_symbol = STRING_CONTENT;
             return true;
           }
         }
-      }
-      if (has_content) {
-        lexer->result_symbol = end_content;
+
+        /* Since the string internals are all hidden in the syntax
+           tree anyways, there's no point in going to the effort of 
+           specifically separating the string end from string contents.
+           If we see a bunch of quotes in a row, then we just go until
+           they stop appearing, then stop lexing and call it the
+           string's end.
+         */
+        lexer->result_symbol = STRING_END;
+        mark_end(lexer);
+        while (lexer->lookahead == end_char) {
+          advance(lexer);
+          mark_end(lexer);
+        }
+        pop(stack);
+        return true;
       } else {
         pop(stack);
         advance(lexer);
         mark_end(lexer);
-        lexer->result_symbol = end_symbol;
+        lexer->result_symbol = STRING_END;
+        return true;
       }
-      return true;
     }
     advance(lexer);
     has_content = true;
