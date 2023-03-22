@@ -1,32 +1,35 @@
-==================
+================================================================================
 File annotations
-==================
+================================================================================
 
 @file:JvmName("HelloWorld")
 
 val x = 4
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (file_annotation
     (constructor_invocation
-      (user_type (type_identifier))
-      (value_arguments (value_argument (line_string_literal)))))
+      (user_type
+        (type_identifier))
+      (value_arguments
+        (value_argument
+          (string_literal)))))
   (property_declaration
     (variable_declaration
       (simple_identifier))
     (integer_literal)))
 
-===================
+================================================================================
 Multiple file annotations
-===================
+================================================================================
 
 @file:JvmMultifileClass
 @file:JvmName("BuildersKt")
 @file:OptIn(ExperimentalContracts::class)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (file_annotation
@@ -38,7 +41,7 @@ Multiple file annotations
         (type_identifier))
       (value_arguments
         (value_argument
-          (line_string_literal)))))
+          (string_literal)))))
   (file_annotation
     (constructor_invocation
       (user_type
@@ -48,9 +51,9 @@ Multiple file annotations
           (callable_reference
             (type_identifier)))))))
 
-==================
+================================================================================
 Imports
-==================
+================================================================================
 
 import java.util.Scanner
 import java.util.StringBuilder
@@ -60,7 +63,7 @@ import java.io.Files
 fun main() {
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import_list
@@ -89,13 +92,13 @@ fun main() {
     (simple_identifier)
     (function_body)))
 
-===================
+================================================================================
 Multiple Imports On A Single Line
-===================
+================================================================================
 
 import java.io.Path import java.io.Files
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import_list

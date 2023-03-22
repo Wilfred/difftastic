@@ -1,15 +1,21 @@
-==================
+================================================================================
 Comments
-==================
+================================================================================
 
 1 + 2
 // 1 + 2
 /*
 /* Hello world */
+// "strings are cool too"
+/* even """multiline strings""" */
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (additive_expression (integer_literal) (integer_literal))
-  (comment)
-  (comment))
+  (additive_expression
+    (integer_literal)
+    (integer_literal))
+  (line_comment)
+  (multiline_comment)
+  (line_comment)
+  (multiline_comment))

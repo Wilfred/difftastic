@@ -1,29 +1,30 @@
-==================
+================================================================================
 Simple identifiers
-==================
+================================================================================
 
 helloWorld
 
----
+--------------------------------------------------------------------------------
 
-(source_file (simple_identifier))
+(source_file
+  (simple_identifier))
 
-==================
+================================================================================
 Boolean literals
-==================
+================================================================================
 
 true
 false
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (boolean_literal)
   (boolean_literal))
 
-==================
+================================================================================
 String literals
-==================
+================================================================================
 
 "Hello World!"
 """
@@ -31,15 +32,27 @@ This is a "multiline"
 string.
 """
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (line_string_literal)
-  (multi_line_string_literal))
+  (string_literal)
+  (string_literal))
 
-==================
+================================================================================
+String literal with lots of repeated quotes
+================================================================================
+
+""""What do you "mean"?", he said.
+There's a lot of ""quotations"". Even at the "end""""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (string_literal))
+
+================================================================================
 String interpolation
-==================
+================================================================================
 
 "Sample $string.interpolation literal"
 "Sample ${"string.interpolation"} literal"
@@ -48,25 +61,46 @@ Multiline
 ${"""string interpolation"""} $literal
 """
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (line_string_literal (interpolated_identifier))
-  (line_string_literal (interpolated_expression (line_string_literal)))
-  (multi_line_string_literal
-    (interpolated_expression (multi_line_string_literal))
+  (string_literal
+    (interpolated_identifier))
+  (string_literal
+    (interpolated_expression
+      (string_literal)))
+  (string_literal
+    (interpolated_expression
+      (string_literal))
     (interpolated_identifier)))
 
-==================
+================================================================================
+More string interpolation
+================================================================================
+
+"$"
+"$1"
+"$ $ $"
+"\$foo"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (string_literal))
+
+================================================================================
 Integer literals
-==================
+================================================================================
 
 0
 8
 23
 9847
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (integer_literal)
@@ -74,9 +108,9 @@ Integer literals
   (integer_literal)
   (integer_literal))
 
-==================
+================================================================================
 Real literals
-==================
+================================================================================
 
 0.0
 -23.434
@@ -84,22 +118,24 @@ Real literals
 4.3f
 +53.9e-3F
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (real_literal)
-  (prefix_expression (real_literal))
+  (prefix_expression
+    (real_literal))
   (real_literal)
   (real_literal)
-  (prefix_expression (real_literal)))
+  (prefix_expression
+    (real_literal)))
 
-===================
+================================================================================
 Unicode literals
-===================
+================================================================================
 
 assertEquals("\u214E\uA7B5\u2CEF", "\u2132\uA7B4\u2CEF".lowercase())
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (call_expression
@@ -107,17 +143,11 @@ assertEquals("\u214E\uA7B5\u2CEF", "\u2132\uA7B4\u2CEF".lowercase())
     (call_suffix
       (value_arguments
         (value_argument
-          (line_string_literal
-            (character_escape_seq)
-            (character_escape_seq)
-            (character_escape_seq)))
+          (string_literal))
         (value_argument
           (call_expression
             (navigation_expression
-              (line_string_literal
-                (character_escape_seq)
-                (character_escape_seq)
-                (character_escape_seq))
+              (string_literal)
               (navigation_suffix
                 (simple_identifier)))
             (call_suffix
