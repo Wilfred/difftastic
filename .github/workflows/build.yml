@@ -18,8 +18,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
-      - name: Compile grammar
+      - name: Generate parser
         run: npm run generate
+      - name: Verify that generated parser matches repo
+        run: test -z "$(git status --porcelain)"
       - name: Run tests
         run: npm test
       - name: Set up Rust
