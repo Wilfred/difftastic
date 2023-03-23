@@ -58,7 +58,7 @@ module.exports = grammar({
     [$.binary_expression, $._bodmas_2, $._unary_and],
     [$.binary_expression, $._bodmas_2, $._logical_verbal_or_xor],
     [$.binary_expression, $._bodmas_2, $.join_function],
-    [$.binary_expression, $._bodmas_2, $.argument],
+    [$.binary_expression, $._bodmas_2, $.arguments],
     [$._range_exp],
     [$._class_instance_exp],
     [$._primitive_expression, $._list],
@@ -75,8 +75,8 @@ module.exports = grammar({
     [$.hash_ref],
     [$.hash],
     [$.hash_ref, $._dereference],
-    [$._expression_without_call_expression_with_just_name, $.argument],
-    [$.argument, $.array],
+    [$._expression_without_call_expression_with_just_name, $.arguments],
+    [$.arguments, $.array],
     [$._expression, $.method_invocation],
     [$._expression, $.goto_expression, $.method_invocation],
     [$._expression, $.ternary_expression_in_hash],
@@ -1409,7 +1409,7 @@ module.exports = grammar({
         token.immediate('::'),
       )),
       field('function_name', $.identifier),
-      field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)),
+      field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.arguments)),
     )),
 
     call_expression_with_just_name: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
@@ -1438,7 +1438,7 @@ module.exports = grammar({
             $.scalar_variable,
             $.scalar_reference,
           ),
-          optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))), // TODO: make this optional and fix errors
+          optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.arguments))), // TODO: make this optional and fix errors
         ),
       ),
     ))),
@@ -1447,13 +1447,17 @@ module.exports = grammar({
 
     parenthesized_argument: $ => prec(PRECEDENCE.SUB_ARGS, seq(
       '(',
-      $.argument,
+      $.arguments,
       ')',
     )),
 
+    arguments: $ => prec.left(PRECEDENCE.SUB_ARGS,
+      commaSeparated($.argument),
+    ),
+
     argument: $ => prec.left(PRECEDENCE.SUB_ARGS, choice(
       $.key_value_pair,
-      commaSeparated(choice($._dereference, $._expression)),
+      $._expression,
     )),
 
     call_expression_recursive: $ => seq(

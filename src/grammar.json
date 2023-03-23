@@ -6871,7 +6871,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "argument"
+                  "name": "arguments"
                 }
               ]
             }
@@ -7068,7 +7068,7 @@
                             },
                             {
                               "type": "SYMBOL",
-                              "name": "argument"
+                              "name": "arguments"
                             }
                           ]
                         }
@@ -7114,13 +7114,58 @@
           },
           {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "arguments"
           },
           {
             "type": "STRING",
             "value": ")"
           }
         ]
+      }
+    },
+    "arguments": {
+      "type": "PREC_LEFT",
+      "value": 29,
+      "content": {
+        "type": "PREC_LEFT",
+        "value": 5,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "argument"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "argument"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "argument": {
@@ -7134,63 +7179,8 @@
             "name": "key_value_pair"
           },
           {
-            "type": "PREC_LEFT",
-            "value": 5,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "_dereference"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_expression"
-                    }
-                  ]
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "_dereference"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "_expression"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            }
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         ]
       }
@@ -9408,7 +9398,7 @@
     [
       "binary_expression",
       "_bodmas_2",
-      "argument"
+      "arguments"
     ],
     [
       "_range_exp"
@@ -9468,10 +9458,10 @@
     ],
     [
       "_expression_without_call_expression_with_just_name",
-      "argument"
+      "arguments"
     ],
     [
-      "argument",
+      "arguments",
       "array"
     ],
     [

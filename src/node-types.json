@@ -19,7 +19,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -248,6 +248,21 @@
         },
         {
           "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
           "named": true
         }
       ]
@@ -3542,7 +3557,7 @@
         "required": false,
         "types": [
           {
-            "type": "argument",
+            "type": "arguments",
             "named": true
           },
           {
@@ -8626,7 +8641,7 @@
         "required": false,
         "types": [
           {
-            "type": "argument",
+            "type": "arguments",
             "named": true
           },
           {
@@ -9379,7 +9394,7 @@
       "required": true,
       "types": [
         {
-          "type": "argument",
+          "type": "arguments",
           "named": true
         }
       ]
@@ -16856,11 +16871,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",
