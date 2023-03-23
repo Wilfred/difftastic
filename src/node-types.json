@@ -329,6 +329,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -544,6 +548,10 @@
         },
         {
           "type": "navigation_expression",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -1027,6 +1035,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -1183,6 +1195,10 @@
         },
         {
           "type": "navigation_expression",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -1473,6 +1489,10 @@
         },
         {
           "type": "navigation_expression",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -3907,6 +3927,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -4019,6 +4043,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -4055,6 +4083,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -4098,6 +4130,10 @@
         },
         {
           "type": "modifiers",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -5689,6 +5725,29 @@
     }
   },
   {
+    "type": "not_nullable_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "parenthesized_user_type",
+          "named": true
+        },
+        {
+          "type": "type_modifiers",
+          "named": true
+        },
+        {
+          "type": "user_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "nullable_type",
     "named": true,
     "fields": {},
@@ -5781,6 +5840,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -5837,6 +5900,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -6043,6 +6110,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -7373,6 +7444,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -8095,6 +8170,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -8150,6 +8229,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -8220,6 +8303,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -8300,6 +8387,10 @@
           "named": true
         },
         {
+          "type": "not_nullable_type",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -8347,6 +8438,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -8611,6 +8706,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "not_nullable_type",
           "named": true
         },
         {
@@ -9247,6 +9346,10 @@
   },
   {
     "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&",
     "named": false
   },
   {

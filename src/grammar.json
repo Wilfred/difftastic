@@ -2177,21 +2177,88 @@
             {
               "type": "SYMBOL",
               "name": "function_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "not_nullable_type"
             }
           ]
         }
       ]
     },
     "_type_reference": {
-      "type": "CHOICE",
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "user_type"
+          },
+          {
+            "type": "STRING",
+            "value": "dynamic"
+          }
+        ]
+      }
+    },
+    "not_nullable_type": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "user_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "user_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_user_type"
+            }
+          ]
         },
         {
           "type": "STRING",
-          "value": "dynamic"
+          "value": "&"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "user_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parenthesized_user_type"
+            }
+          ]
         }
       ]
     },
@@ -6127,6 +6194,12 @@
     [
       "parameter_modifiers",
       "_type_modifier"
+    ],
+    [
+      "type_modifiers"
+    ],
+    [
+      "not_nullable_type"
     ]
   ],
   "precedences": [],
