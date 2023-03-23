@@ -9,7 +9,7 @@ my $a;
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (scalar_variable)
-  ) (semi_colon))
+  )) (semi_colon)
 )
 
 
@@ -23,7 +23,7 @@ my $a = 3;
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (scalar_variable)) (integer) (semi_colon))
+    (scalar_variable)) (integer)) (semi_colon)
 )
 
 =================================================
@@ -38,8 +38,7 @@ my ($self, $args) = @_;
   (variable_declaration (scope)
     (multi_var_declaration
       (variable_declarator (scalar_variable)) (variable_declarator (scalar_variable))
-    ) (special_array_variable) (semi_colon)
-  )
+    ) (special_array_variable)) (semi_colon)
 )
 
 =================================================
@@ -53,7 +52,7 @@ my @array;
 (source_file
   (variable_declaration (scope) (single_var_declaration
     (array_variable)
-  ) (semi_colon))
+  )) (semi_colon)
 )
 
 =================================================
@@ -66,7 +65,7 @@ my @array = ('meow', 'woof', 'burp');
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (array_variable)) (array (string_single_quoted) (string_single_quoted) (string_single_quoted)) (semi_colon))
+    (array_variable)) (array (string_single_quoted) (string_single_quoted) (string_single_quoted))) (semi_colon)
 )
 
 =================================================
@@ -84,10 +83,16 @@ my $hash = {
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
     (hash_ref
-      (string_single_quoted) (hash_arrow_operator) (string_single_quoted)
-      (string_double_quoted) (hash_arrow_operator) (string_single_quoted)
-      (bareword) (hash_arrow_operator) (string_single_quoted))
-    (semi_colon)))
+      (key_value_pair
+        (string_single_quoted) (hash_arrow_operator) (string_single_quoted)
+      )
+      (key_value_pair
+        (string_double_quoted) (hash_arrow_operator) (string_single_quoted)
+      )
+      (key_value_pair
+        (bareword) (hash_arrow_operator) (string_single_quoted)))
+      )
+    (semi_colon))
 
 =================================================
 use statement
@@ -158,7 +163,7 @@ my $string = 'I have # in me';
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted)) (semi_colon)
 )
 
 =================================================
@@ -170,7 +175,7 @@ my $string = 'I have \' escaping in me';
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted)) (semi_colon)
 )
 
 =================================================
@@ -199,6 +204,6 @@ my $line = <$fh>;
   (while_statement (empty_parenthesized_expression (standard_input))
     (block)
   )
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input) (semi_colon))
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input_to_variable (scalar_variable)) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input)) (semi_colon)
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input_to_variable (scalar_variable))) (semi_colon)
 )

@@ -1,0 +1,11 @@
+=================================================
+special variable with local scope
+=================================================
+
+local $SIG{__WARN__} = sub {};
+
+---
+
+(source_file
+    (binary_expression
+    (hash_access_variable (special_scalar_variable) (bareword)) (anonymous_function (block))) (semi_colon))
