@@ -210,11 +210,11 @@ bool scan_multiline_comment(TSLexer *lexer) {
         if (after_star) {
           after_star = false;
           nesting_depth--;
-          // if (nesting_depth == 0) {
+          if (nesting_depth == 0) {
             lexer->result_symbol = MULTILINE_COMMENT;
             mark_end(lexer);
             return true;
-          // }
+          }
         } else {
           after_star = false;
           if (lexer->lookahead == '*') {
