@@ -71,6 +71,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -325,6 +329,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -565,6 +573,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -810,6 +822,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -1050,6 +1066,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -1282,6 +1302,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -1525,6 +1549,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -1845,6 +1873,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -2280,6 +2312,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -2522,6 +2558,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -2754,6 +2794,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -2997,6 +3041,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -3263,6 +3311,14 @@
         },
         {
           "type": "ellipsis_statement",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
+          "type": "eof_statement",
           "named": true
         },
         {
@@ -3731,6 +3787,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -3910,6 +3970,26 @@
     }
   },
   {
+    "type": "eof_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "eof_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "eof_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "escape_sequence",
     "named": true,
     "fields": {}
@@ -3976,6 +4056,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -4247,6 +4331,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -4489,6 +4577,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -4728,6 +4820,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -5012,6 +5108,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -5256,6 +5356,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -5527,6 +5631,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -5910,6 +6018,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -6167,6 +6279,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -6448,6 +6564,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -6694,6 +6814,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -6936,6 +7060,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -7202,6 +7330,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -7540,6 +7672,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -7791,6 +7927,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -8030,6 +8170,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -8288,6 +8432,14 @@
         },
         {
           "type": "ellipsis_statement",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
+          "type": "eof_statement",
           "named": true
         },
         {
@@ -8735,6 +8887,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -9051,6 +9207,14 @@
         },
         {
           "type": "ellipsis_statement",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
+          "type": "eof_statement",
           "named": true
         },
         {
@@ -9457,6 +9621,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -9744,6 +9912,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -10041,6 +10213,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -10302,6 +10478,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
           "named": true
         },
         {
@@ -10596,6 +10776,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -10844,6 +11028,14 @@
         },
         {
           "type": "ellipsis_statement",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
+          "type": "eof_statement",
           "named": true
         },
         {
@@ -11240,6 +11432,14 @@
         },
         {
           "type": "ellipsis_statement",
+          "named": true
+        },
+        {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
+          "type": "eof_statement",
           "named": true
         },
         {
@@ -11723,6 +11923,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -11962,6 +12166,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -12221,6 +12429,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -12466,6 +12678,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -12884,6 +13100,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -13129,6 +13349,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -13436,6 +13660,10 @@
           "named": true
         },
         {
+          "type": "eof_expression",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -13676,6 +13904,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -14003,6 +14235,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -14322,6 +14558,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
@@ -14856,6 +15096,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -15159,6 +15403,10 @@
             "named": true
           },
           {
+            "type": "eof_expression",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -15418,6 +15666,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "eof_expression",
             "named": true
           },
           {
