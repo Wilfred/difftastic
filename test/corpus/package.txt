@@ -1,0 +1,55 @@
+=================================================
+Unit package statement
+=================================================
+
+package The::Package;
+
+---
+
+(source_file
+  (package_statement (package_name (identifier) (identifier)) (semi_colon))
+)
+
+=================================================
+Unit package statement with version
+=================================================
+
+package The::Package v1.23;
+
+---
+
+(source_file
+  (package_statement (package_name (identifier) (identifier)) (version) (semi_colon))
+)
+
+=================================================
+package block
+=================================================
+
+package The::Package {
+  ...
+}
+
+---
+
+(source_file
+  (package_statement (package_name (identifier) (identifier))
+    (block (ellipsis_statement))
+  )
+)
+
+=================================================
+package block with version
+=================================================
+
+package The::Package v4.56 {
+  ...
+}
+
+---
+
+(source_file
+  (package_statement (package_name (identifier) (identifier)) (version)
+    (block (ellipsis_statement))
+  )
+)
