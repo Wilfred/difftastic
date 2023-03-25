@@ -122,7 +122,7 @@ fn test_mime_type_false_positive() {
 }
 
 #[test]
-fn sligtly_invalid_utf8() {
+fn slightly_invalid_utf8() {
     let mut cmd = Command::cargo_bin("difft").unwrap();
 
     cmd.arg("sample_files/cli_tests/MainWindowViewModel.cs")
