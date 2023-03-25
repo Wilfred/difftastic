@@ -18,6 +18,7 @@ const FOLD_OPERATORS = [
   '&&', '||',
   ',',
   '.*', '->*',
+  'or', 'and', 'bitor', 'xor', 'bitand', 'not_eq',
 ]
 
 module.exports = grammar(C, {
@@ -162,7 +163,8 @@ module.exports = grammar(C, {
       members: original.members.map(
         e => e.name !== 'body'
           ? e
-          : field('body', choice(e.content, $.try_statement))) }),
+          : field('body', choice(e.content, $.try_statement)))
+    }),
 
     virtual_specifier: $ => choice(
       'final', // the only legal value here for classes
@@ -482,9 +484,9 @@ module.exports = grammar(C, {
     ),
 
     access_specifier: $ => choice(
-     'public',
-     'private',
-     'protected'
+      'public',
+      'private',
+      'protected'
     ),
 
     _declarator: ($, original) => choice(
@@ -1037,11 +1039,11 @@ module.exports = grammar(C, {
     binary_expression: ($, original) => {
       const table = [
         ['<=>', PREC.THREE_WAY],
-        ['or',  PREC.LOGICAL_OR],
+        ['or', PREC.LOGICAL_OR],
         ['and', PREC.LOGICAL_AND],
         ['bitor', PREC.INCLUSIVE_OR],
         ['xor', PREC.EXCLUSIVE_OR],
-        ['bitand',  PREC.BITWISE_AND],
+        ['bitand', PREC.BITWISE_AND],
         ['not_eq', PREC.EQUAL],
       ];
 
@@ -1076,7 +1078,7 @@ module.exports = grammar(C, {
     dependent_field_identifier: $ => seq('template', $.template_method),
     dependent_type_identifier: $ => seq('template', $.template_type),
 
-    _scope_resolution: $=> prec(1, seq(
+    _scope_resolution: $ => prec(1, seq(
       field('scope', optional(choice(
         $._namespace_identifier,
         $.template_type,

@@ -11160,6 +11160,30 @@
         {
           "type": "STRING",
           "value": "->*"
+        },
+        {
+          "type": "STRING",
+          "value": "or"
+        },
+        {
+          "type": "STRING",
+          "value": "and"
+        },
+        {
+          "type": "STRING",
+          "value": "bitor"
+        },
+        {
+          "type": "STRING",
+          "value": "xor"
+        },
+        {
+          "type": "STRING",
+          "value": "bitand"
+        },
+        {
+          "type": "STRING",
+          "value": "not_eq"
         }
       ]
     },
@@ -11835,6 +11859,132 @@
             {
               "type": "STRING",
               "value": "->*"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "or"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "or"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "and"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "and"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "bitor"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "bitor"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "xor"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "xor"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "bitand"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "bitand"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "operator",
+              "content": {
+                "type": "STRING",
+                "value": "not_eq"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "STRING",
+              "value": "not_eq"
             }
           ]
         }

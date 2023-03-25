@@ -2743,6 +2743,30 @@
             "named": false
           },
           {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "bitand",
+            "named": false
+          },
+          {
+            "type": "bitor",
+            "named": false
+          },
+          {
+            "type": "not_eq",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "xor",
+            "named": false
+          },
+          {
             "type": "|",
             "named": false
           },
