@@ -131,3 +131,15 @@ fn slightly_invalid_utf8() {
     let predicate_fn = predicate::str::contains("using");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn directory_arguments() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/dir_before")
+        .arg("sample_files/dir_after");
+
+    let predicate_fn = predicate::str::contains("only_in_before.c")
+        .and(predicate::str::contains("only_in_after_dir.rs"));
+    cmd.assert().stdout(predicate_fn);
+}
