@@ -4,6 +4,9 @@ sample_files/Session_before.kt sample_files/Session_after.kt
 sample_files/ada_before.adb sample_files/ada_after.adb
 a3b2b5033fde04bf9d2d71cb56d9eade  -
 
+sample_files/added_line_before.txt sample_files/added_line_after.txt
+91af28058b1b7da58f7509d22ed9cc58  -
+
 sample_files/b2_math_before.h sample_files/b2_math_after.h
 ccbd784fa7df5d317fce588ac477956a  -
 
