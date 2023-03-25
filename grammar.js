@@ -267,7 +267,6 @@ module.exports = grammar({
       $.while_simple_statement,
       $.until_simple_statement,
       $.for_simple_statement,
-      $.foreach_simple_statement,
       $.when_simple_statement,
     ),
 
@@ -282,7 +281,6 @@ module.exports = grammar({
       $.until_statement,
       $.for_statement_1,
       $.for_statement_2,
-      $.foreach_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -366,12 +364,7 @@ module.exports = grammar({
       $.semi_colon,
     )),
     for_simple_statement: $ => prec.right(seq(
-      'for',
-      field('list', with_or_without_brackets($._expression)),
-      $.semi_colon,
-    )),
-    foreach_simple_statement: $ => prec.right(seq(
-      'foreach',
+      choice('for', 'foreach'),
       field('list', with_or_without_brackets($._expression)),
       $.semi_colon,
     )),
@@ -454,7 +447,7 @@ module.exports = grammar({
 
     for_statement_2: $ => seq(
       optional(seq(field('label', $.identifier), ':')),
-      'for',
+      choice('for', 'foreach'),
       choice(
         seq(optional($.scope), $.scalar_variable),
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
@@ -484,20 +477,6 @@ module.exports = grammar({
       )
     ),
 
-    foreach_statement: $ => seq(
-      optional(seq(field('label', $.identifier), ':')),
-      'foreach',
-      choice(
-        seq(optional($.scope), $.scalar_variable),
-        seq('\\', optional($.scope), $.hash_variable), // \my %hash
-      ),
-      '(',
-      $._expression,
-      ')',
-      field('body', $.block),
-      optional(field('flow', $.continue)),
-    ),
-    
     _declaration: $ => choice(
       $.function_definition,
       // moving variable_declaration to expressioin
