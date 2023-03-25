@@ -435,12 +435,12 @@ module.exports = grammar({
       'while',
       field('condition', $.empty_parenthesized_expression),
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block), // normal block for a continue block
-        )
-      ),
+      optional(field('flow', $.continue)),
+    ),
+
+    continue: $ => seq(
+      'continue',
+      field('body', $.block),
     ),
 
     until_statement: $ => seq(
@@ -448,12 +448,7 @@ module.exports = grammar({
       'until',
       field('condition', $.empty_parenthesized_expression),
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     // the C - style for loop
@@ -475,12 +470,7 @@ module.exports = grammar({
       $._expression,
       ')',      
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     _for_parenthesize: $ => choice(
@@ -512,12 +502,7 @@ module.exports = grammar({
       $._expression,
       ')',
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
     
     _declaration: $ => choice(
@@ -646,12 +631,7 @@ module.exports = grammar({
       '{',
       optional(repeat($._block_statements)),
       '}',
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     _block_statements: $ => choice(
