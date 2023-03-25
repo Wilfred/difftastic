@@ -386,35 +386,28 @@ module.exports = grammar({
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
-      optional(repeat(
-        seq(
-          'elsif',
-          field('condition', $.parenthesized_expression),
-          field('alternative_if_consequence', $.block),
-        ),
-      )),
-      optional(seq(
-        'else',
-        field('alternative', $.block),
-      ))
+      repeat(field('alternative', $.elsif_clause)),
+      optional(field('alternative', $.else_clause)),
     )),
 
     unless_statement: $ => prec.left(seq(
       'unless',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
-      optional(repeat(
-        seq(
-          'elsif',
-          field('condition', $.parenthesized_expression),
-          field('alternative_if_consequence', $.block),
-        ),
-      )),
-      optional(seq(
-        'else',
-        field('alternative', $.block),
-      ))
+      repeat(field('alternative', $.elsif_clause)),
+      optional(field('alternative', $.else_clause)),
     )),
+
+    elsif_clause: $ => seq(
+      'elsif',
+      field('condition', $.parenthesized_expression),
+      field('alternative_if_consequence', $.block), // 'consequence' to match the Python grammar
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      field('alternative', $.block), // 'body' to match the Python grammar
+    ),
 
     // given_statement: $ => seq(
     //   'given',
