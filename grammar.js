@@ -1689,7 +1689,7 @@ module.exports = grammar({
       ),
     )),
 
-    regex_option: $ => /[msixpodualn]+/,
+    regex_option: $ => /[msixpodualng]+/,
     regex_option_for_substitution: $ => /[msixpodualngcer]+/,
     regex_option_for_transliteration: $ => /[cdsr]+/,
 
