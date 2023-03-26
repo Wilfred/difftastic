@@ -17,6 +17,32 @@ if (1) {
 )
 
 =================================================
+if elsif block with boolean
+=================================================
+
+if (1) {
+  print "hello";
+}
+elsif (2) {
+  print "elsif";
+}
+
+---
+
+(source_file
+  (if_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
+    (elsif_clause (parenthesized_expression (integer))
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+=================================================
 if else block with boolean
 =================================================
 
@@ -34,11 +60,153 @@ else {
     (block
       (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
     )
+    (else_clause
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+=================================================
+if elsif else block with boolean
+=================================================
+
+if (1) {
+  print "hello";
+}
+elsif (2) {
+  print "elsif";
+}
+else {
+  print "else";
+}
+
+---
+
+(source_file
+  (if_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
+    (elsif_clause (parenthesized_expression (integer))
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+    (else_clause
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+=================================================
+unless block with boolean
+=================================================
+
+unless (1) {
+  print "hello";
+}
+
+---
+
+(source_file
+  (unless_statement (parenthesized_expression (integer))
     (block
       (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
     )
   )
 )
+
+=================================================
+unless elsif block with boolean
+=================================================
+
+unless (1) {
+  print "hello";
+}
+elsif (2) {
+  print "elsif";
+}
+
+---
+
+(source_file
+  (unless_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
+    (elsif_clause (parenthesized_expression (integer))
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+=================================================
+unless else block with boolean
+=================================================
+
+unless (1) {
+  print "hello";
+}
+else {
+  print "else";
+}
+
+---
+
+(source_file
+  (unless_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
+    (else_clause
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+=================================================
+unless elsif else block with boolean
+=================================================
+
+unless (1) {
+  print "hello";
+}
+elsif (2) {
+  print "elsif";
+}
+else {
+  print "else";
+}
+
+---
+
+(source_file
+  (unless_statement (parenthesized_expression (integer))
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
+    (elsif_clause (parenthesized_expression (integer))
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+    (else_clause
+      (block
+        (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+      )
+    )
+  )
+)
+
+
 
 =================================================
 Simple while statement
@@ -87,7 +255,7 @@ MEOW: while ($i < 10) {
 )
 
 =================================================
-single line for loop
+postfix for loop
 =================================================
 
 my @array = (1, 3, 4);
@@ -101,7 +269,7 @@ print "in a loop" for @array;
 )
 
 =================================================
-simple for loop TODO: this is failing
+simple for loop (C-style)
 =================================================
 
 for (my $i=1; $i < 10; $i++) {
@@ -116,7 +284,7 @@ for (my $i=1; $i < 10; $i++) {
 )
 
 =================================================
-for ever loop
+infinite for loop (C-style)
 =================================================
 
 for (;;) {
@@ -134,7 +302,22 @@ for (;;) {
 )
 
 =================================================
-foreach loop
+for loop (iterate over array)
+=================================================
+
+for my $single (@array) {
+}
+
+---
+
+(source_file
+  (for_statement_2 (scope) (scalar_variable) (array_variable)
+    (block)
+  )
+)
+
+=================================================
+foreach loop (iterate over array)
 =================================================
 
 foreach my $single (@array) {
@@ -143,7 +326,25 @@ foreach my $single (@array) {
 ---
 
 (source_file
-  (foreach_statement (scope) (scalar_variable) (array_variable)
+  (for_statement_2 (scope) (scalar_variable) (array_variable)
     (block)
+  )
+)
+
+=================================================
+infinite foreach loop
+=================================================
+
+foreach (;;) {
+  print "hello";
+}
+
+---
+
+(source_file
+  (for_statement_1 (semi_colon) (semi_colon)
+    (block
+      (call_expression (identifier) (arguments (argument (string_double_quoted)))) (semi_colon)
+    )
   )
 )

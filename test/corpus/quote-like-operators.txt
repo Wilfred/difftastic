@@ -81,6 +81,20 @@ my @array = qw /
 )
 
 =================================================
+implicit regex matcher - all the flags are allowed, and the regex can have whitespace
+=================================================
+
+$string =~ /a b c/msixpodualng;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable) (pattern_matcher (regex_pattern) (regex_option))
+  ) (semi_colon)
+)
+
+=================================================
 m matcher operator
 =================================================
 
@@ -93,6 +107,21 @@ $string =~ m/Simple/is;
     (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter) (regex_option))
   ) (semi_colon)
 )
+
+=================================================
+m matcher operator - global flag is allowed for searches
+=================================================
+
+$string =~ m/abc/g;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter) (regex_option))
+  ) (semi_colon)
+)
+
 
 =================================================
 m matcher operator - $ at the end shouldn't interpolate

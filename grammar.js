@@ -267,7 +267,6 @@ module.exports = grammar({
       $.while_simple_statement,
       $.until_simple_statement,
       $.for_simple_statement,
-      $.foreach_simple_statement,
       $.when_simple_statement,
     ),
 
@@ -282,7 +281,6 @@ module.exports = grammar({
       $.until_statement,
       $.for_statement_1,
       $.for_statement_2,
-      $.foreach_statement,
     ),
 
     _expression_statement: $ => seq(
@@ -366,12 +364,7 @@ module.exports = grammar({
       $.semi_colon,
     )),
     for_simple_statement: $ => prec.right(seq(
-      'for',
-      field('list', with_or_without_brackets($._expression)),
-      $.semi_colon,
-    )),
-    foreach_simple_statement: $ => prec.right(seq(
-      'foreach',
+      choice('for', 'foreach'),
       field('list', with_or_without_brackets($._expression)),
       $.semi_colon,
     )),
@@ -386,35 +379,28 @@ module.exports = grammar({
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
-      optional(repeat(
-        seq(
-          'elsif',
-          field('condition', $.parenthesized_expression),
-          field('alternative_if_consequence', $.block),
-        ),
-      )),
-      optional(seq(
-        'else',
-        field('alternative', $.block),
-      ))
+      repeat(field('alternative', $.elsif_clause)),
+      optional(field('alternative', $.else_clause)),
     )),
 
     unless_statement: $ => prec.left(seq(
       'unless',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
-      optional(repeat(
-        seq(
-          'elsif',
-          field('condition', $.parenthesized_expression),
-          field('alternative_if_consequence', $.block),
-        ),
-      )),
-      optional(seq(
-        'else',
-        field('alternative', $.block),
-      ))
+      repeat(field('alternative', $.elsif_clause)),
+      optional(field('alternative', $.else_clause)),
     )),
+
+    elsif_clause: $ => seq(
+      'elsif',
+      field('condition', $.parenthesized_expression),
+      field('alternative_if_consequence', $.block), // 'consequence' to match the Python grammar
+    ),
+
+    else_clause: $ => seq(
+      'else',
+      field('alternative', $.block), // 'body' to match the Python grammar
+    ),
 
     // given_statement: $ => seq(
     //   'given',
@@ -435,12 +421,12 @@ module.exports = grammar({
       'while',
       field('condition', $.empty_parenthesized_expression),
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block), // normal block for a continue block
-        )
-      ),
+      optional(field('flow', $.continue)),
+    ),
+
+    continue: $ => seq(
+      'continue',
+      field('body', $.block),
     ),
 
     until_statement: $ => seq(
@@ -448,12 +434,7 @@ module.exports = grammar({
       'until',
       field('condition', $.empty_parenthesized_expression),
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     // the C - style for loop
@@ -466,7 +447,7 @@ module.exports = grammar({
 
     for_statement_2: $ => seq(
       optional(seq(field('label', $.identifier), ':')),
-      'for',
+      choice('for', 'foreach'),
       choice(
         seq(optional($.scope), $.scalar_variable),
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
@@ -475,12 +456,7 @@ module.exports = grammar({
       $._expression,
       ')',      
       field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     _for_parenthesize: $ => choice(
@@ -501,25 +477,6 @@ module.exports = grammar({
       )
     ),
 
-    foreach_statement: $ => seq(
-      optional(seq(field('label', $.identifier), ':')),
-      'foreach',
-      choice(
-        seq(optional($.scope), $.scalar_variable),
-        seq('\\', optional($.scope), $.hash_variable), // \my %hash
-      ),
-      '(',
-      $._expression,
-      ')',
-      field('body', $.block),
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
-    ),
-    
     _declaration: $ => choice(
       $.function_definition,
       // moving variable_declaration to expressioin
@@ -646,12 +603,7 @@ module.exports = grammar({
       '{',
       optional(repeat($._block_statements)),
       '}',
-      optional(
-        seq(
-          'continue',
-          field('body', $.block),
-        )
-      ),
+      optional(field('flow', $.continue)),
     ),
 
     _block_statements: $ => choice(
@@ -1689,7 +1641,7 @@ module.exports = grammar({
       ),
     )),
 
-    regex_option: $ => /[msixpodualn]+/,
+    regex_option: $ => /[msixpodualng]+/,
     regex_option_for_substitution: $ => /[msixpodualngcer]+/,
     regex_option_for_transliteration: $ => /[cdsr]+/,
 
