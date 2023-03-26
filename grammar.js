@@ -601,35 +601,40 @@ module.exports = grammar(C, {
     ),
 
     namespace_definition: $ => seq(
+      optional('inline'),
       'namespace',
       field('name', optional(
         choice(
-          $.identifier,
-          $.namespace_definition_name,
+          $._namespace_identifier,
+          $.nested_namespace_specifier,
         ))),
       field('body', $.declaration_list)
     ),
 
     namespace_alias_definition: $ => seq(
       'namespace',
-      field('name', $.identifier),
+      field('name', $._namespace_identifier),
       '=',
       choice(
-        $.identifier,
-        $.qualified_identifier
+        $._namespace_identifier,
+        $.nested_namespace_specifier
       ),
       ';'
     ),
 
-    namespace_definition_name: $ => seq(
-      choice(
-        $.identifier,
-        $.namespace_definition_name,
-      ),
-      '::',
+    _namespace_specifier: $ => seq(
       optional('inline'),
-      $.identifier,
+      $._namespace_identifier
     ),
+
+    nested_namespace_specifier: $ => prec(1, seq(
+      optional($._namespace_specifier),
+      '::',
+      choice(
+        $.nested_namespace_specifier,
+        $._namespace_specifier
+      )
+    )),
 
     using_declaration: $ => seq(
       'using',
