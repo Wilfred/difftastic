@@ -61,6 +61,25 @@ int main() {
       (expression_statement (identifier)))))
 
 ============================================
+Unicode Identifiers
+============================================
+
+int main() {
+  µs;
+  blah_accenté;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+    (compound_statement
+      (expression_statement (identifier))
+      (expression_statement (identifier)))))
+
+============================================
 Common constants
 ============================================
 

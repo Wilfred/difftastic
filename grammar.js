@@ -982,7 +982,7 @@ module.exports = grammar({
     false: $ => token(choice('FALSE', 'false')),
     null: $ => 'NULL',
 
-    identifier: $ => /[a-zA-Z_]\w*/,
+    identifier: $ => /(\p{XID_Start}|_)\p{XID_Continue}*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
