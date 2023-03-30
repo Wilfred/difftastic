@@ -183,21 +183,10 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-/// Split `s` on \n or \r\n. Always returns a non-empty vec. Each line
-/// in the vec does not include the trailing newline.
-///
-/// This differs from `str::lines`, which considers `""` to be zero
-/// lines and `"foo\n"` to be one line.
+/// Split `s` on \n or \r\n. Each line in the vec does not include the
+/// trailing newline.
 pub fn split_on_newlines(s: &str) -> Vec<&str> {
-    s.split('\n')
-        .map(|l| {
-            if let Some(l) = l.strip_suffix('\r') {
-                l
-            } else {
-                l
-            }
-        })
-        .collect()
+    s.lines().collect()
 }
 
 pub fn is_all_whitespace(s: &str) -> bool {

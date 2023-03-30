@@ -332,7 +332,7 @@ fn diff_file_content(
     diff_options: &DiffOptions,
     language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
-    let (mut lhs_src, mut rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
+    let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
                 lhs_display_path: lhs_display_path.into(),
@@ -349,16 +349,6 @@ fn diff_file_content(
         }
         (ProbableFileKind::Text(lhs_src), ProbableFileKind::Text(rhs_src)) => (lhs_src, rhs_src),
     };
-
-    // Ignore the trailing newline, if present.
-    // TODO: highlight if this has changes (#144).
-    // TODO: factor out a string cleaning function.
-    if lhs_src.ends_with('\n') {
-        lhs_src.pop();
-    }
-    if rhs_src.ends_with('\n') {
-        rhs_src.pop();
-    }
 
     let (guess_src, guess_path) = match rhs_path {
         FileArgument::NamedPath(_) => (&rhs_src, Path::new(&rhs_display_path)),

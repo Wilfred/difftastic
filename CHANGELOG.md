@@ -20,6 +20,10 @@ Difftastic now prefers treating files as 'mostly UTF-8' or binary rather than
 UTF-16. Many files can be decoded as UTF-16 without decoding errors
 but produce nonsense results, so this heuristic seems to work better.
 
+Fixed an issue where difftastic would discard the last newline in a
+file before diffing. This was most noticeable when doing textual diffs
+and the last line had changed.
+
 ### Display
 
 Difftastic no longer uses purple to highlight regions that are missing

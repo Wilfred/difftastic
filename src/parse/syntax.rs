@@ -805,10 +805,11 @@ impl MatchedPos {
                 let mut res = vec![];
                 for (i, line_pos) in pos.iter().enumerate() {
                     // Don't create a MatchedPos for empty positions
-                    // at the start. We will want empty positions on
-                    // multiline atoms elsewhere, as a multline string
-                    // literal may include empty lines.
-                    if i == 0 && line_pos.start_col == line_pos.end_col {
+                    // at the start or end. We still want empty
+                    // positions in the middle of multiline atoms, as
+                    // a multiline string literal may include empty
+                    // lines.
+                    if (i == 0 || i == pos.len() - 1) && line_pos.start_col == line_pos.end_col {
                         continue;
                     }
 
@@ -831,11 +832,20 @@ impl MatchedPos {
                 let kind = MatchKind::Novel { highlight };
                 // Create a MatchedPos for every line that `pos` covers.
                 let mut res = vec![];
-                for line_pos in pos {
-                    // Don't create a MatchedPos for empty positions. This
+                for (i, line_pos) in pos.iter().enumerate() {
+                    // Don't create a MatchedPos for entirly empty positions. This
                     // occurs when we have lists with empty open/close
                     // delimiter positions, such as the top-level list of syntax items.
                     if pos.len() == 1 && line_pos.start_col == line_pos.end_col {
+                        continue;
+                    }
+
+                    // Don't create a MatchedPos for empty positions
+                    // at the start or end. We still want empty
+                    // positions in the middle of multiline atoms, as
+                    // a multiline string literal may include empty
+                    // lines.
+                    if (i == 0 || i == pos.len() - 1) && line_pos.start_col == line_pos.end_col {
                         continue;
                     }
 

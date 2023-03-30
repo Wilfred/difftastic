@@ -5,7 +5,7 @@ sample_files/ada_before.adb sample_files/ada_after.adb
 a3b2b5033fde04bf9d2d71cb56d9eade  -
 
 sample_files/added_line_before.txt sample_files/added_line_after.txt
-91af28058b1b7da58f7509d22ed9cc58  -
+2deb040c52fb94459ca0540bcc983000  -
 
 sample_files/b2_math_before.h sample_files/b2_math_after.h
 ccbd784fa7df5d317fce588ac477956a  -
@@ -119,7 +119,7 @@ sample_files/makefile_before.mk sample_files/makefile_after.mk
 82ed37f60448e7402c62d5319f30fd3c  -
 
 sample_files/metadata_before.clj sample_files/metadata_after.clj
-e8e76c97731accc5572708664bb61910  -
+2d6b3a5245d01fb1cb15dcf6117bbeb5  -
 
 sample_files/modules_before.ml sample_files/modules_after.ml
 cf88821ead0d432d4841f476c2f26fd2  -
