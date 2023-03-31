@@ -307,7 +307,7 @@ fn check_only_text(
 ) -> DiffResult {
     let has_changes = lhs_src != rhs_src;
 
-    return DiffResult {
+    DiffResult {
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         file_format: file_format.clone(),
@@ -318,7 +318,7 @@ fn check_only_text(
         hunks: vec![],
         has_byte_changes: has_changes,
         has_syntactic_changes: has_changes,
-    };
+    }
 }
 
 fn diff_file_content(

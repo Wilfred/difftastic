@@ -103,11 +103,7 @@ pub fn read_or_die(path: &Path) -> Vec<u8> {
 }
 
 fn has_utf16_byte_order_mark(bytes: &[u8]) -> bool {
-    match &bytes {
-        [0xfe, 0xff, ..] => true,
-        [0xff, 0xfe, ..] => true,
-        _ => false,
-    }
+    matches!(bytes, [0xfe, 0xff, ..] | [0xff, 0xfe, ..])
 }
 
 /// Group bytes into u16 values for conversion to UTF-16, respecting
