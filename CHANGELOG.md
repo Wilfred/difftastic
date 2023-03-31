@@ -1,5 +1,7 @@
 ## 0.46 (unreleased)
 
+## 0.46 (released 31st March 2023)
+
 ### Command Line Interface
 
 Removed the option `--missing-as-empty`. This is no longer needed as
