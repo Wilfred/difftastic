@@ -1,4 +1,6 @@
-## 0.46 (unreleased)
+## 0.47 (unreleased)
+
+No changes.
 
 ## 0.46 (released 31st March 2023)
 
