@@ -4,7 +4,9 @@
 
 Difftastic [provides GitHub
 releases](https://github.com/Wilfred/difftastic/releases) with
-prebuilt binaries.
+prebuilt binaries. The
+[changelog](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)
+describes the changes in each release.
 
 Packages are also available on the following platforms.
 
