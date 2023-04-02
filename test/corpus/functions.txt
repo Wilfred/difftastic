@@ -482,7 +482,7 @@ fn field_access(x) {
           name: (constructor_name)
           arguments: (arguments
             (argument
-                value: (integer)))))
+              value: (integer)))))
       (let_assert
         pattern: (identifier)
         value: (expression_group

@@ -229,7 +229,7 @@ module.exports = grammar({
         field("parameters", $.function_parameters),
         optional(seq("->", field("return_type", $._type))),
         "{",
-        optional(field("body", alias($._expression_seq, $.function_body))),
+        optional(field("body", alias($._statement_seq, $.function_body))),
         "}"
       ),
     function_parameters: ($) =>
@@ -271,7 +271,7 @@ module.exports = grammar({
     // This makes sense for the parser, but (IMO) would be more confusing for
     // users and tooling which don't think about `try`s as having a "then". Thus,
     // `try`s are essentially treated the same as any other expression.
-    _expression_seq: ($) => repeat1(choice($._expression, $.try)),
+    _statement_seq: ($) => repeat1(choice($._statement, $.try)),
     try: ($) =>
       seq(
         "try",
@@ -280,6 +280,7 @@ module.exports = grammar({
         "=",
         field("value", $._expression)
       ),
+    _statement: ($) => choice($._expression, $.let, $.use),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
@@ -333,8 +334,6 @@ module.exports = grammar({
         $.expression_group,
         $.case,
         $.let_assert,
-        $.let,
-        $.use,
         $.assert,
         $.negation,
         $.record_update,
@@ -374,7 +373,7 @@ module.exports = grammar({
         ),
         optional(seq("->", field("return_type", $._type))),
         "{",
-        field("body", alias($._expression_seq, $.function_body)),
+        field("body", alias($._statement_seq, $.function_body)),
         "}"
       ),
     anonymous_function_parameters: ($) =>
@@ -393,7 +392,7 @@ module.exports = grammar({
         choice($._discard_param, $._name_param),
         optional($._type_annotation)
       ),
-    expression_group: ($) => seq("{", $._expression_seq, "}"),
+    expression_group: ($) => seq("{", $._statement_seq, "}"),
     case: ($) =>
       seq(
         "case",
