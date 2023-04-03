@@ -15,7 +15,7 @@ use crate::{
         self, apply_colors, apply_line_number_color, color_positions, novel_style, split_and_apply,
         BackgroundColor,
     },
-    lines::{codepoint_len, format_line_num, split_on_newlines, LineNumber},
+    lines::{codepoint_len, format_line_num, LineNumber},
     options::{DisplayMode, DisplayOptions},
     parse::syntax::{zip_pad_shorter, MatchedPos},
     positions::SingleLineSpan,
@@ -345,14 +345,8 @@ pub fn print(
         )
     } else {
         (
-            split_on_newlines(lhs_src)
-                .iter()
-                .map(|s| format!("{}\n", s))
-                .collect(),
-            split_on_newlines(rhs_src)
-                .iter()
-                .map(|s| format!("{}\n", s))
-                .collect(),
+            lhs_src.lines().map(|s| format!("{}\n", s)).collect(),
+            rhs_src.lines().map(|s| format!("{}\n", s)).collect(),
         )
     };
 
@@ -403,8 +397,8 @@ pub fn print(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
-    let lhs_lines = split_on_newlines(lhs_src);
-    let rhs_lines = split_on_newlines(rhs_src);
+    let lhs_lines = lhs_src.lines().collect::<Vec<_>>();
+    let rhs_lines = rhs_src.lines().collect::<Vec<_>>();
     let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps, &lhs_lines, &rhs_lines);
     let mut matched_lines_to_print = &matched_lines[..];
 
@@ -611,8 +605,10 @@ mod tests {
         let source_dims = SourceDimensions::new(
             80,
             &line_nums,
-            &split_on_newlines("foo\nbar\n"),
-            &split_on_newlines("x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"),
+            &"foo\nbar\n".lines().collect::<Vec<_>>(),
+            &"x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"
+                .lines()
+                .collect::<Vec<_>>(),
         );
 
         assert_eq!(source_dims.lhs_line_nums_width, 2);
@@ -627,8 +623,8 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
-            &split_on_newlines("foo\nbar\n"),
-            &split_on_newlines("fox\nbax\n"),
+            &"foo\nbar\n".lines().collect::<Vec<_>>(),
+            &"fox\nbax\n".lines().collect::<Vec<_>>(),
         );
 
         assert_eq!(
@@ -649,8 +645,8 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (Some(1.into()), Some(1.into())),
             ],
-            &split_on_newlines("foo\nbar\n"),
-            &split_on_newlines("fox\nbax\n"),
+            &"foo\nbar\n".lines().collect::<Vec<_>>(),
+            &"fox\nbax\n".lines().collect::<Vec<_>>(),
         );
 
         assert_eq!(

@@ -183,12 +183,6 @@ impl<S: AsRef<str>> MaxLine for S {
     }
 }
 
-/// Split `s` on \n or \r\n. Each line in the vec does not include the
-/// trailing newline.
-pub fn split_on_newlines(s: &str) -> Vec<&str> {
-    s.lines().collect()
-}
-
 pub fn is_all_whitespace(s: &str) -> bool {
     s.chars().all(|c| c.is_whitespace())
 }
@@ -296,21 +290,6 @@ mod tests {
     #[test]
     fn codepoint_len_non_ascii() {
         assert_eq!(codepoint_len("ƒoo"), 3);
-    }
-
-    #[test]
-    fn test_split_line_single() {
-        assert_eq!(split_on_newlines("foo"), vec!["foo"]);
-    }
-
-    #[test]
-    fn test_split_line_with_newline() {
-        assert_eq!(split_on_newlines("foo\nbar"), vec!["foo", "bar"]);
-    }
-
-    #[test]
-    fn test_split_line_with_crlf() {
-        assert_eq!(split_on_newlines("foo\r\nbar"), vec!["foo", "bar"]);
     }
 
     #[test]

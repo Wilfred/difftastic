@@ -2,7 +2,7 @@
 
 use crate::{
     constants::Side,
-    lines::{byte_len, split_on_newlines, LineNumber},
+    lines::{byte_len, LineNumber},
     options::DisplayOptions,
     parse::syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
     positions::SingleLineSpan,
@@ -396,7 +396,7 @@ pub fn apply_colors(
     positions: &[MatchedPos],
 ) -> Vec<String> {
     let styles = color_positions(side, background, syntax_highlight, file_format, positions);
-    let lines = split_on_newlines(s);
+    let lines = s.lines().collect::<Vec<_>>();
     style_lines(&lines, &styles)
 }
 
