@@ -1,0 +1,29 @@
+{
+  "name": "tree-sitter-solidity",
+  "version": "1.2.0",
+  "description": "A tree sitter parser for Solidity",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter generate && tree-sitter test"
+  },
+  "author": "Joran Honig",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.sol",
+      "file-types": [
+        "sol"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^(sol|solidity)$"
+    }
+  ]
+}

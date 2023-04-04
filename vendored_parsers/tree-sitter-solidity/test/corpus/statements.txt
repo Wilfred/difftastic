@@ -1,0 +1,346 @@
+================================================================================
+Array local variable declaration
+================================================================================
+
+contract Example {
+    function example() {
+        int[] a;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (variable_declaration_statement
+            (variable_declaration
+              type: (type_name
+                (type_name
+                  (primitive_type)))
+              name: (identifier))))))))
+
+================================================================================
+Array local variable declaration subtype
+================================================================================
+
+contract Example {
+    function example() {
+        A.B[] storage a;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (variable_declaration_statement
+            (variable_declaration
+              type: (type_name
+                (type_name
+                  (user_defined_type
+                    (identifier)
+                    (identifier))))
+              name: (identifier))))))))
+
+================================================================================
+Block statement
+================================================================================
+
+contract Example {
+    function example() {
+        {
+            1;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (block_statement
+            (expression_statement
+              (number_literal))))))))
+
+================================================================================
+If statement
+================================================================================
+
+contract Example {
+    function example() {
+        if (a) {
+            
+        } 
+        if (d) {} else {
+            b; 
+        }
+        if (a) 1;
+        
+        if (input >= 1) if (input > 2) 1; else 2;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (if_statement
+            (identifier)
+            (block_statement))
+          (if_statement
+            (identifier)
+            (block_statement)
+            (block_statement
+              (expression_statement
+                (identifier))))
+          (if_statement
+            (identifier)
+            (expression_statement
+              (number_literal)))
+          (if_statement
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (if_statement
+              (binary_expression
+                (identifier)
+                (number_literal))
+              (expression_statement
+                (number_literal))
+              (expression_statement
+                (number_literal)))))))))
+
+================================================================================
+For statement
+================================================================================
+
+contract Example {
+    function example() {
+        for (int i = 0; i++; i < 10) e++;
+        for (; i++; i < 10) e++;
+        for (;; i < 10) e++;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (for_statement
+            (variable_declaration_statement
+              (variable_declaration
+                (type_name
+                  (primitive_type))
+                (identifier))
+              (number_literal))
+            (expression_statement
+              (update_expression
+                (identifier)))
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (expression_statement
+              (update_expression
+                (identifier))))
+          (for_statement
+            (expression_statement
+              (update_expression
+                (identifier)))
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (expression_statement
+              (update_expression
+                (identifier))))
+          (for_statement
+            (binary_expression
+              (identifier)
+              (number_literal))
+            (expression_statement
+              (update_expression
+                (identifier)))))))))
+
+================================================================================
+While statement
+================================================================================
+
+contract Example {
+    function example() {
+        while (true) return;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (while_statement
+            (boolean_literal
+              (true))
+            (return_statement)))))))
+
+================================================================================
+While statement 2
+================================================================================
+
+contract Example {
+    function example() {
+        while (true) {
+            break;
+            continue;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (while_statement
+            (boolean_literal
+              (true))
+            (block_statement
+              (break_statement)
+              (continue_statement))))))))
+
+================================================================================
+Try statement
+================================================================================
+
+contract Example {
+    function example() {
+        try callSomething() returns (uint param) {
+            param++;
+        } catch errorMessage(uint value) {
+            param--;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (try_statement
+            (call_expression
+              (identifier))
+            (parameter
+              (type_name
+                (primitive_type))
+              (identifier))
+            (block_statement
+              (expression_statement
+                (update_expression
+                  (identifier))))
+            (catch_clause
+              (identifier)
+              (parameter
+                (type_name
+                  (primitive_type))
+                (identifier))
+              (block_statement
+                (expression_statement
+                  (update_expression
+                    (identifier)))))))))))
+
+================================================================================
+Return statement
+================================================================================
+
+contract Example {
+    function example() {
+        return;
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (return_statement))))))
+
+================================================================================
+Emit statement
+================================================================================
+
+contract Example {
+    function example() {
+        emit logmessage();
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (emit_statement
+            (identifier)))))))
+
+================================================================================
+Assembly statement
+================================================================================
+
+contract Example {
+    function example() {
+        emit logmessage();
+    }
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (function_definition
+        (identifier)
+        (function_body
+          (emit_statement
+            (identifier)))))))

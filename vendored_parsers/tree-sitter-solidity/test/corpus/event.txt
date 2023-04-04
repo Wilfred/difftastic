@@ -1,0 +1,81 @@
+====================
+Event
+====================
+
+contract Example {
+    event Exx();
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+        (event_definition
+            name: (identifier)))))
+
+====================
+Event anonymous
+====================
+
+contract Example {
+    event Exx() anonymous;
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+        (event_definition
+            name: (identifier)))))
+
+
+====================
+Event parameter
+====================
+
+contract Example {
+    event Exx(int) anonymous;
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+        (event_definition
+            name: (identifier)
+            (event_paramater type: (type_name (primitive_type)))))))
+
+====================
+Event parameters
+====================
+
+contract Example {
+    event Exx(int, int named, int indexed, int indexed name);
+}
+
+---
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+        (event_definition
+            name: (identifier)
+
+            (event_paramater type: (type_name (primitive_type)))
+            
+            (event_paramater 
+              type: (type_name (primitive_type))
+              name: (identifier))
+
+            (event_paramater type: (type_name (primitive_type)))
+            
+            (event_paramater 
+              type: (type_name (primitive_type))
+              name: (identifier))))))

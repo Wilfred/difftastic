@@ -1,0 +1,123 @@
+================================================================================
+Pragma Any
+================================================================================
+
+pragma experimental abiencoderv2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (any_pragma_token
+      (identifier)
+      (pragma_value))))
+
+================================================================================
+Pragma Directive
+================================================================================
+
+pragma solidity 0.4.0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))
+
+================================================================================
+Multiple Pragma Directives
+================================================================================
+
+pragma solidity 0.4.0 0.5.0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version)
+      (solidity_version))))
+
+================================================================================
+Equality Pragma Directives
+================================================================================
+
+pragma solidity <0.4.0 ^0.5.0 ~0.5;
+pragma solidity =0.4;
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version_comparison_operator)
+      (solidity_version)
+      (solidity_version_comparison_operator)
+      (solidity_version)
+      (solidity_version_comparison_operator)
+      (solidity_version)))
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version_comparison_operator)
+      (solidity_version))))
+
+================================================================================
+Or Solidity Pragma Directives
+================================================================================
+
+pragma solidity ^0.5.0 || ^0.6.0;
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version_comparison_operator)
+      (solidity_version)
+      (solidity_version_comparison_operator)
+      (solidity_version))))
+
+================================================================================
+Dot sol pragma
+================================================================================
+
+pragma solidity .0;
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))
+
+================================================================================
+Star sol pragma
+================================================================================
+
+pragma solidity 0.8.*;
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))
+
+================================================================================
+String solidity pragma
+================================================================================
+
+pragma solidity "0.8.12";
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_directive
+    (solidity_pragma_token
+      (solidity_version))))

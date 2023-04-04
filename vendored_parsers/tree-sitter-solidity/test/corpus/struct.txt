@@ -1,0 +1,16 @@
+====================
+Struct Declarations
+====================
+
+struct example {
+    uint256 element_a;
+    int element_b;
+}
+
+---
+
+(source_file
+    (struct_declaration 
+        (identifier)
+        (struct_member (type_name (primitive_type)) (identifier))
+        (struct_member (type_name (primitive_type)) (identifier)))) 

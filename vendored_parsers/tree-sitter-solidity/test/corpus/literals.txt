@@ -1,0 +1,180 @@
+================================================================================
+Integer Literal
+================================================================================
+
+contract Example {
+    function example() {
+        11;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (number_literal)))))))
+
+================================================================================
+String Literal
+================================================================================
+
+contract Example {
+    function example() {
+        "example";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string))))))))
+
+================================================================================
+Double String Literal
+================================================================================
+
+contract Example {
+    function example() {
+        "example" "another string";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string)
+              (string))))))))
+
+================================================================================
+String Literal Escapes
+================================================================================
+
+contract Example {
+    function example() {
+        "example ' ";
+        "\\yeah";
+        'also a String with "';
+        "";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string)))
+          (expression_statement
+            (string_literal
+              (string))))))))
+
+================================================================================
+Hex String Literal
+================================================================================
+
+contract Example {
+    function example() {
+        hex "aa";
+        hex "aa_bb";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (hex_string_literal))
+          (expression_statement
+            (hex_string_literal)))))))
+
+================================================================================
+Unicode String Literal
+================================================================================
+
+contract Example {
+    function example() {
+        unicode"asdf";
+        unicode"😁";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (unicode_string_literal))
+          (expression_statement
+            (unicode_string_literal)))))))
+
+================================================================================
+Bool Literal
+================================================================================
+
+contract Example {
+    function example() {
+        true;
+        false;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body
+          (expression_statement
+            (boolean_literal
+              (true)))
+          (expression_statement
+            (boolean_literal
+              (false))))))))

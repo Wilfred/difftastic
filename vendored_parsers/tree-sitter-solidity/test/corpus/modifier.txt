@@ -1,0 +1,92 @@
+================================================================================
+Modifier
+================================================================================
+
+contract Example {
+    modifier onlyOwner {}
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (modifier_definition
+        name: (identifier)
+        body: (function_body)))))
+
+================================================================================
+Modifier with parameter
+================================================================================
+
+contract Example {
+    modifier onlyOwner(address owner) {}
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (modifier_definition
+        name: (identifier)
+        (parameter
+          type: (type_name
+            (primitive_type))
+          name: (identifier))
+        body: (function_body)))))
+
+================================================================================
+Modifier virtual
+================================================================================
+
+contract Example {
+    modifier onlyOwner virtual {}
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (modifier_definition
+        name: (identifier)
+        (virtual)
+        body: (function_body)))))
+
+================================================================================
+Modifier override
+================================================================================
+
+contract Example {
+    modifier onlyOwner override (element.be) {}
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (modifier_definition
+        name: (identifier)
+        (override_specifier
+          (user_defined_type
+            (identifier)
+            (identifier)))
+        body: (function_body)))))
+
+================================================================================
+Modifier empty
+================================================================================
+
+contract Example {
+    modifier onlyOwner;
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (modifier_definition
+        name: (identifier)))))
