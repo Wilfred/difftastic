@@ -323,7 +323,7 @@ module.exports = grammar({
       optional($.class_body)
     ),
 
-    _function_value_parameters: $ => seq(
+    function_value_parameters: $ => seq(
       "(",
       optional(sep1($._function_value_parameter, ",")),
       optional(","),
@@ -351,7 +351,7 @@ module.exports = grammar({
       optional($.type_parameters),
       optional(seq($._receiver_type, optional('.'))),
       $.simple_identifier,
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $._type)),
       optional($.type_constraints),
       optional($.function_body)
@@ -429,7 +429,7 @@ module.exports = grammar({
     secondary_constructor: $ => seq(
       optional($.modifiers),
       "constructor",
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $.constructor_delegation_call)),
       optional($._block)
     ),
@@ -791,7 +791,7 @@ module.exports = grammar({
     anonymous_function: $ => prec.right(seq(
       "fun",
       optional(seq(sep1($._simple_user_type, "."), ".")), // TODO
-      $._function_value_parameters,
+      $.function_value_parameters,
       optional(seq(":", $._type)),
       optional($.function_body)
     )),

@@ -29,13 +29,13 @@ Eq after newline
 fun foo()
     = 1
 
---------------------------------------------------------------------------------
-
+---
 (source_file
-  (function_declaration
+   (function_declaration
     (simple_identifier)
-    (function_body
-      (integer_literal))))
+    (function_value_parameters)
+    (function_body 
+    (integer_literal))))
 
 ================================================================================
 Binary operator after newline
@@ -50,16 +50,15 @@ fun foo()  {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_declaration
-    (simple_identifier)
-    (function_body
-      (statements
-        (property_declaration
-          (variable_declaration
-            (simple_identifier))
-          (conjunction_expression
-            (simple_identifier)
-            (simple_identifier)))))))
+  (function_declaration (simple_identifier) (function_value_parameters)
+     (function_body
+        (statements
+           (property_declaration
+              (variable_declaration
+               (simple_identifier))
+              (conjunction_expression
+               (simple_identifier)
+               (simple_identifier)))))))
 
 ================================================================================
 Open brace after newline
@@ -68,11 +67,12 @@ Open brace after newline
 fun foo():String
     { return "bar"}
 
---------------------------------------------------------------------------------
+---
 
 (source_file
   (function_declaration
     (simple_identifier)
+    (function_value_parameters)
     (user_type
       (type_identifier))
     (function_body
@@ -113,7 +113,8 @@ fun foo() {
 
 (source_file
   (function_declaration
-    (simple_identifier)
+   (simple_identifier)
+  (function_value_parameters)
     (function_body
       (statements
         (property_declaration
