@@ -177,21 +177,6 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
           return true;
         }
 
-        /* This is so if we lex something like 
-           """foo"""
-              ^ 
-           where we are at the `f`, we should quit after
-           reading `foo`, and ascribe it to STRING_CONTENT.
-           
-           Then, we restart and try to read the end.
-           This is to prevent `foo` from being absorbed into
-           the STRING_END token.
-         */
-        if (has_content && lexer->lookahead == end_char) {
-          lexer->result_symbol = STRING_CONTENT;
-          return true;
-        }
-
         /* Since the string internals are all hidden in the syntax
            tree anyways, there's no point in going to the effort of 
            specifically separating the string end from string contents.
@@ -214,28 +199,11 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
           return true;
         }
         else {
-        if (has_content) {
-          mark_end(lexer);
-          lexer->result_symbol = STRING_CONTENT;
-          return true;
-        }
-        else {
           pop(stack);
           advance(lexer);
           mark_end(lexer);
           lexer->result_symbol = STRING_END;
           return true;
-        pop(stack);
-        advance(lexer);
-        mark_end(lexer);
-        lexer->result_symbol = STRING_END;
-        return true;
-          pop(stack);
-          advance(lexer);
-          mark_end(lexer);
-          lexer->result_symbol = STRING_END;
-          return true;
-        }
         }
       }
     }
@@ -375,6 +343,7 @@ bool scan_automatic_semicolon(TSLexer *lexer) {
 
   switch (lexer->lookahead) {
     case ',':
+    case '.':
     case ':':
     case '*':
     case '%':
