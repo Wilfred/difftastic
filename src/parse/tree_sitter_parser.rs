@@ -872,18 +872,14 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 language,
                 atom_nodes: vec!["string"].into_iter().collect(),
-                delimiter_tokens: vec![
-                    ("[", "]"),
-                    ("(", ")"),
-                    ("{", "}"),
-                ],
+                delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
                 highlight_query: ts::Query::new(
                     language,
-                    include_str!("../../vendored_parsers/highlights/solidity.scm")
-                ).unwrap(),
-                sub_languages: vec![]
+                    include_str!("../../vendored_parsers/highlights/solidity.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
             }
-
         }
         Sql => {
             let language = unsafe { tree_sitter_sql() };
