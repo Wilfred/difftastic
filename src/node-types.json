@@ -408,6 +408,14 @@
           "named": true
         },
         {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
+          "type": "plugin",
+          "named": true
+        },
+        {
           "type": "preproc_def",
           "named": true
         },
@@ -442,6 +450,106 @@
     "type": "file_version",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "incbin",
+    "named": true,
+    "fields": {
+      "filename": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "offset": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "reference",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "size": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "reference",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "integer_cells",
@@ -585,11 +693,43 @@
           "named": true
         },
         {
+          "type": "omit_if_no_ref",
+          "named": true
+        },
+        {
           "type": "property",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "omit_if_no_ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "labeled_item",
+          "named": true
+        },
+        {
+          "type": "node",
+          "named": true
+        },
+        {
+          "type": "reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "plugin",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "preproc_def",
@@ -696,6 +836,20 @@
     "type": "property",
     "named": true,
     "fields": {
+      "bits": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "/bits/",
+            "named": false
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -715,11 +869,11 @@
             "named": false
           },
           {
-            "type": "=",
-            "named": false
+            "type": "byte_string_literal",
+            "named": true
           },
           {
-            "type": "byte_string_literal",
+            "type": "incbin",
             "named": true
           },
           {
@@ -932,6 +1086,10 @@
     "named": false
   },
   {
+    "type": "/bits/",
+    "named": false
+  },
+  {
     "type": "/delete-node/",
     "named": false
   },
@@ -944,11 +1102,23 @@
     "named": false
   },
   {
+    "type": "/incbin/",
+    "named": false
+  },
+  {
     "type": "/include",
     "named": false
   },
   {
     "type": "/memreserve/",
+    "named": false
+  },
+  {
+    "type": "/omit-if-no-ref/",
+    "named": false
+  },
+  {
+    "type": "/plugin/",
     "named": false
   },
   {

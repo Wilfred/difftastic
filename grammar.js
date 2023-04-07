@@ -1,7 +1,11 @@
 /**
+ * Based in part on:
  *
- * Based in part on https://github.com/tree-sitter/tree-sitter-c
- * (MIT license, Copyright (c) 2014 Max Brunsfeld)
+ * https://github.com/tree-sitter/tree-sitter-c
+ * MIT license, Copyright (c) 2014 Max Brunsfeld
+ *
+ * https://github.com/zephyrproject-rtos/python-devicetree/tree/main
+ * BSD 3-Clause license, Copyright (c) 2019, Nordic Semiconductor
  */
 
 const PREC = {
@@ -45,7 +49,9 @@ module.exports = grammar({
 		_top_level_item: ($) =>
 			choice(
 				$.file_version,
+				$.plugin,
 				$.memory_reservation,
+				$.omit_if_no_ref,
 				$.labeled_item,
 				$.node,
 				$.dtsi_include,
@@ -55,6 +61,7 @@ module.exports = grammar({
 			),
 
 		file_version: ($) => seq('/dts-v1/', ';'),
+		plugin: ($) => seq('/plugin/', ';'),
 
 		memory_reservation: ($) =>
 			seq('/memreserve/', $.integer_literal, $.integer_literal, ';'),
@@ -107,6 +114,12 @@ module.exports = grammar({
 				'}'
 			),
 
+		omit_if_no_ref: ($) =>
+			seq(
+				'/omit-if-no-ref/',
+				choice($.labeled_item, $.node, seq($.reference, ';'))
+			),
+
 		labeled_item: ($) =>
 			seq(
 				field('label', $.label_identifier),
@@ -124,10 +137,18 @@ module.exports = grammar({
 				';'
 			),
 
+		_bits: ($) => seq('/bits/', $.integer_literal),
+
 		property: ($) =>
 			seq(
 				field('name', $.property_identifier),
-				field('value', optional(seq('=', commaSep($._property_value)))),
+				optional(
+					seq(
+						'=',
+						field('bits', optional($._bits)),
+						field('value', commaSep($._property_value))
+					)
+				),
 				';'
 			),
 
@@ -135,6 +156,7 @@ module.exports = grammar({
 			choice(
 				$.delete_property,
 				$.delete_node,
+				$.omit_if_no_ref,
 				$.labeled_item,
 				$.node,
 				$.property
@@ -147,13 +169,30 @@ module.exports = grammar({
 		delete_property: ($) =>
 			seq('/delete-property/', $.property_identifier, ';'),
 
+		incbin: ($) =>
+			seq(
+				'/incbin/',
+				'(',
+				field('filename', $.string_literal),
+				optional(
+					seq(
+						',',
+						field('offset', $._integer_cell_items),
+						',',
+						field('size', $._integer_cell_items)
+					)
+				),
+				')'
+			),
+
 		// TODO: property values can be labeled.
 		_property_value: ($) =>
 			choice(
 				$.integer_cells,
 				$.string_literal,
 				$.byte_string_literal,
-				$.reference
+				$.reference,
+				$.incbin
 			),
 
 		integer_cells: ($) => seq('<', repeat($._integer_cell_items), '>'),

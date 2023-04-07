@@ -100,6 +100,7 @@ Integers
 / {
     int = <0>;
     list = <0 1 2>;
+    list_bits = /bits/ 8 <0x12 0x34>;
 };
 
 ---
@@ -115,6 +116,13 @@ Integers
             name: (identifier)
             value: (integer_cells
                 (integer_literal) (integer_literal) (integer_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            bits: (integer_literal)
+            value: (integer_cells
+                (integer_literal) (integer_literal)
             )
         )
     )
@@ -150,6 +158,7 @@ Byte strings
 / {
     bytes = [00 12 34];
     bytes2 = [001234];
+    empty = [];
 };
 
 ---
@@ -157,6 +166,10 @@ Byte strings
 (document
     (node
         name: (identifier)
+        (property
+            name: (identifier)
+            value: (byte_string_literal)
+        )
         (property
             name: (identifier)
             value: (byte_string_literal)
@@ -223,6 +236,58 @@ Mixed values
             value: (integer_cells (integer_literal) (reference label: (identifier)))
             value: (byte_string_literal)
             value: (string_literal)
+        )
+    )
+)
+
+========================================================================
+Incbin
+========================================================================
+
+/ {
+    data = /incbin/ ("file.bin");
+    data2 = /incbin/ ("file.bin", 0x10, 64);
+    data3 = /incbin/ ("file.bin", (1 + 2), MACRO(1, 2 + 3));
+};
+
+---
+
+(document
+    (node
+        name: (identifier)
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+                offset: (integer_literal)
+                size: (integer_literal)
+            )
+        )
+        (property
+            name: (identifier)
+            value: (incbin
+                filename: (string_literal)
+                offset: (binary_expression
+                    left: (integer_literal)
+                    right: (integer_literal)
+                )
+                size: (call_expression
+                    function: (identifier)
+                    arguments: (argument_list
+                        (integer_literal)
+                        (binary_expression
+                            left: (integer_literal)
+                            right: (integer_literal)
+                        )
+                    )
+                )
+            )
         )
     )
 )

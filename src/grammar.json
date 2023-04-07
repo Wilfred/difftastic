@@ -17,7 +17,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "plugin"
+        },
+        {
+          "type": "SYMBOL",
           "name": "memory_reservation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "omit_if_no_ref"
         },
         {
           "type": "SYMBOL",
@@ -51,6 +59,19 @@
         {
           "type": "STRING",
           "value": "/dts-v1/"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "plugin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/plugin/"
         },
         {
           "type": "STRING",
@@ -274,6 +295,41 @@
         }
       ]
     },
+    "omit_if_no_ref": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/omit-if-no-ref/"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "labeled_item"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "node"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "reference"
+                },
+                {
+                  "type": "STRING",
+                  "value": ";"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "labeled_item": {
       "type": "SEQ",
       "members": [
@@ -378,6 +434,19 @@
         }
       ]
     },
+    "_bits": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/bits/"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer_literal"
+        }
+      ]
+    },
     "property": {
       "type": "SEQ",
       "members": [
@@ -390,19 +459,35 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "="
-                  },
-                  {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "FIELD",
+                  "name": "bits",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_bits"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "value",
+                  "content": {
                     "type": "CHOICE",
                     "members": [
                       {
@@ -435,13 +520,13 @@
                       }
                     ]
                   }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -459,6 +544,10 @@
         {
           "type": "SYMBOL",
           "name": "delete_node"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "omit_if_no_ref"
         },
         {
           "type": "SYMBOL",
@@ -517,6 +606,68 @@
         }
       ]
     },
+    "incbin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/incbin/"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "filename",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string_literal"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "offset",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_integer_cell_items"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "size",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_integer_cell_items"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "_property_value": {
       "type": "CHOICE",
       "members": [
@@ -535,6 +686,10 @@
         {
           "type": "SYMBOL",
           "name": "reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "incbin"
         }
       ]
     },
