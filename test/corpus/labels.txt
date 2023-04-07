@@ -14,6 +14,30 @@ label: node {};
 )
 
 ========================================================================
+Multiple labels
+========================================================================
+
+foo: bar: baz: qux: node {};
+
+---
+
+(document
+    (labeled_item
+        label: (identifier)
+        item: (labeled_item
+            label: (identifier)
+            item: (labeled_item
+                label: (identifier)
+                item: (labeled_item
+                    label: (identifier)
+                    item: (node name: (identifier))
+                )
+            )
+        )
+    )
+)
+
+========================================================================
 Labeled child node
 ========================================================================
 
