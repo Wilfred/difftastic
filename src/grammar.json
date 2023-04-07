@@ -12,16 +12,16 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_module_statement"
           },
           {
             "type": "SYMBOL",
-            "name": "_expression_seq"
+            "name": "_statement_seq"
           }
         ]
       }
     },
-    "_statement": {
+    "_module_statement": {
       "type": "CHOICE",
       "members": [
         {
@@ -125,7 +125,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_statement"
+            "name": "_module_statement"
           }
         },
         {
@@ -1613,7 +1613,7 @@
                 "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_expression_seq"
+                  "name": "_statement_seq"
                 },
                 "named": true,
                 "value": "function_body"
@@ -1784,14 +1784,14 @@
         "name": "identifier"
       }
     },
-    "_expression_seq": {
+    "_statement_seq": {
       "type": "REPEAT1",
       "content": {
         "type": "CHOICE",
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "_statement"
           },
           {
             "type": "SYMBOL",
@@ -1838,6 +1838,23 @@
             "type": "SYMBOL",
             "name": "_expression"
           }
+        }
+      ]
+    },
+    "_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "let"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "use"
         }
       ]
     },
@@ -2684,14 +2701,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "let"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "use"
-        },
-        {
-          "type": "SYMBOL",
           "name": "assert"
         },
         {
@@ -3210,7 +3219,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression_seq"
+              "name": "_statement_seq"
             },
             "named": true,
             "value": "function_body"
@@ -3329,7 +3338,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression_seq"
+          "name": "_statement_seq"
         },
         {
           "type": "STRING",

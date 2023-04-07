@@ -118,10 +118,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -159,10 +155,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -327,10 +319,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -368,10 +356,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -439,10 +423,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -492,10 +472,6 @@
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           },
           {
@@ -663,10 +639,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -716,10 +688,6 @@
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           },
           {
@@ -857,10 +825,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -910,10 +874,6 @@
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -973,10 +933,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "let_assert",
           "named": true
         },
@@ -1014,10 +970,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "use",
           "named": true
         }
       ]
@@ -1141,10 +1093,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -1182,10 +1130,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -1396,10 +1340,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "let_assert",
           "named": true
         },
@@ -1437,10 +1377,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "use",
           "named": true
         }
       ]
@@ -2483,10 +2419,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -2524,10 +2456,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -2677,10 +2605,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -2718,10 +2642,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -2781,10 +2701,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -2822,10 +2738,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -2880,10 +2792,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "let_assert",
           "named": true
         },
@@ -2921,10 +2829,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "use",
           "named": true
         }
       ]
@@ -3073,10 +2977,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "let_assert",
           "named": true
         },
@@ -3114,10 +3014,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "use",
           "named": true
         }
       ]
@@ -3369,10 +3265,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -3410,10 +3302,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -3483,10 +3371,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -3524,10 +3408,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -3973,10 +3853,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -4014,10 +3890,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
@@ -4077,10 +3949,6 @@
           "named": true
         },
         {
-          "type": "let",
-          "named": true
-        },
-        {
           "type": "let_assert",
           "named": true
         },
@@ -4118,10 +3986,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "use",
           "named": true
         }
       ]
@@ -4601,10 +4465,6 @@
             "named": true
           },
           {
-            "type": "let",
-            "named": true
-          },
-          {
             "type": "let_assert",
             "named": true
           },
@@ -4642,10 +4502,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "use",
             "named": true
           }
         ]
