@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.6.0
+
+-   Updated to tree-sitter v0.20.7
+-   `property` node's `value` field no longer includes the `=` token.
+-   Added support for more devicetree features:
+    -   `/plugin/`
+    -   `/omit-if-no-ref/`
+    -   `/bits/`
+    -   `/incbin/`
+
 ## v0.5.0
 
 -   Updated to tree-sitter v0.20.6
