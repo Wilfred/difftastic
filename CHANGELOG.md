@@ -1,6 +1,8 @@
 ## 0.47 (unreleased)
 
-No changes.
+### Parsing
+
+Added support for Solidity.
 
 ## 0.46 (released 31st March 2023)
 
