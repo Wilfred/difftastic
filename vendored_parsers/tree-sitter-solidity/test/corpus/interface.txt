@@ -1,0 +1,49 @@
+================================================================================
+Interface
+================================================================================
+
+interface Example {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_declaration
+    name: (identifier)
+    body: (contract_body)))
+
+================================================================================
+Inheriting inteface
+================================================================================
+
+interface Example is NotAContract() {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_declaration
+    name: (identifier)
+    (inheritance_specifier
+      ancestor: (user_defined_type
+        (identifier)))
+    body: (contract_body)))
+
+================================================================================
+Multiple Inheritance Interface
+================================================================================
+
+interface Example is NotAContract(), AContract(1) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_declaration
+    name: (identifier)
+    (inheritance_specifier
+      ancestor: (user_defined_type
+        (identifier)))
+    (inheritance_specifier
+      ancestor: (user_defined_type
+        (identifier))
+      ancestor_arguments: (call_argument
+        (number_literal)))
+    body: (contract_body)))

@@ -1,0 +1,62 @@
+================================================================================
+Variable Declaration
+================================================================================
+
+contract StateVariable {
+    int b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (state_variable_declaration
+        type: (type_name
+          (primitive_type))
+        name: (identifier)))))
+
+================================================================================
+Variable Declaration with initial value
+================================================================================
+
+contract StateVariable {
+    int b = 1;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (state_variable_declaration
+        type: (type_name
+          (primitive_type))
+        name: (identifier)
+        value: (number_literal)))))
+
+================================================================================
+Variable Declaration
+================================================================================
+
+contract StateVariable {
+    int override(a.b) c = 3;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (state_variable_declaration
+        type: (type_name
+          (primitive_type))
+        (override_specifier
+          (user_defined_type
+            (identifier)
+            (identifier)))
+        name: (identifier)
+        value: (number_literal)))))

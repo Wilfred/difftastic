@@ -107,6 +107,7 @@ extern "C" {
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
     fn tree_sitter_scala() -> ts::Language;
+    fn tree_sitter_solidity() -> ts::Language;
     fn tree_sitter_sql() -> ts::Language;
     fn tree_sitter_swift() -> ts::Language;
     fn tree_sitter_toml() -> ts::Language;
@@ -861,6 +862,20 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 highlight_query: ts::Query::new(
                     language,
                     include_str!("../../vendored_parsers/highlights/scala.scm"),
+                )
+                .unwrap(),
+                sub_languages: vec![],
+            }
+        }
+        Solidity => {
+            let language = unsafe { tree_sitter_solidity() };
+            TreeSitterConfig {
+                language,
+                atom_nodes: vec!["string"].into_iter().collect(),
+                delimiter_tokens: vec![("[", "]"), ("(", ")"), ("{", "}")],
+                highlight_query: ts::Query::new(
+                    language,
+                    include_str!("../../vendored_parsers/highlights/solidity.scm"),
                 )
                 .unwrap(),
                 sub_languages: vec![],

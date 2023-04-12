@@ -345,6 +345,11 @@ fn main() {
             src_dir: "vendored_parsers/tree-sitter-zig-src",
             extra_files: vec![],
         },
+        TreeSitterParser {
+            name: "tree-sitter-solidity",
+            src_dir: "vendored_parsers/tree-sitter-solidity-src",
+            extra_files: vec![],
+        },
     ];
 
     // Only rerun if relevant files in the vendored_parsers/ directory change.

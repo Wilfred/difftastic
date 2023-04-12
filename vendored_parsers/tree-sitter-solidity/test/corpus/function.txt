@@ -1,0 +1,189 @@
+================================================================================
+Function
+================================================================================
+
+contract Example {
+    function exampleFunction () {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        body: (function_body)))))
+
+================================================================================
+Function with argument
+================================================================================
+
+contract Example {
+    function exampleFunction (string argument) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        (parameter
+          type: (type_name
+            (primitive_type))
+          name: (identifier))
+        body: (function_body)))))
+
+================================================================================
+Function with return type
+================================================================================
+
+contract Example {
+    function exampleFunction () returns (string, uint256 element) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        return_type: (return_type_definition
+          (parameter
+            type: (type_name
+              (primitive_type)))
+          (parameter
+            type: (type_name
+              (primitive_type))
+            name: (identifier)))
+        body: (function_body)))))
+
+================================================================================
+Function with visibility, mutability, modifier and virtual
+================================================================================
+
+contract Example {
+    function exampleFunction () payable external onlyOwner virtual returns (string, uint256 element) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        (state_mutability)
+        (visibility)
+        (modifier_invocation
+          (identifier))
+        (virtual)
+        return_type: (return_type_definition
+          (parameter
+            type: (type_name
+              (primitive_type)))
+          (parameter
+            type: (type_name
+              (primitive_type))
+            name: (identifier)))
+        body: (function_body)))))
+
+================================================================================
+Function with override
+================================================================================
+
+contract Example {
+    function exampleFunction () override {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        (override_specifier)
+        body: (function_body)))))
+
+================================================================================
+Function with explicit override
+================================================================================
+
+contract Example {
+    function exampleFunction () override (element.name, item) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)
+        (override_specifier
+          (user_defined_type
+            (identifier)
+            (identifier))
+          (user_defined_type
+            (identifier)))
+        body: (function_body)))))
+
+================================================================================
+Function without block
+================================================================================
+
+contract Example {
+    function exampleFunction ();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (function_definition
+        name: (identifier)))))
+
+================================================================================
+Function not in contract
+================================================================================
+
+function exampleFunction ();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    name: (identifier)))
+
+================================================================================
+Function with function type argument
+================================================================================
+
+function exampleFunction (function(uint) public returns(bool));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    name: (identifier)
+    (parameter
+      type: (type_name
+        parameters: (parameter
+          type: (type_name
+            (primitive_type)))
+        (visibility)
+        (return_parameter
+          type: (type_name
+            (primitive_type)))))))

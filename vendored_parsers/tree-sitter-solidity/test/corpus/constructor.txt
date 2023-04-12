@@ -1,0 +1,106 @@
+================================================================================
+Contract Constructor
+================================================================================
+
+contract Example {
+    constructor () {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (constructor_definition
+        body: (function_body)))))
+
+================================================================================
+Contract Constructor Parameters
+================================================================================
+
+contract Example {
+    constructor (uint256 paramaeter0, user.type param1) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (constructor_definition
+        (parameter
+          type: (type_name
+            (primitive_type))
+          name: (identifier))
+        (parameter
+          type: (type_name
+            (user_defined_type
+              (identifier)
+              (identifier)))
+          name: (identifier))
+        body: (function_body)))))
+
+================================================================================
+Contract Constructor Modifier
+================================================================================
+
+contract Example {
+    constructor (uint256 paramaeter0, user.type param1) onlyOwner {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (constructor_definition
+        (parameter
+          type: (type_name
+            (primitive_type))
+          name: (identifier))
+        (parameter
+          type: (type_name
+            (user_defined_type
+              (identifier)
+              (identifier)))
+          name: (identifier))
+        (modifier_invocation
+          (identifier))
+        body: (function_body)))))
+
+================================================================================
+Contract Constructor Keywords
+================================================================================
+
+contract Example {
+    constructor () payable public {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (constructor_definition
+        body: (function_body)))))
+
+================================================================================
+Contract Constructor Keywords Order
+================================================================================
+
+contract Example {
+    constructor () internal payable {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    body: (contract_body
+      (constructor_definition
+        body: (function_body)))))

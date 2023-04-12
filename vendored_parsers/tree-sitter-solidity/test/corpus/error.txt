@@ -1,0 +1,67 @@
+================================================================================
+Error Declaration
+================================================================================
+
+error Something(uint a);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (error_declaration
+    (identifier)
+    (error_parameter
+      (type_name
+        (primitive_type))
+      (identifier))))
+
+================================================================================
+Revert with custom error
+================================================================================
+
+function test() {
+  revert Error();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement
+        (identifier)
+        (revert_arguments)))))
+
+================================================================================
+Revert regularly
+================================================================================
+
+function test() {
+  revert(variableName);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement
+        (parenthesized_expression
+          (identifier))))))
+
+================================================================================
+Very old revert
+================================================================================
+
+function test() {
+  revert;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (revert_statement))))

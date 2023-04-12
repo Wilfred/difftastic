@@ -1,0 +1,146 @@
+================================================================================
+Assembly
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+			add(0x40, 0x60) 
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_function_call
+              (yul_evm_builtin)
+              (yul_hex_number)
+              (yul_hex_number))))))))
+
+================================================================================
+Assembly switch
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+			switch literal
+			case 1 {
+				return(a)
+			}
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_switch_statement
+              (yul_path
+                (yul_identifier
+                  (identifier)))
+              (yul_decimal_number)
+              (yul_block
+                (yul_function_call
+                  (yul_evm_builtin)
+                  (yul_path
+                    (yul_identifier
+                      (identifier))))))))))))
+
+================================================================================
+Assembly Assignment
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+            _origin1 := 1
+
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_assignment
+              (yul_path
+                (yul_identifier
+                  (identifier)))
+              (yul_decimal_number))))))))
+
+================================================================================
+Builtin Functions
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+            sub(gas, 1)
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_function_call
+              (yul_evm_builtin)
+              (yul_function_call
+                (yul_evm_builtin))
+              (yul_decimal_number))))))))
+
+================================================================================
+Labels
+================================================================================
+
+contract Example {
+    function() {
+		assembly {
+          loop:
+            sub(gas, 1)
+		}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    (identifier)
+    (contract_body
+      (fallback_receive_definition
+        (function_body
+          (assembly_statement
+            (yul_label
+              (identifier))
+            (yul_function_call
+              (yul_evm_builtin)
+              (yul_function_call
+                (yul_evm_builtin))
+              (yul_decimal_number))))))))
