@@ -683,6 +683,7 @@ module.exports = grammar({
 
       // quote-like operators
       $.command_qx_quoted,
+      $.backtick_quoted,
       $.patter_matcher_m,
       $.regex_pattern_qr,
       $.substitution_pattern_s,
@@ -1570,6 +1571,13 @@ module.exports = grammar({
           alias($._end_delimiter, $.end_delimiter),
         ),
       ),
+    )),
+
+    // same as command_qx_quoted
+    backtick_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      '`',
+      repeat(choice($.interpolation, $.escape_sequence, token(/[^`]+/))),
+      '`',
     )),
 
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(

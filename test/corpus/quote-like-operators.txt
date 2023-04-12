@@ -54,12 +54,24 @@ my $string = q{im a non interpolated string};
 qx command
 =================================================
 
-my $string = q{im a non interpolated string};
+my $string = qx{im a non interpolated string};
 
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_q_quoted)) (semi_colon)
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (command_qx_quoted (start_delimiter) (end_delimiter))) (semi_colon)
+)
+
+=================================================
+backtick_quoted
+=================================================
+
+`ls -a`;
+
+---
+
+(source_file
+  (backtick_quoted) (semi_colon)
 )
 
 =================================================

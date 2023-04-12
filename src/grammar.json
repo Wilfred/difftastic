@@ -2703,6 +2703,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "backtick_quoted"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "patter_matcher_m"
               },
               {
@@ -2840,6 +2844,10 @@
                   {
                     "type": "SYMBOL",
                     "name": "command_qx_quoted"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "backtick_quoted"
                   },
                   {
                     "type": "SYMBOL",
@@ -7611,6 +7619,46 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
+    "backtick_quoted": {
+      "type": "PREC",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "`"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "interpolation"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "escape_sequence"
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^`]+"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "`"
           }
         ]
       }

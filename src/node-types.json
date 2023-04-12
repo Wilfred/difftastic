@@ -51,6 +51,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -305,6 +309,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -545,6 +553,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -790,6 +802,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -1030,6 +1046,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1262,6 +1282,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -1508,6 +1532,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1741,6 +1769,25 @@
     }
   },
   {
+    "type": "backtick_quoted",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bareword",
     "named": true,
     "fields": {}
@@ -1825,6 +1872,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -2260,6 +2311,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -2502,6 +2557,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -2734,6 +2793,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -2977,6 +3040,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -3235,6 +3302,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -3765,6 +3836,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4010,6 +4085,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -4281,6 +4360,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -4523,6 +4606,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -4762,6 +4849,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -5053,6 +5144,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -5436,6 +5531,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -5693,6 +5792,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -5974,6 +6077,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -6213,6 +6320,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -6462,6 +6573,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -6728,6 +6843,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -7060,6 +7179,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -7307,6 +7430,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "bareword",
             "named": true
           },
@@ -7550,6 +7677,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -7800,6 +7931,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -8247,6 +8382,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -8555,6 +8694,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -8986,6 +9129,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -9273,6 +9420,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -9570,6 +9721,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -9831,6 +9986,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -10121,6 +10280,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -10361,6 +10524,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -10753,6 +10920,10 @@
         },
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "backtick_quoted",
           "named": true
         },
         {
@@ -11240,6 +11411,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -11479,6 +11654,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -11738,6 +11917,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -11983,6 +12166,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -12401,6 +12588,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -12646,6 +12837,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -12947,6 +13142,10 @@
           "named": true
         },
         {
+          "type": "backtick_quoted",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -13187,6 +13386,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -13524,6 +13727,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -13843,6 +14050,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -14377,6 +14588,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -14680,6 +14895,10 @@
             "named": true
           },
           {
+            "type": "backtick_quoted",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -14939,6 +15158,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "backtick_quoted",
             "named": true
           },
           {
@@ -16218,6 +16441,10 @@
   },
   {
     "type": "__SUB__",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {
