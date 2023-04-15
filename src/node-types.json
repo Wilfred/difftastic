@@ -3532,6 +3532,10 @@
     "named": false
   },
   {
+    "type": "downto",
+    "named": false
+  },
+  {
     "type": "elif",
     "named": false
   },

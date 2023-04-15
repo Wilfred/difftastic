@@ -540,7 +540,7 @@ module.exports = grammar({
         "for",
         choice(
             seq($._pattern, "in", $._expressions_or_range),
-            seq($.identifier, "=", $._expression_inner, "to", $._expression_inner),
+            seq($.identifier, "=", $._expression_inner, choice("to","downto"), $._expression_inner),
         ),
         "do",
           $._virtual_open_section,

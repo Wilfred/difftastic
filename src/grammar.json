@@ -1968,8 +1968,17 @@
                     "name": "_expression_inner"
                   },
                   {
-                    "type": "STRING",
-                    "value": "to"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "to"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "downto"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
