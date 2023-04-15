@@ -1,6 +1,6 @@
 {
   "name": "@elm-tooling/tree-sitter-elm",
-  "version": "5.6.3",
+  "version": "5.6.4",
   "description": "Tree sitter definitions for elm",
   "main": "bindings/node",
   "publishConfig": {
@@ -16,11 +16,11 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.16.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "^0.20.8"
   },
   "scripts": {
     "build": "tree-sitter generate",
