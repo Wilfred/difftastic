@@ -143,3 +143,20 @@ fn directory_arguments() {
         .and(predicate::str::contains("only_in_after_dir.rs"));
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn git_style_arguments_rename() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("elisp_oldname.el")
+        .arg("sample_files/elisp_before.el")
+        .arg("lhs_hash_placeholder")
+        .arg("lhs_mode_placeholder")
+        .arg("sample_files/elisp_after.el")
+        .arg("rhs_hash_placeholder")
+        .arg("rhs_mode_placeholder")
+        .arg("elisp_newname.el")
+        .arg("similarity_placeholder");
+    let predicate_fn = predicate::str::contains("Renamed");
+    cmd.assert().stdout(predicate_fn);
+}
