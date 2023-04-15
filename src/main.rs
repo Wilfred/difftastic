@@ -175,8 +175,7 @@ fn main() {
             language_override,
             lhs_path,
             rhs_path,
-            lhs_display_path,
-            rhs_display_path,
+            display_path,
             rename,
         } => {
             if lhs_path == rhs_path {
@@ -233,9 +232,8 @@ fn main() {
                 }
                 _ => {
                     let diff_result = diff_file(
+                        &display_path,
                         rename,
-                        &lhs_display_path,
-                        &rhs_display_path,
                         &lhs_path,
                         &rhs_path,
                         &display_options,
@@ -278,9 +276,8 @@ fn format_num_bytes(num_bytes: usize) -> String {
 
 /// Print a diff between two files.
 fn diff_file(
+    display_path: &str,
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
@@ -290,9 +287,8 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
+        display_path,
         rename,
-        lhs_display_path,
-        rhs_display_path,
         lhs_path,
         rhs_path,
         &lhs_bytes,
@@ -306,8 +302,7 @@ fn diff_file(
 fn check_only_text(
     file_format: &FileFormat,
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
+    display_path: &str,
     lhs_src: &str,
     rhs_src: &str,
 ) -> DiffResult {
@@ -315,8 +310,7 @@ fn check_only_text(
 
     DiffResult {
         rename,
-        lhs_display_path: lhs_display_path.into(),
-        rhs_display_path: rhs_display_path.into(),
+        display_path: display_path.to_string(),
         file_format: file_format.clone(),
         lhs_src: FileContent::Text(lhs_src.into()),
         rhs_src: FileContent::Text(rhs_src.into()),
@@ -329,9 +323,8 @@ fn check_only_text(
 }
 
 fn diff_file_content(
+    display_path: &str,
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
     _lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     lhs_bytes: &[u8],
@@ -344,8 +337,7 @@ fn diff_file_content(
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
                 rename,
-                lhs_display_path: lhs_display_path.into(),
-                rhs_display_path: rhs_display_path.into(),
+                display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
                 lhs_src: FileContent::Binary,
                 rhs_src: FileContent::Binary,
@@ -360,9 +352,9 @@ fn diff_file_content(
     };
 
     let (guess_src, guess_path) = match rhs_path {
-        FileArgument::NamedPath(_) => (&rhs_src, Path::new(&rhs_display_path)),
-        FileArgument::Stdin => (&rhs_src, Path::new(&lhs_display_path)),
-        FileArgument::DevNull => (&lhs_src, Path::new(&lhs_display_path)),
+        FileArgument::NamedPath(path) => (&rhs_src, Path::new(path)),
+        FileArgument::Stdin => (&rhs_src, Path::new(&display_path)),
+        FileArgument::DevNull => (&lhs_src, Path::new(&display_path)),
     };
 
     let language = language_override.or_else(|| guess(guess_path, guess_src));
@@ -378,8 +370,7 @@ fn diff_file_content(
         // rather than doing any more work.
         return DiffResult {
             rename,
-            lhs_display_path: lhs_display_path.into(),
-            rhs_display_path: rhs_display_path.into(),
+            display_path: display_path.to_string(),
             file_format,
             lhs_src: FileContent::Text("".into()),
             rhs_src: FileContent::Text("".into()),
@@ -395,14 +386,7 @@ fn diff_file_content(
         None => {
             let file_format = FileFormat::PlainText;
             if diff_options.check_only {
-                return check_only_text(
-                    &file_format,
-                    rename,
-                    lhs_display_path,
-                    rhs_display_path,
-                    &lhs_src,
-                    &rhs_src,
-                );
+                return check_only_text(&file_format, rename, display_path, &lhs_src, &rhs_src);
             }
 
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
@@ -432,8 +416,7 @@ fn diff_file_content(
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
                                     rename,
-                                    lhs_display_path: lhs_display_path.into(),
-                                    rhs_display_path: rhs_display_path.into(),
+                                    display_path: display_path.to_string(),
                                     file_format,
                                     lhs_src: FileContent::Text(lhs_src),
                                     rhs_src: FileContent::Text(rhs_src),
@@ -525,8 +508,7 @@ fn diff_file_content(
                                 return check_only_text(
                                     &file_format,
                                     rename,
-                                    lhs_display_path,
-                                    rhs_display_path,
+                                    display_path,
                                     &lhs_src,
                                     &rhs_src,
                                 );
@@ -547,8 +529,7 @@ fn diff_file_content(
                         return check_only_text(
                             &file_format,
                             rename,
-                            lhs_display_path,
-                            rhs_display_path,
+                            display_path,
                             &lhs_src,
                             &rhs_src,
                         );
@@ -578,8 +559,7 @@ fn diff_file_content(
 
     DiffResult {
         rename,
-        lhs_display_path: lhs_display_path.into(),
-        rhs_display_path: rhs_display_path.into(),
+        display_path: display_path.to_string(),
         file_format,
         lhs_src: FileContent::Text(lhs_src),
         rhs_src: FileContent::Text(rhs_src),
@@ -620,9 +600,8 @@ fn diff_directories<'a>(
         let rhs_path = Path::new(rhs_dir).join(&rel_path);
 
         diff_file(
+            &rel_path.display().to_string(),
             rename.clone(),
-            &rel_path.to_string_lossy(),
-            &rel_path.to_string_lossy(),
             &FileArgument::NamedPath(lhs_path),
             &FileArgument::NamedPath(rhs_path),
             &display_options,
@@ -644,8 +623,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         "{}",
                         display::style::header(
                             summary.rename.clone(),
-                            &summary.lhs_display_path,
-                            &summary.rhs_display_path,
+                            &summary.display_path,
                             1,
                             1,
                             &summary.file_format,
@@ -672,8 +650,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         summary.rename.clone(),
-                        &summary.lhs_display_path,
-                        &summary.rhs_display_path,
+                        &summary.display_path,
                         1,
                         1,
                         &summary.file_format,
@@ -701,9 +678,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_positions,
                         &summary.rhs_positions,
                         hunks,
+                        &summary.display_path,
                         summary.rename.clone(),
-                        &summary.lhs_display_path,
-                        &summary.rhs_display_path,
                         &summary.file_format,
                     );
                 }
@@ -712,8 +688,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         hunks,
                         display_options,
                         summary.rename.clone(),
-                        &summary.lhs_display_path,
-                        &summary.rhs_display_path,
+                        &summary.display_path,
                         &summary.file_format,
                         lhs_src,
                         rhs_src,
@@ -729,8 +704,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     "{}",
                     display::style::header(
                         summary.rename.clone(),
-                        &summary.lhs_display_path,
-                        &summary.rhs_display_path,
+                        &summary.display_path,
                         1,
                         1,
                         &FileFormat::Binary,
@@ -751,8 +725,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 "{}",
                 display::style::header(
                     summary.rename.clone(),
-                    &summary.lhs_display_path,
-                    &summary.rhs_display_path,
+                    &summary.display_path,
                     1,
                     1,
                     &FileFormat::Binary,
@@ -774,9 +747,8 @@ mod tests {
     fn test_diff_identical_content() {
         let s = "foo";
         let res = diff_file_content(
+            "foo.el",
             None,
-            "foo.el",
-            "foo.el",
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
             &FileArgument::from_path_argument(OsStr::new("foo.el")),
             s.as_bytes(),

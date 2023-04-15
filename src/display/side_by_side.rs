@@ -66,8 +66,7 @@ fn format_missing_line_num(
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
+    display_path: &str,
     file_format: &FileFormat,
     src_lines: &[String],
     side: Side,
@@ -80,8 +79,7 @@ fn display_single_column(
     let mut header_line = String::new();
     header_line.push_str(&style::header(
         rename,
-        lhs_display_path,
-        rhs_display_path,
+        display_path,
         1,
         1,
         file_format,
@@ -319,8 +317,7 @@ pub fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
+    display_path: &str,
     file_format: &FileFormat,
     lhs_src: &str,
     rhs_src: &str,
@@ -356,8 +353,7 @@ pub fn print(
     if lhs_src.is_empty() {
         for line in display_single_column(
             rename,
-            lhs_display_path,
-            rhs_display_path,
+            display_path,
             file_format,
             &rhs_colored_lines,
             Side::Right,
@@ -371,8 +367,7 @@ pub fn print(
     if rhs_src.is_empty() {
         for line in display_single_column(
             rename,
-            lhs_display_path,
-            rhs_display_path,
+            display_path,
             file_format,
             &lhs_colored_lines,
             Side::Left,
@@ -412,8 +407,7 @@ pub fn print(
             "{}",
             style::header(
                 rename.clone(),
-                lhs_display_path,
-                rhs_display_path,
+                display_path,
                 i + 1,
                 hunks.len(),
                 file_format,
@@ -671,7 +665,6 @@ mod tests {
         let res_lines = display_single_column(
             None,
             "foo.py",
-            "foo.py",
             &FileFormat::SupportedLanguage(Language::Python),
             &["print(123)\n".to_string()],
             Side::Right,
@@ -728,7 +721,6 @@ mod tests {
             &hunks,
             &DisplayOptions::default(),
             None,
-            "foo-old.el",
             "foo-new.el",
             &FileFormat::SupportedLanguage(Language::EmacsLisp),
             "foo",

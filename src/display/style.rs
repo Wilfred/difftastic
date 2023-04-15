@@ -451,8 +451,7 @@ pub(crate) fn apply_line_number_color(
 
 pub fn header(
     rename: Option<(String, String)>,
-    lhs_display_path: &str,
-    rhs_display_path: &str,
+    display_path: &str,
     hunk_num: usize,
     hunk_total: usize,
     file_format: &FileFormat,
@@ -464,14 +463,8 @@ pub fn header(
         format!("{}/{} --- ", hunk_num, hunk_total)
     };
 
-    let rhs_path_pretty = apply_header_color(
-        rhs_display_path,
-        display_options.use_color,
-        display_options.background_color,
-        hunk_num,
-    );
-    let lhs_path_pretty = apply_header_color(
-        lhs_display_path,
+    let display_path_pretty = apply_header_color(
+        display_path,
         display_options.use_color,
         display_options.background_color,
         hunk_num,
@@ -483,15 +476,7 @@ pub fn header(
             format!("{}\n{} --- {}{}", renamed, new_name, divider, file_format)
         }
         None => {
-            // Prefer showing the RHS path in the header unless it's
-            // /dev/null. Note that git calls the difftool with
-            // `DIFFTOOL /tmp/git-blob-abc/foo.py foo.py` in some cases.
-            let path_pretty = if rhs_display_path == "/dev/null" {
-                lhs_path_pretty
-            } else {
-                rhs_path_pretty
-            };
-            format!("{} --- {}{}", path_pretty, divider, file_format)
+            format!("{} --- {}{}", display_path_pretty, divider, file_format)
         }
     }
 }
