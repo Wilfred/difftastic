@@ -248,6 +248,7 @@ module.exports = grammar(C, {
         $.template_declaration,
         $.function_definition,
         $.concept_definition,
+        $.friend_declaration,
         alias($.constructor_or_destructor_declaration, $.declaration),
         alias($.constructor_or_destructor_definition, $.function_definition),
         alias($.operator_cast_declaration, $.declaration),

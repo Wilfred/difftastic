@@ -5371,6 +5371,10 @@
           "named": true
         },
         {
+          "type": "friend_declaration",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },

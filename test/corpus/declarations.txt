@@ -494,6 +494,9 @@ struct C {
   friend class D;
   friend D;
   friend int f(C &);
+
+  template <typename T>
+  friend int g();
 };
 
 ---
@@ -504,7 +507,12 @@ struct C {
     (friend_declaration (type_identifier))
     (friend_declaration (declaration (primitive_type) (function_declarator
       (identifier)
-      (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator)))))))))
+      (parameter_list (parameter_declaration (type_identifier) (abstract_reference_declarator))))))
+    (template_declaration
+      (template_parameter_list (type_parameter_declaration (type_identifier)))
+      (friend_declaration (declaration (primitive_type) (function_declarator
+        (identifier)
+        (parameter_list))))))))
 
 =============================================
 Default member initializers
