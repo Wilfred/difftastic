@@ -65,6 +65,7 @@ fn format_missing_line_num(
 
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     file_format: &FileFormat,
@@ -78,6 +79,7 @@ fn display_single_column(
 
     let mut header_line = String::new();
     header_line.push_str(&style::header(
+        rename,
         lhs_display_path,
         rhs_display_path,
         1,
@@ -316,6 +318,7 @@ fn highlight_as_novel(
 pub fn print(
     hunks: &[Hunk],
     display_options: &DisplayOptions,
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     file_format: &FileFormat,
@@ -352,6 +355,7 @@ pub fn print(
 
     if lhs_src.is_empty() {
         for line in display_single_column(
+            rename,
             lhs_display_path,
             rhs_display_path,
             file_format,
@@ -366,6 +370,7 @@ pub fn print(
     }
     if rhs_src.is_empty() {
         for line in display_single_column(
+            rename,
             lhs_display_path,
             rhs_display_path,
             file_format,
@@ -406,6 +411,7 @@ pub fn print(
         println!(
             "{}",
             style::header(
+                rename.clone(),
                 lhs_display_path,
                 rhs_display_path,
                 i + 1,
@@ -663,6 +669,7 @@ mod tests {
     fn test_display_single_column() {
         // Basic smoke test.
         let res_lines = display_single_column(
+            None,
             "foo.py",
             "foo.py",
             &FileFormat::SupportedLanguage(Language::Python),
@@ -720,6 +727,7 @@ mod tests {
         print(
             &hunks,
             &DisplayOptions::default(),
+            None,
             "foo-old.el",
             "foo-new.el",
             &FileFormat::SupportedLanguage(Language::EmacsLisp),

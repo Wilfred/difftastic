@@ -177,6 +177,7 @@ fn main() {
             rhs_path,
             lhs_display_path,
             rhs_display_path,
+            rename,
         } => {
             if lhs_path == rhs_path {
                 let is_dir = match &lhs_path {
@@ -216,6 +217,7 @@ fn main() {
                     });
 
                     diff_directories(
+                        rename,
                         lhs_path,
                         rhs_path,
                         &display_options,
@@ -231,6 +233,7 @@ fn main() {
                 }
                 _ => {
                     let diff_result = diff_file(
+                        rename,
                         &lhs_display_path,
                         &rhs_display_path,
                         &lhs_path,
@@ -275,6 +278,7 @@ fn format_num_bytes(num_bytes: usize) -> String {
 
 /// Print a diff between two files.
 fn diff_file(
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     lhs_path: &FileArgument,
@@ -286,6 +290,7 @@ fn diff_file(
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
+        rename,
         lhs_display_path,
         rhs_display_path,
         lhs_path,
@@ -300,6 +305,7 @@ fn diff_file(
 
 fn check_only_text(
     file_format: &FileFormat,
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     lhs_src: &str,
@@ -308,6 +314,7 @@ fn check_only_text(
     let has_changes = lhs_src != rhs_src;
 
     DiffResult {
+        rename,
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         file_format: file_format.clone(),
@@ -322,6 +329,7 @@ fn check_only_text(
 }
 
 fn diff_file_content(
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     _lhs_path: &FileArgument,
@@ -335,6 +343,7 @@ fn diff_file_content(
     let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
+                rename,
                 lhs_display_path: lhs_display_path.into(),
                 rhs_display_path: rhs_display_path.into(),
                 file_format: FileFormat::Binary,
@@ -368,6 +377,7 @@ fn diff_file_content(
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
+            rename,
             lhs_display_path: lhs_display_path.into(),
             rhs_display_path: rhs_display_path.into(),
             file_format,
@@ -387,6 +397,7 @@ fn diff_file_content(
             if diff_options.check_only {
                 return check_only_text(
                     &file_format,
+                    rename,
                     lhs_display_path,
                     rhs_display_path,
                     &lhs_src,
@@ -420,6 +431,7 @@ fn diff_file_content(
 
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
+                                    rename,
                                     lhs_display_path: lhs_display_path.into(),
                                     rhs_display_path: rhs_display_path.into(),
                                     file_format,
@@ -512,6 +524,7 @@ fn diff_file_content(
                             if diff_options.check_only {
                                 return check_only_text(
                                     &file_format,
+                                    rename,
                                     lhs_display_path,
                                     rhs_display_path,
                                     &lhs_src,
@@ -533,6 +546,7 @@ fn diff_file_content(
                     if diff_options.check_only {
                         return check_only_text(
                             &file_format,
+                            rename,
                             lhs_display_path,
                             rhs_display_path,
                             &lhs_src,
@@ -563,6 +577,7 @@ fn diff_file_content(
     let has_syntactic_changes = !hunks.is_empty();
 
     DiffResult {
+        rename,
         lhs_display_path: lhs_display_path.into(),
         rhs_display_path: rhs_display_path.into(),
         file_format,
@@ -583,6 +598,7 @@ fn diff_file_content(
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
 fn diff_directories<'a>(
+    rename: Option<(String, String)>,
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
@@ -604,6 +620,7 @@ fn diff_directories<'a>(
         let rhs_path = Path::new(rhs_dir).join(&rel_path);
 
         diff_file(
+            rename.clone(),
             &rel_path.to_string_lossy(),
             &rel_path.to_string_lossy(),
             &FileArgument::NamedPath(lhs_path),
@@ -626,6 +643,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     println!(
                         "{}",
                         display::style::header(
+                            summary.rename.clone(),
                             &summary.lhs_display_path,
                             &summary.rhs_display_path,
                             1,
@@ -653,6 +671,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 println!(
                     "{}",
                     display::style::header(
+                        summary.rename.clone(),
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         1,
@@ -682,6 +701,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.lhs_positions,
                         &summary.rhs_positions,
                         hunks,
+                        summary.rename.clone(),
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &summary.file_format,
@@ -691,6 +711,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     display::side_by_side::print(
                         hunks,
                         display_options,
+                        summary.rename.clone(),
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         &summary.file_format,
@@ -707,6 +728,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 println!(
                     "{}",
                     display::style::header(
+                        summary.rename.clone(),
                         &summary.lhs_display_path,
                         &summary.rhs_display_path,
                         1,
@@ -728,6 +750,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             println!(
                 "{}",
                 display::style::header(
+                    summary.rename.clone(),
                     &summary.lhs_display_path,
                     &summary.rhs_display_path,
                     1,
@@ -751,6 +774,7 @@ mod tests {
     fn test_diff_identical_content() {
         let s = "foo";
         let res = diff_file_content(
+            None,
             "foo.el",
             "foo.el",
             &FileArgument::from_path_argument(OsStr::new("foo.el")),

@@ -340,6 +340,9 @@ pub enum Mode {
         lhs_display_path: String,
         /// The path that we should display for the RHS file.
         rhs_display_path: String,
+        /// If this file has been renamed, a tuple of the old name and
+        /// new name.
+        rename: Option<(String, String)>,
     },
     ListLanguages {
         use_color: bool,
@@ -409,7 +412,7 @@ pub fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (lhs_display_path, rhs_display_path, lhs_path, rhs_path, in_vcs) = match &args[..] {
+    let (lhs_display_path, rhs_display_path, lhs_path, rhs_path, rename, in_vcs) = match &args[..] {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
@@ -418,6 +421,7 @@ pub fn parse_args() -> Mode {
                 rhs_arg.display(),
                 lhs_arg,
                 rhs_arg,
+                None,
                 false,
             )
         }
@@ -428,6 +432,7 @@ pub fn parse_args() -> Mode {
                 display_path.to_string_lossy().to_string(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
+                None,
                 true,
             )
         }
@@ -435,11 +440,16 @@ pub fn parse_args() -> Mode {
         {
             // Rename file.
             // TODO: where does git document these 9 arguments?
+
+            let old_name = old_name.to_string_lossy().to_string();
+            let new_name = new_name.to_string_lossy().to_string();
+
             (
-                old_name.to_string_lossy().to_string(),
-                new_name.to_string_lossy().to_string(),
+                old_name.clone(),
+                new_name.clone(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
+                Some((old_name, new_name)),
                 true,
             )
         }
@@ -550,6 +560,7 @@ pub fn parse_args() -> Mode {
         rhs_path,
         lhs_display_path,
         rhs_display_path,
+        rename,
     }
 }
 

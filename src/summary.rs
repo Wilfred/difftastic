@@ -39,6 +39,7 @@ impl Display for FileFormat {
 pub struct DiffResult {
     pub lhs_display_path: String,
     pub rhs_display_path: String,
+    pub rename: Option<(String, String)>,
 
     pub file_format: FileFormat,
     pub lhs_src: FileContent,

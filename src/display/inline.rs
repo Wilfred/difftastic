@@ -18,6 +18,7 @@ pub fn print(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
+    rename: Option<(String, String)>,
     lhs_display_path: &str,
     rhs_display_path: &str,
     file_format: &FileFormat,
@@ -64,6 +65,7 @@ pub fn print(
         println!(
             "{}",
             style::header(
+                rename.clone(),
                 lhs_display_path,
                 rhs_display_path,
                 i + 1,
