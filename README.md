@@ -8,7 +8,7 @@ and the [F# compiler parser](https://github.com/dotnet/fsharp/blob/main/src/Comp
 First, run `npm install` to install the `tree-sitter cli`.
 Next, the grammar can be build using `npm run build`, or used to parse a file with `npm run parse $file`
 
-### Project strcture
+### Project structure
 The parser consists of two parts:
 - `src/scanner.cc` is responsible for parsing newlines and comments and keeps track of indentation to open and close scopes.
 - `grammar.js` the main tree-sitter grammar. The indent tokens from the external scanner is access though the `$.virtual_open_section` and `virtual_end_section` tokens.
@@ -33,12 +33,16 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.fsharp = {
   install_info = {
     url = "https://github.com/Nsidorenco/tree-sitter-fsharp",
-    branch = "develop"
-    files = {"src/scanner.cc", "src/parser.c" }
+    branch = "develop",
+    files = {"src/scanner.cc", "src/parser.c" },
+    generate_requires_npm = true,
+    requires_generate_from_grammar = true
   },
   filetype = "fsharp",
 }
 ```
+
+Then run `:TSInstallFromGrammar fsharp` inside Nvim.
 ## Status
 The grammar currently has support for most language features, but might have rough edges.
 Some parts, like the type annotations are still very bare-bones.

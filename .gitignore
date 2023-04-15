@@ -6,3 +6,4 @@ build
 examples/*
 *.o
 *.so
+src/parser.c
