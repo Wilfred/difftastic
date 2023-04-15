@@ -1303,10 +1303,10 @@ module.exports = grammar({
 
         try_statement: $ => seq(
             $._try_head,
-            choice(
+            optional(choice(
                 $.finally_clause,
                 seq(repeat1($._on_part), optional($.finally_clause))
-            )
+            ))
         ),
         _on_part: $ => choice(
             seq(
