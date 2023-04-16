@@ -22,9 +22,11 @@
   "function"
   "if"
   "in"
-  "unset"
-  "while"
+  "select"
   "then"
+  "unset"
+  "until"
+  "while"
 ] @keyword
 
 (comment) @comment
