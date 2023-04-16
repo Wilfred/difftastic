@@ -19,7 +19,7 @@ pub fn print(
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
     display_path: &str,
-    rename: Option<(String, String)>,
+    old_path: &Option<String>,
     file_format: &FileFormat,
 ) {
     let (lhs_colored_lines, rhs_colored_lines) = if display_options.use_color {
@@ -64,8 +64,8 @@ pub fn print(
         println!(
             "{}",
             style::header(
-                rename.clone(),
                 display_path,
+                old_path,
                 i + 1,
                 hunks.len(),
                 file_format,

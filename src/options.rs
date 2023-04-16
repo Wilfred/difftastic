@@ -336,9 +336,8 @@ pub enum Mode {
         rhs_path: FileArgument,
         /// The path that we show to the user.
         display_path: String,
-        /// If this file has been renamed, a tuple of the old name and
-        /// new name.
-        rename: Option<(String, String)>,
+        /// If this file has been renamed, the name it had previously.
+        old_path: Option<String>,
     },
     ListLanguages {
         use_color: bool,
@@ -453,7 +452,7 @@ pub fn parse_args() -> Mode {
     info!("CLI arguments: {:?}", args);
 
     // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path, rename, in_vcs) = match &args[..] {
+    let (display_path, lhs_path, rhs_path, old_path, in_vcs) = match &args[..] {
         [lhs_path, rhs_path] => {
             let lhs_arg = FileArgument::from_cli_argument(lhs_path);
             let rhs_arg = FileArgument::from_cli_argument(rhs_path);
@@ -482,7 +481,7 @@ pub fn parse_args() -> Mode {
                 new_name.clone(),
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
-                Some((old_name, new_name)),
+                Some(old_name),
                 true,
             )
         }
@@ -592,7 +591,7 @@ pub fn parse_args() -> Mode {
         lhs_path,
         rhs_path,
         display_path,
-        rename,
+        old_path,
     }
 }
 

@@ -176,7 +176,7 @@ fn main() {
             lhs_path,
             rhs_path,
             display_path,
-            rename,
+            old_path,
         } => {
             if lhs_path == rhs_path {
                 let is_dir = match &lhs_path {
@@ -216,7 +216,6 @@ fn main() {
                     });
 
                     diff_directories(
-                        rename,
                         lhs_path,
                         rhs_path,
                         &display_options,
@@ -233,7 +232,7 @@ fn main() {
                 _ => {
                     let diff_result = diff_file(
                         &display_path,
-                        rename,
+                        old_path,
                         &lhs_path,
                         &rhs_path,
                         &display_options,
@@ -277,7 +276,7 @@ fn format_num_bytes(num_bytes: usize) -> String {
 /// Print a diff between two files.
 fn diff_file(
     display_path: &str,
-    rename: Option<(String, String)>,
+    old_path: Option<String>,
     lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     display_options: &DisplayOptions,
@@ -288,7 +287,7 @@ fn diff_file(
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
         display_path,
-        rename,
+        old_path,
         lhs_path,
         rhs_path,
         &lhs_bytes,
@@ -301,16 +300,16 @@ fn diff_file(
 
 fn check_only_text(
     file_format: &FileFormat,
-    rename: Option<(String, String)>,
     display_path: &str,
+    old_path: Option<String>,
     lhs_src: &str,
     rhs_src: &str,
 ) -> DiffResult {
     let has_changes = lhs_src != rhs_src;
 
     DiffResult {
-        rename,
         display_path: display_path.to_string(),
+        old_path,
         file_format: file_format.clone(),
         lhs_src: FileContent::Text(lhs_src.into()),
         rhs_src: FileContent::Text(rhs_src.into()),
@@ -324,7 +323,7 @@ fn check_only_text(
 
 fn diff_file_content(
     display_path: &str,
-    rename: Option<(String, String)>,
+    old_path: Option<String>,
     _lhs_path: &FileArgument,
     rhs_path: &FileArgument,
     lhs_bytes: &[u8],
@@ -336,7 +335,7 @@ fn diff_file_content(
     let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
             return DiffResult {
-                rename,
+                old_path,
                 display_path: display_path.to_owned(),
                 file_format: FileFormat::Binary,
                 lhs_src: FileContent::Binary,
@@ -369,7 +368,7 @@ fn diff_file_content(
         // If the two files are completely identical, return early
         // rather than doing any more work.
         return DiffResult {
-            rename,
+            old_path,
             display_path: display_path.to_string(),
             file_format,
             lhs_src: FileContent::Text("".into()),
@@ -386,7 +385,7 @@ fn diff_file_content(
         None => {
             let file_format = FileFormat::PlainText;
             if diff_options.check_only {
-                return check_only_text(&file_format, rename, display_path, &lhs_src, &rhs_src);
+                return check_only_text(&file_format, display_path, old_path, &lhs_src, &rhs_src);
             }
 
             let lhs_positions = line_parser::change_positions(&lhs_src, &rhs_src);
@@ -415,7 +414,7 @@ fn diff_file_content(
 
                                 let has_syntactic_changes = lhs != rhs;
                                 return DiffResult {
-                                    rename,
+                                    old_path,
                                     display_path: display_path.to_string(),
                                     file_format,
                                     lhs_src: FileContent::Text(lhs_src),
@@ -507,8 +506,8 @@ fn diff_file_content(
                             if diff_options.check_only {
                                 return check_only_text(
                                     &file_format,
-                                    rename,
                                     display_path,
+                                    old_path,
                                     &lhs_src,
                                     &rhs_src,
                                 );
@@ -528,8 +527,8 @@ fn diff_file_content(
                     if diff_options.check_only {
                         return check_only_text(
                             &file_format,
-                            rename,
                             display_path,
+                            old_path,
                             &lhs_src,
                             &rhs_src,
                         );
@@ -558,7 +557,7 @@ fn diff_file_content(
     let has_syntactic_changes = !hunks.is_empty();
 
     DiffResult {
-        rename,
+        old_path,
         display_path: display_path.to_string(),
         file_format,
         lhs_src: FileContent::Text(lhs_src),
@@ -578,7 +577,6 @@ fn diff_file_content(
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.
 fn diff_directories<'a>(
-    rename: Option<(String, String)>,
     lhs_dir: &'a Path,
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
@@ -601,7 +599,7 @@ fn diff_directories<'a>(
 
         diff_file(
             &rel_path.display().to_string(),
-            rename.clone(),
+            None,
             &FileArgument::NamedPath(lhs_path),
             &FileArgument::NamedPath(rhs_path),
             &display_options,
@@ -622,8 +620,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     println!(
                         "{}",
                         display::style::header(
-                            summary.rename.clone(),
                             &summary.display_path,
+                            &summary.old_path,
                             1,
                             1,
                             &summary.file_format,
@@ -649,8 +647,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 println!(
                     "{}",
                     display::style::header(
-                        summary.rename.clone(),
                         &summary.display_path,
+                        &summary.old_path,
                         1,
                         1,
                         &summary.file_format,
@@ -679,7 +677,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                         hunks,
                         &summary.display_path,
-                        summary.rename.clone(),
+                        &summary.old_path,
                         &summary.file_format,
                     );
                 }
@@ -687,8 +685,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                     display::side_by_side::print(
                         hunks,
                         display_options,
-                        summary.rename.clone(),
                         &summary.display_path,
+                        &summary.old_path,
                         &summary.file_format,
                         lhs_src,
                         rhs_src,
@@ -703,8 +701,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 println!(
                     "{}",
                     display::style::header(
-                        summary.rename.clone(),
                         &summary.display_path,
+                        &summary.old_path,
                         1,
                         1,
                         &FileFormat::Binary,
@@ -724,8 +722,8 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
             println!(
                 "{}",
                 display::style::header(
-                    summary.rename.clone(),
                     &summary.display_path,
+                    &summary.old_path,
                     1,
                     1,
                     &FileFormat::Binary,

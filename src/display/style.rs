@@ -450,8 +450,8 @@ pub(crate) fn apply_line_number_color(
 }
 
 pub fn header(
-    rename: Option<(String, String)>,
     display_path: &str,
+    old_path: &Option<String>,
     hunk_num: usize,
     hunk_total: usize,
     file_format: &FileFormat,
@@ -470,10 +470,13 @@ pub fn header(
         hunk_num,
     );
 
-    match rename {
-        Some((old_name, new_name)) => {
-            let renamed = format!("Renamed {} to {}", old_name, new_name);
-            format!("{}\n{} --- {}{}", renamed, new_name, divider, file_format)
+    match old_path {
+        Some(old_path) => {
+            let renamed = format!("Renamed {} to {}", old_path, display_path);
+            format!(
+                "{}\n{} --- {}{}",
+                renamed, display_path, divider, file_format
+            )
         }
         None => {
             format!("{} --- {}{}", display_path_pretty, divider, file_format)
