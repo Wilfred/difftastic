@@ -279,6 +279,19 @@ case "opt" in
     echo c;;
 esac
 
+case "opt" in
+  (a)
+    echo a
+    ;;
+
+  (b)
+    echo b
+    ;&
+
+  (c)
+    echo c;;
+esac
+
 case "$Z" in
   ab*|cd*) ef
 esac
@@ -292,6 +305,13 @@ esac
 ---
 
 (program
+  (case_statement (string)
+    (case_item (word)
+      (command (command_name (word)) (word)))
+    (case_item (word)
+      (command (command_name (word)) (word)))
+    (case_item (word)
+      (command (command_name (word)) (word))))
   (case_statement (string)
     (case_item (word)
       (command (command_name (word)) (word)))
