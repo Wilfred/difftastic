@@ -4,6 +4,18 @@
 
 Added support for Solidity.
 
+### Display
+
+When difftastic is invoked with two file paths, it will now truncate
+the path shown to the shared common parts. This is particularly
+helpful when using difftastic with mercurial.
+
+```
+$ difft dir1/foo/bar.py dir2/foo/bar.py
+foo/bar.py -- Python
+...
+```
+
 ## 0.46 (released 31st March 2023)
 
 ### Command Line Interface

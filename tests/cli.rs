@@ -160,3 +160,13 @@ fn git_style_arguments_rename() {
     let predicate_fn = predicate::str::contains("Renamed");
     cmd.assert().stdout(predicate_fn);
 }
+
+#[test]
+fn drop_different_path_starts() {
+    let mut cmd = Command::cargo_bin("difft").unwrap();
+
+    cmd.arg("sample_files/dir_before/clojure.clj")
+        .arg("sample_files/dir_after/clojure.clj");
+    let predicate_fn = predicate::str::contains("dir_after/clojure.clj").not();
+    cmd.assert().stdout(predicate_fn);
+}
