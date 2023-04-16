@@ -386,7 +386,7 @@ module.exports = grammar({
               $.block_comment,
               $._command,
               $.superscript,
-              $.subscript,
+              $.subscript
             )
           )
         )
@@ -408,29 +408,18 @@ module.exports = grammar({
         /[^\"\[\]:;\|\{\}<>]+/
       ),
 
-    operator: $ =>
-      choice('+', '-', '*', '/', '<', '>', '!', '|', ':', "'"),
+    operator: $ => choice('+', '-', '*', '/', '<', '>', '!', '|', ':', "'"),
 
     subscript: $ =>
-      seq('_', field(
-        'subscript', 
-        choice(
-          $.curly_group,
-          $.word,
-          $.generic_command
-          )
-        )
+      seq(
+        '_',
+        field('subscript', choice($.curly_group, $.word, $.generic_command))
       ),
 
     superscript: $ =>
-      seq('^', field(
-        'superscript',
-        choice(
-          $.curly_group,
-          $.word,
-          $.generic_command
-          )
-        )
+      seq(
+        '^',
+        field('superscript', choice($.curly_group, $.word, $.generic_command))
       ),
 
     //--- Key / Value
@@ -830,7 +819,15 @@ module.exports = grammar({
             '\\DeclareRobustCommand',
             '\\DeclareRobustCommand*',
             '\\DeclareMathOperator',
-            '\\DeclareMathOperator*'
+            '\\DeclareMathOperator*',
+            '\\NewDocumentCommand',
+            '\\RenewDocumentCommand',
+            '\\ProvideDocumentCommand',
+            '\\DeclareDocumentCommand',
+            '\\NewExpandableDocumentCommand',
+            '\\RenewExpandableDocumentCommand',
+            '\\ProvideExpandableDocumentCommand',
+            '\\DeclareExpandableDocumentCommand'
           )
         ),
         field('declaration', $.curly_group_command_name),
@@ -911,7 +908,17 @@ module.exports = grammar({
 
     environment_definition: $ =>
       seq(
-        field('command', choice('\\newenvironment', '\\renewenvironment')),
+        field(
+          'command',
+          choice(
+            '\\newenvironment',
+            '\\renewenvironment',
+            '\\NewDocumentEnvironment',
+            '\\RenewDocumentEnvironment',
+            '\\ProvideDocumentEnvironment',
+            '\\DeclareDocumentEnvironment'
+          )
+        ),
         field('name', $.curly_group_text),
         field('argc', optional($.brack_group_argc)),
         field('begin', $.curly_group_impl),

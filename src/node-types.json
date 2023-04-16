@@ -2688,6 +2688,22 @@
         "required": true,
         "types": [
           {
+            "type": "\\DeclareDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\NewDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\ProvideDocumentEnvironment",
+            "named": false
+          },
+          {
+            "type": "\\RenewDocumentEnvironment",
+            "named": false
+          },
+          {
             "type": "\\newenvironment",
             "named": false
           },
@@ -4612,6 +4628,14 @@
         "required": true,
         "types": [
           {
+            "type": "\\DeclareDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\DeclareExpandableDocumentCommand",
+            "named": false
+          },
+          {
             "type": "\\DeclareMathOperator",
             "named": false
           },
@@ -4625,6 +4649,30 @@
           },
           {
             "type": "\\DeclareRobustCommand*",
+            "named": false
+          },
+          {
+            "type": "\\NewDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\NewExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\ProvideDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\ProvideExpandableDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewDocumentCommand",
+            "named": false
+          },
+          {
+            "type": "\\RenewExpandableDocumentCommand",
             "named": false
           },
           {
@@ -7475,6 +7523,18 @@
     "named": false
   },
   {
+    "type": "\\DeclareDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\DeclareDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\DeclareExpandableDocumentCommand",
+    "named": false
+  },
+  {
     "type": "\\DeclareMathOperator",
     "named": false
   },
@@ -7635,6 +7695,18 @@
     "named": false
   },
   {
+    "type": "\\NewDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\NewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\NewExpandableDocumentCommand",
+    "named": false
+  },
+  {
     "type": "\\Notecite",
     "named": false
   },
@@ -7647,7 +7719,31 @@
     "named": false
   },
   {
+    "type": "\\ProvideDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\ProvideDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\ProvideExpandableDocumentCommand",
+    "named": false
+  },
+  {
     "type": "\\Pvolcite",
+    "named": false
+  },
+  {
+    "type": "\\RenewDocumentCommand",
+    "named": false
+  },
+  {
+    "type": "\\RenewDocumentEnvironment",
+    "named": false
+  },
+  {
+    "type": "\\RenewExpandableDocumentCommand",
     "named": false
   },
   {

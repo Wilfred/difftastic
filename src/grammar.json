@@ -4155,6 +4155,38 @@
               {
                 "type": "STRING",
                 "value": "\\DeclareMathOperator*"
+              },
+              {
+                "type": "STRING",
+                "value": "\\NewDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\ProvideDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\NewExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\ProvideExpandableDocumentCommand"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareExpandableDocumentCommand"
               }
             ]
           }
@@ -4547,6 +4579,22 @@
               {
                 "type": "STRING",
                 "value": "\\renewenvironment"
+              },
+              {
+                "type": "STRING",
+                "value": "\\NewDocumentEnvironment"
+              },
+              {
+                "type": "STRING",
+                "value": "\\RenewDocumentEnvironment"
+              },
+              {
+                "type": "STRING",
+                "value": "\\ProvideDocumentEnvironment"
+              },
+              {
+                "type": "STRING",
+                "value": "\\DeclareDocumentEnvironment"
               }
             ]
           }
