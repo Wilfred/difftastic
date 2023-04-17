@@ -381,11 +381,20 @@ and 'T maybe = Maybe<'T>
           (UNEXPECTED 'B')
           (UNEXPECTED 'T'))
         (union_type_case
-          (identifier)))))
-  (ERROR
-    (UNEXPECTED 'T')
-    (UNEXPECTED 'M')
-    (UNEXPECTED 'T')))
+          (identifier))))
+    (type_abbrev_defn
+      (type_name
+        (type_argument
+          (identifier))
+        (identifier))
+      (type
+        (long_identifier
+          (identifier))
+        (type_attributes
+          (type_attribute
+            (type
+              (type_argument
+                (identifier)))))))))
 
 ================================================================================
 record definition

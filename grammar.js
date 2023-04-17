@@ -1144,8 +1144,10 @@ module.exports = grammar({
       seq(
         optional($.attributes),
         optional($.access_modifier),
-        $.identifier,
-        optional($.type_arguments)
+        choice(
+            seq($.identifier, optional($.type_arguments)),
+            seq(optional($.type_argument), $.identifier) // Covers `type 'a option = Option<'a>`
+         ),
       ),
 
     type_extension: $ =>

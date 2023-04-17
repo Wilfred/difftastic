@@ -2871,6 +2871,10 @@
           "named": true
         },
         {
+          "type": "type_argument",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         }
