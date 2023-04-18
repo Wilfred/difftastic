@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-smali",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Smali grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -23,18 +23,19 @@
   "devDependencies": {
     "eslint": "^8.32.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.20.8"
   },
   "repository": "https://git.sr.ht/~yotam/tree-sitter-smali",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
     "parse": "tree-sitter parse",
+    "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
   "tree-sitter": [
     {
       "scope": "source.smali",
+      "injection-regex": "smali",
       "file-types": [
         "smali"
       ],

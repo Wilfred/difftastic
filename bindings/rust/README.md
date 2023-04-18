@@ -9,7 +9,7 @@ way.)
 ```toml
 [dependencies]
 tree-sitter = "~0.20.3"
-tree-sitter-smali = "0.0.2"
+tree-sitter-smali = "0.0.3"
 ```
 
 Typically, you will use the [language][language func] function to add this
@@ -17,9 +17,25 @@ grammar to a tree-sitter [Parser][], and then use the parser to parse some code:
 
 ```rust
 let code = r#"
-    fn double(x: i32) -> i32 {
-        x * 2
-    }
+.class public Lmain;
+
+.super Ljava/lang/Object;
+
+.source "main.java"
+
+.implements Lsome/interface;
+.implements Lsome/other/interface;
+
+.field public static aStaticFieldWithoutAnInitializer:I
+
+.field public static methodStaticField:Ljava/lang/reflect/Method; = Lbaksmali/test/class;->testMethod(ILjava/lang/String;)Ljava/lang/String;
+
+.method public constructor <init>()V
+    .registers 1
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    return-void
+.end method
+
 "#;
 let mut parser = Parser::new();
 parser.set_language(tree_sitter_smali::language()).expect("Error loading Smali grammar");

@@ -29,6 +29,7 @@ extern "C" {
 /// Get the tree-sitter [Language][] for this grammar.
 ///
 /// [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
+#[must_use]
 pub fn language() -> Language {
     unsafe { tree_sitter_smali() }
 }
