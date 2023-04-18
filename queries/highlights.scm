@@ -5,7 +5,7 @@
 (primitive_type) @type.builtin
 
 ((class_identifier) @type.builtin
-  (#vim-match? @type.builtin "^L(android|com/android|dalvik|java)/"))
+  (#match? @type.builtin "^L(android|com/android|dalvik|java|kotlinx)/"))
 
 ; Methods
 
@@ -14,19 +14,17 @@
 
 (expression
   (opcode) @_invoke
-  (value
 	(body
 	  (full_method_signature
-        (method_signature (method_identifier) @method.call))))
+      (method_signature (method_identifier) @method.call)))
   (#lua-match? @_invoke "^invoke"))
 
 (method_handle
   (full_method_signature
 	(method_signature (method_identifier) @method.call)))
 
-(call_site) @method.call
-
 (custom_invoke
+  . (identifier) @method.call
   (method_signature (method_identifier) @method.call))
 
 (annotation_value
@@ -39,25 +37,23 @@
       (method_signature (method_identifier) @method.call))))
 
 (field_definition
-  (value
 	(body
-		(method_signature (method_identifier) @method.call))))
+		(method_signature (method_identifier) @method.call)))
 
 (field_definition
-  (value
 	(body
 	  (full_method_signature
-		(method_signature (method_identifier) @method.call)))))
+		  (method_signature (method_identifier) @method.call))))
 
-((method_signature
-  (method_identifier) @constructor)
+((method_identifier) @constructor
   (#any-of? @constructor "<init>" "<clinit>"))
 
 ; Fields
 
-(field_identifier) @field
-
-(annotation_key) @field
+[
+  (field_identifier)
+  (annotation_key)
+] @field
 
 ; Variables
 
@@ -86,7 +82,7 @@
   (#lua-match? @keyword.return "^return"))
 
 ((opcode) @conditional
-  (#vim-match? @conditional "^(if|cmp)"))
+  (#match? @conditional "^(if|cmp)"))
 
 ((opcode) @exception
   (#lua-match? @exception "^throw"))
@@ -128,9 +124,6 @@
   ".array-data"
   ".end array-data"
   ".enum"
-] @keyword
-
-[
   (prologue_directive)
   (epilogue_directive)
 ] @keyword
@@ -143,6 +136,7 @@
 ; Literals
 
 (string) @string
+(source_directive (string "\"" _ @text.uri "\""))
 (escape_sequence) @string.escape
 
 (character) @character
@@ -182,3 +176,7 @@
 ; Comments
 
 (comment) @comment @spell
+
+; Errors
+
+(ERROR) @error

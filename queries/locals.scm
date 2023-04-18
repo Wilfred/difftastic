@@ -12,7 +12,6 @@
 [
   (identifier)
   (class_identifier)
-  (call_site)
   (label)
   (jmp_label)
 ] @reference
@@ -21,7 +20,7 @@
   (field_identifier) @definition.enum)
 
 ((field_definition
-  modifiers: (access_modifiers) @_mod
+  (access_modifiers) @_mod
   (field_identifier) @definition.enum)
   (#eq? @_mod "enum"))
 
