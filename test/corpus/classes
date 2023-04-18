@@ -10,7 +10,7 @@ Test an empty class
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -31,7 +31,7 @@ Test a class with a source file
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -55,7 +55,7 @@ Test a class that implements an interface
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -81,7 +81,7 @@ Test a class that implements multiple interfaces
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -106,7 +106,7 @@ Test a class with a non valid Java character
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))

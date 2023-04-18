@@ -12,7 +12,7 @@ Test a field without an access modifier
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))

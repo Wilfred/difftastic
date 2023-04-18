@@ -10,7 +10,7 @@ Test an empty interface
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -33,7 +33,7 @@ Test an empty interface that extends another interface
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
@@ -59,17 +59,17 @@ Test an interface with one method
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
   (source_directive
     (string))
   (method_definition
-    modifiers: (access_modifiers)
+    (access_modifiers)
       (method_signature
         (method_identifier)
-        return_type: (primitive_type))))  
+        (primitive_type))))  
 
 
 
@@ -88,17 +88,17 @@ Test an interface with one method with parameters and return value
 
 (class_definition
   (class_directive
-    modifiers: (access_modifiers)
+    (access_modifiers)
     (class_identifier))
   (super_directive
     (class_identifier))
   (source_directive
     (string))
   (method_definition
-    modifiers: (access_modifiers)
+    (access_modifiers)
       (method_signature
         (method_identifier)
         (parameters
           (class_identifier)
           (primitive_type))
-        return_type: (class_identifier))))
+        (class_identifier))))
