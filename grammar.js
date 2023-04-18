@@ -333,220 +333,211 @@ function commaSep(rule, trailing_separator = false) {
 module.exports = grammar({
   name: 'smali',
 
-  extras: $ => [$.comment, /\s/],
+  conflicts: $ => [
+    [$.field_definition], // smali/src/test/resources/LexerTest/RealSmaliFileTest.smali to understand why
+  ],
+
+  extras: $ => [
+    $.comment,
+    /\s/,
+  ],
+
+  supertypes: $ => [
+    $.directive,
+    $.literal,
+    $.register,
+    $.statement,
+    $.type,
+    $.value,
+  ],
 
   word: $ => $.identifier,
 
-  conflicts: $ => [
-    [$.field_definition],
-  ],
-
   rules: {
-    class_definition: $ =>
-      seq(
-        $.class_directive,
-        $.super_directive,
-        optional($.source_directive),
-        repeat($.implements_directive),
-        repeat(choice(
-          $.annotation_directive,
-          $.method_definition,
-          $.field_definition,
-        )),
-      ),
+    class_definition: $ => seq(
+      $.class_directive,
+      $.super_directive,
+      optional($.source_directive),
+      repeat($.implements_directive),
+      repeat(choice(
+        $.annotation_directive,
+        $.method_definition,
+        $.field_definition,
+      )),
+    ),
 
     // class related
-    class_directive: $ =>
-      seq(
-        '.class',
-        optional(field('modifiers', $.access_modifiers)),
-        $.class_identifier,
-      ),
+    class_directive: $ => seq(
+      '.class',
+      optional($.access_modifiers),
+      $.class_identifier,
+    ),
     super_directive: $ => seq('.super', $.class_identifier),
     source_directive: $ => seq('.source', $.string),
     implements_directive: $ => seq('.implements', $.class_identifier),
 
-    field_definition: $ =>
-      seq(
-        '.field',
-        optional(field('modifiers', $.access_modifiers)),
-        $._field_body,
-        optional(seq('=', $.value)),
-        optional(seq(
-          repeat($.annotation_directive),
-          '.end field',
-        )),
-      ),
+    field_definition: $ => seq(
+      '.field',
+      optional($.access_modifiers),
+      $._field_body,
+      optional(seq('=', $.value)),
+      optional(seq(
+        repeat($.annotation_directive),
+        '.end field',
+      )),
+    ),
 
-    // method
-    method_definition: $ =>
-      seq(
-        '.method',
-        optional(field('modifiers', $.access_modifiers)),
-        $.method_signature,
-        repeat($.statement),
-        '.end method',
-      ),
+    // Method
+    method_definition: $ => seq(
+      '.method',
+      optional($.access_modifiers),
+      $.method_signature,
+      repeat($.statement),
+      '.end method',
+    ),
 
     // annotation related
-    annotation_directive: $ =>
-      seq(
-        '.annotation',
-        $.annotation_visibility,
-        $.class_identifier,
-        repeat($.annotation_property),
-        '.end annotation',
-      ),
+    annotation_directive: $ => seq(
+      '.annotation',
+      $.annotation_visibility,
+      $.class_identifier,
+      repeat($.annotation_property),
+      '.end annotation',
+    ),
     annotation_visibility: _ => choice('system', 'build', 'runtime'),
     annotation_property: $ => seq($.annotation_key, '=', $.annotation_value),
     annotation_key: _ => /\w+/,
-    annotation_value: $ =>
-      choice(
-        $._literal,
-        $.body,
-        $.list,
-        $.enum_reference,
-        $.subannotation_directive,
-        $.class_identifier,
-      ),
+    annotation_value: $ => choice(
+      $.literal,
+      $.body,
+      $.list,
+      $.enum_reference,
+      $.subannotation_directive,
+      $.class_identifier,
+    ),
 
-    subannotation_directive: $ =>
-      seq(
-        '.subannotation', field('identifier', $.class_identifier),
-        repeat($.annotation_property),
-        '.end subannotation',
-      ),
+    subannotation_directive: $ => seq(
+      '.subannotation',
+      $.class_identifier,
+      repeat($.annotation_property),
+      '.end subannotation',
+    ),
 
-    param_directive: $ =>
-      prec.right(
-        seq(
-          '.param',
-          $.parameter,
-          optional(choice(
-            seq(repeat($.annotation_directive), '.end param'),
-            seq(optional(','), choice($._literal, alias($.identifier, $.param_identifier))),
-          )),
-        ),
-      ),
+    param_directive: $ => prec.right(seq(
+      '.param',
+      $.parameter,
+      optional(choice(
+        seq(repeat($.annotation_directive), '.end param'),
+        seq(optional(','), choice($.literal, alias($.identifier, $.param_identifier))),
+      )),
+    )),
 
-    parameter_directive: $ =>
-      prec.right(
-        seq(
-          '.parameter',
-          optional($._literal),
-          optional(seq(
-            repeat($.annotation_directive),
-            '.end parameter',
-          )),
-        ),
-      ),
+    parameter_directive: $ => prec.right(seq(
+      '.parameter',
+      optional($.literal),
+      optional(seq(
+        repeat($.annotation_directive),
+        '.end parameter',
+      )),
+    )),
 
     // code lines
-    statement: $ =>
-      choice(
-        $.label,
-        $.jmp_label,
-        $._directive,
-        $.annotation_directive,
-        $.expression,
-      ),
+    statement: $ => choice(
+      $.label,
+      $.jmp_label,
+      $.directive,
+      $.annotation_directive,
+      $.expression,
+    ),
 
     // expression
-    expression: $ =>
-      seq(
-        field('opcode', $.opcode),
-        commaSep(field('argument', $.value)),
-        '\n',
-      ),
-    opcode: (_) => choice(...opcodes),
-    value: $ =>
-      choice(
-        $._type,
-        $.list,
-        $.label,
-        $.jmp_label,
-        $.range,
-        $.register,
-        $.body,
-        $._literal,
-        $.enum_reference,
-        $.subannotation_directive,
-        $.method_handle,
-        $.custom_invoke,
-      ),
+    expression: $ => seq(
+      $.opcode,
+      commaSep($.value),
+      '\n',
+    ),
+
+    opcode: _ => choice(...opcodes),
+    value: $ => choice(
+      $.type,
+      $.list,
+      $.label,
+      $.jmp_label,
+      $.range,
+      $.register,
+      $.body,
+      $.literal,
+      $.enum_reference,
+      $.subannotation_directive,
+      $.method_handle,
+      $.custom_invoke,
+    ),
 
     // code declarations
-    _directive: $ =>
-      choice(
-        $.line_directive,
-        $.locals_directive,
-        $.local_directive,
-        $.registers_directive,
-        $.param_directive,
-        $.parameter_directive,
-        $.catch_directive,
-        $.catchall_directive,
-        $.packed_switch_directive,
-        $.sparse_switch_directive,
-        $.array_data_directive,
-        $.end_local_directive,
-        $.restart_local_directive,
-        $.prologue_directive,
-        $.epilogue_directive,
-        $.source_directive,
-      ),
+    directive: $ => choice(
+      $.line_directive,
+      $.locals_directive,
+      $.local_directive,
+      $.registers_directive,
+      $.param_directive,
+      $.parameter_directive,
+      $.catch_directive,
+      $.catchall_directive,
+      $.packed_switch_directive,
+      $.sparse_switch_directive,
+      $.array_data_directive,
+      $.end_local_directive,
+      $.restart_local_directive,
+      $.prologue_directive,
+      $.epilogue_directive,
+      $.source_directive,
+    ),
     line_directive: $ => seq('.line', $.number),
     locals_directive: $ => seq('.locals', $.number),
-    local_directive: $ =>
-      seq(
-        '.local',
-        $.register,
-        optional(seq(
-          ',', choice($._literal, $.identifier),
-          ':', $._type,
-          optional(seq(',', $.string)),
-        )),
-      ),
+    local_directive: $ => seq(
+      '.local',
+      $.register,
+      optional(seq(
+        ',', choice($.literal, $.identifier),
+        ':', $.type,
+        optional(seq(',', $.string)),
+      )),
+    ),
     end_local_directive: $ => seq('.end local', $.register),
     restart_local_directive: $ => seq('.restart local', $.register),
     registers_directive: $ => seq('.registers', $.number),
-    catch_directive: $ =>
-      seq(
-        '.catch',
-        $.class_identifier,
-        choice(
-          seq('{', $.label, '..', $.label, '}', $.label),
-          seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
-        ),
+    catch_directive: $ => seq(
+      '.catch',
+      $.class_identifier,
+      choice(
+        seq('{', $.label, '..', $.label, '}', $.label),
+        seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
       ),
-    catchall_directive: $ =>
-      seq(
-        '.catchall',
-        choice(
-          seq('{', $.label, '..', $.label, '}', $.label),
-          seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
-        ),
+    ),
+    catchall_directive: $ => seq(
+      '.catchall',
+      choice(
+        seq('{', $.label, '..', $.label, '}', $.label),
+        seq('{', $.jmp_label, '..', $.jmp_label, '}', $.jmp_label),
       ),
-    packed_switch_directive: $ =>
-      seq(
-        '.packed-switch',
-        $.number,
-        repeat(choice($.label, $.jmp_label)),
-        '.end packed-switch',
-      ),
-    sparse_switch_directive: $ =>
-      seq(
-        '.sparse-switch',
-        repeat(seq($.number, '->', $.label)),
-        '.end sparse-switch',
-      ),
-    array_data_directive: $ =>
-      seq(
-        '.array-data',
-        field('element_width', $.number),
-        field('value', repeat($.number)),
-        '.end array-data',
-      ),
+    ),
+    packed_switch_directive: $ => seq(
+      '.packed-switch',
+      $.number,
+      repeat(choice($.label, $.jmp_label)),
+      '.end packed-switch',
+    ),
+    sparse_switch_directive: $ => seq(
+      '.sparse-switch',
+      repeat(seq($.number, '->', $.label)),
+      '.end sparse-switch',
+    ),
+    array_data_directive: $ => seq(
+      '.array-data',
+      field('element_width', $.number),
+      field('value', repeat($.number)),
+      '.end array-data',
+    ),
     prologue_directive: _ => '.prologue',
     epilogue_directive: _ => '.epilogue',
 
@@ -558,61 +549,65 @@ module.exports = grammar({
     jmp_label: _ => prec(-1, token(/\w+:/)),
 
     // various "bodies"
-    body: $ =>
-      choice(
-        $._field_body,
-        $._full_field_body,
-        $.method_signature,
-        alias($._method_signature_body, $.method_signature),
-        $.full_method_signature,
-      ),
-    _field_body: $ => choice(
-      seq(
-        alias(choice($.identifier, $.number), $.field_identifier),
-        ':',
-        alias($._type, $.field_type),
-      ),
+    body: $ => choice(
+      $._field_body,
+      $._full_field_body,
+      $.method_signature,
+      alias($._method_signature_body, $.method_signature),
+      $.full_method_signature,
     ),
-    method_signature: $ =>
-      seq(
-        alias(choice(
-          '<clinit>',
-          '<init>',
-          seq(optional('-'), $.identifier), // method identifiers can start with a -
+    _field_body: $ => seq(
+      alias(choice($.identifier, $.number), $.field_identifier),
+      ':',
+      alias($.type, $.field_type),
+    ),
+    method_signature: $ => seq(
+      alias(
+        choice(
+          seq(optional('-'), $.identifier),
           $.number,
-        ), $.method_identifier),
-        $._method_signature_body,
+        ),
+        $.method_identifier,
       ),
-    _method_signature_body: $ =>
-      seq(
-        '(',
-        alias(repeat($._type), $.parameters),
-        ')',
-        field('return_type', $._type),
-      ),
-    method_handle: $ =>
-      seq(
-        $.opcode,
-        '@',
-        choice($._full_field_body, $.full_method_signature),
-      ),
-    _full_field_body: $ =>
-      seq(choice($.class_identifier, $.array_type), '->', $._field_body),
-    full_method_signature: $ =>
-      seq(choice($.class_identifier, $.array_type), '->', $.method_signature),
-    custom_invoke: $ =>
-      seq(
-        alias($.identifier, $.call_site),
-        '(', commaSep(choice($.body, $.method_handle, $.string)), ')',
-        '@',
-        $.class_identifier,
-        '->',
-        $.method_signature,
-      ),
+      $._method_signature_body,
+    ),
+    _method_signature_body: $ => seq(
+      '(',
+      alias(repeat($.type), $.parameters),
+      ')',
+      $.type,
+    ),
+    method_handle: $ => seq(
+      $.opcode,
+      '@',
+      choice($._full_field_body, $.full_method_signature),
+    ),
+    _full_field_body: $ => seq(
+      choice($.class_identifier, $.array_type),
+      '->',
+      $._field_body,
+    ),
+    full_method_signature: $ => seq(
+      choice($.class_identifier, $.array_type),
+      '->',
+      $.method_signature,
+    ),
+    custom_invoke: $ => seq(
+      $.identifier,
+      '(', commaSep(choice($.body, $.method_handle, $.string)), ')',
+      '@',
+      $.class_identifier,
+      '->',
+      $.method_signature,
+    ),
 
     // types
-    _type: $ => choice($.primitive_type, $.class_identifier, $.array_type),
-    array_type: $ => seq('[', $._type),
+    type: $ => choice(
+      $.primitive_type,
+      $.class_identifier,
+      $.array_type,
+    ),
+    array_type: $ => seq('[', $.type),
     // primitives > identifiers
     // I don't know why this works, but for primitives in a statement's value,
     // the first choice is needed, and for primitives in a signature/return type,
@@ -629,11 +624,10 @@ module.exports = grammar({
         /\s/,
       )),
     ),
-    enum_reference: $ =>
-      seq(
-        '.enum',
-        choice($._field_body, $._full_field_body),
-      ),
+    enum_reference: $ => seq(
+      '.enum',
+      choice($._field_body, $._full_field_body),
+    ),
 
     // special builtins
     register: $ => choice($.variable, $.parameter),
@@ -641,35 +635,32 @@ module.exports = grammar({
     parameter: _ => token.immediate(/p\d+/),
 
     // lists
-    list: $ =>
-      seq(
-        '{',
-        commaSep($.value),
-        '}',
+    list: $ => seq(
+      '{',
+      commaSep($.value),
+      '}',
+    ),
+    range: $ => seq(
+      '{',
+      choice(
+        seq(field('start', $.register), '..', field('end', $.register)),
+        seq(field('start', $.number), '..', field('end', $.number)),
+        seq(field('start', $.jmp_label), '..', field('end', $.jmp_label)),
       ),
-    range: $ =>
-      seq(
-        '{',
-        choice(
-          seq(field('start', $.register), '..', field('end', $.register)),
-          seq(field('start', $.number), '..', field('end', $.number)),
-          seq(field('start', $.jmp_label), '..', field('end', $.jmp_label)),
-        ),
-        '}',
-      ),
+      '}',
+    ),
 
     // literals
-    _literal: $ =>
-      choice(
-        $.number,
-        $.float,
-        $.NaN,
-        $.Infinity,
-        $.string,
-        $.boolean,
-        $.character,
-        $.null,
-      ),
+    literal: $ => choice(
+      $.number,
+      $.float,
+      $.NaN,
+      $.Infinity,
+      $.string,
+      $.boolean,
+      $.character,
+      $.null,
+    ),
 
     number: $ => {
       const hex_literal = seq(
@@ -724,11 +715,10 @@ module.exports = grammar({
     // so as to obtain a node in the CST.
     string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
 
-    _escape_sequence: $ =>
-      choice(
-        prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
-        prec(1, $.escape_sequence),
-      ),
+    _escape_sequence: $ => choice(
+      prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+      prec(1, $.escape_sequence),
+    ),
     escape_sequence: _ => token.immediate(seq(
       '\\',
       choice(
@@ -737,7 +727,8 @@ module.exports = grammar({
         /x[0-9a-fA-F]{2}/,
         /u[0-9a-fA-F]{4}/,
         /u{[0-9a-fA-F]+}/,
-      ))),
+      ),
+    )),
 
     boolean: _ => choice('true', 'false'),
 
