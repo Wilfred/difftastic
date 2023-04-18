@@ -1,5 +1,225 @@
 [
   {
+    "type": "directive",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_data_directive",
+        "named": true
+      },
+      {
+        "type": "catch_directive",
+        "named": true
+      },
+      {
+        "type": "catchall_directive",
+        "named": true
+      },
+      {
+        "type": "end_local_directive",
+        "named": true
+      },
+      {
+        "type": "epilogue_directive",
+        "named": true
+      },
+      {
+        "type": "line_directive",
+        "named": true
+      },
+      {
+        "type": "local_directive",
+        "named": true
+      },
+      {
+        "type": "locals_directive",
+        "named": true
+      },
+      {
+        "type": "packed_switch_directive",
+        "named": true
+      },
+      {
+        "type": "param_directive",
+        "named": true
+      },
+      {
+        "type": "parameter_directive",
+        "named": true
+      },
+      {
+        "type": "prologue_directive",
+        "named": true
+      },
+      {
+        "type": "registers_directive",
+        "named": true
+      },
+      {
+        "type": "restart_local_directive",
+        "named": true
+      },
+      {
+        "type": "source_directive",
+        "named": true
+      },
+      {
+        "type": "sparse_switch_directive",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "Infinity",
+        "named": true
+      },
+      {
+        "type": "NaN",
+        "named": true
+      },
+      {
+        "type": "boolean",
+        "named": true
+      },
+      {
+        "type": "character",
+        "named": true
+      },
+      {
+        "type": "float",
+        "named": true
+      },
+      {
+        "type": "null",
+        "named": true
+      },
+      {
+        "type": "number",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "register",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "parameter",
+        "named": true
+      },
+      {
+        "type": "variable",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "annotation_directive",
+        "named": true
+      },
+      {
+        "type": "directive",
+        "named": true
+      },
+      {
+        "type": "expression",
+        "named": true
+      },
+      {
+        "type": "jmp_label",
+        "named": true
+      },
+      {
+        "type": "label",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "type",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "array_type",
+        "named": true
+      },
+      {
+        "type": "class_identifier",
+        "named": true
+      },
+      {
+        "type": "primitive_type",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "value",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "body",
+        "named": true
+      },
+      {
+        "type": "custom_invoke",
+        "named": true
+      },
+      {
+        "type": "enum_reference",
+        "named": true
+      },
+      {
+        "type": "jmp_label",
+        "named": true
+      },
+      {
+        "type": "label",
+        "named": true
+      },
+      {
+        "type": "list",
+        "named": true
+      },
+      {
+        "type": "literal",
+        "named": true
+      },
+      {
+        "type": "method_handle",
+        "named": true
+      },
+      {
+        "type": "range",
+        "named": true
+      },
+      {
+        "type": "register",
+        "named": true
+      },
+      {
+        "type": "subannotation_directive",
+        "named": true
+      },
+      {
+        "type": "type",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "access_modifiers",
     "named": true,
     "fields": {}
@@ -55,23 +275,7 @@
       "required": true,
       "types": [
         {
-          "type": "Infinity",
-          "named": true
-        },
-        {
-          "type": "NaN",
-          "named": true
-        },
-        {
           "type": "body",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "character",
           "named": true
         },
         {
@@ -83,23 +287,11 @@
           "named": true
         },
         {
-          "type": "float",
-          "named": true
-        },
-        {
           "type": "list",
           "named": true
         },
         {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "literal",
           "named": true
         },
         {
@@ -149,15 +341,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "class_identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -302,22 +486,15 @@
   {
     "type": "class_directive",
     "named": true,
-    "fields": {
-      "modifiers": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "access_modifiers",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
         {
           "type": "class_identifier",
           "named": true
@@ -338,11 +515,11 @@
           "named": true
         },
         {
-          "type": "call_site",
+          "type": "class_identifier",
           "named": true
         },
         {
-          "type": "class_identifier",
+          "type": "identifier",
           "named": true
         },
         {
@@ -405,48 +582,34 @@
   {
     "type": "expression",
     "named": true,
-    "fields": {
-      "argument": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "value",
-            "named": true
-          }
-        ]
-      },
-      "opcode": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "opcode",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "opcode",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "field_definition",
     "named": true,
-    "fields": {
-      "modifiers": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "access_modifiers",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
         {
           "type": "annotation_directive",
           "named": true
@@ -461,29 +624,6 @@
         },
         {
           "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "class_identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
           "named": true
         }
       ]
@@ -576,47 +716,11 @@
       "required": true,
       "types": [
         {
-          "type": "Infinity",
-          "named": true
-        },
-        {
-          "type": "NaN",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "class_identifier",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
+          "type": "literal",
           "named": true
         },
         {
@@ -624,7 +728,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "type",
           "named": true
         }
       ]
@@ -648,22 +752,15 @@
   {
     "type": "method_definition",
     "named": true,
-    "fields": {
-      "modifiers": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "access_modifiers",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
         {
           "type": "method_signature",
           "named": true
@@ -713,29 +810,10 @@
   {
     "type": "method_signature",
     "named": true,
-    "fields": {
-      "return_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "array_type",
-            "named": true
-          },
-          {
-            "type": "class_identifier",
-            "named": true
-          },
-          {
-            "type": "primitive_type",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "method_identifier",
@@ -743,6 +821,10 @@
         },
         {
           "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -785,35 +867,11 @@
       "required": true,
       "types": [
         {
-          "type": "Infinity",
-          "named": true
-        },
-        {
-          "type": "NaN",
-          "named": true
-        },
-        {
           "type": "annotation_directive",
           "named": true
         },
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
+          "type": "literal",
           "named": true
         },
         {
@@ -822,10 +880,6 @@
         },
         {
           "type": "parameter",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         }
       ]
@@ -840,39 +894,11 @@
       "required": false,
       "types": [
         {
-          "type": "Infinity",
-          "named": true
-        },
-        {
-          "type": "NaN",
-          "named": true
-        },
-        {
           "type": "annotation_directive",
           "named": true
         },
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "literal",
           "named": true
         }
       ]
@@ -887,15 +913,7 @@
       "required": true,
       "types": [
         {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "class_identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -946,25 +964,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "register",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "parameter",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1032,97 +1031,6 @@
     }
   },
   {
-    "type": "statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "annotation_directive",
-          "named": true
-        },
-        {
-          "type": "array_data_directive",
-          "named": true
-        },
-        {
-          "type": "catch_directive",
-          "named": true
-        },
-        {
-          "type": "catchall_directive",
-          "named": true
-        },
-        {
-          "type": "end_local_directive",
-          "named": true
-        },
-        {
-          "type": "epilogue_directive",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "jmp_label",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "line_directive",
-          "named": true
-        },
-        {
-          "type": "local_directive",
-          "named": true
-        },
-        {
-          "type": "locals_directive",
-          "named": true
-        },
-        {
-          "type": "packed_switch_directive",
-          "named": true
-        },
-        {
-          "type": "param_directive",
-          "named": true
-        },
-        {
-          "type": "parameter_directive",
-          "named": true
-        },
-        {
-          "type": "prologue_directive",
-          "named": true
-        },
-        {
-          "type": "registers_directive",
-          "named": true
-        },
-        {
-          "type": "restart_local_directive",
-          "named": true
-        },
-        {
-          "type": "source_directive",
-          "named": true
-        },
-        {
-          "type": "sparse_switch_directive",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "string",
     "named": true,
     "fields": {},
@@ -1144,24 +1052,17 @@
   {
     "type": "subannotation_directive",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "class_identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "annotation_property",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
           "named": true
         }
       ]
@@ -1177,101 +1078,6 @@
       "types": [
         {
           "type": "class_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "value",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "Infinity",
-          "named": true
-        },
-        {
-          "type": "NaN",
-          "named": true
-        },
-        {
-          "type": "array_type",
-          "named": true
-        },
-        {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "class_identifier",
-          "named": true
-        },
-        {
-          "type": "custom_invoke",
-          "named": true
-        },
-        {
-          "type": "enum_reference",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "jmp_label",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "method_handle",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
-          "named": true
-        },
-        {
-          "type": "range",
-          "named": true
-        },
-        {
-          "type": "register",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "subannotation_directive",
           "named": true
         }
       ]
@@ -1588,10 +1394,6 @@
   {
     "type": "build",
     "named": false
-  },
-  {
-    "type": "call_site",
-    "named": true
   },
   {
     "type": "check-cast",
