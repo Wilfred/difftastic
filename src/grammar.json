@@ -2644,6 +2644,23 @@
         }
       ]
     },
+    "condition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "class_literal": {
       "type": "PREC_DYNAMIC",
       "value": 17,
@@ -4018,7 +4035,7 @@
             "name": "condition",
             "content": {
               "type": "SYMBOL",
-              "name": "parenthesized_expression"
+              "name": "condition"
             }
           },
           {
@@ -4069,7 +4086,7 @@
           "name": "condition",
           "content": {
             "type": "SYMBOL",
-            "name": "parenthesized_expression"
+            "name": "condition"
           }
         },
         {
