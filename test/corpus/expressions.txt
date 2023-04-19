@@ -101,7 +101,7 @@ if (x)
 
 (program
   (if_statement
-    condition: (parenthesized_expression (identifier))
+    condition: (condition (identifier))
     consequence: (expression_statement (identifier))))
 
 ===========================================================
@@ -116,7 +116,7 @@ if (x) {
 
 (program
   (if_statement
-    condition: (parenthesized_expression (identifier))
+    condition: (condition (identifier))
     consequence: (block (expression_statement (identifier)))))
 
 ===========================================================
@@ -130,7 +130,7 @@ if (x = 3)
 
 (program
   (if_statement
-    condition: (parenthesized_expression
+    condition: (condition
       (assignment_expression
         left: (identifier)
         right: (decimal_integer_literal)))
@@ -153,7 +153,7 @@ if (x = 3) {
 
 (program
   (if_statement
-    condition: (parenthesized_expression
+    condition: (condition
       (assignment_expression
         left: (identifier)
         right: (decimal_integer_literal)))
@@ -180,9 +180,9 @@ if (a)
 
 (program
   (if_statement
-    (parenthesized_expression (identifier))
+    (condition (identifier))
     (if_statement
-      (parenthesized_expression (identifier))
+      (condition (identifier))
       (expression_statement (method_invocation (identifier) (argument_list)))
       (expression_statement (method_invocation (identifier) (argument_list))))))
 
@@ -316,7 +316,7 @@ class WhileDemo {
               name: (identifier)
               value: (decimal_integer_literal)))
           (while_statement
-            condition: (parenthesized_expression
+            condition: (condition
               (binary_expression
                 left: (identifier)
                 right: (decimal_integer_literal)))
