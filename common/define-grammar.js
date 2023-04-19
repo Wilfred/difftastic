@@ -133,7 +133,6 @@ module.exports = function defineGrammar(dialect) {
       ].includes(rule.name))
       .concat([
         $._type_identifier,
-        $._enum_member,
         $._jsx_start_opening_element,
       ]),
 
