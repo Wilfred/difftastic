@@ -752,7 +752,7 @@ record Person(int age) {
         (identifier)
         (block
           (if_statement
-            (parenthesized_expression
+            (condition
               (binary_expression
                 (identifier)
                 (decimal_integer_literal)))
