@@ -105,6 +105,21 @@ if (x)
     consequence: (expression_statement (identifier))))
 
 ===========================================================
+if statements with nested parenthesized expression
+===========================================================
+
+if ((x))
+  y;
+
+---
+
+(program
+  (if_statement
+    condition: (condition (parenthesized_expression
+            (identifier)))
+    consequence: (expression_statement (identifier))))
+
+===========================================================
 if statements with braces
 ===========================================================
 
