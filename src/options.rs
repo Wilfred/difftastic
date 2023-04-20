@@ -378,7 +378,7 @@ fn common_path_suffix(lhs_path: &Path, rhs_path: &Path) -> Option<String> {
         None
     } else {
         common_components.reverse();
-        Some(common_components.join(std::path::MAIN_SEPARATOR_STR))
+        Some(common_components.join(&std::path::MAIN_SEPARATOR.to_string()))
     }
 }
 
