@@ -64,6 +64,9 @@ pub struct SyntaxInfo<'a> {
     /// Is this the only node with this content? Ignores nodes on the
     /// other side.
     content_is_unique: Cell<bool>,
+    /// Is this the only node with this content, considering both LHS
+    /// and RHS?
+    content_is_unique_both_sides: Cell<bool>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -79,6 +82,7 @@ impl<'a> SyntaxInfo<'a> {
             unique_id: Cell::new(NonZeroU32::new(u32::MAX).unwrap()),
             content_id: Cell::new(0),
             content_is_unique: Cell::new(false),
+            content_is_unique_both_sides: Cell::new(false),
         }
     }
 }
@@ -289,8 +293,15 @@ impl<'a> Syntax<'a> {
         self.info().content_id.get()
     }
 
+    /// Is the content of this node unique on this side?
     pub fn content_is_unique(&self) -> bool {
         self.info().content_is_unique.get()
+    }
+
+    /// Is the content of this node unique, when considering both LHS
+    /// and RHS?
+    pub fn content_is_unique_both_sides(&self) -> bool {
+        self.info().content_is_unique_both_sides.get()
     }
 
     pub fn num_ancestors(&self) -> u32 {
@@ -383,6 +394,8 @@ fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
 
     set_content_is_unique(lhs_roots);
     set_content_is_unique(rhs_roots);
+
+    set_content_is_unique_both_sides(lhs_roots, rhs_roots);
 }
 
 type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
@@ -502,6 +515,31 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
     let mut counts = HashMap::new();
     find_nodes_with_unique_content(nodes, &mut counts);
     set_content_is_unique_from_counts(nodes, &counts);
+}
+
+fn set_content_is_unique_both_sides_from_counts<'a>(
+    lhs_nodes: &[&Syntax<'a>],
+    rhs_nodes: &[&Syntax<'a>],
+    counts: &HashMap<u32, usize>,
+) {
+    for node in lhs_nodes.iter().chain(rhs_nodes) {
+        let count = counts
+            .get(&node.content_id())
+            .expect("Count should be present");
+        node.info().content_is_unique.set(*count == 1);
+
+        if let List { children, .. } = node {
+            set_content_is_unique_from_counts(children, counts);
+        }
+    }
+}
+
+fn set_content_is_unique_both_sides<'a>(lhs_nodes: &[&Syntax<'a>], rhs_nodes: &[&Syntax<'a>]) {
+    let mut counts = HashMap::new();
+    find_nodes_with_unique_content(lhs_nodes, &mut counts);
+    find_nodes_with_unique_content(rhs_nodes, &mut counts);
+
+    set_content_is_unique_both_sides_from_counts(lhs_nodes, rhs_nodes, &counts);
 }
 
 fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
