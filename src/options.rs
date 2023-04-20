@@ -478,7 +478,7 @@ pub fn parse_args() -> Mode {
             let new_name = new_name.to_string_lossy().to_string();
 
             (
-                new_name.clone(),
+                new_name,
                 FileArgument::from_path_argument(lhs_tmp_file),
                 FileArgument::from_path_argument(rhs_tmp_file),
                 Some(old_name),
