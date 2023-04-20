@@ -468,6 +468,8 @@ pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_prev_is_contiguous(roots);
 }
 
+pub fn init_next_prev_ignore_known() {}
+
 /// Set all the `SyntaxInfo` values for all the `roots` on a single
 /// side (LHS or RHS).
 fn init_info_on_side<'a>(roots: &[&'a Syntax<'a>], next_id: &mut SyntaxId) {
@@ -548,6 +550,29 @@ fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
     for node in nodes {
         node.info().previous_sibling.set(prev);
         prev = Some(node);
+
+        if let List { children, .. } = node {
+            set_prev_sibling(children);
+        }
+    }
+}
+
+fn set_prev_sibling_skip_marked<'a>(nodes: &[&'a Syntax<'a>], change_map: &ChangeMap<'a>) {
+    let mut prev = None;
+    for (i, node) in nodes.iter().enumerate() {
+        if change_map.get(node).is_some() {
+            continue;
+        } else {
+            prev = Some(node);
+        }
+        
+        if i == 0 {
+            node.info().previous_sibling.set(None);
+            continue;
+        }
+
+        let sibling = nodes.get(i - 1).copied();
+        node.info().previous_sibling.set(sibling);
 
         if let List { children, .. } = node {
             set_prev_sibling(children);
