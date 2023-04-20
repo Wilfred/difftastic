@@ -38,7 +38,7 @@ mod summary;
 #[macro_use]
 extern crate log;
 
-use crate::diff::{dijkstra, unchanged};
+use crate::diff::{dijkstra, obviously_changed, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
 use crate::parse::guess_language::{LANG_EXTENSIONS, LANG_FILE_NAMES};
 use crate::parse::syntax;
@@ -428,6 +428,11 @@ fn diff_file_content(
                             }
 
                             let mut change_map = ChangeMap::default();
+
+                            if env::var("DFT_DBG_KEEP_UNIQUE").is_err() {
+                                obviously_changed::mark_changed(&lhs, &rhs, &mut change_map);
+                            }
+
                             let possibly_changed = if env::var("DFT_DBG_KEEP_UNCHANGED").is_ok() {
                                 vec![(lhs.clone(), rhs.clone())]
                             } else {
