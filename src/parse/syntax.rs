@@ -505,13 +505,11 @@ fn set_content_is_unique(nodes: &[&Syntax]) {
 }
 
 fn set_prev_sibling<'a>(nodes: &[&'a Syntax<'a>]) {
-    for (i, node) in nodes.iter().enumerate() {
-        if i == 0 {
-            continue;
-        }
+    let mut prev = None;
 
-        let sibling = nodes.get(i - 1).copied();
-        node.info().previous_sibling.set(sibling);
+    for node in nodes {
+        node.info().previous_sibling.set(prev);
+        prev = Some(node);
 
         if let List { children, .. } = node {
             set_prev_sibling(children);
