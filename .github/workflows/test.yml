@@ -26,7 +26,7 @@ jobs:
           node-version: 14
       - run: npm install
       - run: git clone --depth 1 https://github.com/cisco/ChezScheme.git
-      - run: npx tree-sitter parse $(find ./ChezScheme -type f -name "*.scm" -o -name "*.ss" -not -exec grep -q -e '<<' -e '(#' -e '#{' -e '(\\' {} \; -print) -qt
+      - run: npx tree-sitter parse $(find ./ChezScheme -type f -name "*.scm" -o -name "*.ss" -not -exec grep -q -e '<<' -e '(#' -e '#{' -e '#!eof' -e '(\\' {} \; -print) -qt
 
   sicp:
     runs-on: ubuntu-latest
