@@ -6,7 +6,7 @@ Scheme grammar for tree-sitter.
 
 ## Recent News
 
-With R7RS support, `|` will now be used as delimiter. In the past, it was permitted to be included as part of an identifier.
+With R7RS support, a single `|` can no longer appears in the middle of an identifier.
 
 ## Status
 
