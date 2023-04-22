@@ -4,6 +4,10 @@
 
 Scheme grammar for tree-sitter.
 
+## Recent News
+
+With R7RS support, `|` will now be used as delimiter. In the past, it was permitted to be included as part of an identifier.
+
 ## Status
 
 ~~tree-sitter-scheme should work on a superset of Scheme.~~
