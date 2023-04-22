@@ -1,4 +1,39 @@
 ===
+symbol
+===
++
+-
+*
+/
+!
+even?
+odd?
+set!
+hello
+ar!$->2
+->
+variable
+123app123
+变量
+
+---
+(program
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol)
+  (symbol))
+
+===
 list
 ===
 (quote)
@@ -32,7 +67,7 @@ list
     (number)))
 
 ===
-Procedure
+procedure
 ===
 (lambda (x) (+ x 1))
 

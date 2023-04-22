@@ -130,6 +130,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -198,6 +202,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "directive",
           "named": true
         },
         {
@@ -415,6 +423,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -498,6 +510,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -578,6 +594,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "directive",
           "named": true
         },
         {
@@ -684,6 +704,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -764,6 +788,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "directive",
           "named": true
         },
         {
@@ -850,6 +878,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -933,6 +965,10 @@
           "named": true
         },
         {
+          "type": "directive",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -1013,6 +1049,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "directive",
           "named": true
         },
         {

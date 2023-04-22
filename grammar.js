@@ -1,26 +1,74 @@
+// r5rs: case insensitive
+//       comment: only line comment
+// r6rs: case sensitive except boolean, number, unicode hex literals
+//       comment: all
+// r7rs: case insensitive except letters, character names, mnemonic escapes.
+//       comment: all
+
 const PREC = {
   first: $ => prec(100, $),
-  last: $ => prec(-1, $),
-  number: $ => prec(2, $),
-  symbol: $ => prec(1, $),
+  last: $ => prec(-100, $),
+  number: $ => prec(1, $),
+  symbol: $ => prec(-1, $),
 };
 
-const LEAF = {
-  // Unicode whitespace
-  whitespace: /[ \r\n\t\f\v\p{Zs}\p{Zl}\p{Zp}]+/,
-  intra_whitespace: /[ \n\t\p{Zs}]/,
+const common = {
+  whitespace: /[ \r\n\t\f\v\p{Zs}\p{Zl}\p{Zp}]/,
+  intra_whitespace: /[\t\p{Zs}]/,
   line_ending: /[\n\r\u{2028}\u{0085}]|(\r\n)|(\r\u{0085})/,
   any_char: /.|[\r\n\u{85}\u{2028}\u{2029}]/,
 
   symbol_element: /[^ \r\n\t\f\v\p{Zs}\p{Zl}\p{Zp}#;"'`,(){}\[\]\\]/,
 };
 
-function paren(rule) {
-  return choice(
-    seq('(', rule, ')'),
-    seq('[', rule, ']'),
-    seq('{', rule, '}'));
-}
+const r5rs = {
+  boolean: seq("#", /[tTfF]/),
+  number:
+    choice(
+      r5rs_number_base(2),
+      r5rs_number_base(8),
+      r5rs_number_base(10),
+      r5rs_number_base(16)),
+  character:
+    seq(
+      "#\\",
+      choice(
+        /[sS][pP][aA][cC][eE]/,
+        /[nN][eE][wW][lL][iI][nN][eE]/,
+        common.any_char)),
+  escape_sequence:
+    choice(
+      "\"",
+      "\\"),
+};
+
+const r6rs = {
+  boolean: seq("#", /[tTfF]/),
+  number:
+    choice(
+      r6rs_number_base(2),
+      r6rs_number_base(8),
+      r6rs_number_base(10),
+      r6rs_number_base(16)),
+  character:
+    seq(
+      "#\\",
+      choice(
+        "nul", "alarm", "backspace", "tab",
+        "linefeed", "newline", "vtab", "page",
+        "return", "esc", "space", "delete",
+        /x[0-9a-fA-F]+/,
+        common.any_char)),
+  escape_sequence:
+    choice(
+      /\\[abtnvfr"\\]/,
+      /\\x[0-9a-fA-F]+;/,
+      seq(
+        "\\",
+        common.intra_whitespace,
+        common.line_ending,
+        common.intra_whitespace)),
+};
 
 module.exports = grammar({
   name: "scheme",
@@ -32,30 +80,31 @@ module.exports = grammar({
 
     _token: $ =>
       choice(
-        $._skip,
-        $.directive,
+        $._intertoken,
         $._datum),
 
-    _skip: $ =>
+    _intertoken: $ =>
       choice(
-        LEAF.whitespace,
+        // NOTE: `repeat1` here can significantly reduce code size than `repeat`
+        token(repeat1(common.whitespace)),
+        $.directive,
         $.comment,
         $.block_comment),
 
     comment: $ =>
       choice(
         /;.*/,
-        seq("#;", repeat($._skip), $._datum)),
+        seq("#;", repeat($._intertoken), $._datum)),
 
     directive: $ =>
-      seq("#!", repeat($._skip), $.symbol),
+      seq("#!", repeat($._intertoken), $.symbol),
 
     block_comment: $ =>
       seq("#|",
         repeat(
           choice(
             PREC.first($.block_comment),
-            LEAF.any_char)),
+            common.any_char)),
         PREC.first("|#")),
 
     _datum: $ => choice(
@@ -80,34 +129,24 @@ module.exports = grammar({
 
     // simple datum {{{
 
-    boolean: _ => token(choice("#t", "#f", "#T", "#F")),
+    boolean: _ =>
+      token(
+        choice(
+          r5rs.boolean,
+          r6rs.boolean)),
 
     number: _ =>
       PREC.number(
         token(
           choice(
-            r5rs_number_base(2),
-            r5rs_number_base(8),
-            r5rs_number_base(10),
-            r5rs_number_base(16),
-            r6rs_number_base(2),
-            r6rs_number_base(8),
-            r6rs_number_base(10),
-            r6rs_number_base(16)))),
+            r5rs.number,
+            r6rs.number))),
 
     character: _ =>
       token(
-        seq(
-          "#\\",
-          choice(
-            "space", "newline",
-            "alarm", "backspace",
-            "delete", "esc",
-            "linefeed", "page",
-            "return", "space", "tab", "vtab",
-            "nul",
-            /x[0-9a-fA-F]+/,
-            /./))),
+        choice(
+          r5rs.character,
+          r6rs.character)),
 
     string: $ =>
       seq(
@@ -121,67 +160,70 @@ module.exports = grammar({
     escape_sequence: _ =>
       token(
         choice(
-          /\\["\\abfnrtv]/,
-          seq("\\", repeat(LEAF.intra_whitespace), LEAF.line_ending, repeat(LEAF.intra_whitespace)),
-          /\\x[0-9a-fA-F]+;/)),
+          r5rs.escape_sequence,
+          r6rs.escape_sequence)),
 
     symbol: _ =>
       PREC.symbol(
         token(
-          repeat1(LEAF.symbol_element))),
+          repeat1(common.symbol_element))),
 
     // simple datum }}}
 
     // compound datum {{{
 
-    list: $ => paren(repeat($._token)),
+    list: $ =>
+      choice(
+        seq("(", repeat($._token), ")"),
+        seq("[", repeat($._token), "]"),
+        seq("{", repeat($._token), "}")),
 
     quote: $ =>
       seq(
         "'",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     quasiquote: $ =>
       seq(
         "`",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     syntax: $ =>
       seq(
         "#'",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     quasisyntax: $ =>
       seq(
         "#`",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     unquote: $ =>
       seq(
         ",",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     unquote_splicing: $ =>
       seq(
         ",@",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     unsyntax: $ =>
       seq(
         "#,",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     unsyntax_splicing: $ =>
       seq(
         "#,@",
-        repeat($._skip),
+        repeat($._intertoken),
         $._datum),
 
     vector: $ => seq("#(", repeat($._token), ")"),
