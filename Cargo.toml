@@ -50,7 +50,7 @@ owo-colors = "3.3.0"
 wu-diff = "0.1.2"
 rayon = "1.6.1"
 tree_magic_mini = "3.0.2"
-bumpalo = "3.11.1"
+bumpalo = "3.12.1"
 unicode-width = "0.1.9"
 crossterm = { version = "0.25.0", features = [] }
 
