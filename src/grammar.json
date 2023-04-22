@@ -2,8 +2,11 @@
   "name": "json",
   "rules": {
     "document": {
-      "type": "SYMBOL",
-      "name": "_value"
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_value"
+      }
     },
     "_value": {
       "type": "CHOICE",

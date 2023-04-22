@@ -11,7 +11,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    document: $ => $._value,
+    document: $ => repeat($._value),
 
     _value: $ => choice(
       $.object,
