@@ -39,6 +39,7 @@ Scheme
 
 * [R5RS](https://schemers.org/Documents/Standards/R5RS/)
 * [R6RS](http://www.r6rs.org/)
+* [R7RS](https://small.r7rs.org/)
 * [The Scheme Programming Language](https://www.scheme.com/tspl4/)
 
 Tree-sitter
