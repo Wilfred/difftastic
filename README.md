@@ -15,6 +15,7 @@ current status:
 
 * [x] R5RS
 * [x] R6RS
+* [x] R7RS
 * [ ] Implementation specific extensions
   * [ ] Chez Scheme ([#1](https://github.com/6cdh/tree-sitter-scheme/issues/1))
   * [ ] Chicken Scheme ([#3](https://github.com/6cdh/tree-sitter-scheme/issues/3))

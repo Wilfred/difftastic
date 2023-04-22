@@ -18,7 +18,7 @@ const common = {
   line_ending: /[\n\r\u{2028}\u{0085}]|(\r\n)|(\r\u{0085})/,
   any_char: /.|[\r\n\u{85}\u{2028}\u{2029}]/,
 
-  symbol_element: /[^ \r\n\t\f\v\p{Zs}\p{Zl}\p{Zp}#;"'`,(){}\[\]\\]/,
+  symbol_element: /[^ \r\n\t\f\v\p{Zs}\p{Zl}\p{Zp}#;"'`,(){}\[\]\\|]/,
 };
 
 const r5rs = {
@@ -68,6 +68,51 @@ const r6rs = {
         common.intra_whitespace,
         common.line_ending,
         common.intra_whitespace)),
+};
+
+const r7rs = {
+  boolean:
+    seq(
+      "#",
+      choice(
+        /[tTfF]/,
+        /[tT][rR][uU][eE]/,
+        /[fF][aA][lL][sS][eE]/)),
+  number:
+    choice(
+      r7rs_number_base(2),
+      r7rs_number_base(8),
+      r7rs_number_base(10),
+      r7rs_number_base(16)),
+  character:
+    seq(
+      "#\\",
+      choice(
+        "alarm", "backspace", "delete",
+        "escape", "newline", "null",
+        "return", "space", "tab",
+        /[xX][0-9a-fA-F]+/,
+        common.any_char)),
+  escape_sequence:
+    seq(
+      "\\",
+      choice(
+        /[abtnr"\\]/,
+        seq(
+          repeat(common.intra_whitespace),
+          common.line_ending,
+          repeat(common.intra_whitespace)),
+        /[xX][0-9a-fA-F]+;/)),
+  symbol:
+    seq(
+      "|",
+      repeat(
+        choice(
+          /[^|\\]+/,
+          /\\[xX][0-9a-fA-F]+;/,
+          /\\[abtnr]/,
+          "\\|")),
+      "|")
 };
 
 module.exports = grammar({
@@ -133,20 +178,23 @@ module.exports = grammar({
       token(
         choice(
           r5rs.boolean,
-          r6rs.boolean)),
+          r6rs.boolean,
+          r7rs.boolean)),
 
     number: _ =>
       PREC.number(
         token(
           choice(
             r5rs.number,
-            r6rs.number))),
+            r6rs.number,
+            r7rs.number))),
 
     character: _ =>
       token(
         choice(
           r5rs.character,
-          r6rs.character)),
+          r6rs.character,
+          r7rs.character)),
 
     string: $ =>
       seq(
@@ -161,12 +209,15 @@ module.exports = grammar({
       token(
         choice(
           r5rs.escape_sequence,
-          r6rs.escape_sequence)),
+          r6rs.escape_sequence,
+          r7rs.escape_sequence)),
 
     symbol: _ =>
       PREC.symbol(
         token(
-          repeat1(common.symbol_element))),
+          choice(
+            repeat1(common.symbol_element),
+            r7rs.symbol))),
 
     // simple datum }}}
 
@@ -377,6 +428,83 @@ function r6rs_number_base(n) {
         "i"));
 
   return seq(prefix, complex);
+}
+
+function r7rs_number_base(n) {
+  const infnan =
+    choice(
+      /[+-][iI][nN][fF]\.0/,
+      /[+-][nN][aA][nN]\.0/);
+
+  const exponent_marker = /[eE]/;
+  const sign = optional(/[+-]/);
+  const exactness = optional(/#[ieIE]/);
+  const radix =
+    {
+      2: /#[bB]/,
+      8: /#[oO]/,
+      10: optional(/#[dD]/),
+      16: /#[xX]/,
+    }[n];
+  const digit =
+    {
+      2: /[01]/,
+      8: /[0-7]/,
+      10: /[0-9]/,
+      16: /[0-9a-fA-F]/,
+    }[n];
+
+  const suffix =
+    optional(
+      seq(exponent_marker, sign, repeat1(digit)));
+
+  const prefix =
+    choice(
+      seq(radix, exactness),
+      seq(exactness, radix));
+
+  const uinteger = repeat1(digit);
+
+  const decimal =
+    {
+      2: "",
+      8: "",
+      10:
+        choice(
+          seq(uinteger, suffix),
+          seq(".", repeat1(digit), suffix),
+          seq(repeat1(digit), ".", repeat(digit), suffix)),
+      16: "",
+    }[n];
+
+  const ureal =
+    choice(
+      uinteger,
+      seq(uinteger, "/", uinteger),
+      decimal);
+
+  const real =
+    choice(
+      seq(sign, ureal),
+      infnan);
+
+  const complex =
+    choice(
+      real,
+      seq(real, "@", real),
+      seq(real, /[+-]/, ureal, "i"),
+      seq(real, /[+-]/, "i"),
+      seq(real, infnan, "i"),
+      seq(/[+-]/, ureal, "i"),
+      seq(infnan, "i"),
+      seq(/[+-]/, "i"));
+
+  const num =
+    seq(
+      prefix,
+      complex);
+
+  return num;
 }
 
 // number }}}
