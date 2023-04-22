@@ -48,19 +48,19 @@ use Edge::*;
 ///      ^              ^
 /// ```
 #[derive(Debug, Clone)]
-pub struct Vertex<'a, 'b> {
-    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'a, 'b>)>>>,
-    pub predecessor: Cell<Option<(u32, &'b Vertex<'a, 'b>)>>,
+pub struct Vertex<'s, 'b> {
+    pub neighbours: RefCell<Option<Vec<(Edge, &'b Vertex<'s, 'b>)>>>,
+    pub predecessor: Cell<Option<(u32, &'b Vertex<'s, 'b>)>>,
     // TODO: experiment with storing SyntaxId only, and have a HashMap
     // from SyntaxId to &Syntax.
-    pub lhs_syntax: Option<&'a Syntax<'a>>,
-    pub rhs_syntax: Option<&'a Syntax<'a>>,
-    parents: Stack<EnteredDelimiter<'a>>,
+    pub lhs_syntax: Option<&'s Syntax<'s>>,
+    pub rhs_syntax: Option<&'s Syntax<'s>>,
+    parents: Stack<EnteredDelimiter<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
 }
 
-impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
+impl<'s, 'b> PartialEq for Vertex<'s, 'b> {
     fn eq(&self, other: &Self) -> bool {
         // Strictly speaking, we should compare the whole
         // EnteredDelimiter stack, not just the immediate
@@ -98,9 +98,9 @@ impl<'a, 'b> PartialEq for Vertex<'a, 'b> {
         b0 && b1 && b2
     }
 }
-impl<'a, 'b> Eq for Vertex<'a, 'b> {}
+impl<'s, 'b> Eq for Vertex<'s, 'b> {}
 
-impl<'a, 'b> Hash for Vertex<'a, 'b> {
+impl<'s, 'b> Hash for Vertex<'s, 'b> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
@@ -113,12 +113,12 @@ impl<'a, 'b> Hash for Vertex<'a, 'b> {
 
 /// Tracks entering syntax List nodes.
 #[derive(Clone, PartialEq)]
-enum EnteredDelimiter<'a> {
+enum EnteredDelimiter<'s> {
     /// If we've entered the LHS or RHS separately, we can pop either
     /// side independently.
     ///
     /// Assumes that at least one stack is non-empty.
-    PopEither((Stack<&'a Syntax<'a>>, Stack<&'a Syntax<'a>>)),
+    PopEither((Stack<&'s Syntax<'s>>, Stack<&'s Syntax<'s>>)),
     /// If we've entered the LHS and RHS together, we must pop both
     /// sides together too. Otherwise we'd consider the following case to have no changes.
     ///
@@ -126,10 +126,10 @@ enum EnteredDelimiter<'a> {
     /// Old: (a b c)
     /// New: (a b) c
     /// ```
-    PopBoth((&'a Syntax<'a>, &'a Syntax<'a>)),
+    PopBoth((&'s Syntax<'s>, &'s Syntax<'s>)),
 }
 
-impl<'a> fmt::Debug for EnteredDelimiter<'a> {
+impl<'s> fmt::Debug for EnteredDelimiter<'s> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             EnteredDelimiter::PopEither((lhs_delims, rhs_delims)) => {
@@ -145,11 +145,11 @@ impl<'a> fmt::Debug for EnteredDelimiter<'a> {
     }
 }
 
-fn push_both_delimiters<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-    lhs_delim: &'a Syntax<'a>,
-    rhs_delim: &'a Syntax<'a>,
-) -> Stack<EnteredDelimiter<'a>> {
+fn push_both_delimiters<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+    lhs_delim: &'s Syntax<'s>,
+    rhs_delim: &'s Syntax<'s>,
+) -> Stack<EnteredDelimiter<'s>> {
     entered.push(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim)))
 }
 
@@ -157,9 +157,9 @@ fn can_pop_either_parent(entered: &Stack<EnteredDelimiter>) -> bool {
     matches!(entered.peek(), Some(EnteredDelimiter::PopEither(_)))
 }
 
-fn try_pop_both<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-) -> Option<(&'a Syntax<'a>, &'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
+fn try_pop_both<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+) -> Option<(&'s Syntax<'s>, &'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopBoth((lhs_delim, rhs_delim))) => {
             Some((lhs_delim, rhs_delim, entered.pop().unwrap()))
@@ -168,9 +168,9 @@ fn try_pop_both<'a>(
     }
 }
 
-fn try_pop_lhs<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-) -> Option<(&'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
+fn try_pop_lhs<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+) -> Option<(&'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match lhs_delims.peek() {
             Some(lhs_delim) => {
@@ -192,9 +192,9 @@ fn try_pop_lhs<'a>(
     }
 }
 
-fn try_pop_rhs<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-) -> Option<(&'a Syntax<'a>, Stack<EnteredDelimiter<'a>>)> {
+fn try_pop_rhs<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+) -> Option<(&'s Syntax<'s>, Stack<EnteredDelimiter<'s>>)> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => match rhs_delims.peek() {
             Some(rhs_delim) => {
@@ -216,10 +216,10 @@ fn try_pop_rhs<'a>(
     }
 }
 
-fn push_lhs_delimiter<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-    delimiter: &'a Syntax<'a>,
-) -> Stack<EnteredDelimiter<'a>> {
+fn push_lhs_delimiter<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+    delimiter: &'s Syntax<'s>,
+) -> Stack<EnteredDelimiter<'s>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.push(delimiter), rhs_delims.clone())),
@@ -231,10 +231,10 @@ fn push_lhs_delimiter<'a>(
     }
 }
 
-fn push_rhs_delimiter<'a>(
-    entered: &Stack<EnteredDelimiter<'a>>,
-    delimiter: &'a Syntax<'a>,
-) -> Stack<EnteredDelimiter<'a>> {
+fn push_rhs_delimiter<'s>(
+    entered: &Stack<EnteredDelimiter<'s>>,
+    delimiter: &'s Syntax<'s>,
+) -> Stack<EnteredDelimiter<'s>> {
     match entered.peek() {
         Some(EnteredDelimiter::PopEither((lhs_delims, rhs_delims))) => entered.pop().unwrap().push(
             EnteredDelimiter::PopEither((lhs_delims.clone(), rhs_delims.push(delimiter))),
@@ -246,12 +246,12 @@ fn push_rhs_delimiter<'a>(
     }
 }
 
-impl<'a, 'b> Vertex<'a, 'b> {
+impl<'s, 'b> Vertex<'s, 'b> {
     pub fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none() && self.parents.is_empty()
     }
 
-    pub fn new(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) -> Self {
+    pub fn new(lhs_syntax: Option<&'s Syntax<'s>>, rhs_syntax: Option<&'s Syntax<'s>>) -> Self {
         let parents = Stack::new();
         Vertex {
             neighbours: RefCell::new(None),
@@ -352,11 +352,11 @@ impl Edge {
     }
 }
 
-fn allocate_if_new<'syn, 'b>(
-    v: Vertex<'syn, 'b>,
+fn allocate_if_new<'s, 'b>(
+    v: Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
-) -> &'b Vertex<'syn, 'b> {
+    seen: &mut FxHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+) -> &'b Vertex<'s, 'b> {
     match seen.get_mut(&v) {
         Some(existing) => {
             // Don't explore more than two possible parenthesis
@@ -389,7 +389,7 @@ fn allocate_if_new<'syn, 'b>(
             //
             // We still use a vec to enable experiments with the value
             // of how many possible parenthesis nestings to explore.
-            let mut existing: Vec<&'b Vertex<'syn, 'b>> = Vec::with_capacity(2);
+            let mut existing: Vec<&'b Vertex<'s, 'b>> = Vec::with_capacity(2);
             existing.push(allocated);
 
             seen.insert(allocated, existing);
@@ -408,18 +408,18 @@ fn looks_like_punctuation(content: &str) -> bool {
 
 /// Pop as many parents of `lhs_node` and `rhs_node` as
 /// possible. Return the new syntax nodes and parents.
-fn pop_all_parents<'a>(
-    lhs_node: Option<&'a Syntax<'a>>,
-    rhs_node: Option<&'a Syntax<'a>>,
+fn pop_all_parents<'s>(
+    lhs_node: Option<&'s Syntax<'s>>,
+    rhs_node: Option<&'s Syntax<'s>>,
     lhs_parent_id: Option<SyntaxId>,
     rhs_parent_id: Option<SyntaxId>,
-    parents: &Stack<EnteredDelimiter<'a>>,
+    parents: &Stack<EnteredDelimiter<'s>>,
 ) -> (
-    Option<&'a Syntax<'a>>,
-    Option<&'a Syntax<'a>>,
+    Option<&'s Syntax<'s>>,
+    Option<&'s Syntax<'s>>,
     Option<SyntaxId>,
     Option<SyntaxId>,
-    Stack<EnteredDelimiter<'a>>,
+    Stack<EnteredDelimiter<'s>>,
 ) {
     let mut lhs_node = lhs_node;
     let mut rhs_node = rhs_node;
@@ -475,11 +475,11 @@ fn pop_all_parents<'a>(
 
 /// Compute the neighbours of `v` if we haven't previously done so,
 /// write them to the .neighbours cell inside `v`, and return them.
-pub fn get_set_neighbours<'syn, 'b>(
-    v: &Vertex<'syn, 'b>,
+pub fn get_set_neighbours<'s, 'b>(
+    v: &Vertex<'s, 'b>,
     alloc: &'b Bump,
-    seen: &mut FxHashMap<&Vertex<'syn, 'b>, Vec<&'b Vertex<'syn, 'b>>>,
-) -> Vec<(Edge, &'b Vertex<'syn, 'b>)> {
+    seen: &mut FxHashMap<&Vertex<'s, 'b>, Vec<&'b Vertex<'s, 'b>>>,
+) -> Vec<(Edge, &'b Vertex<'s, 'b>)> {
     match &*v.neighbours.borrow() {
         Some(neighbours) => return neighbours.clone(),
         None => {}
@@ -776,9 +776,9 @@ pub fn get_set_neighbours<'syn, 'b>(
     res
 }
 
-pub fn populate_change_map<'a, 'b>(
-    route: &[(Edge, &'b Vertex<'a, 'b>)],
-    change_map: &mut ChangeMap<'a>,
+pub fn populate_change_map<'s, 'b>(
+    route: &[(Edge, &'b Vertex<'s, 'b>)],
+    change_map: &mut ChangeMap<'s>,
 ) {
     for (e, v) in route {
         match e {
