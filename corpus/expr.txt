@@ -1066,3 +1066,89 @@ let x =
             (long_identifier (identifier)))
           (infix_op)
           (const (int)))))))
+
+================================================================================
+simple for-in-do loop
+================================================================================
+
+let x =
+  for i in ids do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier_pattern
+          (long_identifier
+            (identifier)))
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier
+              (identifier)))
+          (long_identifier_or_op
+            (long_identifier
+              (identifier))))))))
+
+================================================================================
+simple for-to loop
+================================================================================
+
+let x =
+  for i = 1 to 10 do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier)
+        (const (int))
+        (const (int))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))
+
+================================================================================
+simple for-downto loop
+================================================================================
+
+let x =
+  for i = 1 downto 10 do
+    ignore i
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (for_expression
+        (identifier)
+        (const (int))
+        (const (int))
+        (application_expression
+          (long_identifier_or_op
+            (long_identifier (identifier)))
+          (long_identifier_or_op
+            (long_identifier (identifier))))))))

@@ -64,7 +64,7 @@ module.exports = grammar({
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions, $._expression_or_range],
 
   supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._type_defn_body ],
 
@@ -539,7 +539,7 @@ module.exports = grammar({
       seq(
         "for",
         choice(
-            seq($._pattern, "in", $._expressions_or_range),
+            seq($._pattern, "in", $._expression_or_range),
             seq($.identifier, "=", $._expression_inner, choice("to","downto"), $._expression_inner),
         ),
         "do",
@@ -744,9 +744,9 @@ module.exports = grammar({
           $._expressions,
         )))),
 
-    _expressions_or_range: $ =>
+    _expression_or_range: $ =>
       choice(
-        $._expressions,
+        $._expression_inner,
         $.range_expression,
       ),
 
@@ -928,7 +928,7 @@ module.exports = grammar({
         "for",
         $._pattern,
         "in",
-        $._expressions_or_range,
+        $._expression_or_range,
         "->",
         $._expressions,
       ),

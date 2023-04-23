@@ -1948,7 +1948,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_expressions_or_range"
+                    "name": "_expression_or_range"
                   }
                 ]
               },
@@ -2779,12 +2779,12 @@
         ]
       }
     },
-    "_expressions_or_range": {
+    "_expression_or_range": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expressions"
+          "name": "_expression_inner"
         },
         {
           "type": "SYMBOL",
@@ -2900,7 +2900,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expressions_or_range"
+          "name": "_expression_or_range"
         },
         {
           "type": "STRING",
@@ -7316,7 +7316,8 @@
     "access_modifier",
     "_quote_op_left",
     "_quote_op_right",
-    "ReferenceError"
+    "ReferenceError",
+    "_expression_or_range"
   ],
   "supertypes": [
     "_module_elem",
