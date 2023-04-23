@@ -6,7 +6,7 @@
   "endOfLine": "auto",
   "overrides": [
     {
-      "files": ["*.json", "*.yml"],
+      "files": ["*.json", "*.yml", "*.yaml"],
       "options": {
         "tabWidth": 2
       }
