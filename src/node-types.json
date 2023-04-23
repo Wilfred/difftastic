@@ -1041,11 +1041,11 @@
       "required": true,
       "types": [
         {
-          "type": "member_signature",
+          "type": "static_type_argument",
           "named": true
         },
         {
-          "type": "static_type_argument",
+          "type": "trait_member_constraint",
           "named": true
         },
         {
@@ -2609,6 +2609,25 @@
     "type": "symbolic_op",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "trait_member_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "triple_quoted_string",

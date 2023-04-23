@@ -3407,7 +3407,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "member_signature"
+              "name": "trait_member_constraint"
             },
             {
               "type": "STRING",
@@ -3705,8 +3705,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "^"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "^"
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
@@ -3718,8 +3727,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "^"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "^"
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
@@ -3735,8 +3753,17 @@
                     "value": "or"
                   },
                   {
-                    "type": "STRING",
-                    "value": "^"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "^"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "'"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
@@ -3795,6 +3822,39 @@
         {
           "type": "STRING",
           "value": ">"
+        }
+      ]
+    },
+    "trait_member_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "static"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "member"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
         }
       ]
     },
