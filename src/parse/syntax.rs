@@ -1023,6 +1023,27 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
     res
 }
 
+pub fn copy_nodes_not_in_change_map<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    nodes: &'a [Syntax<'a>],
+    change_map: &ChangeMap<'a>,
+) -> Vec<&'a Syntax<'a>> {
+    let mut res = vec![];
+    for node in nodes {
+        if change_map.contains_key(node) {
+            continue;
+        }
+
+        // We want to preserve content IDs, but not next/prev info.
+        match node {
+            List { info, children, .. } => todo!(),
+            Atom { info, .. } => todo!(),
+        }
+    }
+
+    res
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
