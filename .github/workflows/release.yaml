@@ -25,7 +25,7 @@ jobs:
       - run: npm ci
 
       - name: build
-        run: npm run build
+        run: npm run build:wasm
 
       - name: release
         uses: softprops/action-gh-release@v1
