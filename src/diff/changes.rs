@@ -1,10 +1,8 @@
 //! Data types that track the change state for syntax nodes.
 
-use std::num::NonZeroU32;
-
 use rustc_hash::FxHashMap;
 
-use crate::parse::syntax::Syntax;
+use crate::parse::syntax::{Syntax, SyntaxId};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
@@ -15,7 +13,7 @@ pub enum ChangeKind<'a> {
 
 #[derive(Debug, Default)]
 pub struct ChangeMap<'a> {
-    changes: FxHashMap<NonZeroU32, ChangeKind<'a>>,
+    changes: FxHashMap<SyntaxId, ChangeKind<'a>>,
 }
 
 impl<'a> ChangeMap<'a> {
