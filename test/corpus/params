@@ -14,14 +14,20 @@ Test a simple param
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string))
   (method_definition
-    (access_modifiers)
+    (access_modifier)
     (method_signature
       (method_identifier)
       (primitive_type))
@@ -47,14 +53,20 @@ Test a simple param block
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string))
   (method_definition
-    (access_modifiers)
+    (access_modifier)
     (method_signature
       (method_identifier)
       (primitive_type))
@@ -82,14 +94,20 @@ Test a param block with an empty annotation
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string))
   (method_definition
-    (access_modifiers)
+    (access_modifier)
     (method_signature
       (method_identifier)
       (primitive_type))
@@ -97,4 +115,7 @@ Test a param block with an empty annotation
       (parameter)
       (annotation_directive
         (annotation_visibility)
-        (class_identifier)))))
+        (class_identifier
+          (identifier)
+          (identifier)
+          (identifier))))))

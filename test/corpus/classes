@@ -10,10 +10,16 @@ Test an empty class
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string)))
 
@@ -31,10 +37,16 @@ Test a class with a source file
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string
       (string_fragment))))
@@ -55,14 +67,22 @@ Test a class that implements an interface
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string))
   (implements_directive
-    (class_identifier)))
+    (class_identifier
+      (identifier)
+      (identifier))))
 
 
 
@@ -81,16 +101,26 @@ Test a class that implements multiple interfaces
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string))
   (implements_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (implements_directive
-    (class_identifier)))
+    (class_identifier
+      (identifier)
+      (identifier))))
 
 
 
@@ -106,10 +136,16 @@ Test a class with a non valid Java character
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    (access_modifiers
+      (access_modifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string)))
 
@@ -127,8 +163,13 @@ Test a class without an access modifier
 
 (class_definition
   (class_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)))
   (super_directive
-    (class_identifier))
+    (class_identifier
+      (identifier)
+      (identifier)
+      (identifier)))
   (source_directive
     (string)))
