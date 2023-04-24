@@ -1,11 +1,21 @@
 ; Types
 
-(class_identifier) @type
+(class_identifier
+  (identifier) @type)
 
 (primitive_type) @type.builtin
 
-((class_identifier) @type.builtin
-  (#match? @type.builtin "^L(android|com/android|dalvik|java|kotlinx)/"))
+((class_identifier
+   . (identifier) @_first @type.builtin
+   (identifier) @type.builtin)
+  (#any-of? @_first "android" "dalvik" "java" "kotlinx"))
+
+((class_identifier
+   . (identifier) @_first @type.builtin
+   .  (identifier) @_second @type.builtin
+   (identifier) @type.builtin)
+  (#eq? @_first "com")
+  (#any-of? @_second "android" "google"))
 
 ; Methods
 
@@ -48,12 +58,17 @@
 ((method_identifier) @constructor
   (#any-of? @constructor "<init>" "<clinit>"))
 
+"constructor" @constructor
+
 ; Fields
 
 [
   (field_identifier)
   (annotation_key)
 ] @field
+
+((field_identifier) @constant
+  (#lua-match? @constant "^[%u_]*$"))
 
 ; Variables
 
@@ -82,10 +97,16 @@
   (#lua-match? @keyword.return "^return"))
 
 ((opcode) @conditional
-  (#match? @conditional "^(if|cmp)"))
+  (#lua-match? @conditional "^if"))
+
+((opcode) @conditional
+  (#lua-match? @conditional "^cmp"))
 
 ((opcode) @exception
   (#lua-match? @exception "^throw"))
+
+((opcode) @comment
+  (#eq? @comment "nop")) ; haha, anyone get it? ;)
 
 [
   "="
@@ -97,7 +118,6 @@
 [
   ".class"
   ".super"
-  ".source"
   ".implements"
   ".field"
   ".end field"
@@ -115,8 +135,6 @@
   ".end local"
   ".restart local"
   ".registers"
-  ".catch"
-  ".catchall"
   ".packed-switch"
   ".end packed-switch"
   ".sparse-switch"
@@ -129,9 +147,18 @@
 ] @keyword
 
 [
+  ".source"
+] @include
+
+[
   ".method"
   ".end method"
 ] @keyword.function
+
+[
+  ".catch"
+  ".catchall"
+] @exception
 
 ; Literals
 
@@ -140,6 +167,8 @@
 (escape_sequence) @string.escape
 
 (character) @character
+
+"L" @character.special
 
 (number) @number
 
@@ -157,7 +186,7 @@
 
 (annotation_visibility) @storageclass
 
-(access_modifiers) @type.qualifier
+(access_modifier) @type.qualifier
 
 (array_type
   "[" @punctuation.special)
@@ -168,14 +197,21 @@
 
 [
   "->"
-  ":"
   ","
+  ":"
+  ";"
   "@"
+  "/"
 ] @punctuation.delimiter
+
+(line_directive (number) @text.underline @text.literal)
 
 ; Comments
 
 (comment) @comment @spell
+
+(class_definition
+  (comment) @comment.documentation)
 
 ; Errors
 
