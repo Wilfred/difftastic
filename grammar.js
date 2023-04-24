@@ -31,7 +31,6 @@ const access_flags = [
   'synthetic',
   'annotation',
   'enum',
-  'constructor',
   'declared-synchronized',
 ];
 
@@ -330,11 +329,29 @@ function commaSep(rule, trailing_separator = false) {
   return optional(sep1);
 }
 
+/**
+* Creates a rule to match one or more of the rules separated by the separator
+*
+* @param {Rule|RegExp} rule
+* @param {Rule|RegExp|string} separator - The separator to use.
+*
+* @return {SeqRule}
+*
+*/
+function sep1(rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
+
 module.exports = grammar({
   name: 'smali',
 
   conflicts: $ => [
     [$.field_definition], // smali/src/test/resources/LexerTest/RealSmaliFileTest.smali to understand why
+  ],
+
+  externals: $ => [
+    $.L,
+    $._class_ident,
   ],
 
   extras: $ => [
@@ -390,7 +407,7 @@ module.exports = grammar({
     // Method
     method_definition: $ => seq(
       '.method',
-      optional($.access_modifiers),
+      optional($._method_access_modifiers),
       $.method_signature,
       repeat($.statement),
       '.end method',
@@ -542,7 +559,14 @@ module.exports = grammar({
     epilogue_directive: _ => '.epilogue',
 
     identifier: _ => /<?[a-zA-Z_$][a-zA-Z0-9_\-$]*>?/,
-    class_identifier: _ => token(/L[^;]+;/),
+    // class_identifier: _ => token(/L[^;]+;/),
+    class_identifier: $ => seq(
+      alias($.L, 'L'),
+      // repeat1(seq(alias($._class_ident, $.identifier), '/')),
+      // alias($._class_ident, $.identifier),
+      sep1(alias($._class_ident, $.identifier), '/'),
+      ';',
+    ),
 
     // exclude :[SVIJFBZC]
     label: _ => prec(-1, token(/:[^SVIJFBZC\s]([^:\sI][\w\d]*)?|:[^:\sI][\w\d]*/)),
@@ -618,12 +642,12 @@ module.exports = grammar({
       token(prec(1, choice(...primitives))),
     ),
 
-    access_modifiers: _ => repeat1(
-      token(seq(
-        choice(...access_flags.concat(restriction_flags)),
-        /\s/,
-      )),
-    ),
+    access_modifiers: $ => repeat1($.access_modifier),
+
+    _method_access_modifiers: $ => repeat1(choice($.access_modifier, 'constructor')),
+
+    access_modifier: _ => choice(...access_flags.concat(restriction_flags)),
+
     enum_reference: $ => seq(
       '.enum',
       choice($._field_body, $._full_field_body),

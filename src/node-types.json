@@ -220,9 +220,24 @@
     ]
   },
   {
-    "type": "access_modifiers",
+    "type": "access_modifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "access_modifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "annotation_directive",
@@ -503,6 +518,21 @@
     }
   },
   {
+    "type": "class_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "custom_invoke",
     "named": true,
     "fields": {},
@@ -758,7 +788,7 @@
       "required": true,
       "types": [
         {
-          "type": "access_modifiers",
+          "type": "access_modifier",
           "named": true
         },
         {
@@ -1240,7 +1270,15 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
     "named": false
   },
   {
@@ -1256,11 +1294,19 @@
     "named": true
   },
   {
+    "type": "L",
+    "named": false
+  },
+  {
     "type": "NaN",
     "named": true
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "abstract",
     "named": false
   },
   {
@@ -1356,6 +1402,10 @@
     "named": false
   },
   {
+    "type": "annotation",
+    "named": false
+  },
+  {
     "type": "annotation_key",
     "named": true
   },
@@ -1392,16 +1442,20 @@
     "named": false
   },
   {
+    "type": "blacklist",
+    "named": false
+  },
+  {
+    "type": "bridge",
+    "named": false
+  },
+  {
     "type": "build",
     "named": false
   },
   {
     "type": "check-cast",
     "named": false
-  },
-  {
-    "type": "class_identifier",
-    "named": true
   },
   {
     "type": "cmp-long",
@@ -1480,6 +1534,18 @@
     "named": false
   },
   {
+    "type": "constructor",
+    "named": false
+  },
+  {
+    "type": "core-platform-api",
+    "named": false
+  },
+  {
+    "type": "declared-synchronized",
+    "named": false
+  },
+  {
     "type": "div-double",
     "named": false
   },
@@ -1532,6 +1598,10 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
     "type": "epilogue_directive",
     "named": true
   },
@@ -1568,6 +1638,10 @@
     "named": false
   },
   {
+    "type": "final",
+    "named": false
+  },
+  {
     "type": "float",
     "named": true
   },
@@ -1593,6 +1667,26 @@
   },
   {
     "type": "goto/32",
+    "named": false
+  },
+  {
+    "type": "greylist",
+    "named": false
+  },
+  {
+    "type": "greylist-max-o",
+    "named": false
+  },
+  {
+    "type": "greylist-max-p",
+    "named": false
+  },
+  {
+    "type": "greylist-max-q",
+    "named": false
+  },
+  {
+    "type": "greylist-max-r",
     "named": false
   },
   {
@@ -1733,6 +1827,10 @@
   },
   {
     "type": "int-to-short",
+    "named": false
+  },
+  {
+    "type": "interface",
     "named": false
   },
   {
@@ -2008,6 +2106,10 @@
     "named": false
   },
   {
+    "type": "native",
+    "named": false
+  },
+  {
     "type": "neg-double",
     "named": false
   },
@@ -2088,8 +2190,20 @@
     "named": true
   },
   {
+    "type": "private",
+    "named": false
+  },
+  {
     "type": "prologue_directive",
     "named": true
+  },
+  {
+    "type": "protected",
+    "named": false
+  },
+  {
+    "type": "public",
+    "named": false
   },
   {
     "type": "rem-double",
@@ -2284,11 +2398,19 @@
     "named": false
   },
   {
+    "type": "static",
+    "named": false
+  },
+  {
     "type": "static-get",
     "named": false
   },
   {
     "type": "static-put",
+    "named": false
+  },
+  {
+    "type": "strictfp",
     "named": false
   },
   {
@@ -2336,7 +2458,19 @@
     "named": false
   },
   {
+    "type": "synchronized",
+    "named": false
+  },
+  {
+    "type": "synthetic",
+    "named": false
+  },
+  {
     "type": "system",
+    "named": false
+  },
+  {
+    "type": "test-api",
     "named": false
   },
   {
@@ -2345,6 +2479,10 @@
   },
   {
     "type": "throw-verification-error",
+    "named": false
+  },
+  {
+    "type": "transient",
     "named": false
   },
   {
@@ -2372,8 +2510,20 @@
     "named": false
   },
   {
+    "type": "varargs",
+    "named": false
+  },
+  {
     "type": "variable",
     "named": true
+  },
+  {
+    "type": "volatile",
+    "named": false
+  },
+  {
+    "type": "whitelist",
+    "named": false
   },
   {
     "type": "xor-int",
