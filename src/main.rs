@@ -232,38 +232,55 @@ fn main() {
                     options::FileArgument::NamedPath(lhs_path),
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
-                    // We want to diff files in the directory in
-                    // parallel, but print the results serially (to
-                    // prevent display interleaving).
-                    // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
-                    let (send, recv) = std::sync::mpsc::sync_channel(1);
-
                     let encountered_changes = encountered_changes.clone();
-                    let print_options = display_options.clone();
-
-                    let printing_thread = std::thread::spawn(move || {
-                        for diff_result in recv.into_iter() {
-                            print_diff_result(&print_options, &diff_result);
-
-                            if diff_result.has_reportable_change() {
-                                encountered_changes.store(true, Ordering::Relaxed);
-                            }
-                        }
-                    });
-
-                    diff_directories(
+                    let diff_iter = diff_directories(
                         lhs_path,
                         rhs_path,
                         &display_options,
                         &diff_options,
                         &language_overrides,
-                    )
-                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                    .expect("Receiver should be connected");
+                    );
 
-                    printing_thread
-                        .join()
-                        .expect("Printing thread should not panic");
+                    if matches!(display_options.display_mode, DisplayMode::Json) {
+                        let results = diff_iter
+                            .map(|diff_result| {
+                                if diff_result.has_reportable_change() {
+                                    encountered_changes.store(true, Ordering::Relaxed);
+                                }
+
+                                diff_result
+                            })
+                            .collect();
+
+                        display::json::print_directory(results);
+                    } else {
+                        // We want to diff files in the directory in
+                        // parallel, but print the results serially (to
+                        // prevent display interleaving).
+                        // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
+                        let (send, recv) = std::sync::mpsc::sync_channel(1);
+
+                        let encountered_changes = encountered_changes.clone();
+                        let print_options = display_options.clone();
+
+                        let printing_thread = std::thread::spawn(move || {
+                            for diff_result in recv.into_iter() {
+                                print_diff_result(&print_options, &diff_result);
+
+                                if diff_result.has_reportable_change() {
+                                    encountered_changes.store(true, Ordering::Relaxed);
+                                }
+                            }
+                        });
+
+                        diff_iter
+                            .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                            .expect("Receiver should be connected");
+
+                        printing_thread
+                            .join()
+                            .expect("Printing thread should not panic");
+                    }
                 }
                 _ => {
                     let diff_result = diff_file(
@@ -276,10 +293,17 @@ fn main() {
                         false,
                         &language_overrides,
                     );
-                    print_diff_result(&display_options, &diff_result);
-
                     if diff_result.has_reportable_change() {
                         encountered_changes.store(true, Ordering::Relaxed);
+                    }
+
+                    match display_options.display_mode {
+                        DisplayMode::Inline
+                        | DisplayMode::SideBySide
+                        | DisplayMode::SideBySideShowBoth => {
+                            print_diff_result(&display_options, &diff_result);
+                        }
+                        DisplayMode::Json => display::json::print(&diff_result),
                     }
                 }
             }
@@ -775,6 +799,7 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                     );
                 }
+                DisplayMode::Json => unreachable!(),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {

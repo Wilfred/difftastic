@@ -154,7 +154,7 @@ fn app() -> clap::Command<'static> {
         )
         .arg(
             Arg::new("display").long("display")
-                .possible_values(["side-by-side", "side-by-side-show-both", "inline"])
+                .possible_values(["side-by-side", "side-by-side-show-both", "inline", "json"])
                 .default_value("side-by-side")
                 .value_name("MODE")
                 .env("DFT_DISPLAY")
@@ -164,7 +164,9 @@ side-by-side: Display the before file and the after file in two separate columns
 
 side-by-side-show-both: The same as side-by-side, but always uses two columns.
 
-inline: A single column display, closer to traditional diff display.")
+inline: A single column display, closer to traditional diff display.
+
+json: Output the results as a machine-readable JSON array with an element per file.")
         )
         .arg(
             Arg::new("color").long("color")
@@ -285,6 +287,7 @@ pub enum DisplayMode {
     Inline,
     SideBySide,
     SideBySideShowBoth,
+    Json,
 }
 
 #[derive(Eq, PartialEq, Debug)]
@@ -528,6 +531,14 @@ pub fn parse_args() -> Mode {
         "side-by-side" => DisplayMode::SideBySide,
         "side-by-side-show-both" => DisplayMode::SideBySideShowBoth,
         "inline" => DisplayMode::Inline,
+        "json" => {
+            if env::var(format!("DFT_UNSTABLE")).is_err() {
+                eprintln!("JSON output is an unstable feature and its format may change in future. To enable JSON output, set the environment variable DFT_UNSTABLE=yes.");
+                std::process::exit(EXIT_BAD_ARGUMENTS);
+            }
+
+            DisplayMode::Json
+        }
         _ => {
             unreachable!("clap has already validated display")
         }

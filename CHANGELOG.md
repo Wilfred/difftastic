@@ -1,5 +1,12 @@
 ## 0.51 (unreleased)
 
+### Display
+
+Added a JSON display option. This is currently unstable, and requires
+you to set DFT_UNSTABLE. The JSON structure may change in future.
+
+Please give it a try and give feedback on GitHub issues.
+
 ## 0.50 (released 15th August 2023)
 
 ### Conflicts
