@@ -2137,3 +2137,36 @@ struct A {
         (scoped_type_identifier
           (identifier)
           (type_identifier))))))
+
+================================================================================
+Array Constraint in Where Clause
+================================================================================
+
+fn foo<D>(val: D)
+where   
+    [u8; 32]: From<D>,
+
+{}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_item
+    (identifier)
+    (type_parameters
+      (type_identifier))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (where_clause
+      (where_predicate
+        (array_type
+          (primitive_type)
+          (integer_literal))
+        (trait_bounds
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier))))))
+    (block)))

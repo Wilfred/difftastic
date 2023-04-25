@@ -4572,6 +4572,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_type",
+            "named": true
+          },
+          {
             "type": "generic_type",
             "named": true
           },
