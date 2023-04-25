@@ -280,7 +280,7 @@ module.exports = grammar({
         "=",
         field("value", $._expression)
       ),
-    _statement: ($) => choice($._expression, $.let, $.use),
+    _statement: ($) => choice($._expression, $.let, $.let_assert, $.use),
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
@@ -333,7 +333,6 @@ module.exports = grammar({
         $.anonymous_function,
         $.expression_group,
         $.case,
-        $.let_assert,
         $.assert,
         $.negation,
         $.record_update,
