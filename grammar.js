@@ -440,6 +440,7 @@ module.exports = grammar({
         $.reference_type,
         $.pointer_type,
         $.tuple_type,
+        $.array_type,
         $.higher_ranked_trait_bound,
         alias(choice(...primitive_types), $.primitive_type)
       )),
