@@ -4,7 +4,6 @@ module.exports = grammar({
   name: "gleam",
   externals: ($) => [$.quoted_content],
   extras: ($) => [
-    ";",
     NEWLINE,
     /\s/,
     $.module_comment,
