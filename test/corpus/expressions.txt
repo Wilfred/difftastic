@@ -56,6 +56,8 @@ exp(
   34e1,
   0x0.1E,
   0xA23p-4,
+  0x.0p-3,
+  0x.FfffFFFF,
   0X1.921FB54442D18P+1
 )
 
@@ -76,6 +78,8 @@ exp(
       (number)
       (number)
       (number)
+      (number)
+      (number)
       (number))))
 
 ================================================================================
@@ -85,15 +89,6 @@ string
 exp(
   "string",
   'string',
-  "a\
-  b",
-  'a\z',
-  'a\z
-  ',
-  'a\z
-  b',
-  "'a\z\
-  b'",
   "c",
   'c',
   "0",
@@ -129,27 +124,76 @@ exp(
 
 (chunk
   (function_call
+    (identifier)
+    (arguments
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content))
+      (string
+        (string_content)))))
+
+================================================================================
+string :: escape_sequence
+================================================================================
+
+exp(
+  "a\
+  b",
+  'a\z',
+  'a\z
+  ',
+  'a\z
+  b',
+  "'a\z\
+  b'"
+)
+
+
+--------------------------------------------------------------------------------
+
+(chunk
+  (function_call
     name: (identifier)
     arguments: (arguments
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string)
-      (string))))
+      (string
+        content: (string_content
+          (escape_sequence)))
+      (string
+        content: (string_content
+          (escape_sequence)))
+      (string
+        content: (string_content
+          (escape_sequence)))
+      (string
+        content: (string_content
+          (escape_sequence)))
+      (string
+        content: (string_content
+          (escape_sequence)
+          (escape_sequence))))))
 
 ================================================================================
 vararg_expression
@@ -296,7 +340,8 @@ v4 = tbk[getK1()][getK2()]
         table: (bracket_index_expression
           table: (identifier)
           field: (identifier))
-        field: (string))))
+        field: (string
+          content: (string_content)))))
   (assignment_statement
     (variable_list
       name: (identifier))
@@ -364,7 +409,8 @@ v3 = tbl[k1] "a1"
           field: (identifier))
         arguments: (arguments
           (identifier)
-          (string)
+          (string
+            content: (string_content))
           (function_call
             name: (identifier)
             arguments: (arguments))))))
@@ -390,7 +436,8 @@ v3 = tbl[k1] "a1"
           table: (identifier)
           field: (identifier))
         arguments: (arguments
-          (string))))))
+          (string
+            content: (string_content)))))))
 
 ================================================================================
 function_call ::: method_index_expression
@@ -413,7 +460,8 @@ tbl:m1 "a1"
       method: (identifier))
     arguments: (arguments
       (identifier)
-      (string)))
+      (string
+        content: (string_content))))
   (function_call
     name: (method_index_expression
       table: (bracket_index_expression
@@ -425,13 +473,15 @@ tbl:m1 "a1"
         (field
           value: (identifier))
         (field
-          value: (string)))))
+          value: (string
+            content: (string_content))))))
   (function_call
     name: (method_index_expression
       table: (identifier)
       method: (identifier))
     arguments: (arguments
-      (string))))
+      (string
+        content: (string_content)))))
 
 ================================================================================
 parenthesized_expression
@@ -486,10 +536,12 @@ local tbl3 = { "v1", k1 = "v2" }
     (expression_list
       value: (table_constructor
         (field
-          name: (string)
+          name: (string
+            content: (string_content))
           value: (table_constructor
             (field
-              name: (string)
+              name: (string
+                content: (string_content))
               value: (true))
             (field
               name: (identifier)
@@ -506,9 +558,11 @@ local tbl3 = { "v1", k1 = "v2" }
               (field
                 value: (table_constructor
                   (field
-                    value: (string))
+                    value: (string
+                      content: (string_content)))
                   (field
-                    value: (string))))))))))
+                    value: (string
+                      content: (string_content)))))))))))
   local_declaration: (variable_declaration
     (assignment_statement
       (variable_list
@@ -516,10 +570,12 @@ local tbl3 = { "v1", k1 = "v2" }
       (expression_list
         value: (table_constructor
           (field
-            value: (string))
+            value: (string
+              content: (string_content)))
           (field
             name: (identifier)
-            value: (string)))))))
+            value: (string
+              content: (string_content))))))))
 
 ================================================================================
 binary_expression

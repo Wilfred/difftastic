@@ -77,7 +77,8 @@ f4(a1)("a2") { a3 = "a3" }
   (function_call
     name: (bracket_index_expression
       table: (identifier)
-      field: (string))
+      field: (string
+        content: (string_content)))
     arguments: (arguments))
   (function_call
     name: (method_index_expression
@@ -93,12 +94,14 @@ f4(a1)("a2") { a3 = "a3" }
         arguments: (arguments
           (identifier)))
       arguments: (arguments
-        (string)))
+        (string
+          content: (string_content))))
     arguments: (arguments
       (table_constructor
         (field
           name: (identifier)
-          value: (string))))))
+          value: (string
+            content: (string_content)))))))
 
 ================================================================================
 label_statement
@@ -271,7 +274,8 @@ if c1 then elseif c2 then else end
       (function_call
         name: (identifier)
         arguments: (arguments
-          (string))))
+          (string
+            content: (string_content)))))
     alternative: (elseif_statement
       condition: (binary_expression
         left: (binary_expression
@@ -282,13 +286,15 @@ if c1 then elseif c2 then else end
         (function_call
           name: (identifier)
           arguments: (arguments
-            (string)))))
+            (string
+              content: (string_content))))))
     alternative: (else_statement
       body: (block
         (function_call
           name: (identifier)
           arguments: (arguments
-            (string))))))
+            (string
+              content: (string_content)))))))
   (if_statement
     condition: (identifier))
   (if_statement
@@ -412,7 +418,8 @@ local function f5() end
       (function_call
         name: (identifier)
         arguments: (arguments
-          (string)))))
+          (string
+            content: (string_content))))))
   local_declaration: (function_declaration
     name: (identifier)
     parameters: (parameters)))
@@ -491,4 +498,5 @@ local f <close> = io.open('/file.lua')
             table: (identifier)
             field: (identifier))
           arguments: (arguments
-            (string)))))))
+            (string
+              content: (string_content))))))))
