@@ -33,9 +33,9 @@ module.exports = grammar({
     $._block_comment_content,
     $._block_comment_end,
 
-    $._string_start,
-    $._string_content,
-    $._string_end,
+    $._block_string_start,
+    $._block_string_content,
+    $._block_string_end,
   ],
 
   supertypes: ($) => [$.statement, $.expression, $.declaration, $.variable],
@@ -339,11 +339,53 @@ module.exports = grammar({
     },
 
     // LiteralString
-    string: ($) =>
+    string: ($) => choice($._quote_string, $._block_string),
+
+    _quote_string: ($) =>
+      choice(
+        seq(
+          field('start', alias('"', '"')),
+          field(
+            'content',
+            optional(alias($._doublequote_string_content, $.string_content))
+          ),
+          field('end', alias('"', '"'))
+        ),
+        seq(
+          field('start', alias("'", "'")),
+          field(
+            'content',
+            optional(alias($._singlequote_string_content, $.string_content))
+          ),
+          field('end', alias("'", "'"))
+        )
+      ),
+
+    _doublequote_string_content: ($) =>
+      repeat1(choice(token.immediate(prec(1, /[^"\\]+/)), $.escape_sequence)),
+
+    _singlequote_string_content: ($) =>
+      repeat1(choice(token.immediate(prec(1, /[^'\\]+/)), $.escape_sequence)),
+
+    _block_string: ($) =>
       seq(
-        field('start', alias($._string_start, 'string_start')),
-        field('content', optional(alias($._string_content, 'string_content'))),
-        field('end', alias($._string_end, 'string_end'))
+        field('start', alias($._block_string_start, '[[')),
+        field('content', alias($._block_string_content, $.string_content)),
+        field('end', alias($._block_string_end, ']]'))
+      ),
+
+    escape_sequence: () =>
+      token.immediate(
+        seq(
+          '\\',
+          choice(
+            /[^xu0-7]/,
+            /[0-9]{1,3}/,
+            /x[0-9a-fA-F]{2}/,
+            /u\{[0-9a-fA-F]{4}\}/,
+            /u{[0-9a-fA-F]+}/
+          )
+        )
       ),
 
     // '...'

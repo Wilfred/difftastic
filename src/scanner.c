@@ -1,18 +1,19 @@
+#include <stdio.h>
 #include <tree_sitter/parser.h>
 #include <wctype.h>
-#include <stdio.h>
 
 enum TokenType {
   BLOCK_COMMENT_START,
   BLOCK_COMMENT_CONTENT,
   BLOCK_COMMENT_END,
 
-  STRING_START,
-  STRING_CONTENT,
-  STRING_END,
+  BLOCK_STRING_START,
+  BLOCK_STRING_CONTENT,
+  BLOCK_STRING_END,
 };
 
 static inline void consume(TSLexer *lexer) { lexer->advance(lexer, false); }
+
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static inline bool consume_char(char c, TSLexer *lexer) {
@@ -40,6 +41,7 @@ static inline void skip_whitespaces(TSLexer *lexer) {
 }
 
 void *tree_sitter_lua_external_scanner_create() { return NULL; }
+
 void tree_sitter_lua_external_scanner_destroy(void *payload) {}
 
 char ending_char = 0;
@@ -141,64 +143,15 @@ static bool scan_comment_content(TSLexer *lexer) {
   return false;
 }
 
-static bool scan_string_start(TSLexer *lexer) {
-  if (lexer->lookahead == '"' || lexer->lookahead == '\'') {
-    ending_char = lexer->lookahead;
-    consume(lexer);
-    return true;
-  }
-
-  if (scan_block_start(lexer)) {
-    return true;
-  }
-
-  return false;
-}
-
-static bool scan_string_end(TSLexer *lexer) {
-  if (ending_char == 0) { // block string
-    return scan_block_end(lexer);
-  }
-
-  if (consume_char(ending_char, lexer)) {
-    return true;
-  }
-
-  return false;
-}
-
-static bool scan_string_content(TSLexer *lexer) {
-  if (ending_char == 0) { // block string
-    return scan_block_content(lexer);
-  }
-
-  while (lexer->lookahead != '\n' && lexer->lookahead != 0 && lexer->lookahead != ending_char) {
-    if (consume_char('\\', lexer) && consume_char('z', lexer)) {
-      while (iswspace(lexer->lookahead)) {
-        consume(lexer);
-      }
-      continue;
-    };
-
-    if (lexer->lookahead == 0) {
-      return true;
-    }
-
-    consume(lexer);
-  }
-
-  return true;
-}
-
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  if (valid_symbols[STRING_END] && scan_string_end(lexer)) {
+  if (valid_symbols[BLOCK_STRING_END] && scan_block_end(lexer)) {
     reset_state();
-    lexer->result_symbol = STRING_END;
+    lexer->result_symbol = BLOCK_STRING_END;
     return true;
   }
 
-  if (valid_symbols[STRING_CONTENT] && scan_string_content(lexer)) {
-    lexer->result_symbol = STRING_CONTENT;
+  if (valid_symbols[BLOCK_STRING_CONTENT] && scan_block_content(lexer)) {
+    lexer->result_symbol = BLOCK_STRING_CONTENT;
     return true;
   }
 
@@ -214,8 +167,8 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
   skip_whitespaces(lexer);
 
-  if (valid_symbols[STRING_START] && scan_string_start(lexer)) {
-    lexer->result_symbol = STRING_START;
+  if (valid_symbols[BLOCK_STRING_START] && scan_block_start(lexer)) {
+    lexer->result_symbol = BLOCK_STRING_START;
     return true;
   }
 
