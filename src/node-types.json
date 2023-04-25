@@ -882,7 +882,7 @@
         "types": [
           {
             "type": "string_content",
-            "named": false
+            "named": true
           }
         ]
       },
@@ -891,7 +891,15 @@
         "required": true,
         "types": [
           {
-            "type": "string_end",
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "]]",
             "named": false
           }
         ]
@@ -901,11 +909,34 @@
         "required": true,
         "types": [
           {
-            "type": "string_start",
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "[[",
             "named": false
           }
         ]
       }
+    }
+  },
+  {
+    "type": "string_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1011,6 +1042,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -1020,6 +1055,10 @@
   },
   {
     "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -1111,7 +1150,15 @@
     "named": false
   },
   {
+    "type": "[[",
+    "named": false
+  },
+  {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "]]",
     "named": false
   },
   {
@@ -1153,6 +1200,10 @@
   {
     "type": "end",
     "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
   },
   {
     "type": "false",
@@ -1212,18 +1263,6 @@
   },
   {
     "type": "return",
-    "named": false
-  },
-  {
-    "type": "string_content",
-    "named": false
-  },
-  {
-    "type": "string_end",
-    "named": false
-  },
-  {
-    "type": "string_start",
     "named": false
   },
   {
