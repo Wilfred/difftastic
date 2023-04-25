@@ -313,27 +313,23 @@ module.exports = grammar({
       const signed_integer = seq(optional(choice('-', '+')), decimal_digits);
       const decimal_exponent_part = seq(choice('e', 'E'), signed_integer);
 
-      const decimal_integer_literal = choice(
-        '0',
-        seq(optional('0'), /[1-9]/, optional(decimal_digits))
-      );
-
       const hex_digits = /[a-fA-F0-9]+/;
       const hex_exponent_part = seq(choice('p', 'P'), signed_integer);
 
       const decimal_literal = choice(
         seq(
-          decimal_integer_literal,
+          decimal_digits,
           '.',
           optional(decimal_digits),
           optional(decimal_exponent_part)
         ),
         seq('.', decimal_digits, optional(decimal_exponent_part)),
-        seq(decimal_integer_literal, optional(decimal_exponent_part))
+        seq(decimal_digits, optional(decimal_exponent_part))
       );
 
       const hex_literal = seq(
         choice('0x', '0X'),
+        optional('.'),
         hex_digits,
         optional(seq('.', hex_digits)),
         optional(hex_exponent_part)
