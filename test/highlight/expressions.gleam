@@ -6,3 +6,7 @@ case "12345" {
   _ -> ""
   //   ^ string
 }
+
+-x
+^ operator
+ ^ variable

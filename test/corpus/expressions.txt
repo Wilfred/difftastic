@@ -22,7 +22,7 @@ Bit-string expression
         (bit_string_segment_option)))))
 
 ================================================================================
-Negation
+Boolean Negation
 ================================================================================
 
 !False
@@ -31,15 +31,41 @@ True && !False
 --------------------------------------------------------------------------------
 
 (source_file
-  (negation
+  (boolean_negation
     (record
       (constructor_name)))
   (binary_expression
     (record
       (constructor_name))
-    (negation
+    (boolean_negation
       (record
         (constructor_name)))))
+
+================================================================================
+Integer Negation
+================================================================================
+
+{-x}
+{-{5*30}}
+{-my_fun()}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (block
+    (integer_negation
+      (identifier)))
+  (block
+    (integer_negation
+      (block
+        (binary_expression
+          (integer)
+          (integer)))))
+  (block
+    (integer_negation
+      (function_call
+        (identifier)
+        (arguments)))))
 
 ================================================================================
 Concatenation

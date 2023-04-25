@@ -25,6 +25,7 @@ module.exports = grammar({
     [$.case_subjects],
     [$.source_file],
     [$._constant_value, $._case_clause_guard_unit],
+    [$.integer],
   ],
   rules: {
     /* General rules */
@@ -333,7 +334,8 @@ module.exports = grammar({
         $.block,
         $.case,
         $.assert,
-        $.negation,
+        $.boolean_negation,
+        $.integer_negation,
         $.record_update,
         $.tuple_access,
         $.field_access,
@@ -456,7 +458,8 @@ module.exports = grammar({
         field("value", $._expression)
       ),
     assert: ($) => seq("assert", $._assignment),
-    negation: ($) => seq("!", $._expression_unit),
+    boolean_negation: ($) => seq("!", $._expression_unit),
+    integer_negation: ($) => seq("-", $._expression_unit),
     _assignment: ($) =>
       seq(
         field("pattern", $._pattern),

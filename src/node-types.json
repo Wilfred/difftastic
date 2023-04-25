@@ -90,6 +90,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -118,11 +122,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -291,6 +295,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -315,11 +323,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -387,6 +395,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -415,15 +427,15 @@
             "named": true
           },
           {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "negation",
             "named": true
           },
           {
@@ -599,6 +611,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -627,15 +643,15 @@
             "named": true
           },
           {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "negation",
             "named": true
           },
           {
@@ -781,6 +797,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -809,15 +829,15 @@
             "named": true
           },
           {
+            "type": "integer_negation",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "negation",
             "named": true
           },
           {
@@ -889,6 +909,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -913,11 +937,11 @@
           "named": true
         },
         {
-          "type": "list",
+          "type": "integer_negation",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "list",
           "named": true
         },
         {
@@ -999,6 +1023,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -1023,6 +1051,10 @@
           "named": true
         },
         {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
           "type": "let",
           "named": true
         },
@@ -1032,10 +1064,6 @@
         },
         {
           "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
           "named": true
         },
         {
@@ -1072,6 +1100,97 @@
         },
         {
           "type": "use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean_negation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panic",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         }
       ]
@@ -1152,6 +1271,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -1176,11 +1299,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -1395,6 +1518,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -1419,11 +1546,11 @@
           "named": true
         },
         {
-          "type": "list",
+          "type": "integer_negation",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "list",
           "named": true
         },
         {
@@ -1916,6 +2043,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -1940,6 +2071,10 @@
           "named": true
         },
         {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
           "type": "let",
           "named": true
         },
@@ -1949,10 +2084,6 @@
         },
         {
           "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
           "named": true
         },
         {
@@ -2240,6 +2371,97 @@
     "fields": {}
   },
   {
+    "type": "integer_negation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "panic",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "todo",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "label",
     "named": true,
     "fields": {}
@@ -2363,6 +2585,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -2387,11 +2613,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -2545,6 +2771,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -2569,11 +2799,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -2637,6 +2867,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -2661,11 +2895,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -2724,6 +2958,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -2748,11 +2986,11 @@
           "named": true
         },
         {
-          "type": "list",
+          "type": "integer_negation",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "list",
           "named": true
         },
         {
@@ -2879,93 +3117,6 @@
     "type": "module",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "negation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "assert",
-          "named": true
-        },
-        {
-          "type": "bit_string",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "panic",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "todo",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "tuple_access",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "panic",
@@ -3189,6 +3340,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -3213,11 +3368,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -3291,6 +3446,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -3315,11 +3474,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -3450,6 +3609,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -3494,6 +3657,10 @@
           "named": true
         },
         {
+          "type": "integer_negation",
+          "named": true
+        },
+        {
           "type": "let",
           "named": true
         },
@@ -3503,10 +3670,6 @@
         },
         {
           "type": "list",
-          "named": true
-        },
-        {
-          "type": "negation",
           "named": true
         },
         {
@@ -3769,6 +3932,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -3793,11 +3960,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {
@@ -3861,6 +4028,10 @@
           "named": true
         },
         {
+          "type": "boolean_negation",
+          "named": true
+        },
+        {
           "type": "case",
           "named": true
         },
@@ -3885,11 +4056,11 @@
           "named": true
         },
         {
-          "type": "list",
+          "type": "integer_negation",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "list",
           "named": true
         },
         {
@@ -4373,6 +4544,10 @@
             "named": true
           },
           {
+            "type": "boolean_negation",
+            "named": true
+          },
+          {
             "type": "case",
             "named": true
           },
@@ -4397,11 +4572,11 @@
             "named": true
           },
           {
-            "type": "list",
+            "type": "integer_negation",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "list",
             "named": true
           },
           {

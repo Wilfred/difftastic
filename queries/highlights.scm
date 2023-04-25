@@ -63,7 +63,8 @@
 ; Operators
 (binary_expression
   operator: _ @operator)
-"!" @operator
+(boolean_negation "!" @operator)
+(integer_negation "-" @operator)
 
 ; Keywords
 [

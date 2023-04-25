@@ -2705,7 +2705,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "negation"
+          "name": "boolean_negation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer_negation"
         },
         {
           "type": "SYMBOL",
@@ -4157,12 +4161,25 @@
         }
       ]
     },
-    "negation": {
+    "boolean_negation": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
           "value": "!"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression_unit"
+        }
+      ]
+    },
+    "integer_negation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
         },
         {
           "type": "SYMBOL",
@@ -6239,6 +6256,9 @@
     [
       "_constant_value",
       "_case_clause_guard_unit"
+    ],
+    [
+      "integer"
     ]
   ],
   "precedences": [],
