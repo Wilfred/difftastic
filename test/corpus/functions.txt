@@ -256,7 +256,7 @@ fn bit_string() {
 fn return_fun(x) {
   fn(y: Int) { x + y }
 }
-fn expression_group() {
+fn block() {
   {
     1 + 1
     "Hello, World!"
@@ -433,7 +433,7 @@ fn field_access(x) {
     name: (identifier)
     parameters: (function_parameters)
     body: (function_body
-      (expression_group
+      (block
         (binary_expression
           left: (integer)
           right: (integer))
@@ -485,7 +485,7 @@ fn field_access(x) {
               value: (integer)))))
       (let_assert
         pattern: (identifier)
-        value: (expression_group
+        value: (block
           (binary_expression
             left: (integer)
             right: (integer))
@@ -507,7 +507,7 @@ fn field_access(x) {
     body: (function_body
       (let
         pattern: (identifier)
-        value: (expression_group
+        value: (block
           (binary_expression
             left: (integer)
             right: (integer))
@@ -540,7 +540,7 @@ fn field_access(x) {
               value: (integer)))))
       (assert
         pattern: (identifier)
-        value: (expression_group
+        value: (block
           (binary_expression
             left: (integer)
             right: (integer))
@@ -1023,7 +1023,7 @@ fn weird(x) {
           (argument
             value: (integer))))
       (function_call
-        function: (expression_group
+        function: (block
           (let
             pattern: (identifier)
             value: (anonymous_function

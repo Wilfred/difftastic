@@ -2693,7 +2693,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_group"
+          "name": "block"
         },
         {
           "type": "SYMBOL",
@@ -3329,7 +3329,7 @@
         }
       ]
     },
-    "expression_group": {
+    "block": {
       "type": "SEQ",
       "members": [
         {
@@ -4340,7 +4340,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_group"
+          "name": "block"
         },
         {
           "type": "SYMBOL",
@@ -4402,7 +4402,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_group"
+          "name": "block"
         },
         {
           "type": "SYMBOL",
@@ -4464,7 +4464,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_group"
+          "name": "block"
         },
         {
           "type": "SYMBOL",
