@@ -111,7 +111,7 @@ impl<'f> From<&'f DiffResult> for File<'f> {
                 for hunk in &hunks {
                     let mut lines = HashMap::with_capacity(hunk.lines.len());
 
-                    let (start_i, end_i) = matched_lines_indexes_for_hunk(&matched_lines, hunk, 0);
+                    let (start_i, end_i) = matched_lines_indexes_for_hunk(matched_lines, hunk, 0);
                     let aligned_lines = &matched_lines[start_i..end_i];
                     matched_lines = &matched_lines[start_i..];
 
@@ -306,7 +306,7 @@ fn add_changes_to_side<'s>(
 
 fn matches_for_line(matches: &[MatchedPos], line_num: LineNumber) -> Vec<&MatchedPos> {
     matches
-        .into_iter()
+        .iter()
         .filter(|m| m.pos.line == line_num)
         .filter(|m| m.kind.is_novel())
         .collect()
