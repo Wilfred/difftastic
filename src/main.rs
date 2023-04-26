@@ -706,41 +706,67 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                 ),
             }
         }
-        (FileContent::Binary, FileContent::Binary) => {
-            if display_options.print_unchanged || summary.has_byte_changes {
-                println!(
-                    "{}",
-                    display::style::header(
-                        &summary.display_path,
-                        &summary.old_path,
-                        1,
-                        1,
-                        &FileFormat::Binary,
-                        display_options
-                    )
-                );
-                if summary.has_byte_changes {
-                    println!("Binary contents changed.");
-                } else {
-                    println!("No changes.");
+        (FileContent::Binary, FileContent::Binary) => match display_options.display_mode {
+            DisplayMode::Inline | DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
+                if display_options.print_unchanged || summary.has_byte_changes {
+                    println!(
+                        "{}",
+                        display::style::header(
+                            &summary.display_path,
+                            &summary.old_path,
+                            1,
+                            1,
+                            &FileFormat::Binary,
+                            display_options
+                        )
+                    );
+                    if summary.has_byte_changes {
+                        println!("Binary contents changed.");
+                    } else {
+                        println!("No changes.");
+                    }
                 }
             }
-        }
+            DisplayMode::Json => {
+                println!(
+                    "{}",
+                    serde_json::json!({
+                        "path": &summary.display_path,
+                        "language": "binary",
+                        "changed": summary.has_byte_changes,
+                    })
+                );
+            }
+        },
         (FileContent::Text(_), FileContent::Binary)
         | (FileContent::Binary, FileContent::Text(_)) => {
-            // We're diffing a binary file against a text file.
-            println!(
-                "{}",
-                display::style::header(
-                    &summary.display_path,
-                    &summary.old_path,
-                    1,
-                    1,
-                    &FileFormat::Binary,
-                    display_options
-                )
-            );
-            println!("Binary contents changed.");
+            match display_options.display_mode {
+                DisplayMode::Inline | DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
+                    // We're diffing a binary file against a text file.
+                    println!(
+                        "{}",
+                        display::style::header(
+                            &summary.display_path,
+                            &summary.old_path,
+                            1,
+                            1,
+                            &FileFormat::Binary,
+                            display_options
+                        )
+                    );
+                    println!("Binary contents changed.");
+                }
+                DisplayMode::Json => {
+                    println!(
+                        "{}",
+                        serde_json::json!({
+                            "path": &summary.display_path,
+                            "language": "binary",
+                            "changed": true,
+                        })
+                    );
+                }
+            }
         }
     }
 }
