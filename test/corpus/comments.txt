@@ -4,8 +4,13 @@ Comments
 
 1 + 2
 // 1 + 2
-/*
-/* Hello world */
+/* very
+  /* nested
+     /* comment */
+  goes
+  */ 
+  here
+*/
 // "strings are cool too"
 /* even """multiline strings""" */
 
