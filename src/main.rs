@@ -694,7 +694,16 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                     );
                 }
-                DisplayMode::Json => todo!(),
+                DisplayMode::Json => display::json::print(
+                    hunks,
+                    display_options,
+                    &summary.display_path,
+                    &summary.file_format,
+                    lhs_src,
+                    rhs_src,
+                    &summary.lhs_positions,
+                    &summary.rhs_positions,
+                ),
             }
         }
         (FileContent::Binary, FileContent::Binary) => {
