@@ -196,38 +196,31 @@ fn main() {
                     options::FileArgument::NamedPath(lhs_path),
                     options::FileArgument::NamedPath(rhs_path),
                 ) if lhs_path.is_dir() && rhs_path.is_dir() => {
-                    // We want to diff files in the directory in
-                    // parallel, but print the results serially (to
-                    // prevent display interleaving).
-                    // https://github.com/rayon-rs/rayon/issues/210#issuecomment-551319338
-                    let (send, recv) = std::sync::mpsc::sync_channel(1);
-
-                    let encountered_changes = encountered_changes.clone();
-                    let print_options = display_options.clone();
-
-                    let printing_thread = std::thread::spawn(move || {
-                        for diff_result in recv.into_iter() {
-                            print_diff_result(&print_options, &diff_result);
-
-                            if diff_result.has_reportable_change() {
-                                encountered_changes.store(true, Ordering::Relaxed);
-                            }
-                        }
-                    });
-
-                    diff_directories(
+                    let results = diff_directories(
                         lhs_path,
                         rhs_path,
                         &display_options,
                         &diff_options,
                         language_override,
                     )
-                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                    .expect("Receiver should be connected");
+                    .map(|diff_result| {
+                        if diff_result.has_reportable_change() {
+                            encountered_changes.store(true, Ordering::Relaxed);
+                        }
+                        diff_result
+                    })
+                    .collect::<Vec<_>>();
 
-                    printing_thread
-                        .join()
-                        .expect("Printing thread should not panic");
+                    match display_options.display_mode {
+                        DisplayMode::Inline
+                        | DisplayMode::SideBySide
+                        | DisplayMode::SideBySideShowBoth => {
+                            for diff_result in results {
+                                print_diff_result(&display_options, &diff_result);
+                            }
+                        }
+                        DisplayMode::Json => display::json::print_directory(results),
+                    }
                 }
                 _ => {
                     let diff_result = diff_file(
@@ -240,10 +233,17 @@ fn main() {
                         false,
                         language_override,
                     );
-                    print_diff_result(&display_options, &diff_result);
-
                     if diff_result.has_reportable_change() {
                         encountered_changes.store(true, Ordering::Relaxed);
+                    }
+
+                    match display_options.display_mode {
+                        DisplayMode::Inline
+                        | DisplayMode::SideBySide
+                        | DisplayMode::SideBySideShowBoth => {
+                            print_diff_result(&display_options, &diff_result);
+                        }
+                        DisplayMode::Json => display::json::print(&diff_result),
                     }
                 }
             }
@@ -582,7 +582,7 @@ fn diff_directories<'a>(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     language_override: Option<parse::guess_language::Language>,
-) -> impl ParallelIterator<Item = DiffResult> + 'a {
+) -> impl IndexedParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();
 
@@ -694,79 +694,44 @@ fn print_diff_result(display_options: &DisplayOptions, summary: &DiffResult) {
                         &summary.rhs_positions,
                     );
                 }
-                DisplayMode::Json => display::json::print(
-                    hunks,
-                    display_options,
-                    &summary.display_path,
-                    &summary.file_format,
-                    lhs_src,
-                    rhs_src,
-                    &summary.lhs_positions,
-                    &summary.rhs_positions,
-                ),
+                DisplayMode::Json => unreachable!(),
             }
         }
-        (FileContent::Binary, FileContent::Binary) => match display_options.display_mode {
-            DisplayMode::Inline | DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
-                if display_options.print_unchanged || summary.has_byte_changes {
-                    println!(
-                        "{}",
-                        display::style::header(
-                            &summary.display_path,
-                            &summary.old_path,
-                            1,
-                            1,
-                            &FileFormat::Binary,
-                            display_options
-                        )
-                    );
-                    if summary.has_byte_changes {
-                        println!("Binary contents changed.");
-                    } else {
-                        println!("No changes.");
-                    }
-                }
-            }
-            DisplayMode::Json => {
+        (FileContent::Binary, FileContent::Binary) => {
+            if display_options.print_unchanged || summary.has_byte_changes {
                 println!(
                     "{}",
-                    serde_json::json!({
-                        "path": &summary.display_path,
-                        "language": "binary",
-                        "changed": summary.has_byte_changes,
-                    })
+                    display::style::header(
+                        &summary.display_path,
+                        &summary.old_path,
+                        1,
+                        1,
+                        &FileFormat::Binary,
+                        display_options
+                    )
                 );
+                if summary.has_byte_changes {
+                    println!("Binary contents changed.");
+                } else {
+                    println!("No changes.");
+                }
             }
-        },
+        }
         (FileContent::Text(_), FileContent::Binary)
         | (FileContent::Binary, FileContent::Text(_)) => {
-            match display_options.display_mode {
-                DisplayMode::Inline | DisplayMode::SideBySide | DisplayMode::SideBySideShowBoth => {
-                    // We're diffing a binary file against a text file.
-                    println!(
-                        "{}",
-                        display::style::header(
-                            &summary.display_path,
-                            &summary.old_path,
-                            1,
-                            1,
-                            &FileFormat::Binary,
-                            display_options
-                        )
-                    );
-                    println!("Binary contents changed.");
-                }
-                DisplayMode::Json => {
-                    println!(
-                        "{}",
-                        serde_json::json!({
-                            "path": &summary.display_path,
-                            "language": "binary",
-                            "changed": true,
-                        })
-                    );
-                }
-            }
+            // We're diffing a binary file against a text file.
+            println!(
+                "{}",
+                display::style::header(
+                    &summary.display_path,
+                    &summary.old_path,
+                    1,
+                    1,
+                    &FileFormat::Binary,
+                    display_options
+                )
+            );
+            println!("Binary contents changed.");
         }
     }
 }
