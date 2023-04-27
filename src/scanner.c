@@ -197,8 +197,7 @@ static bool scan_string_content(TSLexer *lexer, Stack *stack) {
           mark_end(lexer);
           lexer->result_symbol = STRING_CONTENT;
           return true;
-        }
-        else {
+        } else {
           pop(stack);
           advance(lexer);
           mark_end(lexer);
