@@ -10,7 +10,7 @@ fun foo() {
 
 ---
 (source_file
-  (function_declaration (simple_identifier)
+  (function_declaration (simple_identifier) (function_value_parameters)
     (function_body
       (statements
          (property_declaration

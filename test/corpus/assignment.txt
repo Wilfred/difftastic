@@ -20,10 +20,11 @@ class Foo(){
         (variable_declaration
           (simple_identifier)))
       (secondary_constructor
+      (function_value_parameters
         (parameter
           (simple_identifier)
           (user_type
-            (type_identifier)))
+            (type_identifier))))
         (statements
           (assignment
             (directly_assignable_expression
@@ -46,6 +47,7 @@ fun main(){
 (source_file
   (function_declaration
     (simple_identifier)
+    (function_value_parameters)
     (function_body
       (statements
         (property_declaration

@@ -90,6 +90,7 @@ fun main() {
         (simple_identifier))))
   (function_declaration
     (simple_identifier)
+    (function_value_parameters)
     (function_body)))
 
 ================================================================================
