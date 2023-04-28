@@ -140,6 +140,10 @@
         "named": true
       },
       {
+        "type": "cond_match_expr",
+        "named": true
+      },
+      {
         "type": "dotdotdot",
         "named": true
       },
@@ -263,6 +267,10 @@
       },
       {
         "type": "macro_string",
+        "named": true
+      },
+      {
+        "type": "maybe_expr",
         "named": true
       },
       {
@@ -1076,6 +1084,32 @@
     }
   },
   {
+    "type": "cond_match_expr",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "cr_clause",
     "named": true,
     "fields": {
@@ -1833,6 +1867,32 @@
       },
       "rhs": {
         "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "maybe_expr",
+    "named": true,
+    "fields": {
+      "clauses": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "_cr_clause_or_macro",
+            "named": true
+          }
+        ]
+      },
+      "exprs": {
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2974,6 +3034,10 @@
     "named": false
   },
   {
+    "type": "?=",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -3132,6 +3196,10 @@
   {
     "type": "integer",
     "named": true
+  },
+  {
+    "type": "maybe",
+    "named": false
   },
   {
     "type": "module",

@@ -29,6 +29,8 @@ const PREC = {
     CALL: 80,
     REMOTE: 1,
     BIT_EXPR: 2,
+    
+    COND_MATCH: 81, // `?=` in maybe expr. Should has lowest priority https://www.erlang.org/eeps/eep-0049#operator-priority 
 
     // In macro def, prefer expressions, if type and expr would parse
     DYN_CR_CLAUSES: 1,
@@ -360,6 +362,7 @@ module.exports = grammar({
             $._record_expr,
             $.remote,
             $._expr_max,
+            $.cond_match_expr,
         ),
 
         dotdotdot: $ => '...',
@@ -370,6 +373,12 @@ module.exports = grammar({
             prec.right(PREC.EQ, seq(
                 field("lhs", $._expr),
                 '=',
+                field("rhs", prec.right($._expr)),
+            )),
+        cond_match_expr: $ =>
+            prec.right(PREC.COND_MATCH, seq(
+                field("lhs", $._expr),
+                '?=',
                 field("rhs", prec.right($._expr)),
             )),
         binary_op_expr: $ => choice(
@@ -436,6 +445,7 @@ module.exports = grammar({
             $.receive_expr,
             $._fun_expr,
             $.try_expr,
+            $.maybe_expr,
         ),
 
         remote: $ => prec.right(PREC.REMOTE, seq(field("module", $.remote_module), field("fun", $._expr_max))),
@@ -785,6 +795,13 @@ module.exports = grammar({
                 field("rhs", $._catch_pat),
             )),
         ),
+
+        maybe_expr: $ => choice(
+                    seq('maybe', sepBy1(',', field("exprs", $._expr)), 'end'),
+                    seq('maybe', sepBy1(',', field("exprs", $._expr)), $._maybe_else_clause),
+        ),
+
+        _maybe_else_clause: $ => seq('else', optional($._cr_clauses), 'end'),
 
         _macro_def_replacement: $ => choice(
             prec.dynamic(PREC.DYN_EXPR, $._expr),

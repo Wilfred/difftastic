@@ -519,3 +519,95 @@ named fun
                   (var))
                 (clause_body
                   (var))))))))
+
+================================================================================
+maybe
+================================================================================
+f() ->
+  maybe
+    {ok, A} ?= a(),
+    true = A >= 0,
+    {ok, B} ?= b(),
+    A + B
+  end.
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (fun_decl
+        (function_clause
+          (atom)
+          (expr_args)
+          (clause_body
+            (maybe_expr
+              (cond_match_expr
+                (tuple
+                  (atom)
+                  (var))
+                (call
+                  (atom)
+                  (expr_args)))
+              (match_expr
+                (atom)
+                (binary_op_expr
+                  (var)
+                  (integer)))
+              (cond_match_expr
+                (tuple
+                  (atom)
+                  (var))
+                (call
+                  (atom)
+                  (expr_args)))
+              (binary_op_expr
+                (var)
+                (var)))))))
+
+================================================================================
+maybe else
+================================================================================
+f() ->
+  maybe
+    {ok, A} ?= a(),
+    true = A >= 0,
+    A
+  else
+    Err when Err /= warn -> error;
+    false -> error
+  end.
+
+--------------------------------------------------------------------------------
+
+    (source_file
+      (fun_decl
+        (function_clause
+          (atom)
+          (expr_args)
+          (clause_body
+            (maybe_expr
+              (cond_match_expr
+                (tuple
+                  (atom)
+                  (var))
+                (call
+                  (atom)
+                  (expr_args)))
+              (match_expr
+                (atom)
+                (binary_op_expr
+                  (var)
+                  (integer)))
+              (var)
+              (cr_clause
+                (var)
+                (guard
+                  (guard_clause
+                    (binary_op_expr
+                      (var)
+                      (atom))))
+                (clause_body
+                  (atom)))
+              (cr_clause
+                (atom)
+                (clause_body
+                  (atom))))))))
