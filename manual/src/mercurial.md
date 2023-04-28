@@ -19,7 +19,6 @@ following to your `.hgrc` to run difftastic with `hg dft`.
 ```
 [extdiff]
 cmd.dft = difft
-opts.dft = --missing-as-empty
 ```
 
 ## hg log -p
