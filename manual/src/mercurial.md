@@ -10,8 +10,8 @@ your `.hgrc`.
 extdiff =
 ```
 
-You can then run `hg extdiff -p difft` (assumes the `difft` binary is
-on your `$PATH`).
+You can then run `hg extdiff -p difft` instead of `hg diff`
+(assumes the `difft` binary is on your `$PATH`).
 
 You can also define an alias to run difftastic with hg. Add the
 following to your `.hgrc` to run difftastic with `hg dft`.
@@ -19,7 +19,13 @@ following to your `.hgrc` to run difftastic with `hg dft`.
 ```
 [extdiff]
 cmd.dft = difft
+# You can add further options which will be passed to the command line, e.g.
+# opts.dft = --background light
 ```
+
+All options of `hg diff` are also supported by `hg dft`; for example,
+`hg dft --stat` will show statistics of changed lines and `hg dft -r 42 -r 45`
+will show the diff between two revisions.
 
 ## hg log -p
 
