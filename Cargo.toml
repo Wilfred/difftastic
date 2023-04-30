@@ -65,7 +65,7 @@ pretty_assertions = "1.3.0"
 
 [build-dependencies]
 cc = "1.0.78"
-rayon = "1.5.2"
+rayon = "1.6.1"
 version_check = "0.9.4"
 
 [profile.release]
