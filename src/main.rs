@@ -76,7 +76,7 @@ use std::{env, thread};
 
 use humansize::{format_size, BINARY};
 use owo_colors::OwoColorize;
-use parse::syntax::enclosing_start_lines;
+use parse::syntax::EnclosingLinesInfo;
 use rayon::prelude::*;
 use strum::IntoEnumIterator;
 use typed_arena::Arena;
@@ -501,6 +501,8 @@ fn diff_file_content(
         };
     }
 
+    let mut enclosing_info = None;
+
     let (file_format, lhs_positions, rhs_positions) = match lang_config {
         None => {
             let file_format = FileFormat::PlainText;
@@ -586,9 +588,8 @@ fn diff_file_content(
                                 let mut lhs_positions = syntax::change_positions(&lhs, &change_map);
                                 let mut rhs_positions = syntax::change_positions(&rhs, &change_map);
 
-                                let enclosing_starts = enclosing_start_lines(&lhs);
-                                let enclosing_ends = enclosing_start_lines(&rhs);
-                                dbg!(enclosing_starts);
+                                enclosing_info = Some(EnclosingLinesInfo::new(&lhs, &rhs));
+                                dbg!(enclosing_info);
 
                                 if diff_options.ignore_comments {
                                     let lhs_comments =

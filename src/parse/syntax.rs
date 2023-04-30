@@ -4,6 +4,7 @@
 
 use std::{cell::Cell, env, fmt, hash::Hash, num::NonZeroU32};
 
+use line_numbers::LineNumber;
 use line_numbers::LinePositions;
 use line_numbers::SingleLineSpan;
 use typed_arena::Arena;
@@ -333,17 +334,41 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn enclosing_start_lines<'a>(nodes: &[&'a Syntax<'a>]) -> HashMap<LineNumber, Vec<LineNumber>> {
-    let mut res = HashMap::new();
-    walk_enclosing_start_lines(nodes, &[], &mut res);
+#[derive(Debug)]
+pub(crate) struct EnclosingLinesInfo {
+    pub(crate) lhs_starts: DftHashMap<LineNumber, Vec<LineNumber>>,
+    pub(crate) rhs_starts: DftHashMap<LineNumber, Vec<LineNumber>>,
+    pub(crate) lhs_ends: DftHashMap<LineNumber, Vec<LineNumber>>,
+    pub(crate) rhs_ends: DftHashMap<LineNumber, Vec<LineNumber>>,
+}
 
-    res
+impl EnclosingLinesInfo {
+    pub(crate) fn new<'a>(lhs_nodes: &[&'a Syntax<'a>], rhs_nodes: &[&'a Syntax<'a>]) -> Self {
+        let mut lhs_starts = DftHashMap::default();
+        walk_enclosing_start_lines(lhs_nodes, &[], &mut lhs_starts);
+
+        let mut rhs_starts = DftHashMap::default();
+        walk_enclosing_start_lines(rhs_nodes, &[], &mut rhs_starts);
+
+        let mut lhs_ends = DftHashMap::default();
+        walk_enclosing_end_lines(lhs_nodes, &[], &mut lhs_ends);
+
+        let mut rhs_ends = DftHashMap::default();
+        walk_enclosing_end_lines(rhs_nodes, &[], &mut rhs_ends);
+
+        EnclosingLinesInfo {
+            lhs_starts,
+            rhs_starts,
+            lhs_ends,
+            rhs_ends,
+        }
+    }
 }
 
 fn walk_enclosing_start_lines<'a>(
     nodes: &[&'a Syntax<'a>],
-    parent_enclosing: &[LineNumber],
-    blocks_including: &mut HashMap<LineNumber, Vec<LineNumber>>,
+    enclosing: &[LineNumber],
+    blocks_including: &mut DftHashMap<LineNumber, Vec<LineNumber>>,
 ) {
     for node in nodes {
         match node {
@@ -353,7 +378,11 @@ fn walk_enclosing_start_lines<'a>(
                 ..
             } => {
                 if let Some(position) = open_position.first() {
-                    let mut enclosing = parent_enclosing.to_vec();
+                    let mut enclosing = enclosing.to_vec();
+
+                    if !blocks_including.contains_key(&position.line) {
+                        blocks_including.insert(position.line, enclosing.clone());
+                    }
 
                     if let Some(last) = enclosing.last() {
                         if *last != position.line {
@@ -363,17 +392,13 @@ fn walk_enclosing_start_lines<'a>(
                         enclosing.push(position.line);
                     }
 
-                    if !blocks_including.contains_key(&position.line) {
-                        blocks_including.insert(position.line, enclosing.clone());
-                    }
-
                     walk_enclosing_start_lines(children, &enclosing, blocks_including)
                 }
             }
             Atom { position, .. } => {
                 for line_span in position {
                     if !blocks_including.contains_key(&line_span.line) {
-                        blocks_including.insert(line_span.line, parent_enclosing.into());
+                        blocks_including.insert(line_span.line, enclosing.into());
                     }
                 }
             }
@@ -381,17 +406,10 @@ fn walk_enclosing_start_lines<'a>(
     }
 }
 
-pub fn enclosing_end_lines<'a>(nodes: &[&'a Syntax<'a>]) -> HashMap<LineNumber, Vec<LineNumber>> {
-    let mut res = HashMap::new();
-    walk_enclosing_end_lines(nodes, &[], &mut res);
-
-    res
-}
-
 fn walk_enclosing_end_lines<'a>(
     nodes: &[&'a Syntax<'a>],
     parent_enclosing: &[LineNumber],
-    blocks_including: &mut HashMap<LineNumber, Vec<LineNumber>>,
+    blocks_including: &mut DftHashMap<LineNumber, Vec<LineNumber>>,
 ) {
     for node in nodes {
         match node {
@@ -403,16 +421,16 @@ fn walk_enclosing_end_lines<'a>(
                 if let Some(position) = close_position.last() {
                     let mut enclosing = parent_enclosing.to_vec();
 
+                    if !blocks_including.contains_key(&position.line) {
+                        blocks_including.insert(position.line, enclosing.clone());
+                    }
+
                     if let Some(last) = enclosing.last() {
                         if *last != position.line {
                             enclosing.push(position.line);
                         }
                     } else {
                         enclosing.push(position.line);
-                    }
-
-                    if !blocks_including.contains_key(&position.line) {
-                        blocks_including.insert(position.line, enclosing.clone());
                     }
 
                     walk_enclosing_end_lines(children, &enclosing, blocks_including)
