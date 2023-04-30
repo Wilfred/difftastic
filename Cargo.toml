@@ -28,7 +28,8 @@ pkg-url = "{ repo }/releases/download/{ version }/difft-{ target }.{ archive-for
 pkg-fmt = "zip"
 
 [dependencies]
-regex = "1.5.4"
+# This is the last version that supports rust 1.57, regex 1.8 requires rust 1.60.
+regex = ">= 1.7, < 1.8"
 clap = { version = "3.1.8", features = ["cargo", "env", "wrap_help"] }
 itertools = "0.10.1"
 typed-arena = "2.0.1"
@@ -48,6 +49,7 @@ walkdir = "2.3.3"
 const_format = "0.2.22"
 owo-colors = "3.3.0"
 wu-diff = "0.1.2"
+# rayon 1.7 requires rust 1.59
 rayon = "1.6.1"
 tree_magic_mini = "3.0.2"
 bumpalo = "3.11.1"
