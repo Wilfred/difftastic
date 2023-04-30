@@ -333,6 +333,102 @@ impl<'a> Syntax<'a> {
     }
 }
 
+pub fn enclosing_start_lines<'a>(nodes: &[&'a Syntax<'a>]) -> HashMap<LineNumber, Vec<LineNumber>> {
+    let mut res = HashMap::new();
+    walk_enclosing_start_lines(nodes, &[], &mut res);
+
+    res
+}
+
+fn walk_enclosing_start_lines<'a>(
+    nodes: &[&'a Syntax<'a>],
+    parent_enclosing: &[LineNumber],
+    blocks_including: &mut HashMap<LineNumber, Vec<LineNumber>>,
+) {
+    for node in nodes {
+        match node {
+            List {
+                open_position,
+                children,
+                ..
+            } => {
+                if let Some(position) = open_position.first() {
+                    let mut enclosing = parent_enclosing.to_vec();
+
+                    if let Some(last) = enclosing.last() {
+                        if *last != position.line {
+                            enclosing.push(position.line);
+                        }
+                    } else {
+                        enclosing.push(position.line);
+                    }
+
+                    if !blocks_including.contains_key(&position.line) {
+                        blocks_including.insert(position.line, enclosing.clone());
+                    }
+
+                    walk_enclosing_start_lines(children, &enclosing, blocks_including)
+                }
+            }
+            Atom { position, .. } => {
+                for line_span in position {
+                    if !blocks_including.contains_key(&line_span.line) {
+                        blocks_including.insert(line_span.line, parent_enclosing.into());
+                    }
+                }
+            }
+        }
+    }
+}
+
+pub fn enclosing_end_lines<'a>(nodes: &[&'a Syntax<'a>]) -> HashMap<LineNumber, Vec<LineNumber>> {
+    let mut res = HashMap::new();
+    walk_enclosing_end_lines(nodes, &[], &mut res);
+
+    res
+}
+
+fn walk_enclosing_end_lines<'a>(
+    nodes: &[&'a Syntax<'a>],
+    parent_enclosing: &[LineNumber],
+    blocks_including: &mut HashMap<LineNumber, Vec<LineNumber>>,
+) {
+    for node in nodes {
+        match node {
+            List {
+                close_position,
+                children,
+                ..
+            } => {
+                if let Some(position) = close_position.last() {
+                    let mut enclosing = parent_enclosing.to_vec();
+
+                    if let Some(last) = enclosing.last() {
+                        if *last != position.line {
+                            enclosing.push(position.line);
+                        }
+                    } else {
+                        enclosing.push(position.line);
+                    }
+
+                    if !blocks_including.contains_key(&position.line) {
+                        blocks_including.insert(position.line, enclosing.clone());
+                    }
+
+                    walk_enclosing_end_lines(children, &enclosing, blocks_including)
+                }
+            }
+            Atom { position, .. } => {
+                for line_span in position.iter().rev() {
+                    if !blocks_including.contains_key(&line_span.line) {
+                        blocks_including.insert(line_span.line, parent_enclosing.into());
+                    }
+                }
+            }
+        }
+    }
+}
+
 pub(crate) fn comment_positions<'a>(nodes: &[&'a Syntax<'a>]) -> Vec<SingleLineSpan> {
     fn walk_comment_positions(node: &Syntax<'_>, positions: &mut Vec<SingleLineSpan>) {
         match node {
