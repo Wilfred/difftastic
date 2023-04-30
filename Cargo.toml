@@ -44,7 +44,7 @@ mimalloc = { version = "0.1.28", default-features = false }
 # large textual files, as discussed in #297.
 libmimalloc-sys = "=0.1.24"
 radix-heap = "0.4.2"
-walkdir = "2.3.2"
+walkdir = "2.3.3"
 const_format = "0.2.22"
 owo-colors = "3.3.0"
 wu-diff = "0.1.2"
