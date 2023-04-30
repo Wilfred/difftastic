@@ -61,7 +61,7 @@ assert_cmd = ">= 2, <= 2.0.5"
 # last version that supports rustc 1.57.
 predicates = ">= 2, <= 2.1.1"
 
-pretty_assertions = "1.2.1"
+pretty_assertions = "1.3.0"
 
 [build-dependencies]
 cc = "1.0.78"
