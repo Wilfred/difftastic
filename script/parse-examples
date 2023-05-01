@@ -29,7 +29,7 @@ checkout_repo() {
   echo
 }
 
-checkout_repo "./examples/luvit" "luvit/luvit" "9841bc17aaab32fa63e11063cf68f82da615eefd"
+checkout_repo "./examples/luvit" "luvit/luvit" "a8c708e064cc1d60ecca8d8ca00bc28fa2e49eeb"
 checkout_repo "./examples/lua" "lua/lua" "e15f1f2bb7a38a3c94519294d031e48508d65006"
 
 parse_examples() {
