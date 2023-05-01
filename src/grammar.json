@@ -40,7 +40,7 @@
     },
     "hash_bang_line": {
       "type": "PATTERN",
-      "value": "#!.*"
+      "value": "#.*"
     },
     "_block": {
       "type": "CHOICE",

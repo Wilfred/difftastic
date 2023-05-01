@@ -51,7 +51,7 @@ module.exports = grammar({
         optional($.return_statement)
       ),
 
-    hash_bang_line: (_) => /#!.*/,
+    hash_bang_line: (_) => /#.*/,
 
     // block ::= {stat} [retstat]
     _block: ($) =>
