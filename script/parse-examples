@@ -30,12 +30,14 @@ checkout_repo() {
 }
 
 checkout_repo "./examples/luvit" "luvit/luvit" "9841bc17aaab32fa63e11063cf68f82da615eefd"
+checkout_repo "./examples/lua" "lua/lua" "e15f1f2bb7a38a3c94519294d031e48508d65006"
 
 parse_examples() {
   local -r known_failures="$(cat script/known_failures.txt)"
 
   tree-sitter parse --quiet \
     "./examples/luvit/**/*.lua" \
+    "./examples/lua/**/*.lua" \
     $(for file in ${known_failures}; do echo "!${file}"; done)
 
   declare -r example_count=$(find ./examples -name "*.lua" | wc -l)

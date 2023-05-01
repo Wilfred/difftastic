@@ -8,4 +8,5 @@ package-lock.json
 yarn.lock
 target
 
-examples/luvit
+examples/**/*
+!examples/*.*
