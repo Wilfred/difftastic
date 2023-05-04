@@ -268,3 +268,42 @@ expect(
                     (identifier))))
               (argument
                 (null_literal)))))))
+
+================
+Super Parameters
+================
+
+class C extends D {
+  C._({
+    required super.layoutDirection,
+    super.creationParams,
+  })  : super._();
+}
+
+---
+
+(program
+  (class_definition
+    (identifier)
+    (superclass
+      (type_identifier))
+    (class_body
+      (declaration
+        (constructor_signature
+          (identifier)
+          (identifier)
+          (formal_parameter_list
+            (optional_formal_parameters
+              (formal_parameter
+                (super_formal_parameter
+                  (super)
+                  (identifier)))
+              (formal_parameter
+                (super_formal_parameter
+                  (super)
+                  (identifier))))))
+        (initializers
+          (initializer_list_entry
+            (super)
+            (identifier)
+                (arguments)))))))

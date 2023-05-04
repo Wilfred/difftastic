@@ -7587,6 +7587,10 @@
                       "name": "_new_builtin"
                     }
                   ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "arguments"
                 }
               ]
             }

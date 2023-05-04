@@ -1950,9 +1950,9 @@ module.exports = grammar({
             commaSep1($.initializer_list_entry)
         ),
         initializer_list_entry: $ => choice(
-            seq($.super,$.arguments),
+            seq($.super, $.arguments),
             seq($.super, 
-              seq('.', choice($.identifier, $._new_builtin)),
+              seq('.', choice($.identifier, $._new_builtin), $.arguments),
             ),
             $.field_initializer,
             $.assertion
