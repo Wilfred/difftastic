@@ -2708,7 +2708,27 @@
       "required": true,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "declaration",
+          "named": true
+        },
+        {
           "type": "enum_constant",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "method_signature",
           "named": true
         }
       ]
@@ -2738,7 +2758,23 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
           "named": true
         }
       ]
@@ -2778,7 +2814,19 @@
           "named": true
         },
         {
+          "type": "interfaces",
+          "named": true
+        },
+        {
           "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "mixins",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
           "named": true
         }
       ]

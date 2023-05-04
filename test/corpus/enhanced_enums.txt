@@ -1,0 +1,94 @@
+===============
+Enhanced Enums
+===============
+
+enum LogPriority with LogPriorityMixin implements Comparable<LogPriority> {
+  warning(2, "Warning"),
+  log.unknown("Log"),
+  ;
+ 
+  LogPriority(this.priority, this.prefix);
+  LogPriority.unknown(String prefix) : this(-1, prefix);
+    
+  final int priority;
+  int compareTo(Log other) => priority - other.priority;
+}
+
+---
+
+(program
+      (enum_declaration
+        (identifier)
+        (mixins
+          (type_identifier))
+        (interfaces
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (enum_body
+          (enum_constant
+            (identifier)
+            (argument_part
+              (arguments
+                (argument
+                  (decimal_integer_literal))
+                (argument
+                  (string_literal)))))
+          (enum_constant
+            (identifier)
+            (identifier)
+            (arguments
+              (argument
+                (string_literal))))
+          (declaration
+            (constructor_signature
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (constructor_param
+                    (this)
+                    (identifier)))
+                (formal_parameter
+                  (constructor_param
+                    (this)
+                    (identifier))))))
+          (declaration
+            (constructor_signature
+              (identifier)
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type_identifier)
+                  (identifier))))
+            (redirection
+              (this)
+              (arguments
+                (argument
+                  (unary_expression
+                    (prefix_operator
+                      (minus_operator))
+                    (decimal_integer_literal)))
+                (argument
+                  (identifier)))))
+          (declaration
+            (final_builtin)
+            (type_identifier)
+            (initialized_identifier_list
+              (initialized_identifier
+                (identifier))))
+          (method_signature
+            (function_signature
+              (type_identifier)
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type_identifier)
+                  (identifier)))))
+          (function_body
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (identifier)
+              (selector
+                (unconditional_assignable_selector
+                  (identifier))))))))

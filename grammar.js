@@ -1558,18 +1558,34 @@ module.exports = grammar({
             optional($._metadata),
             'enum',
             field('name', $.identifier),
-            field('body', $.enum_body)
+            optional($.type_parameters),
+            optional($.mixins),
+            optional($.interfaces),
+            field('body', $.enum_body),
         ),
 
         enum_body: $ => seq(
             '{',
-            commaSep1TrailingComma($.enum_constant),
+              commaSep1TrailingComma($.enum_constant),
+              optional(
+                seq(';', repeat(seq(optional($._metadata), $._class_member_definition)))
+              ),
             '}'
         ),
 
-        enum_constant: $ => (seq(
+        enum_constant: $ => choice(
+            seq(
+                optional($._metadata),
+                field('name', $.identifier),
+                optional($.argument_part),
+            ),
+            seq(
             optional($._metadata),
             field('name', $.identifier),
+            optional($.type_arguments),
+            '.',
+            choice($.identifier, $._new_builtin),
+            $.arguments,
         )),
 
         type_alias: $ => choice(
