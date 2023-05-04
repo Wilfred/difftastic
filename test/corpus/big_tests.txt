@@ -76,7 +76,7 @@ class BuildableIOSApp extends IOSApp {
 
 ---
 
-(program (class_definition (identifier) (superclass (type_identifier)) 
+(program (class_definition (abstract) (identifier) (superclass (type_identifier)) 
 (class_body (declaration (constructor_signature (identifier) 
 (formal_parameter_list (optional_formal_parameters 
 (formal_parameter (type_identifier) (identifier))))) (initializers
@@ -283,7 +283,7 @@ abstract class IntelliJValidator extends DoctorValidator {
 
 (program 
   (documentation_comment) 
-  (class_definition (identifier) (superclass (type_identifier)) 
+  (class_definition (abstract) (identifier) (superclass (type_identifier)) 
     (class_body (declaration (constructor_signature (identifier) 
       (formal_parameter_list 
         (formal_parameter (super_formal_parameter (super) (identifier))) 

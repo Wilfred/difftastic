@@ -8,15 +8,23 @@
     "parser",
     "dart"
   ],
-  "author": "Benjamin Sobel",
+  "contributors": [
+    "Benjamin Sobel",
+    "Tim Whiting <tim.a.whiting@gmail.com>",
+    "Stephan Seitz <stephan.seitz@fau.de>",
+    "Martin Jambon <github@mjambon.com>",
+    "Han Wang @hanwangio",
+    "@akinsho",
+    "@seb-bl"
+  ],
   "license": "ISC",
   "dependencies": {
-    "nan": "^2.15.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "node-gyp": "^7.1.2",
-    "npm-watch": "^0.7.0",
-    "tree-sitter-cli": "^0.19.5"
+    "node-gyp": "^9.3.1",
+    "npm-watch": "^0.11.0",
+    "tree-sitter-cli": "^0.20.8"
   },
   "watch": {
     "test": {

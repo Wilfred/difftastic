@@ -1,5 +1,5 @@
 # tree-sitter-dart
-This is a tree-sitter grammar written for the dart programming language. I attempted to adhere as closely as possible to the dart language spec. Initially I started with a copy of the tree-sitter Java grammar which is why there may be a few relics included in here. For the sake of simplifying the syntax tree, many items were made inlined with tree-sitter's "underscore" method of writing rules.
+This is a tree-sitter grammar written for the dart programming language. We attempt to adhere as closely as possible to the dart language spec. Initially it was started with a copy of the tree-sitter Java grammar which is why there may be a few relics included in here. For the sake of simplifying the syntax tree, many items were made inlined with tree-sitter's "underscore" method of writing rules.
 
 # Getting Started
 - Go to the project directory

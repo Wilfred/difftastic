@@ -97,7 +97,7 @@ abstract class ColoredPoint extends Point {
 (program
   (class_definition  (identifier) (class_body))
   (class_definition  (identifier) (class_body))
-  (class_definition (identifier) (superclass (type_identifier)) (class_body)))
+  (class_definition (abstract) (identifier) (superclass (type_identifier)) (class_body)))
 
 ==================================
 class declaration with implements

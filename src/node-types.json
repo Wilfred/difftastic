@@ -134,6 +134,11 @@
     ]
   },
   {
+    "type": "abstract",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "additive_expression",
     "named": true,
     "fields": {},
@@ -1129,6 +1134,11 @@
     }
   },
   {
+    "type": "base",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "binary_operator",
     "named": true,
     "fields": {},
@@ -1814,7 +1824,19 @@
       "required": false,
       "types": [
         {
+          "type": "abstract",
+          "named": true
+        },
+        {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "base",
+          "named": true
+        },
+        {
+          "type": "interface",
           "named": true
         },
         {
@@ -1822,7 +1844,15 @@
           "named": true
         },
         {
+          "type": "mixin",
+          "named": true
+        },
+        {
           "type": "mixin_application_class",
+          "named": true
+        },
+        {
+          "type": "sealed",
           "named": true
         }
       ]
@@ -2549,25 +2579,6 @@
     }
   },
   {
-    "type": "dimensions",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "marker_annotation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "do_statement",
     "named": true,
     "fields": {
@@ -3264,6 +3275,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "final_builtin",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "finally_clause",
@@ -5647,6 +5663,11 @@
     }
   },
   {
+    "type": "interface",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "interfaces",
     "named": true,
     "fields": {},
@@ -6267,6 +6288,11 @@
     }
   },
   {
+    "type": "mixin",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "mixin_application",
     "named": true,
     "fields": {},
@@ -6329,6 +6355,10 @@
       "required": true,
       "types": [
         {
+          "type": "base",
+          "named": true
+        },
+        {
           "type": "class_body",
           "named": true
         },
@@ -6342,6 +6372,10 @@
         },
         {
           "type": "interfaces",
+          "named": true
+        },
+        {
+          "type": "mixin",
           "named": true
         },
         {
@@ -6377,25 +6411,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "module_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "module_name",
           "named": true
         }
       ]
@@ -8009,6 +8024,11 @@
     "fields": {}
   },
   {
+    "type": "sealed",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "selector",
     "named": true,
     "fields": {},
@@ -9313,33 +9333,6 @@
     }
   },
   {
-    "type": "throws",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "tilde_operator",
     "named": true,
     "fields": {}
@@ -10506,6 +10499,10 @@
     "named": false
   },
   {
+    "type": "base",
+    "named": false
+  },
+  {
     "type": "bool",
     "named": false
   },
@@ -10594,8 +10591,8 @@
     "named": false
   },
   {
-    "type": "final_builtin",
-    "named": true
+    "type": "final",
+    "named": false
   },
   {
     "type": "finally",
@@ -10718,6 +10715,10 @@
     "named": false
   },
   {
+    "type": "sealed",
+    "named": false
+  },
+  {
     "type": "set",
     "named": false
   },
@@ -10747,14 +10748,6 @@
   },
   {
     "type": "throw",
-    "named": false
-  },
-  {
-    "type": "throws",
-    "named": false
-  },
-  {
-    "type": "transitive",
     "named": false
   },
   {

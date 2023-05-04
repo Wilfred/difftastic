@@ -95,8 +95,8 @@ module.exports = grammar({
         [$._primary, $.function_signature],
         [$._type_name, $._primary, $.function_signature],
         [$._primary, $._type_name],
-        [$.variable_declaration, $.initialized_variable_definition, ],
-        [$._final_const_var_or_type, $.function_signature, ],
+        [$.variable_declaration, $.initialized_variable_definition,],
+        [$._final_const_var_or_type, $.function_signature,],
         [$._primary, $._function_formal_parameter],
         [$._primary, $._simple_formal_parameter],
         [$._primary, $.labeled_statement],
@@ -108,7 +108,7 @@ module.exports = grammar({
         [$._declared_identifier],
         [$.equality_expression],
         [$._argument_list],
-        [$.variable_declaration, $.initialized_identifier, ],
+        [$.variable_declaration, $.initialized_identifier,],
         [$.declaration, $._external_and_static],
         [$.method_signature, $._static_or_covariant],
         [$.constructor_signature, $._formal_parameter_part],
@@ -205,7 +205,7 @@ module.exports = grammar({
                 $.setter_signature,
                 $._semicolon
             ),
-     
+
             seq(
                 $.function_signature,
                 $.function_body
@@ -250,13 +250,13 @@ module.exports = grammar({
                 $._semicolon
             )
         ),
-        
-/**************************************************************************************************
-*********************************Literals**********************************************************
-***************************************************************************************************
-****These are the Literals from section 16.4-9 (Page 84-110) of the dart specification*************
-***************************************************************************************************
-***************************************************************************************************/
+
+        /**************************************************************************************************
+        *********************************Literals**********************************************************
+        ***************************************************************************************************
+        ****These are the Literals from section 16.4-9 (Page 84-110) of the dart specification*************
+        ***************************************************************************************************
+        ***************************************************************************************************/
 
         _literal: $ => choice(
             $.decimal_integer_literal,
@@ -271,16 +271,16 @@ module.exports = grammar({
             $.set_or_map_literal
         ),
 
-/****This is the symbol literals from section 16.8 (Page 99) of the dart specification****************/
+        /****This is the symbol literals from section 16.8 (Page 99) of the dart specification****************/
         symbol_literal: $ => seq('#', $.identifier),
         //symbol literal can also be an operator?
-        
-/**************************************************************************************************
-*********************************Numeric Literals**************************************************
-***************************************************************************************************
-****These are the Numeric Literals from section 16.5 (Page 84-85) of the dart specification********
-***************************************************************************************************
-***************************************************************************************************/
+
+        /**************************************************************************************************
+        *********************************Numeric Literals**************************************************
+        ***************************************************************************************************
+        ****These are the Numeric Literals from section 16.5 (Page 84-85) of the dart specification********
+        ***************************************************************************************************
+        ***************************************************************************************************/
 
         decimal_integer_literal: $ => token(DIGITS),
 
@@ -288,7 +288,7 @@ module.exports = grammar({
             choice('0x', '0X'),
             HEX_DIGITS
         )),
-        
+
         decimal_floating_point_literal: $ => token(choice(
             seq(DIGITS, '.', DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS))),
             seq('.', DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS))),
@@ -296,12 +296,12 @@ module.exports = grammar({
             seq(DIGITS, optional(seq((/[eE]/), optional(choice('-', '+')), DIGITS)))
         )),
 
-/**************************************************************************************************
-*********************************Boolean Literals**************************************************
-***************************************************************************************************
-****These are the boolean from section 16.6 (Page 86) of the dart specification********************
-***************************************************************************************************
-***************************************************************************************************/
+        /**************************************************************************************************
+        *********************************Boolean Literals**************************************************
+        ***************************************************************************************************
+        ****These are the boolean from section 16.6 (Page 86) of the dart specification********************
+        ***************************************************************************************************
+        ***************************************************************************************************/
         true: $ => prec(
             DART_PREC.BUILTIN,
             'true',
@@ -312,12 +312,12 @@ module.exports = grammar({
             'false',
         ),
 
-/**************************************************************************************************
-*********************************String Parts******************************************************
-***************************************************************************************************
-****These are the parts of String from section 16.7 (Page 86-92) of the dart specification*********
-***************************************************************************************************
-***************************************************************************************************/
+        /**************************************************************************************************
+        *********************************String Parts******************************************************
+        ***************************************************************************************************
+        ****These are the parts of String from section 16.7 (Page 86-92) of the dart specification*********
+        ***************************************************************************************************
+        ***************************************************************************************************/
         string_literal: $ => repeat1(
             choice(
                 $._string_literal_double_quotes,
@@ -471,14 +471,14 @@ module.exports = grammar({
             )
         )),
         escape_sequence: $ => $._unused_escape_sequence,
-       
-        
-/**************************************************************************************************
-*********************************Collection Literals***********************************************
-***************************************************************************************************
-****These are the collection literals from section 16.9 (Page 92-108) of the dart specification****
-***************************************************************************************************
-***************************************************************************************************/
+
+
+        /**************************************************************************************************
+        *********************************Collection Literals***********************************************
+        ***************************************************************************************************
+        ****These are the collection literals from section 16.9 (Page 92-108) of the dart specification****
+        ***************************************************************************************************
+        ***************************************************************************************************/
         list_literal: $ => seq(
             optional($.const_builtin), optional($.type_arguments), '[',
             commaSepTrailingComma($._element),
@@ -491,7 +491,7 @@ module.exports = grammar({
             ),
             '}'
         ),
-    
+
         pair: $ => seq(
             field('key', $._expression),
             ':',
@@ -515,18 +515,18 @@ module.exports = grammar({
             $.for_element
         ),
 
-/****This is the null literal from section 16.4 (Page 84) of the dart specification****/
+        /****This is the null literal from section 16.4 (Page 84) of the dart specification****/
         null_literal: $ => prec(
             DART_PREC.BUILTIN,
             'null',
         ),
 
-/**************************************************************************************************
-*********************************Expressions*******************************************************
-***************************************************************************************************
-****These are the expressions from section 16.9 (Page 110-166) of the dart specification***********
-***************************************************************************************************
-***************************************************************************************************/
+        /**************************************************************************************************
+        *********************************Expressions*******************************************************
+        ***************************************************************************************************
+        ****These are the expressions from section 16.9 (Page 110-166) of the dart specification***********
+        ***************************************************************************************************
+        ***************************************************************************************************/
         _expression: $ => choice(
             $.assignment_expression,
             $.throw_expression,
@@ -649,24 +649,24 @@ module.exports = grammar({
         //'+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??='
         //todo: use the op names in place of these.
         _assignment_operator: $ => choice(
-                    '=',
-                    // additive operator
-                    '+=',
-                    '-=',
-                    // multiplicative operator
-                    '*=',
-                    '/=',
-                    '%=',
-                    '~/=',
-                    // shift operator
-                    '<<=',
-                    '>>=',
-                    '>>>=',
-                    '&=',
-                    '^=',
-                    '|=',
-                    '??=',
-                ),
+            '=',
+            // additive operator
+            '+=',
+            '-=',
+            // multiplicative operator
+            '*=',
+            '/=',
+            '%=',
+            '~/=',
+            // shift operator
+            '<<=',
+            '>>=',
+            '>>>=',
+            '&=',
+            '^=',
+            '|=',
+            '??=',
+        ),
 
         // binary_expression: $ => choice(
         //     ...[
@@ -888,9 +888,9 @@ module.exports = grammar({
         ),
         shift_operator: $ => $._shift_operator,
         _shift_operator: $ => choice(
-                '<<',
-                '>>',
-                '>>>'
+            '<<',
+            '>>',
+            '>>>'
         ),
         additive_operator: $ => $._additive_operator,
         _additive_operator: $ => token(
@@ -1039,12 +1039,12 @@ module.exports = grammar({
             ),
             $.arguments
         ),
-       
+
 
         _primary: $ => choice(
             $._literal,
-            $.function_expression,
             $.identifier,
+            $.function_expression,
             $.new_expression,
             $.const_object_expression,
             $.parenthesized_expression,
@@ -1166,7 +1166,7 @@ module.exports = grammar({
             //     optional($._nullable_type)
             // ),
             seq(
-                 '<',
+                '<',
                 commaSep($._type),
                 '>',
                 // optional($._nullable_type)
@@ -1273,9 +1273,9 @@ module.exports = grammar({
         switch_label: $ => seq(
             repeat($.label),
             choice(
-            seq($.case_builtin, $._expression, ':'),
-            seq('default', ':')
-        )),
+                seq($.case_builtin, $._expression, ':'),
+                seq('default', ':')
+            )),
 
         do_statement: $ => seq(
             'do',
@@ -1466,18 +1466,6 @@ module.exports = grammar({
             $.enum_declaration,
         )),
 
-       
-
-        requires_modifier: $ => choice(
-            'transitive',
-            $._static
-        ),
-
-        module_name: $ => choice(
-            $.identifier,
-            seq($.module_name, '.', $.identifier)
-        ),
-
         import_or_export: $ => prec(
             DART_PREC.IMPORT_EXPORT,
             choice(
@@ -1532,7 +1520,7 @@ module.exports = grammar({
 
         part_of_directive: $ => seq(
             optional($._metadata),
-            'part','of',
+            'part', 'of',
             choice($.dotted_identifier_list, $.uri),
             $._semicolon
         ),
@@ -1589,21 +1577,24 @@ module.exports = grammar({
         )),
 
         type_alias: $ => choice(
-            seq($._typedef, 
-                $._type_name, 
-                optional($.type_parameters), 
+            seq($._typedef,
+                $._type_name,
+                optional($.type_parameters),
                 '=', $.function_type, ';'),
 
-            seq($._typedef, 
-                optional($._type), 
-                $._type_name, 
+            seq($._typedef,
+                optional($._type),
+                $._type_name,
                 $._formal_parameter_part, ';'),
         ),
 
+        _class_modifiers: $ => seq(choice($.sealed, seq(optional($.abstract), optional(choice($.base, $.interface, 'final')))), 'class'),
+
+        _mixin_class_modifiers: $ => seq(optional($.abstract), optional($.base), $.mixin, 'class'),
+
         class_definition: $ => choice(
             seq(
-                optional('abstract'),
-                'class',
+                choice($._class_modifiers, $._mixin_class_modifiers),
                 field('name', $.identifier),
                 optional(field('type_parameters', $.type_parameters)),
                 optional(field('superclass', $.superclass)),
@@ -1612,8 +1603,7 @@ module.exports = grammar({
             ),
             seq(
                 optional($._metadata),
-                optional('abstract'),
-                'class',
+                $._class_modifiers,
                 $.mixin_application_class
             )
         ),
@@ -1641,12 +1631,12 @@ module.exports = grammar({
             alias(
                 $.identifier,
                 $.type_identifier),
-                // This is a comment
-                // comment with a link made in https://github.com/flutter/flutter/pull/48547
-                // Changes made in https://github.com/flutter/flutter/pull/48547
-                /* This is also a comment */
-                /* this comment /* // /** ends here: */
-                
+            // This is a comment
+            // comment with a link made in https://github.com/flutter/flutter/pull/48547
+            // Changes made in https://github.com/flutter/flutter/pull/48547
+            /* This is also a comment */
+            /* this comment /* // /** ends here: */
+
             optional($._nullable_type),
             optional($.type_bound)
         ),
@@ -1681,7 +1671,8 @@ module.exports = grammar({
             optional($.interfaces)
         ),
         mixin_declaration: $ => seq(
-            $._mixin,
+            optional($.base),
+            $.mixin,
             $.identifier,
             optional($.type_parameters),
             optional(seq(
@@ -1752,7 +1743,7 @@ module.exports = grammar({
         method_signature: $ => choice(
             seq($.constructor_signature, optional($.initializers)),
             $.factory_constructor_signature,
-           
+
             seq(
                 optional($._static),
                 choice(
@@ -1791,7 +1782,7 @@ module.exports = grammar({
                 optional($._external_and_static),
                 $.setter_signature,
             ),
-            
+
             seq(
                 optional($._external),
                 $.operator_signature
@@ -1884,12 +1875,12 @@ module.exports = grammar({
                 $._var_or_type,
                 $.initialized_identifier_list
             )
-        //    TODO: add in the 'late' keyword from the informal draft spec:
-        //    |static late final〈type〉?〈initializedIdentifierList〉
-        //    |static late?〈varOrType〉 〈initializedIdentifierList〉
-        //    |covariant late?〈varOrType〉 〈initializedIdentifierList〉
-        //    |late?final〈type〉?〈initializedIdentifierList〉
-        //    |late?〈varOrType〉 〈initializedIdentifierList〉
+            //    TODO: add in the 'late' keyword from the informal draft spec:
+            //    |static late final〈type〉?〈initializedIdentifierList〉
+            //    |static late?〈varOrType〉 〈initializedIdentifierList〉
+            //    |covariant late?〈varOrType〉 〈initializedIdentifierList〉
+            //    |late?final〈type〉?〈initializedIdentifierList〉
+            //    |late?〈varOrType〉 〈initializedIdentifierList〉
         ),
 
         identifier_list: $ => commaSep1(
@@ -2210,15 +2201,15 @@ module.exports = grammar({
         ),
 
         _type_name: $ => seq(
-                alias(
-                    $.identifier,
-                    $.type_identifier
-                ),
-                optional(
-                    $._type_dot_identifier
-                ),
-                // optional($._nullable_type),
+            alias(
+                $.identifier,
+                $.type_identifier
             ),
+            optional(
+                $._type_dot_identifier
+            ),
+            // optional($._nullable_type),
+        ),
 
         // _type_name: $ => prec.right( // changed from above?
         //     seq(
@@ -2275,22 +2266,6 @@ module.exports = grammar({
             'var',
         ),
 
-        _method_header: $ => seq(
-            optional(seq(
-                field('type_parameters', $.type_parameters),
-                optional($._metadata),
-            )),
-            field('type', $._type),
-            $._method_declarator,
-            optional($.throws)
-        ),
-
-        _method_declarator: $ => seq(
-            field('name', $.identifier),
-            field('parameters', $.formal_parameter_list),
-            field('dimensions', optional($.dimensions))
-        ),
-
         function_body: $ => choice(
             seq(
                 optional('async'),
@@ -2307,6 +2282,7 @@ module.exports = grammar({
                 $.block
             )
         ),
+
         function_expression_body: $ => choice(
             seq(
                 optional('async'),
@@ -2352,9 +2328,9 @@ module.exports = grammar({
             $.formal_parameter_list
         ),
 
-        
+
         formal_parameter_list: $ => $._strict_formal_parameter_list,
-        
+
         _strict_formal_parameter_list: $ => choice(
             seq(
                 '(',
@@ -2388,8 +2364,6 @@ module.exports = grammar({
             $._named_formal_parameters
         ),
 
-       
-
         positional_parameters: $ => seq(
             '[',
             commaSep1(
@@ -2397,6 +2371,7 @@ module.exports = grammar({
             ),
             ']'
         ),
+
         _optional_postional_formal_parameters: $ => seq(
             '[',
             commaSep1TrailingComma(
@@ -2502,24 +2477,6 @@ module.exports = grammar({
             optional($._formal_parameter_part)
         ),
 
-        receiver_parameter: $ => seq(
-            optional($._metadata),
-            $._type,
-            optional(seq($.identifier, '.')),
-            $.this
-        ),
-
-        spread_parameter: $ => seq(
-            optional($._metadata),
-            $._type,
-            '...',
-            $._declared_identifier
-        ),
-
-        throws: $ => seq(
-            'throws', commaSep1($._type)
-        ),
-
         local_variable_declaration: $ => seq(
             $.initialized_variable_definition,
             $._semicolon
@@ -2617,9 +2574,21 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'import',
         ),
-        _interface: $ => prec(
+        interface: $ => prec(
             DART_PREC.BUILTIN,
             'interface',
+        ),
+        base: $ => prec(
+            DART_PREC.BUILTIN,
+            'base',
+        ),
+        abstract: $ => prec(
+            DART_PREC.BUILTIN,
+            'abstract',
+        ),
+        sealed: $ => prec(
+            DART_PREC.BUILTIN,
+            'sealed',
         ),
         _library: $ => prec(
             DART_PREC.BUILTIN,
@@ -2629,7 +2598,7 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'operator',
         ),
-        _mixin: $ => prec(
+        mixin: $ => prec(
             DART_PREC.BUILTIN,
             'mixin',
         ),
@@ -2711,7 +2680,7 @@ module.exports = grammar({
         //TODO: add support for triple-slash comments as a special category.
         // Trying to add support for nested multiline comments.
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-        
+
         // _line_comment: $ => token(seq(
         //     '//', /[^\/].*/
         //   )),
@@ -2727,7 +2696,7 @@ module.exports = grammar({
             )
         ),
         //added nesting comments.
-        documentation_comment: $ => 
+        documentation_comment: $ =>
             choice(
                 $._documentation_block_comment,
                 seq('///', /.*/),
