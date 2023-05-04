@@ -16,7 +16,7 @@ Once you've found a parser, add it as a git subtree to
 an example.
 
 ```
-$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+$ git subtree add --prefix=vendored_parsers/tree-sitter-json https://github.com/tree-sitter/tree-sitter-json.git master
 ```
 
 ## Configure the build
