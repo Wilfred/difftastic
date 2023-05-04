@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
   (arguments (argument (identifier) (selector (argument_part (arguments)))))))))) 
 (class_definition (identifier) (superclass (type_identifier)) 
   (class_body 
-    (declaration (constant_constructor_signature (const_builtin) (qualified (identifier)) 
+    (declaration (constant_constructor_signature (const_builtin) (qualified (type_identifier)) 
       (formal_parameter_list (optional_formal_parameters (formal_parameter (type_identifier) (identifier))))) 
-        (initializers (initializer_list_entry (arguments (named_argument (label (identifier)) (identifier)))))) 
+        (initializers (initializer_list_entry (super) (arguments (named_argument (label (identifier)) (identifier)))))) 
     (marker_annotation (identifier)) 
     (method_signature (function_signature (type_identifier) (identifier) 
       (formal_parameter_list (formal_parameter (type_identifier) (identifier))))) 
@@ -218,3 +218,53 @@ class AWidget extends StatelessWidget {
                   (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
                   (selector (unconditional_assignable_selector (identifier))))))))))))))))))))))
 
+============
+Type tearoffs
+============
+
+expect(
+        tester.widget<RadioMenuButton<int>>(find.byType(RadioMenuButton<int>).first).groupValue,
+        null,
+      );
+
+---
+
+(program
+      (expression_statement
+        (identifier)
+        (selector
+          (argument_part
+            (arguments
+              (argument
+                (identifier)
+                (selector
+                  (unconditional_assignable_selector
+                    (identifier)))
+                (selector
+                  (argument_part
+                    (type_arguments
+                      (type_identifier)
+                      (type_arguments
+                        (type_identifier)))
+                    (arguments
+                      (argument
+                        (identifier)
+                        (selector
+                          (unconditional_assignable_selector
+                            (identifier)))
+                        (selector
+                          (argument_part
+                            (arguments
+                              (argument
+                                (identifier)
+                                (selector
+                                  (type_arguments
+                                    (type_identifier)))))))
+                        (selector
+                          (unconditional_assignable_selector
+                            (identifier)))))))
+                (selector
+                  (unconditional_assignable_selector
+                    (identifier))))
+              (argument
+                (null_literal)))))))

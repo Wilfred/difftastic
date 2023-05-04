@@ -179,6 +179,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -334,6 +338,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -537,6 +545,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -641,6 +653,10 @@
         },
         {
           "type": "constructor_invocation",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -792,6 +808,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -991,6 +1011,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -1088,6 +1112,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -1203,6 +1231,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -1326,6 +1358,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -1438,6 +1474,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -1599,6 +1639,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -1934,6 +1978,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -2052,6 +2100,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -2164,6 +2216,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -2469,6 +2525,25 @@
     }
   },
   {
+    "type": "constructor_tearoff",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "continue_statement",
     "named": true,
     "fields": {},
@@ -2693,6 +2768,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2729,6 +2818,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -2860,6 +2953,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "function_expression",
             "named": true
           },
@@ -2947,6 +3044,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -3131,6 +3232,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3195,6 +3310,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -3338,6 +3457,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -3495,6 +3618,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -3614,6 +3741,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -3753,6 +3884,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -3872,6 +4007,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -4176,6 +4315,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -4334,6 +4477,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -4607,6 +4754,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -4755,6 +4906,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -4891,6 +5046,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -4998,6 +5157,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -5207,6 +5370,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -5336,6 +5503,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -5491,6 +5662,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -5641,7 +5816,11 @@
           "named": true
         },
         {
-          "type": "qualified",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "super",
           "named": true
         }
       ]
@@ -5858,6 +6037,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -6035,6 +6218,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -6147,6 +6334,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -6355,6 +6546,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "base",
           "named": true
         },
@@ -6372,6 +6567,10 @@
         },
         {
           "type": "interfaces",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
           "named": true
         },
         {
@@ -6430,6 +6629,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -6526,6 +6729,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -6802,6 +7009,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -6967,6 +7178,10 @@
             "named": true
           },
           {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
             "type": "equality_expression",
             "named": true
           },
@@ -7086,6 +7301,10 @@
           },
           {
             "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
             "named": true
           },
           {
@@ -7233,6 +7452,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -7494,6 +7717,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "enum_declaration",
           "named": true
         },
@@ -7675,6 +7902,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
         }
       ]
     }
@@ -7771,6 +8002,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -7903,6 +8138,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -8045,6 +8284,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "unconditional_assignable_selector",
           "named": true
         }
@@ -8097,6 +8340,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -8289,6 +8536,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -8421,6 +8672,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -8545,6 +8800,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -8819,6 +9078,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -8991,6 +9254,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -9127,6 +9394,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -9247,6 +9518,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -9397,11 +9672,19 @@
       "required": true,
       "types": [
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "formal_parameter_list",
           "named": true
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
           "named": true
         },
         {
@@ -9534,6 +9817,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -9725,6 +10012,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -9860,6 +10151,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {
@@ -10045,6 +10340,10 @@
           "named": true
         },
         {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
@@ -10169,6 +10468,10 @@
         },
         {
           "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
           "named": true
         },
         {

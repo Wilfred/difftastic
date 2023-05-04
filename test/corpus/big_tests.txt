@@ -80,7 +80,7 @@ class BuildableIOSApp extends IOSApp {
 (class_body (declaration (constructor_signature (identifier) 
 (formal_parameter_list (optional_formal_parameters 
 (formal_parameter (type_identifier) (identifier))))) (initializers
- (initializer_list_entry (arguments (named_argument (label (identifier)) 
+ (initializer_list_entry (super) (arguments (named_argument (label (identifier)) 
 (identifier)))))) (marker_annotation (identifier)) 
 (method_signature (getter_signature 
 (type_identifier) (identifier))) (function_body (identifier)) (declaration 
@@ -93,7 +93,7 @@ class BuildableIOSApp extends IOSApp {
   (formal_parameter (type_identifier) (identifier)) 
   (formal_parameter (type_identifier) (identifier)))) 
   (initializers (initializer_list_entry (field_initializer (identifier) (identifier))) 
-  (initializer_list_entry (arguments (named_argument (label (identifier)) (identifier)))))) 
+  (initializer_list_entry (super) (arguments (named_argument (label (identifier)) (identifier)))))) 
   (method_signature (function_signature (type_identifier) (type_arguments
    (type_identifier)) (identifier) (formal_parameter_list 
 (formal_parameter (type_identifier) (identifier)) 
@@ -690,7 +690,7 @@ class TestRoot extends StatefulWidget {
       (class_definition (identifier) (superclass (type_identifier)) 
         (class_body 
           (declaration 
-              (constant_constructor_signature (const_builtin) (qualified (identifier)) 
+              (constant_constructor_signature (const_builtin) (qualified (type_identifier)) 
               (formal_parameter_list (optional_formal_parameters 
           (formal_parameter (super_formal_parameter (super) (identifier))))))) 
           (declaration (final_builtin) (type_identifier) 

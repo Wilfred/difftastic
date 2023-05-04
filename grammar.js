@@ -104,10 +104,9 @@ module.exports = grammar({
         [$._final_const_var_or_type, $._function_formal_parameter],
         [$._primary, $.constructor_param],
         [$._normal_formal_parameters],
-        [$.postfix_expression],
         [$._declared_identifier],
         [$.equality_expression],
-        [$._argument_list],
+        // [$._argument_list],
         [$.variable_declaration, $.initialized_identifier,],
         [$.declaration, $._external_and_static],
         [$.method_signature, $._static_or_covariant],
@@ -128,7 +127,6 @@ module.exports = grammar({
         [$._final_const_var_or_type, $.const_object_expression],
         [$._final_const_var_or_type],
         [$.type_parameter, $._type_name],
-        [$.class_definition],
         [$._normal_formal_parameter],
         [$.library_name, $.dotted_identifier_list],
         [$._top_level_definition, $.inferred_type],
@@ -177,7 +175,7 @@ module.exports = grammar({
             repeat($.part_directive),
             repeat($.part_of_directive),
             // The precedence here is to make sure that this rule is matched before any of the _statement rules are matched for testing.
-            repeat(prec.dynamic(22, seq(optional($._metadata), $._top_level_definition))),
+            repeat(prec.dynamic(22, $._top_level_definition)),
             //for testing:
             repeat($._statement),
             optional($._expression),
@@ -191,26 +189,31 @@ module.exports = grammar({
             $.mixin_declaration,
             $.type_alias,
             seq(
+                optional($._metadata),
                 optional($._external_builtin),
                 $.function_signature,
                 $._semicolon
             ),
             seq(
+                optional($._metadata),
                 optional($._external_builtin),
                 $.getter_signature,
                 $._semicolon
             ),
             seq(
+                optional($._metadata),
                 optional($._external_builtin),
                 $.setter_signature,
                 $._semicolon
             ),
 
             seq(
+                optional($._metadata),
                 $.function_signature,
                 $.function_body
             ),
             seq(
+                optional($._metadata),
                 $.getter_signature,
                 // optional($._type),
                 // $._get,
@@ -218,6 +221,7 @@ module.exports = grammar({
                 $.function_body
             ),
             seq(
+                optional($._metadata),
                 $.setter_signature,
                 // optional($._type),
                 // $._set,
@@ -228,6 +232,7 @@ module.exports = grammar({
 
             //    final or const static final declaration list            
             seq(
+                optional($._metadata),
                 choice(
                     $.final_builtin,
                     $.const_builtin
@@ -237,6 +242,7 @@ module.exports = grammar({
                 $._semicolon
             ),
             seq(
+                optional($._metadata),
                 $._late_builtin,
                 $.final_builtin,
                 optional($._type),
@@ -244,6 +250,7 @@ module.exports = grammar({
                 $._semicolon
             ),
             seq(
+                optional($._metadata),
                 optional($._late_builtin),
                 choice($._type, seq($.inferred_type, optional($._type))),
                 $.initialized_identifier_list,
@@ -946,7 +953,7 @@ module.exports = grammar({
             $.postfix_expression
         ),
 
-        postfix_expression: $ => choice(
+        postfix_expression: $ => prec.right(choice(
             seq(
                 $.assignable_expression,
                 $.postfix_operator
@@ -957,7 +964,7 @@ module.exports = grammar({
                     $.selector
                 )
             )
-        ),
+        )),
 
         postfix_operator: $ => $.increment_operator,
 
@@ -973,12 +980,13 @@ module.exports = grammar({
             $._expression
         ),
 
-        selector: $ => choice(
+        selector: $ => prec.right(choice(
             // '!',
             $._exclamation_operator,
             $._assignable_selector,
-            $.argument_part
-        ),
+            $.argument_part,
+            $.type_arguments,
+        )),
 
         prefix_operator: $ => choice(
             $.minus_operator,
@@ -1053,7 +1061,8 @@ module.exports = grammar({
             seq(
                 $.super,
                 $.unconditional_assignable_selector
-            )
+            ),
+            $.constructor_tearoff,
             // $.object_creation_expression,
             // $.field_access,
             // $.array_access,
@@ -1066,34 +1075,20 @@ module.exports = grammar({
 
         _compound_access: $ => choice('.', '?.'),
 
-        constructor_invocation: $ => seq(
-            $._type_name,
-            $.type_arguments,
-            '.',
-            $.identifier,
-            $.arguments
-        ),
+        constructor_invocation: $ => prec.right(choice(
+            seq($._type_name, $.type_arguments, '.', $.identifier, $.arguments),
+            seq($._type_name, '.', $._new_builtin, $.arguments),
+        )),
 
-        arguments: $ => seq('(', optional(
-            seq(
-                $._argument_list,
-                optional(
-                    ','
-                )
-            )
-        ), ')'),
+        constructor_tearoff: $ => prec.right(seq(
+          $._type_name, optional($.type_arguments), '.', $._new_builtin, 
+        )),
 
-        _argument_list: $ => choice(
-            commaSep1($.named_argument),
-            seq(commaSep1($.argument),
-                repeat(
-                    seq(
-                        ',',
-                        commaSep1($.named_argument)
-                    )
-                )
-            )
-        ),
+        arguments: $ => seq('(', optional($._argument_list), ')'),
+
+        _argument_list: $ => prec.right(commaSep1TrailingComma($._any_argument)),
+
+        _any_argument: $ => choice($.argument, $.named_argument),
 
         argument: $ => $._expression,
 
@@ -1560,6 +1555,7 @@ module.exports = grammar({
         asterisk: $ => '*',
 
         enum_declaration: $ => seq(
+            optional($._metadata),
             'enum',
             field('name', $.identifier),
             field('body', $.enum_body)
@@ -1577,12 +1573,16 @@ module.exports = grammar({
         )),
 
         type_alias: $ => choice(
-            seq($._typedef,
+            
+            seq(
+                optional($._metadata),$._typedef,
                 $._type_name,
                 optional($.type_parameters),
                 '=', $.function_type, ';'),
 
-            seq($._typedef,
+            seq(
+                optional($._metadata),
+                $._typedef,
                 optional($._type),
                 $._type_name,
                 $._formal_parameter_part, ';'),
@@ -1594,6 +1594,7 @@ module.exports = grammar({
 
         class_definition: $ => choice(
             seq(
+                optional($._metadata),
                 choice($._class_modifiers, $._mixin_class_modifiers),
                 field('name', $.identifier),
                 optional(field('type_parameters', $.type_parameters)),
@@ -1610,6 +1611,7 @@ module.exports = grammar({
 
         extension_declaration: $ => choice(
             seq(
+                optional($._metadata),
                 'extension',
                 optional(field('name', $.identifier)),
                 optional(field('type_parameters', $.type_parameters)),
@@ -1671,6 +1673,7 @@ module.exports = grammar({
             optional($.interfaces)
         ),
         mixin_declaration: $ => seq(
+            optional($._metadata),
             optional($.base),
             $.mixin,
             $.identifier,
@@ -1947,10 +1950,9 @@ module.exports = grammar({
             commaSep1($.initializer_list_entry)
         ),
         initializer_list_entry: $ => choice(
-            seq('super',
-                optional(seq('.', $.qualified)),
-                //$.arguements
-                $.arguments
+            seq($.super,$.arguments),
+            seq($.super, 
+              seq('.', choice($.identifier, $._new_builtin)),
             ),
             $.field_initializer,
             $.assertion
@@ -1997,7 +1999,7 @@ module.exports = grammar({
             $.this,
             optional(seq(
                 '.',
-                $.identifier
+                choice($.identifier, $._new_builtin)
             )),
             $.arguments
         ),
@@ -2488,9 +2490,9 @@ module.exports = grammar({
 
         dotted_identifier_list: $ => sep1($.identifier, '.'),
 
-        qualified: $ => seq($.identifier,
+        qualified: $ => seq($._type_name,
             optional(
-                seq('.', $.identifier)
+                seq('.', choice($.identifier, $._new_builtin))
             )
         ),
 
