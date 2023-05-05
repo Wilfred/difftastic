@@ -56,9 +56,10 @@ Json => {
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
         highlight_query: ts::Query::new(
             language,
-            include_str!("../vendored_parsers/highlights/json.scm"),
+            include_str!("../../vendored_parsers/highlights/json.scm"),
         )
         .unwrap(),
+        sub_languages: vec![],
     }
 }
 ```
@@ -83,6 +84,8 @@ was unchanged.
 You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
+
+`sub-languages` is empty for most languages: see the code documentation for details.
 
 ## Configure language detection
 
