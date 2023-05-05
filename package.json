@@ -10,14 +10,22 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.17.0"
+    "nan": "^2.17.0",
+    "prebuild-install": "^7.1.1"
   },
   "devDependencies": {
+    "node-gyp": "^9.3.1",
+    "prebuild": "^11.0.4",
     "tree-sitter-cli": "^0.20.7"
+  },
+  "overrides": {
+    "prebuild": {
+      "node-gyp": "$node-gyp"
+    }
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "pre-build": "prebuild --all --strip --verbose",
+    "pre-build": "prebuild -t 14.0.0 -t 16.0.0 -t 18.0.0 -t 20.0.0 --strip && prebuild -r electron -t 16.0.0 -t 17.0.0 -t 18.0.0 -t 19.0.0 -t 20.0.0 -t 21.0.0 -t 22.0.0 -t 23.0.0 -t 23.0.0 --strip",
     "pre-build:upload": "prebuild --upload-all",
     "build": "tree-sitter generate && node-gyp build",
     "parse": "tree-sitter parse",
