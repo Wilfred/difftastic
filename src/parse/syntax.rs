@@ -240,13 +240,18 @@ impl<'a> Syntax<'a> {
 
     pub fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
-        position: Vec<SingleLineSpan>,
+        mut position: Vec<SingleLineSpan>,
         mut content: &str,
         kind: AtomKind,
     ) -> &'a Syntax<'a> {
         // If a parser hasn't cleaned up \r on CRLF files with
         // comments, discard it.
         if content.ends_with('\r') {
+            content = &content[..content.len() - 1];
+        }
+
+        if kind == AtomKind::Comment && content.ends_with('\n') {
+            position.pop();
             content = &content[..content.len() - 1];
         }
 
@@ -996,6 +1001,43 @@ mod tests {
             List { .. } => unreachable!(),
             Atom { content, .. } => {
                 assert_eq!(content, "foo");
+            }
+        }
+    }
+
+    #[test]
+    fn test_new_atom_truncates_trailing_newline() {
+        let arena = Arena::new();
+        let position = vec![
+            SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 8,
+            },
+            SingleLineSpan {
+                line: 1.into(),
+                start_col: 0,
+                end_col: 1,
+            },
+        ];
+        let content = ";; hello\n";
+
+        let atom = Syntax::new_atom(&arena, position, content, AtomKind::Comment);
+
+        match atom {
+            List { .. } => unreachable!(),
+            Atom {
+                position, content, ..
+            } => {
+                assert_eq!(content, ";; hello");
+                assert_eq!(
+                    *position,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 8,
+                    }]
+                );
             }
         }
     }
