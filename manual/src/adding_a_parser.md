@@ -93,9 +93,6 @@ language.
 "json" => Some(Json),
 ```
 
-There may also file names or shebangs associated with your language. Add those by changing the `LANG_EXTENSIONS` constant further below in that file. GitHub's linguist definitions is a useful source of common file extensions.
-
-
 There may also file names or shebangs associated with your language.
 Add those by changing the `LANG_EXTENSIONS` constant further below in that file. [GitHub's linguist
 definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
