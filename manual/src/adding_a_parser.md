@@ -89,16 +89,17 @@ you've set atoms and delimiters correctly.
 
 ## Configure language detection
 
-Update `from_extension` in `guess_language.rs` to detect your new
-language.
+Update `language_name` in `guess_language.rs` to detect your new
+language. Insert a match arm like:
 
 ```
-"json" => Some(Json),
+Json => "json",
 ```
 
-There may also file names or shebangs associated with your language.
-Add those by changing the `LANG_EXTENSIONS` constant further below in that file. [GitHub's linguist
-definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
+There may also file names or shebangs associated with your language; configure those
+by adapting the `LANG_FILE_NAMES` constant and the `from_shebang` method in that file, respectively.
+Add any file extensions associated to your language to the `LANG_EXTENSIONS` constant.
+[GitHub's linguist definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
 are a useful source of common file extensions.
 
 ## Syntax highlighting (Optional)
