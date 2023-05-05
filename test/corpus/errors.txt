@@ -16,3 +16,14 @@ final a = StateProvider<T1234567>   // Complete expression is: final a = StatePr
           (type_identifier)))
       (comment)
       (comment))
+
+===========
+Empty
+===========
+
+d
+
+---
+
+(program
+      (identifier))
