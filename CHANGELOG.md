@@ -7,7 +7,7 @@ Bits may be missing and/or inaccurate :)
 * Decide about inline use (e.g. add some \_bare\_\* constructs? stop using?)
   ([#41](https://github.com/sogaiu/tree-sitter-clojure/issues/41))
 
-### v0.0.12 - 2023-03-??
+### v0.0.12 - 2023-05-07
 
 * Features and Fixes
   * Loosen sym_val_lit definition
