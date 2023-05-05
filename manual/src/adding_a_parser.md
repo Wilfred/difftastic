@@ -16,7 +16,7 @@ Once you've found a parser, add it as a git subtree to
 an example.
 
 ```
-$ git subtree add --prefix=vendored_parsers/tree-sitter-json git@github.com:tree-sitter/tree-sitter-json.git master
+$ git subtree add --prefix=vendored_parsers/tree-sitter-json https://github.com/tree-sitter/tree-sitter-json.git master
 ```
 
 ## Configure the build
@@ -56,9 +56,10 @@ Json => {
         delimiter_tokens: vec![("{", "}"), ("[", "]")],
         highlight_query: ts::Query::new(
             language,
-            include_str!("../vendored_parsers/highlights/json.scm"),
+            include_str!("../../vendored_parsers/highlights/json.scm"),
         )
         .unwrap(),
+        sub_languages: vec![],
     }
 }
 ```
@@ -84,19 +85,22 @@ You can use `difft --dump-ts foo.json` to see the results of the
 tree-sitter parser, and `difft --dump-syntax foo.json` to confirm that
 you've set atoms and delimiters correctly.
 
+`sub-languages` is empty for most languages: see the code documentation for details.
+
 ## Configure language detection
 
-Update `from_extension` in `guess_language.rs` to detect your new
-language.
+Update `language_name` in `guess_language.rs` to detect your new
+language. Insert a match arm like:
 
 ```
-"json" => Some(Json),
+Json => "json",
 ```
 
-There may also file names or shebangs associated with your
-language. [GitHub's linguist
-definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
-is a useful source of common file extensions.
+There may also file names or shebangs associated with your language; configure those
+by adapting the `LANG_FILE_NAMES` constant and the `from_shebang` method in that file, respectively.
+Add any file extensions associated to your language to the `LANG_EXTENSIONS` constant.
+[GitHub's linguist definitions](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
+are a useful source of common file extensions.
 
 ## Syntax highlighting (Optional)
 
