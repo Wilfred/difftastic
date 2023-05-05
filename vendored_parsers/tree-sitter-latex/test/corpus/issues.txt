@@ -1,0 +1,765 @@
+================================================================================
+tree-sitter-latex (Issue #11)
+================================================================================
+
+\documentclass{article}
+\begin{document}
+
+\texttt{foo :("@@@} foo foo
+foo foo \texttt{0xffe00fff} foo foo foo foo foo foo foo foo foo foo foo
+foo \texttt{0xfff00000}.
+
+foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo
+foo.  foo foo foo foo foo foo foo foo foo foo
+foo foo foo foo foo foo
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_include
+    (curly_group_path
+      (path)))
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (generic_command
+      (command_name)
+      (curly_group
+        (text
+          (word)
+          (operator))
+        (text
+          (word))))
+    (text
+      (word)
+      (word)
+      (word)
+      (word)
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word))))
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word))))
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #15)
+================================================================================
+
+\iffalse
+something here
+\fi
+
+\usepackage{comment} % in the preamble
+\begin{comment}
+ something
+\end{comment}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (block_comment
+    (comment))
+  (package_include
+    (curly_group_path_list
+      (path)))
+  (line_comment)
+  (comment_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (comment)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #10)
+================================================================================
+
+\titleformat{\section}{\relax}{\thesection}{1em}{\spacedsmallcaps}
+\titlespacing*{\paragraph}{0pt}{1\baselineskip}{0.5\baselineskip}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name)
+    (curly_group
+      (section))
+    (curly_group
+      (generic_command
+        (command_name)))
+    (curly_group
+      (generic_command
+        (command_name)))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (generic_command
+        (command_name))))
+  (generic_command
+    (command_name)
+    (curly_group
+      (paragraph))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (generic_command
+          (command_name))))
+    (curly_group
+      (text
+        (word)
+        (generic_command
+          (command_name))))))
+
+================================================================================
+tree-sitter-latex (Issue #7)
+================================================================================
+
+\addbibresource{$HOME/ref.bib}
+
+To clear \lstinline{biber} cache, run
+\begin{lstlisting}[language=bash]
+rm -rf "$(biber --cache)"
+\end{lstlisting}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (biblatex_include
+    (curly_group_glob_pattern
+      (glob_pattern)))
+  (text
+    (word)
+    (word)
+    (generic_command
+      (command_name)
+      (curly_group
+        (text
+          (word))))
+    (word))
+  (text
+    (word))
+  (listing_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #11)
+================================================================================
+
+\newenvironment{mycenter}
+{\begin{center}}
+{\end{center}}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment_definition
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group_impl
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word)))))
+    (curly_group_impl
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word)))))))
+
+================================================================================
+tree-sitter-latex (Issue #10)
+================================================================================
+
+\titleformat{\section}{\relax}{\thesection}{1em}{\spacedsmallcaps}
+\titlespacing*{\paragraph}{0pt}{1\baselineskip}{0.5\baselineskip}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name)
+    (curly_group
+      (section))
+    (curly_group
+      (generic_command
+        (command_name)))
+    (curly_group
+      (generic_command
+        (command_name)))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (generic_command
+        (command_name))))
+  (generic_command
+    (command_name)
+    (curly_group
+      (paragraph))
+    (curly_group
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (generic_command
+          (command_name))))
+    (curly_group
+      (text
+        (word)
+        (generic_command
+          (command_name))))))
+
+================================================================================
+tree-sitter-latex (Issue #13)
+================================================================================
+
+\includegraphics[width=0.5\textwidth]{some.jpg}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (graphics_include
+    (brack_group_key_value
+      (key_value_pair
+        (text
+          (word))
+        (value
+          (text
+            (word)
+            (generic_command
+              (command_name))))))
+    (curly_group_path
+      (path))))
+
+================================================================================
+tree-sitter-latex (Issue #24)
+================================================================================
+
+\newtheorem{definition}{Definition}[section]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (theorem_definition
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word)))
+    (brack_group_text
+      (text
+        (word)))))
+
+================================================================================
+tree-sitter-latex (Issue #25 Nesting of document structure)
+================================================================================
+
+\section{SomeSection}
+
+1
+
+\begin{itemize}
+
+    \item 2 \texttt{3} 4
+
+\end{itemize}
+
+5
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (section
+    text: (curly_group
+      (text
+        word: (word)))
+    (text
+      word: (word))
+    (generic_environment
+      begin: (begin
+        name: (curly_group_text
+          text: (text
+            word: (word))))
+      (enum_item
+        (text
+          word: (word)
+          word: (generic_command
+            command: (command_name)
+            arg: (curly_group
+              (text
+                word: (word))))
+          word: (word)))
+      end: (end
+        name: (curly_group_text
+          text: (text
+            word: (word)))))
+    (text
+      word: (word))))
+
+================================================================================
+tree-sitter-latex (Issue #28 \usetikzlibrary with multiple libs)
+================================================================================
+
+\usetikzlibrary{
+  calc,
+  external,
+  shapes,
+  math
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (tikz_library_import
+    (curly_group_path_list
+      (path)
+      (path)
+      (path)
+      (path))))
+
+================================================================================
+tree-sitter-latex (Issue #29)
+================================================================================
+
+\color{\currentcolor}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (color_reference
+    (curly_group_text
+      (text
+        (generic_command
+          (command_name))))))
+
+================================================================================
+tree-sitter-latex (Issue #3) | \text
+================================================================================
+
+Let $C = \{ f \colon M \to \mathbb{R} \mid \text{$f$ is smooth} \}$.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (inline_formula
+    (text
+      (word))
+    (text
+      (word)
+      (generic_command
+        (command_name))
+      (word)
+      (generic_command
+        (command_name))
+      (word)
+      (generic_command
+        (command_name))
+      (generic_command
+        (command_name)
+        (curly_group
+          (text
+            (word))))
+      (generic_command
+        (command_name)))
+    (text_mode
+      (curly_group
+        (inline_formula
+          (text
+            (word)))
+        (text
+          (word)
+          (word))))
+    (generic_command
+      (command_name)))
+  (text
+    (word)))
+
+================================================================================
+tree-sitter-latex (Issue #3) | \intertext
+================================================================================
+
+Let
+\begin{align*}
+	F &= x^2 + y^2
+\intertext{and similarly}
+	G &= x^2 - y^2.
+\end{align*}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (math_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (text
+      (word)
+      (word))
+    (text
+      (word)
+      (superscript
+        (word))
+      (operator)
+      (word)
+      (superscript
+        (word)))
+    (text_mode
+      (curly_group
+        (text
+          (word)
+          (word))))
+    (text
+      (word)
+      (word))
+    (text
+      (word)
+      (superscript
+        (word))
+      (operator)
+      (word)
+      (superscript
+        (word)))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #36) | Paired delimiter #1
+================================================================================
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\DeclarePairedDelimiterX{\abs}[1]\lvert\rvert{#1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_impl
+      (generic_command
+        (command_name)))
+    (curly_group_impl
+      (generic_command
+        (command_name))))
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (brack_group_argc
+      (argc))
+    (command_name)
+    (command_name)
+    (curly_group
+      (text
+        (placeholder)))))
+
+================================================================================
+tree-sitter-latex (Issue #36) | Paired delimiter #2
+================================================================================
+
+\DeclarePairedDelimiter{\foo}{(}{)}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (paired_delimiter_definition
+    (curly_group_command_name
+      (command_name))
+    (curly_group_impl)
+    (curly_group_impl)))
+
+================================================================================
+tree-sitter-latex (Issue #39) | Section with ToC entry
+================================================================================
+
+\section[Foo 1]{Bar 1}
+
+Qux 1
+
+\subsection[Foo 2]{Bar 2}
+
+Qux 2
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (section
+    (brack_group
+      (text
+        (word)
+        (word)))
+    (curly_group
+      (text
+        (word)
+        (word)))
+    (text
+      (word)
+      (word))
+    (subsection
+      (brack_group
+        (text
+          (word)
+          (word)))
+      (curly_group
+        (text
+          (word)
+          (word)))
+      (text
+        (word)
+        (word)))))
+
+================================================================================
+tree-sitter-latex (Issue #42) | Command with parens
+================================================================================
+
+\emph{test} (note here)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_command
+    (command_name)
+    (curly_group
+      (text
+        (word))))
+  (text
+    (word)
+    (word)))
+
+================================================================================
+tree-sitter-latex (Issue #43) | \left and \right
+================================================================================
+
+\left\{ Foo \right.
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_delimiter
+    (command_name)
+    (text
+      (word))
+    (word)))
+
+================================================================================
+tree-sitter-latex (Issue #43) | \left and \right with parens
+================================================================================
+
+\left( Foo \right]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_delimiter
+    (text
+      (word))))
+
+================================================================================
+tree-sitter-latex (Issue #44) | \definecolor
+================================================================================
+
+\definecolor{delim}{RGB}{20,105,176}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (color_definition
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group_text
+      (text
+        (word)))
+    (curly_group
+      (text
+        (word))
+      (text
+        (word))
+      (text
+        (word)))))
+
+================================================================================
+tree-sitter-latex (Issue #48) | Brackets in math mode
+================================================================================
+
+\(]0,+\infty[\)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (inline_formula
+    (text
+      (word))
+    (text
+      (operator)
+      (generic_command
+        (command_name)))))
+
+================================================================================
+tree-sitter-latex (Issue #55) | minted with options
+================================================================================
+
+\documentclass{article}
+
+\begin{document}
+  \begin{minted}[autogobble]{python}
+    foo()
+  \end{minted}
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_include
+    (curly_group_path
+      (path)))
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (minted_environment
+      (begin
+        (curly_group_text
+          (text
+            (word)))
+        (brack_group_key_value
+          (key_value_pair
+            (text
+              (word))))
+        (curly_group_text
+          (text
+            (word))))
+      (source_code)
+      (end
+        (curly_group_text
+          (text
+            (word)))))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+tree-sitter-latex (Issue #58) | math delimiters
+================================================================================
+
+\big( 2 + 2 \big)
+\bigl( 2 + 2 \bigr)
+\left( 2 + 2 \right)
+\big\langle 2 + 2 \big\rangle
+\bigl| v \bigr|
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (text
+      (word)
+      (operator)
+      (word)))
+  (math_delimiter
+    (command_name)
+    (text
+      (word)
+      (operator)
+      (word))
+    (command_name))
+  (math_delimiter
+    (text
+      (word))))

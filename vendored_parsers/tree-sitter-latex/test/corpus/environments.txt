@@ -1,0 +1,270 @@
+================================================================================
+Simple environment
+================================================================================
+
+\begin{document}
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Environment with options
+================================================================================
+
+\begin{document}[foo bar]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word)))
+      (brack_group
+        (text
+          (word)
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Environment with nested options
+================================================================================
+
+\begin{document}[foo [bar] (baz)]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word)))
+      (brack_group
+        (text
+          (word))
+        (brack_group
+          (text
+            (word)))
+        (text
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Environment with escaped options
+================================================================================
+
+\begin{document}[{[}{]}]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generic_environment
+    (begin
+      (curly_group_text
+        (text
+          (word)))
+      (brack_group
+        (curly_group)
+        (curly_group)))
+    (text
+      (word)
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Comment environment
+================================================================================
+
+Foo
+
+\begin{comment}
+
+\begin{document}
+
+Hello World
+
+\end{document}
+
+\end{comment}
+
+Bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (comment_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (comment)
+    (end
+      (curly_group_text
+        (text
+          (word)))))
+  (text
+    (word)))
+
+================================================================================
+Verbatim environment
+================================================================================
+
+Foo
+
+\begin{verbatim}
+
+\begin{document}
+
+Hello World
+
+\end{document}
+
+\end{verbatim}
+
+Bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (verbatim_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (comment)
+    (end
+      (curly_group_text
+        (text
+          (word)))))
+  (text
+    (word)))
+
+================================================================================
+Minted environment
+================================================================================
+
+\begin{minted}{c}
+  int a = 1;
+\end{minted}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (minted_environment
+    (begin
+      (curly_group_text
+        (text
+          (word)))
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Pycode environment
+================================================================================
+
+\begin{pycode}
+  print()
+\end{pycode}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pycode_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (source_code)
+    (end
+      (curly_group_text
+        (text
+          (word))))))
+
+================================================================================
+Math environment
+================================================================================
+
+\begin{equation*}
+  e^{i \pi} + 1 = 0
+\end{equation*}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (math_environment
+    (begin
+      (curly_group_text
+        (text
+          (word))))
+    (text
+     (word)
+     (superscript
+      (curly_group
+       (text
+        (word)
+        (generic_command
+         (command_name)))))
+      (operator)
+      (word))
+    (text
+      (word))
+    (end
+      (curly_group_text
+        (text
+          (word))))))
