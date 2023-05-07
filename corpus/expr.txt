@@ -667,32 +667,24 @@ do
 (file
   (value_declaration
     (do
-      (application_expression
-        (infix_expression
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier))))
-          (infix_op
-            (symbolic_op))
-          (dot_expression
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))
-            (long_identifier_or_op
-              (long_identifier
-                (identifier)))))
+      (infix_expression
         (dot_expression
           (long_identifier_or_op
-            (long_identifier
-              (identifier)))
+            (long_identifier (identifier)))
           (long_identifier_or_op
-            (long_identifier
-              (identifier))))))))
-
+            (long_identifier (identifier))))
+        (infix_op (symbolic_op))
+        (application_expression
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier (identifier)))
+            (long_identifier_or_op
+              (long_identifier (identifier))))
+          (dot_expression
+            (long_identifier_or_op
+              (long_identifier (identifier)))
+            (long_identifier_or_op
+              (long_identifier (identifier)))))))))
 
 ================================================================================
 ce expression 1
@@ -1152,3 +1144,86 @@ let x =
             (long_identifier (identifier)))
           (long_identifier_or_op
             (long_identifier (identifier))))))))
+
+================================================================================
+application-expression in sequence expression
+================================================================================
+
+let test =
+  id 1
+  ()
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (application_expression
+        (long_identifier_or_op
+          (long_identifier
+            (identifier)))
+        (const
+          (int)))
+      (const
+        (unit)))))
+
+================================================================================
+application-expression followed by dot-expression
+================================================================================
+
+let test f =
+  if true then
+    f a
+  someDictionary.Add(vkey, "foo")
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (function_declaration_left
+        (identifier)
+        (argument_patterns
+          (long_identifier
+            (identifier))))
+      (if_expression
+        (const)
+        (application_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (long_identifier_or_op (long_identifier (identifier)))))
+      (call_expression
+        (dot_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (long_identifier_or_op (long_identifier (identifier))))
+        (tuple_expression
+          (long_identifier_or_op (long_identifier (identifier)))
+          (const (string)))))))
+
+================================================================================
+if-expression in sequence expression
+================================================================================
+
+let test =
+  if true then
+    2
+  1
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_or_value_defn
+      (value_declaration_left
+        (identifier_pattern
+          (long_identifier
+            (identifier))))
+      (if_expression
+        (const)
+        (const
+          (int)))
+      (const
+        (int)))))

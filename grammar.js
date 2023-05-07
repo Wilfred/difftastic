@@ -64,7 +64,7 @@ module.exports = grammar({
 
   words: $ => $.identifier,
 
-  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions, $._expression_or_range],
+  inline: $ => [ $._module_elem, $._infix_or_prefix_op, $._base_call, $.access_modifier, $._quote_op_left, $._quote_op_right, $._inner_literal_expressions, $._expression_or_range, $._infix_expression_inner, $._seq_expressions, $._seq_inline],
 
   supertypes: $ => [ $._module_elem, $._pattern, $._expression_inner, $._type_defn_body ],
 
@@ -349,14 +349,34 @@ module.exports = grammar({
     //
     // Expressions (BEGIN)
     //
+    //
+
+    _seq_infix: $ =>
+      prec.right(
+      seq(
+        $._expression_inner,
+        repeat1(
+          seq(
+            $._virtual_end_decl,
+            $.infix_op,
+            $._expressions,
+          ),
+        ),
+      )),
+
+    _seq_expressions: $ =>
+      seq(
+        $._expression_inner,
+        repeat(seq($._virtual_end_decl, $._expressions)),
+      ),
 
     _expressions: $ =>
       prec.left(PREC.SEQ_EXPR,
-        seq(
-          $._expression_inner,
-          repeat(seq($._virtual_end_decl, $._expressions)),
-      )),
-
+        choice(
+          alias($._seq_infix, $.infix_expression),
+          $._seq_expressions,
+        ),
+      ),
 
     _expression_inner: $ =>
       choice(
@@ -495,19 +515,12 @@ module.exports = grammar({
         "}",
       )),
 
-    _infix_expression_inner: $ =>
-      prec.left(PREC.SPECIAL_INFIX,
+    infix_expression: $ =>
+      prec.right(PREC.SPECIAL_INFIX,
       seq(
-        optional($._virtual_end_decl),
+        $._expression_inner,
         $.infix_op,
         $._expression_inner,
-      )),
-
-    infix_expression: $ =>
-      prec.left(PREC.SPECIAL_INFIX,
-      seq(
-        $._expression_inner,
-        repeat1($._infix_expression_inner),
       )),
 
     literal_expression: $ =>
