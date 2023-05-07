@@ -51,24 +51,32 @@ not a.c
 
 !a.u:b
 
+echo $a
+
 --------------------------------------------------------------------------------
 
 (source_file
   (prefix_expression
+    operator: (prefix_operator)
     (identifier))
   (prefix_expression
+    operator: (prefix_operator)
     (identifier))
   (prefix_expression
+    operator: (prefix_operator)
     (identifier))
   (prefix_expression
+    operator: (prefix_operator)
     (dot_expression
       left: (identifier)
       right: (identifier)))
   (dot_expression
     left: (prefix_expression
+      operator: (prefix_operator)
       (identifier))
     right: (identifier))
   (prefix_expression
+    operator: (prefix_operator)
     (parenthesized
       (dot_expression
         left: (identifier)
@@ -78,10 +86,16 @@ not a.c
       left: (identifier)
       right: (identifier)))
   (prefix_expression
+    operator: (prefix_operator)
     (dot_expression
       left: (identifier)
       right: (identifier))
     (statement_list
+      (identifier)))
+  (call
+    function: (identifier)
+    (prefix_expression
+      operator: (prefix_operator)
       (identifier))))
 
 ================================================================================
@@ -104,7 +118,7 @@ z ==> xyz + def => cd
 
 $a + b
 
-1 ∙ 2 and 3 ∙ 1 or false
+1 * 2 and 3 * 1 or false
 
 (1 + 2) * (2 + 3)
 
@@ -117,11 +131,16 @@ c of RootObj
 1 + 1: 3
 else: 4
 
+1+1
+
+1+ 1
+
 --------------------------------------------------------------------------------
 
 (source_file
   (infix_expression
     left: (integer_literal)
+    operator: (infix_operator)
     right: (integer_literal))
   (infix_expression
     left: (identifier)
@@ -129,75 +148,106 @@ else: 4
   (infix_expression
     left: (infix_expression
       left: (integer_literal)
+      operator: (infix_operator)
       right: (integer_literal))
+    operator: (infix_operator)
     right: (infix_expression
       left: (integer_literal)
+      operator: (infix_operator)
       right: (integer_literal)))
   (infix_expression
     left: (identifier)
+    operator: (infix_operator)
     right: (identifier))
   (infix_expression
     left: (integer_literal)
+    operator: (infix_operator)
     right: (infix_expression
       left: (integer_literal)
+      operator: (infix_operator)
       right: (integer_literal)))
   (infix_expression
     left: (identifier)
+    operator: (infix_operator)
     right: (infix_expression
       left: (identifier)
+      operator: (infix_operator)
       right: (identifier)))
   (infix_expression
     left: (infix_expression
       left: (identifier)
+      operator: (infix_operator)
       right: (infix_expression
         left: (identifier)
+        operator: (infix_operator)
         right: (identifier)))
+    operator: (infix_operator)
     right: (identifier))
   (infix_expression
     left: (prefix_expression
+      operator: (prefix_operator)
       (identifier))
+    operator: (infix_operator)
     right: (identifier))
   (infix_expression
     left: (infix_expression
       left: (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (integer_literal))
       right: (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (integer_literal)))
     right: (identifier))
   (infix_expression
     left: (parenthesized
       (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (integer_literal)))
+    operator: (infix_operator)
     right: (parenthesized
       (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (integer_literal))))
   (infix_expression
     left: (identifier)
+    operator: (infix_operator)
     right: (infix_expression
       left: (identifier)
+      operator: (infix_operator)
       right: (identifier)))
   (infix_expression
     left: (identifier)
     right: (identifier))
   (infix_expression
     left: (integer_literal)
+    operator: (infix_operator)
     right: (call
       function: (identifier)
       (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (identifier))))
   (infix_expression
     left: (integer_literal)
+    operator: (infix_operator)
     right: (integer_literal)
     (statement_list
       (integer_literal))
     (else_branch
       (statement_list
-        (integer_literal)))))
+        (integer_literal))))
+  (infix_expression
+    left: (integer_literal)
+    operator: (infix_operator)
+    right: (integer_literal))
+  (infix_expression
+    left: (integer_literal)
+    operator: (infix_operator)
+    right: (integer_literal)))
 
 ================================================================================
 Dot expressions
@@ -213,11 +263,16 @@ a.b"string"
 a.b "string"
 a.b#[]#"string"
 
+a(
+  b
+).c
+
 --------------------------------------------------------------------------------
 
 (source_file
   (infix_expression
     left: (identifier)
+    operator: (infix_operator)
     right: (dot_expression
       left: (identifier)
       right: (identifier)))
@@ -225,10 +280,12 @@ a.b#[]#"string"
     left: (dot_expression
       left: (identifier)
       right: (identifier))
+    operator: (infix_operator)
     right: (dot_expression
       left: (identifier)
       right: (identifier)))
   (prefix_expression
+    operator: (prefix_operator)
     (dot_expression
       left: (identifier)
       right: (identifier)))
@@ -247,7 +304,12 @@ a.b#[]#"string"
       left: (identifier)
       right: (identifier))
     (comment)
-    (string_literal)))
+    (string_literal))
+  (dot_expression
+    left: (call
+      function: (identifier)
+      (identifier))
+    right: (identifier)))
 
 ================================================================================
 Bracket expressions
@@ -268,6 +330,7 @@ a.b[c]
       (identifier)))
   (infix_expression
     left: (integer_literal)
+    operator: (infix_operator)
     right: (bracket_expression
       left: (identifier)
       right: (argument_list
@@ -292,6 +355,7 @@ a + 2{c}[a]
       (identifier)))
   (infix_expression
     left: (identifier)
+    operator: (infix_operator)
     right: (bracket_expression
       left: (curly_expression
         left: (integer_literal)
@@ -396,6 +460,7 @@ collect(for x in s:
     (statement_list
       (infix_expression
         left: (integer_literal)
+        operator: (infix_operator)
         right: (integer_literal))
       (identifier))
     (else_branch
@@ -432,6 +497,7 @@ collect(for x in s:
       body: (statement_list
         (infix_expression
           left: (identifier)
+          operator: (infix_operator)
           right: (identifier)))))
   (call
     function: (identifier)
@@ -604,6 +670,7 @@ foo {x}
     function: (identifier)
     (infix_expression
       left: (integer_literal)
+      operator: (infix_operator)
       right: (call
         function: (identifier)))
     (identifier))
@@ -1200,6 +1267,7 @@ iterator: T
     body: (statement_list
       (infix_expression
         left: (identifier)
+        operator: (infix_operator)
         right: (integer_literal))))
   (iterator_expression
     parameters: (parameter_declaration_list

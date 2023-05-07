@@ -88,6 +88,113 @@ const WordOperators = {
   4: ["and"],
   3: ["or", "xor"],
 };
+const Operators = [
+  "=",
+  "+",
+  "-",
+  "*",
+  "/",
+  "<",
+  ">",
+  "@",
+  "$",
+  "~",
+  "&",
+  "%",
+  "|",
+  "!",
+  "?",
+  "^",
+  ".",
+  ":",
+  "\\",
+  // "∙",
+  // "∘",
+  // "×",
+  // "★",
+  // "⊗",
+  // "⊘",
+  // "⊙",
+  // "⊛",
+  // "⊠",
+  // "⊡",
+  // "∩",
+  // "∧",
+  // "⊓",
+  // "±",
+  // "⊕",
+  // "⊖",
+  // "⊞",
+  // "⊟",
+  // "∪",
+  // "∨",
+  // "⊔",
+];
+const InfixOperators = {
+  R10: token(seq("^", repeat(choice(...Operators)))),
+  L10: token(seq("$", repeat(choice(...Operators)))),
+  L9: token(
+    seq(
+      choice(
+        "*",
+        "%",
+        "\\",
+        "/"
+        // "∙",
+        // "∘",
+        // "×",
+        // "★",
+        // "⊗",
+        // "⊘",
+        // "⊙",
+        // "⊛",
+        // "⊠",
+        // "⊡",
+        // "∩",
+        // "∧",
+        // "⊓"
+      ),
+      repeat(choice(...Operators))
+    )
+  ),
+  L8: token(
+    seq(
+      choice(
+        "+",
+        "-",
+        "~",
+        "|"
+        // "±", "⊕", "⊖", "⊞", "⊟", "∪", "∨", "⊔"
+      ),
+      repeat(choice(...Operators))
+    )
+  ),
+  L7: token(seq("&", repeat(choice(...Operators)))),
+  L6: token(seq(".", repeat1(choice(...Operators)))),
+  L5: token(
+    choice(
+      seq("=", repeat1(choice(...Operators))),
+      seq(choice("<", ">", "!"), repeat(choice(...Operators)))
+    )
+  ),
+  L2: token(
+    choice(
+      seq(":", repeat1(choice(...Operators))),
+      seq(choice("@", "?"), repeat(choice(...Operators)))
+    )
+  ),
+  L1: token(
+    seq(
+      repeat1(
+        choice(
+          ...Operators.filter(x => !["<", ">", "!", "=", "~", "?"].includes(x))
+        )
+      ),
+      "="
+    )
+  ),
+  L0: token(seq(repeat(choice(...Operators)), choice("=", "-", "~"), ">")),
+};
 
 module.exports = grammar({
   name: "nim",
@@ -119,18 +226,8 @@ module.exports = grammar({
     // @ts-ignore: DSL not updated for literals
     /[\n\r ]+/,
     $._invalid_layout,
-    $._binop10l,
-    $._binop10r,
-    $._binop9,
-    $._binop8,
-    $._binop7,
-    $._binop6,
-    $._binop5,
-    $._binop2,
-    $._sigilop,
-    $._binop1,
-    $._binop0,
-    $._unaryop,
+    $._sigil_operator,
+    $.prefix_operator,
     keyword_regex("elif"),
     keyword_regex("else"),
     keyword_regex("except"),
@@ -753,18 +850,18 @@ module.exports = grammar({
     _infix_expression: $ =>
       choice(
         .../** @type {[Rule, string, Function][]} */ ([
-          [$._binop10r, "binary_10", prec.right],
-          [$._binop10l, "binary_10", prec.left],
-          [$._binop9, "binary_9", prec.left],
+          [$._infix_operator_10r, "binary_10", prec.right],
+          [$._infix_operator_10l, "binary_10", prec.left],
+          [$._infix_operator_9, "binary_9", prec.left],
           [
             choice(...WordOperators[9].map(x => keyword(x))),
             "binary_9",
             prec.left,
           ],
-          [$._binop8, "binary_8", prec.left],
-          [$._binop7, "binary_7", prec.left],
-          [$._binop6, "binary_6", prec.left],
-          [$._binop5, "binary_5", prec.left],
+          [$._infix_operator_8, "binary_8", prec.left],
+          [$._infix_operator_7, "binary_7", prec.left],
+          [$._infix_operator_6, "binary_6", prec.left],
+          [$._infix_operator_5, "binary_5", prec.left],
           [
             choice(
               ...WordOperators[5].filter(x => x != "not").map(x => keyword(x))
@@ -782,9 +879,9 @@ module.exports = grammar({
             "binary_3",
             prec.left,
           ],
-          [$._binop2, "binary_2", prec.left],
-          [$._binop1, "binary_1", prec.left],
-          [$._binop0, "binary_0", prec.left],
+          [$._infix_operator_2, "binary_2", prec.left],
+          [$._infix_operator_1, "binary_1", prec.left],
+          [$._infix_operator_0, "binary_0", prec.left],
         ]).map(([operator, precedence, precFn]) =>
           precFn(
             precedence,
@@ -796,6 +893,16 @@ module.exports = grammar({
           )
         )
       ),
+    _infix_operator_0: $ => alias(InfixOperators.L0, $.infix_operator),
+    _infix_operator_1: $ => alias(InfixOperators.L1, $.infix_operator),
+    _infix_operator_10r: $ => alias(InfixOperators.R10, $.infix_operator),
+    _infix_operator_10l: $ => alias(InfixOperators.L10, $.infix_operator),
+    _infix_operator_9: $ => alias(InfixOperators.L9, $.infix_operator),
+    _infix_operator_8: $ => alias(InfixOperators.L8, $.infix_operator),
+    _infix_operator_7: $ => alias(InfixOperators.L7, $.infix_operator),
+    _infix_operator_6: $ => alias(InfixOperators.L6, $.infix_operator),
+    _infix_operator_5: $ => alias(InfixOperators.L5, $.infix_operator),
+    _infix_operator_2: $ => alias(InfixOperators.L2, $.infix_operator),
 
     _prefix_extended: $ =>
       prec("post_expr", seq($._prefix_expression, $._post_expression_block)),
@@ -820,9 +927,9 @@ module.exports = grammar({
     _prefix_expression_command_start: $ =>
       choice(
         .../** @type {[Rule, string][]} */ ([
-          [$._unaryop, "unary"],
+          [$.prefix_operator, "unary"],
           [keyword("not"), "unary"],
-          [$._sigilop, "sigil"],
+          [alias($._sigil_operator, $.prefix_operator), "sigil"],
         ]).map(([operator, precedence]) =>
           prec.left(
             precedence,
@@ -833,8 +940,22 @@ module.exports = grammar({
     _sigil_expression: $ =>
       prec.left(
         "sigil",
-        seq(field("operator", $._sigilop), $._basic_expression)
+        seq(
+          field("operator", alias($._sigil_operator, $.prefix_operator)),
+          $._basic_expression
+        )
       ),
+    // Prefix operators are intentionally defined with lower lexical priority.
+    // When lexed within a prefix-only context, these will always match.
+    // When lexed in a context where infix and prefix might conflict, infix
+    // always take priority unless the external scanner override this.
+    //
+    // This allows us to disambiguate these scenarios:
+    //   foo+bar as infix
+    //   foo +bar as (command (prefix))
+    _sigil_operator: () => token(seq("@", repeat(choice(...Operators)))),
+    prefix_operator: () =>
+      token(prec(-1, choice(...Object.values(InfixOperators)))),
 
     /* Primitive expressions */
     cast: $ =>
