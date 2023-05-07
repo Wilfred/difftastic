@@ -52,18 +52,7 @@ enum class TokenType : TSSymbol {
   CurlyDotClose,
   Spaces,
   InvalidLayout,
-  BinaryOpStart,
-  BinaryOp10Left = BinaryOpStart,
-  BinaryOp10Right,
-  BinaryOp9,
-  BinaryOp8,
-  BinaryOp7,
-  BinaryOp6,
-  BinaryOp5,
-  BinaryOp2,
   SigilOp,
-  BinaryOp1,
-  BinaryOp0,
   UnaryOp,
   Elif,
   Else,
@@ -138,10 +127,14 @@ struct State {
 
   void reset_flag(Flag flag) { flags.reset(static_cast<size_t>(flag)); }
 
+  void reset_flag() { flags.reset(); }
+
   bool test_flag(Flag flag) const
   {
     return flags.test(static_cast<size_t>(flag));
   }
+
+  bool any_flags() const { return flags.any(); }
 };
 
 #ifdef TREE_SITTER_INTERNAL_BUILD
@@ -414,17 +407,8 @@ bool lex_inline_layout(Context& ctx, bool read_dot = false)
 }
 
 namespace operators {
-
-/// The set of all BinaryOps tokens.
-constexpr ValidSymbols BinaryOps = make_valid_symbols(
-    {TokenType::BinaryOp10Left, TokenType::BinaryOp10Right,
-     TokenType::BinaryOp9, TokenType::BinaryOp8, TokenType::BinaryOp7,
-     TokenType::BinaryOp6, TokenType::BinaryOp5, TokenType::BinaryOp2,
-     TokenType::BinaryOp1, TokenType::BinaryOp0});
 constexpr ValidSymbols UnaryOps =
     make_valid_symbols({TokenType::UnaryOp, TokenType::SigilOp});
-
-// TODO: Invent something to encapsulate this structure.
 
 /// All ASCII operator characters.
 ///
@@ -444,17 +428,6 @@ constexpr array<char, 19> Chars{// OP10
                                 // OP2
                                 /* 16 */ ':', '?', '@'};
 
-/// Mapping of {@link Chars} starting index and offset from BinaryOpsStart.
-constexpr array<int8_t, 8> CharRanges{
-    /* BinaryOpStart | BinaryOp10Left */ 0,
-    /* BinaryOp10Right */ 1,
-    /* BinaryOp9 */ 2,
-    /* BinaryOp8 */ 6,
-    /* BinaryOp7 */ 10,
-    /* BinaryOp6 */ 11,
-    /* BinaryOp5 */ 12,
-    /* BinaryOp2 */ 16};
-
 /// All Unicode operator characters.
 ///
 /// The ordering is done so that it reflects the precedence structure.
@@ -465,62 +438,6 @@ constexpr array<char16_t, 21> UnicodeChars{
     // OP8
     /* 13 */ u'±', u'⊕', u'⊖', u'⊞', u'⊟', u'∪', u'∨', u'⊔'};
 
-/// Mapping of {@link UnicodeChars} starting index and offset from
-/// BinaryOpsStart.
-constexpr array<int8_t, 2> UnicodeRanges{
-    /* BinaryOp9 */ 0,
-    /* BinaryOp8 */ 13};
-
-/// Given a segmented array, returns the segment the given value is in.
-///
-/// @param array - The segmented array.
-/// @param mapping - The start of each segment, sorted from low to high.
-/// @param value - The value to search for.
-/// @param fallback - The value returned if `value` is not in `array`, that the
-/// segment found is not in `mapping`.
-///
-/// @returns The index of the segment in `mapping`.
-template<class InputT, class MapT, class T>
-int mapped_find(
-    const InputT& array, const MapT& mapping, T value, int fallback = -1)
-{
-  const auto iter = find(array.begin(), array.end(), value);
-  if (iter == array.end()) {
-    return fallback;
-  }
-  const auto idx = iter - array.begin();
-  const auto mapped_iter = find_if(
-      mapping.rbegin(), mapping.rend(),
-      [=](auto rangeStart) { return rangeStart <= idx; });
-  if (mapped_iter == mapping.rend()) {
-    return fallback;
-  }
-
-  return mapping.rend() - mapped_iter - 1;
-}
-
-/// Returns the BinaryOp token type corresponding to the given `character`.
-///
-/// Returns `TokenType::TokenTypeLen` if the character is not a valid operator.
-TokenType classify(char32_t character)
-{
-  if (character <= MaxAsciiChar) {
-    const auto idx = mapped_find(Chars, CharRanges, character);
-    if (idx != -1) {
-      return (TokenType)(idx + (uint8_t)TokenType::BinaryOpStart);
-    }
-
-    return TokenType::TokenTypeLen;
-  }
-
-  const auto idx = mapped_find(UnicodeChars, UnicodeRanges, character);
-  if (idx != -1) {
-    return (TokenType)(idx + (uint8_t)TokenType::BinaryOp9);
-  }
-
-  return TokenType::TokenTypeLen;
-}
-
 /// Returns whether `character` is a valid operator character.
 bool is_op_char(char32_t character)
 {
@@ -528,35 +445,33 @@ bool is_op_char(char32_t character)
     return find(Chars.begin(), Chars.end(), character) != Chars.end();
   }
 
+#if 0  // Pending enablement on main grammar
   return find(UnicodeChars.begin(), UnicodeChars.end(), character) !=
          UnicodeChars.end();
+#else
+  return false;
+#endif
 }
 
 TokenType scan_operator(Context& ctx, bool immediate)
 {
   enum class State {
-    Arrow,
-    Assignment,
     Colon,
     ColonColon,
     Dot,
     Equal,
-    MaybeArrow,
     Minus,
     Regular,
   };
 
+  if (immediate) {
+    return TokenType::TokenTypeLen;
+  }
+
   auto state{State::Regular};
   const auto first_character = ctx.lookahead();
-  auto result = classify(first_character);
-#ifdef TREE_SITTER_INTERNAL_BUILD
-  if (getenv("TREE_SITTER_DEBUG")) {
-    cerr << "lex_nim: operator first symbol classification: " << (int)result
-         << '\n';
-  }
-#endif
-  if (result == TokenType::TokenTypeLen) {
-    return result;
+  if (!is_op_char(first_character)) {
+    return TokenType::TokenTypeLen;
   }
 
   switch (first_character) {
@@ -583,32 +498,13 @@ TokenType scan_operator(Context& ctx, bool immediate)
 
   while (is_op_char(ctx.lookahead())) {
     switch (state) {
-    case State::Assignment:
-    case State::Equal:
-    case State::MaybeArrow:
-    case State::Minus:
-      switch (ctx.lookahead()) {
-      case '>':
-        state = State::Arrow;
-        ctx.advance();
-        break;
-      default:
-        state = State::Regular;
-      }
-      break;
-    case State::Arrow:
     case State::Colon:
     case State::ColonColon:
     case State::Dot:
+    case State::Equal:
+    case State::Minus:
     case State::Regular:
       switch (ctx.lookahead()) {
-      case '~':
-      case '-':
-        state = State::MaybeArrow;
-        break;
-      case '=':
-        state = State::Assignment;
-        break;
       case ':':
         state = state == State::Colon ? State::ColonColon : State::Regular;
         break;
@@ -622,22 +518,6 @@ TokenType scan_operator(Context& ctx, bool immediate)
   }
 
   switch (state) {
-  case State::Arrow:
-    result = TokenType::BinaryOp0;
-    break;
-  case State::Assignment:
-    switch (first_character) {
-    case '<':
-    case '>':
-    case '!':
-    case '=':
-    case '~':
-    case '?':
-      break;
-    default:
-      result = TokenType::BinaryOp1;
-    }
-    break;
   case State::Equal:
   case State::Colon:
   case State::ColonColon:
@@ -652,20 +532,14 @@ TokenType scan_operator(Context& ctx, bool immediate)
     break;
   }
 
-  if (immediate) {
-    return result;
-  }
-
   switch (ctx.lookahead()) {
   case ' ':
   case '\n':
   case '\r':
-    break;
-  default:
-    result = TokenType::UnaryOp;
+    return TokenType::TokenTypeLen;
   }
 
-  return result;
+  return TokenType::UnaryOp;
 }
 
 /// Lexer for binary operators.
@@ -675,7 +549,7 @@ TokenType scan_operator(Context& ctx, bool immediate)
 /// scanned.
 bool lex(Context& ctx, bool immediate)
 {
-  if (!ctx.all_valid(BinaryOps) && !ctx.any_valid(UnaryOps)) {
+  if (!ctx.any_valid(UnaryOps)) {
     return false;
   }
 
@@ -690,15 +564,10 @@ bool lex(Context& ctx, bool immediate)
     return false;
   }
 
-  if (!ctx.all_valid(BinaryOps) || result == TokenType::UnaryOp) {
-    result = is_sigil ? TokenType::SigilOp : TokenType::UnaryOp;
-  }
-
+  result = is_sigil ? TokenType::SigilOp : TokenType::UnaryOp;
 #ifdef TREE_SITTER_INTERNAL_BUILD
   if (getenv("TREE_SITTER_DEBUG")) {
     cerr << "lex_nim: operator final classification: " << (int)result << '\n';
-    cerr << "lex_nim: binary valid: " << ctx.all_valid(BinaryOps) << '\n';
-    cerr << "lex_nim: unary valid: " << ctx.any_valid(UnaryOps) << '\n';
   }
 #endif
 
@@ -1211,14 +1080,15 @@ bool lex_main(Context& ctx)
 
   TRY_LEX(ctx, lex_immediates);
   TRY_LEX(ctx, string_lex::lex);
-  TRY_LEXN(ctx, operators::lex, true);
 
   auto spaces = scan_spaces(ctx);
   ctx.mark_end();
 
   TRY_LEX(ctx, comment::lex);
   TRY_LEX(ctx, lex_indent);
-  TRY_LEXN(ctx, operators::lex, false);
+  TRY_LEXN(
+      ctx, operators::lex,
+      spaces == 0 && !ctx.state().test_flag(Flag::NoImmediates));
   TRY_LEX(ctx, lex_keyword);
   TRY_LEX(ctx, lex_inline_layout);
 
@@ -1270,11 +1140,12 @@ bool tree_sitter_nim_external_scanner_scan(
   }
 #endif
 
+  const auto last_count = ctx.counter();
   if (lex_main(ctx)) {
     return true;
   }
 
-  if (!ctx.eof() && !ctx.any_valid(ImmediateTokens)) {
+  if (!ctx.eof() && ctx.counter() == last_count) {
     bool commit = false;
     if (ctx.state().test_flag(Flag::AfterNewline)) {
 #ifdef TREE_SITTER_INTERNAL_BUILD
@@ -1285,7 +1156,8 @@ bool tree_sitter_nim_external_scanner_scan(
       ctx.state().reset_flag(Flag::AfterNewline);
       commit = true;
     }
-    if (ctx.state().test_flag(Flag::NoImmediates)) {
+    if (ctx.state().test_flag(Flag::NoImmediates) &&
+        !ctx.any_valid(ImmediateTokens)) {
 #ifdef TREE_SITTER_INTERNAL_BUILD
       if (getenv("TREE_SITTER_DEBUG")) {
         cerr << "lex_nim: resetting no immediate flag\n";
@@ -1294,7 +1166,6 @@ bool tree_sitter_nim_external_scanner_scan(
       ctx.state().reset_flag(Flag::NoImmediates);
       commit = true;
     }
-
     if (commit) {
       return ctx.finish(TokenType::Spaces);
     }

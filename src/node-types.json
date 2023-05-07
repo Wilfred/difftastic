@@ -6577,6 +6577,10 @@
             "named": false
           },
           {
+            "type": "infix_operator",
+            "named": true
+          },
+          {
             "type": "is",
             "named": false
           },
@@ -9237,7 +9241,7 @@
     "fields": {
       "operator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "and",
@@ -9286,6 +9290,10 @@
           {
             "type": "or",
             "named": false
+          },
+          {
+            "type": "prefix_operator",
+            "named": true
           },
           {
             "type": "shl",
@@ -13636,6 +13644,10 @@
     "named": false
   },
   {
+    "type": "infix_operator",
+    "named": true
+  },
+  {
     "type": "integer_literal",
     "named": true
   },
@@ -13698,6 +13710,10 @@
   {
     "type": "out",
     "named": false
+  },
+  {
+    "type": "prefix_operator",
+    "named": true
   },
   {
     "type": "proc",

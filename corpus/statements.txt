@@ -171,6 +171,7 @@ from X/Y import Y
   (import_from_statement
     module: (infix_expression
       left: (identifier)
+      operator: (infix_operator)
       right: (identifier))
     (expression_list
       (identifier))))
