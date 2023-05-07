@@ -1,10 +1,6 @@
-# Copyright 2022 Leorize <leorize+oss@disroot.org>
-#
-# SPDX-License-Identifier: MPL-2.0
-
-==============
+================================================================================
 For statements
-==============
+================================================================================
 
 for x in s:
   100
@@ -16,142 +12,191 @@ for (x, y), w, z in whatever:
   for foo, bar in s:
     0x42f
 
----
+for _, v {.tag.} in c.pairs:
+  discard
+
+--------------------------------------------------------------------------------
 
 (source_file
   (for
-    left: (pattern_list
-      (identifier))
+    left: (symbol_declaration_list
+      (symbol_declaration
+        name: (identifier)))
     right: (identifier)
     body: (statement_list
       (integer_literal)))
   (for
-    left: (pattern_list
-      (identifier)
-      (identifier))
+    left: (symbol_declaration_list
+      (symbol_declaration
+        name: (identifier))
+      (symbol_declaration
+        name: (identifier)))
     right: (call
       function: (identifier)
-      arguments: (argument_list
-        (identifier)))
+      (identifier))
     body: (statement_list
       (integer_literal)))
   (for
-    left: (pattern_list
-      (tuple_pattern
-        (identifier)
-        (identifier))
-      (identifier)
-      (identifier))
+    left: (symbol_declaration_list
+      (tuple_deconstruct_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
+      (symbol_declaration
+        name: (identifier))
+      (symbol_declaration
+        name: (identifier)))
     right: (identifier)
     body: (statement_list
       (for
-        left: (pattern_list
-          (identifier)
-          (identifier))
+        left: (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier)))
         right: (identifier)
         body: (statement_list
-          (integer_literal))))))
+          (integer_literal)))))
+  (for
+    left: (symbol_declaration_list
+      (symbol_declaration
+        name: (identifier))
+      (symbol_declaration
+        name: (identifier)
+        (pragma_list
+          (identifier))))
+    right: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    body: (statement_list
+      (discard_statement))))
 
-================
+================================================================================
 While statements
-================
+================================================================================
 
 while true:
   while false:
     nothing
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (while
-    condition: (boolean_literal)
+    condition: (identifier)
     body: (statement_list
       (while
-        condition: (boolean_literal)
+        condition: (identifier)
         body: (statement_list
           (identifier))))))
 
-=================
+================================================================================
 Import statements
-=================
+================================================================================
 
 import X
 
 import Y, Z,
-  J, K except F
+  J
 
----
+import K except F
+
+--------------------------------------------------------------------------------
 
 (source_file
   (import_statement
-    module: (identifier))
+    (expression_list
+      (identifier)))
   (import_statement
-    module: (identifier)
-    module: (identifier)
-    module: (identifier)
-    module: (identifier)
-    (import_exception
-      (identifier))))
+    (expression_list
+      (identifier)
+      (identifier)
+      (identifier)))
+  (import_statement
+    (identifier)
+    (except_clause
+      (expression_list
+        (identifier)))))
 
-=================
+================================================================================
 Export statements
-=================
+================================================================================
 
 export X, Y
 
-export foo, bar except bar
+export foo
 
----
+export bar except bar
+
+--------------------------------------------------------------------------------
 
 (source_file
   (export_statement
-    symbol: (identifier)
-    symbol: (identifier))
+    (expression_list
+      (identifier)
+      (identifier)))
   (export_statement
-    symbol: (identifier)
-    symbol: (identifier)
-    (export_exception
-      (identifier))))
+    (expression_list
+      (identifier)))
+  (export_statement
+    (identifier)
+    (except_clause
+      (expression_list
+        (identifier)))))
 
-======================
+================================================================================
 Import from statements
-======================
+================================================================================
 
 from system import seq, echo
 
 from X import Y
 
----
+from X/Y import Y
+
+--------------------------------------------------------------------------------
 
 (source_file
   (import_from_statement
     module: (identifier)
-    symbol: (identifier)
-    symbol: (identifier))
+    (expression_list
+      (identifier)
+      (identifier)))
   (import_from_statement
     module: (identifier)
-    symbol: (identifier)))
+    (expression_list
+      (identifier)))
+  (import_from_statement
+    module: (infix_expression
+      left: (identifier)
+      right: (identifier))
+    (expression_list
+      (identifier))))
 
-==================
+================================================================================
 Include statements
-==================
+================================================================================
 
 include stuff, "foo.txt"
 
 include X
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (include_statement
-    path: (identifier)
-    path: (string_literal))
+    (expression_list
+      (identifier)
+      (string_literal)))
   (include_statement
-    path: (identifier)))
+    (expression_list
+      (identifier))))
 
-==================
+================================================================================
 Discard statements
-==================
+================================================================================
 
 discard "foo"
 
@@ -159,18 +204,31 @@ discard
 
 discard bar
 
----
+discard a: b
+
+discard foo as bar
+
+--------------------------------------------------------------------------------
 
 (source_file
   (discard_statement
     (string_literal))
   (discard_statement)
   (discard_statement
-    (identifier)))
+    (identifier))
+  (discard_statement
+    (call
+      function: (identifier)
+      (statement_list
+        (identifier))))
+  (discard_statement
+    (infix_expression
+      left: (identifier)
+      right: (identifier))))
 
-==============
-Asm statements
-==============
+================================================================================
+Assembly statements
+================================================================================
 
 asm """
 mov
@@ -179,106 +237,169 @@ ret
 
 asm "ret"
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-  (asm_statement
+  (assembly_statement
     (string_literal))
-  (asm_statement
+  (assembly_statement
     (string_literal)))
 
-================
+================================================================================
 Break statements
-================
+================================================================================
 
 bRe_ak
 
 break blck
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (break_statement)
   (break_statement
-    label: (identifier)))
+    (identifier)))
 
-===================
+================================================================================
 Continue statements
-===================
+================================================================================
 
 con_tiNue
 
 continue blck
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (continue_statement)
   (continue_statement
-    label: (identifier)))
+    (identifier)))
 
-================
+================================================================================
 Raise statements
-================
+================================================================================
 
 raise exp
 
 raise
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (raise_statement
     (identifier))
   (raise_statement))
 
-=================
+================================================================================
 Return statements
-=================
+================================================================================
 
 return
 
 return X
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (return_statement)
   (return_statement
     (identifier)))
 
-===============
+================================================================================
 Bind statements
-===============
+================================================================================
 
 bind x, y, z
 
 bind foo
 
----
+bind foo.bar
+
+--------------------------------------------------------------------------------
 
 (source_file
   (bind_statement
-    (identifier)
-    (identifier)
-    (identifier))
+    (expression_list
+      (identifier)
+      (identifier)
+      (identifier)))
   (bind_statement
-    (identifier)))
+    (expression_list
+      (identifier)))
+  (bind_statement
+    (expression_list
+      (dot_expression
+        (identifier)
+        (identifier)))))
 
-================
+================================================================================
 Mixin statements
-================
+================================================================================
 
 mixin x, y, z
 
 mixin foo
 
----
+mixin system.true
+
+--------------------------------------------------------------------------------
 
 (source_file
   (mixin_statement
-    (identifier)
-    (identifier)
-    (identifier))
+    (expression_list
+      (identifier)
+      (identifier)
+      (identifier)))
   (mixin_statement
+    (expression_list
+      (identifier)))
+  (mixin_statement
+    (expression_list
+      (dot_expression
+        (identifier)
+        (identifier)))))
+
+================================================================================
+Yield statements
+================================================================================
+
+yield
+
+yield none
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (yield_statement)
+  (yield_statement
     (identifier)))
+
+================================================================================
+Static statements
+================================================================================
+
+static: echo y
+
+static:
+  doX()
+  doY()
+  assert y, "foo"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (static_statement
+    body: (statement_list
+      (call
+        function: (identifier)
+        (identifier))))
+  (static_statement
+    body: (statement_list
+      (call
+        function: (identifier))
+      (call
+        function: (identifier))
+      (call
+        function: (identifier)
+        (identifier)
+        (string_literal)))))

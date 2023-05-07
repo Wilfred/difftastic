@@ -1,21 +1,14 @@
-# Copyright 2022 Leorize <leorize+oss@disroot.org>
-#
-# SPDX-License-Identifier: MPL-2.0
-# This Source Code Form is subject to the terms of the Mozilla Public License,
-# v. 2.0. If a copy of the MPL was not distributed with this file, You can
-# obtain one at https://mozilla.org/MPL/2.0/.
-
-==========
+================================================================================
 Empty file
-==========
+================================================================================
 
----
+--------------------------------------------------------------------------------
 
 (source_file)
 
-====================
+================================================================================
 Single-line comments
-====================
+================================================================================
 
      # mis-aligned comments does not affect indentation
 
@@ -35,34 +28,37 @@ echo x,
 ##  this
 ##   that
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (comment)
   (let_section
     (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
       (identifier)
-      (type_identifier)
       (integer_literal))
     (comment)
     (comment)
     (comment)
     (variable_declaration
-      (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          (identifier)))
       (float_literal)))
   (call
     (identifier)
-    (argument_list
-      (identifier)
-      (comment)
-      (identifier)))
+    (identifier)
+    (comment)
+    (identifier))
   (comment)
   (comment)
   (comment))
 
-==============
+================================================================================
 Block comments
-==============
+================================================================================
 
 echo x, #[comment]# y
 
@@ -72,16 +68,13 @@ comments can be #[nested
 
 #[random inner comments# stuff#]#
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (call
     (identifier)
-    (argument_list
-      (identifier)
-      (block_comment)
-      (identifier)))
-  (block_comment
-    (block_comment
-      (block_comment)))
-  (block_comment))
+    (identifier)
+    (comment)
+    (identifier))
+  (comment)
+  (comment))

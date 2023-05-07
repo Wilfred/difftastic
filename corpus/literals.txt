@@ -1,13 +1,6 @@
-# Copyright 2022 Leorize <leorize+oss@disroot.org>
-#
-# SPDX-License-Identifier: MPL-2.0
-# This Source Code Form is subject to the terms of the Mozilla Public License,
-# v. 2.0. If a copy of the MPL was not distributed with this file, You can
-# obtain one at https://mozilla.org/MPL/2.0/.
-
-================
+================================================================================
 Integer literals
-================
+================================================================================
 
 1234
 1234u
@@ -37,7 +30,7 @@ Integer literals
 0b1_10_11
 -0b11_011U16
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (integer_literal)
@@ -61,9 +54,9 @@ Integer literals
   (integer_literal)
   (integer_literal))
 
-==============
+================================================================================
 Float literals
-==============
+================================================================================
 
 12.32
 -12_34.567_89
@@ -89,7 +82,7 @@ Float literals
 
 -12_34.567_89e+123'D
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (float_literal)
@@ -110,60 +103,12 @@ Float literals
   (float_literal)
   (float_literal))
 
-================
-Boolean literals
-================
-
-oN
-o_n
-o_N
-off
-oF_f
-o_f_f
-true
-tRUE
-t_r_U_E
-false
-f_Al_se
-
----
-
-(source_file
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal)
-  (boolean_literal))
-
-==============
-Tuple literals
-==============
-
-(20, 42)
-(0x2f, 0o755f)
-(20,)
-
----
-
-(source_file
-  (tuple
-    (integer_literal)
-    (integer_literal))
-  (tuple
-    (integer_literal)
-    (float_literal))
-  (tuple
-    (integer_literal)))
-
-===============
+================================================================================
 String literals
-===============
+================================================================================
+
+""
+r""
 
 "regular"
 
@@ -182,6 +127,8 @@ r"C:\""Windows""\System32"
 r"a""b"
 r"a"""
 
+""""""
+
 """""""
 
 """
@@ -191,11 +138,24 @@ Mutiline long string \escapes\are \not\interpreted
 
 r""""string inside long string""""
 
----
+block:
+  """
+Can start at lower indentation
+"""
+
+"# not a comment"
+
+"""# not a comment"""
+
+r"C:\"
+
+--------------------------------------------------------------------------------
 
 (source_file
   (string_literal)
   (string_literal)
+  (string_literal)
+  (string_literal)
   (string_literal
     (escape_sequence)
     (escape_sequence)
@@ -208,13 +168,81 @@ r""""string inside long string""""
     (escape_sequence))
   (string_literal)
   (string_literal)
-  (string_literal
-    (escape_sequence)
-    (escape_sequence))
-  (string_literal
-    (escape_sequence))
-  (string_literal
-    (escape_sequence))
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (string_literal)
+  (block
+    body: (statement_list
+      (string_literal)))
   (string_literal)
   (string_literal)
   (string_literal))
+
+================================================================================
+Character literals
+================================================================================
+
+'0'
+'a'
+' '
+'$'
+
+'\\'
+'\''
+'\"'
+
+'\x00'
+'\32'
+
+'\A'
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal)
+  (char_literal))
+
+================================================================================
+Nil literal
+================================================================================
+
+nil
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (nil_literal))
+
+================================================================================
+Custom numeric literals
+================================================================================
+
+-12_345_67'I4
+0xABCDEF'u12
+0xab_cd_ef'bignum
+
+-12_34.567_89'bigf
+12_34e10'fcool
+-1234.5678e10'awesome
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal)
+  (custom_numeric_literal))

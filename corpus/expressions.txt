@@ -1,13 +1,308 @@
-# Copyright 2022 Leorize <leorize+oss@disroot.org>
-#
-# SPDX-License-Identifier: MPL-2.0
-# This Source Code Form is subject to the terms of the Mozilla Public License,
-# v. 2.0. If a copy of the MPL was not distributed with this file, You can
-# obtain one at https://mozilla.org/MPL/2.0/.
+================================================================================
+Quoted identifiers
+================================================================================
 
-===================
+`and`
+
+`T name`
+
+`x=`
+
+`==`
+
+`[]`
+
+`'u4`
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (accent_quoted
+    (identifier))
+  (accent_quoted
+    (identifier)
+    (identifier))
+  (accent_quoted
+    (identifier))
+  (accent_quoted
+    (identifier))
+  (accent_quoted
+    (identifier))
+  (accent_quoted
+    (identifier)))
+
+================================================================================
+Prefix expressions
+================================================================================
+
+$a
+
+-b
+
+%*c
+
+$a.b
+
+@a.b
+
+@(a.b)
+
+not a.c
+
+!a.u:b
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (prefix_expression
+    (identifier))
+  (prefix_expression
+    (identifier))
+  (prefix_expression
+    (identifier))
+  (prefix_expression
+    (dot_expression
+      left: (identifier)
+      right: (identifier)))
+  (dot_expression
+    left: (prefix_expression
+      (identifier))
+    right: (identifier))
+  (prefix_expression
+    (parenthesized
+      (dot_expression
+        left: (identifier)
+        right: (identifier))))
+  (prefix_expression
+    (dot_expression
+      left: (identifier)
+      right: (identifier)))
+  (prefix_expression
+    (dot_expression
+      left: (identifier)
+      right: (identifier))
+    (statement_list
+      (identifier))))
+
+================================================================================
+Infix expressions
+================================================================================
+
+1 + 100
+
+a and b
+
+1 * 100 - 10 / 2
+
+abc %*% bcd
+
+1 ^/ 2 ^/ 3
+
+a => b + c
+
+z ==> xyz + def => cd
+
+$a + b
+
+1 ∙ 2 and 3 ∙ 1 or false
+
+(1 + 2) * (2 + 3)
+
+a += c >= b
+
+c of RootObj
+
+1 - x 1 - x
+
+1 + 1: 3
+else: 4
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (infix_expression
+    left: (integer_literal)
+    right: (integer_literal))
+  (infix_expression
+    left: (identifier)
+    right: (identifier))
+  (infix_expression
+    left: (infix_expression
+      left: (integer_literal)
+      right: (integer_literal))
+    right: (infix_expression
+      left: (integer_literal)
+      right: (integer_literal)))
+  (infix_expression
+    left: (identifier)
+    right: (identifier))
+  (infix_expression
+    left: (integer_literal)
+    right: (infix_expression
+      left: (integer_literal)
+      right: (integer_literal)))
+  (infix_expression
+    left: (identifier)
+    right: (infix_expression
+      left: (identifier)
+      right: (identifier)))
+  (infix_expression
+    left: (infix_expression
+      left: (identifier)
+      right: (infix_expression
+        left: (identifier)
+        right: (identifier)))
+    right: (identifier))
+  (infix_expression
+    left: (prefix_expression
+      (identifier))
+    right: (identifier))
+  (infix_expression
+    left: (infix_expression
+      left: (infix_expression
+        left: (integer_literal)
+        right: (integer_literal))
+      right: (infix_expression
+        left: (integer_literal)
+        right: (integer_literal)))
+    right: (identifier))
+  (infix_expression
+    left: (parenthesized
+      (infix_expression
+        left: (integer_literal)
+        right: (integer_literal)))
+    right: (parenthesized
+      (infix_expression
+        left: (integer_literal)
+        right: (integer_literal))))
+  (infix_expression
+    left: (identifier)
+    right: (infix_expression
+      left: (identifier)
+      right: (identifier)))
+  (infix_expression
+    left: (identifier)
+    right: (identifier))
+  (infix_expression
+    left: (integer_literal)
+    right: (call
+      function: (identifier)
+      (infix_expression
+        left: (integer_literal)
+        right: (identifier))))
+  (infix_expression
+    left: (integer_literal)
+    right: (integer_literal)
+    (statement_list
+      (integer_literal))
+    (else_branch
+      (statement_list
+        (integer_literal)))))
+
+================================================================================
+Dot expressions
+================================================================================
+
+a.?b.c
+
+a.b .. c.d
+
+$a.b
+
+a.b"string"
+a.b "string"
+a.b#[]#"string"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (infix_expression
+    left: (identifier)
+    right: (dot_expression
+      left: (identifier)
+      right: (identifier)))
+  (infix_expression
+    left: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    right: (dot_expression
+      left: (identifier)
+      right: (identifier)))
+  (prefix_expression
+    (dot_expression
+      left: (identifier)
+      right: (identifier)))
+  (generalized_string
+    (dot_expression
+      left: (identifier)
+      right: (identifier))
+    (string_literal))
+  (call
+    function: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    (string_literal))
+  (call
+    function: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    (comment)
+    (string_literal)))
+
+================================================================================
+Bracket expressions
+================================================================================
+
+a.b[c]
+
+1 + a[x]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (bracket_expression
+    left: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    right: (argument_list
+      (identifier)))
+  (infix_expression
+    left: (integer_literal)
+    right: (bracket_expression
+      left: (identifier)
+      right: (argument_list
+        (identifier)))))
+
+================================================================================
+Curly expressions
+================================================================================
+
+a.b{c}
+
+a + 2{c}[a]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (curly_expression
+    left: (dot_expression
+      left: (identifier)
+      right: (identifier))
+    right: (argument_list
+      (identifier)))
+  (infix_expression
+    left: (identifier)
+    right: (bracket_expression
+      left: (curly_expression
+        left: (integer_literal)
+        right: (argument_list
+          (identifier)))
+      right: (argument_list
+        (identifier)))))
+
+================================================================================
 Parenthesized calls
-===================
+================================================================================
 
 echo(foo)
 echo(1, foo, 3'f)
@@ -21,52 +316,166 @@ echo(foo("Calls"), "in", bar("Calls"))
 
 foo()
 
-bar()
+bar():
+  doX()
+  doY()
 
----
+foo():
+  10 + 10
+  a
+else:
+  c
+
+bar():
+of 1, 2:
+  foo(x):
+    a
+  else:
+    y
+
+cmp() do (x, y: int) -> int:
+  x - y
+
+fn() do:
+  x
+do:
+  y
+
+bar():
+  x
+do: y
+
+test(
+  var1 = foo,
+  var2 = if x:
+    doX,
+  var3
+)
+
+collect(for x in s:
+  {s: x})
+
+--------------------------------------------------------------------------------
 
 (source_file
   (call
     function: (identifier)
-    arguments: (argument_list
-      (identifier)))
+    (identifier))
   (call
     function: (identifier)
-    arguments: (argument_list
-      (integer_literal)
+    (integer_literal)
+    (identifier)
+    (float_literal))
+  (call
+    function: (identifier)
+    (string_literal)
+    (string_literal))
+  (call
+    function: (identifier)
+    (string_literal))
+  (call
+    function: (identifier)
+    (call
+      function: (identifier)
+      (string_literal))
+    (string_literal)
+    (call
+      function: (identifier)
+      (string_literal)))
+  (call
+    function: (identifier))
+  (call
+    function: (identifier)
+    (statement_list
+      (call
+        function: (identifier))
+      (call
+        function: (identifier))))
+  (call
+    function: (identifier)
+    (statement_list
+      (infix_expression
+        left: (integer_literal)
+        right: (integer_literal))
+      (identifier))
+    (else_branch
+      (statement_list
+        (identifier))))
+  (call
+    function: (identifier)
+    (statement_list)
+    (of_branch
+      values: (expression_list
+        (integer_literal)
+        (integer_literal))
+      (statement_list
+        (call
+          function: (identifier)
+          (identifier)
+          (statement_list
+            (identifier))
+          (else_branch
+            (statement_list
+              (identifier)))))))
+  (call
+    function: (identifier)
+    (do_block
+      (parameter_declaration_list
+        (parameter_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier)))
+          type: (identifier)))
       (identifier)
-      (float_literal)))
+      body: (statement_list
+        (infix_expression
+          left: (identifier)
+          right: (identifier)))))
   (call
     function: (identifier)
-    arguments: (argument_list
-      (string_literal)
-      (string_literal)))
+    (do_block
+      body: (statement_list
+        (identifier)))
+    (do_block
+      body: (statement_list
+        (identifier))))
   (call
     function: (identifier)
-    arguments: (argument_list
-      (string_literal)))
+    (statement_list
+      (identifier))
+    (do_block
+      body: (statement_list
+        (identifier))))
   (call
     function: (identifier)
-    arguments: (argument_list
-      (call
-        function: (identifier)
-        arguments: (argument_list
-          (string_literal)))
-      (string_literal)
-      (call
-        function: (identifier)
-        arguments: (argument_list
-          (string_literal)))))
+    (equal_expression
+      left: (identifier)
+      right: (identifier))
+    (equal_expression
+      left: (identifier)
+      right: (if
+        condition: (identifier)
+        consequence: (statement_list
+          (identifier))))
+    (identifier))
   (call
     function: (identifier)
-    arguments: (argument_list))
-  (call
-    function: (identifier)
-    arguments: (argument_list)))
+    (for
+      left: (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      right: (identifier)
+      body: (statement_list
+        (curly_construction
+          (colon_expression
+            left: (identifier)
+            right: (identifier)))))))
 
-=============
+================================================================================
 Command calls
-=============
+================================================================================
 
 echo optarg 1, " ", singlearg 2
 
@@ -74,41 +483,146 @@ foo x,
     y, "string",
     w(call(some other))
 
----
+foo bar foobar x
+
+foo:
+  foo bar, foo: bar bar
+  of x, y: other
+
+foo "xyz"
+
+foo """
+xyz"""
+
+foo x, y, z:
+  x
+do:
+  y
+
+foo x: y
+
+foo x: y
+else: foo
+
+foo x do: y
+else: foo
+
+echo 1 - foo(), foo
+
+foo (x,)
+foo [x]
+foo {x}
+
+--------------------------------------------------------------------------------
 
 (source_file
   (call
     function: (identifier)
-    arguments: (argument_list
-      (call
-        function: (identifier)
-        arguments: (argument_list
-          (integer_literal)))
-      (string_literal)
-      (call
-        function: (identifier)
-        arguments: (argument_list
-          (integer_literal)))))
+    (call
+      function: (identifier)
+      (integer_literal))
+    (string_literal)
+    (call
+      function: (identifier)
+      (integer_literal)))
   (call
     function: (identifier)
-    arguments: (argument_list
-      (identifier)
-      (identifier)
-      (string_literal)
+    (identifier)
+    (identifier)
+    (string_literal)
+    (call
+      function: (identifier)
       (call
         function: (identifier)
-        arguments: (argument_list
+        (call
+          function: (identifier)
+          (identifier)))))
+  (call
+    function: (identifier)
+    (call
+      function: (identifier)
+      (call
+        function: (identifier)
+        (identifier))))
+  (call
+    function: (identifier)
+    (statement_list
+      (call
+        function: (identifier)
+        (identifier)
+        (identifier)
+        (statement_list
           (call
             function: (identifier)
-            arguments: (argument_list
-              (call
-                function: (identifier)
-                arguments: (argument_list
-                  (identifier))))))))))
+            (identifier)))
+        (of_branch
+          values: (expression_list
+            (identifier)
+            (identifier))
+          (statement_list
+            (identifier))))))
+  (call
+    function: (identifier)
+    (string_literal))
+  (call
+    function: (identifier)
+    (string_literal))
+  (call
+    function: (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (statement_list
+      (identifier))
+    (do_block
+      body: (statement_list
+        (identifier))))
+  (call
+    function: (identifier)
+    (identifier)
+    (statement_list
+      (identifier)))
+  (call
+    function: (identifier)
+    (identifier)
+    (statement_list
+      (identifier))
+    (else_branch
+      (statement_list
+        (identifier))))
+  (call
+    function: (identifier)
+    (call
+      function: (identifier)
+      (do_block
+        body: (statement_list
+          (identifier)))
+      (else_branch
+        (statement_list
+          (identifier)))))
+  (call
+    function: (identifier)
+    (infix_expression
+      left: (integer_literal)
+      right: (call
+        function: (identifier)))
+    (identifier))
+  (call
+    function: (identifier)
+    (tuple_construction
+      (identifier)))
+  (call
+    function: (identifier)
+    (array_construction
+      (identifier)))
+  (call
+    function: (identifier)
+    (curly_construction
+      (identifier))))
 
-================
+================================================================================
 Block statements
-================
+================================================================================
 
 block: 10u32
 
@@ -122,43 +636,44 @@ block:
 let y = block:
   100
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (block
     body: (statement_list
       (integer_literal)))
   (block
-    name: (identifier)
+    label: (identifier)
     body: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))
+        (identifier))
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))))
+        (identifier))))
   (block
     body: (statement_list
       (let_section
         (variable_declaration
-          name: (identifier)
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))
           value: (integer_literal)))
       (call
         function: (identifier)
-        arguments: (argument_list
-          (integer_literal)))))
+        (integer_literal))))
   (let_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (block
         body: (statement_list
           (integer_literal))))))
 
-=============
+================================================================================
 If statements
-=============
+================================================================================
 
 if true:
   echo foo
@@ -192,23 +707,21 @@ block:
 if true: expr1
 else: expr2
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (if
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))))
+        (identifier))))
   (if
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))))
+        (identifier))))
   (if
     condition: (identifier)
     consequence: (statement_list
@@ -216,54 +729,57 @@ else: expr2
         condition: (identifier)
         consequence: (statement_list
           (string_literal))
-        alternative: (elif_clause
+        alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
             (integer_literal))))
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier))))
-    alternative: (else_clause
-      body: (statement_list
+        (identifier)))
+    alternative: (else_branch
+      (statement_list
         (integer_literal))))
   (let_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (if
-        condition: (boolean_literal)
+        condition: (identifier)
         consequence: (statement_list
           (integer_literal))
-        alternative: (elif_clause
+        alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
             (string_literal)))
-        alternative: (else_clause
-          body: (statement_list
+        alternative: (else_branch
+          (statement_list
             (integer_literal))))))
   (block
     body: (statement_list
       (var_section
         (variable_declaration
-          name: (identifier)
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))
           value: (if
-            condition: (boolean_literal)
+            condition: (identifier)
             consequence: (statement_list
               (integer_literal))
-            alternative: (else_clause
-              body: (statement_list
+            alternative: (else_branch
+              (statement_list
                 (float_literal))))))))
   (if
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (identifier))
-    alternative: (else_clause
-      body: (statement_list
+    alternative: (else_branch
+      (statement_list
         (identifier)))))
 
-===============
+================================================================================
 When statements
-===============
+================================================================================
 
 when true:
   echo foo
@@ -298,23 +814,21 @@ block:
 when true: expr1
 else: expr2
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (when
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))))
+        (identifier))))
   (when
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (identifier)))))
+        (identifier))))
   (when
     condition: (identifier)
     consequence: (statement_list
@@ -322,7 +836,7 @@ else: expr2
         condition: (identifier)
         consequence: (statement_list
           (string_literal))
-        alternative: (elif_clause
+        alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
             (if
@@ -330,49 +844,52 @@ else: expr2
               consequence: (statement_list
                 (call
                   function: (identifier)
-                  arguments: (argument_list
-                    (identifier)))))
+                  (identifier))))
             (integer_literal)))))
-    alternative: (else_clause
-      body: (statement_list
+    alternative: (else_branch
+      (statement_list
         (integer_literal))))
   (const_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (when
-        condition: (boolean_literal)
+        condition: (identifier)
         consequence: (statement_list
           (integer_literal))
-        alternative: (elif_clause
+        alternative: (elif_branch
           condition: (identifier)
           consequence: (statement_list
             (string_literal)))
-        alternative: (else_clause
-          body: (statement_list
+        alternative: (else_branch
+          (statement_list
             (integer_literal))))))
   (block
     body: (statement_list
       (const_section
         (variable_declaration
-          name: (identifier)
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))
           value: (when
-            condition: (boolean_literal)
+            condition: (identifier)
             consequence: (statement_list
               (integer_literal))
-            alternative: (else_clause
-              body: (statement_list
+            alternative: (else_branch
+              (statement_list
                 (float_literal))))))))
   (when
-    condition: (boolean_literal)
+    condition: (identifier)
     consequence: (statement_list
       (identifier))
-    alternative: (else_clause
-      body: (statement_list
+    alternative: (else_branch
+      (statement_list
         (identifier)))))
 
-===============
+================================================================================
 Case statements
-===============
+================================================================================
 
 case x
 of 1, 2,
@@ -409,94 +926,97 @@ let x = case something(10)
   else:
     this
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (case
     value: (identifier)
     (of_branch
-      value: (integer_literal)
-      value: (integer_literal)
-      value: (integer_literal)
-      body: (statement_list
+      values: (expression_list
+        (integer_literal)
+        (integer_literal)
+        (integer_literal))
+      (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (boolean_literal)))
+          (identifier))
         (call
           function: (identifier)
-          arguments: (argument_list
-            (boolean_literal)))
+          (identifier))
         (integer_literal)))
     (of_branch
-      value: (integer_literal)
-      body: (statement_list
+      values: (expression_list
+        (integer_literal))
+      (statement_list
         (float_literal))))
   (case
     value: (identifier)
     (of_branch
-      value: (boolean_literal)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (identifier)))
-    alternative: (elif_clause
+    (elif_branch
       condition: (identifier)
       consequence: (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (integer_literal)))))
-    alternative: (else_clause
-      body: (statement_list
+          (integer_literal))))
+    (else_branch
+      (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (string_literal))))))
+          (string_literal)))))
   (case
     value: (call
       function: (identifier)
-      arguments: (argument_list
-        (integer_literal)))
+      (integer_literal))
     (of_branch
-      value: (boolean_literal)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (identifier)))
-    alternative: (elif_clause
+    (elif_branch
       condition: (identifier)
       consequence: (statement_list
         (identifier))))
   (case
     value: (identifier)
     (of_branch
-      value: (boolean_literal)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (integer_literal)))
     (of_branch
-      value: (boolean_literal)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (integer_literal))))
   (let_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (case
         value: (call
           function: (identifier)
-          arguments: (argument_list
-            (integer_literal)))
+          (integer_literal))
         (of_branch
-          value: (boolean_literal)
-          body: (statement_list
+          values: (expression_list
+            (identifier))
+          (statement_list
             (identifier)))
-        alternative: (elif_clause
+        (elif_branch
           condition: (identifier)
           consequence: (statement_list
-            (boolean_literal)))
-        alternative: (else_clause
-          body: (statement_list
+            (identifier)))
+        (else_branch
+          (statement_list
             (identifier)))))))
 
-==============
+================================================================================
 Try statements
-==============
+================================================================================
 
 try:
   echo "x"
@@ -517,66 +1037,336 @@ finally:
 try: echo x
 except: echo y
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (try
     body: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (string_literal)))
+        (string_literal))
       (call
         function: (identifier)
-        arguments: (argument_list
-          (string_literal))))
+        (string_literal)))
     (except_branch
-      exception: (identifier)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (identifier))))))
+          (identifier)))))
   (try
     body: (statement_list
       (call
         function: (identifier)
-        arguments: (argument_list
-          (string_literal)))
+        (string_literal))
       (call
         function: (identifier)
-        arguments: (argument_list
-          (string_literal))))
+        (string_literal)))
     (except_branch
-      exception: (identifier)
-      body: (statement_list
+      values: (expression_list
+        (identifier))
+      (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (identifier)))))
-    (except_branch
-      exception: (identifier)
-      exception: (identifier)
-      body: (statement_list
-        (call
-          function: (identifier)
-          arguments: (argument_list
-            (identifier)))))
-    (finally_branch
-      body: (statement_list
-        (call
-          function: (identifier)
-          arguments: (argument_list
-            (identifier))))))
-  (try
-    body: (statement_list
-      (call
-        function: (identifier)
-        arguments: (argument_list
           (identifier))))
     (except_branch
-      body: (statement_list
+      values: (expression_list
+        (identifier)
+        (identifier))
+      (statement_list
         (call
           function: (identifier)
-          arguments: (argument_list
-            (identifier)))))))
+          (identifier))))
+    (finally_branch
+      (statement_list
+        (call
+          function: (identifier)
+          (identifier)))))
+  (try
+    body: (statement_list
+      (call
+        function: (identifier)
+        (identifier)))
+    (except_branch
+      (statement_list
+        (call
+          function: (identifier)
+          (identifier))))))
+
+================================================================================
+Pragma statements
+================================================================================
+
+{.line: instantiationInfo()}: echo y
+
+{.noSideEffects.}: foo
+
+{.someRandomPragma.}
+
+{.cast(noSideEffect).}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (pragma_statement
+    (pragma_list
+      (colon_expression
+        left: (identifier)
+        right: (call
+          function: (identifier))))
+    body: (statement_list
+      (call
+        function: (identifier)
+        (identifier))))
+  (pragma_statement
+    (pragma_list
+      (identifier))
+    body: (statement_list
+      (identifier)))
+  (pragma_statement
+    (pragma_list
+      (identifier)))
+  (pragma_statement
+    (pragma_list
+      (cast
+        value: (identifier)))))
+
+================================================================================
+Type expressions
+================================================================================
+
+ref int
+
+distinct int
+
+ptr ptr char
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (modified_type
+    (ref_type)
+    (identifier))
+  (modified_type
+    (distinct_type)
+    (identifier))
+  (modified_type
+    (pointer_type)
+    (modified_type
+      (pointer_type)
+      (identifier))))
+
+================================================================================
+Routine expressions
+================================================================================
+
+proc(x: int, y: string)
+
+proc (x: int) {.cdecl.} = x + 10
+
+iterator (s: string) =
+  for c in s:
+    yield c
+
+proc
+
+iterator: T
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (proc_type
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier))
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier))))
+  (proc_expression
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier)))
+    pragmas: (pragma_list
+      (identifier))
+    body: (statement_list
+      (infix_expression
+        left: (identifier)
+        right: (integer_literal))))
+  (iterator_expression
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier)))
+    body: (statement_list
+      (for
+        left: (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        right: (identifier)
+        body: (statement_list
+          (yield_statement
+            (identifier))))))
+  (proc_type)
+  (iterator_type
+    return_type: (identifier)))
+
+================================================================================
+Array construction
+================================================================================
+
+[a, b, c]
+
+[x,
+y, z, 10,
+
+100]
+
+[a = b, c: d]
+
+[]
+[[a]]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (array_construction
+    (identifier)
+    (identifier)
+    (identifier))
+  (array_construction
+    (identifier)
+    (identifier)
+    (identifier)
+    (integer_literal)
+    (integer_literal))
+  (array_construction
+    (equal_expression
+      (identifier)
+      (identifier))
+    (colon_expression
+      (identifier)
+      (identifier)))
+  (array_construction)
+  (array_construction
+    (array_construction
+      (identifier))))
+
+================================================================================
+Set/Table construction
+================================================================================
+
+{a: b, c: d}
+
+{a, b, c, d}
+
+{}
+{:}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (curly_construction
+    (colon_expression
+      (identifier)
+      (identifier))
+    (colon_expression
+      (identifier)
+      (identifier)))
+  (curly_construction
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier))
+  (curly_construction)
+  (curly_construction))
+
+================================================================================
+Tuple construction
+================================================================================
+
+(20, 42)
+(0x2f, 0o755f)
+(20,)
+(x: 1, 2,)
+(a: "string")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (tuple_construction
+    (integer_literal)
+    (integer_literal))
+  (tuple_construction
+    (integer_literal)
+    (float_literal))
+  (tuple_construction
+    (integer_literal))
+  (tuple_construction
+    (colon_expression
+      left: (identifier)
+      right: (integer_literal))
+    (integer_literal))
+  (tuple_construction
+    (colon_expression
+      left: (identifier)
+      right: (string_literal))))
+
+================================================================================
+Parenthesized expressions
+================================================================================
+
+(10)
+("string")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (parenthesized
+    (integer_literal))
+  (parenthesized
+    (string_literal)))
+
+================================================================================
+Cast expressions
+================================================================================
+
+cast[int](x)
+cast(noSideEffect)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (cast
+    type: (identifier)
+    value: (identifier))
+  (cast
+    value: (identifier)))
+
+================================================================================
+Generalized strings
+================================================================================
+
+foo"very raw C:\Windows\System32"
+
+foobar""""extra spicy""""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generalized_string
+    (identifier)
+    (string_literal))
+  (generalized_string
+    (identifier)
+    (string_literal)))

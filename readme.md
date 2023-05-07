@@ -11,6 +11,27 @@ A [tree-sitter] grammar for [Nim].
 The goal is to parse a superset of Nim and create a syntax tree that can be
 easily ingested by tools.
 
+## Notes
+
+Unlike other tree-sitter grammars, this repository does not contain a generated
+parser. This is due to the parser being 123MiB in size as of writing, which
+exceeded GitHub's 100MiB limit.
+
+Generating this parser does take around 5-6GiB of memory. Any help in reducing
+the parser size is appreciated.
+
+## Progress
+
+Right now the parser is capable of parsing most of Nim, but some "advanced"
+constructs are not supported due to size limitation.
+
+The parser correctness has not been throughly tested.
+
+## Stability
+
+Right now the parser is in early development. Node names and structures are expected
+to change drastically between releases.
+
 ## License
 
 The project is licensed under the [Mozilla Public License version 2.0][MPL]

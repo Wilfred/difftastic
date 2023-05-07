@@ -1,13 +1,6 @@
-# Copyright 2022 Leorize <leorize+oss@disroot.org>
-#
-# SPDX-License-Identifier: MPL-2.0
-# This Source Code Form is subject to the terms of the Mozilla Public License,
-# v. 2.0. If a copy of the MPL was not distributed with this file, You can
-# obtain one at https://mozilla.org/MPL/2.0/.
-
-=====================
+================================================================================
 Constant declarations
-=====================
+================================================================================
 
 const Foo = 0
 coNs_T Bar: int = 10
@@ -31,67 +24,107 @@ const
     bar*,
     whatever = 10
 
----
+const Test* {.importc: "TEST".}: int
+
+--------------------------------------------------------------------------------
 
 (source_file
   (const_section
     (variable_declaration
-      name: (identifier)
-      value: (integer_literal)))
-  (const_section
-    (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
-      value: (integer_literal)))
-  (const_section
-    (variable_declaration
-      name: (identifier)
-      value: (integer_literal))
-    (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
-      value: (integer_literal)))
-  (const_section
-    (variable_declaration
-      (tuple_deconstruct_declaration
-        name: (identifier)
-        name: (identifier))
-      value: (tuple
-            (integer_literal)
-            (integer_literal))))
-  (const_section
-    (variable_declaration
-      name: (identifier)
-      value: (integer_literal))
-    (variable_declaration
-      (tuple_deconstruct_declaration
-        name: (identifier)
-        name: (identifier)
-        name: (identifier))
-      value: (tuple
-        (integer_literal)
-        (integer_literal)
-        (integer_literal))))
-  (const_section
-    (variable_declaration
-      (tuple_deconstruct_declaration
-        name: (identifier)
-        (exported_symbol
+      (symbol_declaration_list
+        (symbol_declaration
           name: (identifier)))
-      value: (tuple
+      value: (integer_literal)))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
+      value: (integer_literal)))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      value: (integer_literal))
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
+      value: (integer_literal)))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier)))))
+      value: (tuple_construction
         (integer_literal)
         (integer_literal))))
   (const_section
     (variable_declaration
-      name: (identifier)
-      (exported_symbol
-        name: (identifier))
-      name: (identifier)
-      value: (integer_literal))))
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      value: (integer_literal))
+    (variable_declaration
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier)))))
+      value: (tuple_construction
+        (integer_literal)
+        (integer_literal)
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (exported_symbol
+                (identifier))))))
+      value: (tuple_construction
+        (integer_literal)
+        (integer_literal))))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (exported_symbol
+            (identifier)))
+        (symbol_declaration
+          name: (identifier)))
+      value: (integer_literal)))
+  (const_section
+    (variable_declaration
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (exported_symbol
+            (identifier))
+          (pragma_list
+            (colon_expression
+              left: (identifier)
+              right: (string_literal)))))
+      type: (identifier))))
 
-================
+================================================================================
 Let declarations
-================
+================================================================================
 
 let foo, dar = 0d
 lET bar: float = 10f32
@@ -101,40 +134,55 @@ l_e_t
   b: uint32 = 42
   (e, f) = (1, 2)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (let_section
     (variable_declaration
-      name: (identifier)
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
       value: (float_literal)))
   (let_section
     (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
       value: (float_literal)))
   (let_section
     (variable_declaration
-      name: (identifier)
-      name: (identifier)
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
       value: (integer_literal))
     (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
       value: (integer_literal))
     (variable_declaration
-      (tuple_deconstruct_declaration
-        name: (identifier)
-        name: (identifier))
-      value: (tuple
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier)))))
+      value: (tuple_construction
         (integer_literal)
         (integer_literal)))))
 
-================
+================================================================================
 Var declarations
-================
+================================================================================
 
 var foo = 0d
 vaR bar: float = 10f32
@@ -147,128 +195,747 @@ var x, y: int
 var z, w: float
 
 var (c, d) = (2, 3)
+var (x, ) = (1, )
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (var_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (float_literal)))
   (var_section
     (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
       value: (float_literal)))
   (var_section
     (variable_declaration
-      name: (identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
       value: (integer_literal))
     (variable_declaration
-      name: (identifier)
-      type: (type_identifier)
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)
       value: (integer_literal)))
   (var_section
     (variable_declaration
-      name: (identifier)
-      name: (identifier)
-      type: (type_identifier)))
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)))
   (var_section
     (variable_declaration
-      name: (identifier)
-      name: (identifier)
-      type: (type_identifier)))
+      (symbol_declaration_list
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
+      type: (identifier)))
   (var_section
     (variable_declaration
-      (tuple_deconstruct_declaration
-        name: (identifier)
-        name: (identifier))
-      value: (tuple
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier))
+            (symbol_declaration
+              name: (identifier)))))
+      value: (tuple_construction
         (integer_literal)
+        (integer_literal))))
+  (var_section
+    (variable_declaration
+      (symbol_declaration_list
+        (tuple_deconstruct_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))))
+      value: (tuple_construction
         (integer_literal)))))
 
-=================
-Type declarations
-=================
+================================================================================
+Type aliases
+================================================================================
 
 type X = int
 type
   Y = distinct int
-  Z = tuple[x, y: int]
-  W = tuple
-    x: int
-    y: int
+  A[T] = ref T
 
-type A = ref object
+--------------------------------------------------------------------------------
 
-type B = ref object
-  a*, c*, d: string
-  b,
-    e,
-    f: string
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (identifier)))
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (modified_type
+        modifier: (distinct_type)
+        (identifier)))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier)
+        (generic_parameter_list
+          (parameter_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier))))))
+      (modified_type
+        modifier: (ref_type)
+        (identifier)))))
+
+================================================================================
+Object declarations
+================================================================================
+
+type
+  SeqData[T] = object
+    capacity: int
+    buffer: UncheckedArray[T]
+
+  NimNodeObj = object
+    case kind: NimNodeKind
+    of nnkError:
+      discard
+    of nnkNone, nnkEmpty, nnkNilLit:
+      nil
+    of nnkCharLit..nnkUInt64Lit:
+      intVal: BiggestInt
+    of nnkFloatLit..nnkFloat64Lit:
+      floatVal: BiggestFloat
+    of nnkStrLit..nnkTripleStrLit, nnkCommentStmt, nnkIdent, nnkSym:
+      strVal: string
+    else:
+      sons: seq[NimNode]
+
+  ObjWithIndentedCase = object
+    case sad: bool:
+      of true: nil
+
+type ValueError = object of Exception
+
+type
+  B = ref object
+    a*, c*, d: string
+    b,
+      e,
+      f: string
+
+  Person* {.ro, tableName: "PERSON".} = ref object of Model
+    name* {.unique.}: string
+    pet* {.onDelete: "CASCADE".}: Option[Pet]
 
 type
   C = object
   D = ref object
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (type_section
     (type_declaration
-      name: (identifier)
-      type: (type_identifier)))
-  (type_section
-    (type_declaration
-      name: (identifier)
-      type: (distinct_type
-        (type_identifier)))
-    (type_declaration
-      name: (identifier)
-      type: (tuple_type
+      (type_symbol_declaration
+        name: (identifier)
+        (generic_parameter_list
+          (parameter_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier))))))
+      (object_declaration
         (field_declaration_list
           (field_declaration
-            name: (identifier)
-            name: (identifier)
-            type: (type_identifier)))))
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier)))
+            type: (identifier))
+          (field_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier)))
+            type: (bracket_expression
+              left: (identifier)
+              right: (argument_list
+                (identifier)))))))
     (type_declaration
-      name: (identifier)
-      type: (tuple_type
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration
         (field_declaration_list
-          (field_declaration
-            name: (identifier)
-            type: (type_identifier))
-          (field_declaration
-            name: (identifier)
-            type: (type_identifier))))))
+          (variant_declaration
+            (variant_discriminator_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))
+            (of_branch
+              values: (expression_list
+                (identifier))
+              (field_declaration_list
+                (discard_statement)))
+            (of_branch
+              values: (expression_list
+                (identifier)
+                (identifier)
+                (identifier))
+              (field_declaration_list
+                (nil_literal)))
+            (of_branch
+              values: (expression_list
+                (infix_expression
+                  left: (identifier)
+                  right: (identifier)))
+              (field_declaration_list
+                (field_declaration
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      name: (identifier)))
+                  type: (identifier))))
+            (of_branch
+              values: (expression_list
+                (infix_expression
+                  left: (identifier)
+                  right: (identifier)))
+              (field_declaration_list
+                (field_declaration
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      name: (identifier)))
+                  type: (identifier))))
+            (of_branch
+              values: (expression_list
+                (infix_expression
+                  left: (identifier)
+                  right: (identifier))
+                (identifier)
+                (identifier)
+                (identifier))
+              (field_declaration_list
+                (field_declaration
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      name: (identifier)))
+                  type: (identifier))))
+            (else_branch
+              (field_declaration_list
+                (field_declaration
+                  (symbol_declaration_list
+                    (symbol_declaration
+                      name: (identifier)))
+                  type: (bracket_expression
+                    left: (identifier)
+                    right: (argument_list
+                      (identifier))))))))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration
+        (field_declaration_list
+          (variant_declaration
+            (variant_discriminator_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))
+            (of_branch
+              values: (expression_list
+                (identifier))
+              (field_declaration_list
+                (nil_literal))))))))
   (type_section
     (type_declaration
-      name: (identifier)
-      type: (ref_type
-        (object_type))))
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration
+        inherits: (identifier))))
   (type_section
     (type_declaration
-      name: (identifier)
-      type: (ref_type
-        (object_type
+      (type_symbol_declaration
+        name: (identifier))
+      (modified_type
+        modifier: (ref_type)
+        (object_declaration
           (field_declaration_list
             (field_declaration
-              (exported_symbol
-                name: (identifier))
-              (exported_symbol
-                name: (identifier))
-              name: (identifier)
-              type: (type_identifier))
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (exported_symbol
+                    (identifier)))
+                (symbol_declaration
+                  name: (exported_symbol
+                    (identifier)))
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))
             (field_declaration
-              name: (identifier)
-              name: (identifier)
-              name: (identifier)
-              type: (type_identifier)))))))
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier))
+                (symbol_declaration
+                  name: (identifier))
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (exported_symbol
+          (identifier))
+        pragma: (pragma_list
+          (identifier)
+          (colon_expression
+            left: (identifier)
+            right: (string_literal))))
+      (modified_type
+        modifier: (ref_type)
+        (object_declaration
+          inherits: (identifier)
+          (field_declaration_list
+            (field_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (exported_symbol
+                    (identifier))
+                  (pragma_list
+                    (identifier))))
+              type: (identifier))
+            (field_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (exported_symbol
+                    (identifier))
+                  (pragma_list
+                    (colon_expression
+                      left: (identifier)
+                      right: (string_literal)))))
+              type: (bracket_expression
+                left: (identifier)
+                right: (argument_list
+                  (identifier)))))))))
   (type_section
     (type_declaration
-      name: (identifier)
-      type: (object_type))
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration))
     (type_declaration
-      name: (identifier)
-      type: (ref_type
-        (object_type)))))
+      (type_symbol_declaration
+        name: (identifier))
+      (modified_type
+        modifier: (ref_type)
+        (object_declaration)))))
+
+================================================================================
+Tuple declarations
+================================================================================
+
+type
+  Z = tuple[x, y: int]
+  W = tuple
+    x: int
+    y: int
+
+  V = tuple
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (tuple_type
+        (field_declaration_list
+          (field_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier))
+              (symbol_declaration
+                name: (identifier)))
+            type: (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (tuple_type
+        (field_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))
+          type: (identifier))
+        (field_declaration
+          (symbol_declaration_list
+            (symbol_declaration
+              name: (identifier)))
+          type: (identifier))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (tuple_type))))
+
+================================================================================
+Concept declarations
+================================================================================
+
+type
+  OutputStream = concept var s
+    s.write(string)
+
+  AdditiveMonoid* = concept x, y, type T
+    x + y is T
+    T.zero is T
+
+  Graph = concept g, type G of EquallyComparable, Copyable
+    type
+      VertexType = G.VertexType
+      EdgeType = G.EdgeType
+
+    VertexType is Copyable
+    EdgeType is Copyable
+
+    var
+      v: VertexType
+      e: EdgeType
+
+  IncidendeGraph = concept of Graph
+    # symbols such as variables and types from the refined
+    # concept are automatically in scope:
+
+    g.source(e) is VertexType
+    g.target(e) is VertexType
+
+    g.outgoingEdges(v) is Enumerable[EdgeType]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (concept_declaration
+        parameters: (parameter_list
+          (var_parameter
+            (identifier)))
+        body: (statement_list
+          (call
+            function: (dot_expression
+              left: (identifier)
+              right: (identifier))
+            (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (exported_symbol
+          (identifier)))
+      (concept_declaration
+        parameters: (parameter_list
+          (identifier)
+          (identifier)
+          (type_parameter
+            (identifier)))
+        body: (statement_list
+          (infix_expression
+            left: (infix_expression
+              left: (identifier)
+              right: (identifier))
+            right: (identifier))
+          (infix_expression
+            left: (dot_expression
+              left: (identifier)
+              right: (identifier))
+            right: (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (concept_declaration
+        parameters: (parameter_list
+          (identifier)
+          (type_parameter
+            (identifier)))
+        refines: (refinement_list
+          (identifier)
+          (identifier))
+        body: (statement_list
+          (type_section
+            (type_declaration
+              (type_symbol_declaration
+                name: (identifier))
+              (dot_expression
+                left: (identifier)
+                right: (identifier)))
+            (type_declaration
+              (type_symbol_declaration
+                name: (identifier))
+              (dot_expression
+                left: (identifier)
+                right: (identifier))))
+          (infix_expression
+            left: (identifier)
+            right: (identifier))
+          (infix_expression
+            left: (identifier)
+            right: (identifier))
+          (var_section
+            (variable_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))
+            (variable_declaration
+              (symbol_declaration_list
+                (symbol_declaration
+                  name: (identifier)))
+              type: (identifier))))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (concept_declaration
+        refines: (refinement_list
+          (identifier))
+        (comment)
+        (comment)
+        body: (statement_list
+          (infix_expression
+            left: (call
+              function: (dot_expression
+                left: (identifier)
+                right: (identifier))
+              (identifier))
+            right: (identifier))
+          (infix_expression
+            left: (call
+              function: (dot_expression
+                left: (identifier)
+                right: (identifier))
+              (identifier))
+            right: (identifier))
+          (infix_expression
+            left: (call
+              function: (dot_expression
+                left: (identifier)
+                right: (identifier))
+              (identifier))
+            right: (bracket_expression
+              left: (identifier)
+              right: (argument_list
+                (identifier)))))))))
+
+================================================================================
+Routine declarations
+================================================================================
+
+proc foo(): int =
+  discard
+
+proc imported() {.importc.}
+
+template optMul{`*`(a, 2)}(a: int): int = a+a
+
+macro that(this): untyped = discard
+
+method exists(x: RootObj) {.base.} = echo "doesn't"
+
+iterator items(x: seq[int]): (int, int) =
+  for i in x:
+    yield (0, i)
+
+converter toInt(x: Natural): int =
+  int(x)
+
+proc bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (proc_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list)
+    return_type: (identifier)
+    body: (statement_list
+      (discard_statement)))
+  (proc_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list)
+    pragmas: (pragma_list
+      (identifier)))
+  (template_declaration
+    name: (identifier)
+    rewrite_pattern: (term_rewriting_pattern
+      (call
+        function: (accent_quoted
+          (identifier))
+        (identifier)
+        (integer_literal)))
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier)))
+    return_type: (identifier)
+    body: (statement_list
+      (infix_expression
+        left: (identifier)
+        right: (identifier))))
+  (macro_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))))
+    return_type: (identifier)
+    body: (statement_list
+      (discard_statement)))
+  (method_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier)))
+    pragmas: (pragma_list
+      (identifier))
+    body: (statement_list
+      (call
+        function: (identifier)
+        (string_literal))))
+  (iterator_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (bracket_expression
+          left: (identifier)
+          right: (argument_list
+            (identifier)))))
+    return_type: (tuple_construction
+      (identifier)
+      (identifier))
+    body: (statement_list
+      (for
+        left: (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        right: (identifier)
+        body: (statement_list
+          (yield_statement
+            (tuple_construction
+              (integer_literal)
+              (identifier)))))))
+  (converter_declaration
+    name: (identifier)
+    parameters: (parameter_declaration_list
+      (parameter_declaration
+        (symbol_declaration_list
+          (symbol_declaration
+            name: (identifier)))
+        type: (identifier)))
+    return_type: (identifier)
+    body: (statement_list
+      (call
+        function: (identifier)
+        (identifier))))
+  (proc_declaration
+    name: (identifier)))
+
+================================================================================
+Enum declarations
+================================================================================
+
+type
+  E = enum A, B, C, D
+
+  Valued = enum
+    X = "X"
+    B = "B"
+
+  LineAndComma = enum
+    X,
+    Y,
+    D = "X"
+
+  MultiLine = enum
+    X, Y, Z,
+    D
+    E
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_section
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier))
+          value: (string_literal))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier))
+          value: (string_literal))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier))
+          value: (string_literal))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier)))))))

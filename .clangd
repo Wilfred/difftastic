@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: None
+#
+# SPDX-License-Identifier: CC0-1.0
+
+---
+CompileFlags:
+  Add: 
+    - -Wall
+    - -Wimplicit-fallthrough
+    - -std=c++14
+    - -fno-exceptions
+
+Diagnostics:
+  ClangTidy:
+    Add:
+    - android-cloexec-*
+    - bugprone-*
+    - cert-*
+    - cppcoreguidelines-*
+    - fuchsia-trailing-return
+    - google-global-names-in-headers
+    - hicpp-*
+    - misc-*
+    - modernize-*
+    - performance-*
+    - readability-*
+    Remove: modernize-use-trailing-return-type
+    CheckOptions: 
+      readability-function-cognitive-complexity.IgnoreMacros: true
+      readability-implicit-bool-conversion.AllowPointerConditions: true
+      readability-identifier-naming.ClassCase: CamelCase
+      readability-identifier-naming.ClassMemberSuffix: _
+      readability-identifier-naming.ConstantCase: CamelCase
+      readability-identifier-naming.LocalConstantCase: lower_case
+      readability-identifier-naming.EnumConstantCase: CamelCase
+      readability-identifier-naming.FunctionCase: lower_case
+      readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+      readability-identifier-naming.VariableCase: lower_case
+      misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic: true
+  UnusedIncludes: Strict
+    
+# vim: set ft=yaml et:

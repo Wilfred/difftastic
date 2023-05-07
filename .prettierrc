@@ -1,0 +1,4 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc.json",
+  "arrowParens": "avoid"
+}

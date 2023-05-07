@@ -8,3 +8,7 @@ build/
 # Rust stuff
 debug/
 target/
+
+# C stuff
+.cache/
+src/parser.c
