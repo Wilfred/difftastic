@@ -2504,27 +2504,11 @@
         ]
       },
       "consequence": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "conditional_declaration",
-            "named": true
-          },
-          {
-            "type": "discard_statement",
-            "named": true
-          },
-          {
-            "type": "field_declaration",
-            "named": true
-          },
-          {
-            "type": "nil_literal",
-            "named": true
-          },
-          {
-            "type": "variant_declaration",
+            "type": "field_declaration_list",
             "named": true
           }
         ]
