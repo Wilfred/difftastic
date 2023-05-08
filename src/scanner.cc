@@ -48,12 +48,7 @@ enum class TokenType : TSSymbol {
   InvalidLayout,
   SigilOp,
   UnaryOp,
-  Elif,
-  Else,
-  Except,
-  Finally,
   Of,
-  Do,
   TokenTypeLen
 };
 
@@ -683,16 +678,8 @@ void skip_underscore(Context& ctx)
   }
 }
 
-bool lex_keyword(Context& ctx)
+bool scan_continuing_keyword(Context& ctx)
 {
-  constexpr ValidSymbols keywords = make_valid_symbols(
-      {TokenType::Elif, TokenType::Else, TokenType::Except, TokenType::Finally,
-       TokenType::Of, TokenType::Do});
-
-  if (!ctx.any_valid(keywords)) {
-    return false;
-  }
-
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define CASE_CHAR(chr) \
 chr:                   \
@@ -717,70 +704,52 @@ chr:                   \
     return false;         \
   }
 
-// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define FINISH_IF_END(token)              \
-  do {                                    \
-    ctx.advance();                        \
-    if (is_identifier(ctx.lookahead())) { \
-      return false;                       \
-    }                                     \
-    ctx.mark_end();                       \
-    return ctx.finish(token);             \
+#define FINISH_IF_END                       \
+  do {                                      \
+    ctx.advance();                          \
+    return !is_identifier(ctx.lookahead()); \
   } while (false)
 
-  if (ctx.lookahead() == 'e' &&
-      ctx.any_valid(make_valid_symbols(
-          {TokenType::Else, TokenType::Elif, TokenType::Except}))) {
+  if (ctx.lookahead() == 'e') {
     ctx.advance();
     skip_underscore(ctx);
     switch (ctx.lookahead()) {
     case CASE_CHAR('l'):
-      CONTINUE_ON(ctx.any_valid(
-          make_valid_symbols({TokenType::Else, TokenType::Elif})));
       ctx.advance();
       skip_underscore(ctx);
       switch (ctx.lookahead()) {
       case CASE_CHAR('s'):
-        CONTINUE_ON(ctx.valid(TokenType::Else));
         NEXT_OR_FAIL('e');
-        FINISH_IF_END(TokenType::Else);
+        FINISH_IF_END;
 
       case CASE_CHAR('i'):
-        CONTINUE_ON(ctx.valid(TokenType::Elif));
         NEXT_OR_FAIL('f');
-        FINISH_IF_END(TokenType::Elif);
+        FINISH_IF_END;
       }
 
       return false;
     case CASE_CHAR('x'):
-      CONTINUE_ON(ctx.valid(TokenType::Except));
       NEXT_OR_FAIL('c');
       NEXT_OR_FAIL('e');
       NEXT_OR_FAIL('p');
       NEXT_OR_FAIL('t');
-      FINISH_IF_END(TokenType::Except);
+      FINISH_IF_END;
     }
   }
 
-  if (ctx.lookahead() == 'f' && ctx.valid(TokenType::Finally)) {
+  if (ctx.lookahead() == 'f') {
     NEXT_OR_FAIL('i');
     NEXT_OR_FAIL('n');
     NEXT_OR_FAIL('a');
     NEXT_OR_FAIL('l');
     NEXT_OR_FAIL('l');
     NEXT_OR_FAIL('y');
-    FINISH_IF_END(TokenType::Finally);
+    FINISH_IF_END;
   }
 
-  if (ctx.lookahead() == 'o' && ctx.valid(TokenType::Of) &&
-      ctx.state().test_flag(Flag::AfterNewline)) {
-    NEXT_OR_FAIL('f');
-    FINISH_IF_END(TokenType::Of);
-  }
-
-  if (ctx.lookahead() == 'd' && ctx.valid(TokenType::Do)) {
+  if (ctx.lookahead() == 'd') {
     NEXT_OR_FAIL('o');
-    FINISH_IF_END(TokenType::Do);
+    FINISH_IF_END;
   }
 
   return false;
@@ -789,6 +758,25 @@ chr:                   \
 #undef CONTINUE_ON
 #undef NEXT_OR_FAIL
 #undef FINISH_IF_END
+}
+
+bool lex_case_of(Context& ctx)
+{
+  if (ctx.lookahead() != 'o' || !ctx.valid(TokenType::Of)) {
+    return false;
+  }
+
+  switch (ctx.advance()) {
+  case 'f':
+  case 'F':
+    if (is_identifier(ctx.advance())) {
+      return false;
+    }
+    ctx.mark_end();
+    return ctx.finish(TokenType::Of);
+  }
+
+  return false;
 }
 
 bool lex_indent(Context& ctx)
@@ -829,8 +817,14 @@ bool lex_indent(Context& ctx)
     if (ctx.state().test_flag(Flag::AfterNewline) &&
         current_layout >= line_indent) {
       ctx.mark_end();
-      if (current_layout == line_indent && lex_keyword(ctx)) {
-        return true;
+      if (current_layout == line_indent) {
+        const auto last_count = ctx.counter();
+        if (scan_continuing_keyword(ctx)) {
+          return false;
+        }
+        if (ctx.counter() == last_count && lex_case_of(ctx)) {
+          return true;
+        }
       }
       ctx.state().reset_flag(Flag::AfterNewline);
       return ctx.finish(TokenType::LayoutTerminator);
@@ -851,6 +845,10 @@ bool lex_indent(Context& ctx)
       !ctx.valid(TokenType::LongStringQuote)) {
     ctx.mark_end();
     return ctx.finish(TokenType::InvalidLayout);
+  }
+
+  if (ctx.state().test_flag(Flag::AfterNewline)) {
+    TRY_LEX(ctx, lex_case_of);
   }
 
   return false;
@@ -924,7 +922,6 @@ bool lex_main(Context& ctx)
 
   TRY_LEX(ctx, lex_indent);
   TRY_LEXN(ctx, operators::lex, spaces == 0);
-  TRY_LEX(ctx, lex_keyword);
   TRY_LEX(ctx, lex_inline_layout);
 
   return false;

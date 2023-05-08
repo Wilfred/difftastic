@@ -42,3 +42,19 @@ a.b #[]#"c"
       (identifier))
     (block_comment)
     (string_literal)))
+
+================================================================================
+Except deviations
+================================================================================
+
+import x
+except y
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_statement
+    (identifier)
+    (except_clause
+      (expression_list
+        (identifier)))))

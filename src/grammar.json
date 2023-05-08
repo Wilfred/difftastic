@@ -2028,8 +2028,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "e_?[lL]_?[iI]_?[fF]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "e_?[lL]_?[iI]_?[fF]"
+              }
+            }
           },
           "named": false,
           "value": "elif"
@@ -2185,8 +2192,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "e_?[lL]_?[sS]_?[eE]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "e_?[lL]_?[sS]_?[eE]"
+              }
+            }
           },
           "named": false,
           "value": "else"
@@ -3181,8 +3195,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "e_?[lL]_?[iI]_?[fF]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "e_?[lL]_?[iI]_?[fF]"
+              }
+            }
           },
           "named": false,
           "value": "elif"
@@ -3215,8 +3236,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "e_?[lL]_?[sS]_?[eE]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "e_?[lL]_?[sS]_?[eE]"
+              }
+            }
           },
           "named": false,
           "value": "else"
@@ -3237,8 +3265,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "e_?[xX]_?[cC]_?[eE]_?[pP]_?[tT]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "e_?[xX]_?[cC]_?[eE]_?[pP]_?[tT]"
+              }
+            }
           },
           "named": false,
           "value": "except"
@@ -3275,8 +3310,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "f_?[iI]_?[nN]_?[aA]_?[lL]_?[lL]_?[yY]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "f_?[iI]_?[nN]_?[aA]_?[lL]_?[lL]_?[yY]"
+              }
+            }
           },
           "named": false,
           "value": "finally"
@@ -3297,8 +3339,15 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "d_?[oO]"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "d_?[oO]"
+              }
+            }
           },
           "named": false,
           "value": "do"
@@ -10258,28 +10307,8 @@
       "name": "prefix_operator"
     },
     {
-      "type": "PATTERN",
-      "value": "e_?[lL]_?[iI]_?[fF]"
-    },
-    {
-      "type": "PATTERN",
-      "value": "e_?[lL]_?[sS]_?[eE]"
-    },
-    {
-      "type": "PATTERN",
-      "value": "e_?[xX]_?[cC]_?[eE]_?[pP]_?[tT]"
-    },
-    {
-      "type": "PATTERN",
-      "value": "f_?[iI]_?[nN]_?[aA]_?[lL]_?[lL]_?[yY]"
-    },
-    {
       "type": "SYMBOL",
       "name": "_case_of"
-    },
-    {
-      "type": "PATTERN",
-      "value": "d_?[oO]"
     }
   ],
   "inline": [],

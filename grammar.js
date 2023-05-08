@@ -221,12 +221,7 @@ module.exports = grammar({
     $._invalid_layout,
     $._sigil_operator,
     $.prefix_operator,
-    keyword_regex("elif"),
-    keyword_regex("else"),
-    keyword_regex("except"),
-    keyword_regex("finally"),
     $._case_of,
-    keyword_regex("do"),
   ],
 
   conflicts: $ => [[$._command_function, $._simple_expression_command_start]],
@@ -509,7 +504,7 @@ module.exports = grammar({
       ),
     _elif_declaration_branch: $ =>
       seq(
-        keyword_alias("elif"),
+        keyword("elif"),
         field("condition", $._expression),
         ":",
         field(
@@ -540,7 +535,7 @@ module.exports = grammar({
       ),
     _else_declaration_branch: $ =>
       seq(
-        keyword_alias("else"),
+        keyword("else"),
         ":",
         alias($._object_field_declaration_branch_list, $.field_declaration_list)
       ),
@@ -686,23 +681,23 @@ module.exports = grammar({
       ),
     elif_branch: $ =>
       seq(
-        keyword_alias("elif"),
+        keyword("elif"),
         field("condition", $._expression),
         ":",
         field("consequence", $.statement_list)
       ),
-    else_branch: $ => seq(keyword_alias("else"), ":", $.statement_list),
+    else_branch: $ => seq(keyword("else"), ":", $.statement_list),
     except_branch: $ =>
       seq(
-        keyword_alias("except"),
+        keyword("except"),
         optional(field("values", $.expression_list)),
         ":",
         $.statement_list
       ),
-    finally_branch: $ => seq(keyword_alias("finally"), ":", $.statement_list),
+    finally_branch: $ => seq(keyword("finally"), ":", $.statement_list),
     do_block: $ =>
       seq(
-        keyword_alias("do"),
+        keyword("do"),
         optional($.parameter_declaration_list),
         optional(seq("->", $._type_expression)),
         ":",
@@ -1247,15 +1242,6 @@ function keyword_regex(ident) {
     .join("_?");
 
   return new RegExp(regex);
-}
-
-/**
- * keyword_regex() but with aliasing to make it pretty
- *
- * @param {string} ident
- */
-function keyword_alias(ident) {
-  return alias(keyword_regex(ident), ident);
 }
 
 /**
