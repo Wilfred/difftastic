@@ -32,15 +32,9 @@ constexpr auto BitsInByte = 8;
 
 enum class TokenType : TSSymbol {
   TokenTypeStart,
-  Comment = TokenTypeStart,
-  ImmediateParenOpen,
-  ImmediateBracketOpen,
-  ImmediateCurlyOpen,
-  ImmediateStringStart,
-  ImmediateLongStringStart,
-  StringContent,
-  RawStringContent,
-  LongStringContent,
+  BlockCommentContent = TokenTypeStart,
+  BlockDocCommentContent,
+  LongStringQuote,
   LayoutStart,
   LayoutEnd,
   LayoutTerminator,
@@ -50,7 +44,7 @@ enum class TokenType : TSSymbol {
   BracketClose,
   CurlyClose,
   CurlyDotClose,
-  Spaces,
+  Synchronize,
   InvalidLayout,
   SigilOp,
   UnaryOp,
@@ -74,7 +68,7 @@ constexpr ValidSymbols make_valid_symbols(initializer_list<TokenType> syms)
   return result;
 }
 
-enum class Flag { AfterNewline, NoImmediates, FlagLen };
+enum class Flag { AfterNewline, FlagLen };
 
 struct State {
   vector<uint8_t> layout_stack;
@@ -582,28 +576,11 @@ bool lex(Context& ctx, bool immediate)
 }  // namespace operators
 
 namespace comment {
-enum class Marker { Invalid, LineComment, BlockComment, BlockDocComment };
+enum class Marker { Invalid, BlockComment, BlockDocComment };
+constexpr auto CommentContent = make_valid_symbols(
+    {TokenType::BlockCommentContent, TokenType::BlockDocCommentContent});
 
-Marker start_marker(Context& ctx)
-{
-  switch (ctx.lookahead()) {
-  case '#':
-    switch (ctx.consume()) {
-    case '#':
-      if (ctx.consume() == '[') {
-        return Marker::BlockDocComment;
-      }
-      return Marker::LineComment;
-    case '[':
-      return Marker::BlockComment;
-    }
-    return Marker::LineComment;
-  default:
-    return Marker::Invalid;
-  }
-}
-
-bool consume_end_marker(Context& ctx, Marker type)
+bool lex_end_marker(Context& ctx, Marker type)
 {
   switch (type) {
   case Marker::BlockComment:
@@ -611,76 +588,47 @@ bool consume_end_marker(Context& ctx, Marker type)
     if (ctx.lookahead() != ']') {
       return false;
     }
-    if (ctx.consume() != '#') {
+    if (ctx.advance() != '#') {
       return false;
     }
     if (type == Marker::BlockComment) {
-      ctx.consume();
+      ctx.advance();
       return true;
     }
-    if (ctx.consume() != '#') {
+    if (ctx.advance() != '#') {
       return false;
     }
-    ctx.consume();
+    ctx.advance();
     return true;
   default:
     return false;
   }
 }
 
-bool handle_line_comment(Context& ctx)
-{
-  while (!ctx.eof()) {
-    switch (ctx.lookahead()) {
-    case '\n':
-    case '\r':
-      return ctx.finish(TokenType::Comment);
-    }
-    ctx.consume();
-  }
-  return ctx.finish(TokenType::Comment);
-}
-
 bool lex(Context& ctx)
 {
-  if (!ctx.valid(TokenType::Comment)) {
+  if (!ctx.any_valid(CommentContent) || ctx.error()) {
     return false;
   }
 
-  bool long_doc = false;
-  switch (start_marker(ctx)) {
-  case Marker::LineComment:
-    return handle_line_comment(ctx);
-  case Marker::BlockDocComment:
-    long_doc = true;
-    [[fallthrough]];
-  case Marker::BlockComment:
-    break;
-  default:
-    return false;
-  }
+  bool long_doc = ctx.valid(TokenType::BlockDocCommentContent);
 
   uint32_t nesting = 0;
   while (!ctx.eof()) {
-    const auto last_state = ctx.counter();
+    const auto want_end = nesting > 0 || !long_doc ? Marker::BlockComment
+                                                   : Marker::BlockDocComment;
 
-    switch (start_marker(ctx)) {
-    case Marker::BlockComment:
-    case Marker::BlockDocComment:
+    if (ctx.lookahead() == '#' && ctx.advance() == '[') {
       nesting++;
 #ifdef TREE_SITTER_INTERNAL_BUILD
       if (getenv("TREE_SITTER_DEBUG")) {
         cerr << "lex_nim: block comment nest level: " << nesting << '\n';
       }
 #endif
-      break;
-    default:
-      break;
     }
-    const auto want_end = nesting > 0 || !long_doc ? Marker::BlockComment
-                                                   : Marker::BlockDocComment;
 
-    if (consume_end_marker(ctx, want_end)) {
+    ctx.mark_end();
+    if (lex_end_marker(ctx, want_end)) {
 #ifdef TREE_SITTER_INTERNAL_BUILD
       if (getenv("TREE_SITTER_DEBUG")) {
         cerr << "lex_nim: block comment terminate nest level: " << nesting
@@ -688,14 +636,14 @@ bool lex(Context& ctx)
       }
 #endif
       if (nesting == 0) {
-        ctx.state().set_flag(Flag::NoImmediates);
-        return ctx.finish(TokenType::Comment);
+        return ctx.finish(
+            long_doc ? TokenType::BlockDocCommentContent
+                     : TokenType::BlockCommentContent);
       }
       nesting--;
     }
-
-    if (last_state == ctx.counter()) {
-      ctx.consume();
+    else {
+      ctx.advance();
     }
   }
 
@@ -703,116 +651,30 @@ bool lex(Context& ctx)
 }
 }  // namespace comment
 
-namespace string_lex {
-constexpr auto StringTokens = make_valid_symbols(
-    {TokenType::StringContent, TokenType::RawStringContent,
-     TokenType::LongStringContent});
-constexpr auto StringStartTokens = make_valid_symbols(
-    {TokenType::ImmediateStringStart, TokenType::ImmediateLongStringStart});
-constexpr auto RawStringType = make_valid_symbols(
-    {TokenType::LongStringContent, TokenType::RawStringContent});
-
-bool handle_string_quote(Context& ctx)
+bool lex_long_string_quote(Context& ctx)
 {
-  if (ctx.lookahead() != '"' || !ctx.any_valid(RawStringType)) {
+  if (ctx.lookahead() != '"' || !ctx.valid(TokenType::LongStringQuote)) {
     return false;
   }
 
   ctx.consume();
-  if (ctx.valid(TokenType::RawStringContent)) {
-    if (ctx.lookahead() == '"') {
-      ctx.consume();
-      return ctx.finish(TokenType::RawStringContent);
-    }
-
-    return false;
+  uint8_t count = 1;
+  while (ctx.lookahead() == '"' && count < 3) {
+    ctx.advance();
+    count++;
   }
 
-  if (ctx.valid(TokenType::LongStringContent)) {
-    uint8_t count = 1;
-    while (ctx.lookahead() == '"' && count < 3) {
-      ctx.advance();
-      count++;
-    }
+  if (count < 3) {
+    ctx.mark_end();
+    return ctx.finish(TokenType::LongStringQuote);
+  }
 
-    if (count < 3 || ctx.lookahead() == '"') {
-      return ctx.finish(TokenType::LongStringContent);
-    }
-    return false;
+  if (ctx.lookahead() == '"') {
+    return ctx.finish(TokenType::LongStringQuote);
   }
 
   return false;
 }
-
-bool lex_string_start(Context& ctx)
-{
-  if (!ctx.any_valid(StringStartTokens) ||
-      ctx.state().test_flag(Flag::NoImmediates) || ctx.lookahead() != '"') {
-    return false;
-  }
-
-  ctx.consume();
-  if (ctx.valid(TokenType::ImmediateLongStringStart)) {
-    uint8_t count = 1;
-    while (ctx.lookahead() == '"' && count < 3) {
-      ctx.advance();
-      count++;
-    }
-    if (count == 3) {
-      ctx.mark_end();
-      return ctx.finish(TokenType::ImmediateLongStringStart);
-    }
-  }
-
-  return ctx.finish(TokenType::ImmediateStringStart);
-}
-
-bool lex(Context& ctx)
-{
-  if (!ctx.any_valid(StringTokens) || ctx.error()) {
-    return false;
-  }
-
-  TRY_LEX(ctx, handle_string_quote);
-  bool has_content = false;
-  // NOLINTBEGIN(*-avoid-goto)
-  while (!ctx.eof()) {
-    switch (ctx.lookahead()) {
-    case '\n':
-    case '\r':
-      if (!ctx.valid(TokenType::LongStringContent)) {
-        goto loop_break;
-      }
-      [[fallthrough]];
-    case '\\':
-      if (!ctx.any_valid(RawStringType)) {
-        goto loop_break;
-      }
-      break;
-    case '"':
-      goto loop_break;
-    }
-
-    has_content = true;
-    ctx.consume();
-  }
-  // NOLINTEND(*-avoid-goto)
-
-loop_break:
-  return has_content && ctx.finish(
-                            ctx.valid(TokenType::LongStringContent)
-                                ? TokenType::LongStringContent
-                            : ctx.valid(TokenType::RawStringContent)
-                                ? TokenType::RawStringContent
-                                : TokenType::StringContent);
-}
-}  // namespace string_lex
-
-constexpr auto ImmediateTokens = make_valid_symbols(
-    {TokenType::ImmediateParenOpen, TokenType::ImmediateBracketOpen,
-     TokenType::ImmediateCurlyOpen, TokenType::ImmediateStringStart,
-     TokenType::ImmediateLongStringStart, TokenType::StringContent,
-     TokenType::LongStringContent, TokenType::RawStringContent});
 
 void skip_underscore(Context& ctx)
 {
@@ -984,7 +846,9 @@ bool lex_indent(Context& ctx)
     }
   }
 
-  if (current_layout > line_indent && !ctx.eof()) {
+  if (current_layout > line_indent && !ctx.eof() &&
+      // In long string context
+      !ctx.valid(TokenType::LongStringQuote)) {
     ctx.mark_end();
     return ctx.finish(TokenType::InvalidLayout);
   }
@@ -1035,67 +899,33 @@ loop_end:
 
 bool lex_init(Context& ctx)
 {
-  if (!ctx.state().layout_stack.empty()) {
+  if (!ctx.state().layout_stack.empty() || ctx.error()) {
     return false;
   }
 
   scan_spaces(ctx, true);
-  TRY_LEX(ctx, comment::lex);
-
-  ctx.mark_end();
-  ctx.state().layout_stack.push_back(ctx.state().line_indent);
-  return ctx.finish(TokenType::Spaces);
-}
-
-bool lex_immediates(Context& ctx)
-{
-  if (!ctx.any_valid(ImmediateTokens) ||
-      ctx.state().test_flag(Flag::NoImmediates)) {
+  if (ctx.lookahead() == '#') {
     return false;
   }
 
-  TRY_LEX(ctx, string_lex::lex_string_start);
-
-  if (ctx.lookahead() == '(' && ctx.valid(TokenType::ImmediateParenOpen)) {
-    ctx.consume();
-    return ctx.finish(TokenType::ImmediateParenOpen);
-  }
-  if (ctx.lookahead() == '[' && ctx.valid(TokenType::ImmediateBracketOpen)) {
-    ctx.consume();
-    return ctx.finish(TokenType::ImmediateBracketOpen);
-  }
-  if (ctx.lookahead() == '{' && ctx.valid(TokenType::ImmediateCurlyOpen)) {
-    ctx.consume();
-    if (ctx.lookahead() == '.') {
-      return false;
-    }
-    return ctx.finish(TokenType::ImmediateCurlyOpen);
-  }
-  return false;
+  ctx.mark_end();
+  ctx.state().layout_stack.push_back(ctx.state().line_indent);
+  return ctx.finish(TokenType::Synchronize);
 }
 
 bool lex_main(Context& ctx)
 {
   TRY_LEX(ctx, lex_init);
 
-  TRY_LEX(ctx, lex_immediates);
-  TRY_LEX(ctx, string_lex::lex);
+  TRY_LEX(ctx, comment::lex);
+  TRY_LEX(ctx, lex_long_string_quote);
 
   auto spaces = scan_spaces(ctx);
-  ctx.mark_end();
 
-  TRY_LEX(ctx, comment::lex);
   TRY_LEX(ctx, lex_indent);
-  TRY_LEXN(
-      ctx, operators::lex,
-      spaces == 0 && !ctx.state().test_flag(Flag::NoImmediates));
+  TRY_LEXN(ctx, operators::lex, spaces == 0);
   TRY_LEX(ctx, lex_keyword);
   TRY_LEX(ctx, lex_inline_layout);
-
-  if (spaces > 0 && !ctx.state().test_flag(Flag::NoImmediates)) {
-    ctx.state().set_flag(Flag::NoImmediates);
-    return ctx.finish(TokenType::Spaces);
-  }
 
   return false;
 }
@@ -1141,12 +971,12 @@ bool tree_sitter_nim_external_scanner_scan(
 #endif
 
   const auto last_count = ctx.counter();
+  const auto last_flags = ctx.state().flags;
   if (lex_main(ctx)) {
     return true;
   }
 
   if (!ctx.eof() && ctx.counter() == last_count) {
-    bool commit = false;
     if (ctx.state().test_flag(Flag::AfterNewline)) {
 #ifdef TREE_SITTER_INTERNAL_BUILD
       if (getenv("TREE_SITTER_DEBUG")) {
@@ -1154,20 +984,9 @@ bool tree_sitter_nim_external_scanner_scan(
       }
 #endif
       ctx.state().reset_flag(Flag::AfterNewline);
-      commit = true;
     }
-    if (ctx.state().test_flag(Flag::NoImmediates) &&
-        !ctx.any_valid(ImmediateTokens)) {
-#ifdef TREE_SITTER_INTERNAL_BUILD
-      if (getenv("TREE_SITTER_DEBUG")) {
-        cerr << "lex_nim: resetting no immediate flag\n";
-      }
-#endif
-      ctx.state().reset_flag(Flag::NoImmediates);
-      commit = true;
-    }
-    if (commit) {
-      return ctx.finish(TokenType::Spaces);
+    if (last_flags != ctx.state().flags) {
+      return ctx.finish(TokenType::Synchronize);
     }
   }
 

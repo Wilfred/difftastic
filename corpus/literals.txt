@@ -168,9 +168,13 @@ r"C:\"
     (escape_sequence))
   (string_literal)
   (string_literal)
-  (string_literal)
-  (string_literal)
-  (string_literal)
+  (string_literal
+    (escape_sequence)
+    (escape_sequence))
+  (string_literal
+    (escape_sequence))
+  (string_literal
+    (escape_sequence))
   (string_literal)
   (string_literal)
   (string_literal)
@@ -207,12 +211,18 @@ Character literals
   (char_literal)
   (char_literal)
   (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal)
-  (char_literal))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence))
+  (char_literal
+    (escape_sequence)))
 
 ================================================================================
 Nil literal

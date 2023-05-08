@@ -261,7 +261,6 @@ $a.b
 
 a.b"string"
 a.b "string"
-a.b#[]#"string"
 
 a(
   b
@@ -298,12 +297,6 @@ a(
     function: (dot_expression
       left: (identifier)
       right: (identifier))
-    (string_literal))
-  (call
-    function: (dot_expression
-      left: (identifier)
-      right: (identifier))
-    (comment)
     (string_literal))
   (dot_expression
     left: (call
