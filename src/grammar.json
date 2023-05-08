@@ -1985,8 +1985,13 @@
             "type": "FIELD",
             "name": "consequence",
             "content": {
-              "type": "SYMBOL",
-              "name": "_object_field_declaration_list"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_object_field_declaration_branch_list"
+              },
+              "named": true,
+              "value": "field_declaration_list"
             }
           },
           {

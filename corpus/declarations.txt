@@ -343,6 +343,8 @@ type
 type
   C = object
   D = ref object
+  E = object
+    when foo: x: int
 
 --------------------------------------------------------------------------------
 
@@ -538,7 +540,20 @@ type
         name: (identifier))
       (modified_type
         modifier: (ref_type)
-        (object_declaration)))))
+        (object_declaration)))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (object_declaration
+        (field_declaration_list
+          (conditional_declaration
+            condition: (identifier)
+            consequence: (field_declaration_list
+              (field_declaration
+                (symbol_declaration_list
+                  (symbol_declaration
+                    name: (identifier)))
+                type: (identifier)))))))))
 
 ================================================================================
 Tuple declarations

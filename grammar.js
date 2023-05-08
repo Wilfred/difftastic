@@ -490,7 +490,13 @@ module.exports = grammar({
           keyword("when"),
           field("condition", $._expression),
           ":",
-          field("consequence", $._object_field_declaration_list),
+          field(
+            "consequence",
+            alias(
+              $._object_field_declaration_branch_list,
+              $.field_declaration_list
+            )
+          ),
           repeat(
             field(
               "alternative",
