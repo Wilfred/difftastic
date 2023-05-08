@@ -52,9 +52,9 @@ echo x,
     (identifier)
     (comment)
     (identifier))
-  (comment)
-  (comment)
-  (comment))
+  (documentation_comment)
+  (documentation_comment)
+  (documentation_comment))
 
 ================================================================================
 Block comments
@@ -68,13 +68,18 @@ comments can be #[nested
 
 #[random inner comments# stuff#]#
 
+##[Block doc can be #[nested]# too
+Block doc is not ##[self-nesting]#, though
+]##
+
 --------------------------------------------------------------------------------
 
 (source_file
   (call
     (identifier)
     (identifier)
-    (comment)
+    (block_comment)
     (identifier))
-  (comment)
-  (comment))
+  (block_comment)
+  (block_comment)
+  (block_documentation_comment))

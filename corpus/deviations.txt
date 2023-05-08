@@ -1,0 +1,60 @@
+================================================================================
+Literal deviations
+================================================================================
+
+"string
+#[comment]#"
+
+'a
+#[]#'
+
+r"string
+#[comment]#"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (string_literal
+    (block_comment))
+  (char_literal
+    (block_comment))
+  (string_literal
+    (block_comment)))
+
+================================================================================
+Generalized string deviations
+================================================================================
+
+a#[]#"b"
+
+a.b #[]#"c"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (generalized_string
+    (identifier)
+    (block_comment)
+    (string_literal))
+  (generalized_string
+    (dot_expression
+      (identifier)
+      (identifier))
+    (block_comment)
+    (string_literal)))
+
+================================================================================
+Except deviations
+================================================================================
+
+import x
+except y
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_statement
+    (identifier)
+    (except_clause
+      (expression_list
+        (identifier)))))

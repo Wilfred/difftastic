@@ -26,6 +26,7 @@ Diagnostics:
     - readability-*
     Remove: modernize-use-trailing-return-type
     CheckOptions: 
+      cppcoreguidelines-avoid-do-while.IgnoreMacros: true
       readability-function-cognitive-complexity.IgnoreMacros: true
       readability-implicit-bool-conversion.AllowPointerConditions: true
       readability-identifier-naming.ClassCase: CamelCase
