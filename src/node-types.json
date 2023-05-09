@@ -4219,11 +4219,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
             "named": true
           },
           {
@@ -4267,6 +4275,14 @@
             "named": true
           },
           {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "func_expression",
+            "named": true
+          },
+          {
             "type": "generalized_string",
             "named": true
           },
@@ -4275,11 +4291,19 @@
             "named": true
           },
           {
+            "type": "if",
+            "named": true
+          },
+          {
             "type": "infix_expression",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "iterator_expression",
             "named": true
           },
           {
@@ -4319,6 +4343,10 @@
             "named": true
           },
           {
+            "type": "proc_expression",
+            "named": true
+          },
+          {
             "type": "proc_type",
             "named": true
           },
@@ -4331,6 +4359,10 @@
             "named": true
           },
           {
+            "type": "try",
+            "named": true
+          },
+          {
             "type": "tuple_construction",
             "named": true
           },
@@ -4340,6 +4372,10 @@
           },
           {
             "type": "var_type",
+            "named": true
+          },
+          {
+            "type": "when",
             "named": true
           }
         ]

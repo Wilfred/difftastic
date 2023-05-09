@@ -530,7 +530,7 @@ module.exports = grammar({
           $.symbol_declaration,
           // This should be _expression proper, but doing so inflates
           // the parser states to unusable.
-          optional(seq("=", field("value", $._simple_expression)))
+          optional(seq("=", field("value", $._expression)))
         )
       ),
     _tuple_declaration: $ =>

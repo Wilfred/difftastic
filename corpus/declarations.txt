@@ -915,6 +915,9 @@ type
     D
     E
 
+  Complex = enum
+    X = when x: y else: z
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -979,4 +982,18 @@ type
             name: (identifier)))
         (enum_field_declaration
           (symbol_declaration
-            name: (identifier)))))))
+            name: (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier))
+          value: (when
+            condition: (identifier)
+            consequence: (statement_list
+              (identifier))
+            alternative: (else_branch
+              (statement_list
+                (identifier)))))))))
