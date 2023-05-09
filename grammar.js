@@ -235,6 +235,18 @@ module.exports = grammar({
     $.block_comment,
     $.block_documentation_comment,
   ],
+  conflicts: $ => [
+    // Conflict:
+    //
+    // var . (
+    // -> var_type
+    // -> var_section
+    //
+    // Unfortunately there are no easy answers, since the only means of
+    // disambiguation is the `:` and `=` sequences that shows up at an
+    // arbitrary point.
+    [$.var_type, $.var_section],
+  ],
   precedences: $ => [
     [
       "sigil",
@@ -263,7 +275,6 @@ module.exports = grammar({
     ["post_expr", $._simple_expression_command_start],
     ["post_expr", $._simple_expression],
     ["post_expr", $._expression_statement],
-    [$.var_section, $.var_type],
     [$.enum_declaration, $.enum_type],
     [$.object_declaration, $.object_type],
     [$._type_definition, $.modified_type],
@@ -493,9 +504,11 @@ module.exports = grammar({
 
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
     let_section: $ => seq(keyword("let"), $._variable_declaration_section),
-    var_section: $ => seq(keyword("var"), $._variable_declaration_section),
-    _variable_declaration_section: $ => section($, $.variable_declaration),
-    variable_declaration: $ => $._identifier_declaration,
+    var_section: $ =>
+      // Prefer the interpretation of var section over modified_type
+      prec.dynamic(1, seq(keyword("var"), $._variable_declaration_section)),
+    _variable_declaration_section: $ =>
+      section($, alias($._identifier_declaration, $.variable_declaration)),
 
     type_section: $ => seq(keyword("type"), section($, $.type_declaration)),
     type_declaration: $ =>

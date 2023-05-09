@@ -1328,6 +1328,8 @@ distinct int
 
 ptr ptr char
 
+(var int, var int)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1341,6 +1343,13 @@ ptr ptr char
     (pointer_type)
     (modified_type
       (pointer_type)
+      (identifier)))
+  (tuple_construction
+    (modified_type
+      (var_type)
+      (identifier))
+    (modified_type
+      (var_type)
       (identifier))))
 
 ================================================================================
