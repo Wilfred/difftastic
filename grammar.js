@@ -214,9 +214,12 @@ module.exports = grammar({
     ",",
     // @ts-ignore: DSL not updated for literals
     ")",
-    $.unused_bracket, // "]",
-    $.unused_curly, // "}",
-    $.unused_curly_dot, // ".}",
+    // @ts-ignore: DSL not updated for literals
+    "]",
+    // @ts-ignore: DSL not updated for literals
+    "}",
+    // @ts-ignore: DSL not updated for literals
+    ".}",
     $._synchronize,
     $._invalid_layout,
     $._sigil_operator,
