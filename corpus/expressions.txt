@@ -729,6 +729,44 @@ foo {x}
         (identifier)))))
 
 ================================================================================
+Dot generic calls
+================================================================================
+
+x.parseEnum[:T]
+
+x.parseEnum[:T](x, y)
+
+x.foo[:T, U, V]:
+  x
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (dot_generic_call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier)))
+  (dot_generic_call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier))
+    (argument_list
+      (identifier)
+      (identifier)))
+  (call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier)
+      (identifier)
+      (identifier))
+    (argument_list
+      (statement_list
+        (identifier)))))
+
+================================================================================
 Block statements
 ================================================================================
 

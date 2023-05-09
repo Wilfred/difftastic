@@ -410,3 +410,24 @@ static:
         (argument_list
           (identifier)
           (string_literal))))))
+
+================================================================================
+Assignment
+================================================================================
+
+x = foo.add proc =
+  bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier)
+    (call
+      (dot_expression
+        (identifier)
+        (identifier))
+      (argument_list
+        (proc_expression
+          (statement_list
+            (identifier)))))))
