@@ -1559,6 +1559,7 @@ Cast expressions
 
 cast[int](x)
 cast(noSideEffect)
+cast(raises: [])
 
 --------------------------------------------------------------------------------
 
@@ -1567,7 +1568,11 @@ cast(noSideEffect)
     type: (identifier)
     value: (identifier))
   (cast
-    value: (identifier)))
+    value: (identifier))
+  (cast
+    value: (colon_expression
+      left: (identifier)
+      right: (array_construction))))
 
 ================================================================================
 Generalized strings

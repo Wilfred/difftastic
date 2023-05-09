@@ -1831,6 +1831,10 @@
             "named": true
           },
           {
+            "type": "colon_expression",
+            "named": true
+          },
+          {
             "type": "curly_construction",
             "named": true
           },

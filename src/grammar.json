@@ -8380,8 +8380,17 @@
                 "value": "("
               },
               {
-                "type": "SYMBOL",
-                "name": "_expression"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "colon_expression"
+                  }
+                ]
               },
               {
                 "type": "STRING",

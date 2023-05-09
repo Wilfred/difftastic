@@ -1107,7 +1107,7 @@ module.exports = grammar({
       seq(
         keyword("cast"),
         field("type", optional(seq("[", $._type_expression, "]"))),
-        field("value", seq("(", $._expression, ")"))
+        field("value", seq("(", choice($._expression, $.colon_expression), ")"))
       ),
     parenthesized: $ =>
       choice(
