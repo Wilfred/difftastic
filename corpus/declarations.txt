@@ -778,6 +778,12 @@ converter toInt(x: Natural): int =
 
 proc bar
 
+proc bar =
+  ## comment
+
+proc foo =
+  ## comment
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -878,7 +884,15 @@ proc bar
         (argument_list
           (identifier)))))
   (proc_declaration
-    name: (identifier)))
+    name: (identifier))
+  (proc_declaration
+    name: (identifier)
+    (documentation_comment)
+    body: (statement_list))
+  (proc_declaration
+    name: (identifier)
+    (documentation_comment)
+    body: (statement_list)))
 
 ================================================================================
 Enum declarations
