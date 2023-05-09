@@ -60,6 +60,7 @@
  "protected"
  "public"
  "template"
+ "this"
  "throw"
  "try"
  "typename"
