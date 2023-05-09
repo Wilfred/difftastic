@@ -49,9 +49,10 @@ echo x,
       (float_literal)))
   (call
     (identifier)
-    (identifier)
-    (comment)
-    (identifier))
+    (argument_list
+      (identifier)
+      (comment)
+      (identifier)))
   (documentation_comment)
   (documentation_comment)
   (documentation_comment))
@@ -77,9 +78,10 @@ Block doc is not ##[self-nesting]#, though
 (source_file
   (call
     (identifier)
-    (identifier)
-    (block_comment)
-    (identifier))
+    (argument_list
+      (identifier)
+      (block_comment)
+      (identifier)))
   (block_comment)
   (block_comment)
   (block_documentation_comment))

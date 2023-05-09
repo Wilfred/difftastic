@@ -33,7 +33,8 @@ for _, v {.tag.} in c.pairs:
         name: (identifier)))
     right: (call
       function: (identifier)
-      (identifier))
+      (argument_list
+        (identifier)))
     body: (statement_list
       (integer_literal)))
   (for
@@ -220,8 +221,9 @@ discard foo as bar
   (discard_statement
     (call
       function: (identifier)
-      (statement_list
-        (identifier))))
+      (argument_list
+        (statement_list
+          (identifier)))))
   (discard_statement
     (infix_expression
       left: (identifier)
@@ -393,14 +395,18 @@ static:
     body: (statement_list
       (call
         function: (identifier)
-        (identifier))))
+        (argument_list
+          (identifier)))))
   (static_statement
     body: (statement_list
       (call
-        function: (identifier))
-      (call
-        function: (identifier))
+        function: (identifier)
+        (argument_list))
       (call
         function: (identifier)
-        (identifier)
-        (string_literal)))))
+        (argument_list))
+      (call
+        function: (identifier)
+        (argument_list
+          (identifier)
+          (string_literal))))))

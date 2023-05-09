@@ -651,7 +651,8 @@ type
             function: (dot_expression
               left: (identifier)
               right: (identifier))
-            (identifier)))))
+            (argument_list
+              (identifier))))))
     (type_declaration
       (type_symbol_declaration
         name: (exported_symbol
@@ -730,21 +731,24 @@ type
               function: (dot_expression
                 left: (identifier)
                 right: (identifier))
-              (identifier))
+              (argument_list
+                (identifier)))
             right: (identifier))
           (infix_expression
             left: (call
               function: (dot_expression
                 left: (identifier)
                 right: (identifier))
-              (identifier))
+              (argument_list
+                (identifier)))
             right: (identifier))
           (infix_expression
             left: (call
               function: (dot_expression
                 left: (identifier)
                 right: (identifier))
-              (identifier))
+              (argument_list
+                (identifier)))
             right: (bracket_expression
               left: (identifier)
               right: (argument_list
@@ -794,8 +798,9 @@ proc bar
       (call
         function: (accent_quoted
           (identifier))
-        (identifier)
-        (integer_literal)))
+        (argument_list
+          (identifier)
+          (integer_literal))))
     parameters: (parameter_declaration_list
       (parameter_declaration
         (symbol_declaration_list
@@ -831,7 +836,8 @@ proc bar
     body: (statement_list
       (call
         function: (identifier)
-        (string_literal))))
+        (argument_list
+          (string_literal)))))
   (iterator_declaration
     name: (identifier)
     parameters: (parameter_declaration_list
@@ -869,7 +875,8 @@ proc bar
     body: (statement_list
       (call
         function: (identifier)
-        (identifier))))
+        (argument_list
+          (identifier)))))
   (proc_declaration
     name: (identifier)))
 

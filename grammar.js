@@ -224,7 +224,6 @@ module.exports = grammar({
     $._case_of,
   ],
 
-  conflicts: $ => [[$._command_function, $._simple_expression_command_start]],
   extras: $ => [
     /[\n\r ]+/,
     $._synchronize,
@@ -261,19 +260,97 @@ module.exports = grammar({
     ["post_expr", $._simple_expression_command_start],
     ["post_expr", $._simple_expression],
     ["post_expr", $._expression_statement],
-    // [$.equal_expression, $._expression_statement],
-    [$._post_expression_block, $._call_do],
     [$.var_section, $.var_type],
     [$.enum_declaration, $.enum_type],
     [$.object_declaration, $.object_type],
     [$._type_definition, $.modified_type],
     [$._prefix_expression, $._simple_expression_command_start],
-    [$._sigil_expression, $._command_function],
     [$._simple_expression, $._command_expression],
     [$.modified_type, $._basic_expression],
     [$._expression_with_call_do, $.equal_expression],
     [$._expression, $._command_expression],
     [$._left_hand_side, $._expression],
+
+    // Conflict:
+    // _basic_expression (_simple_expression_command_start) . 'of'
+    //
+    // _simple_expression_command_start -> _command_expression_argument_list
+    // _simple_expression_command_start -> _simple_expression
+    //
+    // Prefer the latter so the _simple_expression . 'of' become an infix
+    [$._simple_expression, $._command_expression_argument_list],
+
+    // Conflict:
+    // _basic_expression . 'on'
+    //
+    // _basic_expression -> _command_expression
+    // _basic_expression -> _simple_expression_command_start
+    //
+    // Prefer the latter to facilitate infix
+    [$._simple_expression_command_start, $._command_expression],
+
+    // Conflict:
+    // discard _basic_expression _call_arrgument_list . 'do'
+    //
+    // -> _call_expression
+    // -> _call_do_argument_list
+    //
+    // Prefer the latter
+    [$._call_do_argument_list, $._call_expression],
+
+    // Conflict:
+    // infix_expression ':' discard _basic_expression . 'do'
+    //
+    // -> _simple_expression_command_start . 'do'
+    // -> _call_do
+    //
+    // Prefer latter
+    [$._call_do, $._simple_expression_command_start],
+
+    // Conflict
+    // discard _basic_expression do_block
+    //
+    // do_block -> _call_do_argument_list
+    // do_block -> _post_expression_block
+    //
+    // Either works, but prefer former as it is more specific.
+    [$._call_do_argument_list, $._post_expression_block],
+
+    // Conflict
+    // discard _basic_expression _call_argument_list ':'
+    //
+    // -> _call_expression ':'
+    // -> _call_block_argument_list
+    //
+    // Need less to say, prefer latter
+    [$._call_block_argument_list, $._call_expression],
+
+    // Conflict
+    // discard _basic_expression ':'
+    //
+    // -> _simple_expression_command_start ':'
+    // -> _call_block
+    //
+    // Need less to say, prefer latter
+    [$._call_block, $._simple_expression_command_start],
+
+    // Conflict
+    // when proc = discard _basic_expression _command_expression_argument_list . ':'
+    //
+    // -> _command_expression . ':'
+    // -> _basic_expression _command_block_argument_list
+    //
+    // Prefer latter
+    [$._command_block_argument_list, $._command_expression],
+
+    // Conflict:
+    // type type_symbol_declaration '=' _type_modifier _basic_expression . 'func'
+    //
+    // _basic_expression . 'func' -> _command_statement
+    // _basic_expression . 'func' -> _simple_expression_command_start . 'func'
+    //
+    // Prefer latter
+    [$._simple_expression_command_start, $._command_statement],
   ],
   // supertypes: $ => [$._statement, $._expression],
   word: $ => $.identifier,
@@ -316,7 +393,6 @@ module.exports = grammar({
       choice(
         $._expression,
         $.assignment,
-        alias($._command_statement, $.call),
         alias($._call_extended, $.call),
         alias($._infix_extended, $.infix_expression),
         alias($._prefix_extended, $.prefix_expression)
@@ -425,7 +501,6 @@ module.exports = grammar({
         $.concept_declaration,
         alias($._tuple_declaration, $.tuple_type),
         alias($._modified_declaration, $.modified_type),
-        alias($._command_statement, $.call),
         alias($._call_extended, $.call)
       ),
 
@@ -437,11 +512,13 @@ module.exports = grammar({
         section($, repeat1(seq($.enum_field_declaration, optional(","))))
       ),
     enum_field_declaration: $ =>
-      seq(
-        $.symbol_declaration,
-        // This should be _expression proper, but doing so inflates
-        // the parser states to unusable.
-        optional(seq("=", field("value", $._simple_expression)))
+      prec.right(
+        seq(
+          $.symbol_declaration,
+          // This should be _expression proper, but doing so inflates
+          // the parser states to unusable.
+          optional(seq("=", field("value", $._simple_expression)))
+        )
       ),
     _tuple_declaration: $ =>
       seq(
@@ -577,6 +654,7 @@ module.exports = grammar({
       choice(
         $._expression_with_call_do,
         alias($._call_block, $.call),
+        alias($._command_block, $.call),
         alias($._infix_extended, $.infix_expression),
         alias($._prefix_extended, $.prefix_expression)
       ),
@@ -705,51 +783,57 @@ module.exports = grammar({
       seq(
         keyword("do"),
         optional($.parameter_declaration_list),
-        optional(seq("->", $._type_expression)),
+        field("return_type", optional(seq("->", $._type_expression))),
         ":",
         field("body", $.statement_list)
       ),
 
     /* Call expressions */
-    _call_extended: $ =>
-      prec(
-        "post_expr",
+    _call_extended: $ => choice($._command_statement, $._call_block),
+    _command_statement: $ =>
+      seq(
+        field("function", $._basic_expression),
+        alias($._command_statement_argument_list, $.argument_list)
+      ),
+    _command_statement_argument_list: $ =>
+      prec.right(
         seq(
-          choice(
-            $._call_expression,
-            $._command_expression,
-            $._command_statement,
-            field("function", $._command_function)
-          ),
-          $._post_expression_block
+          $._equal_expression_list,
+          optional(
+            seq(":", $.statement_list, optional($._post_expression_block_tail))
+          )
         )
       ),
-    _command_statement: $ =>
-      prec.dynamic(
-        -2,
-        seq(field("function", $._command_function), $._equal_expression_list)
+    _command_block: $ =>
+      seq(
+        field("function", $._basic_expression),
+        alias($._command_block_argument_list, $.argument_list)
+      ),
+    _command_block_argument_list: $ =>
+      prec.right(
+        seq(
+          $._command_expression_argument_list,
+          ":",
+          $.statement_list,
+          optional($._post_expression_block_tail)
+        )
       ),
     _call_block: $ =>
-      prec.right(
-        "post_expr",
-        seq(
-          choice(
-            $._call_expression,
-            $._command_expression,
-            field("function", $._command_function)
-          ),
-          $._post_expression_block
-        )
+      seq(
+        field("function", $._basic_expression),
+        alias($._call_block_argument_list, $.argument_list)
       ),
+    _call_block_argument_list: $ =>
+      seq(optional($._call_argument_list), $._post_expression_block),
     _call_do: $ =>
+      seq(
+        field("function", $._basic_expression),
+        alias($._call_do_argument_list, $.argument_list)
+      ),
+    _call_do_argument_list: $ =>
       prec.right(
-        "post_expr",
         seq(
-          choice(
-            $._call_expression,
-            $._command_expression,
-            field("function", $._command_function)
-          ),
+          optional($._call_argument_list),
           $.do_block,
           optional($._post_expression_block_tail)
         )
@@ -759,26 +843,18 @@ module.exports = grammar({
         "suffix",
         seq(
           field("function", $._basic_expression),
-          seq(
-            token.immediate("("),
-            optional($._colon_equal_expression_list),
-            ")"
-          )
+          alias($._call_argument_list, $.argument_list)
         )
       ),
+    _call_argument_list: $ =>
+      seq(token.immediate("("), optional($._colon_equal_expression_list), ")"),
     _command_expression: $ =>
-      prec.dynamic(
-        -1,
-        seq(
-          field("function", $._command_function),
-          choice(
-            $._simple_expression_command_start
-            // Can't enable, inflate grammar too much
-            // $.proc_expression
-          )
-        )
+      seq(
+        field("function", $._basic_expression),
+        alias($._command_expression_argument_list, $.argument_list)
       ),
-    _command_function: $ => $._basic_expression,
+    _command_expression_argument_list: $ =>
+      choice($._simple_expression_command_start),
     _post_expression_block: $ =>
       prec.right(
         seq(
