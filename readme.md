@@ -14,10 +14,10 @@ easily ingested by tools.
 ## Notes
 
 Unlike other tree-sitter grammars, this repository does not contain a generated
-parser. This is due to the parser being 123MiB in size as of writing, which
+parser. This is due to the parser being 118MiB in size as of writing, which
 exceeded GitHub's 100MiB limit.
 
-Generating this parser does take around 5-6GiB of memory. Any help in reducing
+Generating this parser does take around 7GiB of memory. Any help in reducing
 the parser size is appreciated.
 
 ## Progress
@@ -25,7 +25,7 @@ the parser size is appreciated.
 Right now the parser is capable of parsing most of Nim, but some "advanced"
 constructs are not supported due to size limitation.
 
-The parser correctness has not been throughly tested.
+The parser correctness has not been thoroughly tested.
 
 ## Stability
 

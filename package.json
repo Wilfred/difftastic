@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-nim",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tree-sitter grammar for Nim",
   "scripts": {
     "build": "tree-sitter generate",
@@ -10,7 +10,7 @@
   "author": "leorize",
   "license": "MPL-2.0",
   "devDependencies": {
-    "eslint": "^8.39.0",
+    "eslint": "^8.40.0",
     "nan": "^2.17.0",
     "tree-sitter-cli": "^0.20.8"
   },
