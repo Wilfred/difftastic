@@ -235,6 +235,18 @@ module.exports = grammar({
     $.block_comment,
     $.block_documentation_comment,
   ],
+  conflicts: $ => [
+    // Conflict:
+    //
+    // var . (
+    // -> var_type
+    // -> var_section
+    //
+    // Unfortunately there are no easy answers, since the only means of
+    // disambiguation is the `:` and `=` sequences that shows up at an
+    // arbitrary point.
+    [$.var_type, $.var_section],
+  ],
   precedences: $ => [
     [
       "sigil",
@@ -263,7 +275,6 @@ module.exports = grammar({
     ["post_expr", $._simple_expression_command_start],
     ["post_expr", $._simple_expression],
     ["post_expr", $._expression_statement],
-    [$.var_section, $.var_type],
     [$.enum_declaration, $.enum_type],
     [$.object_declaration, $.object_type],
     [$._type_definition, $.modified_type],
@@ -354,6 +365,16 @@ module.exports = grammar({
     //
     // Prefer latter
     [$._simple_expression_command_start, $._command_statement],
+    [$._simple_expression_command_start, $._command_complex_expression],
+
+    // Conflict:
+    // _basic_expression _expression_with_call_do . ';'
+    //
+    // -> _command_complex_expression_argument_list
+    // -> _equal_expression_list
+    //
+    // Prefer latter since it's more flexible
+    [$._equal_expression_list, $._command_complex_expression_argument_list],
   ],
   // supertypes: $ => [$._statement, $._expression],
   word: $ => $.identifier,
@@ -483,9 +504,11 @@ module.exports = grammar({
 
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
     let_section: $ => seq(keyword("let"), $._variable_declaration_section),
-    var_section: $ => seq(keyword("var"), $._variable_declaration_section),
-    _variable_declaration_section: $ => section($, $.variable_declaration),
-    variable_declaration: $ => $._identifier_declaration,
+    var_section: $ =>
+      // Prefer the interpretation of var section over modified_type
+      prec.dynamic(1, seq(keyword("var"), $._variable_declaration_section)),
+    _variable_declaration_section: $ =>
+      section($, alias($._identifier_declaration, $.variable_declaration)),
 
     type_section: $ => seq(keyword("type"), section($, $.type_declaration)),
     type_declaration: $ =>
@@ -520,7 +543,7 @@ module.exports = grammar({
           $.symbol_declaration,
           // This should be _expression proper, but doing so inflates
           // the parser states to unusable.
-          optional(seq("=", field("value", $._simple_expression)))
+          optional(seq("=", field("value", $._expression)))
         )
       ),
     _tuple_declaration: $ =>
@@ -658,11 +681,17 @@ module.exports = grammar({
         $._expression_with_call_do,
         alias($._call_block, $.call),
         alias($._command_block, $.call),
+        alias($._dot_generic_call_block, $.dot_generic_call),
         alias($._infix_extended, $.infix_expression),
         alias($._prefix_extended, $.prefix_expression)
       ),
     _expression_with_call_do: $ =>
-      choice($._expression, alias($._call_do, $.call)),
+      choice(
+        $._expression,
+        alias($._call_do, $.call),
+        alias($._command_complex_expression, $.call),
+        alias($._dot_generic_call_do, $.dot_generic_call)
+      ),
     _expression: $ =>
       choice(
         $._simple_expression,
@@ -709,6 +738,7 @@ module.exports = grammar({
         $.iterator_type,
         $.modified_type,
         $._type_modifier,
+        $.dot_generic_call,
         alias($._call_expression, $.call),
         alias($._sigil_expression, $.prefix_expression)
       ),
@@ -792,7 +822,8 @@ module.exports = grammar({
       ),
 
     /* Call expressions */
-    _call_extended: $ => choice($._command_statement, $._call_block),
+    _call_extended: $ =>
+      choice($._command_statement, $._call_block, $._dot_generic_call_block),
     _command_statement: $ =>
       seq(
         field("function", $._basic_expression),
@@ -821,6 +852,11 @@ module.exports = grammar({
           optional($._post_expression_block_tail)
         )
       ),
+    _dot_generic_call_block: $ =>
+      seq(
+        $._dot_generic_head,
+        alias($._call_block_argument_list, $.argument_list)
+      ),
     _call_block: $ =>
       seq(
         field("function", $._basic_expression),
@@ -828,6 +864,11 @@ module.exports = grammar({
       ),
     _call_block_argument_list: $ =>
       seq(optional($._call_argument_list), $._post_expression_block),
+    _dot_generic_call_do: $ =>
+      seq(
+        $._dot_generic_head,
+        alias($._call_do_argument_list, $.argument_list)
+      ),
     _call_do: $ =>
       seq(
         field("function", $._basic_expression),
@@ -851,6 +892,12 @@ module.exports = grammar({
       ),
     _call_argument_list: $ =>
       seq(token.immediate("("), optional($._colon_equal_expression_list), ")"),
+    _command_complex_expression: $ =>
+      seq(
+        field("function", $._basic_expression),
+        alias($._command_complex_expression_argument_list, $.argument_list)
+      ),
+    _command_complex_expression_argument_list: $ => $._expression_with_call_do,
     _command_expression: $ =>
       seq(
         field("function", $._basic_expression),
@@ -858,6 +905,28 @@ module.exports = grammar({
       ),
     _command_expression_argument_list: $ =>
       choice($._simple_expression_command_start),
+    dot_generic_call: $ =>
+      prec.right(
+        seq(
+          $._dot_generic_head,
+          optional(alias($._call_argument_list, $.argument_list))
+        )
+      ),
+    _dot_generic_head: $ =>
+      prec(
+        "suffix",
+        seq(
+          field("first_argument", $._basic_expression),
+          ".",
+          field("function", $._symbol),
+          field(
+            "generic_arguments",
+            alias($._dot_generic_argument_list, $.generic_argument_list)
+          )
+        )
+      ),
+    _dot_generic_argument_list: $ =>
+      seq(token.immediate("[:"), sep1($._expression, ","), "]"),
     _post_expression_block: $ =>
       prec.right(
         seq(
@@ -1038,7 +1107,7 @@ module.exports = grammar({
       seq(
         keyword("cast"),
         field("type", optional(seq("[", $._type_expression, "]"))),
-        field("value", seq("(", $._expression, ")"))
+        field("value", seq("(", choice($._expression, $.colon_expression), ")"))
       ),
     parenthesized: $ =>
       choice(

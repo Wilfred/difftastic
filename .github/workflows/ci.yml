@@ -27,7 +27,25 @@ jobs:
   #         fi
   #       shell: bash
 
+  generate:
+    name: Generate parser
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: "npm"
+          node-version: "16"
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: parser
+          path: src/parser.c
+
   tests:
+    needs:
+      - generate
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -40,7 +58,10 @@ jobs:
           node-version: "16"
           cache: "npm"
       - run: npm install
-      - run: npm run build
+      - uses: actions/download-artifact@v3
+        with:
+          name: parser
+          path: src
       - name: Run test suite
         run: |
           if [[ "$RUNNER_OS" == macOS ]]; then
@@ -56,6 +77,8 @@ jobs:
         shell: bash
 
   rust:
+    needs:
+      - generate
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -63,12 +86,10 @@ jobs:
     name: Run rust test build on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/download-artifact@v3
         with:
-          node-version: "16"
-          cache: "npm"
-      - run: npm install
-      - run: npm run build
+          name: parser
+          path: src
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:

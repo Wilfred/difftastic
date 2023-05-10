@@ -729,6 +729,44 @@ foo {x}
         (identifier)))))
 
 ================================================================================
+Dot generic calls
+================================================================================
+
+x.parseEnum[:T]
+
+x.parseEnum[:T](x, y)
+
+x.foo[:T, U, V]:
+  x
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (dot_generic_call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier)))
+  (dot_generic_call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier))
+    (argument_list
+      (identifier)
+      (identifier)))
+  (call
+    first_argument: (identifier)
+    function: (identifier)
+    generic_arguments: (generic_argument_list
+      (identifier)
+      (identifier)
+      (identifier))
+    (argument_list
+      (statement_list
+        (identifier)))))
+
+================================================================================
 Block statements
 ================================================================================
 
@@ -1290,6 +1328,8 @@ distinct int
 
 ptr ptr char
 
+(var int, var int)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1303,6 +1343,13 @@ ptr ptr char
     (pointer_type)
     (modified_type
       (pointer_type)
+      (identifier)))
+  (tuple_construction
+    (modified_type
+      (var_type)
+      (identifier))
+    (modified_type
+      (var_type)
       (identifier))))
 
 ================================================================================
@@ -1512,6 +1559,7 @@ Cast expressions
 
 cast[int](x)
 cast(noSideEffect)
+cast(raises: [])
 
 --------------------------------------------------------------------------------
 
@@ -1520,7 +1568,11 @@ cast(noSideEffect)
     type: (identifier)
     value: (identifier))
   (cast
-    value: (identifier)))
+    value: (identifier))
+  (cast
+    value: (colon_expression
+      left: (identifier)
+      right: (array_construction))))
 
 ================================================================================
 Generalized strings

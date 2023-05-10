@@ -83,6 +83,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "elif_branch",
           "named": true
         },
@@ -290,6 +294,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -487,6 +495,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -626,6 +638,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -852,6 +868,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -1006,6 +1026,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -1124,9 +1148,9 @@
     "type": "call",
     "named": true,
     "fields": {
-      "function": {
+      "first_argument": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "accent_quoted",
@@ -1170,6 +1194,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -1253,6 +1281,150 @@
             "named": true
           }
         ]
+      },
+      "function": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accent_quoted",
+            "named": true
+          },
+          {
+            "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "bracket_expression",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "cast",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "curly_construction",
+            "named": true
+          },
+          {
+            "type": "curly_expression",
+            "named": true
+          },
+          {
+            "type": "custom_numeric_literal",
+            "named": true
+          },
+          {
+            "type": "distinct_type",
+            "named": true
+          },
+          {
+            "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
+            "type": "enum_type",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "generalized_string",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "modified_type",
+            "named": true
+          },
+          {
+            "type": "nil_literal",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "out_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "pointer_type",
+            "named": true
+          },
+          {
+            "type": "pragma_expression",
+            "named": true
+          },
+          {
+            "type": "prefix_expression",
+            "named": true
+          },
+          {
+            "type": "proc_type",
+            "named": true
+          },
+          {
+            "type": "ref_type",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "tuple_construction",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "var_type",
+            "named": true
+          }
+        ]
+      },
+      "generic_arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_argument_list",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1324,6 +1496,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -1521,6 +1697,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -1651,6 +1831,10 @@
             "named": true
           },
           {
+            "type": "colon_expression",
+            "named": true
+          },
+          {
             "type": "curly_construction",
             "named": true
           },
@@ -1668,6 +1852,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -1854,6 +2042,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -1993,6 +2185,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -2222,6 +2418,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -2420,6 +2620,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -2656,6 +2860,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -2815,6 +3023,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -2989,6 +3201,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -3140,6 +3356,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -3329,6 +3549,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -3479,6 +3703,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -3577,6 +3805,180 @@
     }
   },
   {
+    "type": "dot_generic_call",
+    "named": true,
+    "fields": {
+      "first_argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accent_quoted",
+            "named": true
+          },
+          {
+            "type": "array_construction",
+            "named": true
+          },
+          {
+            "type": "bracket_expression",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "cast",
+            "named": true
+          },
+          {
+            "type": "char_literal",
+            "named": true
+          },
+          {
+            "type": "curly_construction",
+            "named": true
+          },
+          {
+            "type": "curly_expression",
+            "named": true
+          },
+          {
+            "type": "custom_numeric_literal",
+            "named": true
+          },
+          {
+            "type": "distinct_type",
+            "named": true
+          },
+          {
+            "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
+            "type": "enum_type",
+            "named": true
+          },
+          {
+            "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "generalized_string",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "iterator_type",
+            "named": true
+          },
+          {
+            "type": "modified_type",
+            "named": true
+          },
+          {
+            "type": "nil_literal",
+            "named": true
+          },
+          {
+            "type": "object_type",
+            "named": true
+          },
+          {
+            "type": "out_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized",
+            "named": true
+          },
+          {
+            "type": "pointer_type",
+            "named": true
+          },
+          {
+            "type": "pragma_expression",
+            "named": true
+          },
+          {
+            "type": "prefix_expression",
+            "named": true
+          },
+          {
+            "type": "proc_type",
+            "named": true
+          },
+          {
+            "type": "ref_type",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "tuple_construction",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "var_type",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accent_quoted",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "generic_arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_argument_list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "elif_branch",
     "named": true,
     "fields": {
@@ -3634,6 +4036,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -3817,11 +4223,19 @@
             "named": true
           },
           {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bracket_expression",
             "named": true
           },
           {
             "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
             "named": true
           },
           {
@@ -3853,11 +4267,23 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
           {
             "type": "float_literal",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "func_expression",
             "named": true
           },
           {
@@ -3869,11 +4295,19 @@
             "named": true
           },
           {
+            "type": "if",
+            "named": true
+          },
+          {
             "type": "infix_expression",
             "named": true
           },
           {
             "type": "integer_literal",
+            "named": true
+          },
+          {
+            "type": "iterator_expression",
             "named": true
           },
           {
@@ -3913,6 +4347,10 @@
             "named": true
           },
           {
+            "type": "proc_expression",
+            "named": true
+          },
+          {
             "type": "proc_type",
             "named": true
           },
@@ -3925,6 +4363,10 @@
             "named": true
           },
           {
+            "type": "try",
+            "named": true
+          },
+          {
             "type": "tuple_construction",
             "named": true
           },
@@ -3934,6 +4376,10 @@
           },
           {
             "type": "var_type",
+            "named": true
+          },
+          {
+            "type": "when",
             "named": true
           }
         ]
@@ -4005,6 +4451,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -4147,6 +4597,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -4367,6 +4821,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -4569,6 +5027,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -4740,6 +5202,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -4883,6 +5349,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -5138,6 +5608,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -5372,6 +5846,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -5556,6 +6034,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -5667,6 +6149,185 @@
     }
   },
   {
+    "type": "generic_argument_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "func_expression",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_expression",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "modified_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        },
+        {
+          "type": "when",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "generic_parameter_list",
     "named": true,
     "fields": {},
@@ -5753,6 +6414,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -5942,6 +6607,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -6125,6 +6794,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -6315,6 +6988,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -6515,6 +7192,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -6758,6 +7439,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -6942,6 +7627,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -7103,6 +7792,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -7327,6 +8020,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -7543,6 +8240,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -7739,6 +8440,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_declaration",
           "named": true
         },
@@ -7888,6 +8593,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -8095,6 +8804,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -8238,6 +8951,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -8513,6 +9230,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -8784,6 +9505,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -8939,6 +9664,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -9214,6 +9943,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "elif_branch",
           "named": true
         },
@@ -9443,6 +10176,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -9627,6 +10364,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -9791,6 +10532,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -9936,6 +10681,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -10130,6 +10879,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -10274,6 +11027,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -10481,6 +11238,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -10768,6 +11529,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -11187,6 +11952,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -11374,6 +12143,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -11666,6 +12439,10 @@
           "named": true
         },
         {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
           "type": "enum_type",
           "named": true
         },
@@ -11872,6 +12649,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -12147,6 +12928,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -12290,6 +13075,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -12498,6 +13287,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -12641,6 +13434,10 @@
           },
           {
             "type": "dot_expression",
+            "named": true
+          },
+          {
+            "type": "dot_generic_call",
             "named": true
           },
           {
@@ -12844,6 +13641,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -13032,6 +13833,10 @@
             "named": true
           },
           {
+            "type": "dot_generic_call",
+            "named": true
+          },
+          {
             "type": "enum_type",
             "named": true
           },
@@ -13177,6 +13982,10 @@
         },
         {
           "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
           "named": true
         },
         {
@@ -13356,6 +14165,10 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[:",
     "named": false
   },
   {

@@ -778,6 +778,12 @@ converter toInt(x: Natural): int =
 
 proc bar
 
+proc bar =
+  ## comment
+
+proc foo =
+  ## comment
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -878,7 +884,15 @@ proc bar
         (argument_list
           (identifier)))))
   (proc_declaration
-    name: (identifier)))
+    name: (identifier))
+  (proc_declaration
+    name: (identifier)
+    (documentation_comment)
+    body: (statement_list))
+  (proc_declaration
+    name: (identifier)
+    (documentation_comment)
+    body: (statement_list)))
 
 ================================================================================
 Enum declarations
@@ -900,6 +914,9 @@ type
     X, Y, Z,
     D
     E
+
+  Complex = enum
+    X = when x: y else: z
 
 --------------------------------------------------------------------------------
 
@@ -965,4 +982,18 @@ type
             name: (identifier)))
         (enum_field_declaration
           (symbol_declaration
-            name: (identifier)))))))
+            name: (identifier)))))
+    (type_declaration
+      (type_symbol_declaration
+        name: (identifier))
+      (enum_declaration
+        (enum_field_declaration
+          (symbol_declaration
+            name: (identifier))
+          value: (when
+            condition: (identifier)
+            consequence: (statement_list
+              (identifier))
+            alternative: (else_branch
+              (statement_list
+                (identifier)))))))))

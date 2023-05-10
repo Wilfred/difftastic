@@ -811,7 +811,7 @@ bool lex_indent(Context& ctx)
 
   if (ctx.valid(TokenType::LayoutEmpty) &&
       ctx.state().test_flag(Flag::AfterNewline) &&
-      current_layout == line_indent) {
+      (current_layout >= line_indent || ctx.eof())) {
     ctx.mark_end();
     return ctx.finish(TokenType::LayoutEmpty);
   }
@@ -900,7 +900,10 @@ loop_end:
 
 bool lex_init(Context& ctx)
 {
-  if (!ctx.state().layout_stack.empty() || ctx.error()) {
+  if (!ctx.state().layout_stack.empty() || ctx.error() ||
+      ctx.any_valid(make_valid_symbols(
+          {TokenType::BlockCommentContent,
+           TokenType::BlockDocCommentContent}))) {
     return false;
   }
 
