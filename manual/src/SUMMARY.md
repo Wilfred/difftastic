@@ -5,6 +5,7 @@
 - [Usage](./usage.md)
   - [Git](./git.md)
   - [Mercurial](./mercurial.md)
+  - [Fossil](./fossil.md)
 - [Languages Supported](./languages_supported.md)
 - [Internals: Parsing](./parsing.md)
 - [Internals: Diffing](./diffing.md)
