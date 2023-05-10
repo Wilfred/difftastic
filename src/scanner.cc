@@ -900,7 +900,10 @@ loop_end:
 
 bool lex_init(Context& ctx)
 {
-  if (!ctx.state().layout_stack.empty() || ctx.error()) {
+  if (!ctx.state().layout_stack.empty() || ctx.error() ||
+      ctx.any_valid(make_valid_symbols(
+          {TokenType::BlockCommentContent,
+           TokenType::BlockDocCommentContent}))) {
     return false;
   }
 

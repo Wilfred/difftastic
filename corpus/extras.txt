@@ -61,6 +61,10 @@ echo x,
 Block comments
 ================================================================================
 
+#[
+  something
+]#
+
 echo x, #[comment]# y
 
 #[multi-line
@@ -76,6 +80,7 @@ Block doc is not ##[self-nesting]#, though
 --------------------------------------------------------------------------------
 
 (source_file
+  (block_comment)
   (call
     (identifier)
     (argument_list
