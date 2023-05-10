@@ -10457,16 +10457,16 @@
       "value": ")"
     },
     {
-      "type": "SYMBOL",
-      "name": "unused_bracket"
+      "type": "STRING",
+      "value": "]"
     },
     {
-      "type": "SYMBOL",
-      "name": "unused_curly"
+      "type": "STRING",
+      "value": "}"
     },
     {
-      "type": "SYMBOL",
-      "name": "unused_curly_dot"
+      "type": "STRING",
+      "value": ".}"
     },
     {
       "type": "SYMBOL",

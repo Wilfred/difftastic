@@ -1239,6 +1239,9 @@ Pragma statements
 
 {.cast(noSideEffect).}
 
+{.line: when X:
+  instantiationInfo().}
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1265,7 +1268,17 @@ Pragma statements
   (pragma_statement
     (pragma_list
       (cast
-        value: (identifier)))))
+        value: (identifier))))
+  (pragma_statement
+    (pragma_list
+      (colon_expression
+        left: (identifier)
+        right: (when
+          condition: (identifier)
+          consequence: (statement_list
+            (call
+              function: (identifier)
+              (argument_list))))))))
 
 ================================================================================
 Type expressions
@@ -1373,6 +1386,9 @@ y, z, 10,
 []
 [[a]]
 
+[c: if c:
+  d]
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -1396,7 +1412,14 @@ y, z, 10,
   (array_construction)
   (array_construction
     (array_construction
-      (identifier))))
+      (identifier)))
+  (array_construction
+    (colon_expression
+      (identifier)
+      (if
+        (identifier)
+        (statement_list
+          (identifier))))))
 
 ================================================================================
 Set/Table construction
@@ -1408,6 +1431,9 @@ Set/Table construction
 
 {}
 {:}
+
+{a: when c:
+  d}
 
 --------------------------------------------------------------------------------
 
@@ -1425,7 +1451,14 @@ Set/Table construction
     (identifier)
     (identifier))
   (curly_construction)
-  (curly_construction))
+  (curly_construction)
+  (curly_construction
+    (colon_expression
+      (identifier)
+      (when
+        (identifier)
+        (statement_list
+          (identifier))))))
 
 ================================================================================
 Tuple construction

@@ -350,7 +350,6 @@ bool lex_inline_layout(Context& ctx, bool read_dot = false)
       return false;
     }
     break;
-#if 0  // Keep off until grammar can support it
   case ']':
     if (ctx.valid(TokenType::BracketClose)) {
       return false;
@@ -365,10 +364,14 @@ bool lex_inline_layout(Context& ctx, bool read_dot = false)
   case '.':
     if (!read_dot) {
       ctx.advance();
-      return lex_inline_layout(ctx, true);
+      if (ctx.lookahead() == '}') {
+        if (ctx.valid(TokenType::CurlyDotClose)) {
+          return false;
+        }
+        break;
+      }
     }
     return false;
-#endif
   default:
     return false;
   }
