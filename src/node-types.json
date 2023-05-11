@@ -3978,27 +3978,11 @@
         "required": true,
         "types": [
           {
-            "type": "\\Big",
-            "named": false
-          },
-          {
-            "type": "\\Bigg",
-            "named": false
-          },
-          {
             "type": "\\Biggl",
             "named": false
           },
           {
             "type": "\\Bigl",
-            "named": false
-          },
-          {
-            "type": "\\big",
-            "named": false
-          },
-          {
-            "type": "\\bigg",
             "named": false
           },
           {
@@ -4054,27 +4038,11 @@
         "required": true,
         "types": [
           {
-            "type": "\\Big",
-            "named": false
-          },
-          {
-            "type": "\\Bigg",
-            "named": false
-          },
-          {
             "type": "\\Biggr",
             "named": false
           },
           {
             "type": "\\Bigr",
-            "named": false
-          },
-          {
-            "type": "\\big",
-            "named": false
-          },
-          {
-            "type": "\\bigg",
             "named": false
           },
           {
@@ -7471,14 +7439,6 @@
     "named": false
   },
   {
-    "type": "\\Big",
-    "named": false
-  },
-  {
-    "type": "\\Bigg",
-    "named": false
-  },
-  {
     "type": "\\Biggl",
     "named": false
   },
@@ -7896,14 +7856,6 @@
   },
   {
     "type": "\\bibliography",
-    "named": false
-  },
-  {
-    "type": "\\big",
-    "named": false
-  },
-  {
-    "type": "\\bigg",
     "named": false
   },
   {

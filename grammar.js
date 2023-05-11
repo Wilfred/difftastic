@@ -861,10 +861,6 @@ module.exports = grammar({
             'left_command',
             choice(
               '\\left',
-              '\\big',
-              '\\Big',
-              '\\bigg',
-              '\\Bigg',
               '\\bigl',
               '\\Bigl',
               '\\biggl',
@@ -877,10 +873,6 @@ module.exports = grammar({
             'right_command',
             choice(
               '\\right',
-              '\\big',
-              '\\Big',
-              '\\bigg',
-              '\\Bigg',
               '\\bigr',
               '\\Bigr',
               '\\biggr',
