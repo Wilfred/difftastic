@@ -1735,7 +1735,11 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^xu0-7]"
+                "value": "[\\nabfnrtv\\\\'\"]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "z\\s*"
               },
               {
                 "type": "PATTERN",
@@ -1747,11 +1751,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "u\\{[0-9a-fA-F]{4}\\}"
-              },
-              {
-                "type": "PATTERN",
-                "value": "u{[0-9a-fA-F]+}"
+                "value": "u\\{[0-9a-fA-F]+\\}"
               }
             ]
           }

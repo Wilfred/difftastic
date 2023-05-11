@@ -379,11 +379,11 @@ module.exports = grammar({
         seq(
           '\\',
           choice(
-            /[^xu0-7]/,
+            /[\nabfnrtv\\'"]/,
+            /z\s*/,
             /[0-9]{1,3}/,
             /x[0-9a-fA-F]{2}/,
-            /u\{[0-9a-fA-F]{4}\}/,
-            /u{[0-9a-fA-F]+}/
+            /u\{[0-9a-fA-F]+\}/
           )
         )
       ),
