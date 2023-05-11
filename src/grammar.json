@@ -4359,22 +4359,6 @@
                 },
                 {
                   "type": "STRING",
-                  "value": "\\big"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Big"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\bigg"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Bigg"
-                },
-                {
-                  "type": "STRING",
                   "value": "\\bigl"
                 },
                 {
@@ -4416,22 +4400,6 @@
                 {
                   "type": "STRING",
                   "value": "\\right"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\big"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Big"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\bigg"
-                },
-                {
-                  "type": "STRING",
-                  "value": "\\Bigg"
                 },
                 {
                   "type": "STRING",

@@ -726,14 +726,13 @@ tree-sitter-latex (Issue #55) | minted with options
           (word))))))
 
 ================================================================================
-tree-sitter-latex (Issue #58) | math delimiters
+tree-sitter-latex (Issues #58 and #84) | math delimiters
 ================================================================================
 
-\big( 2 + 2 \big)
 \bigl( 2 + 2 \bigr)
 \left( 2 + 2 \right)
-\big\langle 2 + 2 \big\rangle
 \bigl| v \bigr|
+r \big|_0^a
 
 --------------------------------------------------------------------------------
 
@@ -750,16 +749,13 @@ tree-sitter-latex (Issue #58) | math delimiters
       (word)))
   (math_delimiter
     (text
-      (word)
-      (operator)
       (word)))
-  (math_delimiter
-    (command_name)
-    (text
-      (word)
-      (operator)
+  (text
+    (word)
+    (generic_command
+      (command_name))
+    (operator)
+    (subscript
       (word))
-    (command_name))
-  (math_delimiter
-    (text
+    (superscript
       (word))))
