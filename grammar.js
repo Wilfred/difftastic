@@ -323,12 +323,15 @@ module.exports = grammar({
         );
       }
 
+      const imaginary_unit = choice('i', 'I');
+
       const decimal_digits = /[0-9]+/;
       const decimal_literal = choice(
         seq(decimal_digits, /U?LL/i),
         seq(
           number_body(decimal_digits),
-          optional(number_exponent('e', decimal_digits))
+          optional(number_exponent('e', decimal_digits)),
+          optional(imaginary_unit)
         )
       );
 
@@ -339,7 +342,8 @@ module.exports = grammar({
           seq(hex_digits, /U?LL/i),
           seq(
             number_body(hex_digits),
-            optional(number_exponent('p', decimal_digits))
+            optional(number_exponent('p', decimal_digits)),
+            optional(imaginary_unit)
           )
         )
       );
