@@ -312,8 +312,7 @@ module.exports = grammar({
       function number_body(digits) {
         return choice(
           seq(optional(digits), optional('.'), digits),
-          seq(digits, optional('.'), optional(digits)),
-          seq(digits, /U?LL/i)
+          seq(digits, optional('.'), optional(digits))
         );
       }
 
@@ -325,16 +324,24 @@ module.exports = grammar({
       }
 
       const decimal_digits = /[0-9]+/;
-      const decimal_literal = seq(
-        number_body(decimal_digits),
-        optional(number_exponent('e', decimal_digits))
+      const decimal_literal = choice(
+        seq(decimal_digits, /U?LL/i),
+        seq(
+          number_body(decimal_digits),
+          optional(number_exponent('e', decimal_digits))
+        )
       );
 
       const hex_digits = /[a-fA-F0-9]+/;
       const hex_literal = seq(
         choice('0x', '0X'),
-        number_body(hex_digits),
-        optional(number_exponent('p', decimal_digits))
+        choice(
+          seq(hex_digits, /U?LL/i),
+          seq(
+            number_body(hex_digits),
+            optional(number_exponent('p', decimal_digits))
+          )
+        )
       );
 
       return token(choice(decimal_literal, hex_literal));
