@@ -329,9 +329,10 @@ module.exports = grammar({
 
       const hex_literal = seq(
         choice('0x', '0X'),
-        optional('.'),
-        hex_digits,
-        optional(seq('.', hex_digits)),
+        choice(
+          seq(optional(hex_digits), optional('.'), hex_digits),
+          seq(hex_digits, optional('.'), optional(hex_digits))
+        ),
         optional(hex_exponent_part)
       );
 
