@@ -309,28 +309,31 @@ module.exports = grammar({
 
     // Numeral
     number: (_) => {
+      function number_body(digits) {
+        return choice(
+          seq(optional(digits), optional('.'), digits),
+          seq(digits, optional('.'), optional(digits))
+        );
+      }
+
+      function number_exponent(marker, digits) {
+        return seq(
+          choice(marker.toLowerCase(), marker.toUpperCase()),
+          seq(optional(choice('-', '+')), digits)
+        );
+      }
+
       const decimal_digits = /[0-9]+/;
-      const signed_integer = seq(optional(choice('-', '+')), decimal_digits);
-      const decimal_exponent_part = seq(choice('e', 'E'), signed_integer);
-
-      const hex_digits = /[a-fA-F0-9]+/;
-      const hex_exponent_part = seq(choice('p', 'P'), signed_integer);
-
       const decimal_literal = seq(
-        choice(
-          seq(optional(decimal_digits), optional('.'), decimal_digits),
-          seq(decimal_digits, optional('.'), optional(decimal_digits))
-        ),
-        optional(decimal_exponent_part)
+        number_body(decimal_digits),
+        optional(number_exponent('e', decimal_digits))
       );
 
+      const hex_digits = /[a-fA-F0-9]+/;
       const hex_literal = seq(
         choice('0x', '0X'),
-        choice(
-          seq(optional(hex_digits), optional('.'), hex_digits),
-          seq(hex_digits, optional('.'), optional(hex_digits))
-        ),
-        optional(hex_exponent_part)
+        number_body(hex_digits),
+        optional(number_exponent('p', decimal_digits))
       );
 
       return token(choice(decimal_literal, hex_literal));
