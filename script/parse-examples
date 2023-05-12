@@ -35,6 +35,7 @@ checkout_repo() {
 }
 
 checkout_repo "./examples/apisix" "apache/apisix" "4419d0d8eb3daf901a1cf6fd4d2f806e579dced9" "apisix"
+checkout_repo "./examples/kong" "Kong/kong" "3365f489532d475e05859cbc317d813bf927f362" "kong"
 checkout_repo "./examples/lua" "lua/lua" "e15f1f2bb7a38a3c94519294d031e48508d65006"
 checkout_repo "./examples/luvit" "luvit/luvit" "a8c708e064cc1d60ecca8d8ca00bc28fa2e49eeb"
 checkout_repo "./examples/neovim" "neovim/neovim" "15c684b358b0165d0874ba08ab6ac0976c86cc0f" "runtime"
@@ -44,6 +45,7 @@ parse_examples() {
 
   tree-sitter parse --quiet \
     "./examples/apisix/apisix/**/*.lua" \
+    "./examples/kong/kong/**/*.lua" \
     "./examples/lua/**/*.lua" \
     "./examples/luvit/**/*.lua" \
     "./examples/neovim/runtime/**/*.lua" \
