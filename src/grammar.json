@@ -1176,103 +1176,98 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "CHOICE",
+            "type": "SEQ",
             "members": [
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[0-9]+"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[0-9]+"
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "."
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "[0-9]+"
+                      }
+                    ]
                   },
                   {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
                         "type": "PATTERN",
                         "value": "[0-9]+"
                       },
                       {
-                        "type": "BLANK"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
+                        "type": "CHOICE",
                         "members": [
                           {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": "e"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "E"
-                              }
-                            ]
+                            "type": "STRING",
+                            "value": "."
                           },
                           {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "STRING",
-                                        "value": "-"
-                                      },
-                                      {
-                                        "type": "STRING",
-                                        "value": "+"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "type": "BLANK"
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[0-9]+"
-                              }
-                            ]
+                            "type": "BLANK"
                           }
                         ]
                       },
                       {
-                        "type": "BLANK"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[0-9]+"
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
               },
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "[0-9]+"
-                  },
-                  {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "e"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "E"
+                          }
+                        ]
+                      },
                       {
                         "type": "SEQ",
                         "members": [
@@ -1280,116 +1275,33 @@
                             "type": "CHOICE",
                             "members": [
                               {
-                                "type": "STRING",
-                                "value": "e"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "E"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
                                 "type": "CHOICE",
                                 "members": [
                                   {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "STRING",
-                                        "value": "-"
-                                      },
-                                      {
-                                        "type": "STRING",
-                                        "value": "+"
-                                      }
-                                    ]
+                                    "type": "STRING",
+                                    "value": "-"
                                   },
                                   {
-                                    "type": "BLANK"
+                                    "type": "STRING",
+                                    "value": "+"
                                   }
                                 ]
                               },
                               {
-                                "type": "PATTERN",
-                                "value": "[0-9]+"
+                                "type": "BLANK"
                               }
                             ]
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[0-9]+"
                           }
                         ]
-                      },
-                      {
-                        "type": "BLANK"
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[0-9]+"
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "STRING",
-                                "value": "e"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "E"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "STRING",
-                                        "value": "-"
-                                      },
-                                      {
-                                        "type": "STRING",
-                                        "value": "+"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "type": "BLANK"
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[0-9]+"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
+                    "type": "BLANK"
                   }
                 ]
               }

@@ -316,15 +316,12 @@ module.exports = grammar({
       const hex_digits = /[a-fA-F0-9]+/;
       const hex_exponent_part = seq(choice('p', 'P'), signed_integer);
 
-      const decimal_literal = choice(
-        seq(
-          decimal_digits,
-          '.',
-          optional(decimal_digits),
-          optional(decimal_exponent_part)
+      const decimal_literal = seq(
+        choice(
+          seq(optional(decimal_digits), optional('.'), decimal_digits),
+          seq(decimal_digits, optional('.'), optional(decimal_digits))
         ),
-        seq('.', decimal_digits, optional(decimal_exponent_part)),
-        seq(decimal_digits, optional(decimal_exponent_part))
+        optional(decimal_exponent_part)
       );
 
       const hex_literal = seq(
