@@ -1246,6 +1246,19 @@
                         ]
                       }
                     ]
+                  },
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[0-9]+"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "U?LL"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1389,6 +1402,19 @@
                             "type": "BLANK"
                           }
                         ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[a-fA-F0-9]+"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "U?LL"
                       }
                     ]
                   }

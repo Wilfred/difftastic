@@ -49,6 +49,8 @@ exp(
   345,
   0xff,
   0xBEBADA,
+  .0,
+  3.,
   3.0,
   3.1416,
   314.16e-2,
@@ -58,7 +60,9 @@ exp(
   0xA23p-4,
   0x.0p-3,
   0x.FfffFFFF,
-  0X1.921FB54442D18P+1
+  0X1.921FB54442D18P+1,
+  42LL,
+  0x2aULL
 )
 
 --------------------------------------------------------------------------------
@@ -67,6 +71,10 @@ exp(
   (function_call
     name: (identifier)
     arguments: (arguments
+      (number)
+      (number)
+      (number)
+      (number)
       (number)
       (number)
       (number)

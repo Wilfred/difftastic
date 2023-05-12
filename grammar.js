@@ -312,7 +312,8 @@ module.exports = grammar({
       function number_body(digits) {
         return choice(
           seq(optional(digits), optional('.'), digits),
-          seq(digits, optional('.'), optional(digits))
+          seq(digits, optional('.'), optional(digits)),
+          seq(digits, /U?LL/i)
         );
       }
 
