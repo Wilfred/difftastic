@@ -39,6 +39,7 @@ checkout_repo "./examples/kong" "Kong/kong" "3365f489532d475e05859cbc317d813bf92
 checkout_repo "./examples/lua" "lua/lua" "e15f1f2bb7a38a3c94519294d031e48508d65006"
 checkout_repo "./examples/luvit" "luvit/luvit" "a8c708e064cc1d60ecca8d8ca00bc28fa2e49eeb"
 checkout_repo "./examples/neovim" "neovim/neovim" "15c684b358b0165d0874ba08ab6ac0976c86cc0f" "runtime"
+checkout_repo "./examples/xmake" "xmake-io/xmake" "cc343fcbf078ea5960aefa946c836f3d3fd4863c"
 
 parse_examples() {
   local -r known_failures="$(cat script/known_failures.txt)"
@@ -49,6 +50,7 @@ parse_examples() {
     "./examples/lua/**/*.lua" \
     "./examples/luvit/**/*.lua" \
     "./examples/neovim/runtime/**/*.lua" \
+    "./examples/xmake/**/*.lua" \
     $(for file in ${known_failures}; do echo "!${file}"; done)
 
   declare -r example_count=$(find ./examples -name "*.lua" | wc -l)
