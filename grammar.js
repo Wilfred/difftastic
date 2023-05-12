@@ -309,43 +309,39 @@ module.exports = grammar({
 
     // Numeral
     number: (_) => {
-      function number_body(digits) {
+      function number_literal(digits, exponent_marker, exponent_digits) {
         return choice(
-          seq(optional(digits), optional('.'), digits),
-          seq(digits, optional('.'), optional(digits))
+          seq(digits, /U?LL/i),
+          seq(
+            choice(
+              seq(optional(digits), optional('.'), digits),
+              seq(digits, optional('.'), optional(digits))
+            ),
+            optional(
+              seq(
+                choice(
+                  exponent_marker.toLowerCase(),
+                  exponent_marker.toUpperCase()
+                ),
+                seq(optional(choice('-', '+')), exponent_digits)
+              )
+            ),
+            optional(choice('i', 'I'))
+          )
         );
       }
-
-      function number_exponent(marker, digits) {
-        return seq(
-          choice(marker.toLowerCase(), marker.toUpperCase()),
-          seq(optional(choice('-', '+')), digits)
-        );
-      }
-
-      const imaginary_unit = choice('i', 'I');
 
       const decimal_digits = /[0-9]+/;
-      const decimal_literal = choice(
-        seq(decimal_digits, /U?LL/i),
-        seq(
-          number_body(decimal_digits),
-          optional(number_exponent('e', decimal_digits)),
-          optional(imaginary_unit)
-        )
+      const decimal_literal = number_literal(
+        decimal_digits,
+        'e',
+        decimal_digits
       );
 
       const hex_digits = /[a-fA-F0-9]+/;
       const hex_literal = seq(
         choice('0x', '0X'),
-        choice(
-          seq(hex_digits, /U?LL/i),
-          seq(
-            number_body(hex_digits),
-            optional(number_exponent('p', decimal_digits)),
-            optional(imaginary_unit)
-          )
-        )
+        number_literal(hex_digits, 'p', decimal_digits)
       );
 
       return token(choice(decimal_literal, hex_literal));
