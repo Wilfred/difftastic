@@ -1,6 +1,6 @@
 {
   "name": "@muniftanjim/tree-sitter-lua",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Lua grammar for tree-sitter",
   "keywords": [
     "tree-sitter",
