@@ -8,8 +8,9 @@ checkout_repo() {
   local -r path="${1}"
   local -r repo="${2}"
   local -r sha="${3}"
+  local -r folder="${4:-}"
 
-  echo "Checking out github.com/${repo}#${sha} in ${path}"
+  echo "Checking out github.com/${repo}#${sha}${folder:+" (${folder})"} in ${path}"
 
   mkdir -p "${path}"
   pushd "${path}" >/dev/null
@@ -17,6 +18,10 @@ checkout_repo() {
   if [[ ! -d ".git" ]]; then
     git init --quiet
     git remote add origin "https://github.com/${repo}.git"
+    if [[ ! -z "${folder}" ]]; then
+      git sparse-checkout set --cone
+      git sparse-checkout set "${folder}"
+    fi
     git fetch --quiet --depth 1 origin "${sha}"
   elif [[ "${sha}" != "$(git rev-parse HEAD)" ]]; then
     git fetch --quiet --depth 1 origin "${sha}"
@@ -31,6 +36,7 @@ checkout_repo() {
 
 checkout_repo "./examples/luvit" "luvit/luvit" "a8c708e064cc1d60ecca8d8ca00bc28fa2e49eeb"
 checkout_repo "./examples/lua" "lua/lua" "e15f1f2bb7a38a3c94519294d031e48508d65006"
+checkout_repo "./examples/neovim" "neovim/neovim" "15c684b358b0165d0874ba08ab6ac0976c86cc0f" "runtime"
 
 parse_examples() {
   local -r known_failures="$(cat script/known_failures.txt)"
@@ -38,6 +44,7 @@ parse_examples() {
   tree-sitter parse --quiet \
     "./examples/luvit/**/*.lua" \
     "./examples/lua/**/*.lua" \
+    "./examples/neovim/runtime/**/*.lua" \
     $(for file in ${known_failures}; do echo "!${file}"; done)
 
   declare -r example_count=$(find ./examples -name "*.lua" | wc -l)
