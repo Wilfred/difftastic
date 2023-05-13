@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-smali"
 description = "Smali grammar for tree-sitter"
-version = "0.0.4"
+version = "1.0.0"
 authors = ["Yotam Nachum <me@yotam.net>", "Amaan Qureshi <amaanq12@gmail.com>"]
 license = "MIT"
 readme = "bindings/rust/README.md"
