@@ -5,12 +5,12 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 var lines = 0;
-final sectionSize = 1;
+final sectionSize = 100;
 final maxPrint = 500;
 var linesPrinted = 0;
 var errorLines = 0;
 void main(List<String> args) async {
-  if (args.length < 1) {
+  if (args.length < 2) {
     print("Usage: dart tester/test.dart /path/to/directory/for/testing parse/highlight" );
     return;
   }
