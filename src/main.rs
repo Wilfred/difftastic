@@ -40,7 +40,7 @@ extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::parse::guess_language::{LANG_EXTENSIONS, LANG_FILE_NAMES};
+use crate::parse::guess_language::{language_extensions, language_file_names};
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
@@ -51,7 +51,7 @@ use files::{
 };
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name};
+use parse::guess_language::{guess, language_name, Language};
 
 /// The global allocator used by difftastic.
 ///
@@ -67,6 +67,7 @@ use rayon::prelude::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::{env, path::Path};
+use strum::IntoEnumIterator;
 use summary::{DiffResult, FileContent, FileFormat};
 use syntax::init_next_prev;
 use typed_arena::Arena;
@@ -141,29 +142,25 @@ fn main() {
             }
         }
         Mode::ListLanguages { use_color } => {
-            for (language, extensions) in LANG_EXTENSIONS {
-                let mut name = language_name(*language).to_string();
+            for language in Language::iter() {
+                let mut name = language_name(language).to_string();
                 if use_color {
                     name = name.bold().to_string();
                 }
                 println!("{}", name);
 
-                let mut extensions: Vec<&str> = (*extensions).into();
+                let mut extensions: Vec<&str> = language_extensions(language).into();
                 extensions.sort_unstable();
 
                 for extension in extensions {
                     print!(" *.{}", extension);
                 }
 
-                for (file_language, known_file_names) in LANG_FILE_NAMES {
-                    if file_language == language {
-                        let mut known_file_names: Vec<&str> = (*known_file_names).into();
-                        known_file_names.sort_unstable();
+                let mut known_file_names: Vec<&str> = language_file_names(language).into();
+                known_file_names.sort_unstable();
 
-                        for known_file_name in known_file_names {
-                            print!(" {}", known_file_name);
-                        }
-                    }
+                for known_file_name in known_file_names {
+                    print!(" {}", known_file_name);
                 }
                 println!();
             }

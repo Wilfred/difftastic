@@ -11,10 +11,11 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::{borrow::Borrow, ffi::OsStr, path::Path};
+use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
 pub enum Language {
     Ada,
     Bash,
@@ -133,54 +134,45 @@ pub fn language_name(language: Language) -> &'static str {
 use Language::*;
 
 /// Which file extensions are associated with which languages.
-pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
-    (Ada, &["ada", "adb", "ads"]),
-    (
-        Bash,
-        &[
+pub fn language_extensions(language: Language) -> &'static [&'static str] {
+    match language {
+        Ada => &["ada", "adb", "ads"],
+        Bash => &[
             "sh", "bash", "bats", "cgi", "command", "env", "fcgi", "ksh", "sh.in", "tmux", "tool",
             "zsh",
         ],
-    ),
-    (C, &["c"]),
-    (
-        Clojure,
-        &[
+        C => &["c"],
+
+        Clojure => &[
             "bb", "boot", "clj", "cljc", "clje", "cljs", "cljx", "edn", "joke", "joker",
         ],
-    ),
-    (CMake, &["cmake", "cmake.in"]),
-    (CommonLisp, &["lisp", "lsp", "asd"]),
-    // Treat .h as C++ rather than C. This is an arbitrary choice, but
-    // C++ is more widely used than C according to
-    // https://madnight.github.io/githut/
-    (CPlusPlus, &["cc", "cpp", "h", "hh", "hpp", "ino", "cxx"]),
-    (CSharp, &["cs"]),
-    (Css, &["css"]),
-    (Dart, &["dart"]),
-    (Elm, &["elm"]),
-    (EmacsLisp, &["el"]),
-    (Elixir, &["ex", "exs"]),
-    (Elvish, &["elv"]),
-    // TODO: confirm that we support multiple extensions for files
-    // like foo.app.src.
-    (
-        Erlang,
-        &["erl", "app.src", "es", "escript", "hrl", "xrl", "yrl"],
-    ),
-    (Gleam, &["gleam"]),
-    (Go, &["go"]),
-    (Hack, &["hack", "hck", "hhi"]),
-    (Hare, &["ha"]),
-    (Haskell, &["hs"]),
-    (Hcl, &["hcl", "nomad", "tf", "tfvars", "workflow"]),
-    (Html, &["html", "htm", "xhtml"]),
-    (Janet, &["janet", "jdn"]),
-    (Java, &["java"]),
-    (JavaScript, &["cjs", "js", "mjs"]),
-    (
-        Json,
-        &[
+        CMake => &["cmake", "cmake.in"],
+        CommonLisp => &["lisp", "lsp", "asd"],
+        // Treat .h as C++ rather than C. This is an arbitrary choice, but
+        // C++ is more widely used than C according to
+        // https://madnight.github.io/githut/
+        CPlusPlus => &["cc", "cpp", "h", "hh", "hpp", "ino", "cxx"],
+        CSharp => &["cs"],
+        Css => &["css"],
+        Dart => &["dart"],
+        Elm => &["elm"],
+        EmacsLisp => &["el"],
+        Elixir => &["ex", "exs"],
+        Elvish => &["elv"],
+        // TODO: confirm that we support multiple extensions for files
+        // like foo.app.src.
+        Erlang => &["erl", "app.src", "es", "escript", "hrl", "xrl", "yrl"],
+        Gleam => &["gleam"],
+        Go => &["go"],
+        Hack => &["hack", "hck", "hhi"],
+        Hare => &["ha"],
+        Haskell => &["hs"],
+        Hcl => &["hcl", "nomad", "tf", "tfvars", "workflow"],
+        Html => &["html", "htm", "xhtml"],
+        Janet => &["janet", "jdn"],
+        Java => &["java"],
+        JavaScript => &["cjs", "js", "mjs"],
+        Json => &[
             "json",
             "avsc",
             "geojson",
@@ -196,41 +188,40 @@ pub const LANG_EXTENSIONS: &[(Language, &[&str])] = &[
             "webapp",
             "webmanifest",
         ],
-    ),
-    (Jsx, &["jsx"]),
-    (Julia, &["jl"]),
-    (Kotlin, &["kt", "ktm", "kts"]),
-    (Lua, &["lua"]),
-    (Make, &["mak", "d", "make", "makefile", "mk", "mkfile"]),
-    (Newick, &["nhx", "nwk", "nh"]),
-    (Nix, &["nix"]),
-    (OCaml, &["ml"]),
-    (OCamlInterface, &["mli"]),
-    (Pascal, &["pas", "dfm", "dpr", "lpr", "pascal"]),
-    (Perl, &["pm", "pl"]),
-    (Php, &["php"]),
-    (Python, &["py", "py3", "pyi", "bzl"]),
-    (Qml, &["qml"]),
-    (R, &["R", "r", "rd", "rsx"]),
-    (Racket, &["rkt"]),
-    (Ruby, &["rb", "builder", "spec", "rake"]),
-    (Rust, &["rs"]),
-    (Scala, &["scala", "sbt", "sc"]),
-    (Solidity, &["sol"]),
-    (Sql, &["sql", "pgsql"]),
-    (Swift, &["swift"]),
-    (Toml, &["toml"]),
-    (TypeScript, &["ts"]),
-    (Tsx, &["tsx"]),
-    (Yaml, &["yaml", "yml"]),
-    (Zig, &["zig"]),
-];
+        Jsx => &["jsx"],
+        Julia => &["jl"],
+        Kotlin => &["kt", "ktm", "kts"],
+        Lua => &["lua"],
+        Make => &["mak", "d", "make", "makefile", "mk", "mkfile"],
+        Newick => &["nhx", "nwk", "nh"],
+        Nix => &["nix"],
+        OCaml => &["ml"],
+        OCamlInterface => &["mli"],
+        Pascal => &["pas", "dfm", "dpr", "lpr", "pascal"],
+        Perl => &["pm", "pl"],
+        Php => &["php"],
+        Python => &["py", "py3", "pyi", "bzl"],
+        Qml => &["qml"],
+        R => &["R", "r", "rd", "rsx"],
+        Racket => &["rkt"],
+        Ruby => &["rb", "builder", "spec", "rake"],
+        Rust => &["rs"],
+        Scala => &["scala", "sbt", "sc"],
+        Solidity => &["sol"],
+        Sql => &["sql", "pgsql"],
+        Swift => &["swift"],
+        Toml => &["toml"],
+        TypeScript => &["ts"],
+        Tsx => &["tsx"],
+        Yaml => &["yaml", "yml"],
+        Zig => &["zig"],
+    }
+}
 
-/// Which file names are associated with which languages.
-pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
-    (
-        Bash,
-        &[
+/// Which whole file names are associated with which languages.
+pub fn language_file_names(language: Language) -> &'static [&'static str] {
+    match language {
+        Bash => &[
             ".bash_aliases",
             ".bash_history",
             ".bash_logout",
@@ -266,13 +257,11 @@ pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
             "zshenv",
             "zshrc",
         ],
-    ),
-    (CMake, &["CMakeLists.txt"]),
-    (EmacsLisp, &[".emacs", "_emacs", "Cask"]),
-    (Erlang, &["Emakefile"]),
-    (
-        Json,
-        &[
+        CMake => &["CMakeLists.txt"],
+        EmacsLisp => &[".emacs", "_emacs", "Cask"],
+        Erlang => &["Emakefile"],
+
+        Json => &[
             ".arcconfig",
             ".auto-changelog",
             ".c8rc",
@@ -286,10 +275,8 @@ pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
             "composer.lock",
             "mcmod.info",
         ],
-    ),
-    (
-        Make,
-        &[
+
+        Make => &[
             "BSDmakefile",
             "GNUmakefile",
             "Kbuild",
@@ -304,15 +291,13 @@ pub const LANG_FILE_NAMES: &[(Language, &[&str])] = &[
             "makefile.sco",
             "mkfile",
         ],
-    ),
-    (Python, &["TARGETS", "BUCK", "DEPS"]),
-    (R, &[".Rprofile", "expr-dist"]),
-    (Ruby, &["Gemfile", "Rakefile"]),
-    (
-        Toml,
-        &["Cargo.lock", "Gopkg.lock", "Pipfile", "poetry.lock"],
-    ),
-];
+        Python => &["TARGETS", "BUCK", "DEPS"],
+        R => &[".Rprofile", "expr-dist"],
+        Ruby => &["Gemfile", "Rakefile"],
+        Toml => &["Cargo.lock", "Gopkg.lock", "Pipfile", "poetry.lock"],
+        _ => &[],
+    }
+}
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
     if let Some(lang) = from_emacs_mode_header(src) {
@@ -446,10 +431,10 @@ fn from_name(path: &Path) -> Option<Language> {
     match path.file_name() {
         Some(name) => {
             let name = name.to_string_lossy().into_owned();
-            for (language, known_file_names) in LANG_FILE_NAMES {
-                for known_file_name in *known_file_names {
+            for language in Language::iter() {
+                for known_file_name in language_file_names(language) {
                     if &name == known_file_name {
-                        return Some(*language);
+                        return Some(language);
                     }
                 }
             }
@@ -463,13 +448,14 @@ fn from_name(path: &Path) -> Option<Language> {
 pub fn from_extension(current_extension: &OsStr) -> Option<Language> {
     let current_extension = current_extension.to_string_lossy();
 
-    for (language, extensions) in LANG_EXTENSIONS {
-        for extension in *extensions {
-            if &*current_extension == *extension {
-                return Some(*language);
+    for language in Language::iter() {
+        for extension in language_extensions(language) {
+            if current_extension == *extension {
+                return Some(language);
             }
         }
     }
+
     None
 }
 
