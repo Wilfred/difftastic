@@ -40,7 +40,7 @@ extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::parse::guess_language::{language_globs};
+use crate::parse::guess_language::language_globs;
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
@@ -98,15 +98,12 @@ fn main() {
     reset_sigpipe();
 
     match options::parse_args() {
-        Mode::DumpTreeSitter {
-            path,
-            language_override,
-        } => {
+        Mode::DumpTreeSitter { path } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = language_override.or_else(|| guess(path, &src));
+            let language = guess(path, &src);
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -120,14 +117,13 @@ fn main() {
         }
         Mode::DumpSyntax {
             path,
-            language_override,
             ignore_comments,
         } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = language_override.or_else(|| guess(path, &src));
+            let language = guess(path, &src);
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -159,7 +155,6 @@ fn main() {
             diff_options,
             display_options,
             set_exit_code,
-            language_override,
             lhs_path,
             rhs_path,
             display_path,
@@ -202,15 +197,9 @@ fn main() {
                         }
                     });
 
-                    diff_directories(
-                        lhs_path,
-                        rhs_path,
-                        &display_options,
-                        &diff_options,
-                        language_override,
-                    )
-                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                    .expect("Receiver should be connected");
+                    diff_directories(lhs_path, rhs_path, &display_options, &diff_options)
+                        .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                        .expect("Receiver should be connected");
 
                     printing_thread
                         .join()
@@ -225,7 +214,6 @@ fn main() {
                         &display_options,
                         &diff_options,
                         false,
-                        language_override,
                     );
                     print_diff_result(&display_options, &diff_result);
 
@@ -269,7 +257,6 @@ fn diff_file(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     missing_as_empty: bool,
-    language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
@@ -281,7 +268,6 @@ fn diff_file(
         &rhs_bytes,
         display_options,
         diff_options,
-        language_override,
     )
 }
 
@@ -317,7 +303,6 @@ fn diff_file_content(
     rhs_bytes: &[u8],
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    language_override: Option<parse::guess_language::Language>,
 ) -> DiffResult {
     let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
@@ -343,7 +328,7 @@ fn diff_file_content(
         FileArgument::DevNull => (&lhs_src, Path::new(&display_path)),
     };
 
-    let language = language_override.or_else(|| guess(guess_path, guess_src));
+    let language = guess(guess_path, guess_src);
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
@@ -568,7 +553,6 @@ fn diff_directories<'a>(
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
-    language_override: Option<parse::guess_language::Language>,
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();
@@ -592,7 +576,6 @@ fn diff_directories<'a>(
             &display_options,
             &diff_options,
             true,
-            language_override,
         )
     })
 }
@@ -740,7 +723,6 @@ mod tests {
             s.as_bytes(),
             &DisplayOptions::default(),
             &DiffOptions::default(),
-            None,
         );
 
         assert_eq!(res.lhs_positions, vec![]);

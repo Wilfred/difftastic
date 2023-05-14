@@ -10,7 +10,7 @@
 
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{borrow::Borrow, ffi::OsStr, path::Path};
+use std::{borrow::Borrow, path::Path};
 use strum::{EnumIter, IntoEnumIterator};
 
 /// Languages supported by difftastic. Each language here has a
@@ -133,91 +133,7 @@ pub fn language_name(language: Language) -> &'static str {
 
 use Language::*;
 
-/// Which file extensions are associated with which languages.
-pub fn language_extensions(language: Language) -> &'static [&'static str] {
-    match language {
-        Ada => &["ada", "adb", "ads"],
-        Bash => &[
-            "sh", "bash", "bats", "cgi", "command", "env", "fcgi", "ksh", "sh.in", "tmux", "tool",
-            "zsh",
-        ],
-        C => &["c"],
-
-        Clojure => &[
-            "bb", "boot", "clj", "cljc", "clje", "cljs", "cljx", "edn", "joke", "joker",
-        ],
-        CMake => &["cmake", "cmake.in"],
-        CommonLisp => &["lisp", "lsp", "asd"],
-        // Treat .h as C++ rather than C. This is an arbitrary choice, but
-        // C++ is more widely used than C according to
-        // https://madnight.github.io/githut/
-        CPlusPlus => &["cc", "cpp", "h", "hh", "hpp", "ino", "cxx"],
-        CSharp => &["cs"],
-        Css => &["css"],
-        Dart => &["dart"],
-        Elm => &["elm"],
-        EmacsLisp => &["el"],
-        Elixir => &["ex", "exs"],
-        Elvish => &["elv"],
-        // TODO: confirm that we support multiple extensions for files
-        // like foo.app.src.
-        Erlang => &["erl", "app.src", "es", "escript", "hrl", "xrl", "yrl"],
-        Gleam => &["gleam"],
-        Go => &["go"],
-        Hack => &["hack", "hck", "hhi"],
-        Hare => &["ha"],
-        Haskell => &["hs"],
-        Hcl => &["hcl", "nomad", "tf", "tfvars", "workflow"],
-        Html => &["html", "htm", "xhtml"],
-        Janet => &["janet", "jdn"],
-        Java => &["java"],
-        JavaScript => &["cjs", "js", "mjs"],
-        Json => &[
-            "json",
-            "avsc",
-            "geojson",
-            "gltf",
-            "har",
-            "ice",
-            "JSON-tmLanguage",
-            "jsonl",
-            "mcmeta",
-            "tfstate",
-            "tfstate.backup",
-            "topojson",
-            "webapp",
-            "webmanifest",
-        ],
-        JavascriptJsx => &["jsx"],
-        Julia => &["jl"],
-        Kotlin => &["kt", "ktm", "kts"],
-        Lua => &["lua"],
-        Make => &["mak", "d", "make", "makefile", "mk", "mkfile"],
-        Newick => &["nhx", "nwk", "nh"],
-        Nix => &["nix"],
-        OCaml => &["ml"],
-        OCamlInterface => &["mli"],
-        Pascal => &["pas", "dfm", "dpr", "lpr", "pascal"],
-        Perl => &["pm", "pl"],
-        Php => &["php"],
-        Python => &["py", "py3", "pyi", "bzl"],
-        Qml => &["qml"],
-        R => &["R", "r", "rd", "rsx"],
-        Racket => &["rkt"],
-        Ruby => &["rb", "builder", "spec", "rake"],
-        Rust => &["rs"],
-        Scala => &["scala", "sbt", "sc"],
-        Solidity => &["sol"],
-        Sql => &["sql", "pgsql"],
-        Swift => &["swift"],
-        Toml => &["toml"],
-        TypeScript => &["ts"],
-        TypeScriptTsx => &["tsx"],
-        Yaml => &["yaml", "yml"],
-        Zig => &["zig"],
-    }
-}
-
+/// File globs that identify languages based on the file path.
 pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
     let glob_strs: &'static [&'static str] = match language {
         Ada => &["*.ada", "*.adb", "*.ads"],
@@ -556,20 +472,6 @@ fn from_glob(path: &Path) -> Option<Language> {
         }
         None => None,
     }
-}
-
-pub fn from_extension(current_extension: &OsStr) -> Option<Language> {
-    let current_extension = current_extension.to_string_lossy();
-
-    for language in Language::iter() {
-        for extension in language_extensions(language) {
-            if current_extension == *extension {
-                return Some(language);
-            }
-        }
-    }
-
-    None
 }
 
 #[cfg(test)]

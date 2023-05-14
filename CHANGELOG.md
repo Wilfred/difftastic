@@ -5,6 +5,8 @@
 Fixed an issue where file extensions of the form `*.foo.bar`
 (e.g. `*.cmake.in`) were ignored.
 
+Removed the `--language` option.
+
 ### Parsing
 
 Added support for Solidity.
