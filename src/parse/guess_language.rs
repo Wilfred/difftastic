@@ -5,10 +5,8 @@
 //! particularly its
 //! [languages.yml](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
 //!
-//! Difftastic does not reuse languages.yml directly, for
-//! implementation simplicity and to avoid parsing very large files
-//! (e.g. package.lock) that can't be handled in a reasonable time
-//! yet.
+//! Difftastic does not reuse languages.yml directly. Linguist has a
+//! larger set of language detection strategies.
 
 use lazy_static::lazy_static;
 use regex::Regex;
