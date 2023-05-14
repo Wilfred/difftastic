@@ -1,5 +1,10 @@
 ## 0.47 (unreleased)
 
+### Language Detection
+
+Fixed an issue where file extensions of the form `*.foo.bar`
+(e.g. `*.cmake.in`) were ignored.
+
 ### Parsing
 
 Added support for Solidity.

@@ -40,7 +40,7 @@ extern crate log;
 
 use crate::diff::{dijkstra, unchanged};
 use crate::display::hunks::{matched_pos_to_hunks, merge_adjacent};
-use crate::parse::guess_language::{language_extensions, language_file_names};
+use crate::parse::guess_language::{language_globs};
 use crate::parse::syntax;
 use diff::changes::ChangeMap;
 use diff::dijkstra::ExceededGraphLimit;
@@ -149,18 +149,8 @@ fn main() {
                 }
                 println!("{}", name);
 
-                let mut extensions: Vec<&str> = language_extensions(language).into();
-                extensions.sort_unstable();
-
-                for extension in extensions {
-                    print!(" *.{}", extension);
-                }
-
-                let mut known_file_names: Vec<&str> = language_file_names(language).into();
-                known_file_names.sort_unstable();
-
-                for known_file_name in known_file_names {
-                    print!(" {}", known_file_name);
+                for glob in language_globs(language) {
+                    print!(" {}", glob.as_str());
                 }
                 println!();
             }

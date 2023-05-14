@@ -218,10 +218,22 @@ pub fn language_extensions(language: Language) -> &'static [&'static str] {
     }
 }
 
-/// Which whole file names are associated with which languages.
-pub fn language_file_names(language: Language) -> &'static [&'static str] {
-    match language {
+pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
+    let glob_strs: &'static [&'static str] = match language {
+        Ada => &["*.ada", "*.adb", "*.ads"],
         Bash => &[
+            "*.bash",
+            "*.bats",
+            "*.cgi",
+            "*.command",
+            "*.env",
+            "*.fcgi",
+            "*.ksh",
+            "*.sh",
+            "*.sh.in",
+            "*.tmux",
+            "*.tool",
+            "*.zsh",
             ".bash_aliases",
             ".bash_history",
             ".bash_logout",
@@ -257,11 +269,59 @@ pub fn language_file_names(language: Language) -> &'static [&'static str] {
             "zshenv",
             "zshrc",
         ],
-        CMake => &["CMakeLists.txt"],
-        EmacsLisp => &[".emacs", "_emacs", "Cask"],
-        Erlang => &["Emakefile"],
-
+        C => &["*.c"],
+        Clojure => &[
+            "*.bb", "*.boot", "*.clj", "*.cljc", "*.clje", "*.cljs", "*.cljx", "*.edn", "*.joke",
+            "*.joker",
+        ],
+        CMake => &["*.cmake", "*.cmake.in", "CMakeLists.txt"],
+        CommonLisp => &["*.lisp", "*.lsp", "*.asd"],
+        // Treat .h as C++ rather than C. This is an arbitrary choice, but
+        // C++ is more widely used than C according to
+        // https://madnight.github.io/githut/
+        CPlusPlus => &["*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx"],
+        CSharp => &["*.cs"],
+        Css => &["*.css"],
+        Dart => &["*.dart"],
+        Elm => &["*.elm"],
+        EmacsLisp => &["*.el", ".emacs", "_emacs", "Cask"],
+        Elixir => &["*.ex", "*.exs"],
+        Elvish => &["*.elv"],
+        Erlang => &[
+            "*.erl",
+            "*.app.src",
+            "*.es",
+            "*.escript",
+            "*.hrl",
+            "*.xrl",
+            "*.yrl",
+            "Emakefile",
+        ],
+        Gleam => &["*.gleam"],
+        Go => &["*.go"],
+        Hack => &["*.hack", "*.hck", "*.hhi"],
+        Hare => &["*.ha"],
+        Haskell => &["*.hs"],
+        Hcl => &["*.hcl", "*.nomad", "*.tf", "*.tfvars", "*.workflow"],
+        Html => &["*.html", "*.htm", "*.xhtml"],
+        Janet => &["*.janet", "*.jdn"],
+        Java => &["*.java"],
+        JavaScript => &["*.cjs", "*.js", "*.mjs"],
         Json => &[
+            "*.json",
+            "*.avsc",
+            "*.geojson",
+            "*.gltf",
+            "*.har",
+            "*.ice",
+            "*.JSON-tmLanguage",
+            "*.jsonl",
+            "*.mcmeta",
+            "*.tfstate",
+            "*.tfstate.backup",
+            "*.topojson",
+            "*.webapp",
+            "*.webmanifest",
             ".arcconfig",
             ".auto-changelog",
             ".c8rc",
@@ -275,8 +335,17 @@ pub fn language_file_names(language: Language) -> &'static [&'static str] {
             "composer.lock",
             "mcmod.info",
         ],
-
+        JavascriptJsx => &["*.jsx"],
+        Julia => &["*.jl"],
+        Kotlin => &["*.kt", "*.ktm", "*.kts"],
+        Lua => &["*.lua"],
         Make => &[
+            "*.mak",
+            "*.d",
+            "*.make",
+            "*.makefile",
+            "*.mk",
+            "*.mkfile",
             "BSDmakefile",
             "GNUmakefile",
             "Kbuild",
@@ -291,12 +360,59 @@ pub fn language_file_names(language: Language) -> &'static [&'static str] {
             "makefile.sco",
             "mkfile",
         ],
-        Python => &["TARGETS", "BUCK", "DEPS"],
-        R => &[".Rprofile", "expr-dist"],
-        Ruby => &["Gemfile", "Rakefile"],
-        Toml => &["Cargo.lock", "Gopkg.lock", "Pipfile", "poetry.lock"],
-        _ => &[],
+        Newick => &["*.nhx", "*.nwk", "*.nh"],
+        Nix => &["*.nix"],
+        OCaml => &["*.ml"],
+        OCamlInterface => &["*.mli"],
+        Pascal => &["*.pas", "*.dfm", "*.dpr", "*.lpr", "*.pascal"],
+        Perl => &["*.pm", "*.pl"],
+        Php => &["*.php"],
+        Python => &["*.py", "*.py3", "*.pyi", "*.bzl", "TARGETS", "BUCK", "DEPS"],
+        Qml => &["*.qml"],
+        R => &["*.R", "*.r", "*.rd", "*.rsx", ".Rprofile", "expr-dist"],
+        Racket => &["*.rkt"],
+        Ruby => &[
+            "*.rb",
+            "*.builder",
+            "*.spec",
+            "*.rake",
+            "Gemfile",
+            "Rakefile",
+        ],
+        Rust => &["*.rs"],
+        Scala => &["*.scala", "*.sbt", "*.sc"],
+        Solidity => &["*.sol"],
+        Sql => &["*.sql", "*.pgsql"],
+        Swift => &["*.swift"],
+        Toml => &[
+            "*.toml",
+            "Cargo.lock",
+            "Gopkg.lock",
+            "Pipfile",
+            "poetry.lock",
+        ],
+        TypeScript => &["*.ts"],
+        TypeScriptTsx => &["*.tsx"],
+        Yaml => &["*.yaml", "*.yml"],
+        Zig => &["*.zig"],
+    };
+
+    glob_strs
+        .iter()
+        .map(|name| {
+            glob::Pattern::new(name).expect("Glob in difftastic source should be well-formed")
+        })
+        .collect()
+}
+
+fn looks_like_hacklang(path: &Path, src: &str) -> bool {
+    if let Some(extension) = path.extension() {
+        if extension == "php" && src.starts_with("<?hh") {
+            return true;
+        }
     }
+
+    false
 }
 
 pub fn guess(path: &Path, src: &str) -> Option<Language> {
@@ -306,17 +422,14 @@ pub fn guess(path: &Path, src: &str) -> Option<Language> {
     if let Some(lang) = from_shebang(src) {
         return Some(lang);
     }
-    if let Some(lang) = from_name(path) {
+    if looks_like_hacklang(path, src) {
+        return Some(Language::Hack);
+    }
+    if let Some(lang) = from_glob(path) {
         return Some(lang);
     }
 
-    match path.extension() {
-        Some(extension) => match from_extension(extension) {
-            Some(Language::Php) if src.starts_with("<?hh") => None,
-            language => language,
-        },
-        None => None,
-    }
+    None
 }
 
 /// Try to guess the language based on an Emacs mode comment at the
@@ -427,13 +540,13 @@ fn from_shebang(src: &str) -> Option<Language> {
     None
 }
 
-fn from_name(path: &Path) -> Option<Language> {
+fn from_glob(path: &Path) -> Option<Language> {
     match path.file_name() {
         Some(name) => {
             let name = name.to_string_lossy().into_owned();
             for language in Language::iter() {
-                for known_file_name in language_file_names(language) {
-                    if &name == known_file_name {
+                for glob in language_globs(language) {
+                    if glob.matches(&name) {
                         return Some(language);
                     }
                 }
