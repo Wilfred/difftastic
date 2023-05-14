@@ -529,7 +529,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        JavaScript | Jsx => {
+        JavaScript | JavascriptJsx => {
             let language = unsafe { tree_sitter_javascript() };
             TreeSitterConfig {
                 language,
@@ -923,7 +923,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 sub_languages: vec![],
             }
         }
-        Tsx => {
+        TypescriptTsx => {
             let language = unsafe { tree_sitter_tsx() };
             TreeSitterConfig {
                 language,
