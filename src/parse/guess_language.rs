@@ -67,7 +67,7 @@ pub enum Language {
     Swift,
     Toml,
     TypeScript,
-    TypescriptTsx,
+    TypeScriptTsx,
     Yaml,
     Zig,
 }
@@ -125,7 +125,7 @@ pub fn language_name(language: Language) -> &'static str {
         Swift => "Swift",
         Toml => "TOML",
         TypeScript => "TypeScript",
-        TypescriptTsx => "TypeScript TSX",
+        TypeScriptTsx => "TypeScript TSX",
         Yaml => "YAML",
         Zig => "Zig",
     }
@@ -212,7 +212,7 @@ pub fn language_extensions(language: Language) -> &'static [&'static str] {
         Swift => &["swift"],
         Toml => &["toml"],
         TypeScript => &["ts"],
-        TypescriptTsx => &["tsx"],
+        TypeScriptTsx => &["tsx"],
         Yaml => &["yaml", "yml"],
         Zig => &["zig"],
     }
