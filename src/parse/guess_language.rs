@@ -72,6 +72,31 @@ pub enum Language {
     Zig,
 }
 
+#[derive(Debug)]
+pub enum LanguageOverride {
+    Language(Language),
+    PlainText,
+}
+
+/// If there is a language called `name` (comparing case
+/// insensitively), return it. Treat `"text"` as an additional option.
+pub fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
+    let name = name.trim().to_lowercase();
+
+    if name == "text" {
+        return Some(LanguageOverride::PlainText);
+    }
+
+    for language in Language::iter() {
+        let lang_name = language_name(language);
+        if lang_name.to_lowercase() == name {
+            return Some(LanguageOverride::Language(language));
+        }
+    }
+
+    None
+}
+
 /// The language name shown to the user.
 pub fn language_name(language: Language) -> &'static str {
     match language {

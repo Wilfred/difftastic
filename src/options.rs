@@ -10,7 +10,7 @@ use strum::IntoEnumIterator;
 use crate::{
     display::style::BackgroundColor,
     exit_codes::EXIT_BAD_ARGUMENTS,
-    parse::guess_language::{self, language_name},
+    parse::guess_language::{self, language_name, LanguageOverride, language_override_from_name},
 };
 
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;
@@ -331,12 +331,6 @@ impl FileArgument {
     }
 }
 
-#[derive(Debug)]
-pub enum LanguageOverride {
-    Language(guess_language::Language),
-    PlainText,
-}
-
 pub enum Mode {
     Diff {
         diff_options: DiffOptions,
@@ -412,25 +406,6 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
         (FileArgument::DevNull, _) | (_, FileArgument::DevNull) => "/dev/null".into(),
         (FileArgument::Stdin, FileArgument::Stdin) => "-".into(),
     }
-}
-
-/// If there is a language called `name` (comparing case
-/// insensitively), return it. Treat `"text"` as an additional option.
-fn language_override_from_name(name: &str) -> Option<LanguageOverride> {
-    let name = name.trim().to_lowercase();
-
-    if name == "text" {
-        return Some(LanguageOverride::PlainText);
-    }
-
-    for language in guess_language::Language::iter() {
-        let lang_name = language_name(language);
-        if lang_name.to_lowercase() == name {
-            return Some(LanguageOverride::Language(language));
-        }
-    }
-
-    None
 }
 
 fn parse_overrides_or_die(raw_overrides: &[&str]) -> Vec<(glob::Pattern, LanguageOverride)> {
