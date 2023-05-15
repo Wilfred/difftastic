@@ -155,11 +155,13 @@ fn main() {
             diff_options,
             display_options,
             set_exit_code,
+            language_overrides,
             lhs_path,
             rhs_path,
             display_path,
             old_path,
         } => {
+            let _ = language_overrides;
             if lhs_path == rhs_path {
                 let is_dir = match &lhs_path {
                     FileArgument::NamedPath(path) => path.is_dir(),
