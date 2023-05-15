@@ -51,7 +51,7 @@ use files::{
 };
 use log::info;
 use mimalloc::MiMalloc;
-use parse::guess_language::{guess, language_name, Language};
+use parse::guess_language::{guess, language_name, Language, LanguageOverride};
 
 /// The global allocator used by difftastic.
 ///
@@ -98,12 +98,15 @@ fn main() {
     reset_sigpipe();
 
     match options::parse_args() {
-        Mode::DumpTreeSitter { path, language_overrides} => {
+        Mode::DumpTreeSitter {
+            path,
+            language_overrides,
+        } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = guess(path, &src);
+            let language = guess(path, &src, &language_overrides);
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -124,7 +127,7 @@ fn main() {
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
 
-            let language = guess(path, &src);
+            let language = guess(path, &src, &language_overrides);
             match language {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
@@ -138,7 +141,23 @@ fn main() {
                 }
             }
         }
-        Mode::ListLanguages { use_color, language_overrides } => {
+        Mode::ListLanguages {
+            use_color,
+            language_overrides,
+        } => {
+            for (glob, lang_override) in language_overrides {
+                let mut name = match lang_override {
+                    LanguageOverride::Language(lang) => language_name(lang),
+                    LanguageOverride::PlainText => "Text",
+                }
+                .to_string();
+                if use_color {
+                    name = name.bold().to_string();
+                }
+                println!("{} (from override)", name);
+                println!(" {}", glob.as_str());
+            }
+
             for language in Language::iter() {
                 let mut name = language_name(language).to_string();
                 if use_color {
@@ -199,9 +218,15 @@ fn main() {
                         }
                     });
 
-                    diff_directories(lhs_path, rhs_path, &display_options, &diff_options)
-                        .try_for_each_with(send, |s, diff_result| s.send(diff_result))
-                        .expect("Receiver should be connected");
+                    diff_directories(
+                        lhs_path,
+                        rhs_path,
+                        &display_options,
+                        &diff_options,
+                        &language_overrides,
+                    )
+                    .try_for_each_with(send, |s, diff_result| s.send(diff_result))
+                    .expect("Receiver should be connected");
 
                     printing_thread
                         .join()
@@ -216,6 +241,7 @@ fn main() {
                         &display_options,
                         &diff_options,
                         false,
+                        &language_overrides,
                     );
                     print_diff_result(&display_options, &diff_result);
 
@@ -259,6 +285,7 @@ fn diff_file(
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
     missing_as_empty: bool,
+    overrides: &[(glob::Pattern, LanguageOverride)],
 ) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path, missing_as_empty);
     diff_file_content(
@@ -270,6 +297,7 @@ fn diff_file(
         &rhs_bytes,
         display_options,
         diff_options,
+        overrides,
     )
 }
 
@@ -305,6 +333,7 @@ fn diff_file_content(
     rhs_bytes: &[u8],
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
+    overrides: &[(glob::Pattern, LanguageOverride)],
 ) -> DiffResult {
     let (lhs_src, rhs_src) = match (guess_content(lhs_bytes), guess_content(rhs_bytes)) {
         (ProbableFileKind::Binary, _) | (_, ProbableFileKind::Binary) => {
@@ -330,7 +359,7 @@ fn diff_file_content(
         FileArgument::DevNull => (&lhs_src, Path::new(&display_path)),
     };
 
-    let language = guess(guess_path, guess_src);
+    let language = guess(guess_path, guess_src, overrides);
     let lang_config = language.map(tsp::from_language);
 
     if lhs_bytes == rhs_bytes {
@@ -555,9 +584,11 @@ fn diff_directories<'a>(
     rhs_dir: &'a Path,
     display_options: &DisplayOptions,
     diff_options: &DiffOptions,
+    overrides: &[(glob::Pattern, LanguageOverride)],
 ) -> impl ParallelIterator<Item = DiffResult> + 'a {
     let diff_options = diff_options.clone();
     let display_options = display_options.clone();
+    let overrides: Vec<_> = overrides.into();
 
     // We greedily list all files in the directory, and then diff them
     // in parallel. This is assuming that diffing is slower than
@@ -578,6 +609,7 @@ fn diff_directories<'a>(
             &display_options,
             &diff_options,
             true,
+            &overrides,
         )
     })
 }

@@ -5,12 +5,11 @@ use std::{env, ffi::OsStr, path::Path, path::PathBuf};
 use clap::{crate_authors, crate_description, crate_version, Arg, Command};
 use const_format::formatcp;
 use crossterm::tty::IsTty;
-use strum::IntoEnumIterator;
 
 use crate::{
     display::style::BackgroundColor,
     exit_codes::EXIT_BAD_ARGUMENTS,
-    parse::guess_language::{self, language_name, LanguageOverride, language_override_from_name},
+    parse::guess_language::{language_override_from_name, LanguageOverride},
 };
 
 pub const DEFAULT_BYTE_LIMIT: usize = 1_000_000;

@@ -72,7 +72,7 @@ pub enum Language {
     Zig,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum LanguageOverride {
     Language(Language),
     PlainText,
@@ -356,7 +356,25 @@ fn looks_like_hacklang(path: &Path, src: &str) -> bool {
     false
 }
 
-pub fn guess(path: &Path, src: &str) -> Option<Language> {
+pub fn guess(
+    path: &Path,
+    src: &str,
+    overrides: &[(glob::Pattern, LanguageOverride)],
+) -> Option<Language> {
+    if let Some(file_name) = path.file_name() {
+        let file_name = file_name.to_string_lossy();
+        for (pattern, lang_override) in overrides {
+            if pattern.matches(&file_name) {
+                match lang_override {
+                    LanguageOverride::Language(lang) => return Some(*lang),
+                    LanguageOverride::PlainText => {
+                        return None;
+                    }
+                }
+            }
+        }
+    }
+
     if let Some(lang) = from_emacs_mode_header(src) {
         return Some(lang);
     }
