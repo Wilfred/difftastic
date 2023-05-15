@@ -212,13 +212,21 @@ inline: A single column display, closer to traditional diff display.")
         .arg(
             Arg::new("override").long("override")
                 .value_name("GLOB:NAME")
-                .help("Associate this glob with this language, overriding normal language detection.
+                .help("Associate this glob pattern with this language, overriding normal language detection.
 
-This argument may be specified multiple times.
+--override='*.c:C++'
 
---override=\".*js:json\" --override=\"*.c:c++\"
+This argument may be given more than once.
 
-For environment variables, you can use DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.")
+Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
+
+--override='CustomFile:json' --override='*.c:text'
+
+To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
+
+DFT_OVERRIDE='CustomFile:json' DFT_OVERRIDE_1='*.c:text' DFT_OVERRIDE_2='*.js:javascript jsx'
+
+When multiple overrides are specified, the first matching override wins.")
                 .env("DFT_OVERRIDE")
                 .multiple_occurrences(true)
         )
