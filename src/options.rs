@@ -407,7 +407,7 @@ fn build_display_path(lhs_path: &FileArgument, rhs_path: &FileArgument) -> Strin
     }
 }
 
-fn parse_overrides_or_die(raw_overrides: &[&str]) -> Vec<(glob::Pattern, LanguageOverride)> {
+fn parse_overrides_or_die(raw_overrides: &[String]) -> Vec<(glob::Pattern, LanguageOverride)> {
     let mut res = vec![];
     let mut invalid_syntax = false;
 
@@ -459,10 +459,17 @@ pub fn parse_args() -> Mode {
 
     let ignore_comments = matches.is_present("ignore-comments");
 
-    let mut language_overrides = vec![];
+    let mut raw_overrides: Vec<String> = vec![];
     if let Some(overrides) = matches.values_of("override") {
-        language_overrides = parse_overrides_or_die(&overrides.collect::<Vec<_>>());
+        raw_overrides = overrides.map(|s| s.into()).collect();
     }
+    for i in 1..=9 {
+        if let Ok(value) = env::var(format!("DFT_OVERRIDE_{}", i)) {
+            raw_overrides.push(value);
+        }
+    }
+
+    let language_overrides = parse_overrides_or_die(&raw_overrides);
 
     if matches.is_present("list-languages") {
         return Mode::ListLanguages {
