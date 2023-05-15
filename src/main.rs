@@ -98,7 +98,7 @@ fn main() {
     reset_sigpipe();
 
     match options::parse_args() {
-        Mode::DumpTreeSitter { path } => {
+        Mode::DumpTreeSitter { path, language_overrides} => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
             let src = String::from_utf8_lossy(&bytes).to_string();
@@ -118,6 +118,7 @@ fn main() {
         Mode::DumpSyntax {
             path,
             ignore_comments,
+            language_overrides,
         } => {
             let path = Path::new(&path);
             let bytes = read_or_die(path);
@@ -137,7 +138,7 @@ fn main() {
                 }
             }
         }
-        Mode::ListLanguages { use_color } => {
+        Mode::ListLanguages { use_color, language_overrides } => {
             for language in Language::iter() {
                 let mut name = language_name(language).to_string();
                 if use_color {
@@ -161,7 +162,6 @@ fn main() {
             display_path,
             old_path,
         } => {
-            let _ = language_overrides;
             if lhs_path == rhs_path {
                 let is_dir = match &lhs_path {
                     FileArgument::NamedPath(path) => path.is_dir(),

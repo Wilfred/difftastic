@@ -356,13 +356,16 @@ pub enum Mode {
     },
     ListLanguages {
         use_color: bool,
+        language_overrides: Vec<(glob::Pattern, LanguageOverride)>,
     },
     DumpTreeSitter {
         path: String,
+        language_overrides: Vec<(glob::Pattern, LanguageOverride)>,
     },
     DumpSyntax {
         path: String,
         ignore_comments: bool,
+        language_overrides: Vec<(glob::Pattern, LanguageOverride)>,
     },
 }
 
@@ -482,20 +485,30 @@ pub fn parse_args() -> Mode {
 
     let ignore_comments = matches.is_present("ignore-comments");
 
+    let mut language_overrides = vec![];
+    if let Some(overrides) = matches.values_of("override") {
+        language_overrides = parse_overrides_or_die(&overrides.collect::<Vec<_>>());
+    }
+
     if matches.is_present("list-languages") {
-        return Mode::ListLanguages { use_color };
+        return Mode::ListLanguages {
+            use_color,
+            language_overrides,
+        };
     }
 
     if let Some(path) = matches.value_of("dump-syntax") {
         return Mode::DumpSyntax {
             path: path.to_string(),
             ignore_comments,
+            language_overrides,
         };
     }
 
     if let Some(path) = matches.value_of("dump-ts") {
         return Mode::DumpTreeSitter {
             path: path.to_string(),
+            language_overrides,
         };
     }
 
@@ -577,11 +590,6 @@ pub fn parse_args() -> Mode {
     };
 
     let syntax_highlight = matches.value_of("syntax-highlight") == Some("on");
-
-    let mut language_overrides = vec![];
-    if let Some(overrides) = matches.values_of("override") {
-        language_overrides = parse_overrides_or_die(&overrides.collect::<Vec<_>>());
-    }
 
     let graph_limit = matches
         .value_of("graph-limit")
