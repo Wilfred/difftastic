@@ -2,11 +2,10 @@
 Weird file
 ===================================================
 
-
 d
 
 ---------------
-(program (identifier))
+(ERROR (ERROR (identifier)))
 
 ================================
 big test 
@@ -370,19 +369,19 @@ class _RecompileRequest extends _CompilationRequest {
 more tests 4
 ===============================
 
-  bool debugAssertIsValid() {
-    assert(
-      textColor != null
-        && style != null
-        && margin != null
-        && _position != null
-        && _position.isFinite
-        && _opacity != null
-        && _opacity >= 0.0
-        && _opacity <= 1.0,
-    );
-    return true;
-  }
+bool debugAssertIsValid() {
+  assert(
+    textColor != null
+      && style != null
+      && margin != null
+      && _position != null
+      && _position.isFinite
+      && _opacity != null
+      && _opacity >= 0.0
+      && _opacity <= 1.0,
+  );
+  return true;
+}
 
 ---
  
@@ -418,42 +417,56 @@ more tests 4
 more tests 5
 ===================================
 
-
-  var TextTheme textTheme = TextTheme(error: '');
+main(){
+  var textTheme = TextTheme(error: '');
+}
 
 ---
 
 
-(program (inferred_type) (type_identifier) 
-  (initialized_identifier_list (initialized_identifier (identifier) (identifier) 
-    (selector (argument_part (arguments (named_argument (label (identifier)) (string_literal))))))))
-
+(program  (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (local_variable_declaration
+            (initialized_variable_definition
+              (inferred_type)
+              (identifier)
+              (identifier)
+              (selector
+                (argument_part
+                  (arguments
+                    (named_argument
+                      (label
+                        (identifier))
+                      (string_literal))))))))))
 
 ===================================
 more tests 6
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-      try {
-        built = (widget as ConstrainedLayoutBuilder<ConstraintType>).builder(this, constraints);
-        debugWidgetBuilderValue(widget, built);
-      } catch (e, stack) {
-        built = ErrorWidget.builder(
-          _debugReportException(
-            informationCollector: () => <DiagnosticsNode>[
-              if (kDebugMode)
-                DiagnosticsDebugCreator(DebugCreator(this)),
-            ],
-          ),
-        );
-      }
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
+    try {
+      built = (widget as ConstrainedLayoutBuilder<ConstraintType>).builder(this, constraints);
+      debugWidgetBuilderValue(widget, built);
+    } catch (e, stack) {
+      built = ErrorWidget.builder(
+        _debugReportException(
+          informationCollector: () => <DiagnosticsNode>[
+            if (kDebugMode)
+              DiagnosticsDebugCreator(DebugCreator(this)),
+          ],
+        ),
+      );
     }
-
-    owner!.buildScope(this, layoutCallback);
   }
+
+  owner!.buildScope(this, layoutCallback);
+}
 
 ---
 
@@ -501,12 +514,12 @@ more tests 6
 more tests 7
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-    }
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
   }
+}
 
 ---
 
@@ -524,13 +537,13 @@ more tests 7
 more tests 8
 ===================================
 
-  void _layout(ConstraintType constraints) {
-    @pragma('vm:notify-debugger-on-exception')
-    void layoutCallback() {
-      Widget built;
-    }
-    owner!.buildScope(this, layoutCallback);
+void _layout(ConstraintType constraints) {
+  @pragma('vm:notify-debugger-on-exception')
+  void layoutCallback() {
+    Widget built;
   }
+  owner!.buildScope(this, layoutCallback);
+}
 
 ---
 
@@ -551,57 +564,84 @@ more tests 8
 cascade selector
 ====================================
 
-
-        layer
-        ?..link = link
-        ..showWhenUnlinked = showWhenUnlinked
-        ..linkedOffset = effectiveLinkedOffset
-        ..unlinkedOffset = offset;
-
+main() {
+  layer
+  ?..link = link
+  ..showWhenUnlinked = showWhenUnlinked
+  ..linkedOffset = effectiveLinkedOffset
+  ..unlinkedOffset = offset;
+}
 
 ---
-(program 
-  (expression_statement 
-    (identifier) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier))
-  )
-)
+ (program
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))))))
 
 ====================================
 cascade selector 2
 ====================================
 
-
-        layer
-        ..link = link
-        ..showWhenUnlinked = showWhenUnlinked
-        ..linkedOffset = effectiveLinkedOffset
-        ..unlinkedOffset = offset;
+main() {
+  layer
+  ..link = link
+  ..showWhenUnlinked = showWhenUnlinked
+  ..linkedOffset = effectiveLinkedOffset
+  ..unlinkedOffset = offset;
+}
 
 
 ---
-(program 
-  (expression_statement 
-    (identifier) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier)) 
-    (cascade_section (cascade_selector (identifier)) (identifier))
-  )
-)
 
+(program
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (identifier))))))
 
 ====================================
 comment selector 1
 ====================================
 
-    //    O
-    //   / \       O=root
-    //  L   L      L=node with label
-    //     / \     C=node with checked
     //    C   C*   *=node removed next pass
     //
     await tester.pumpWidget(Directionality(
@@ -611,26 +651,28 @@ comment selector 1
 
 ---
 
-(program 
-
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  (comment) 
-  
-  (expression_statement 
-      (unary_expression 
-        (await_expression (identifier) 
-            (selector (unconditional_assignable_selector (identifier))) 
-            (selector (argument_part (arguments (argument (identifier) 
-            (selector (argument_part 
-              (arguments 
-                (named_argument (label (identifier)) (identifier) 
-                  (selector (unconditional_assignable_selector (identifier)))) 
-                (named_argument (label (identifier)) (identifier) (selector (argument_part (arguments))))
-              )))))))))))
+(program
+      (comment)
+      (comment)
+      (function_signature
+        (type_identifier)
+        (ERROR
+          (identifier))
+        (identifier)
+        (formal_parameter_list
+          (formal_parameter
+            (identifier)
+            (formal_parameter_list
+              (ERROR
+                (formal_parameter
+                  (identifier)))
+              (formal_parameter
+                (type_identifier)
+                (type_identifier)
+                (ERROR
+                  (identifier))
+                (identifier)
+                (formal_parameter_list)))))))
 
 ====================================
 comment overselected 2

@@ -1,0 +1,94 @@
+===============
+Record Literals
+===============
+
+final y = (1, 2, await x);
+final z = (a: 1, b: 4);
+final a = (1,);
+final b = (a: 1);
+final c = (a: 1, b: 2,);
+final d = (a, b, x: 4, c, d);
+final e = (1, 2,);
+
+---
+
+(program
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (unary_expression
+                (await_expression
+                  (identifier)))))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (decimal_integer_literal))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (label
+              (identifier))
+            (decimal_integer_literal))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (identifier))
+            (record_field
+              (identifier))
+            (record_field
+              (label
+                (identifier))
+              (decimal_integer_literal))
+            (record_field
+              (identifier))
+            (record_field
+              (identifier)))))
+      (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (record_literal
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))))))

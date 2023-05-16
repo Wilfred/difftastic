@@ -138,18 +138,40 @@ var a;
 return statement
 ==================================
 
-return x;
-return x * y;
-return x + 2;
-return fire(x);
+main() {
+  return x;
+  return x * y;
+  return x + 2;
+  return fire(x);
+}
 
 ---
 
 (program
-  (return_statement (identifier))
-  (return_statement (multiplicative_expression (identifier) (multiplicative_operator) (identifier)))
-  (return_statement (additive_expression (identifier) (additive_operator) (decimal_integer_literal)))
-  (return_statement (identifier) (selector (argument_part (arguments (argument (identifier)))))))
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (return_statement
+            (identifier))
+          (return_statement
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (identifier)))
+          (return_statement
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (decimal_integer_literal)))
+          (return_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (argument
+                    (identifier)))))))))
 
 ==================================
 annotation

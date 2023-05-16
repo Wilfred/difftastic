@@ -222,52 +222,59 @@ class AWidget extends StatelessWidget {
 Type tearoffs
 ============
 
-expect(
-        tester.widget<RadioMenuButton<int>>(find.byType(RadioMenuButton<int>).first).groupValue,
-        null,
-      );
+main() {
+  expect(
+          tester.widget<RadioMenuButton<int>>(find.byType(RadioMenuButton<int>).first).groupValue,
+          null,
+        );
+}
 
 ---
 
 (program
-      (expression_statement
+      (function_signature
         (identifier)
-        (selector
-          (argument_part
-            (arguments
-              (argument
-                (identifier)
-                (selector
-                  (unconditional_assignable_selector
-                    (identifier)))
-                (selector
-                  (argument_part
-                    (type_arguments
-                      (type_identifier)
-                      (type_arguments
-                        (type_identifier)))
-                    (arguments
-                      (argument
-                        (identifier)
-                        (selector
-                          (unconditional_assignable_selector
-                            (identifier)))
-                        (selector
-                          (argument_part
-                            (arguments
-                              (argument
-                                (identifier)
-                                (selector
-                                  (type_arguments
-                                    (type_identifier)))))))
-                        (selector
-                          (unconditional_assignable_selector
-                            (identifier)))))))
-                (selector
-                  (unconditional_assignable_selector
-                    (identifier))))
-              (argument
-                (null_literal)))))))
+        (formal_parameter_list))
+      (function_body
+        (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (argument
+                    (identifier)
+                    (selector
+                      (unconditional_assignable_selector
+                        (identifier)))
+                    (selector
+                      (argument_part
+                        (type_arguments
+                          (type_identifier)
+                          (type_arguments
+                            (type_identifier)))
+                        (arguments
+                          (argument
+                            (identifier)
+                            (selector
+                              (unconditional_assignable_selector
+                                (identifier)))
+                            (selector
+                              (argument_part
+                                (arguments
+                                  (argument
+                                    (identifier)
+                                    (selector
+                                      (type_arguments
+                                        (type_identifier)))))))
+                            (selector
+                              (unconditional_assignable_selector
+                                (identifier)))))))
+                    (selector
+                      (unconditional_assignable_selector
+                        (identifier))))
+                  (argument
+                    (null_literal)))))))))
 
 ================
 Super Parameters

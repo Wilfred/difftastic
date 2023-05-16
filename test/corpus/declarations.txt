@@ -490,6 +490,7 @@ void callback(Future<void> Function(String?) handler) {
                             (parameter_type_list (normal_parameter_type (type_identifier)))) (identifier))))
       (function_body (block)))
 
+
 ==================================
 Type with Library Prefix
 ==================================
@@ -498,61 +499,59 @@ const my.MyType newMyType = my.MyType();
 
 ---
 
- (program
-    (const_builtin)
-    (type_identifier) (type_identifier)
-            (static_final_declaration_list
-                (static_final_declaration
-                        (identifier)
-                        (identifier) (selector
-                                        (unconditional_assignable_selector (identifier))
-                                     )
-                        (selector (argument_part (arguments)))
-                )
-            )
- )
-
-==================================
-Type with Library Prefix Plus
-==================================
-
-const my.MyType newMyType;
-const my.MyType newMytype;
-
----
-
 (program
-    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
-    (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier)))
-)
+      (const_builtin)
+      (type_identifier)
+      (type_identifier)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (identifier)
+          (selector
+            (unconditional_assignable_selector
+              (identifier)))
+          (selector
+            (argument_part
+              (arguments))))))
 
 ==================================
 Type with Library Prefix Plus Final
 ==================================
 
 final my.MyType newMyType = my.MyType();
-final my.MyType newMytype;
 
-if (blah) {
-    const my.myType newMyType = ggg;
-    const mytype = 2;
+main() {
+  final my.myType newMyType = ggg;
 }
 
 ---
 
 (program
-     (final_builtin) (type_identifier) (type_identifier)
-     (static_final_declaration_list (static_final_declaration (identifier) (identifier) (selector
-        (unconditional_assignable_selector (identifier))) (selector (argument_part (arguments)))))
-    (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
-    (if_statement (parenthesized_expression (identifier))
+      (final_builtin)
+      (type_identifier)
+      (type_identifier)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (identifier)
+          (selector
+            (unconditional_assignable_selector
+              (identifier)))
+          (selector
+            (argument_part
+              (arguments)))))
+      (function_signature
+        (identifier)
+        (formal_parameter_list))
+      (function_body
         (block
-            (local_variable_declaration (initialized_variable_definition (const_builtin) (type_identifier) (type_identifier) (identifier) (identifier)))
-            (local_variable_declaration (initialized_variable_definition (const_builtin) (identifier) (decimal_integer_literal)))
-        )
-    )
-)
-
+          (local_variable_declaration
+            (initialized_variable_definition
+              (final_builtin)
+              (type_identifier)
+              (type_identifier)
+              (identifier)
+              (identifier))))))
 
 ==================================
 Null function argument

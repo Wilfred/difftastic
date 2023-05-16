@@ -16,13 +16,17 @@ comment
 comments and literals
 ======================
 
-123;
+final x = 123;
 // comment
 
 ---
 
 (program
-  (expression_statement (decimal_integer_literal))
+ (final_builtin)
+      (static_final_declaration_list
+        (static_final_declaration
+          (identifier)
+          (decimal_integer_literal)))
   (comment))
 
 ======================
