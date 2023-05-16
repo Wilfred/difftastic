@@ -581,4 +581,20 @@ mod tests {
         let path = Path::new("jfkdlsjfkdsljfkdsljf");
         assert_eq!(guess(path, "", &[]), None);
     }
+
+    #[test]
+    fn test_guess_override() {
+        let path = Path::new("foo.el");
+        assert_eq!(
+            guess(
+                path,
+                "",
+                &[(
+                    glob::Pattern::new("*.el").unwrap(),
+                    LanguageOverride::Language(Css)
+                )]
+            ),
+            Some(Css)
+        );
+    }
 }
