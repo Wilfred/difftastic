@@ -525,32 +525,32 @@ mod tests {
     #[test]
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
-        assert_eq!(guess(path, ""), Some(EmacsLisp));
+        assert_eq!(guess(path, "", &[]), Some(EmacsLisp));
     }
 
     #[test]
     fn test_guess_by_whole_name() {
         let path = Path::new("foo/.bashrc");
-        assert_eq!(guess(path, ""), Some(Bash));
+        assert_eq!(guess(path, "", &[]), Some(Bash));
     }
 
     #[test]
     fn test_guess_by_shebang() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "#!/bin/bash"), Some(Bash));
+        assert_eq!(guess(path, "#!/bin/bash", &[]), Some(Bash));
     }
 
     #[test]
     fn test_guess_by_env_shebang() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "#!/usr/bin/env python"), Some(Python));
+        assert_eq!(guess(path, "#!/usr/bin/env python", &[]), Some(Python));
     }
 
     #[test]
     fn test_guess_by_emacs_mode() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-"),
+            guess(path, "; -*- mode: Lisp; eval: (auto-fill-mode 1); -*-", &[]),
             Some(CommonLisp)
         );
     }
@@ -559,7 +559,7 @@ mod tests {
     fn test_guess_by_emacs_mode_second_line() {
         let path = Path::new("foo");
         assert_eq!(
-            guess(path, "#!/bin/bash\n; -*- mode: Lisp; -*-"),
+            guess(path, "#!/bin/bash\n; -*- mode: Lisp; -*-", &[]),
             Some(CommonLisp)
         );
     }
@@ -567,18 +567,18 @@ mod tests {
     #[test]
     fn test_guess_by_emacs_mode_shorthand() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "(* -*- tuareg -*- *)"), Some(OCaml));
+        assert_eq!(guess(path, "(* -*- tuareg -*- *)", &[]), Some(OCaml));
     }
 
     #[test]
     fn test_guess_by_emacs_mode_shorthand_no_spaces() {
         let path = Path::new("foo");
-        assert_eq!(guess(path, "# -*-python-*-"), Some(Python));
+        assert_eq!(guess(path, "# -*-python-*-", &[]), Some(Python));
     }
 
     #[test]
     fn test_guess_unknown() {
         let path = Path::new("jfkdlsjfkdsljfkdsljf");
-        assert_eq!(guess(path, ""), None);
+        assert_eq!(guess(path, "", &[]), None);
     }
 }
