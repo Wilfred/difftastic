@@ -212,21 +212,23 @@ inline: A single column display, closer to traditional diff display.")
         .arg(
             Arg::new("override").long("override")
                 .value_name("GLOB:NAME")
-                .help("Associate this glob pattern with this language, overriding normal language detection.
+                .help(concat!("Associate this glob pattern with this language, overriding normal language detection. For example:
 
---override='*.c:C++'
-
-This argument may be given more than once.
+$ ", env!("CARGO_BIN_NAME"), " --override='*.c:C++' old.c new.c
 
 Language names are matched case insensitively. Overrides may also specify the language \"text\" to treat a file as plain text.
 
---override='CustomFile:json' --override='*.c:text'
+This argument may be given more than once. For example:
+
+$ ", env!("CARGO_BIN_NAME"), " --override='CustomFile:json' --override='*.c:text' old.c new.c
 
 To configure multiple overrides using environment variables, difftastic also accepts DFT_OVERRIDE_1 up to DFT_OVERRIDE_9.
 
-DFT_OVERRIDE='CustomFile:json' DFT_OVERRIDE_1='*.c:text' DFT_OVERRIDE_2='*.js:javascript jsx'
+$ export DFT_OVERRIDE='CustomFile:json'
+$ export DFT_OVERRIDE_1='*.c:text'
+$ export DFT_OVERRIDE_2='*.js:javascript jsx'
 
-When multiple overrides are specified, the first matching override wins.")
+When multiple overrides are specified, the first matching override wins."))
                 .env("DFT_OVERRIDE")
                 .multiple_occurrences(true)
         )

@@ -5,7 +5,13 @@
 Fixed an issue where file extensions of the form `*.foo.bar`
 (e.g. `*.cmake.in`) were ignored.
 
-Removed the `--language` option.
+Added an option `--override` which overrides language detection based,
+on a glob, e.g. `--override='*.js:javascript jsx'. See `--help` for
+full documentation and more examples.
+
+Removed the `--language` option. This option was confusing (it took a
+file extension rather than a language name) and not very useful
+(it overrode language detection for all files together).
 
 ### Parsing
 
