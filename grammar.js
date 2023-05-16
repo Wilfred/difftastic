@@ -452,7 +452,7 @@ module.exports = grammar({
 
     storage_class_specifier: $ => choice(
       'extern',
-      'static' ,
+      'static',
       'auto',
       'register',
       'inline'
@@ -577,7 +577,7 @@ module.exports = grammar({
     ),
 
     variadic_parameter: $ => seq(
-        '...',
+      '...',
     ),
 
     parameter_list: $ => seq(
@@ -747,7 +747,7 @@ module.exports = grammar({
     conditional_expression: $ => prec.right(PREC.CONDITIONAL, seq(
       field('condition', $._expression),
       '?',
-      field('consequence', $._expression),
+      optional(field('consequence', $._expression)),
       ':',
       field('alternative', $._expression)
     )),
