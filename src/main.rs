@@ -757,7 +757,7 @@ mod tests {
             s.as_bytes(),
             &DisplayOptions::default(),
             &DiffOptions::default(),
-            &[]
+            &[],
         );
 
         assert_eq!(res.lhs_positions, vec![]);
