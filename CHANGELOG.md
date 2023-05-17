@@ -1,4 +1,6 @@
-## 0.47 (unreleased)
+## 0.48 (unreleased)
+
+## 0.47 (released 16th May 2023)
 
 ### Language Detection
 
