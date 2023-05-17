@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+	owner=$1
+	name=$2
+	sha=$3
+
+	path=examples/$name
+	if [ ! -d "$path" ]; then
+		echo "Cloning $owner/$name"
+		git clone "https://github.com/$owner/$name" "$path"
+	fi
+
+	pushd "$path" >/dev/null
+	actual_sha=$(git rev-parse HEAD)
+	if [ "$actual_sha" != "$sha" ]; then
+		echo "Updating $owner/$name to $sha"
+		git fetch
+		git reset --hard "$sha"
+	fi
+	popd >/dev/null
+}
+
+clone_repo apple-oss-distributions objc4 689525d556eb3dee1ffb700423bccf5ecc501dbf
+clone_repo llvm-mirror clang aa231e4be75ac4759c236b755c57876f76e3cf05
+
+known_failures="$(cat script/known_failures.txt)"
+
+# shellcheck disable=2046
+tree-sitter parse -q \
+	"examples/**/*.m" \
+	$(for file in $known_failures; do echo "!${file}"; done)
+
+example_count=$(find examples -name "*.m" | wc -l)
+failure_count=$(wc -w <<<"$known_failures")
+success_count=$((example_count - failure_count))
+success_percent=$(bc -l <<<"100*${success_count}/${example_count}")
+
+printf \
+	"Successfully parsed %d of %d example files (%.1f%%)\n" \
+	"$success_count" "$example_count" "$success_percent"

@@ -1,0 +1,49 @@
+{
+  "name": "tree-sitter-objc",
+  "version": "0.0.1",
+  "description": "Objective-C grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer",
+    "objective-c",
+    "objc"
+  ],
+  "author": "Amaan Qureshi <amaanq12@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amaanq/tree-sitter-objc/issues"
+  },
+  "homepage": "https://github.com/amaanq/tree-sitter-objc#readme",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-c": "github:tree-sitter/tree-sitter-c",
+    "tree-sitter-cli": "0.20.7"
+  },
+  "repository": "https://github.com/amaanq/tree-sitter-objc",
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "lint": "eslint grammar.js",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.objc",
+      "injection-regex": "^(objc|objectivec)$",
+      "file-types": [
+        "h",
+        "m",
+        "objc"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ]
+    }
+  ]
+}
