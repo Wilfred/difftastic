@@ -2546,6 +2546,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "map_comprehension"
+        },
+        {
+          "type": "SYMBOL",
           "name": "tuple"
         },
         {
@@ -3080,6 +3084,39 @@
         }
       ]
     },
+    "map_comprehension": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "expr",
+          "content": {
+            "type": "SYMBOL",
+            "name": "map_field"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "lc_exprs",
+          "content": {
+            "type": "SYMBOL",
+            "name": "lc_exprs"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "lc_exprs": {
       "type": "SEQ",
       "members": [
@@ -3136,6 +3173,10 @@
         {
           "type": "SYMBOL",
           "name": "b_generator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "map_generator"
         }
       ]
     },
@@ -3178,6 +3219,31 @@
         {
           "type": "STRING",
           "value": "<="
+        },
+        {
+          "type": "FIELD",
+          "name": "rhs",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expr"
+          }
+        }
+      ]
+    },
+    "map_generator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "lhs",
+          "content": {
+            "type": "SYMBOL",
+            "name": "map_field"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "<-"
         },
         {
           "type": "FIELD",

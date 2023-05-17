@@ -437,6 +437,7 @@ module.exports = grammar({
             $.binary,
             $.list_comprehension,
             $.binary_comprehension,
+            $.map_comprehension,
             $.tuple,
             $.paren_expr,
             $.block_expr,
@@ -515,6 +516,13 @@ module.exports = grammar({
             field("lc_exprs", $.lc_exprs),
             '>>'
         ),
+        map_comprehension: $ => seq(
+            '#',
+            '{',
+            field("expr", $.map_field),
+            field("lc_exprs", $.lc_exprs),
+            '}',
+        ),
 
         lc_exprs: $ => seq('||', sepBy1(',', field("exprs", $._lc_expr))),
 
@@ -522,6 +530,7 @@ module.exports = grammar({
             $._expr,
             $.generator,
             $.b_generator,
+            $.map_generator,
         ),
 
         generator: $ => seq(
@@ -532,6 +541,11 @@ module.exports = grammar({
         b_generator: $ => seq(
             field("lhs", $._expr),
             '<=',
+            field("rhs", $._expr),
+        ),
+        map_generator: $ => seq(
+            field("lhs", $.map_field),
+            '<-',
             field("rhs", $._expr),
         ),
 

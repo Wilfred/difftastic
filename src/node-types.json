@@ -270,6 +270,10 @@
         "named": true
       },
       {
+        "type": "map_comprehension",
+        "named": true
+      },
+      {
         "type": "maybe_expr",
         "named": true
       },
@@ -411,6 +415,10 @@
       },
       {
         "type": "generator",
+        "named": true
+      },
+      {
+        "type": "map_generator",
         "named": true
       }
     ]
@@ -1784,6 +1792,32 @@
     }
   },
   {
+    "type": "map_comprehension",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "map_field",
+            "named": true
+          }
+        ]
+      },
+      "lc_exprs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "lc_exprs",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "map_expr",
     "named": true,
     "fields": {
@@ -1840,6 +1874,32 @@
         ]
       },
       "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "map_generator",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "map_field",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
         "multiple": false,
         "required": true,
         "types": [

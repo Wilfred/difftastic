@@ -465,17 +465,17 @@ f() ->
 
 --------------------------------------------------------------------------------
 
-    (source_file
-      (fun_decl
-        (function_clause
-          (atom)
-          (expr_args)
-          (clause_body
-            (match_expr
-              (var)
-              (binary_op_expr
-                (integer)
-                (var)))))))
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (match_expr
+          (var)
+          (binary_op_expr
+            (integer)
+            (var)))))))
 
 ================================================================================
 fun
@@ -485,18 +485,18 @@ fun
 
 --------------------------------------------------------------------------------
 
-    (source_file
-      (fun_decl
-        (function_clause
-          (atom)
-          (expr_args)
-          (clause_body
-            (anonymous_fun
-              (fun_clause
-                (expr_args
-                  (var))
-                (clause_body
-                  (var))))))))
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (anonymous_fun
+          (fun_clause
+            (expr_args
+              (var))
+            (clause_body
+              (var))))))))
 
 ================================================================================
 named fun
@@ -506,19 +506,19 @@ named fun
 
 --------------------------------------------------------------------------------
 
-    (source_file
-      (fun_decl
-        (function_clause
-          (atom)
-          (expr_args)
-          (clause_body
-            (anonymous_fun
-              (fun_clause
-                (var)
-                (expr_args
-                  (var))
-                (clause_body
-                  (var))))))))
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (anonymous_fun
+          (fun_clause
+            (var)
+            (expr_args
+              (var))
+            (clause_body
+              (var))))))))
 
 ================================================================================
 maybe
@@ -533,35 +533,35 @@ f() ->
 
 --------------------------------------------------------------------------------
 
-    (source_file
-      (fun_decl
-        (function_clause
-          (atom)
-          (expr_args)
-          (clause_body
-            (maybe_expr
-              (cond_match_expr
-                (tuple
-                  (atom)
-                  (var))
-                (call
-                  (atom)
-                  (expr_args)))
-              (match_expr
-                (atom)
-                (binary_op_expr
-                  (var)
-                  (integer)))
-              (cond_match_expr
-                (tuple
-                  (atom)
-                  (var))
-                (call
-                  (atom)
-                  (expr_args)))
-              (binary_op_expr
-                (var)
-                (var)))))))
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (maybe_expr
+          (cond_match_expr
+            (tuple
+              (atom)
+              (var))
+            (call
+              (atom)
+              (expr_args)))
+          (match_expr
+            (atom)
+            (binary_op_expr
+              (var)
+              (integer)))
+          (cond_match_expr
+            (tuple
+              (atom)
+              (var))
+            (call
+              (atom)
+              (expr_args)))
+          (binary_op_expr
+            (var)
+            (var)))))))
 
 ================================================================================
 maybe else
@@ -578,36 +578,199 @@ f() ->
 
 --------------------------------------------------------------------------------
 
-    (source_file
-      (fun_decl
-        (function_clause
-          (atom)
-          (expr_args)
-          (clause_body
-            (maybe_expr
-              (cond_match_expr
-                (tuple
-                  (atom)
-                  (var))
-                (call
-                  (atom)
-                  (expr_args)))
-              (match_expr
-                (atom)
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (maybe_expr
+          (cond_match_expr
+            (tuple
+              (atom)
+              (var))
+            (call
+              (atom)
+              (expr_args)))
+          (match_expr
+            (atom)
+            (binary_op_expr
+              (var)
+              (integer)))
+          (var)
+          (cr_clause
+            (var)
+            (guard
+              (guard_clause
                 (binary_op_expr
                   (var)
-                  (integer)))
-              (var)
-              (cr_clause
+                  (atom))))
+            (clause_body
+              (atom)))
+          (cr_clause
+            (atom)
+            (clause_body
+              (atom))))))))
+
+================================================================================
+simple map comprehension
+================================================================================
+f() ->
+  #{K => V || K := V <- #{1 => 2, 3 => 4}}.
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (map_comprehension
+          (map_field
+            (var)
+            (var))
+          (lc_exprs
+            (map_generator
+              (map_field
                 (var)
-                (guard
-                  (guard_clause
-                    (binary_op_expr
-                      (var)
-                      (atom))))
-                (clause_body
-                  (atom)))
-              (cr_clause
-                (atom)
-                (clause_body
-                  (atom))))))))
+                (var))
+              (map_expr
+                (map_field
+                  (integer)
+                  (integer))
+                (map_field
+                  (integer)
+                  (integer))))))))))
+
+================================================================================
+simple map comprehension with filter
+================================================================================
+f() ->
+  #{K => V || K := V <- #{1 => 2, 3 => 4}, K>1}.
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (map_comprehension
+          (map_field
+            (var)
+            (var))
+          (lc_exprs
+            (map_generator
+              (map_field
+                (var)
+                (var))
+              (map_expr
+                (map_field
+                  (integer)
+                  (integer))
+                (map_field
+                  (integer)
+                  (integer))))
+            (binary_op_expr
+              (var)
+              (integer))))))))
+
+================================================================================
+map comprehension with list generator
+================================================================================
+f() ->
+  #{K => K + 1 || K <- [1, 2, 3], K>1}.
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (map_comprehension
+          (map_field
+            (var)
+            (binary_op_expr
+              (var)
+              (integer)))
+          (lc_exprs
+            (generator
+              (var)
+              (list
+                (integer)
+                (integer)
+                (integer)))
+            (binary_op_expr
+              (var)
+              (integer))))))))
+
+================================================================================
+map comprehension with binary generator
+================================================================================
+f() ->
+  #{K => V || <<K, V>> <= <<1, 2, 3, 4>>, K>1}.
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (map_comprehension
+          (map_field
+            (var)
+            (var))
+          (lc_exprs
+            (b_generator
+              (binary
+                (bin_element
+                  (var))
+                (bin_element
+                  (var)))
+              (binary
+                (bin_element
+                  (integer))
+                (bin_element
+                  (integer))
+                (bin_element
+                  (integer))
+                (bin_element
+                  (integer))))
+            (binary_op_expr
+              (var)
+              (integer))))))))
+
+================================================================================
+list comprehension with map generator
+================================================================================
+f() ->
+  [{K, V} || K := V <- #{1 => 2, 3 => 4}, K>1].
+--------------------------------------------------------------------------------
+
+(source_file
+  (fun_decl
+    (function_clause
+      (atom)
+      (expr_args)
+      (clause_body
+        (list_comprehension
+          (tuple
+            (var)
+            (var))
+          (lc_exprs
+            (map_generator
+              (map_field
+                (var)
+                (var))
+              (map_expr
+                (map_field
+                  (integer)
+                  (integer))
+                (map_field
+                  (integer)
+                  (integer))))
+            (binary_op_expr
+              (var)
+              (integer))))))))
