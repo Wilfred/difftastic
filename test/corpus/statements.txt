@@ -265,6 +265,23 @@ int b;
   (declaration (primitive_type) (identifier)))
 
 ============================================
+Comment with multiple backslashes
+============================================
+
+int a = 3; // Hello \\
+World
+
+---
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (number_literal)))
+  (comment))
+
+============================================
 Attributes
 ============================================
 
