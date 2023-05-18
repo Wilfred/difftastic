@@ -8,7 +8,7 @@ Fixed an issue where file extensions of the form `*.foo.bar`
 (e.g. `*.cmake.in`) were ignored.
 
 Added an option `--override` which overrides language detection based,
-on a glob, e.g. `--override='*.js:javascript jsx'. See `--help` for
+on a glob, e.g. `--override='*.js:javascript jsx'`. See `--help` for
 full documentation and more examples.
 
 Removed the `--language` option. This option was confusing (it took a
