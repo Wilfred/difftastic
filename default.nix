@@ -10,15 +10,8 @@ pkgs.mkShell {
   name = "env";
   buildInputs = with pkgs; [
     nodejs
-    gcc
-    clang
-    libiconv
-    python3
+    tree-sitter
   ];
-  shellHook = ''
-    PATH=./node_modules/.bin:$PATH
-    command -v tree-sitter >/dev/null 2>&1 || npm install 
-  '';
 }
 
 
