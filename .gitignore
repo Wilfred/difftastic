@@ -13,3 +13,4 @@ package-lock.json
 .dart_tool
 .packages
 pubspec.lock
+.antlr

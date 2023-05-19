@@ -3777,7 +3777,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nullable_type"
+                  "name": "nullable_selector"
                 },
                 {
                   "type": "BLANK"
@@ -3821,25 +3821,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_nullable_type"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "index_selector"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "index_selector"
         },
         {
           "type": "SEQ",
@@ -3857,15 +3840,33 @@
       ]
     },
     "conditional_assignable_selector": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "?."
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "?."
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "?"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "index_selector"
+            }
+          ]
         }
       ]
     },
@@ -6372,20 +6373,29 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
-          },
-          "named": true,
-          "value": "type_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              "named": true,
+              "value": "type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "nullable_type"
+            }
+          ]
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_nullable_type"
+              "name": "nullable_type"
             },
             {
               "type": "BLANK"
@@ -8548,7 +8558,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nullable_type"
+                  "name": "nullable_type"
                 },
                 {
                   "type": "BLANK"
@@ -8603,7 +8613,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nullable_type"
+                  "name": "nullable_type"
                 },
                 {
                   "type": "BLANK"
@@ -8624,7 +8634,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nullable_type"
+                  "name": "nullable_type"
                 },
                 {
                   "type": "BLANK"
@@ -8688,7 +8698,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_nullable_type"
+              "name": "nullable_type"
             },
             {
               "type": "BLANK"
@@ -8712,7 +8722,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_nullable_type"
+              "name": "nullable_type"
             },
             {
               "type": "BLANK"
@@ -9017,7 +9027,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_nullable_type"
+                  "name": "nullable_type"
                 },
                 {
                   "type": "BLANK"
@@ -9118,7 +9128,15 @@
         }
       ]
     },
-    "_nullable_type": {
+    "nullable_type": {
+      "type": "PREC",
+      "value": 0,
+      "content": {
+        "type": "STRING",
+        "value": "?"
+      }
+    },
+    "nullable_selector": {
       "type": "PREC",
       "value": 0,
       "content": {
@@ -9873,7 +9891,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_nullable_type"
+              "name": "nullable_type"
             },
             {
               "type": "BLANK"

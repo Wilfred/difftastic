@@ -1737,7 +1737,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -1746,6 +1746,10 @@
         },
         {
           "type": "index_selector",
+          "named": true
+        },
+        {
+          "type": "nullable_selector",
           "named": true
         }
       ]
@@ -1936,6 +1940,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "index_selector",
           "named": true
         }
       ]
@@ -2383,6 +2391,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -2473,6 +2485,10 @@
         },
         {
           "type": "inferred_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -2616,6 +2632,10 @@
         },
         {
           "type": "initializers",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -3239,15 +3259,15 @@
             "named": false
           },
           {
-            "type": "?",
-            "named": false
-          },
-          {
             "type": "Function",
             "named": false
           },
           {
             "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "nullable_type",
             "named": true
           },
           {
@@ -4181,6 +4201,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -4274,6 +4298,10 @@
         },
         {
           "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -4646,6 +4674,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -4676,6 +4708,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "nullable_type",
+          "named": true
+        },
         {
           "type": "parameter_type_list",
           "named": true
@@ -4720,6 +4756,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -5833,6 +5873,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -5908,6 +5952,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -6556,6 +6604,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6630,6 +6682,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6654,6 +6710,10 @@
       "types": [
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -6923,6 +6983,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6954,6 +7018,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6978,6 +7046,16 @@
     "fields": {}
   },
   {
+    "type": "nullable_selector",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "nullable_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "operator_signature",
     "named": true,
     "fields": {},
@@ -6995,6 +7073,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -7781,6 +7863,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "part_directive",
           "named": true
         },
@@ -8138,6 +8224,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -8683,6 +8773,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -9167,6 +9261,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "super",
           "named": true
         },
@@ -9203,6 +9301,10 @@
         },
         {
           "type": "mixins",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -9859,6 +9961,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -9894,6 +10000,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -9925,6 +10035,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -9952,6 +10066,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -9976,6 +10094,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -10129,6 +10251,10 @@
           "named": true
         },
         {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
           "type": "type_bound",
           "named": true
         },
@@ -10168,6 +10294,10 @@
         },
         {
           "type": "is_operator",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -10318,6 +10448,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {

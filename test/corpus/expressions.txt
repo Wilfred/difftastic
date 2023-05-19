@@ -909,6 +909,6 @@ main() {
           (expression_statement
             (identifier)
             (selector
-              (unconditional_assignable_selector
+              (conditional_assignable_selector
                 (index_selector
                   (string_literal))))))))

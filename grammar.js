@@ -1125,7 +1125,7 @@ module.exports = grammar({
         index_selector: $ => seq('[', $._expression, ']'),
         cascade_selector: $ => choice(
             seq(
-                optional($._nullable_type),
+                optional($.nullable_selector),
                 $.index_selector,
             ),
             $.identifier
@@ -1142,14 +1142,14 @@ module.exports = grammar({
         ),
 
         unconditional_assignable_selector: $ => choice(
-            seq(
-                optional($._nullable_type),
-                $.index_selector,
-            ),
+            $.index_selector,
             seq('.', $.identifier)
         ),
 
-        conditional_assignable_selector: $ => seq('?.', $.identifier),
+        conditional_assignable_selector: $ => choice(
+            seq('?.', $.identifier),
+            seq('?', $.index_selector)
+        ),
 
         _assignable_selector: $ => choice(
             $.unconditional_assignable_selector,
@@ -1160,13 +1160,13 @@ module.exports = grammar({
             // seq(
             //     '<',
             //     '>',
-            //     optional($._nullable_type)
+            //     optional($.nullable_type)
             // ),
             seq(
                 '<',
                 commaSep($._type),
                 '>',
-                // optional($._nullable_type)
+                // optional($.nullable_type)
             )
         ),
 
@@ -1615,16 +1615,18 @@ module.exports = grammar({
 
         type_parameter: $ => seq(
             optional($._metadata),
-            alias(
+            choice(alias(
                 $.identifier,
                 $.type_identifier),
+             $.nullable_type
+            ),
             // This is a comment
             // comment with a link made in https://github.com/flutter/flutter/pull/48547
             // Changes made in https://github.com/flutter/flutter/pull/48547
             /* This is also a comment */
             /* this comment /* // /** ends here: */
 
-            optional($._nullable_type),
+            optional($.nullable_type),
             optional($.type_bound)
         ),
 
@@ -2081,7 +2083,7 @@ module.exports = grammar({
         _type: $ => choice(
             seq(
                 $.function_type,
-                optional($._nullable_type)
+                optional($.nullable_type)
             ),
             $._type_not_function
             // $._function_type_tails,
@@ -2101,12 +2103,12 @@ module.exports = grammar({
             seq(
                 $._type_name,
                 optional($.type_arguments),
-                optional($._nullable_type)
+                optional($.nullable_type)
             ),
             // rewritten in accordance with the draft spec page 198
             seq(
                 $._function_builtin_identifier,
-                optional($._nullable_type)
+                optional($.nullable_type)
             )
         ),
 
@@ -2122,9 +2124,9 @@ module.exports = grammar({
         _function_type_tail: $ => seq(
             $._function_builtin_identifier,
             optional($.type_parameters),
-            optional($._nullable_type),
+            optional($.nullable_type),
             optional($.parameter_type_list),
-            optional($._nullable_type),
+            optional($.nullable_type),
         ),
 
         parameter_type_list: $ => seq(
@@ -2174,7 +2176,7 @@ module.exports = grammar({
         _type_not_void: $ => choice(
             seq(
                 $.function_type,
-                optional($._nullable_type)
+                optional($.nullable_type)
             ),
             // $.function_type,
             $._type_not_void_not_function
@@ -2195,7 +2197,7 @@ module.exports = grammar({
             optional(
                 $._type_dot_identifier
             ),
-            // optional($._nullable_type),
+            // optional($.nullable_type),
         ),
 
         // _type_name: $ => prec.right( // changed from above?
@@ -2207,7 +2209,7 @@ module.exports = grammar({
         //         optional(
         //             $._type_dot_identifier
         //         ),
-        //         optional($._nullable_type),
+        //         optional($.nullable_type),
         //     )
         // ),
 
@@ -2227,7 +2229,8 @@ module.exports = grammar({
             $.identifier
         ),
 
-        _nullable_type: $ => prec(DART_PREC.BUILTIN, '?'),
+        nullable_type: $ => prec(DART_PREC.BUILTIN, '?'),
+        nullable_selector: $ => prec(DART_PREC.BUILTIN, '?'),
 
         floating_point_type: $ => token(
             'double'
@@ -2433,7 +2436,7 @@ module.exports = grammar({
             ),
             $.identifier,
             $._formal_parameter_part,
-            optional($._nullable_type)
+            optional($.nullable_type)
         ),
 
         _simple_formal_parameter: $ => choice(
