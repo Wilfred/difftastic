@@ -183,3 +183,10 @@ examples/objc4/test/taggedNSPointers.m
 examples/objc4/test/taggedPointers.m
 examples/objc4/test/unwind.m
 examples/objc4/test/weakcopy.m 
+examples/HandBrake/macosx/HBCore.m
+examples/HandBrake/macosx/HBFilters.m
+examples/HandBrake/macosx/HBImageUtilities.m
+examples/HandBrake/macosx/HBJob.m
+examples/HandBrake/macosx/HBPresetsManager.m
+examples/HandBrake/macosx/HBRedirect.m
+examples/HandBrake/macosx/HBUtilities.m

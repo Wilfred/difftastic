@@ -27,6 +27,7 @@ function clone_repo {
 
 clone_repo apple-oss-distributions objc4 689525d556eb3dee1ffb700423bccf5ecc501dbf
 clone_repo llvm-mirror clang aa231e4be75ac4759c236b755c57876f76e3cf05
+clone_repo HandBrake HandBrake aa928b718263b7979c50f0c7cd4f87a88a5b4253
 
 known_failures="$(cat script/known_failures.txt)"
 
