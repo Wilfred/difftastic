@@ -269,6 +269,7 @@ module.exports = grammar(C, {
 
     type_qualifier: (_, original) => prec.right(choice(
       original,
+      'nullable',
       '_Complex',
       '_Nonnull',
       '_Nullable',
@@ -636,7 +637,7 @@ module.exports = grammar(C, {
       $.preproc_def,
       $.preproc_ifdef,
       $.preproc_undef,
-      // $.preproc_call,
+      $.preproc_call,
       seq($.struct_specifier, ';'),
     ),
 
@@ -658,6 +659,7 @@ module.exports = grammar(C, {
       $.preproc_ifdef,
       $.preproc_undef,
       $.preproc_def,
+      $.preproc_call,
     )),
 
     property_implementation: $ => choice(

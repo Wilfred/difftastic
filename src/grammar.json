@@ -3670,6 +3670,10 @@
           },
           {
             "type": "STRING",
+            "value": "nullable"
+          },
+          {
+            "type": "STRING",
             "value": "_Complex"
           },
           {
@@ -10852,6 +10856,10 @@
           "name": "preproc_undef"
         },
         {
+          "type": "SYMBOL",
+          "name": "preproc_call"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -10970,6 +10978,10 @@
           {
             "type": "SYMBOL",
             "name": "preproc_def"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "preproc_call"
           }
         ]
       }

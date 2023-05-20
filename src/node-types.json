@@ -1713,6 +1713,10 @@
           "named": true
         },
         {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
           "type": "preproc_def",
           "named": true
         },
@@ -2977,6 +2981,10 @@
         },
         {
           "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "preproc_call",
           "named": true
         },
         {
@@ -5023,6 +5031,10 @@
           "named": true
         },
         {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
           "type": "preproc_def",
           "named": true
         },
@@ -5154,6 +5166,10 @@
         },
         {
           "type": "method_declaration",
+          "named": true
+        },
+        {
+          "type": "preproc_call",
           "named": true
         },
         {
@@ -6870,6 +6886,10 @@
   {
     "type": "null",
     "named": true
+  },
+  {
+    "type": "nullable",
+    "named": false
   },
   {
     "type": "number_literal",
