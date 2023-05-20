@@ -848,18 +848,18 @@ module.exports = grammar(C, {
       choice('@try', '__try'),
       $.compound_statement,
       choice(
-        seq(repeat1($.catch_statement), optional($.finally_statement)),
-        $.finally_statement,
+        seq(repeat1($.catch_clause), optional($.finally_clause)),
+        $.finally_clause,
       ),
     ),
 
-    catch_statement: $ => seq(
+    catch_clause: $ => seq(
       choice('@catch', '__catch'),
       optional(seq('(', choice('...', $.type_name), ')')),
       $.compound_statement,
     ),
 
-    finally_statement: $ => seq(
+    finally_clause: $ => seq(
       choice('@finally', '__finally'),
       $.compound_statement,
     ),

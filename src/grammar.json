@@ -12217,7 +12217,7 @@
                   "type": "REPEAT1",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "catch_statement"
+                    "name": "catch_clause"
                   }
                 },
                 {
@@ -12225,7 +12225,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "finally_statement"
+                      "name": "finally_clause"
                     },
                     {
                       "type": "BLANK"
@@ -12236,13 +12236,13 @@
             },
             {
               "type": "SYMBOL",
-              "name": "finally_statement"
+              "name": "finally_clause"
             }
           ]
         }
       ]
     },
-    "catch_statement": {
+    "catch_clause": {
       "type": "SEQ",
       "members": [
         {
@@ -12298,7 +12298,7 @@
         }
       ]
     },
-    "finally_statement": {
+    "finally_clause": {
       "type": "SEQ",
       "members": [
         {

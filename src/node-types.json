@@ -1503,7 +1503,7 @@
     }
   },
   {
-    "type": "catch_statement",
+    "type": "catch_clause",
     "named": true,
     "fields": {},
     "children": {
@@ -2535,7 +2535,7 @@
     }
   },
   {
-    "type": "finally_statement",
+    "type": "finally_clause",
     "named": true,
     "fields": {},
     "children": {
@@ -5617,7 +5617,7 @@
       "required": true,
       "types": [
         {
-          "type": "catch_statement",
+          "type": "catch_clause",
           "named": true
         },
         {
@@ -5625,7 +5625,7 @@
           "named": true
         },
         {
-          "type": "finally_statement",
+          "type": "finally_clause",
           "named": true
         }
       ]
