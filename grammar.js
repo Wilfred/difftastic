@@ -1,3 +1,15 @@
+/**
+ * @file C grammar for tree-sitter
+ * @author Max Brunsfeld
+ * @license MIT
+ */
+
+/* eslint-disable arrow-parens */
+/* eslint-disable camelcase */
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 const PREC = {
   PAREN_DECLARATOR: -10,
   ASSIGNMENT: -1,
@@ -1026,6 +1038,21 @@ module.exports.PREC = PREC
 
 function preprocIf (suffix, content) {
   function elseBlock ($) {
+/**
+ *
+ * @param {string} suffix
+ *
+ * @param {RuleBuilder<string>} content
+ *
+ * @return {RuleBuilders<string, string>}
+ */
+  /**
+    *
+    * @param {GrammarSymbols<string>} $
+    *
+    * @return {ChoiceRule}
+    *
+    */
     return choice(
       suffix ? alias($['preproc_else' + suffix], $.preproc_else) : $.preproc_else,
       suffix ? alias($['preproc_elif' + suffix], $.preproc_elif) : $.preproc_elif,
@@ -1071,12 +1098,35 @@ function preprocessor (command) {
 
 function commaSep (rule) {
   return optional(commaSep1(rule))
+/**
+  * Creates a preprocessor regex rule
+  *
+  * @param {RegExp|Rule|String} command
+  *
+  * @return {AliasRule}
+  */
 }
 
 function commaSep1 (rule) {
   return seq(rule, repeat(seq(',', rule)))
+/**
+ * Creates a rule to optionally match one or more of the rules separated by a comma
+ *
+ * @param {Rule} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
 }
 
 function commaSepTrailing (recurSymbol, rule) {
   return choice(rule, seq(recurSymbol, ',', rule))
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {Rule} rule
+ *
+ * @return {SeqRule}
+ *
+ */
 }
