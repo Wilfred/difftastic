@@ -74,6 +74,7 @@ module.exports = grammar({
     [$._indentable_expression, $.do_while_expression],
     [$.if_expression],
     [$.match_expression],
+    [$._function_constructor, $._type_identifier],
     [$._type_identifier, $.identifier],
     [$.instance_expression],
   ],
@@ -485,7 +486,7 @@ module.exports = grammar({
     )),
 
     // Created for memory-usage optimization during codegen.
-    _function_constructor: $ => prec.left(PREC.control, seq(
+    _function_constructor: $ => prec.left(seq(
       field('name', $._identifier),
       field('type_parameters', optional($.type_parameters)),
       field('parameters', repeat($.parameters)),

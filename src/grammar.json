@@ -2288,7 +2288,7 @@
     },
     "_function_constructor": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6721,6 +6721,10 @@
     ],
     [
       "match_expression"
+    ],
+    [
+      "_function_constructor",
+      "_type_identifier"
     ],
     [
       "_type_identifier",
