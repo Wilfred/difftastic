@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
+    "lint": "eslint grammar.js",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
     "test-windows": "tree-sitter test"
   },
