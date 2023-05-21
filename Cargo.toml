@@ -9,6 +9,7 @@ keywords = ["incremental", "parsing", "c"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-c"
 edition = "2018"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
@@ -17,7 +18,7 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.20"
+tree-sitter = "0.20.10"
 
 [build-dependencies]
 cc = "1.0"

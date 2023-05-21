@@ -33,6 +33,10 @@
       "file-types": [
         "c",
         "h"
+      ],
+      "injection-regex": "^(c|h)$",
+      "highlights": [
+        "queries/highlights.scm"
       ]
     }
   ]
