@@ -94,12 +94,15 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat(choice(
+    source_file: $ => seq(
+      repeat(choice(
       // Unlike a Go compiler, we accept statements at top-level to enable
       // parsing of partial code snippets in documentation (see #63).
       seq($._statement, terminator),
-      seq($._top_level_declaration, optional(terminator)),
-    )),
+      seq($._top_level_declaration, terminator),
+      )),
+      optional($._top_level_declaration),
+    ),
 
     _top_level_declaration: $ => choice(
       $.package_clause,
