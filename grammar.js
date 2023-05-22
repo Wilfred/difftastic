@@ -79,12 +79,9 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.generic_type, $._expression],
     [$.generic_type, $._simple_type],
-    [$.parameter_declaration, $.type_arguments],
     [$.parameter_declaration, $._simple_type, $._expression],
     [$.parameter_declaration, $.generic_type, $._expression],
     [$.parameter_declaration, $._expression],
-    [$.func_literal, $.function_type],
-    [$.function_type],
     [$.parameter_declaration, $._simple_type],
   ],
 
