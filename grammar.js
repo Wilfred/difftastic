@@ -233,10 +233,10 @@ module.exports = grammar({
       ')'
     ),
 
-    parameter_declaration: $ => seq(
+    parameter_declaration: $ => prec.left(-1, seq(
       commaSep(field('name', $.identifier)),
-      field('type', $._type)
-    ),
+      field('type', $._type),
+    )),
 
     variadic_parameter_declaration: $ => seq(
       field('name', optional($.identifier)),
@@ -291,11 +291,13 @@ module.exports = grammar({
       $.slice_type,
       $.map_type,
       $.channel_type,
-      $.function_type
+      $.function_type,
+      $.union_type,
+      $.negated_type,
     ),
 
     generic_type: $ => seq(
-      field('type', choice($._type_identifier, $.qualified_type)),
+      field('type', choice($._type_identifier, $.qualified_type, $.union_type, $.negated_type)),
       field('type_arguments', $.type_arguments),
     ),
 
@@ -308,12 +310,12 @@ module.exports = grammar({
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
 
-    array_type: $ => seq(
+    array_type: $ => prec.right(seq(
       '[',
       field('length', $._expression),
       ']',
       field('element', $._type)
-    ),
+    )),
 
     implicit_length_array_type: $ => seq(
       '[',
@@ -322,16 +324,27 @@ module.exports = grammar({
       field('element', $._type)
     ),
 
-    slice_type: $ => seq(
+    slice_type: $ => prec.right(seq(
       '[',
       ']',
       field('element', $._type)
-    ),
+    )),
 
     struct_type: $ => seq(
       'struct',
       $.field_declaration_list
     ),
+
+    union_type: $ => prec.left(seq(
+      $._type,
+      '|',
+      $._type,
+    )),
+
+    negated_type: $ => prec.left(seq(
+      '~',
+      $._type,
+    )),
 
     field_declaration_list: $ => seq(
       '{',
@@ -403,25 +416,25 @@ module.exports = grammar({
       field('result', optional(choice($.parameter_list, $._simple_type)))
     ),
 
-    map_type: $ => seq(
+    map_type: $ => prec.right(seq(
       'map',
       '[',
       field('key', $._type),
       ']',
       field('value', $._type)
-    ),
+    )),
 
-    channel_type: $ => choice(
+    channel_type: $ => prec.left(choice(
       seq('chan', field('value', $._type)),
       seq('chan', '<-', field('value', $._type)),
       prec(PREC.unary, seq('<-', 'chan', field('value', $._type)))
-    ),
+    )),
 
-    function_type: $ => seq(
+    function_type: $ => prec.right(seq(
       'func',
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type)))
-    ),
+    )),
 
     block: $ => seq(
       '{',
