@@ -13,6 +13,7 @@
 - [Contributing](./contributing.md)
   - [Parser Vendoring](./parser_vendoring.md)
   - [Adding A Parser](./adding_a_parser.md)
+  - [Profiling](./profiling.md)
 - [Glossary](./glossary.md)
 - [Alternative Projects](./alternative_projects.md)
   - [Tree Diffing](./tree_diffing.md)
