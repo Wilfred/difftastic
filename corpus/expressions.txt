@@ -15,7 +15,7 @@ class C {
     a { 123 }
     a { b }
     a.map{ x => x + 1 }
-    a.exists { case ((i, _)) => i }
+    /* comment */ a.exists { case ((i, _)) => i }
   }
 }
 
@@ -76,6 +76,7 @@ class C {
                   (identifier)
                   (operator_identifier)
                   (integer_literal)))))
+          (comment)
           (call_expression
             (field_expression
               (identifier)
@@ -352,6 +353,13 @@ class C:
     else
       h()
 
+    if true then
+      ()
+
+    // comment
+    else
+      ()
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -387,7 +395,14 @@ class C:
               (indented_block
                 (call_expression
                   (identifier)
-                  (arguments))))))))))
+                  (arguments)))))
+          (if_expression
+            (boolean_literal)
+            (indented_block
+              (unit))
+            (comment)
+            (indented_block
+              (unit))))))))
 
 ================================================================================
 Try expressions
@@ -713,6 +728,13 @@ class C {
   def main() {
     a.b = c
     a.b.d
+    a
+      .b
+      // comment1
+      /* 
+         comment2 
+      */
+      .c
   }
 }
 
@@ -735,6 +757,13 @@ class C {
             (field_expression
               (identifier)
               (identifier))
+            (identifier))
+          (field_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (comment)
+            (comment)
             (identifier)))))))
 
 ================================================================================
