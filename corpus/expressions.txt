@@ -1,6 +1,6 @@
-===============================
+================================================================================
 Call expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -19,7 +19,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -29,24 +29,68 @@ class C {
         (identifier)
         (parameters)
         (block
-          (call_expression (identifier) (arguments))
-          (call_expression (identifier) (arguments (integer_literal) (integer_literal)))
-          (call_expression (operator_identifier) (arguments (integer_literal)))
-          (call_expression (identifier) (arguments (identifier) (identifier)))
-          (call_expression (field_expression (identifier) (identifier)) (arguments
-            (lambda_expression (identifier)
-                (infix_expression (identifier) (operator_identifier) (integer_literal)))))
-          (call_expression (identifier) (block (integer_literal)))
-          (call_expression (identifier) (block (identifier)))
-          (call_expression (field_expression (identifier) (identifier)) (block
-            (lambda_expression (identifier)
-                (infix_expression (identifier) (operator_identifier) (integer_literal)))))
-          (call_expression (field_expression (identifier) (identifier)) (case_block (case_clause
-            (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier)))))))))
+          (call_expression
+            (identifier)
+            (arguments))
+          (call_expression
+            (identifier)
+            (arguments
+              (integer_literal)
+              (integer_literal)))
+          (call_expression
+            (operator_identifier)
+            (arguments
+              (integer_literal)))
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier)))
+          (call_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (arguments
+              (lambda_expression
+                (identifier)
+                (infix_expression
+                  (identifier)
+                  (operator_identifier)
+                  (integer_literal)))))
+          (call_expression
+            (identifier)
+            (block
+              (integer_literal)))
+          (call_expression
+            (identifier)
+            (block
+              (identifier)))
+          (call_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (block
+              (lambda_expression
+                (identifier)
+                (infix_expression
+                  (identifier)
+                  (operator_identifier)
+                  (integer_literal)))))
+          (call_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (case_block
+              (case_clause
+                (tuple_pattern
+                  (tuple_pattern
+                    (identifier)
+                    (wildcard)))
+                (identifier)))))))))
 
-===============================
+================================================================================
 SIP-44 Fewer braces (Scala 3 syntax)
-===============================
+================================================================================
 
 class C:
   xs.map: x =>
@@ -72,56 +116,78 @@ class C:
   xs:
     Int
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (template_body
       (call_expression
-        (field_expression (identifier) (identifier))
+        (field_expression
+          (identifier)
+          (identifier))
         (colon_argument
-         (identifier)
-         (indented_block (infix_expression (identifier) (operator_identifier) (integer_literal)))))
-
+          (identifier)
+          (indented_block
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (integer_literal)))))
       (call_expression
-        (field_expression (identifier) (identifier))
+        (field_expression
+          (identifier)
+          (identifier))
         (colon_argument
-         (indented_block (lambda_expression (identifier)
-           (infix_expression (identifier) (operator_identifier) (integer_literal))))))
-
+          (indented_block
+            (lambda_expression
+              (identifier)
+              (infix_expression
+                (identifier)
+                (operator_identifier)
+                (integer_literal))))))
       (call_expression
         (identifier)
         (colon_argument
-          (indented_block (call_expression
-            (identifier)
-            (arguments (string))))))
-
+          (indented_block
+            (call_expression
+              (identifier)
+              (arguments
+                (string))))))
       (infix_expression
         (identifier)
         (identifier)
-        (colon_argument (indented_block
-          (val_definition
-            (identifier)
-            (integer_literal))
-          (call_expression (identifier) (arguments (identifier))))))
-
-      (call_expression
-        (field_expression (identifier) (identifier))
         (colon_argument
-          (indented_cases (case_clause
-            (identifier)
-            (identifier)))))
-
+          (indented_block
+            (val_definition
+              (identifier)
+              (integer_literal))
+            (call_expression
+              (identifier)
+              (arguments
+                (identifier))))))
+      (call_expression
+        (field_expression
+          (identifier)
+          (identifier))
+        (colon_argument
+          (indented_cases
+            (case_clause
+              (identifier)
+              (identifier)))))
       (comment)
-      (ascription_expression (identifier) (type_identifier))
-
+      (ascription_expression
+        (identifier)
+        (type_identifier))
       (comment)
-      (call_expression (identifier) (colon_argument (indented_block (identifier)))))))
+      (call_expression
+        (identifier)
+        (colon_argument
+          (indented_block
+            (identifier)))))))
 
-===============================
+================================================================================
 Generic functions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -133,7 +199,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -146,18 +212,23 @@ class C {
           (call_expression
             (generic_function
               (identifier)
-              (type_arguments (type_identifier) (type_identifier)))
+              (type_arguments
+                (type_identifier)
+                (type_identifier)))
             (arguments))
           (call_expression
             (generic_function
               (identifier)
               (type_arguments
-                (generic_type (type_identifier) (type_arguments (type_identifier)))))
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_identifier)))))
             (arguments)))))))
 
-===============================
+================================================================================
 Assignments
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -166,7 +237,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -176,17 +247,19 @@ class C {
         (identifier)
         (parameters)
         (block
-          (assignment_expression (identifier) (identifier))
-          (assignment_expression (call_expression (identifier) (arguments (integer_literal))) (identifier))
-        )
-      )
-    )
-  )
-)
+          (assignment_expression
+            (identifier)
+            (identifier))
+          (assignment_expression
+            (call_expression
+              (identifier)
+              (arguments
+                (integer_literal)))
+            (identifier)))))))
 
-===============================
+================================================================================
 If expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -209,7 +282,7 @@ def other() {
   else c()
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -220,27 +293,48 @@ def other() {
         (parameters)
         (block
           (if_expression
-            (parenthesized_expression (identifier))
-            (call_expression (identifier) (arguments)))
+            (parenthesized_expression
+              (identifier))
+            (call_expression
+              (identifier)
+              (arguments)))
           (if_expression
-            (parenthesized_expression (identifier))
-            (block (call_expression (identifier) (arguments)) (call_expression (identifier) (arguments)))
+            (parenthesized_expression
+              (identifier))
+            (block
+              (call_expression
+                (identifier)
+                (arguments))
+              (call_expression
+                (identifier)
+                (arguments)))
             (if_expression
-              (parenthesized_expression (identifier))
-              (block (call_expression (identifier) (arguments)))
-              (block (call_expression (identifier) (arguments)))))))))
+              (parenthesized_expression
+                (identifier))
+              (block
+                (call_expression
+                  (identifier)
+                  (arguments)))
+              (block
+                (call_expression
+                  (identifier)
+                  (arguments)))))))))
   (function_definition
     (identifier)
     (parameters)
     (block
       (if_expression
-        (parenthesized_expression (identifier))
-        (block (identifier))
-        (call_expression (identifier) (arguments))))))
+        (parenthesized_expression
+          (identifier))
+        (block
+          (identifier))
+        (call_expression
+          (identifier)
+          (arguments))))))
 
-===============================
+================================================================================
 If expressions (Scala 3 syntax)
-===============================
+================================================================================
 
 class C:
   def main() =
@@ -258,7 +352,7 @@ class C:
     else
       h()
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -270,22 +364,34 @@ class C:
         (indented_block
           (if_expression
             (identifier)
-            (call_expression (identifier) (arguments)))
+            (call_expression
+              (identifier)
+              (arguments)))
           (if_expression
             (indented_block
-              (val_definition (identifier) (boolean_literal))
+              (val_definition
+                (identifier)
+                (boolean_literal))
               (identifier))
             (indented_block
-              (call_expression (identifier) (arguments))
+              (call_expression
+                (identifier)
+                (arguments))
               (integer_literal))
             (if_expression
               (identifier)
-              (indented_block (call_expression (identifier) (arguments)))
-              (indented_block (call_expression (identifier) (arguments))))))))))
+              (indented_block
+                (call_expression
+                  (identifier)
+                  (arguments)))
+              (indented_block
+                (call_expression
+                  (identifier)
+                  (arguments))))))))))
 
-===============================
+================================================================================
 Try expressions
-===============================
+================================================================================
 
 def main() {
   try a() finally depth -= 1
@@ -304,7 +410,7 @@ def main() {
   finally b()
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -312,10 +418,19 @@ def main() {
     (parameters)
     (block
       (try_expression
-        (call_expression (identifier) (arguments))
-        (finally_clause (infix_expression (identifier) (operator_identifier) (integer_literal))))
+        (call_expression
+          (identifier)
+          (arguments))
+        (finally_clause
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (integer_literal))))
       (try_expression
-        (block (call_expression (identifier) (arguments)))
+        (block
+          (call_expression
+            (identifier)
+            (arguments)))
         (catch_clause
           (case_block
             (case_clause
@@ -324,33 +439,52 @@ def main() {
                 (type_identifier))
               (call_expression
                 (identifier)
-                (arguments (field_expression
-                  (identifier)
-                  (identifier)))))
+                (arguments
+                  (field_expression
+                    (identifier)
+                    (identifier)))))
             (case_clause
               (case_class_pattern
                 (type_identifier)
                 (identifier))
-              (throw_expression (instance_expression (type_identifier) (arguments (identifier)))
-              )
-            )
-          )
-        )
-        (finally_clause (block (call_expression (identifier) (arguments))))
-        )
-      (try_expression (call_expression (identifier) (arguments))
-        (catch_clause (case_block (case_clause
-          (identifier) 
+              (throw_expression
+                (instance_expression
+                  (type_identifier)
+                  (arguments
+                    (identifier)))))))
+        (finally_clause
+          (block
+            (call_expression
+              (identifier)
+              (arguments)))))
+      (try_expression
+        (call_expression
+          (identifier)
+          (arguments))
+        (catch_clause
+          (case_block
+            (case_clause
+              (identifier)
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))))
+        (finally_clause
           (call_expression
             (identifier)
-            (arguments (identifier))))))
-        (finally_clause (call_expression (identifier) (arguments))))
-      (try_expression (call_expression (identifier) (arguments))
-        (finally_clause (call_expression (identifier) (arguments)))))))
+            (arguments))))
+      (try_expression
+        (call_expression
+          (identifier)
+          (arguments))
+        (finally_clause
+          (call_expression
+            (identifier)
+            (arguments)))))))
 
-===============================
+================================================================================
 Try expressions (Scala 3 syntax)
-===============================
+================================================================================
 
 def main(): Unit =
   try a() finally depth -= 1
@@ -365,7 +499,7 @@ def main(): Unit =
     tryAnotherThing()
     tryAnotherThing2()
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -374,12 +508,22 @@ def main(): Unit =
     (type_identifier)
     (indented_block
       (try_expression
-        (call_expression (identifier) (arguments))
-        (finally_clause (infix_expression (identifier) (operator_identifier) (integer_literal))))
+        (call_expression
+          (identifier)
+          (arguments))
+        (finally_clause
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (integer_literal))))
       (try_expression
         (indented_block
-          (call_expression (identifier) (arguments))
-          (call_expression (identifier) (arguments)))
+          (call_expression
+            (identifier)
+            (arguments))
+          (call_expression
+            (identifier)
+            (arguments)))
         (catch_clause
           (indented_cases
             (case_clause
@@ -388,27 +532,31 @@ def main(): Unit =
                 (type_identifier))
               (call_expression
                 (identifier)
-                (arguments (field_expression
-                  (identifier)
-                  (identifier)))))
+                (arguments
+                  (field_expression
+                    (identifier)
+                    (identifier)))))
             (case_clause
               (case_class_pattern
                 (type_identifier)
                 (identifier))
-              (throw_expression (instance_expression (type_identifier) (arguments (identifier)))
-              )
-            )
-          )
-        )
+              (throw_expression
+                (instance_expression
+                  (type_identifier)
+                  (arguments
+                    (identifier)))))))
         (finally_clause
           (indented_block
-            (call_expression (identifier) (arguments))
-            (call_expression (identifier) (arguments)))))
-    )))
+            (call_expression
+              (identifier)
+              (arguments))
+            (call_expression
+              (identifier)
+              (arguments))))))))
 
-===============================
+================================================================================
 Match expressions
-===============================
+================================================================================
 
 def matchTest(x: Int): String = x match {
   case 0 =>
@@ -427,38 +575,75 @@ def matchTest(x: Int): String = x match {
     "more"
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
     (identifier)
-    (parameters (parameter (identifier) (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
     (type_identifier)
-    (match_expression (identifier) (case_block
-      (case_clause (integer_literal))
-      (case_clause (integer_literal) (string) (string))
-      (case_clause (integer_literal) (string))
-      (case_clause (integer_literal) (block (string)))
-      (case_clause (identifier) (guard (infix_expression (identifier) (operator_identifier) (integer_literal))))
-      (case_clause (identifier) (guard (infix_expression (identifier) (operator_identifier) (integer_literal))) (integer_literal))
-      (case_clause (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier))
-      (case_clause
-        (interpolated_string_expression
+    (match_expression
+      (identifier)
+      (case_block
+        (case_clause
+          (integer_literal))
+        (case_clause
+          (integer_literal)
+          (string)
+          (string))
+        (case_clause
+          (integer_literal)
+          (string))
+        (case_clause
+          (integer_literal)
+          (block
+            (string)))
+        (case_clause
           (identifier)
-          (interpolated_string
-            (interpolation
-              (identifier))
-            (interpolation
-              (identifier))))
-        (infix_expression
+          (guard
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (integer_literal))))
+        (case_clause
           (identifier)
-          (operator_identifier)
-          (identifier)))
-      (case_clause (wildcard) (val_definition (identifier) (string)) (string))))))
+          (guard
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (integer_literal)))
+          (integer_literal))
+        (case_clause
+          (tuple_pattern
+            (tuple_pattern
+              (identifier)
+              (wildcard)))
+          (identifier))
+        (case_clause
+          (interpolated_string_expression
+            (identifier)
+            (interpolated_string
+              (interpolation
+                (identifier))
+              (interpolation
+                (identifier))))
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier)))
+        (case_clause
+          (wildcard)
+          (val_definition
+            (identifier)
+            (string))
+          (string))))))
 
-===============================
+================================================================================
 Match expressions (Scala 3 syntax)
-===============================
+================================================================================
 
 def matchTest(x: Int): String =
   x match
@@ -473,29 +658,56 @@ def matchTest(x: Int): String =
       val x = "many"
       "more"
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
     (identifier)
-    (parameters (parameter (identifier) (type_identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
     (type_identifier)
     (indented_block
-      (match_expression (identifier) (indented_cases
-        (case_clause (integer_literal))
-        (case_clause (integer_literal) (string) (string))
-        (case_clause (integer_literal) (string))
-        (case_clause
-          (identifier)
-          (guard (infix_expression (identifier) (operator_identifier) (integer_literal)))
-          (val_definition (identifier) (string))
-          (identifier))
-        (case_clause (tuple_pattern (tuple_pattern (identifier) (wildcard))) (identifier))
-        (case_clause (wildcard) (val_definition (identifier) (string)) (string)))))))
+      (match_expression
+        (identifier)
+        (indented_cases
+          (case_clause
+            (integer_literal))
+          (case_clause
+            (integer_literal)
+            (string)
+            (string))
+          (case_clause
+            (integer_literal)
+            (string))
+          (case_clause
+            (identifier)
+            (guard
+              (infix_expression
+                (identifier)
+                (operator_identifier)
+                (integer_literal)))
+            (val_definition
+              (identifier)
+              (string))
+            (identifier))
+          (case_clause
+            (tuple_pattern
+              (tuple_pattern
+                (identifier)
+                (wildcard)))
+            (identifier))
+          (case_clause
+            (wildcard)
+            (val_definition
+              (identifier)
+              (string))
+            (string)))))))
 
-===============================
+================================================================================
 Field expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -504,7 +716,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -515,15 +727,19 @@ class C {
         (parameters)
         (block
           (assignment_expression
-            (field_expression (identifier) (identifier))
+            (field_expression
+              (identifier)
+              (identifier))
             (identifier))
           (field_expression
-            (field_expression (identifier) (identifier))
+            (field_expression
+              (identifier)
+              (identifier))
             (identifier)))))))
 
-===============================
+================================================================================
 Instance expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -541,7 +757,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -552,32 +768,49 @@ class C {
         (parameters)
         (block
           (val_definition
-             (identifier)
-             (instance_expression (type_identifier)))
+            (identifier)
+            (instance_expression
+              (type_identifier)))
           (val_definition
-             (identifier)
-             (instance_expression (type_identifier) (arguments (identifier) (identifier))))
+            (identifier)
+            (instance_expression
+              (type_identifier)
+              (arguments
+                (identifier)
+                (identifier))))
           (val_definition
-             (identifier)
-             (instance_expression (type_identifier) (template_body
-               (function_definition (identifier) (integer_literal)))))
+            (identifier)
+            (instance_expression
+              (type_identifier)
+              (template_body
+                (function_definition
+                  (identifier)
+                  (integer_literal)))))
           (val_definition
-             (identifier)
-             (instance_expression (template_body
-               (function_definition (identifier) (integer_literal)))))
+            (identifier)
+            (instance_expression
+              (template_body
+                (function_definition
+                  (identifier)
+                  (integer_literal)))))
           (val_definition
-             (identifier)
-             (instance_expression (type_identifier) (template_body)))
+            (identifier)
+            (instance_expression
+              (type_identifier)
+              (template_body)))
           (val_definition
-             (identifier)
-             (instance_expression (template_body (string))))
+            (identifier)
+            (instance_expression
+              (template_body
+                (string))))
           (ascription_expression
-             (instance_expression (type_identifier))
-             (type_identifier)))))))
+            (instance_expression
+              (type_identifier))
+            (type_identifier)))))))
 
-===============================
+================================================================================
 Infix expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -586,7 +819,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -598,15 +831,21 @@ class C {
         (block
           (assignment_expression
             (identifier)
-            (infix_expression (identifier) (identifier) (identifier)))
+            (infix_expression
+              (identifier)
+              (identifier)
+              (identifier)))
           (infix_expression
-            (infix_expression (identifier) (operator_identifier) (identifier))
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (identifier))
             (operator_identifier)
             (identifier)))))))
 
-===============================
+================================================================================
 Prefix expressions
-===============================
+================================================================================
 
 class C {
   def main() {
@@ -615,7 +854,7 @@ class C {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
@@ -625,22 +864,24 @@ class C {
         (identifier)
         (parameters)
         (block
-          (prefix_expression (identifier))
+          (prefix_expression
+            (identifier))
           (infix_expression
-            (prefix_expression (identifier))
+            (prefix_expression
+              (identifier))
             (operator_identifier)
             (identifier)))))))
 
-===============================
+================================================================================
 Postfix expressions
-===============================
+================================================================================
 
 object O {
   val v = "value" toUpperCase
   val c = 1 + 2 toString
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (object_definition
@@ -648,21 +889,21 @@ object O {
     (template_body
       (val_definition
         (identifier)
-        (postfix_expression (string) (identifier)))
+        (postfix_expression
+          (string)
+          (identifier)))
       (val_definition
         (identifier)
         (postfix_expression
-          (infix_expression (integer_literal) (operator_identifier) (integer_literal))
-          (identifier)
-          )
-        )
-      )
-    )
-  )
+          (infix_expression
+            (integer_literal)
+            (operator_identifier)
+            (integer_literal))
+          (identifier))))))
 
-===============================
+================================================================================
 Ascription Expression
-===============================
+================================================================================
 
 object O {
   val l = a: List
@@ -672,25 +913,36 @@ object O {
   x: @unchecked
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (object_definition
     (identifier)
     (template_body
-      (val_definition (identifier)
-        (ascription_expression (identifier)
+      (val_definition
+        (identifier)
+        (ascription_expression
+          (identifier)
           (type_identifier)))
-      (val_definition (identifier)
-        (ascription_expression (integer_literal)
+      (val_definition
+        (identifier)
+        (ascription_expression
+          (integer_literal)
           (type_identifier)))
-      (ascription_expression (identifier)
-        (generic_type (type_identifier)
-          (type_arguments (type_identifier))))
-      (ascription_expression (integer_literal)
-        (repeated_parameter_type (wildcard)))
-      (ascription_expression (identifier)
-        (annotation (type_identifier))))))
+      (ascription_expression
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier))))
+      (ascription_expression
+        (integer_literal)
+        (repeated_parameter_type
+          (wildcard)))
+      (ascription_expression
+        (identifier)
+        (annotation
+          (type_identifier))))))
 
 ================================================================================
 Lambda Expression
@@ -707,77 +959,118 @@ object O {
 --------------------------------------------------------------------------------
 
 (compilation_unit
-  (object_definition (identifier)
+  (object_definition
+    (identifier)
     (template_body
       (val_definition
-        (identifier) (lambda_expression
-          (identifier) (infix_expression
-            (identifier) (operator_identifier) (integer_literal))))
-      (val_definition (identifier)
-        (lambda_expression (bindings
-            (binding (identifier) (type_identifier))
-            (binding (identifier) (type_identifier)))
-          (block (infix_expression
-              (identifier) (operator_identifier) (identifier)))))
-      (val_definition (identifier)
-        (lambda_expression (wildcard) (integer_literal)))
+        (identifier)
+        (lambda_expression
+          (identifier)
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (integer_literal))))
+      (val_definition
+        (identifier)
+        (lambda_expression
+          (bindings
+            (binding
+              (identifier)
+              (type_identifier))
+            (binding
+              (identifier)
+              (type_identifier)))
+          (block
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (identifier)))))
+      (val_definition
+        (identifier)
+        (lambda_expression
+          (wildcard)
+          (integer_literal)))
       (lambda_expression
         (bindings
-          (binding (identifier))
-          (binding (identifier))
-          (binding (identifier)))
-        (infix_expression (identifier)
+          (binding
+            (identifier))
+          (binding
+            (identifier))
+          (binding
+            (identifier)))
+        (infix_expression
+          (identifier)
           (operator_identifier)
           (identifier)))
       (call_expression
         (identifier)
-        (block (lambda_expression
-          (identifier)
-          (val_definition (identifier) (infix_expression (integer_literal) (operator_identifier) (identifier)))))))))
+        (block
+          (lambda_expression
+            (identifier)
+            (val_definition
+              (identifier)
+              (infix_expression
+                (integer_literal)
+                (operator_identifier)
+                (identifier)))))))))
 
-===============================
+================================================================================
 Unit expressions
-===============================
+================================================================================
 
 val x = ()
 def f(): Unit = { (   
 ); }
 
----
-(compilation_unit
-  (val_definition (identifier) (unit))
-  (function_definition (identifier) (parameters) (type_identifier) (block (unit)))
-  )
+--------------------------------------------------------------------------------
 
-===============================
+(compilation_unit
+  (val_definition
+    (identifier)
+    (unit))
+  (function_definition
+    (identifier)
+    (parameters)
+    (type_identifier)
+    (block
+      (unit))))
+
+================================================================================
 Return expressions
-===============================
+================================================================================
 
 def f: Unit = return
 def g(a: A): B = { f(); return null.asInstanceOf[B] }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
-  (function_definition (identifier) (type_identifier) (return_expression))
   (function_definition
     (identifier)
-    (parameters (parameter (identifier) (type_identifier)))
+    (type_identifier)
+    (return_expression))
+  (function_definition
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (type_identifier)))
     (type_identifier)
     (block
       (call_expression
         (identifier)
         (arguments))
       (return_expression
-        (generic_function (field_expression (null_literal) (identifier))
-        (type_arguments (type_identifier))))
-      )
-    )
-  )
+        (generic_function
+          (field_expression
+            (null_literal)
+            (identifier))
+          (type_arguments
+            (type_identifier)))))))
 
-===============================
+================================================================================
 While loops
-===============================
+================================================================================
 
 def f = {
   while (a) g()
@@ -786,22 +1079,30 @@ def f = {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
     (identifier)
     (block
       (while_expression
-        (parenthesized_expression (identifier))
-        (call_expression (identifier) (arguments)))
+        (parenthesized_expression
+          (identifier))
+        (call_expression
+          (identifier)
+          (arguments)))
       (while_expression
-        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier)))
-        (block (identifier))))))
+        (parenthesized_expression
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier)))
+        (block
+          (identifier))))))
 
-===============================
+================================================================================
 While loops (Scala 3 syntax)
-===============================
+================================================================================
 
 def f: Unit =
   while a do g()
@@ -812,7 +1113,7 @@ def f: Unit =
   do
     ()
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -821,17 +1122,24 @@ def f: Unit =
     (indented_block
       (while_expression
         (identifier)
-        (call_expression (identifier) (arguments)))
+        (call_expression
+          (identifier)
+          (arguments)))
       (while_expression
         (indented_block
-          (val_definition (identifier) (integer_literal))
-          (infix_expression (identifier) (operator_identifier) (identifier)))
+          (val_definition
+            (identifier)
+            (integer_literal))
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier)))
         (indented_block
           (unit))))))
 
-===============================
+================================================================================
 Do-while loops
-===============================
+================================================================================
 
 def f() = {
   do g(a, b) while(c && d)
@@ -841,7 +1149,7 @@ def f() = {
   } while (c < d)
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -849,17 +1157,37 @@ def f() = {
     (parameters)
     (block
       (do_while_expression
-        (call_expression (identifier) (arguments (identifier) (identifier)))
-        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier))))
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier)
+            (identifier)))
+        (parenthesized_expression
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier))))
       (do_while_expression
         (block
-          (call_expression (identifier) (arguments (identifier) (identifier)))
-          (call_expression (identifier) (arguments (identifier) (identifier))))
-        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier)))))))
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier)))
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier))))
+        (parenthesized_expression
+          (infix_expression
+            (identifier)
+            (operator_identifier)
+            (identifier)))))))
 
-===============================
+================================================================================
 For comprehensions
-===============================
+================================================================================
 
 def f() = {
   for (n <- nums) yield n + 1
@@ -874,32 +1202,68 @@ def f() = {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
- (function_definition
-   (identifier)
-   (parameters)
-   (block
-     (for_expression
-       (enumerators (enumerator (identifier) (identifier)))
-       (infix_expression (identifier) (operator_identifier) (integer_literal)))
-     (for_expression
-       (enumerators
-         (enumerator (identifier) (identifier))
-         (enumerator (identifier) (identifier)))
-       (call_expression (identifier) (arguments (identifier) (identifier))))
-     (for_expression
-       (enumerators
-         (enumerator (identifier) (identifier))
-         (enumerator (identifier) (infix_expression (identifier) (operator_identifier) (identifier)))
-         (enumerator (identifier) (call_expression (identifier) (arguments)) (guard (identifier)))
-         (enumerator (tuple_pattern (identifier) (identifier)) (identifier)))
-       (block (call_expression (identifier) (arguments (identifier) (identifier))))))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier)))
+        (infix_expression
+          (identifier)
+          (operator_identifier)
+          (integer_literal)))
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier))
+          (enumerator
+            (identifier)
+            (identifier)))
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier)
+            (identifier))))
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier))
+          (enumerator
+            (identifier)
+            (infix_expression
+              (identifier)
+              (operator_identifier)
+              (identifier)))
+          (enumerator
+            (identifier)
+            (call_expression
+              (identifier)
+              (arguments))
+            (guard
+              (identifier)))
+          (enumerator
+            (tuple_pattern
+              (identifier)
+              (identifier))
+            (identifier)))
+        (block
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier))))))))
 
-===============================
+================================================================================
 For comprehensions (Scala 3 syntax)
-===============================
+================================================================================
 
 def f(): Unit =
   for n <- nums yield n + 1
@@ -915,33 +1279,54 @@ def f(): Unit =
     if shouldEmitAnnotation(annot)
   do
     ()
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
- (function_definition
-   (identifier)
-   (parameters)
-   (type_identifier)
-   (indented_block
-     (for_expression
-       (enumerators (enumerator (identifier) (identifier)))
-       (infix_expression (identifier) (operator_identifier) (integer_literal)))
-     (for_expression
-       (enumerators
-         (enumerator (identifier) (identifier))
-         (enumerator (identifier) (identifier)))
-       (indented_block
-         (call_expression (identifier) (arguments (identifier) (identifier)))))
+  (function_definition
+    (identifier)
+    (parameters)
+    (type_identifier)
+    (indented_block
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier)))
+        (infix_expression
+          (identifier)
+          (operator_identifier)
+          (integer_literal)))
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier))
+          (enumerator
+            (identifier)
+            (identifier)))
+        (indented_block
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier)))))
+      (for_expression
+        (enumerators
+          (enumerator
+            (identifier)
+            (identifier))
+          (enumerator
+            (guard
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))))
+        (indented_block
+          (unit))))))
 
-     (for_expression
-       (enumerators
-         (enumerator (identifier) (identifier))
-         (enumerator (guard (call_expression (identifier) (arguments (identifier))))))
-       (indented_block (unit))))))
-
-===============================
+================================================================================
 Chained expressions
-===============================
+================================================================================
 
 def main() {
   val myList = List(1, 2, 3)
@@ -955,29 +1340,46 @@ def main() {
     .length
 }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
     (identifier)
     (parameters)
     (block
-      (val_definition (identifier) (call_expression
+      (val_definition
         (identifier)
-        (arguments (integer_literal) (integer_literal) (integer_literal))))
+        (call_expression
+          (identifier)
+          (arguments
+            (integer_literal)
+            (integer_literal)
+            (integer_literal))))
       (call_expression
-        (field_expression (identifier) (identifier))
-        (arguments (infix_expression
-          (wildcard) (operator_identifier) (integer_literal))))
+        (field_expression
+          (identifier)
+          (identifier))
+        (arguments
+          (infix_expression
+            (wildcard)
+            (operator_identifier)
+            (integer_literal))))
       (call_expression
-        (field_expression (identifier) (identifier))
-        (arguments (infix_expression
-          (wildcard) (operator_identifier) (integer_literal))))
-      (field_expression (identifier) (identifier)))))
+        (field_expression
+          (identifier)
+          (identifier))
+        (arguments
+          (infix_expression
+            (wildcard)
+            (operator_identifier)
+            (integer_literal))))
+      (field_expression
+        (identifier)
+        (identifier)))))
 
-=======================================
+================================================================================
 Macros (Scala 3 syntax)
-=======================================
+================================================================================
 
 class A:
   inline def inspect(inline a: Any): Any =
@@ -986,42 +1388,45 @@ class A:
   def foo =
     '{ $b }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (class_definition
     (identifier)
     (template_body
       (function_definition
-        (modifiers (inline_modifier))
+        (modifiers
+          (inline_modifier))
         (identifier)
         (parameters
-          (parameter (inline_modifier) (identifier) (type_identifier)))
+          (parameter
+            (inline_modifier)
+            (identifier)
+            (type_identifier)))
         (type_identifier)
         (indented_block
           (splice_expression
             (call_expression
               (identifier)
-              (arguments (quote_expression (identifier)))))))
+              (arguments
+                (quote_expression
+                  (identifier)))))))
       (function_definition
         (identifier)
         (indented_block
           (quote_expression
-            (identifier))))
-      )))
+            (identifier)))))))
 
-
-
-=======================================
+================================================================================
 Inline matches (Scala 3)
-=======================================
+================================================================================
 
 def hello = 
   inline c match {
     case 1 => 
   }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -1034,15 +1439,14 @@ def hello =
           (case_clause
             (integer_literal)))))))
 
-
-=======================================
+================================================================================
 Inline if (Scala 3)
-=======================================
+================================================================================
 
 def hello =
   inline if (x) {} else {}
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
@@ -1055,11 +1459,9 @@ def hello =
         (block)
         (block)))))
 
-
-
-=======================================
+================================================================================
 Nested inline if and match (Scala 3)
-=======================================
+================================================================================
 
 def hello =
   inline if (x) {
@@ -1068,7 +1470,7 @@ def hello =
     }
   }
 
----
+--------------------------------------------------------------------------------
 
 (compilation_unit
   (function_definition
