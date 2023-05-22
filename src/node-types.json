@@ -152,6 +152,10 @@
         "named": true
       },
       {
+        "type": "negated_type",
+        "named": true
+      },
+      {
         "type": "pointer_type",
         "named": true
       },
@@ -169,6 +173,10 @@
       },
       {
         "type": "type_identifier",
+        "named": true
+      },
+      {
+        "type": "union_type",
         "named": true
       }
     ]
@@ -728,36 +736,6 @@
     }
   },
   {
-    "type": "constraint_elem",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "constraint_term",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "constraint_term",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "type_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "continue_statement",
     "named": true,
     "fields": {},
@@ -947,6 +925,10 @@
         "types": [
           {
             "type": "_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
             "named": true
           },
           {
@@ -1185,11 +1167,19 @@
         "required": true,
         "types": [
           {
+            "type": "negated_type",
+            "named": true
+          },
+          {
             "type": "qualified_type",
             "named": true
           },
           {
             "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "union_type",
             "named": true
           }
         ]
@@ -1428,34 +1418,11 @@
           "named": true
         },
         {
-          "type": "interface_type_name",
-          "named": true
-        },
-        {
           "type": "method_spec",
           "named": true
         },
         {
           "type": "struct_elem",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_type_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
           "named": true
         }
       ]
@@ -1679,6 +1646,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "negated_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2405,6 +2387,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "union_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
     }
   },
   {
