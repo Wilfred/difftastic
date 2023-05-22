@@ -73,7 +73,7 @@ Difftastic uses the `pretty_env_logger` library to log some additional
 debug information.
 
 ```
-$ RUST_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+$ DFT_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
 ```
 
 See the [`env_logger`

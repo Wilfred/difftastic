@@ -1,5 +1,11 @@
 ## 0.48 (unreleased)
 
+### Internals
+
+Difftastic's logging is now configured with the environment variable
+`DFT_LOG`. This was previously `RUST_LOG`, which could interfere with
+users configuring logging for their own development work.
+
 ## 0.47 (released 16th May 2023)
 
 ### Language Detection

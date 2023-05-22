@@ -94,7 +94,8 @@ fn reset_sigpipe() {
 
 /// The entrypoint.
 fn main() {
-    pretty_env_logger::init_timed();
+    pretty_env_logger::try_init_timed_custom_env("DFT_LOG")
+        .expect("The logger has not been previously initalized");
     reset_sigpipe();
 
     match options::parse_args() {

@@ -62,7 +62,7 @@ $ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
 Difftastic使用`pretty_env_logger`库来记录一些额外的调试信息。
 
 ```
-$ RUST_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+$ DFT_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
 ```
 
 请参阅[`env_logger`](https://docs.rs/env_logger/0.9.0/env_logger/)以获得完整的细节。
