@@ -963,15 +963,15 @@ class A {
     c: D,
     e: F,
   ) = 1
-  def g[H](i) {
-    j
-  }
+
   def h(x: T)(implicit ev: Reads[T])
 
   def l: Int =
     1
 
   def m = ()
+
+  def n(using a: A)(using B <:< B, C =:= C) = ()
 }
 
 --------------------------------------------------------------------------------
@@ -990,15 +990,6 @@ class A {
             (identifier)
             (type_identifier)))
         (integer_literal))
-      (function_definition
-        (identifier)
-        (type_parameters
-          (identifier))
-        (parameters
-          (parameter
-            (identifier)))
-        (block
-          (identifier)))
       (function_declaration
         (identifier)
         (parameters
@@ -1019,6 +1010,22 @@ class A {
           (integer_literal)))
       (function_definition
         (identifier)
+        (unit))
+      (function_definition
+        (identifier)
+        (parameters
+          (parameter
+            (identifier)
+            (type_identifier)))
+        (parameters
+          (infix_type
+            (type_identifier)
+            (operator_identifier)
+            (type_identifier))
+          (infix_type
+            (type_identifier)
+            (operator_identifier)
+            (type_identifier)))
         (unit)))))
 
 ================================================================================

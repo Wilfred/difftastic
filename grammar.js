@@ -620,10 +620,33 @@ module.exports = grammar({
       ')'
     )),
 
-    parameters: $ => seq(
+    /*
+    * DefParamClauses   ::=  {DefParamClause} [[nl] ‘(’ [‘implicit’] DefParams ‘)’]
+    * DefParamClause    ::=  [nl] ‘(’ DefParams ‘)’ | UsingParamClause
+    * DefParams         ::=  DefParam {‘,’ DefParam}
+    */
+    parameters: $ => choice(
+      seq(
+        '(',
+        optional('implicit'),
+        trailingCommaSep($.parameter), 
+        ')'
+      ),
+      $._using_parameters_clause
+    ),
+
+    /*
+    * UsingParamClause  ::=  [nl] ‘(’ ‘using’ (DefParams | FunArgTypes) ‘)’
+    * DefParams         ::=  DefParam {‘,’ DefParam}
+    * FunArgTypes       ::=  FunArgType { ‘,’ FunArgType }
+    */
+    _using_parameters_clause: $ => seq(
       '(',
-      optional(choice('implicit', 'using')),
-      trailingCommaSep($.parameter),
+      'using',
+      choice(
+        trailingCommaSep1($.parameter), 
+        trailingCommaSep1($._param_type)
+      ),
       ')'
     ),
 
@@ -637,11 +660,16 @@ module.exports = grammar({
       optional(seq('=', field('default_value', $.expression)))
     ),
 
+    /*
+    * DefParam          ::=  {Annotation} [‘inline’] Param
+    * Param             ::=  id ‘:’ ParamType [‘=’ Expr]
+    */
     parameter: $ => seq(
       repeat($.annotation),
       optional($.inline_modifier),
       field('name', $._identifier),
-      optional(seq(':', field('type', $._param_type))),
+      ':',
+      field('type', $._param_type),
       optional(seq('=', field('default_value', $.expression)))
     ),
 
