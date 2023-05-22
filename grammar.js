@@ -366,7 +366,8 @@ module.exports = grammar({
           optional('*'),
           field('type', choice(
             $._type_identifier,
-            $.qualified_type
+            $.qualified_type,
+            $.generic_type,
           ))
         )
       ),
