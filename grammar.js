@@ -15,11 +15,6 @@ const
   comparative_operators = ['==', '!=', '<', '<=', '>', '>='],
   assignment_operators = multiplicative_operators.concat(additive_operators).map(operator => operator + '=').concat('='),
 
-  unicodeLetter = /\p{L}/,
-  unicodeDigit = /[0-9]/,
-  unicodeChar = /./,
-  unicodeValue = unicodeChar,
-  letter = choice(unicodeLetter, '_'),
 
   newline = '\n',
   terminator = choice(newline, ';'),
@@ -829,10 +824,7 @@ module.exports = grammar({
       field('name', $._type_identifier)
     ),
 
-    identifier: $ => token(seq(
-      letter,
-      repeat(choice(letter, unicodeDigit))
-    )),
+    identifier: _ => /[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
