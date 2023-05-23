@@ -3512,6 +3512,26 @@
           }
         ]
       },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_declaration_list",
+            "named": true
+          }
+        ]
+      },
+      "pragmas": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pragma_list",
+            "named": true
+          }
+        ]
+      },
       "return_type": {
         "multiple": true,
         "required": false,
@@ -3654,16 +3674,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "parameter_declaration_list",
-          "named": true
-        }
-      ]
     }
   },
   {

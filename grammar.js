@@ -241,7 +241,6 @@ module.exports = grammar({
       "sigil",
       "suffix",
       "unary",
-      $.pragma_expression,
       "type_modifiers",
       "binary_10",
       "binary_9",
@@ -257,6 +256,7 @@ module.exports = grammar({
       $._expression,
       $._simple_expression_command_start,
       $._type_expression,
+      $.pragma_expression,
     ],
     [$._routine_expression_tail, $.pragma_expression],
     [$._routine_expression_tail, "proc_type"],
@@ -805,8 +805,9 @@ module.exports = grammar({
     do_block: $ =>
       seq(
         keyword("do"),
-        optional($.parameter_declaration_list),
+        field("parameters", optional($.parameter_declaration_list)),
         field("return_type", optional(seq("->", $._type_expression))),
+        field("pragmas", optional($.pragma_list)),
         ":",
         field("body", $.statement_list)
       ),
@@ -971,14 +972,6 @@ module.exports = grammar({
     pointer_type: () => keyword("ptr"),
     proc_type: $ => Templates.proc_type($, keyword("proc")),
     iterator_type: $ => Templates.proc_type($, keyword("iterator")),
-    _routine_type_tail: $ =>
-      prec.right(
-        seq(
-          field("parameters", optional($.parameter_declaration_list)),
-          field("return_type", optional(seq(":", $._type_expression))),
-          field("pragmas", optional($.pragma_list))
-        )
-      ),
 
     _infix_extended: $ =>
       prec("post_expr", seq($._infix_expression, $._post_expression_block)),

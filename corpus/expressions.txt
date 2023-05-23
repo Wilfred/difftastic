@@ -397,6 +397,9 @@ of 1, 2:
 cmp() do (x, y: int) -> int:
   x - y
 
+cmp() do (x: int) -> int {.noSideEffect.}:
+  x - y
+
 fn() do:
   x
 do:
@@ -497,7 +500,7 @@ collect(for x in s:
     function: (identifier)
     (argument_list
       (do_block
-        (parameter_declaration_list
+        parameters: (parameter_declaration_list
           (parameter_declaration
             (symbol_declaration_list
               (symbol_declaration
@@ -506,6 +509,24 @@ collect(for x in s:
                 name: (identifier)))
             type: (identifier)))
         return_type: (identifier)
+        body: (statement_list
+          (infix_expression
+            left: (identifier)
+            operator: (infix_operator)
+            right: (identifier))))))
+  (call
+    function: (identifier)
+    (argument_list
+      (do_block
+        parameters: (parameter_declaration_list
+          (parameter_declaration
+            (symbol_declaration_list
+              (symbol_declaration
+                name: (identifier)))
+            type: (identifier)))
+        return_type: (identifier)
+        pragmas: (pragma_list
+          (identifier))
         body: (statement_list
           (infix_expression
             left: (identifier)
