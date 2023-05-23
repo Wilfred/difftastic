@@ -3299,6 +3299,22 @@
     }
   },
   {
+    "type": "defer",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "statement_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "discard_statement",
     "named": true,
     "fields": {},
@@ -3496,6 +3512,26 @@
           }
         ]
       },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_declaration_list",
+            "named": true
+          }
+        ]
+      },
+      "pragmas": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pragma_list",
+            "named": true
+          }
+        ]
+      },
       "return_type": {
         "multiple": true,
         "required": false,
@@ -3638,16 +3674,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "parameter_declaration_list",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -9218,6 +9244,10 @@
           "named": true
         },
         {
+          "type": "defer",
+          "named": true
+        },
+        {
           "type": "discard_statement",
           "named": true
         },
@@ -11229,6 +11259,10 @@
           "named": true
         },
         {
+          "type": "defer",
+          "named": true
+        },
+        {
           "type": "discard_statement",
           "named": true
         },
@@ -11517,6 +11551,10 @@
         },
         {
           "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "defer",
           "named": true
         },
         {
@@ -12131,6 +12169,10 @@
         },
         {
           "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "defer",
           "named": true
         },
         {
@@ -14242,6 +14284,10 @@
   {
     "type": "custom_numeric_literal",
     "named": true
+  },
+  {
+    "type": "defer",
+    "named": false
   },
   {
     "type": "discard",

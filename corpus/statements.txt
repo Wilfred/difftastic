@@ -431,3 +431,37 @@ x = foo.add proc =
         (proc_expression
           (statement_list
             (identifier)))))))
+
+================================================================================
+Defer statements
+================================================================================
+
+defer: echo y
+
+defer:
+  doX()
+  doY()
+  assert y, "foo"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (defer
+    (statement_list
+      (call
+        (identifier)
+        (argument_list
+          (identifier)))))
+  (defer
+    (statement_list
+      (call
+        (identifier)
+        (argument_list))
+      (call
+        (identifier)
+        (argument_list))
+      (call
+        (identifier)
+        (argument_list
+          (identifier)
+          (string_literal))))))
