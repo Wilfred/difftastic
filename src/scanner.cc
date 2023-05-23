@@ -40,10 +40,6 @@ enum class TokenType : TSSymbol {
   LayoutTerminator,
   LayoutEmpty,
   Comma,
-  ParenClose,
-  BracketClose,
-  CurlyClose,
-  CurlyDotClose,
   Synchronize,
   InvalidLayout,
   SigilOp,
@@ -322,7 +318,7 @@ constexpr char32_t to_upper(char32_t chr)
   return is_lower(chr) ? chr & ~lower_case_bit : chr;
 }
 
-bool lex_inline_layout(Context& ctx, bool read_dot = false)
+bool lex_inline_layout(Context& ctx)
 {
   if (ctx.state().layout_stack.empty()) {
     return false;
@@ -346,30 +342,12 @@ bool lex_inline_layout(Context& ctx, bool read_dot = false)
     }
     break;
   case ')':
-    if (ctx.valid(TokenType::ParenClose)) {
-      return false;
-    }
-    break;
   case ']':
-    if (ctx.valid(TokenType::BracketClose)) {
-      return false;
-    }
-    break;
   case '}':
-    if ((!read_dot && ctx.valid(TokenType::CurlyClose)) ||
-        (read_dot && ctx.valid(TokenType::CurlyDotClose))) {
-      return false;
-    }
     break;
   case '.':
-    if (!read_dot) {
-      ctx.advance();
-      if (ctx.lookahead() == '}') {
-        if (ctx.valid(TokenType::CurlyDotClose)) {
-          return false;
-        }
-        break;
-      }
+    if (ctx.advance() == '}') {
+      break;
     }
     return false;
   default:
@@ -551,7 +529,7 @@ bool lex(Context& ctx, bool immediate)
 
   if (result == TokenType::TokenTypeLen) {
     if (is_dot) {
-      TRY_LEXN(ctx, lex_inline_layout, true);
+      TRY_LEX(ctx, lex_inline_layout);
     }
     return false;
   }
