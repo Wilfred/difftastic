@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   (arguments (argument (identifier) (selector (argument_part (arguments)))))))))) 
 (class_definition (identifier) (superclass (type_identifier)) 
   (class_body 
-    (declaration (constant_constructor_signature (const_builtin) (qualified (type_identifier)) 
+    (declaration (constant_constructor_signature (const_builtin) (identifier) 
       (formal_parameter_list (optional_formal_parameters (formal_parameter (type_identifier) (identifier))))) 
         (initializers (initializer_list_entry (super) (arguments (named_argument (label (identifier)) (identifier)))))) 
     (marker_annotation (identifier)) 

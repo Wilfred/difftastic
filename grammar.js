@@ -113,6 +113,7 @@ module.exports = grammar({
         [$.typed_identifier, $._var_or_type, $._function_formal_parameter],
         [$._type_name, $._simple_formal_parameter],
         [$._type_not_function, $._type_not_void],
+        [$.switch_statement_case],
         // [$._argument_list],
         [$.variable_declaration, $.initialized_identifier,],
         [$.declaration, $._external_and_static],
@@ -123,10 +124,38 @@ module.exports = grammar({
         [$._expression],
         // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
+        [$.type_arguments, $.relational_operator],
+        [$.prefix_operator, $.constant_pattern],
+        [$._primary, $.constant_pattern, $._type_name],
+        [$.parenthesized_expression, $.if_statement],
         [$._top_level_definition, $.lambda_expression],
+        [$._literal, $.constant_pattern],
+        [$._primary, $.constant_pattern],
+        [$._type_not_void_not_function, $.qualified],
+        [$._final_var_or_type],
+        [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter],
+        [$._parenthesized_pattern, $._pattern_field],
+        [$.record_type_field, $._var_or_type, $._final_var_or_type, $._function_formal_parameter],
+        [$._var_or_type, $._final_var_or_type],
+        [$._final_const_var_or_type, $._final_var_or_type],
+        [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
+        [$.set_or_map_literal, $.map_pattern],
+        [$.list_literal, $.list_pattern],
+        [$._real_expression, $._pattern],
+        [$.constant_pattern, $._type_name],
+        [$._pattern_field, $.label],
+        [$._pattern],
+        [$.constructor_tearoff, $._identifier_or_new],
+        [$._primary, $.constant_pattern, $._simple_formal_parameter],
+        [$.record_type_field, $._final_var_or_type],
+        [$._var_or_type, $._final_var_or_type, $.function_signature],
         [$._top_level_definition, $._var_or_type, $.function_signature],
+        [$.set_or_map_literal, $.constant_pattern],
+        [$.list_literal, $.constant_pattern],
+        [$.set_or_map_literal, $.block, $.map_pattern],
         [$._var_or_type, $.function_signature],
         [$._var_or_type, $._function_formal_parameter],
+        [$.relational_operator, $.type_arguments, $.type_parameters],
         [$._var_or_type],
         [$._top_level_definition, $._var_or_type],
         [$._top_level_definition, $._final_const_var_or_type],
@@ -259,13 +288,18 @@ module.exports = grammar({
         ***************************************************************************************************
         ***************************************************************************************************/
 
-        _literal: $ => choice(
-            $.null_literal,
-            $.true,
-            $.false,
+        _bool_literal: $ => choice($.true, $.false),
+
+        _numeric_literal: $ => choice(
             $.decimal_integer_literal,
             $.decimal_floating_point_literal,
             $.hex_integer_literal,
+        ),
+
+        _literal: $ => choice(
+            $.null_literal,
+            $._bool_literal,
+            $._numeric_literal,
             $.string_literal,
             $.symbol_literal,
             $.set_or_map_literal,
@@ -548,6 +582,7 @@ module.exports = grammar({
         ***************************************************************************************************
         ***************************************************************************************************/
         _expression: $ => choice(
+            $.pattern_assignment,
             $.assignment_expression,
             $.throw_expression,
             seq(
@@ -1071,6 +1106,7 @@ module.exports = grammar({
                 $.unconditional_assignable_selector
             ),
             $.constructor_tearoff,
+            $.switch_expression,
             // $.object_creation_expression,
             // $.field_access,
             // $.array_access,
@@ -1259,14 +1295,109 @@ module.exports = grammar({
             field('body', $.switch_block)
         ),
 
+        switch_expression: $ => seq(
+            'switch',
+            field('condition', $.parenthesized_expression),
+            field('body',
+             seq('{',
+               commaSep1TrailingComma($.switch_expression_case),
+            '}'
+            ))
+        ),
+
+        switch_expression_case: $ => seq($._guarded_pattern, '=>', $._expression),
+
+        _guarded_pattern: $ => seq(
+            $._pattern, optional(seq('when', $._expression))
+        ),
+
+        _pattern: $ => choice(
+            seq($._pattern, '||', $._pattern),
+            seq($._pattern, '&&', $._pattern),
+            seq(choice($.relational_operator, $.equality_operator), $.bitwise_or_expression),
+            $._unary_pattern,
+        ),
+
+        _unary_pattern: $ => choice(
+            $.cast_pattern,
+            $.null_check_pattern,
+            $.null_assert_pattern,
+            $._primary_pattern,
+        ),
+
+        _primary_pattern: $ => choice(
+            $.constant_pattern,
+            $.variable_pattern,
+            $._parenthesized_pattern,
+            $.list_pattern,
+            $.map_pattern,
+            $.record_pattern,
+            $.object_pattern,
+        ),
+
+        cast_pattern: $ => seq($._primary_pattern, 'as', $._type),
+
+        null_check_pattern: $ => seq($._primary_pattern, '?'),
+
+        null_assert_pattern: $ => seq($._primary_pattern, '!'),
+
+        constant_pattern: $ => choice(
+            $._bool_literal,
+            $.null_literal,
+            seq(optional($.minus_operator), $._numeric_literal),
+            $.string_literal,
+            $.symbol_literal,
+            $.identifier,
+            $.qualified,
+            $.const_object_expression,
+            seq($.const_builtin, optional($.type_arguments), '[', commaSep1TrailingComma($._element), ']'),
+            seq($.const_builtin, optional($.type_arguments), '{', commaSep1TrailingComma($._element), '}'),
+            seq($.const_builtin, '(', $._expression, ')'),
+        ),
+
+        variable_pattern: $ => seq($._final_var_or_type, $.identifier),
+
+        _parenthesized_pattern: $ => seq('(', $._pattern, ')'),
+
+        list_pattern: $ => seq(optional($.type_arguments), '[', commaSepTrailingComma($._list_pattern_element), ']'),
+
+        _list_pattern_element: $ => choice($._pattern, $.rest_pattern),
+
+        rest_pattern: $ => seq('...', optional($._pattern)),
+
+        map_pattern: $ => seq(optional($.type_arguments), '{', commaSepTrailingComma($._map_pattern_entry), '}'),
+
+        _map_pattern_entry: $ => choice(seq($._expression, ':', $._pattern), '...'),
+
+        record_pattern: $ => seq('(', commaSep1TrailingComma($._pattern_field), ')'),
+
+        _pattern_field: $ => seq(optional(seq(optional($.identifier), ':')), $._pattern),
+
+        object_pattern: $ => seq($._type_name, optional($.type_arguments), '(', commaSep1TrailingComma($._pattern_field), ')'),
+
+        pattern_variable_declaration: $ => seq(choice($.final_builtin, $.inferred_type), $._outer_pattern, '=', $._expression),
+
+        _outer_pattern: $ => choice($._parenthesized_pattern, $.list_pattern, $.map_pattern, $.record_pattern, $.object_pattern),
+
+        pattern_assignment: $ => seq($._outer_pattern, '=', $._expression),
+
         switch_block: $ => seq(
             '{',
-            repeat(choice($.switch_label, $._statement)),
+                repeat($.switch_statement_case),
+                optional($.switch_statement_default),
             '}'
         ),
 
+        switch_statement_case: $ =>  seq(
+            repeat($.label), $.case_builtin, $._guarded_pattern, ':', repeat($._statement),
+        ),
+
+        switch_statement_default: $ => seq(
+            repeat($.label), 'default', ':', repeat($._statement),
+        ),
+
         switch_case: $ => choice(
-            seq(repeat($.label), $.case_builtin, $._expression, ':', repeat1($._statement)),
+            seq(repeat($.label), $.case_builtin, $._guarded_pattern, ':', repeat1($._statement)),
         ),
 
         default_case: $ => choice(
@@ -1351,14 +1482,14 @@ module.exports = grammar({
 
         if_element: $ => prec.right(seq(
             'if',
-            field('condition', $.parenthesized_expression),
+            '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
             field('consequence', $._element),
             optional(seq('else', field('alternative', $._element)))
         )),
 
         if_statement: $ => prec.right(seq(
             'if',
-            field('condition', $.parenthesized_expression),
+            '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
             field('consequence', $._statement),
             optional(seq('else', field('alternative', $._statement)))
         )),
@@ -1991,7 +2122,7 @@ module.exports = grammar({
             $.this,
             optional(seq(
                 '.',
-                choice($.identifier, $._new_builtin)
+                $._identifier_or_new
             )),
             $.arguments
         ),
@@ -2000,14 +2131,14 @@ module.exports = grammar({
             field('name', seq($.identifier, optional(
                 seq(
                     '.',
-                    $.identifier
+                    $._identifier_or_new
                 )
             ))),
             field('parameters', $.formal_parameter_list)
         ),
         constant_constructor_signature: $ => seq(
             $.const_builtin,
-            $.qualified,
+            seq($.identifier, optional(seq('.', $._identifier_or_new))),
             $.formal_parameter_list
         ),
 
@@ -2276,6 +2407,8 @@ module.exports = grammar({
             )
         ),
 
+        _final_var_or_type: $ => choice($.inferred_type, $.final_builtin, seq(optional($.final_builtin), $._type)),
+
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
             'var',
@@ -2503,10 +2636,11 @@ module.exports = grammar({
 
         dotted_identifier_list: $ => sep1($.identifier, '.'),
 
-        qualified: $ => seq($._type_name,
-            optional(
-                seq('.', choice($.identifier, $._new_builtin))
-            )
+        _identifier_or_new: $ => choice($.identifier, $._new_builtin),
+
+        qualified: $ =>choice(
+            seq($._type_name, '.', $._identifier_or_new),
+            seq($._type_name, '.', $._type_name, '.', $._identifier_or_new),
         ),
 
         // Built in identifier tokens: These should be tokenized.

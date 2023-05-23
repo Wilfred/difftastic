@@ -136,7 +136,7 @@ class A {
                       (inferred_type)
                         name: (identifier)
                         value: (set_or_map_literal (if_element
-                        condition: (parenthesized_expression (identifier))
+                         (identifier)
                         consequence: (identifier)
                         ))
           )

@@ -374,26 +374,43 @@ class SwitchDemo {
           (switch_statement
             condition: (parenthesized_expression (identifier))
             body: (switch_block
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (case_builtin) (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)
-              (switch_label)
-              (expression_statement (assignment_expression
-                left: (assignable_expression (identifier))
-                right: (string_literal)))
-              (break_statement)))
+              (switch_statement_case
+              (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_case
+                  (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_case
+                  (case_builtin)
+                    (constant_pattern
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))
+                  (switch_statement_default
+                    (expression_statement
+                      (assignment_expression
+                        left: (assignable_expression
+                          (identifier))
+                        right: (string_literal)))
+                    (break_statement))))
           (expression_statement
               (identifier)
               (selector

@@ -203,8 +203,7 @@ main() {
     (function_body
       (block
         (if_statement
-          (parenthesized_expression
-            (identifier))
+            (identifier)
           (expression_statement
             (identifier))))))
 
@@ -227,8 +226,7 @@ main() {
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
-              (identifier))
+              (identifier)
             (block
               (expression_statement
                 (identifier)))))))
@@ -250,11 +248,10 @@ main(){
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
               (equality_expression
                 (identifier)
                 (equality_operator)
-                (decimal_integer_literal)))
+                (decimal_integer_literal))
             (expression_statement
               (assignment_expression
                 (assignable_expression
@@ -282,11 +279,10 @@ main() {
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
               (equality_expression
                 (identifier)
                 (equality_operator)
-                (decimal_integer_literal)))
+                (decimal_integer_literal))
             (block
               (expression_statement
                 (assignment_expression
@@ -321,11 +317,9 @@ main() {
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
-              (identifier))
+              (identifier)
             (if_statement
-              (parenthesized_expression
-                (identifier))
+                (identifier)
               (expression_statement
                 (identifier)
                 (selector
@@ -508,7 +502,7 @@ void main() {
 (program (function_signature (void_type) (identifier) (formal_parameter_list)) 
   (function_body (block 
     (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (false))) 
-    (if_statement (parenthesized_expression (unary_expression (prefix_operator (negation_operator)) (identifier))) 
+    (if_statement (unary_expression (prefix_operator (negation_operator)) (identifier)) 
       (block (expression_statement (assignment_expression (assignable_expression (identifier)) (identifier))))))))
 
 ================================
@@ -553,19 +547,18 @@ main(){
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
-              (relational_expression
-                (type_cast_expression
-                  (identifier)
-                  (selector
-                    (unconditional_assignable_selector
-                      (index_selector
-                        (string_literal))))
-                  (type_cast
-                    (as_operator)
-                    (type_identifier)))
-                (relational_operator)
-                (decimal_integer_literal)))
+            (relational_expression
+              (type_cast_expression
+                (identifier)
+                (selector
+                  (unconditional_assignable_selector
+                    (index_selector
+                      (string_literal))))
+                (type_cast
+                  (as_operator)
+                  (type_identifier)))
+              (relational_operator)
+              (decimal_integer_literal))
             (block)))))
 
 
@@ -586,20 +579,19 @@ main(){
       (function_body
         (block
           (if_statement
-            (parenthesized_expression
-              (relational_expression
-                (parenthesized_expression
-                  (type_cast_expression
+            (relational_expression
+              (parenthesized_expression
+                (type_cast_expression
                     (identifier)
                     (selector
                       (unconditional_assignable_selector
                         (index_selector
                           (string_literal))))
-                    (type_cast
-                      (as_operator)
-                      (type_identifier))))
+                  (type_cast
+                    (as_operator)
+                    (type_identifier))))
                 (relational_operator)
-                (decimal_integer_literal)))
+                (decimal_integer_literal))
             (block)))))
 
 ==========================
@@ -712,9 +704,9 @@ main() {
                           (unconditional_assignable_selector
                             (index_selector
                               (string_literal))))
-                        (type_cast
-                          (as_operator)
-                          (type_identifier)))
+                      (type_cast
+                        (as_operator)
+                        (type_identifier)))
                       (string_literal)
                       (string_literal))))))))))
 
@@ -859,23 +851,22 @@ main() {
                   (as_operator)
                   (type_identifier)))))
           (if_statement
-            (parenthesized_expression
-              (relational_expression
-                (type_cast_expression
-                  (identifier)
-                  (selector
-                    (unconditional_assignable_selector
-                      (index_selector
-                        (string_literal))))
-                  (type_cast
-                    (as_operator)
-                    (type_identifier)))
-                (relational_operator)
-                (type_cast_expression
-                  (identifier)
-                  (type_cast
-                    (as_operator)
-                    (type_identifier)))))
+            (relational_expression
+              (type_cast_expression
+                (identifier)
+                (selector
+                  (unconditional_assignable_selector
+                    (index_selector
+                      (string_literal))))
+                (type_cast
+                  (as_operator)
+                  (type_identifier)))
+              (relational_operator)
+              (type_cast_expression
+                (identifier)
+                (type_cast
+                  (as_operator)
+                  (type_identifier))))
             (block))
           (expression_statement
             (bitwise_or_expression
