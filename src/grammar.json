@@ -128,6 +128,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "defer"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_declaration"
         }
       ]
@@ -853,6 +857,39 @@
           }
         ]
       }
+    },
+    "defer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "d_?[eE]_?[fF]_?[eE]_?[rR]"
+              }
+            }
+          },
+          "named": false,
+          "value": "defer"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "statement_list"
+          }
+        }
+      ]
     },
     "_declaration": {
       "type": "CHOICE",

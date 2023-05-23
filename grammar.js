@@ -382,7 +382,7 @@ module.exports = grammar({
 
     _statement: $ => choice($._simple_statement, $._complex_statement),
     _complex_statement: $ =>
-      choice($.while, $.static_statement, $._declaration),
+      choice($.while, $.static_statement, $.defer, $._declaration),
     _simple_statement: $ =>
       choice($._expression_statement, $._simple_statement_no_expression),
     _simple_statement_no_expression: $ =>
@@ -455,6 +455,7 @@ module.exports = grammar({
       prec.right(
         seq($.pragma_list, optional(seq(":", field("body", $.statement_list))))
       ),
+    defer: $ => seq(keyword("defer"), ":", field("body", $.statement_list)),
 
     _declaration: $ =>
       choice(
