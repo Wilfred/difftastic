@@ -87,10 +87,12 @@ main() {
           (expression_statement
             (logical_and_expression
               (identifier)
+              (logical_and_operator)
               (identifier)))
           (expression_statement
             (logical_or_expression
               (identifier)
+              (logical_or_operator)
               (identifier)))
           (expression_statement
             (bitwise_and_expression
@@ -833,6 +835,7 @@ main() {
           (expression_statement
             (logical_and_expression
               (identifier)
+              (logical_and_operator)
               (type_cast_expression
                 (identifier)
                 (type_cast
@@ -845,6 +848,7 @@ main() {
                 (type_cast
                   (as_operator)
                   (type_identifier)))
+              (logical_or_operator)
               (type_cast_expression
                 (identifier)
                 (type_cast

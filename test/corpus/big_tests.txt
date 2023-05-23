@@ -35,29 +35,29 @@ typedef RpcPeerConnectionFunction = Future<vms.VmService> Function(
 =======================================
 more tests2
 =======================================
-  static bool? _boolAttribute(
-      String resourceId,
-      String name,
-      Map<String, Object?> attributes,
-      String attributeName,
-      ) {
-    final Object? value = attributes[attributeName];
-    if (value == null) {
-      return null;
-    }
-    if (value != 'true' && value != 'false') {
-      throw L10nException(
-        'The "$attributeName" value of the "$name" placeholder in message $resourceId '
-            'must be a boolean value.',
-      );
-    }
-    return value == 'true';
+
+bool? _boolAttribute(
+    String resourceId,
+    String name,
+    Map<String, Object?> attributes,
+    String attributeName,
+    ) {
+  final Object? value = attributes[attributeName];
+  if (value == null) {
+    return null;
   }
+  if (value != 'true' && value != 'false') {
+    throw L10nException(
+      'The "$attributeName" value of the "$name" placeholder in message $resourceId '
+          'must be a boolean value.',
+    );
+  }
+  return value == 'true';
+}
 
 ---
 
-(program (function_signature (type_identifier) (ERROR 
-(identifier)) (identifier) 
+(program (function_signature (type_identifier) (nullable_type) (identifier) 
   (formal_parameter_list 
     (formal_parameter 
       (type_identifier) (identifier)) (formal_parameter (type_identifier) (identifier)) 
@@ -73,6 +73,7 @@ more tests2
         (null_literal)) (block (return_statement (null_literal)))) 
         (if_statement (logical_and_expression 
         (equality_expression (identifier) (equality_operator) (string_literal))
+        (logical_and_operator)
         (equality_expression (identifier) (equality_operator) (string_literal))) 
         (block (expression_statement (throw_expression (identifier) 
         (selector (argument_part (arguments (argument (string_literal 
@@ -220,15 +221,22 @@ bool debugAssertIsValid() {
 (assertion 
   (assertion_arguments (logical_and_expression 
     (equality_expression (identifier) (equality_operator) (null_literal)) 
+    (logical_and_operator)
     (logical_and_expression 
       (equality_expression (identifier) (equality_operator) (null_literal)) 
+      (logical_and_operator)
       (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+        (logical_and_operator)
         (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+          (logical_and_operator)
           (logical_and_expression (identifier) (selector (unconditional_assignable_selector (identifier))) 
+            (logical_and_operator)
             (logical_and_expression (equality_expression (identifier) (equality_operator) (null_literal)) 
+                (logical_and_operator)
                 (logical_and_expression 
                     (relational_expression (identifier) (relational_operator) 
                       (decimal_floating_point_literal)) 
+                     (logical_and_operator)
                     (relational_expression (identifier) (relational_operator) (decimal_floating_point_literal)
                     )
                   )

@@ -140,6 +140,8 @@ module.exports = grammar({
         [$.record_type_field, $._var_or_type, $._final_var_or_type, $._function_formal_parameter],
         [$._var_or_type, $._final_var_or_type],
         [$._final_const_var_or_type, $._final_var_or_type],
+        [$._var_or_type, $._for_loop_parts, $.pattern_variable_declaration],
+        [$.pattern_variable_declaration, $._for_loop_parts, $._final_const_var_or_type],
         [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
         [$.set_or_map_literal, $.map_pattern],
         [$.list_literal, $.list_pattern],
@@ -813,12 +815,12 @@ module.exports = grammar({
 
         logical_or_expression: $ => prec.left( //left
             DART_PREC.Logical_OR,
-            sep2($._real_expression, '||')
+            sep2($._real_expression, $.logical_or_operator)
         ),
 
         logical_and_expression: $ => prec.left( //left
             DART_PREC.Logical_AND,
-            sep2($._real_expression, '&&')
+            sep2($._real_expression, $.logical_and_operator)
         ),
 
         equality_expression: $ => prec( //neither
@@ -1314,10 +1316,16 @@ module.exports = grammar({
         ),
 
         _pattern: $ => choice(
-            seq($._pattern, '||', $._pattern),
-            seq($._pattern, '&&', $._pattern),
-            seq(choice($.relational_operator, $.equality_operator), $.bitwise_or_expression),
-            $._unary_pattern,
+            $._logical_or_pattern,
+        ),
+
+        _logical_or_pattern: $ => seq($._logical_and_pattern, repeat(seq($.logical_or_operator, $._logical_and_pattern))),
+        _logical_and_pattern: $ => seq($._relational_pattern, repeat(seq($.logical_and_operator, $._relational_pattern))),
+        _relational_pattern: $ => 
+        prec(DART_PREC.Relational, choice(
+                seq(choice($.relational_operator, $.equality_operator), $._real_expression),
+                $._unary_pattern,
+            )
         ),
 
         _unary_pattern: $ => choice(
@@ -1531,6 +1539,12 @@ module.exports = grammar({
                 ),),
                 field('condition', optional($._expression)), $._semicolon,
                 commaSep(field('update', $._expression)),
+            ),
+            seq(
+                choice($.final_builtin, $.inferred_type),
+                $._outer_pattern,
+                'in',
+                field('value', $._expression)
             )
         ),
 
@@ -2785,6 +2799,14 @@ module.exports = grammar({
             DART_PREC.BUILTIN,
             'new',
         ),
+        logical_and_operator: $ => prec(
+            DART_PREC.BUILTIN,
+            '&&',
+        ),
+        logical_or_operator: $ => prec(
+            DART_PREC.BUILTIN,
+            '||'
+        ),
         const_builtin: $ => token('const'),
         final_builtin: $ => token('final'),
         _late_builtin: $ => prec(
@@ -2867,6 +2889,16 @@ function commaSep1TrailingComma(rule) {
 
 function commaSepTrailingComma(rule) {
     return optional(commaSep1TrailingComma(rule))
+}
+
+function pureBinaryRun(rule, separator, precedence){
+   return prec.left(
+        precedence,
+        choice(
+            sep2(
+                rule,
+                separator
+            )))
 }
 
 function binaryRunLeft(rule, separator, superItem, precedence) {
