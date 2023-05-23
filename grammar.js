@@ -124,6 +124,8 @@ module.exports = grammar({
         [$._expression],
         // [$._real_expression, $._below_relational_expression],
         [$._postfix_expression],
+        [$.pattern_variable_declaration, $._var_or_type],
+        [$._final_const_var_or_type, $.pattern_variable_declaration],
         [$.type_arguments, $.relational_operator],
         [$.prefix_operator, $.constant_pattern],
         [$._primary, $.constant_pattern, $._type_name],
@@ -2625,9 +2627,17 @@ module.exports = grammar({
             optional($._formal_parameter_part)
         ),
 
-        local_variable_declaration: $ => seq(
-            $.initialized_variable_definition,
-            $._semicolon
+        local_variable_declaration: $ => choice(
+            seq(
+                optional($._metadata),
+                $.initialized_variable_definition,
+                $._semicolon
+            ),
+            seq(
+                optional($._metadata),
+                $.pattern_variable_declaration,
+                $._semicolon
+            )
         ),
 
         script_tag: $ => seq('#!', /.+/, '\n'),

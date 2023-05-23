@@ -11,14 +11,14 @@ var linesPrinted = 0;
 var errorLines = 0;
 void main(List<String> args) async {
   if (args.length < 2) {
-    print("Usage: dart tester/test.dart /path/to/directory/for/testing parse/highlight" );
+    print(
+        "Usage: dart tester/test.dart /path/to/directory/for/testing parse/highlight/query [query.scm]");
     return;
   }
   final files = Directory(args[0])
       .listSync(recursive: true)
       .whereType<File>()
-      .where((e) =>
-          e.path.endsWith('.dart') )
+      .where((e) => e.path.endsWith('.dart'))
       .map((f) => f.path)
       .toList();
 
@@ -26,7 +26,8 @@ void main(List<String> args) async {
   for (var i = 0; i < files.length; i += sectionSize) {
     final sublist = files.sublist(
         i, i + sectionSize < files.length ? i + sectionSize : files.length);
-    results.add(runTreeSitter(sublist, args[1]));
+    results.add(
+        runTreeSitter(sublist, args[1], args.length == 3 ? args[2] : null));
   }
   await Future.wait(results);
   print('Processed $lines lines of tree-sitter output');
@@ -34,12 +35,16 @@ void main(List<String> args) async {
   print('Error percentage ${errorLines * 100 / lines}%');
 }
 
-Future<void> runTreeSitterSingle(List<String> files, String parseOrHighlight) async {
+Future<void> runTreeSitterSingle(
+    List<String> files, String parseOrHighlight, String? queryFile) async {
   assert(files.length == 1);
   try {
     final result = await Process.run(
-        absolute('node_modules/tree-sitter-cli/tree-sitter'),
-        [parseOrHighlight, ...files]);
+        absolute('node_modules/tree-sitter-cli/tree-sitter'), [
+      if (parseOrHighlight == 'query') ...['query', queryFile!] else
+        parseOrHighlight,
+      ...files
+    ]);
     var lastLine = "";
     var prevLastLine = "";
 
@@ -66,24 +71,28 @@ Future<void> runTreeSitterSingle(List<String> files, String parseOrHighlight) as
   }
 }
 
-Future<void> runTreeSitter(List<String> files, String parseOrHighlight) async {
+Future<void> runTreeSitter(
+    List<String> files, String parseOrHighlight, String? queryFile) async {
   try {
-  final result = await Process.run(
-      absolute('node_modules/tree-sitter-cli/tree-sitter'),
-      [parseOrHighlight, ...files]);
+    final result = await Process.run(
+        absolute('node_modules/tree-sitter-cli/tree-sitter'), [
+      if (parseOrHighlight == 'query') ...['query', queryFile!] else
+        parseOrHighlight,
+      ...files
+    ]);
 
-  for (final line in result.stdout.split('\n')) {
-    lines++;
+    for (final line in result.stdout.split('\n')) {
+      lines++;
 
-    if (line.contains('ERROR')) {
-      errorLines++;
-      if (linesPrinted < maxPrint) {
-        linesPrinted++;
-        print(line);
+      if (line.contains('ERROR')) {
+        errorLines++;
+        if (linesPrinted < maxPrint) {
+          linesPrinted++;
+          print(line);
+        }
       }
     }
-  }
-  } catch (e){
+  } catch (e) {
     print('Serious error on $parseOrHighlight in $files');
     print(e);
   }

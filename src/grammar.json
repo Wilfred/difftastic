@@ -11453,15 +11453,57 @@
       ]
     },
     "local_variable_declaration": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "initialized_variable_definition"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_metadata"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "initialized_variable_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_semicolon"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_metadata"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "pattern_variable_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
+            }
+          ]
         }
       ]
     },
@@ -12094,6 +12136,14 @@
     ],
     [
       "_postfix_expression"
+    ],
+    [
+      "pattern_variable_declaration",
+      "_var_or_type"
+    ],
+    [
+      "_final_const_var_or_type",
+      "pattern_variable_declaration"
     ],
     [
       "type_arguments",

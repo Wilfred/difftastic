@@ -1,0 +1,29 @@
+=====================
+Variable declaration
+=====================
+
+void record() {
+  var (i as int, String s) = record; 
+}
+
+---
+
+(program
+      (function_signature
+        (void_type)
+        (identifier)
+        (formal_parameter_list))
+      (function_body
+        (block
+          (local_variable_declaration
+            (pattern_variable_declaration
+              (inferred_type)
+              (record_pattern
+                (cast_pattern
+                  (constant_pattern
+                    (identifier))
+                  (type_identifier))
+                (variable_pattern
+                  (type_identifier)
+                  (identifier)))
+              (identifier))))))
