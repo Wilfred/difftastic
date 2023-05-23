@@ -207,19 +207,8 @@ module.exports = grammar({
     $._layout_end,
     $._layout_terminator,
     $._layout_empty,
-    // These are tokens to track layout closes.
-    // Enabling all of these will create an unusable parser due to
-    // excessive amount of states.
     // @ts-ignore: DSL not updated for literals
     ",",
-    // @ts-ignore: DSL not updated for literals
-    ")",
-    // @ts-ignore: DSL not updated for literals
-    "]",
-    // @ts-ignore: DSL not updated for literals
-    "}",
-    // @ts-ignore: DSL not updated for literals
-    ".}",
     $._synchronize,
     $._invalid_layout,
     $._sigil_operator,
