@@ -107,6 +107,12 @@ module.exports = grammar({
         [$._normal_formal_parameters],
         [$._declared_identifier],
         [$.equality_expression],
+        [$.annotation, $.marker_annotation],
+        [$._primary, $._type_name, $._simple_formal_parameter],
+        [$.record_type_field, $._function_formal_parameter, $._var_or_type],
+        [$.typed_identifier, $._var_or_type, $._function_formal_parameter],
+        [$._type_name, $._simple_formal_parameter],
+        [$._type_not_function, $._type_not_void],
         // [$._argument_list],
         [$.variable_declaration, $.initialized_identifier,],
         [$.declaration, $._external_and_static],
@@ -1558,19 +1564,18 @@ module.exports = grammar({
         )),
 
         type_alias: $ => choice(
-            
-            seq(
-                optional($._metadata),$._typedef,
-                $._type_name,
-                optional($.type_parameters),
-                '=', $.function_type, ';'),
-
             seq(
                 optional($._metadata),
                 $._typedef,
                 optional($._type),
                 $._type_name,
                 $._formal_parameter_part, ';'),
+            seq(
+                optional($._metadata),
+                $._typedef,
+                $._type_name,
+                optional($.type_parameters),
+                '=', $._type, ';'),
         ),
 
         _class_modifiers: $ => seq(choice($.sealed, seq(optional($.abstract), optional(choice($.base, $.interface, 'final')))), 'class'),
@@ -2097,6 +2102,7 @@ module.exports = grammar({
         ),
         _type_not_function: $ => choice(
             $._type_not_void_not_function,
+            seq($.record_type, optional($.nullable_type)),
             $.void_type
         ),
         _type_not_void_not_function: $ => choice(
@@ -2178,11 +2184,30 @@ module.exports = grammar({
                 $.function_type,
                 optional($.nullable_type)
             ),
+            seq($.record_type, optional($.nullable_type)),
             // $.function_type,
             $._type_not_void_not_function
             // alias($.identifier, $.type_identifier),
             // // $.scoped_type_identifier,
             // $.generic_type
+        ),
+
+        record_type: $ => choice( 
+            seq('(', ')'),
+            seq('(', commaSep1($.record_type_field), ',', '{' , commaSep1TrailingComma($.record_type_named_field), '}', ')'),
+            seq('(', commaSep1TrailingComma($.record_type_field), ')'),
+            seq('(','{', commaSep1TrailingComma($.record_type_named_field), '}', ')'),
+        ),
+
+        record_type_field: $ => seq(
+            optional($._metadata),
+            $._type,
+            optional($.identifier),
+        ),
+
+        record_type_named_field: $ => seq(
+            optional($._metadata),
+            $.typed_identifier,
         ),
 
         _type_not_void_list: $ => commaSep1(

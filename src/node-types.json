@@ -2395,6 +2395,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -2489,6 +2493,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -2640,6 +2648,10 @@
         },
         {
           "type": "operator_signature",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -3268,6 +3280,10 @@
           },
           {
             "type": "nullable_type",
+            "named": true
+          },
+          {
+            "type": "record_type",
             "named": true
           },
           {
@@ -4205,6 +4221,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -4302,6 +4322,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -4678,6 +4702,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -4714,6 +4742,10 @@
         },
         {
           "type": "parameter_type_list",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -4760,6 +4792,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -5877,6 +5913,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -5956,6 +5996,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -6608,6 +6652,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6686,6 +6734,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -6714,6 +6766,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -6987,6 +7043,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -7019,6 +7079,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -7077,6 +7141,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -7875,6 +7943,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "script_tag",
           "named": true
         },
@@ -8203,6 +8275,95 @@
     }
   },
   {
+    "type": "record_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "record_type_field",
+          "named": true
+        },
+        {
+          "type": "record_type_named_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_type_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "void_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_type_named_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "marker_annotation",
+          "named": true
+        },
+        {
+          "type": "typed_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "redirecting_factory_constructor_signature",
     "named": true,
     "fields": {},
@@ -8228,6 +8389,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -8777,6 +8942,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -9265,6 +9434,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "super",
           "named": true
         },
@@ -9305,6 +9478,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -9965,6 +10142,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -10004,6 +10185,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -10039,6 +10224,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -10070,6 +10259,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -10098,6 +10291,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
@@ -10301,6 +10498,10 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         },
@@ -10452,6 +10653,10 @@
         },
         {
           "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {
