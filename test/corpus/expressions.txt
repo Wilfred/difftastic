@@ -535,3 +535,336 @@ Comments with escaped chars and newlines
 (translation_unit
   (comment)
   (comment))
+
+==============================================
+Generic Expressions
+==============================================
+
+int main(int argc, char **argv) {
+  int    a = 10;
+  float  b = 3.14;
+  double c = 2.71828;
+  char   d = 'A';
+
+  a = _Generic(d, int: 5, float: 0, char: 100);
+  b = _Generic(a, void *: 0, int: 4.0, float: 3.14, double: 2.71828, char: 1.0);
+	c = _Generic(b, void *: 0, int: 4.0, float: 3.14, double: 2.71828, char: 1.0);
+	d = _Generic(c, void *: '\0', int: '0', float: '3', double: '2', char: '1');
+
+  _Generic(a, int: printf("a is an int\n"), float: printf("a is a float\n"), double: printf("a is a double\n"), char: printf("a is a char\n"));
+  _Generic(b, int: printf("b is an int\n"), float: printf("b is a float\n"), double: printf("b is a double\n"), char: printf("b is a char\n"));
+  _Generic(c, int: printf("c is an int\n"), float: printf("c is a float\n"), double: printf("c is a double\n"), char: printf("c is a char\n"));
+  _Generic(d, int: printf("d is an int\n"), float: printf("d is a float\n"), double: printf("d is a double\n"), char: printf("d is a char\n"));
+
+  return 0;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))
+        (parameter_declaration
+          (primitive_type)
+          (pointer_declarator
+            (pointer_declarator
+              (identifier))))))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (number_literal)))
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (identifier)
+          (char_literal)))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal)
+            (type_descriptor
+              (primitive_type))
+            (number_literal))))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (generic_expression
+            (identifier)
+            (type_descriptor
+              (primitive_type)
+              (abstract_pointer_declarator))
+            (char_literal
+              (escape_sequence))
+            (type_descriptor
+              (primitive_type))
+            (char_literal)
+            (type_descriptor
+              (primitive_type))
+            (char_literal)
+            (type_descriptor
+              (primitive_type))
+            (char_literal)
+            (type_descriptor
+              (primitive_type))
+            (char_literal))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))))
+      (expression_statement
+        (generic_expression
+          (identifier)
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))
+          (type_descriptor
+            (primitive_type))
+          (call_expression
+            (identifier)
+            (argument_list
+              (string_literal
+                (escape_sequence))))))
+      (return_statement
+        (number_literal)))))
+
+==============================================
+Noreturn Type Qualifier
+==============================================
+
+_Noreturn void kill(void) {
+  printf("Killing the program\n");
+  exit(0);
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (type_qualifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type))))
+    (compound_statement
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (string_literal
+              (escape_sequence)))))
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (number_literal)))))))
+
+==============================================
+Restrict Type Qualifier
+==============================================
+
+void fn (int *__restrict__ rptr) {
+  int *ptr = rptr;
+  *ptr = 0;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (pointer_declarator
+            (type_qualifier)
+            (identifier)))))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (init_declarator
+          (pointer_declarator
+            (identifier))
+          (identifier)))
+      (expression_statement
+        (assignment_expression
+          (pointer_expression
+            (identifier))
+          (number_literal))))))
