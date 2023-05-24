@@ -5,6 +5,7 @@
 SCALA_SCALA_LIBRARY_EXPECTED=100
 SCALA_SCALA_COMPILER_EXPECTED=84
 DOTTY_COMPILER_EXPECTED=71
+SYNTAX_COMPLEXITY_CEILING=3000
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
   echo "\$SCALA_SCALA_DIR must be set"
@@ -44,9 +45,38 @@ run_tree_sitter () {
   fi
 }
 
+check_complexity () {
+  local expected=$1
+  name="complexity"
+  cmd="npm exec -c 'tree-sitter generate --report-states-for-rule compilation_unit' 2>&1"
+  echo
+  echo "Checking syntax complexity: $cmd"
+  out=$( (eval "$cmd") || true)
+
+  if [ ! -e "$PRODUCE_REPORTS" ]; then
+    local report_file="report-$name.txt"
+    echo "$out" > "report-$name.txt"
+    echo "Report written to $report_file"
+  fi
+
+  top=$(echo "$out" | head -n 1 | sed 's/ \+/ /g')
+  top_definition=$(echo "$top" | cut -d' ' -f1)
+  actual=$(echo "$top" | cut -d' ' -f2)
+  echo "$top_definition $actual"
+  if (( $(echo "$actual < $expected" |bc -l) )); then
+    # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
+    echo -e "::notice file=grammar.js,line=1::ok, complexity of definition ${top_definition}: ${actual}, lower than $expected"
+  else
+    echo -e "::error file=grammar.js,line=1::complexity for definition ${top_definition}: expected at most ${expected}, but got ${actual} instead"
+    failed=$((failed + 1))
+  fi
+}
+
 run_tree_sitter "$SCALA_SCALA_DIR/src/library/"  $SCALA_SCALA_LIBRARY_EXPECTED   scala2-library
 run_tree_sitter "$SCALA_SCALA_DIR/src/compiler/" $SCALA_SCALA_COMPILER_EXPECTED  scala2-compiler
 run_tree_sitter "$DOTTY_DIR/compiler/"           $DOTTY_COMPILER_EXPECTED        dotty-compiler
+
+check_complexity $SYNTAX_COMPLEXITY_CEILING
 
 if (( failed > 0 )); then
   exit 1
