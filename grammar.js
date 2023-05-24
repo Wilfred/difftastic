@@ -46,18 +46,13 @@ const Templates = {
    * @param {RuleOrLiteral} keyword */
   if: ($, keyword) =>
     seq(keyword, field("condition", $._expression), $._if_body),
-  /**
-   * @template T
-   * @param {GrammarSymbols<T>} $
-   * @param {RuleOrLiteral} keyword */
-  proc_expr: ($, keyword) => seq(keyword, $._routine_expression_tail),
 
   /**
    * @template T
    * @param {GrammarSymbols<T>} $
    * @param {RuleOrLiteral} keyword */
   proc_type: ($, keyword) =>
-    prec.right("proc_type", seq(keyword, Templates.proc_type_tail($))),
+    prec.right(seq(keyword, Templates.proc_type_tail($))),
 
   /**
    * @template T
@@ -258,8 +253,7 @@ module.exports = grammar({
       $._type_expression,
       $.pragma_expression,
     ],
-    [$._routine_expression_tail, $.pragma_expression],
-    [$._routine_expression_tail, "proc_type"],
+    ["proc_type"],
     ["post_expr", $._basic_expression],
     ["post_expr", $._simple_expression_command_start],
     ["post_expr", $._simple_expression],
@@ -364,6 +358,15 @@ module.exports = grammar({
     //
     // Prefer latter since it's more flexible
     [$._equal_expression_list, $._command_complex_expression_argument_list],
+
+    // Conflict:
+    // _proc_type . '='
+    //
+    // -> (_basic_expression _proc_type) . '='
+    // -> (proc_expression _proc_type) . '=' statement_list
+    //
+    // Prefer latter
+    ["proc_expr", $._basic_expression],
   ],
   // supertypes: $ => [$._statement, $._expression],
   word: $ => $.identifier,
@@ -724,11 +727,11 @@ module.exports = grammar({
         $.object_type,
         $.tuple_type,
         $.enum_type,
-        $.proc_type,
-        $.iterator_type,
         $.modified_type,
         $._type_modifier,
         $.dot_generic_call,
+        alias($._proc_type, $.proc_type),
+        alias($._iterator_type, $.iterator_type),
         alias($._call_expression, $.call),
         alias($._sigil_expression, $.prefix_expression)
       ),
@@ -931,11 +934,21 @@ module.exports = grammar({
       ),
 
     /* Routine expressions */
-    proc_expression: $ => Templates.proc_expr($, keyword("proc")),
-    func_expression: $ => Templates.proc_expr($, keyword("func")),
-    iterator_expression: $ => Templates.proc_expr($, keyword("iterator")),
-    _routine_expression_tail: $ =>
-      seq(Templates.proc_type_tail($), "=", field("body", $.statement_list)),
+    proc_expression: $ =>
+      prec(
+        "proc_expr",
+        seq($._proc_type, "=", field("body", $.statement_list))
+      ),
+    func_expression: $ =>
+      prec(
+        "proc_expr",
+        seq($._func_type, "=", field("body", $.statement_list))
+      ),
+    iterator_expression: $ =>
+      prec(
+        "proc_expr",
+        seq($._iterator_type, "=", field("body", $.statement_list))
+      ),
 
     /* Type expressions */
     _type_expression: $ => prec.dynamic(-2, choice($._simple_expression)),
@@ -970,8 +983,10 @@ module.exports = grammar({
     distinct_type: () => keyword("distinct"),
     ref_type: () => keyword("ref"),
     pointer_type: () => keyword("ptr"),
-    proc_type: $ => Templates.proc_type($, keyword("proc")),
-    iterator_type: $ => Templates.proc_type($, keyword("iterator")),
+    _proc_type: $ => Templates.proc_type($, keyword("proc")),
+    _iterator_type: $ => Templates.proc_type($, keyword("iterator")),
+    // Only used to make func_expression
+    _func_type: $ => Templates.proc_type($, keyword("func")),
 
     _infix_extended: $ =>
       prec("post_expr", seq($._infix_expression, $._post_expression_block)),
