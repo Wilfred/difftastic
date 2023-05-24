@@ -9,6 +9,7 @@ Cargo.lock
 *worksheet.sc
 *.out
 .direnv
+.metals
 
 ./scala 
 ./dotty

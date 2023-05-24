@@ -588,6 +588,7 @@ def matchTest(x: Int): String = x match {
   case _ =>
     val x = "many"
     "more"
+  case a if b => c
 }
 
 --------------------------------------------------------------------------------
@@ -654,7 +655,12 @@ def matchTest(x: Int): String = x match {
           (val_definition
             (identifier)
             (string))
-          (string))))))
+          (string))
+        (case_clause
+          (identifier)
+          (guard
+            (identifier))
+          (identifier))))))
 
 ================================================================================
 Match expressions (Scala 3 syntax)
