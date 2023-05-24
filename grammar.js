@@ -1402,12 +1402,13 @@ module.exports = grammar({
       ),
 
     /* Identifiers and related shenanigans */
-    _symbol: $ => choice($.accent_quoted, $.identifier),
+    _symbol: $ => choice($.accent_quoted, $.identifier, $.blank_identifier),
     accent_quoted: $ =>
       seq("`", repeat1(alias($._accent_quoted_identifier, $.identifier)), "`"),
     /* eslint-disable-next-line no-control-regex */
     _accent_quoted_identifier: () => /[^\x00-\x1f\r\n\t` ]+/,
-    identifier: () => token(choice(Identifier, "_")),
+    blank_identifier: () => "_",
+    identifier: () => Identifier,
 
     block_documentation_comment: $ =>
       seq(token(prec(1, "##[")), $._block_documentation_comment_content, "]##"),

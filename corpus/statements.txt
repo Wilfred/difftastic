@@ -62,7 +62,7 @@ for _, v {.tag.} in c.pairs:
   (for
     left: (symbol_declaration_list
       (symbol_declaration
-        name: (identifier))
+        name: (blank_identifier))
       (symbol_declaration
         name: (identifier)
         (pragma_list

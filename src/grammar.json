@@ -10392,6 +10392,10 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "blank_identifier"
         }
       ]
     },
@@ -10424,21 +10428,13 @@
       "type": "PATTERN",
       "value": "[^\\x00-\\x1f\\r\\n\\t` ]+"
     },
+    "blank_identifier": {
+      "type": "STRING",
+      "value": "_"
+    },
     "identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[a-zA-Z\\x80-\\xff](_?[a-zA-Z0-9\\x80-\\xff])*"
-          },
-          {
-            "type": "STRING",
-            "value": "_"
-          }
-        ]
-      }
+      "type": "PATTERN",
+      "value": "[a-zA-Z\\x80-\\xff](_?[a-zA-Z0-9\\x80-\\xff])*"
     },
     "block_documentation_comment": {
       "type": "SEQ",
