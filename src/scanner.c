@@ -43,6 +43,7 @@ void tree_sitter_scala_external_scanner_deserialize(void *p, const char *b,
 }
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_interpolation) {
   unsigned closing_quote_count = 0;
@@ -166,14 +167,49 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       newline_count, lexer->get_column(lexer), valid_symbols[INDENT], valid_symbols[OUTDENT]);
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
-    // NOTE: When there's a dot after a new line it could be a multi-line field
-    // expression, in which case we don't recognize it as an automatic semicolon.
-    if (lexer->lookahead == '.') return false;
+    // AUTOMATIC_SEMICOLON should not be issued in the middle of expressions
+    // Thus, we exit this branch when encountering comments, else/catch clauses, etc.
 
     lexer->mark_end(lexer);
     lexer->result_symbol = AUTOMATIC_SEMICOLON;
 
-    if (newline_count > 1) return true;
+    // Probably, a multi-line field expression, e.g.
+    // a
+    //  .b
+    //  .c
+    if (lexer->lookahead == '.') return false;
+
+    // Single-line and multi-line comments
+    if (lexer->lookahead == '/') {
+      advance(lexer);
+      if (lexer->lookahead == '/') {
+        return false;
+      } else if (lexer->lookahead == '*') {
+        advance(lexer);
+        while (!lexer->eof(lexer)) {
+          if (lexer->lookahead == '*') {
+            advance(lexer);
+            if (lexer->lookahead == '/') {
+              advance(lexer);
+              break;
+            }
+          } else {
+            advance(lexer);
+          }
+        }
+        while (iswspace(lexer->lookahead)) {
+          if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+            return false;
+          }
+          skip(lexer);
+        }
+        // If some code is present at the same line after comment end, 
+        // we should still produce AUTOMATIC_SEMICOLON, e.g. in
+        // val a = 1
+        // /* comment */ val b = 2
+        return true;
+      }
+    }
 
     if (valid_symbols[ELSE]) {
       if (lexer->lookahead != 'e') return true;
@@ -270,12 +306,15 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       if (iswalpha(lexer->lookahead)) return true;
       return false;
     }
+
+    if (newline_count > 1) return true;
+
     return true;
   }
 
   while (iswspace(lexer->lookahead)) {
     if (lexer->lookahead == '\n') newline_count++;
-    lexer->advance(lexer, true);
+    skip(lexer);
   }
 
   if (valid_symbols[SIMPLE_STRING] && lexer->lookahead == '"') {
