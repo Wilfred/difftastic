@@ -284,8 +284,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (distinct_type)
+      (distinct_type
         (identifier)))
     (type_declaration
       (type_symbol_declaration
@@ -295,8 +294,7 @@ type
             (symbol_declaration_list
               (symbol_declaration
                 name: (identifier))))))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (identifier)))))
 
 ================================================================================
@@ -471,8 +469,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration
           (field_declaration_list
             (field_declaration
@@ -504,8 +501,7 @@ type
           (colon_expression
             left: (identifier)
             right: (string_literal))))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration
           inherits: (identifier)
           (field_declaration_list
@@ -538,8 +534,7 @@ type
     (type_declaration
       (type_symbol_declaration
         name: (identifier))
-      (modified_type
-        modifier: (ref_type)
+      (ref_type
         (object_declaration)))
     (type_declaration
       (type_symbol_declaration

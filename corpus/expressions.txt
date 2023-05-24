@@ -1354,23 +1354,17 @@ ptr ptr char
 --------------------------------------------------------------------------------
 
 (source_file
-  (modified_type
-    (ref_type)
+  (ref_type
     (identifier))
-  (modified_type
-    (distinct_type)
+  (distinct_type
     (identifier))
-  (modified_type
-    (pointer_type)
-    (modified_type
-      (pointer_type)
+  (pointer_type
+    (pointer_type
       (identifier)))
   (tuple_construction
-    (modified_type
-      (var_type)
+    (var_type
       (identifier))
-    (modified_type
-      (var_type)
+    (var_type
       (identifier))))
 
 ================================================================================

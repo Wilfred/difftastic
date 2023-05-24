@@ -221,15 +221,26 @@ module.exports = grammar({
   ],
   conflicts: $ => [
     // Conflict:
+    // 'var' _symbol . ':'
     //
-    // var . (
-    // -> var_type
-    // -> var_section
+    // _symbol -> symbol_declaration -> var_section
+    // _symbol -> _basic_expression -> var_type
     //
-    // Unfortunately there are no easy answers, since the only means of
-    // disambiguation is the `:` and `=` sequences that shows up at an
-    // arbitrary point.
-    [$.var_type, $.var_section],
+    // While symbol_declaration should be preferred here,
+    // it gets complicated when parenthesized and tuple_construction
+    // clashes, say:
+    //
+    //    (var x,
+    //
+    // Is this a tuple or an unfinished var_section?
+    //
+    // The solution is in the context: in type expressions,
+    // this should be a tuple. In any other context, this
+    // is a var section.
+    //
+    // Solving it using the grammar would require an another factor
+    // of basic_expression into smaller parts, which is undesirable.
+    [$.symbol_declaration, $._basic_expression],
   ],
   precedences: $ => [
     [
@@ -260,10 +271,8 @@ module.exports = grammar({
     ["post_expr", $._expression_statement],
     [$.enum_declaration, $.enum_type],
     [$.object_declaration, $.object_type],
-    [$._type_definition, $.modified_type],
     [$._prefix_expression, $._simple_expression_command_start],
     [$._simple_expression, $._command_expression],
-    [$.modified_type, $._basic_expression],
     [$._expression_with_call_do, $.equal_expression],
     [$._expression, $._command_expression],
     [$._left_hand_side, $._expression],
@@ -367,6 +376,15 @@ module.exports = grammar({
     //
     // Prefer latter
     ["proc_expr", $._basic_expression],
+
+    // Conflict:
+    // 'type' type_symbol_declaration '=' 'distinct' _type_expression
+    //
+    // _type_expression -> _type_definition
+    // 'distinct' _type_expression -> distinct_type
+    //
+    // Prefer former since it's more flexible
+    [$._type_definition, "type_modifiers"],
   ],
   // supertypes: $ => [$._statement, $._expression],
   word: $ => $.identifier,
@@ -498,10 +516,21 @@ module.exports = grammar({
     const_section: $ => seq(keyword("const"), $._variable_declaration_section),
     let_section: $ => seq(keyword("let"), $._variable_declaration_section),
     var_section: $ =>
-      // Prefer the interpretation of var section over modified_type
+      // Prefer the interpretation of var section over var_type
       prec.dynamic(1, seq(keyword("var"), $._variable_declaration_section)),
-    _variable_declaration_section: $ =>
-      section($, alias($._identifier_declaration, $.variable_declaration)),
+    _variable_declaration_section: $ => section($, $.variable_declaration),
+    variable_declaration: $ =>
+      choice(
+        seq(
+          $.symbol_declaration_list,
+          field("type", seq(":", $._type_expression)),
+          field("value", optional(seq("=", $._expression_with_post_block)))
+        ),
+        seq(
+          $.symbol_declaration_list,
+          field("value", seq("=", $._expression_with_post_block))
+        )
+      ),
 
     type_section: $ => seq(keyword("type"), section($, $.type_declaration)),
     type_declaration: $ =>
@@ -518,13 +547,17 @@ module.exports = grammar({
         $.enum_declaration,
         $.object_declaration,
         $.concept_declaration,
+        alias($._distinct_declaration, $.distinct_type),
+        alias($._ref_declaration, $.ref_type),
+        alias($._pointer_declaration, $.pointer_type),
         alias($._tuple_declaration, $.tuple_type),
-        alias($._modified_declaration, $.modified_type),
         alias($._call_extended, $.call)
       ),
 
-    _modified_declaration: $ =>
-      seq(field("modifier", $._type_modifier), $._type_definition),
+    _distinct_declaration: $ => seq(keyword("distinct"), $._type_definition),
+    _ref_declaration: $ => seq(keyword("ref"), $._type_definition),
+    _pointer_declaration: $ => seq(keyword("ptr"), $._type_definition),
+
     enum_declaration: $ =>
       seq(
         keyword("enum"),
@@ -727,8 +760,11 @@ module.exports = grammar({
         $.object_type,
         $.tuple_type,
         $.enum_type,
-        $.modified_type,
-        $._type_modifier,
+        $.var_type,
+        $.out_type,
+        $.distinct_type,
+        $.ref_type,
+        $.pointer_type,
         $.dot_generic_call,
         alias($._proc_type, $.proc_type),
         alias($._iterator_type, $.iterator_type),
@@ -951,14 +987,9 @@ module.exports = grammar({
       ),
 
     /* Type expressions */
-    _type_expression: $ => prec.dynamic(-2, choice($._simple_expression)),
+    _type_expression: $ => choice($._simple_expression),
     object_type: () => keyword("object"),
     enum_type: () => keyword("enum"),
-    modified_type: $ =>
-      prec.right(
-        "type_modifiers",
-        seq(field("modifier", $._type_modifier), $._type_expression)
-      ),
     tuple_type: $ =>
       prec.right(
         seq(
@@ -968,21 +999,34 @@ module.exports = grammar({
           )
         )
       ),
+    var_type: $ =>
+      prec.right(
+        "type_modifiers",
+        seq(keyword("var"), optional($._type_expression))
+      ),
+    out_type: $ =>
+      prec.right(
+        "type_modifiers",
+        seq(keyword("out"), optional($._type_expression))
+      ),
+    distinct_type: $ =>
+      prec.right(
+        "type_modifiers",
+        seq(keyword("distinct"), optional($._type_expression))
+      ),
+    ref_type: $ =>
+      prec.right(
+        "type_modifiers",
+        seq(keyword("ref"), optional($._type_expression))
+      ),
+    pointer_type: $ =>
+      prec.right(
+        "type_modifiers",
+        seq(keyword("ptr"), optional($._type_expression))
+      ),
     _tuple_field_declaration_list: $ =>
       seq(choice("[", token.immediate("[")), $._field_declaration_list, "]"),
-    _type_modifier: $ =>
-      choice(
-        $.var_type,
-        $.out_type,
-        $.distinct_type,
-        $.ref_type,
-        $.pointer_type
-      ),
-    var_type: () => keyword("var"),
-    out_type: () => keyword("out"),
-    distinct_type: () => keyword("distinct"),
-    ref_type: () => keyword("ref"),
-    pointer_type: () => keyword("ptr"),
+
     _proc_type: $ => Templates.proc_type($, keyword("proc")),
     _iterator_type: $ => Templates.proc_type($, keyword("iterator")),
     // Only used to make func_expression

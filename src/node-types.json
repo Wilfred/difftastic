@@ -151,10 +151,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -346,10 +342,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -527,10 +519,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -686,10 +674,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -896,10 +880,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -1074,10 +1054,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -1225,10 +1201,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -1356,10 +1328,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -1547,10 +1515,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -1729,10 +1693,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -1903,10 +1863,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -2074,10 +2030,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -2233,10 +2185,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -2466,10 +2414,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -2668,10 +2612,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -2892,10 +2832,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -3078,10 +3014,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -3226,10 +3158,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3423,10 +3351,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -3496,7 +3420,153 @@
   {
     "type": "distinct_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "do_block",
@@ -3614,10 +3684,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3754,10 +3820,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -3908,10 +3970,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4110,10 +4168,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4341,10 +4395,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -4512,10 +4562,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -4671,10 +4717,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -4903,10 +4945,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -5101,10 +5139,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -5257,10 +5291,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -5423,10 +5453,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -5682,10 +5708,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -5904,10 +5926,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -6089,10 +6107,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6280,10 +6294,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -6491,10 +6501,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -6678,10 +6684,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -6879,10 +6881,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -7046,10 +7044,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7250,10 +7244,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -7497,10 +7487,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -7685,10 +7671,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -7850,10 +7832,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -8078,10 +8056,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -8298,10 +8272,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -8377,188 +8347,6 @@
       "types": [
         {
           "type": "expression_list",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "modified_type",
-    "named": true,
-    "fields": {
-      "modifier": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "distinct_type",
-            "named": true
-          },
-          {
-            "type": "out_type",
-            "named": true
-          },
-          {
-            "type": "pointer_type",
-            "named": true
-          },
-          {
-            "type": "ref_type",
-            "named": true
-          },
-          {
-            "type": "var_type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "accent_quoted",
-          "named": true
-        },
-        {
-          "type": "array_construction",
-          "named": true
-        },
-        {
-          "type": "bracket_expression",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "cast",
-          "named": true
-        },
-        {
-          "type": "char_literal",
-          "named": true
-        },
-        {
-          "type": "concept_declaration",
-          "named": true
-        },
-        {
-          "type": "curly_construction",
-          "named": true
-        },
-        {
-          "type": "curly_expression",
-          "named": true
-        },
-        {
-          "type": "custom_numeric_literal",
-          "named": true
-        },
-        {
-          "type": "distinct_type",
-          "named": true
-        },
-        {
-          "type": "dot_expression",
-          "named": true
-        },
-        {
-          "type": "dot_generic_call",
-          "named": true
-        },
-        {
-          "type": "enum_declaration",
-          "named": true
-        },
-        {
-          "type": "enum_type",
-          "named": true
-        },
-        {
-          "type": "float_literal",
-          "named": true
-        },
-        {
-          "type": "generalized_string",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "infix_expression",
-          "named": true
-        },
-        {
-          "type": "integer_literal",
-          "named": true
-        },
-        {
-          "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
-          "named": true
-        },
-        {
-          "type": "nil_literal",
-          "named": true
-        },
-        {
-          "type": "object_declaration",
-          "named": true
-        },
-        {
-          "type": "object_type",
-          "named": true
-        },
-        {
-          "type": "out_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized",
-          "named": true
-        },
-        {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
-          "type": "pragma_expression",
-          "named": true
-        },
-        {
-          "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "proc_type",
-          "named": true
-        },
-        {
-          "type": "ref_type",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "tuple_construction",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "var_type",
           "named": true
         }
       ]
@@ -8651,10 +8439,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -8771,7 +8555,141 @@
   {
     "type": "out_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "parameter_declaration",
@@ -8859,10 +8777,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -9025,10 +8939,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -9348,10 +9258,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -9480,7 +9386,153 @@
   {
     "type": "pointer_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "pragma_expression",
@@ -9560,10 +9612,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -9746,10 +9794,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -10021,10 +10065,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -10238,10 +10278,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -10426,10 +10462,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -10591,10 +10623,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -10762,10 +10790,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -10854,7 +10878,153 @@
   {
     "type": "ref_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "concept_declaration",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_declaration",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "refinement_list",
@@ -10938,10 +11108,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11105,10 +11271,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11360,10 +11522,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -11655,10 +11813,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -12022,10 +12176,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -12273,10 +12423,6 @@
         },
         {
           "type": "mixin_statement",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
@@ -12533,10 +12679,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -12730,10 +12872,6 @@
           "named": true
         },
         {
-          "type": "modified_type",
-          "named": true
-        },
-        {
           "type": "nil_literal",
           "named": true
         },
@@ -12911,7 +13049,141 @@
   {
     "type": "var_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "accent_quoted",
+          "named": true
+        },
+        {
+          "type": "array_construction",
+          "named": true
+        },
+        {
+          "type": "bracket_expression",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "curly_construction",
+          "named": true
+        },
+        {
+          "type": "curly_expression",
+          "named": true
+        },
+        {
+          "type": "custom_numeric_literal",
+          "named": true
+        },
+        {
+          "type": "distinct_type",
+          "named": true
+        },
+        {
+          "type": "dot_expression",
+          "named": true
+        },
+        {
+          "type": "dot_generic_call",
+          "named": true
+        },
+        {
+          "type": "enum_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "generalized_string",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "iterator_type",
+          "named": true
+        },
+        {
+          "type": "nil_literal",
+          "named": true
+        },
+        {
+          "type": "object_type",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
+          "type": "pragma_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_expression",
+          "named": true
+        },
+        {
+          "type": "proc_type",
+          "named": true
+        },
+        {
+          "type": "ref_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tuple_construction",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "var_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "variable_declaration",
@@ -12999,10 +13271,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13165,10 +13433,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13361,10 +13625,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -13524,10 +13784,6 @@
           },
           {
             "type": "iterator_type",
-            "named": true
-          },
-          {
-            "type": "modified_type",
             "named": true
           },
           {
@@ -13731,10 +13987,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -13907,10 +14159,6 @@
             "named": true
           },
           {
-            "type": "modified_type",
-            "named": true
-          },
-          {
             "type": "nil_literal",
             "named": true
           },
@@ -14072,10 +14320,6 @@
         },
         {
           "type": "iterator_type",
-          "named": true
-        },
-        {
-          "type": "modified_type",
           "named": true
         },
         {
