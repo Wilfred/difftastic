@@ -66,9 +66,9 @@ check_complexity () {
   echo "$top_definition $actual"
   if (( $(echo "$actual < $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
-    echo -e "::notice file=grammar.js,line=$top_definition_line::ok, complexity of definition ${top_definition}: ${actual}, lower than $expected"
+    echo -e "::notice file=grammar.js,line=$top_definition_line::ok, complexity of the most complex definition ${top_definition}: ${actual}, lower than the allowed ceiling $expected"
   else
-    echo -e "::error file=grammar.js,line=$top_definition_line::complexity for definition ${top_definition}: expected at most ${expected}, but got ${actual} instead"
+    echo -e "::error file=grammar.js,line=$top_definition_line::complexity of the most complex definition ${top_definition}: ${actual}, higher than the allowed ceiling $expected"
     failed=$((failed + 1))
   fi
 }
