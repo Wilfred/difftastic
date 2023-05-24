@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-scala",
-  "version": "0.20.7",
+  "version": "0.20.0",
   "description": "Scala grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
