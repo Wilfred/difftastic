@@ -1209,6 +1209,16 @@
           }
         ]
       },
+      "derive": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "derives_clause",
+            "named": true
+          }
+        ]
+      },
       "extend": {
         "multiple": false,
         "required": false,
@@ -4106,6 +4116,16 @@
           }
         ]
       },
+      "derive": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "derives_clause",
+            "named": true
+          }
+        ]
+      },
       "extend": {
         "multiple": false,
         "required": false,
@@ -4201,6 +4221,16 @@
         "types": [
           {
             "type": "template_body",
+            "named": true
+          }
+        ]
+      },
+      "derive": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "derives_clause",
             "named": true
           }
         ]

@@ -255,6 +255,7 @@ module.exports = grammar({
     _object_definition: $ => prec.left(seq(
       field('name', $._identifier),
       field('extend', optional($.extends_clause)),
+      field('derive', optional($.derives_clause)),
       field('body', optional($.template_body)),
     )),
 
@@ -265,6 +266,7 @@ module.exports = grammar({
       'class',
       $._class_constructor,
       field('extend', optional($.extends_clause)),
+      field('derive', optional($.derives_clause)),
       field('body', optional($.template_body))
     )),
 
@@ -610,10 +612,10 @@ module.exports = grammar({
       optional($.arguments)
     )),
 
-    derives_clause: $ => seq(
+    derives_clause: $ => prec.left(seq(
       'derives',
       commaSep1(field('type', $._type_identifier))
-    ),
+    )),
 
     class_parameters: $ => prec(1, seq(
       '(',
