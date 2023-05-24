@@ -264,11 +264,15 @@ module.exports = grammar({
       optional($.modifiers),
       optional('case'),
       'class',
+      $._class_definition,
+    )),
+
+    _class_definition: $ => seq(
       $._class_constructor,
       field('extend', optional($.extends_clause)),
       field('derive', optional($.derives_clause)),
       field('body', optional($.template_body))
-    )),
+    ),
 
     /**
      * ClassConstr       ::=  [ClsTypeParamClause] [ConstrMods] ClsParamClauses
