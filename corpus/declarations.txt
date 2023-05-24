@@ -58,11 +58,10 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -75,13 +74,12 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal)
@@ -90,12 +88,11 @@ const Test* {.importc: "TEST".}: int
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (exported_symbol
-                (identifier))))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (exported_symbol
+              (identifier)))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -171,11 +168,10 @@ l_e_t
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal)))))
@@ -245,11 +241,10 @@ var (x, ) = (1, )
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier))
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)
         (integer_literal))))
@@ -257,9 +252,8 @@ var (x, ) = (1, )
     (variable_declaration
       (symbol_declaration_list
         (tuple_deconstruct_declaration
-          (symbol_declaration_list
-            (symbol_declaration
-              name: (identifier)))))
+          (symbol_declaration
+            name: (identifier))))
       value: (tuple_construction
         (integer_literal)))))
 

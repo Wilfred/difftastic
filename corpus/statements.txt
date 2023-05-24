@@ -40,11 +40,10 @@ for _, v {.tag.} in c.pairs:
   (for
     left: (symbol_declaration_list
       (tuple_deconstruct_declaration
-        (symbol_declaration_list
-          (symbol_declaration
-            name: (identifier))
-          (symbol_declaration
-            name: (identifier))))
+        (symbol_declaration
+          name: (identifier))
+        (symbol_declaration
+          name: (identifier)))
       (symbol_declaration
         name: (identifier))
       (symbol_declaration

@@ -12750,11 +12750,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "symbol_declaration_list",
+          "type": "symbol_declaration",
+          "named": true
+        },
+        {
+          "type": "tuple_deconstruct_declaration",
           "named": true
         }
       ]
