@@ -4468,7 +4468,7 @@
     },
     "lambda_expression": {
       "type": "PREC_RIGHT",
-      "value": 2,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4866,7 +4866,7 @@
     },
     "case_clause": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6825,6 +6825,10 @@
     ],
     [
       "instance_expression"
+    ],
+    [
+      "_simple_expression",
+      "lambda_expression"
     ]
   ],
   "precedences": [],

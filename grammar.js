@@ -1,7 +1,6 @@
 const PREC = {
   control: 1,
   stable_type_id: 2,
-  lambda: 2,
   binding_decl: 2,
   while: 2,
   binding_def: 3,
@@ -77,6 +76,9 @@ module.exports = grammar({
     [$._function_constructor, $._type_identifier],
     [$._type_identifier, $.identifier],
     [$.instance_expression],
+    // In case of: 'extension'  _indent  '{'  'case'  operator_identifier  'if'  operator_identifier  •  '=>'  …
+    // we treat `operator_identifier` as `simple_expression`
+    [$._simple_expression, $.lambda_expression],
   ],
 
   word: $ => $._alpha_identifier,
@@ -930,7 +932,7 @@ module.exports = grammar({
       $.call_expression,
     ),
 
-    lambda_expression: $ => prec.right(PREC.lambda, seq(
+    lambda_expression: $ => prec.right(seq(
       field('parameters', choice(
         $.bindings,
         $._identifier,
@@ -994,7 +996,7 @@ module.exports = grammar({
       seq('{', repeat1($.case_clause), '}'),
     ),
 
-    case_clause: $ => prec.left(PREC.control, seq(
+    case_clause: $ => prec.left(seq(
       'case',
       $._case_pattern,
       field('body', optional($._block)),
