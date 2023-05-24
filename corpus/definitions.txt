@@ -421,6 +421,22 @@ object O3 extends A {
     (template_body)))
 
 ================================================================================
+Object definitions
+================================================================================
+case object A extends B derives C, D {}
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (extends_clause
+      (type_identifier))
+    (derives_clause
+      (type_identifier)
+      (type_identifier))
+    (template_body)))
+
+================================================================================
 Class definitions
 ================================================================================
 
@@ -438,6 +454,23 @@ class C[
       (identifier)
       (identifier))
     (template_body)))
+
+================================================================================
+Class definitions (Scala 3)
+================================================================================
+final case class C() extends A derives B, C
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (modifiers)
+    (identifier)
+    (class_parameters)
+    (extends_clause
+      (type_identifier))
+    (derives_clause
+      (type_identifier)
+      (type_identifier))))
 
 ================================================================================
 Subclass definitions
