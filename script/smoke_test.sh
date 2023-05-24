@@ -25,7 +25,7 @@ run_tree_sitter () {
   cmd="npm exec -c 'tree-sitter parse $source_dir/**/*.scala --quiet --stat' | sort | sed 's%$source_dir%%g'"
   echo
   echo "Parse $source_dir: $cmd"
-  out=$((eval $cmd) || true)
+  out=$( (eval "$cmd") || true)
 
   if [ ! -e "$PRODUCE_REPORTS" ]; then
     local report_file="report-$name.txt"
@@ -34,7 +34,7 @@ run_tree_sitter () {
   fi
 
   actual=$(echo "$out" | grep 'success percentage:' | rev | cut -d' ' -f1 | rev | sed 's/%//g' )
-  echo $actual
+  echo "$actual"
   if (( $(echo "$actual >= $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
     echo -e "::notice file=grammar.js,line=1::ok, ${source_dir}: ${actual}%, expected at least $expected%"
@@ -44,10 +44,10 @@ run_tree_sitter () {
   fi
 }
 
-run_tree_sitter $SCALA_SCALA_DIR/src/library/  $SCALA_SCALA_LIBRARY_EXPECTED   scala2-library
-run_tree_sitter $SCALA_SCALA_DIR/src/compiler/ $SCALA_SCALA_COMPILER_EXPECTED  scala2-compiler
-run_tree_sitter $DOTTY_DIR/compiler/           $DOTTY_COMPILER_EXPECTED        dotty-compiler
+run_tree_sitter "$SCALA_SCALA_DIR/src/library/"  $SCALA_SCALA_LIBRARY_EXPECTED   scala2-library
+run_tree_sitter "$SCALA_SCALA_DIR/src/compiler/" $SCALA_SCALA_COMPILER_EXPECTED  scala2-compiler
+run_tree_sitter "$DOTTY_DIR/compiler/"           $DOTTY_COMPILER_EXPECTED        dotty-compiler
 
-if (( $failed > 0 )); then
+if (( failed > 0 )); then
   exit 1
 fi
