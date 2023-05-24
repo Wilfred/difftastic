@@ -7,26 +7,6 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  # uptodate:
-  #   name: Node test build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "16"
-  #         cache: "npm"
-  #     - run: npm install
-  #     - run: npm run build
-  #     - name: Check for differences between commit and built file
-  #       run: |
-  #         if ! git diff --exit-code; then
-  #           echo '::error::There are differences between commit and code built. Make sure that `npm run build` is run before commiting. Check log for more details.'
-  #           git diff
-  #           exit 1
-  #         fi
-  #       shell: bash
-
   generate:
     name: Generate parser
     runs-on: macos-latest
@@ -38,14 +18,15 @@ jobs:
           node-version: "16"
       - run: npm install
       - run: npm run build
-      - uses: actions/upload-artifact@v3
-        with:
-          name: parser
-          path: src/parser.c
+      - name: Check for differences between commit and built file
+        run: |
+          if ! git diff --exit-code; then
+            echo '::error::There are differences between commit and code built. Make sure that `npm run build` is run before commiting. Check log for more details.'
+            git diff
+            exit 1
+          fi
 
   tests:
-    needs:
-      - generate
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -58,10 +39,6 @@ jobs:
           node-version: "16"
           cache: "npm"
       - run: npm install
-      - uses: actions/download-artifact@v3
-        with:
-          name: parser
-          path: src
       - name: Run test suite
         run: |
           if [[ "$RUNNER_OS" == macOS ]]; then
@@ -77,8 +54,6 @@ jobs:
         shell: bash
 
   rust:
-    needs:
-      - generate
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -86,10 +61,6 @@ jobs:
     name: Run rust test build on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          name: parser
-          path: src
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -101,7 +72,7 @@ jobs:
 
   success:
     needs:
-      # - uptodate
+      - generate
       - tests
       - rust
     if: always()

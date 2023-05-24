@@ -13,11 +13,7 @@ easily ingested by tools.
 
 ## Notes
 
-Unlike other tree-sitter grammars, this repository does not contain a generated
-parser. This is due to the parser being 118MiB in size as of writing, which
-exceeded GitHub's 100MiB limit.
-
-Generating this parser does take around 7GiB of memory. Any help in reducing
+Generating this parser take around 7GiB of memory. Any help in reducing
 the parser size is appreciated.
 
 ## Progress
