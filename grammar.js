@@ -1173,11 +1173,21 @@ module.exports = grammar({
       ']'
     ),
 
-    arguments: $ => seq(
+    arguments: $ => 
+    seq(
       '(',
-      trailingCommaSep($.expression),
+      choice(
+        optional($._exprs_in_parens),
+        seq(
+          'using',
+          $._exprs_in_parens,
+        ),
+      ),
       ')'
     ),
+
+    // ExprsInParens     ::=  ExprInParens {‘,’ ExprInParens}
+    _exprs_in_parens: $ => trailingCommaSep1($.expression),
 
     splice_expression: $ => prec.left(PREC.macro, seq(
       '$',
