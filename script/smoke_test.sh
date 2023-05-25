@@ -5,7 +5,7 @@
 SCALA_SCALA_LIBRARY_EXPECTED=100
 SCALA_SCALA_COMPILER_EXPECTED=84
 DOTTY_COMPILER_EXPECTED=71
-SYNTAX_COMPLEXITY_CEILING=3000
+SYNTAX_COMPLEXITY_CEILING=2300
 
 if [ ! -d "$SCALA_SCALA_DIR" ]; then
   echo "\$SCALA_SCALA_DIR must be set"
@@ -61,13 +61,14 @@ check_complexity () {
 
   top=$(echo "$out" | head -n 1 | sed 's/ \+/ /g')
   top_definition=$(echo "$top" | cut -d' ' -f1)
+  top_definition_line=$(grep -n "$top_definition:" grammar.js | head -n 1 | cut -d : -f 1)
   actual=$(echo "$top" | cut -d' ' -f2)
   echo "$top_definition $actual"
   if (( $(echo "$actual < $expected" |bc -l) )); then
     # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-creating-an-annotation-for-an-error
-    echo -e "::notice file=grammar.js,line=1::ok, complexity of definition ${top_definition}: ${actual}, lower than $expected"
+    echo -e "::notice file=grammar.js,line=$top_definition_line::ok, complexity of the most complex definition ${top_definition}: ${actual}, lower than the allowed ceiling $expected"
   else
-    echo -e "::error file=grammar.js,line=1::complexity for definition ${top_definition}: expected at most ${expected}, but got ${actual} instead"
+    echo -e "::error file=grammar.js,line=$top_definition_line::complexity of the most complex definition ${top_definition}: ${actual}, higher than the allowed ceiling $expected"
     failed=$((failed + 1))
   fi
 }
