@@ -2,7 +2,7 @@
 
 # This is an integration test to generally check the quality of parsing.
 
-SCALA_SCALA_LIBRARY_EXPECTED=100
+SCALA_SCALA_LIBRARY_EXPECTED=92
 SCALA_SCALA_COMPILER_EXPECTED=84
 DOTTY_COMPILER_EXPECTED=71
 SYNTAX_COMPLEXITY_CEILING=2300
@@ -23,7 +23,8 @@ run_tree_sitter () {
   local source_dir=$1
   local expected=$2
   local name=$3
-  cmd="npm exec -c 'tree-sitter parse $source_dir/**/*.scala --quiet --stat' | sort | sed 's%$source_dir%%g'"
+  local files=$(find "$source_dir" -name '*.scala' -type f | tr '\n' ' ')
+  cmd="npm exec -c 'tree-sitter parse $files --quiet --stat' | sort | sed 's%$source_dir%%g'"
   echo
   echo "Parse $source_dir: $cmd"
   out=$( (eval "$cmd") || true)
