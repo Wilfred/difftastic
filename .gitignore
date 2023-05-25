@@ -11,6 +11,6 @@ Cargo.lock
 *.out
 .direnv
 .metals
-
-./scala 
+report-*
+./scala
 ./dotty
