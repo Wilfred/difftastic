@@ -1615,3 +1615,46 @@ addSbtPlugin("foo" % "bar" % "0.1")
           (string))
         (operator_identifier)
         (string)))))
+
+================================================================================
+Soft keywords used as identifiers (Scala 3)
+================================================================================
+infix()
+opaque()
+open()
+transparent()
+as()
+derives()
+end()
+throws()
+using()
+
+--------------------------------------------------------------------------------
+(compilation_unit
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments))
+  (call_expression
+    (identifier)
+    (arguments)))
