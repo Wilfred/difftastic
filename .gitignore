@@ -1,5 +1,6 @@
 node_modules
 build
+/.build
 target
 *.log
 test.scala
