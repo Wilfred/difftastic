@@ -90,6 +90,31 @@ class C {
                 (identifier)))))))))
 
 ================================================================================
+Call expressions (Scala 3 syntax)
+================================================================================
+
+class C {
+  a(b, c)(using A.B)
+}
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (template_body
+      (call_expression
+        (call_expression
+          (identifier)
+          (arguments
+            (identifier)
+            (identifier)))
+        (arguments
+          (field_expression
+            (identifier)
+            (identifier)))))))
+
+================================================================================
 SIP-44 Fewer braces (Scala 3 syntax)
 ================================================================================
 
