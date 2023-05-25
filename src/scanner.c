@@ -55,7 +55,7 @@ static bool scan_string_content(TSLexer *lexer, bool is_multiline, bool has_inte
         lexer->result_symbol = has_interpolation ? INTERPOLATED_STRING_END : SIMPLE_STRING;
         return true;
       }
-      if (closing_quote_count == 3) {
+      if (closing_quote_count >= 3 && lexer->lookahead != '"') {
         lexer->result_symbol = has_interpolation ? INTERPOLATED_MULTILINE_STRING_END : SIMPLE_MULTILINE_STRING;
         return true;
       }
