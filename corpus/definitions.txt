@@ -233,6 +233,9 @@ import reflect.io.{Directory, File, Path}
 import a.{
   b,
 }
+import Opts.+
+import a.{ :: }
+
 --------------------------------------------------------------------------------
 
 (compilation_unit
@@ -254,7 +257,14 @@ import a.{
   (import_declaration
     (identifier)
     (namespace_selectors
-      (identifier))))
+      (identifier)))
+  (import_declaration
+      (identifier)
+      (operator_identifier))
+  (import_declaration
+      (identifier)
+      (namespace_selectors
+        (operator_identifier))))
 
 ================================================================================
 Imports: Wildcard

@@ -197,7 +197,7 @@ module.exports = grammar({
 
 
     _namespace_expression: $ => prec.left(seq(
-      field('path', sep1('.', $.identifier)),
+      field('path', sep1('.', $._identifier)),
       optional(seq(
         '.',
         choice(
@@ -222,7 +222,7 @@ module.exports = grammar({
         trailingCommaSep1(choice(
           $._namespace_given_by_type,
           $.namespace_wildcard,
-          $.identifier,
+          $._identifier,
           $.arrow_renamed_identifier,
           $.as_renamed_identifier
         )),
@@ -233,15 +233,15 @@ module.exports = grammar({
     _import_selectors: $ => alias($.namespace_selectors, $.import_selectors),
 
     arrow_renamed_identifier: $ => seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       '=>',
-      field('alias', choice($.identifier, $.wildcard))
+      field('alias', choice($._identifier, $.wildcard))
     ),
 
     as_renamed_identifier: $ => seq(
-      field('name', $.identifier),
+      field('name', $._identifier),
       'as',
-      field('alias', choice($.identifier, $.wildcard))
+      field('alias', choice($._identifier, $.wildcard))
     ),
 
     object_definition: $ => seq(
