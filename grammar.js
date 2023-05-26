@@ -804,7 +804,7 @@ module.exports = grammar({
       field('selector', $._type_identifier),
     ),
 
-    match_type: $ => prec.left(PREC.control, seq(
+    match_type: $ => prec.left(seq(
       $._infix_type_choice,
       'match',
       $._indented_type_cases
