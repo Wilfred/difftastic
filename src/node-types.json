@@ -116,6 +116,52 @@
     ]
   },
   {
+    "type": "_deprecated_details",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "deprecated_fa",
+        "named": true
+      },
+      {
+        "type": "deprecated_fas",
+        "named": true
+      },
+      {
+        "type": "deprecated_module",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_deprecated_fun_arity",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "deprecated_wildcard",
+        "named": true
+      },
+      {
+        "type": "integer",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_desc",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "atom",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "_expr",
     "named": true,
     "subtypes": [
@@ -321,6 +367,10 @@
       },
       {
         "type": "compile_options_attribute",
+        "named": true
+      },
+      {
+        "type": "deprecated_attribute",
         "named": true
       },
       {
@@ -1147,6 +1197,106 @@
         "types": [
           {
             "type": "_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_attribute",
+    "named": true,
+    "fields": {
+      "attr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_deprecated_details",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_fa",
+    "named": true,
+    "fields": {
+      "arity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_deprecated_fun_arity",
+            "named": true
+          }
+        ]
+      },
+      "desc": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "deprecation_desc",
+            "named": true
+          }
+        ]
+      },
+      "fun": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "atom",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_fas",
+    "named": true,
+    "fields": {
+      "fa": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "deprecated_fa",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecated_module",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "atom",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "deprecation_desc",
+    "named": true,
+    "fields": {
+      "desc": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_desc",
             "named": true
           }
         ]
@@ -3184,6 +3334,14 @@
   {
     "type": "define",
     "named": false
+  },
+  {
+    "type": "deprecated",
+    "named": false
+  },
+  {
+    "type": "deprecated_wildcard",
+    "named": true
   },
   {
     "type": "div",

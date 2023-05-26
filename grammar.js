@@ -96,6 +96,9 @@ module.exports = grammar({
         $._expr,
         $._expr_max,
         $._catch_pat,
+        $._deprecated_details,
+        $._deprecated_fun_arity,
+        $._desc
     ],
 
 
@@ -135,6 +138,7 @@ module.exports = grammar({
             $.optional_callbacks_attribute,
             $.compile_options_attribute,
             $.file_attribute,
+            $.deprecated_attribute,
             $.record_decl,
             $.type_alias,
             $.opaque,
@@ -257,6 +261,51 @@ module.exports = grammar({
             field("original_file", $.string), ',',
             field("original_line", $.integer),
             ')', '.'),
+
+        deprecated_attribute: $ => seq(
+            '-',
+            atom_const('deprecated'),
+            '(',
+            field("attr", $._deprecated_details),
+            ')',
+            '.'
+        ),
+
+        _deprecated_details: $ => choice(
+            $.deprecated_module,
+            $.deprecated_fa,
+            $.deprecated_fas,
+        ),
+
+        deprecated_module: $ => field("module", $.atom),
+
+        deprecated_fas: $ => seq(
+            '[',
+            sepBy1(',', field("fa", $.deprecated_fa)),
+            ']',
+        ),
+        deprecated_fa: $ => seq(
+            '{',
+            field("fun", $.atom),
+            ',',
+            field("arity", $._deprecated_fun_arity),
+            field("desc", optional($.deprecation_desc)),
+            '}',
+        ),
+
+        deprecation_desc: $ => seq(',', field("desc", $._desc)),
+
+        _desc: $ => choice(
+            field("atom", $.atom),
+            field("comment", $.string),
+        ),
+
+        _deprecated_fun_arity: $ => choice(
+            $.integer,
+            $.deprecated_wildcard,
+        ),
+
+        deprecated_wildcard: $ => "'_'",
 
         type_alias: $ => seq('-', atom_const('type'), $._type_def, '.'),
 

@@ -50,6 +50,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "deprecated_attribute"
+        },
+        {
+          "type": "SYMBOL",
           "name": "record_decl"
         },
         {
@@ -1227,6 +1231,228 @@
           "value": "."
         }
       ]
+    },
+    "deprecated_attribute": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "deprecated"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "'deprecated'"
+              },
+              "named": false,
+              "value": "deprecated"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "attr",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_deprecated_details"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        }
+      ]
+    },
+    "_deprecated_details": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "deprecated_module"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "deprecated_fa"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "deprecated_fas"
+        }
+      ]
+    },
+    "deprecated_module": {
+      "type": "FIELD",
+      "name": "module",
+      "content": {
+        "type": "SYMBOL",
+        "name": "atom"
+      }
+    },
+    "deprecated_fas": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "fa",
+              "content": {
+                "type": "SYMBOL",
+                "name": "deprecated_fa"
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "fa",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "deprecated_fa"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "deprecated_fa": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "fun",
+          "content": {
+            "type": "SYMBOL",
+            "name": "atom"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "arity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_deprecated_fun_arity"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "desc",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "deprecation_desc"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "deprecation_desc": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "desc",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_desc"
+          }
+        }
+      ]
+    },
+    "_desc": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "atom",
+          "content": {
+            "type": "SYMBOL",
+            "name": "atom"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "comment",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          }
+        }
+      ]
+    },
+    "_deprecated_fun_arity": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "deprecated_wildcard"
+        }
+      ]
+    },
+    "deprecated_wildcard": {
+      "type": "STRING",
+      "value": "'_'"
     },
     "type_alias": {
       "type": "SEQ",
@@ -5893,7 +6119,10 @@
     "_record_expr_base",
     "_expr",
     "_expr_max",
-    "_catch_pat"
+    "_catch_pat",
+    "_deprecated_details",
+    "_deprecated_fun_arity",
+    "_desc"
   ],
   "@generated": true
 }
