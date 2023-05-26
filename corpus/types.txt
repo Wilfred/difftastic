@@ -122,6 +122,30 @@ type Executable[A] = ExecutionContext ?=> A
       (parameter_types (type_identifier))
       (type_identifier))))
 
+===================================
+Match types (Scala 3 syntax)
+===================================
+
+type Elem[A] = A match
+  case String   => Char
+  case Array[a] => a
+
+---
+
+(compilation_unit
+  (type_definition (type_identifier) (type_parameters (identifier))
+    (match_type
+      (type_identifier)
+      (type_case_clause
+        (type_identifier)
+        (type_identifier))
+      (type_case_clause
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_identifier)))
+        (type_identifier)))))
+
 ==================================
 Compound types
 ==================================

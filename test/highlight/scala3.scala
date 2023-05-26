@@ -23,6 +23,14 @@ object O1:
   //^keyword.function
   //  ^method
 
+object O2:
+  type Elem[A] = A match
+  //^keyword
+  //   ^type.definition
+    case String   => Char
+    //^keyword
+    case Array[a] => a
+
 // SIP-44
 class C:
 // ^keyword
