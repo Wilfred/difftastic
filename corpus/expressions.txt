@@ -538,6 +538,9 @@ def main(): Unit =
   finally
     tryAnotherThing()
     tryAnotherThing2()
+  try a catch case b: C => e finally f
+  try a catch case b: C =>
+    e
 
 --------------------------------------------------------------------------------
 
@@ -592,7 +595,23 @@ def main(): Unit =
               (arguments))
             (call_expression
               (identifier)
-              (arguments))))))))
+              (arguments)))))
+      (try_expression
+        (identifier)
+        (catch_clause
+          (typed_pattern
+            (identifier)
+            (type_identifier))
+          (identifier))
+        (finally_clause
+          (identifier)))
+      (try_expression
+        (identifier)
+        (catch_clause
+          (typed_pattern
+            (identifier)
+            (type_identifier))
+          (identifier))))))
 
 ================================================================================
 Match expressions

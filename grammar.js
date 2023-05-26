@@ -982,7 +982,18 @@ module.exports = grammar({
     /*
      *   Catches           ::=  'catch' (Expr | ExprCaseClause)
      */
-    catch_clause: $ => prec.right(seq('catch', $._indentable_expression)),
+    catch_clause: $ => prec.right(seq('catch', 
+      choice(
+        $._indentable_expression,
+        $._expr_case_clause,
+      )
+    )),
+
+    _expr_case_clause: $ => prec.left(seq(
+      'case',
+      $._case_pattern,
+      field('body', $.expression),
+    )),
 
     finally_clause: $ => prec.right(seq('finally', $._indentable_expression)),
 
