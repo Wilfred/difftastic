@@ -416,6 +416,10 @@
             "named": true
           },
           {
+            "type": "operator_identifier",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -427,6 +431,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator_identifier",
             "named": true
           }
         ]
@@ -446,6 +454,10 @@
             "named": true
           },
           {
+            "type": "operator_identifier",
+            "named": true
+          },
+          {
             "type": "wildcard",
             "named": true
           }
@@ -457,6 +469,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator_identifier",
             "named": true
           }
         ]
@@ -1938,6 +1954,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "operator_identifier",
+            "named": true
           }
         ]
       }
@@ -3116,6 +3136,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "operator_identifier",
+            "named": true
           }
         ]
       }
@@ -3185,6 +3209,10 @@
         },
         {
           "type": "namespace_wildcard",
+          "named": true
+        },
+        {
+          "type": "operator_identifier",
           "named": true
         },
         {
@@ -4064,6 +4092,10 @@
         },
         {
           "type": "namespace_wildcard",
+          "named": true
+        },
+        {
+          "type": "operator_identifier",
           "named": true
         },
         {
