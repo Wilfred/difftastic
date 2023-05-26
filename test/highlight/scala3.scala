@@ -29,7 +29,9 @@ object O2:
   //   ^type.definition
     case String   => Char
     //^keyword
+    //   ^type       ^type
     case Array[a] => a
+    //   ^type       ^type
 
 // SIP-44
 class C:
