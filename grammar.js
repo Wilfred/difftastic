@@ -663,8 +663,7 @@ module.exports = grammar({
       optional($.modifiers),
       optional(choice('val', 'var')),
       field('name', $._identifier),
-      optional(seq(':', field('type', $._type))),
-      optional('*'),
+      optional(seq(':', field('type', $._param_type))),
       optional(seq('=', field('default_value', $.expression)))
     ),
 

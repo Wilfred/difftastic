@@ -259,12 +259,12 @@ import a.{ :: }
     (namespace_selectors
       (identifier)))
   (import_declaration
-      (identifier)
-      (operator_identifier))
+    (identifier)
+    (operator_identifier))
   (import_declaration
-      (identifier)
-      (namespace_selectors
-        (operator_identifier))))
+    (identifier)
+    (namespace_selectors
+      (operator_identifier))))
 
 ================================================================================
 Imports: Wildcard
@@ -453,7 +453,7 @@ Class definitions
 class C[
   T,
   U,
-] {
+](a: => A, b: B, c: C*) {
 }
 --------------------------------------------------------------------------------
 
@@ -463,6 +463,18 @@ class C[
     (type_parameters
       (identifier)
       (identifier))
+    (class_parameters
+      (class_parameter
+        (identifier)
+        (lazy_parameter_type
+          (type_identifier)))
+      (class_parameter
+        (identifier)
+        (type_identifier))
+      (class_parameter
+        (identifier)
+        (repeated_parameter_type
+          (type_identifier))))
     (template_body)))
 
 ================================================================================
