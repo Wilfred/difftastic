@@ -220,7 +220,8 @@ pub fn language_globs(language: Language) -> Vec<glob::Pattern> {
         // Treat .h as C++ rather than C. This is an arbitrary choice, but
         // C++ is more widely used than C according to
         // https://madnight.github.io/githut/
-        CPlusPlus => &["*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx"],
+        // Also, treating CUDA as C++
+        CPlusPlus => &["*.cc", "*.cpp", "*.h", "*.hh", "*.hpp", "*.ino", "*.cxx", "*.cu"],
         CSharp => &["*.cs"],
         Css => &["*.css"],
         Dart => &["*.dart"],
