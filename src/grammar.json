@@ -4739,8 +4739,42 @@
             "value": "catch"
           },
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_indentable_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expr_case_clause"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_expr_case_clause": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "case"
+          },
+          {
             "type": "SYMBOL",
-            "name": "_indentable_expression"
+            "name": "_case_pattern"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
           }
         ]
       }
