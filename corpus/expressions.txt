@@ -895,6 +895,7 @@ class C {
   def main() {
     a = b max c
     d + e + f
+    a ** b
   }
 }
 
@@ -919,6 +920,10 @@ class C {
               (identifier)
               (operator_identifier)
               (identifier))
+            (operator_identifier)
+            (identifier))
+          (infix_expression
+            (identifier)
             (operator_identifier)
             (identifier)))))))
 
