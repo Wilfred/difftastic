@@ -327,8 +327,8 @@ module.exports = grammar({
     _type_parameter: $ => seq(
       field('name', choice($.wildcard, $._identifier)),
       field('type_parameters', optional($.type_parameters)),
-      field('bound', optional($.upper_bound)),
       field('bound', optional($.lower_bound)),
+      field('bound', optional($.upper_bound)),
       field('bound', optional(repeat($.view_bound))),
       field('bound', optional(repeat($.context_bound))),
     ),
@@ -471,8 +471,8 @@ module.exports = grammar({
     _type_constructor: $ => prec.left(seq(
       field('name', $._type_identifier),
       field('type_parameters', optional($.type_parameters)),
-      field('bound', optional($.upper_bound)),
       field('bound', optional($.lower_bound)),
+      field('bound', optional($.upper_bound)),
     )),
 
     function_definition: $ => seq(

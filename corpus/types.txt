@@ -302,6 +302,24 @@ class A[B >: C]
         (type_identifier)))))
 
 ================================================================================
+Lower and upper bounds
+================================================================================
+
+class A[B >: C <: D]
+
+--------------------------------------------------------------------------------
+
+(compilation_unit
+  (class_definition
+    (identifier)
+    (type_parameters
+      (identifier)
+      (lower_bound
+        (type_identifier))
+      (upper_bound
+        (type_identifier)))))
+
+================================================================================
 View bound
 ================================================================================
 
@@ -451,7 +469,7 @@ Opaque type aliases (Scala 3)
 
 opaque type A = Int
 private opaque type B = String
-opaque type B <: Test >: Help = String
+opaque type B >: Test <: Help = String
 
 
 --------------------------------------------------------------------------------
@@ -470,11 +488,10 @@ opaque type B <: Test >: Help = String
   (type_definition
     (opaque_modifier)
     (type_identifier)
+    (lower_bound
+      (type_identifier))
     (upper_bound
-      (infix_type
-        (type_identifier)
-        (operator_identifier)
-        (type_identifier)))
+      (type_identifier))
     (type_identifier)))
 
 ================================================================================
