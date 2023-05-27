@@ -76,7 +76,7 @@ class C {
                   (identifier)
                   (operator_identifier)
                   (integer_literal)))))
-          (comment)
+          (block_comment)
           (call_expression
             (field_expression
               (identifier)
@@ -813,7 +813,7 @@ class C {
               (identifier)
               (identifier))
             (comment)
-            (comment)
+            (block_comment)
             (identifier)))))))
 
 ================================================================================
