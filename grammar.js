@@ -113,6 +113,7 @@ module.exports = grammar({
     ),
 
     enum_definition: $ => seq(
+      repeat($.annotation),
       'enum',
       $._class_constructor,
       field('extend', optional($.extends_clause)),
@@ -148,6 +149,7 @@ module.exports = grammar({
     ),
 
     enum_case_definitions: $ => seq(
+      repeat($.annotation),
       'case',
       choice(
         commaSep1($.simple_enum_case),
