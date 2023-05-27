@@ -27,7 +27,8 @@ module.exports = grammar({
 
   extras: $ => [
     /\s/,
-    $.comment
+    $.comment,
+    $.block_comment,
   ],
 
   supertypes: $ => [
@@ -1293,7 +1294,7 @@ module.exports = grammar({
     wildcard: $ => '_',
 
     /**
-     * Regex patterns created to avoid matching // comments.
+     * Regex patterns created to avoid matching // comments and /* comment starts.
      * This could technically match illeagal tokens such as val ?// = 1
      */
     operator_identifier: $ => token(choice(
@@ -1308,8 +1309,8 @@ module.exports = grammar({
       seq(
         // opchar
         /[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
-        // opchar minus slash
-        /[\-!#%&*+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
+        // opchar minus slash and asterisk
+        /[\-!#%&+\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/,
         // opchar*
         repeat(/[\-!#%&*+\/\\:<=>?@\u005e\u007c~\p{Sm}\p{So}]/),
       ),
@@ -1519,14 +1520,14 @@ module.exports = grammar({
       repeat1($.guard),
     ),
 
-    comment: $ => token(choice(
-      seq('//', /.*/),
-      seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/'
-      )
-    ))
+    comment: $ => token(seq('//', /.*/)),
+
+    block_comment: $ => seq(
+      token('/*'),
+      repeat(token(/./)),
+      token('*/')
+    ),
+    
   }
 })
 
