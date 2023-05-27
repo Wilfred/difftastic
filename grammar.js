@@ -715,6 +715,12 @@ module.exports = grammar({
       $._outdent,
     )),
 
+    _indented_type_cases: $ => prec.left(PREC.end_marker, seq(
+      $._indent,
+      repeat1($.type_case_clause),
+      $._outdent,
+    )),
+
     // ---------------------------------------------------------------
     // Types
 
@@ -722,6 +728,7 @@ module.exports = grammar({
       $.function_type,
       $.compound_type,
       $.infix_type,
+      $.match_type,
       $._annotated_type,
       $.literal_type,
       alias($.template_body, $.structural_type)
@@ -749,10 +756,17 @@ module.exports = grammar({
       // TODO: Refinement.
     )),
 
+    // This does not include _simple_type since _annotated_type covers it.
+    _infix_type_choice: $ => prec.left(PREC.infix, choice(
+      $.compound_type,
+      $.infix_type,
+      $._annotated_type
+    )),
+
     infix_type: $ => prec.left(PREC.infix, seq(
-      field('left', choice($.compound_type, $.infix_type, $._annotated_type)),
+      field('left', $._infix_type_choice),
       field('operator', $._identifier),
-      field('right', choice($.compound_type, $.infix_type, $._annotated_type))
+      field('right', $._infix_type_choice)
     )),
 
     tuple_type: $ => seq(
@@ -790,8 +804,24 @@ module.exports = grammar({
       field('selector', $._type_identifier),
     ),
 
-    function_type: $ => prec.right(seq(
+    match_type: $ => prec.left(seq(
+      $._infix_type_choice,
+      'match',
+      $._indented_type_cases
+    )),
+
+    type_case_clause: $ => prec.left(PREC.control, seq(
+      'case',
+      $._infix_type_choice,
+      field('body', $._arrow_then_type)
+    )),
+
+    function_type: $ => prec.left(seq(
       field('parameter_types', $.parameter_types),
+      $._arrow_then_type
+    )),
+
+    _arrow_then_type: $ => prec.right(seq(
       choice('=>', '?=>'),
       field('return_type', $._type)
     )),
@@ -1286,7 +1316,7 @@ module.exports = grammar({
       ),
     )),
 
-    _non_null_literal: $ => 
+    _non_null_literal: $ =>
       choice(
         $.integer_literal,
         $.floating_point_literal,
