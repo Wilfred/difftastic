@@ -10,3 +10,7 @@ functions:
   symbol-address:
     include:
       - 'ts_parser_delete'
+      - 'ts_tree_delete'
+      - 'ts_tree_cursor_delete'
+      - 'ts_query_delete'
+      - 'ts_query_cursor_delete'

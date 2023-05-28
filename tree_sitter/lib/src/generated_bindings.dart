@@ -2184,6 +2184,14 @@ class _SymbolAddresses {
   _SymbolAddresses(this._library);
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<TSParser>)>>
       get ts_parser_delete => _library._ts_parser_deletePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<TSTree>)>>
+      get ts_tree_delete => _library._ts_tree_deletePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<TSTreeCursor>)>>
+      get ts_tree_cursor_delete => _library._ts_tree_cursor_deletePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<TSQuery>)>>
+      get ts_query_delete => _library._ts_query_deletePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<TSQueryCursor>)>>
+      get ts_query_cursor_delete => _library._ts_query_cursor_deletePtr;
 }
 
 final class TSLanguage extends ffi.Opaque {}

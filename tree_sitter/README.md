@@ -22,13 +22,14 @@ void main() {
   final parser =
       Parser(sharedLibrary: 'libdart.dylib', entryPoint: 'tree_sitter_dart');
   final program = "class A {}";
-  final result = parser.parse(program);
-  malloc.free(result);
+  final tree = parser.parse(program);
+  print(tree.root.string);
 }
 ```
 
 You can access other apis via the top level `treeSitterApi` ffi wrapper
 
-Or you can help contribute to an idiomatic dart api on the Parser class 
+Or you can help contribute to an idiomatic dart api on top of the ffi wrapper.
+Many of the apis are started but not complete.
 
 Expect breaking changes while we figure out the best api
