@@ -1,0 +1,16 @@
+name: tree_sitter
+description: A tree sitter parsing library
+version: 0.1.0
+repository: https://github.com/UserNobody14/tree-sitter-dart
+
+environment:
+  sdk: ">=3.0.0 <3.2.0"
+
+dependencies:
+  ffi: ^2.0.1
+  path: ^1.8.3
+
+dev_dependencies:
+  lints: ^2.1.0
+  test: ^1.24.2
+  ffigen: ^8.0.2
